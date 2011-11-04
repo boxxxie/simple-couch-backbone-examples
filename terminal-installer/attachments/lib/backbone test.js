@@ -46,14 +46,17 @@ function genericButtonSetup($node,clickCallback){
     $node.click(clickCallback);		    
 };
 function addCompany(collection){
-    var companyToAdd = new Company(window.prompt("Enter New Company Name",""));
-    collection.add(companyToAdd);
+    return function(){
+	var companyToAdd = new Entity(window.prompt("Enter New Company Name",""));
+	collection.add(companyToAdd);
+    };
 }
 function doc_setup(){
-    var Companies = couchCollection({db:'install'},{model:Entity}).fetch(
-	{success:function(model,resp){
-	     console.log("all campaigns loaded");
-	 }});
+    var Companies = new (couchCollection({db:'install'},{model:Entity}));
+    Companies.fetch(
+	    {success:function(model,resp){
+		 console.log("all campaigns loaded");
+	     }});
 
     genericButtonSetup($("#btnAddCompany"),addCompany(Companies));
     genericButtonSetup($("#btnAddGroup"));
@@ -77,7 +80,7 @@ function doc_setup(){
 	 }
 	});
 
-    var countriesViewTest = new countriesView(
+    var companiesViewTest = new companiesView(
 	{
 	    collection: Companies,
 	    el:_.first($("#companies"))

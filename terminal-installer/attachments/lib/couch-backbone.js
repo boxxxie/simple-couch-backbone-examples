@@ -31,14 +31,14 @@ var couchCollection = function(couch,options){
     var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
     var urlSuffix = "/_design/"+couch.ddoc+"/_rewrite/db";
     return Backbone.Collection.extend(
-	{
-	    url:urlBase + couch.db + urlSuffix,
-	    parse: function(response) {
-		return _(response.rows).chain()
-		    .reject(function(item){return item.id.search('_design') == 0;}) //reject design docs
-		    .pluck('doc')
-		    .value();
-	    }
-	}).extend(options);
+	_.extend(options,
+		 {url:urlBase + couch.db + urlSuffix,
+		  parse: function(response) {
+		      return _(response.rows).chain()
+			  .reject(function(item){return item.id.search('_design') == 0;}) //reject design docs
+			  .pluck('doc')
+			  .value();
+		  }
+		 }));
 };
 
