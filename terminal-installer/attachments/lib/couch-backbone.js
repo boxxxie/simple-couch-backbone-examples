@@ -1,5 +1,8 @@
 var campaignList;
 
+//FIXME: not working right... also should be assigning an ID if one doesn't exist
+/*The POST operation can be used to create a new document with a server generated DocID. To do so, the URL must point to the database's location. To create a named document, use the PUT method instead. 
+ * */
 var couchDoc = Backbone.Model.extend(
     {
 	idAttribute: "_id",
@@ -28,6 +31,7 @@ var couchCollection = function(couch,options){
     couch.ddoc || (couch.ddoc = "app");
     couch.db || (couch.db = 'db');
     options || (options = {});
+    //fixme: this doesn't work because when creating a new model it will fetch the whole collection! lawl!
     var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
     var urlSuffix = "/_design/"+couch.ddoc+"/_rewrite/db";
     return Backbone.Collection.extend(
