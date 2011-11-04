@@ -1,4 +1,21 @@
-var companyList;
+var install_db = db('install');
+
+var Entity = couchDoc.extend(	
+    {defaults: function() {
+	 return {
+	     parent:null, //should me a backbone.model
+	     name:"unknown",
+	     selected:false,
+	     children:null//shoudl be backbone.collection
+	 };
+     },
+     toggle: function() {
+	 this.set({selected: !this.get("selected")});
+     }
+    });
+
+
+
 var regionSelectorSettings = {
     minWidth:700,
     selectedList: 6,
@@ -28,108 +45,28 @@ var regionSelectorSettings = {
 function genericButtonSetup($node,clickCallback){
     $node.click(clickCallback);		    
 };
-function addCompany(){
+function addCompany(collection){
     var companyToAdd = new Company(window.prompt("Enter New Company Name",""));
-    companyList.add(companyToAdd);
+    collection.add(companyToAdd);
 }
-function finalSetup(){
-    //fixme, add callbacks to these functions
-    genericButtonSetup($("#btnAddCompany"),addCompany);
+function doc_setup(){
+    var Companies = couchCollection({db:'install'},{model:Entity}).fetch(
+	{success:function(model,resp){
+	     console.log("all campaigns loaded");
+	 }});
+
+    genericButtonSetup($("#btnAddCompany"),addCompany(Companies));
     genericButtonSetup($("#btnAddGroup"));
     genericButtonSetup($("#btnAddStore"));
     genericButtonSetup($("#btnAddTerminal"));
-};
-function doc_setup(){
-    var install_db = db('install');
 
-    var Company = couchDoc.extend();
-    var Companies = couchCollection({db:'install'},{model:Company});
-    companyList = new Companies();
-    companyList.fetch(
-	{
-	    success:function(model,resp){
-		console.log("all campaigns loaded");
-	    }});
-
-    var Locations = Backbone.Collection.extend(
-	{
-	    selected:function(){
-		return this.filter(function(location){
-				       return location.get("selected");
-				   });},
-	    unselected:function(){
-		return this.reject(function(location){
-				       return location.get("selected");
-				   });}     	  
-	});
-
-    var Location = Backbone.Model.extend(
-	{defaults: function() {
-	     return {
-		 parent:null, //should me a model object
-		 name:"unknown",
-		 selected:false,
-		 children:new Locations //Locations
-	     };
-	 },
-	 select: function(bool) {
-	     //need to change children when this happens
-	     this.set({selected:bool});
-	     //this.children.trigger('parent:change:select');
-	 },
-	 parents: function(){
-	     if(this.parent == null){
-		 return [];
-	     }
-	     var list = [this.parent];
-	     return list.concact(this.parents());
-	 }
-	});
-
-
-
-/*
-    var postalCode = Location.extend();
-    var postalCodeList = Locations.extend({model:postalCode});
-    var postalCodes = new postalCodeList;
-
-    var city = Location.extend();
-    var cityList = Locations.extend({model:city});
-    var cities = new cityList;
-*/
-    var country = Location.extend();
-
-    var countryList = Locations.extend(
-	{model:country,
-	 initialize:function(selectedCountries){
-	     var that = this;
-	     var stores_db = db('stores_rt7');
-	     var reigion_v = appView('country_prov_city_postal_code');
-	     that.bind("change:selected",function(){console.log("change:selected event from model");});
-	     groupQuery(reigion_v,stores_db,1)
-	     (function(data){
-		  function extractkey(row){return _.first(row.key);};
-		  function setNames(item){return {name:item};};
-		  var colData = _.map(data.rows,_.compose(setNames,extractkey));
-		  console.log("done setting up countryList");
-		  console.log(colData);
-		  that.reset(colData);
-		  that.filter(function(model){return _.contains(selectedCountries,model.get('name'));})
-		      .forEach(function(model){model.select(true);});
-	      });
-	 }});
-
-    var formData = finalSetup();
-
-    var countries = new countryList(formData.countries);
- 
-    var countriesView = Backbone.View.extend(
+    var companiesView = Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
 	     _.bindAll(view, 'render'); 
 	     this.collection.bind('reset',view.render);
 	     this.collection.bind('change',view.render);
-	     $(this.el).multiselect(_.extend(regionSelectorSettings,{ noneSelectedText:"Countries"}));
+	     $(this.el).multiselect(_.extend(regionSelectorSettings,{ noneSelectedText:"Companies"}));
 	 },
 	 render:function(){
 	     var html = ich.options_TMP1({list:this.collection.toJSON()});
@@ -142,10 +79,10 @@ function doc_setup(){
 
     var countriesViewTest = new countriesView(
 	{
-	    collection: countries,
-	    el:document.getElementById("countries")
+	    collection: Companies,
+	    el:_.first($("#companies"))
 	});
-
+    
 };
 
 
