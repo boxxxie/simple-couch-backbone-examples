@@ -5,7 +5,7 @@ ddoc = { _id:'_design/app',
 	 rewrites :[ 
 	     {from:"/api", to:'../../'},
 	     {from:"/api/*", to:'../../*'},
-	     {from:"/db", to:'../../_all_docs',query:{include_docs:"true"}},
+	     {from:"/db", to:'../../_all_docs',query:{include_docs:"true",startkey:"_design0",endkey:"{}"}},
 	     {from:"/db/*", to:'../../*'},
 	     {from:"/*", to:'*'}]};
 

@@ -19,6 +19,7 @@ var Entity = couchDoc.extend(
 var regionSelectorSettings = {
     minWidth:700,
     selectedList: 6,
+    multiple: false,
     //the below would fire off events for backbone to take care of
     /*    click: multiselectRefresh,
      checkAll:multiselectRefresh,
@@ -28,18 +29,6 @@ var regionSelectorSettings = {
     position: {
 	my: 'left bottom',
 	at: 'left top'
-    },
-    selectedText: function(numChecked, numTotal, checkedItems){
-	if(numChecked == numTotal){
-	    return "ALL";
-	}
-	return checkedItems
-	    .reduce(function(sum,cur){
-			if(sum == ""){
-			    return cur.title;    
-			}
-			return sum + "," + cur.title;
-		    },"");
     }
 };
 function genericButtonSetup($node,clickCallback){
@@ -47,8 +36,9 @@ function genericButtonSetup($node,clickCallback){
 };
 function addCompany(collection){
     return function(){
-	var companyToAdd = new Entity(window.prompt("Enter New Company Name",""));
-	collection.add(companyToAdd);
+	var input = window.prompt("Enter New Company Name","");
+	if(!input || input == "")return;
+	collection.create({name:input});
     };
 }
 function doc_setup(){
@@ -69,6 +59,7 @@ function doc_setup(){
 	     _.bindAll(view, 'render'); 
 	     this.collection.bind('reset',view.render);
 	     this.collection.bind('change',view.render);
+	     this.collection.bind('add',view.render);
 	     $(this.el).multiselect(_.extend(regionSelectorSettings,{ noneSelectedText:"Companies"}));
 	 },
 	 render:function(){
