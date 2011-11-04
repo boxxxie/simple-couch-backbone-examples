@@ -25,14 +25,16 @@ var regionSelectorSettings = {
 		    },"");
     }
 };
-
 function genericButtonSetup($node,clickCallback){
     $node.click(clickCallback);		    
 };
-
+function addCompany(){
+    var companyToAdd = new Company(window.prompt("Enter New Company Name",""));
+    companyList.add(companyToAdd);
+}
 function finalSetup(){
     //fixme, add callbacks to these functions
-    genericButtonSetup($("#btnAddCompany"));
+    genericButtonSetup($("#btnAddCompany"),addCompany);
     genericButtonSetup($("#btnAddGroup"));
     genericButtonSetup($("#btnAddStore"));
     genericButtonSetup($("#btnAddTerminal"));
@@ -40,10 +42,10 @@ function finalSetup(){
 function doc_setup(){
     var install_db = db('install');
 
-    var Campaign = couchDoc.extend();
-    var Campaigns = couchCollection({db:'campaigns'},{model:Campaign});
-    companyList = new Campaigns();
-    campaignList.fetch(
+    var Company = couchDoc.extend();
+    var Companies = couchCollection({db:'install'},{model:Company});
+    companyList = new Companies();
+    companyList.fetch(
 	{
 	    success:function(model,resp){
 		console.log("all campaigns loaded");
@@ -121,20 +123,6 @@ function doc_setup(){
 
     var countries = new countryList(formData.countries);
  
-   /* var provinceList = Locations.extend(
-	{model:province,
-	 initialize:function(){
-	     var that = this;
-	     var stores_db = db('stores_rt7');
-	     var reigion_v = appView('country_prov_city_postal_code');
-	     groupQuery(reigion_v,stores_db,2)
-	     (function(data){
-		  var colData = _.map(extractKeysArr(data),function(item){return {name:item};});
-		  console.log("done setting up provinceList");
-		  that.reset(colData);
-	      });
-	 }});*/
-
     var countriesView = Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
