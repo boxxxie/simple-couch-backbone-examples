@@ -1,25 +1,25 @@
 var install_db = db('install');
 
-var Entity = couchDoc.extend(	
+var Selection = new Backbone.Model.extend();
+
+var Company = couchDoc.extend(	
     {defaults: function() {
 	 return {
 	     parent:null, //should me a backbone.model
 	     name:"unknown",
-	     selected:false,
 	     children:null//shoudl be backbone.collection
 	 };
      },
-     toggle: function() {
-	 this.set({selected: !this.get("selected")});
-     },
-     addChild: function(child){
+     addGroup: function(store){
 	 
-     }
+     },
+     addStore: function(group,store){},
+     addTerminal: function(group,store,terminal){}
     });
 
 
-function multiselectClick(){
-    
+function multiselectClick(a,b,c,d,e){
+    console.log("click");
 }
 
 var regionSelectorSettings = {
@@ -50,7 +50,10 @@ function addItem(model,collectionName){
 function addCompany(collection){
     return function(){
 	var input = window.prompt("Enter New Company Name","");
-	if(!input || input == "" || !collection.chain().pluck('name').contains(input).value())return;
+	if(!input || 
+	   input == "" || 
+	   collection.chain().pluck('name').contains(input).value())
+	{return;}
 	collection.create({name:input});
     };
 };
@@ -62,13 +65,13 @@ function addGroup(collection){
     };
 };
 function doc_setup(){
-    var Companies = new (couchCollection({db:'install'},{model:Entity}));
+    var Companies = new (couchCollection({db:'install'},{model:Company}));
     Companies.fetch();
     
     genericButtonSetup($("#btnAddCompany"), addCompany(Companies));
-    genericButtonSetup($("#btnAddGroup"), addGroup(Companies));
-    genericButtonSetup($("#btnAddStore"));
-    genericButtonSetup($("#btnAddTerminal"));
+//    genericButtonSetup($("#btnAddGroup"), addGroup(Companies));
+//    genericButtonSetup($("#btnAddStore"));
+//    genericButtonSetup($("#btnAddTerminal"));
 
     var companiesView = Backbone.View.extend(
 	{initialize:function(){
