@@ -48,6 +48,7 @@ function addItem(model,collectionName){
     };
 };
 function addCompany(collection){
+	alert("go")
     return function(){
 	var input = window.prompt("Enter New Company Name","");
 	if(!input || 
