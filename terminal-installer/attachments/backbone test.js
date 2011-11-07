@@ -11,18 +11,24 @@ var Entity = couchDoc.extend(
      },
      toggle: function() {
 	 this.set({selected: !this.get("selected")});
+     },
+     addChild: function(child){
+	 
      }
     });
 
 
+function multiselectClick(){
+    
+}
 
 var regionSelectorSettings = {
     minWidth:700,
     selectedList: 6,
     multiple: false,
     //the below would fire off events for backbone to take care of
-    /*    click: multiselectRefresh,
-     checkAll:multiselectRefresh,
+    click: multiselectClick,
+    /* checkAll:multiselectRefresh,
      uncheckAll:multiselectRefresh,
      optgroupToggle:multiselectRefresh,
      refresh: multiselectRefresh,*/
@@ -34,22 +40,33 @@ var regionSelectorSettings = {
 function genericButtonSetup($node,clickCallback){
     $node.click(clickCallback);		    
 };
+function addItem(model,collectionName){
+        return function(){
+	var input = window.prompt("Enter New "+collectionName+" Name","");
+	if(!input || input == "" || !model.children.chain().pluck('name').contains(input).value())return;
+	collection.create({name:input});
+    };
+};
 function addCompany(collection){
     return function(){
 	var input = window.prompt("Enter New Company Name","");
-	if(!input || input == "")return;
+	if(!input || input == "" || !collection.chain().pluck('name').contains(input).value())return;
 	collection.create({name:input});
     };
-}
+};
+function addGroup(collection){
+    return function(){
+	var input = window.prompt("Enter New Group Name","");
+	if(!input || input == "" || !collection.chain().pluck('name').contains(input).value())return;
+	collection.create({name:input});
+    };
+};
 function doc_setup(){
     var Companies = new (couchCollection({db:'install'},{model:Entity}));
-    Companies.fetch(
-	    {success:function(model,resp){
-		 console.log("all campaigns loaded");
-	     }});
-
-    genericButtonSetup($("#btnAddCompany"),addCompany(Companies));
-    genericButtonSetup($("#btnAddGroup"));
+    Companies.fetch();
+    
+    genericButtonSetup($("#btnAddCompany"), addCompany(Companies));
+    genericButtonSetup($("#btnAddGroup"), addGroup(Companies));
     genericButtonSetup($("#btnAddStore"));
     genericButtonSetup($("#btnAddTerminal"));
 
@@ -66,7 +83,7 @@ function doc_setup(){
 	     var html = ich.options_TMP1({list:this.collection.toJSON()});
 	     $(this.el).html(html);
 	     $(this.el).multiselect("refresh");
-	     console.log("view rendered");
+	     console.log("companies view rendered");
 	     return this;
 	 }
 	});
@@ -78,6 +95,3 @@ function doc_setup(){
 	});
     
 };
-
-
-
