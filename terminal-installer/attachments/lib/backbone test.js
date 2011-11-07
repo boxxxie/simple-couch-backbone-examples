@@ -19,7 +19,7 @@ var Company = couchDoc.extend(
 
 
 function multiselectClick(a,b,c,d,e){
-    console.log("a : " + a.name + ", b : " + b.toString());
+    console.log("a : " + a.toString() + ", b : " + b.toString());
 }
 
 var regionSelectorSettings = {
@@ -27,7 +27,7 @@ var regionSelectorSettings = {
     selectedList: 6,
     multiple: false,
     //the below would fire off events for backbone to take care of
-    click: multiselectClick,
+    click: multiselectClick("aaa","bbb"),
     /* checkAll:multiselectRefresh,
      uncheckAll:multiselectRefresh,
      optgroupToggle:multiselectRefresh,
