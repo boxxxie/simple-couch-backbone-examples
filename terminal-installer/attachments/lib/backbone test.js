@@ -27,7 +27,7 @@ var regionSelectorSettings = {
     selectedList: 6,
     multiple: false,
     //the below would fire off events for backbone to take care of
-    click: multiselectClick("aaa","bbb"),
+    click: multiselectClick,
     /* checkAll:multiselectRefresh,
      uncheckAll:multiselectRefresh,
      optgroupToggle:multiselectRefresh,
