@@ -19,8 +19,7 @@ var Company = couchDoc.extend(
 
 
 function multiselectClick(a,b,c,d,e){
-	var t = $("#companies option:selected").text()
-    console.log("click" + t);
+    console.log("click");
 }
 
 var regionSelectorSettings = {
@@ -60,9 +59,11 @@ function addCompany(collection){
 };
 function addGroup(collection){
     return function(){
-	var input = window.prompt("Enter New Group Name","");
-	if(!input || input == "" || !collection.chain().pluck('name').contains(input).value())return;
-	collection.create({name:input});
+	    var t = $("#companies option:selected").text()
+	    console.log("selected : " + t);
+		var input = window.prompt("Enter New Group Name","");
+		if(!input || input == "" || !collection.chain().pluck('name').contains(input).value())return;
+		collection.create({name:input});
     };
 };
 function doc_setup(){
