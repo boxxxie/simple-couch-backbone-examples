@@ -13,7 +13,7 @@ var couchDoc = Backbone.Model.extend(
 	    options || (options = {});
 	    var model = this;
 	    var success = options.success;   
-	    options.success = function(resp, status, xhr) {
+	    options.success = function(resp, status, xhr){
 		if (success){success(model, resp, status);}
 		updateRev(model,resp,status);
 	    };
@@ -40,8 +40,41 @@ var couchCollection = function(couch,options){
 			  .value();
 		  },
 		  fetch:function(options){
+		      options || (options = {});
 		      var fetch_options = _.extend(options,{url:this.url+"/_all_docs", data:{include_docs:true}});
 		      Backbone.Collection.prototype.fetch.call(this,fetch_options);
 		  }
 		 }));
 };
+
+
+//testing for persistfilter
+Backbone.Model.prototype.save = function() {
+  var _save = Backbone.Model.prototype.save;
+  
+  return function(attrs, options) {
+    attrs = _.clone(attrs);
+
+    if (typeof this.persistFilter === "function") {
+      attrs = this.persistFilter(attrs) || attrs;
+    }
+
+    _save.call(this, attrs, options);
+  };
+}();
+
+var Test = Backbone.Model.extend({
+  initialize: function() {
+    this.set({ lol: "hi" });
+  },
+
+  persistFilter: function(attrs) {
+    var newAttrs = {};
+
+    _.each(attrs, function(val, key) {
+      newAttrs["prefix::" + key] = val;
+    });
+
+    return newAttrs;
+  }
+});
