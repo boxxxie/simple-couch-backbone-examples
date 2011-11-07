@@ -105,13 +105,11 @@ function genericButtonSetup($node,clickCallback){
     $node.click(clickCallback);		    
 };
 function addCompany(collection){
-    return function(){
-	var input = window.prompt("Enter New Company Name","");
-	if(!input || 
-	   input == "" || 
-	   _(collection.pluck('name')).contains(input))
-	{return;}
-	collection.create({name:input});
+    return {success: function(resp){
+		if(_(collection.pluck('name')).contains(resp.companyName))
+		{return;}
+		collection.create(resp);
+	    }
     };
 };
 function addGroup(model){
@@ -129,7 +127,6 @@ function addStore(model,group){
 
 
 function doc_setup(){
-    newCompanyDialogSetup();
     Companies = 
 	new (couchCollection({db:'install'},
 			     {model:Company,
@@ -141,8 +138,8 @@ function doc_setup(){
 			      }
 			     }));
     Companies.fetch();
-    
-    genericButtonSetup($("#btnAddCompany"), addCompany(Companies));
+    newCompanyDialogSetup(addCompany(Companies));
+    //genericButtonSetup($("#create-company"), addCompany(Companies));
     genericButtonSetup($("#btnAddGroup"), function(){
 			   return  function(collection){
 			       var modelName = Selection.get('company');
