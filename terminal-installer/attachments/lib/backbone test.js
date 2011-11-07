@@ -62,7 +62,7 @@ function addCompany(collection){
 	var input = window.prompt("Enter New Company Name","");
 	if(!input || 
 	   input == "" || 
-	   (_.pluck(collection,'name')).contains(input))
+	   _(collection.pluck('name')).contains(input))
 	{return;}
 	collection.create({name:input});
     };
