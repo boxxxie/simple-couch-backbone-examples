@@ -19,7 +19,8 @@ var Company = couchDoc.extend(
 
 
 function multiselectClick(a,b,c,d,e){
-    console.log("selection : " + Selection);
+	el:_.first($("#companies"))
+    console.log("click" + el);
 }
 
 var regionSelectorSettings = {
@@ -89,6 +90,7 @@ function doc_setup(){
 	     console.log("companies view rendered");
 	     return this;
 	 }
+	 
 	});
 
     var companiesViewTest = new companiesView(
