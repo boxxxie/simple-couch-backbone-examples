@@ -19,8 +19,8 @@ var Company = couchDoc.extend(
 
 
 function multiselectClick(a,b,c,d,e){
-	el:_.first($("#companies"))
-    console.log("click" + el);
+	var t =_.first($("#companies"))
+    console.log("click" + t);
 }
 
 var regionSelectorSettings = {
