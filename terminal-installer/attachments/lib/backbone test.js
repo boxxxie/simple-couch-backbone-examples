@@ -19,7 +19,7 @@ var Company = couchDoc.extend(
 
 
 function multiselectClick(a,b,c,d,e){
-    console.log("click");
+    console.log("a : " +a.toString() + ", b : " + b.toString() + ", c : " + c.toString() + ", d : " + d.toString() + ", e :" + e.toString());
 }
 
 var regionSelectorSettings = {
@@ -49,7 +49,7 @@ function addItem(model,collectionName){
 };
 function addCompany(collection){
     return function(){
-	var input = window.prompt("Enter New Company NAME!!","");
+	var input = window.prompt("Enter New Company Name","");
 	if(!input || 
 	   input == "" || 
 	   collection.chain().pluck('name').contains(input).value())
@@ -69,7 +69,7 @@ function doc_setup(){
     Companies.fetch();
     
     genericButtonSetup($("#btnAddCompany"), addCompany(Companies));
-//    genericButtonSetup($("#btnAddGroup"), addGroup(Companies));
+    genericButtonSetup($("#btnAddGroup"), addGroup(Companies));
 //    genericButtonSetup($("#btnAddStore"));
 //    genericButtonSetup($("#btnAddTerminal"));
 
