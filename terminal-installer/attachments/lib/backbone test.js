@@ -19,7 +19,7 @@ var Company = couchDoc.extend(
 
 
 function multiselectClick(a,b,c,d,e){
-	var t = $("#companies").options.selectedIndex
+	var t = $("#companies").selectedIndex
     console.log("click" + t);
 }
 
