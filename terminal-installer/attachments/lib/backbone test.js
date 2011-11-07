@@ -19,7 +19,7 @@ var Company = couchDoc.extend(
 
 
 function multiselectClick(a,b,c,d,e){
-    console.log("a : " +a.toString() + ", b : " + b.toString() + ", c : " + c.toString() + ", d : " + d.toString() + ", e :" + e.toString());
+    console.log("a : " +a.toString() + ", b : " + b.toString());
 }
 
 var regionSelectorSettings = {
