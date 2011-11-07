@@ -175,15 +175,13 @@ function doc_setup(){
 	     this.collection.bind('reset',view.render);
 	     this.collection.bind('change',view.render);
 	     this.collection.bind('add',view.render);
-	     $(this.el).multiselect(_.extend(regionSelectorSettings,{noneSelectedText:"Companies"}));
 	     this.bind('change:model',function(){console.log('change:model:companies');view.render();});
 	     Selection.bind('change:company',function(){console.log('change:company');view.updateModel();});
 	 },
 	 render:function(){
-	     var forTMP = {list:applySelection(Selection,this.collection.toJSON(),'company')};
-	     var html = ich.options_TMP1(forTMP);
+	     var forTMP = {list:this.collection.toJSON()};
+	     var html = ich.companiesTabel_TMP(forTMP);
 	     $(this.el).html(html);
-	     $(this.el).multiselect("refresh");
 	     console.log("companies view rendered");
 	     return this;
 	 },

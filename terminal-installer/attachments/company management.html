@@ -24,7 +24,7 @@
 
     <!-- <script language="javascript" type="text/javascript" src="lib/campaign maker.js"></script> -->
     <script language="javascript" type="text/javascript" src="lib/couch-backbone.js"></script>
-    <script language="javascript" type="text/javascript" src="backbone test.js"></script>
+    <script language="javascript" type="text/javascript" src="company management.js"></script>
     <script language="javascript" type="text/javascript" src="docRdy.js"></script> <!-- needs to go last -->
     
 
@@ -41,6 +41,22 @@
 	      >{{name}}
       </option>
       {{/list}}
+    </script>
+    
+    <script id="companiesTabel_TMP" type="text/html">
+      <table border="1">
+	<tr>
+	  <th>Name</th>
+	  <th>Address</th>
+	  <th>Contact</th>
+	  <th>Maser User ID</th>
+	  <th>Maser Password</th>
+	  <th>Centrally Controlled Menus</th>
+	</tr>
+	{{#list}}
+	<tr><td>{{name}}</td><td>{{address}}</td><td>{{contact}}</td><td>{{user}}</td><td>{{pass}}</td><td>{{centrally_controlled_menus}}</td></tr>
+	{{/list}}
+      </table>
     </script>
 
   </head>
@@ -61,21 +77,9 @@
 	</fieldset>
       </form>
     </div>
-    <dl>
-      <dd>
-	<div> <select id="companies" type="select"  name="companies" size=8></select>
-	  <input type="button" id="btnAddCompany" value="make a new company" />
-	</div>
-	<div> <select id="groups" type="select"  name="groups" size=8></select>
-	  <input type="button" id="btnAddGroup" value="make a new group for this company" />
-	</div>
-	<div> <select id="stores" type="select"  name="stores" size=8></select>
-	  <input type="button" id="btnAddStore" value="make a new store for this group" />
-	</div>
-	<div> <select id="terminals" type="select"  name="terminals" size=8></select>
-	  <input type="button" id="btnAddTerminal" value="make a new terminal for this store" />
-	</div>
-      </dd>	
-    </dl>
+
+    <div id="companies"></div>
+    <input type="button" id="btnAddCompany" value="make a new company" />
+
   </body>
 </html>
