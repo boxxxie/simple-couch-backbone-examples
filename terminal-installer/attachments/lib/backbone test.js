@@ -16,6 +16,16 @@ var Company = couchDoc.extend(
      addStore: function(group,store){},
      addTerminal: function(group,store,terminal){}
     });
+    
+var Group = couchDoc.extend({
+				defaults: function(companyName) {
+					return {
+						parent : companyName,
+						name: "unkonw",
+						children:null
+					};
+				}	
+			});
 
 
 function multiselectClick(a,b,c,d,e){
@@ -52,7 +62,7 @@ function addCompany(collection){
 	var input = window.prompt("Enter New Company Name","");
 	if(!input || 
 	   input == "" || 
-	   collection.chain().pluck('name').contains(input).value())
+	   _(collection.chain().pluck('name')).contains(input))
 	{return;}
 	collection.create({name:input});
     };
