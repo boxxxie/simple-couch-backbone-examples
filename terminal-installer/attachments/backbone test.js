@@ -49,7 +49,7 @@ function addItem(model,collectionName){
 };
 function addCompany(collection){
     return function(){
-	var input = window.prompt("Enter New Company Name!!!!","");
+	var input = window.prompt("Enter New Company NAME!!","");
 	if(!input || 
 	   input == "" || 
 	   collection.chain().pluck('name').contains(input).value())
