@@ -226,7 +226,8 @@
 		<input type="password" name="password" id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
 		<dl>
 		  <dt>Address</dt>
-		  <dd>{{#address}}
+		  <dd>
+		    {{#address}}
 		    <label for="address.street">Street</label>
 		    <input type="text" name="address.street" id="address.street" value="{{street}}" class="text ui-widget-content ui-corner-all" />
 		    <label for="address.city">City</label>
@@ -236,11 +237,11 @@
 		    <label for="address.country">Country</label>
 		    <input type="text" name="address.country" id="address.country" value="{{country}}" class="text ui-widget-content ui-corner-all"/>
 		    {{/address}}
-		    <label for="centrally controlled menus">Centrally Controlled Menus</label>
-	  	    <input type="checkbox" name="centrally controlled menus" id="centrally-controlled-menus" {{#centrallyControlledMenus}}
-  			   checked="true" {{/centrallyControlledMenus}} />
 		  </dd>
 		</dl>
+		<label for="centrally controlled menus">Centrally Controlled Menus</label>
+	  	<input type="checkbox" name="centrally controlled menus" id="centrally-controlled-menus" {{#centrallyControlledMenus}}
+  		       checked="true" {{/centrallyControlledMenus}} />
 	      </fieldset>
 	    </form>
 	  </div>
@@ -269,7 +270,8 @@
 		<input type="password"  id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
 		<dl>
 		  <dt>Address</dt>
-		  <dd>{{#address}}
+		  <dd>
+		    {{#address}}
 		    <label for="address.street">Street</label>
 		    <input type="text" name="address.street" id="address.street" value="{{street}}" class="text ui-widget-content ui-corner-all" />
 		    <label for="address.city">City</label>
@@ -279,12 +281,13 @@
 		    <label for="address.country">Country</label>
 		    <input type="text" name="address.country" id="address.country" value="{{country}}" class="text ui-widget-content ui-corner-all"/>
 		    {{/address}}
-		    <label for="automated-payment">Using Automated Payment?</label>
-		    <input type="checkbox" id="automated-payment" value="" {{#autoPayment}} checked="true" {{/autoPayment}} class="text ui-widget-content ui-corner-all" />
-		    <label for="mobQRedits">Using mobQRedits?</label>
-		    <input type="checkbox" id="mobQRedits" value="" {{#mobQRedits}} checked="true" {{/mobQRedits}} class="text ui-widget-content ui-corner-all" />
 		  </dd>
 		</dl>
+		<label for="automated-payment">Using Automated Payment?</label>
+		<input type="checkbox" id="automated-payment" value="" {{#autoPayment}} checked="true" {{/autoPayment}} class="text ui-widget-content ui-corner-all" />
+		<label for="mobQRedits">Using mobQRedits?</label>
+		<input type="checkbox" id="mobQRedits" value="" {{#mobQRedits}} checked="true" {{/mobQRedits}} class="text ui-widget-content ui-corner-all" />
+
 	      </fieldset>
 	    </form>
 	  </div>
