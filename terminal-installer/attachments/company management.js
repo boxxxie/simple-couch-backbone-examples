@@ -1,5 +1,13 @@
 var install_db = db('install');
 
+function guidGenerator() {
+    var S4 = function() {
+       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    };
+    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+}
+
+
 var Company = couchDoc.extend(	
     {defaults: function() {
 	 return {
@@ -177,7 +185,7 @@ function doc_setup(){
 		 var model = Companies.getModelByName(name);
 		 var modelObj = model.toJSON();
 		 var stores = model.getStores("none");
-		 var stores_w_ids = _.map(stores,function(store){return _.extend(store,{_id:modelObj._id});});
+		 var stores_w_ids = _.map(stores,function(store){return _.extend(_.clone(store,{_id:modelObj._id});});
 		 $('body').html(ich.store_management_page_TMP({list:stores_w_ids}));
 		 newStoreDialogSetup(addStore(model,'none'));
 	     },
@@ -329,7 +337,9 @@ function doc_setup(){
 	     var view = this;
 	     return function(){
 		 var forTMP = {list:_.map(view.model.getTerminals("none",storeName),
-					  function(terminal){return _.extend(terminal,{_id:companyName,storeName:storeName});})};
+					  function(terminal){
+					  	var clonedTerminal = _.clone(terminal);
+					  	return _.extend(clonedTerminal,{_id:companyName,storeName:storeName});})};
 		 var html = ich.terminalsTabel_TMP(forTMP);
 		 $(view.el).html(html);
 		 console.log("terminals view rendered");
