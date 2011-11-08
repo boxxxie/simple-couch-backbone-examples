@@ -89,13 +89,17 @@ function newCompanyDialogSetup (options) {
 				       	 var unfilledRequiredFields = checkRequiredFields(requiredFields);
 					 requiredFields.removeClass( "ui-state-error" );
 
+					 bValid = bValid && checkLength( user, "The Master User ID", 1, 8, updateTips(tips) );
+					 bValid = bValid && checkLength( password, "The Master User Password", 1, 8 ,updateTips(tips));
+
+/*
 					 bValid = bValid && checkLength( companyName, "The Company Name", 3, 64, updateTips(tips) );
 					 bValid = bValid && checkRegexp( companyName, /^[a-z]([0-9a-z_])+$/i, "The Company Name may consist of a-z, 0-9, underscores, begin with a letter.", updateTips(tips));
-					 bValid = bValid && checkLength( user, "The Master User ID", 3, 64, updateTips(tips) );
+					 bValid = bValid && checkLength( user, "The Master User ID", 1, 8, updateTips(tips) );
 					 bValid = bValid && checkRegexp( user, /^[a-z]([0-9a-z_])+$/i, "The Master User ID may consist of a-z, 0-9, underscores, begin with a letter.", updateTips(tips));
 					 bValid = bValid && checkLength( password, "The Master User Password", 10, 256 ,updateTips(tips));
 					 bValid = bValid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "The Master Password field only allow : a-z 0-9", updateTips(tips));
-
+*/
 					 if ( bValid && unfilledRequiredFields ) {
 					     options.success({user:user.val(),
 							      password:password.val(),
@@ -155,6 +159,19 @@ function newStoreDialogSetup (options) {
 	.add(street)
 	.add(city)
 	.add(province)
+	.add(country),
+    
+    allFields = $([])
+	.add(user)
+	.add(password)
+	.add(storeName)
+	.add(storeNum)
+	.add(mobQRedits)
+	.add(autoPayment)
+	.add(contact)
+	.add(street)
+	.add(city)
+	.add(province)
 	.add(country);
     
     var tips = $( ".validateTips" );
@@ -170,7 +187,9 @@ function newStoreDialogSetup (options) {
 					 var unfilledRequiredFields = checkRequiredFields(requiredFields);
 					 
 					 requiredFields.removeClass( "ui-state-error" );
-					 
+					 bValid = bValid && checkLength( user, "The Master User ID", 1, 8, updateTips(tips) );
+					 bValid = bValid && checkLength( password, "The Master User Password", 1, 8 ,updateTips(tips));
+			/*		 
 					 bValid = bValid && checkLength( storeName, "The Store Name", 3, 64, updateTips(tips) );
 					 bValid = bValid && checkRegexp( storeName, /^[a-z]([0-9a-z_])+$/i, "The Store Name may consist of a-z, 0-9, underscores, begin with a letter.", updateTips(tips));
 					 bValid = bValid && checkRegexp( storeNum, /^([0-9])+$/i, "The Store Number may consist of Digits only.", updateTips(tips));
@@ -178,7 +197,7 @@ function newStoreDialogSetup (options) {
 					 bValid = bValid && checkRegexp( user, /^[a-z]([0-9a-z_])+$/i, "The Master User ID may consist of a-z, 0-9, underscores, begin with a letter.", updateTips(tips));
 					 bValid = bValid && checkLength( password, "The Master User Password", 10, 256 ,updateTips(tips));
 					 bValid = bValid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "The Master Password field only allow : a-z 0-9", updateTips(tips) );
-					 
+			*/		 
 					 if ( bValid && unfilledRequiredFields) {
 					     options.success({user:user.val(),
 							      password:password.val(),
@@ -191,7 +210,6 @@ function newStoreDialogSetup (options) {
 							      autoPayment:autoPayment.is(":checked"),
 							      name:storeName.val(),
 							      number:storeNum.val()});
-					     
 					     $( this ).dialog( "close" );
 					 }else if(bValid && !unfilledRequiredFields) {
 					     handleMissingFields(requiredFields,updateTips(tips));
@@ -202,8 +220,8 @@ function newStoreDialogSetup (options) {
 				     }
 				 },
 				 close: function() {
-				     requiredFields.val("").removeClass( "ui-state-error" );
-				    // allFields.find(":checked").attr("checked",false);
+				     allFields.val("").removeClass( "ui-state-error" );
+				     allFields.filter("input:checked").attr("checked",false);
 				 }
 			     });
 
@@ -247,7 +265,7 @@ function newTerminalDialogSetup (options) {
 					 var bValid = true;
 					 var unfilledRequiredFields=checkRequiredFields(requiredFields);
 					 requiredFields.removeClass( "ui-state-error" );
-
+/*
 					 bValid = bValid && checkRegexp( id, /^([0-9a-zA-Z]?[0-9a-zA-Z_]+)$/i, 
 									 "The Terminal ID can only consist of digits letters and underscores, and can not start with an underscore", 
 									 updateTips(tips));
@@ -255,7 +273,7 @@ function newTerminalDialogSetup (options) {
 									 "MobQRedits Bonus Codes need to be in the form of 'code,code,code' and can not start with an underscore", 
 									 updateTips(tips));
 					 bValid = bValid && checkRegexp( convertPercentage, /^(\.[0-9]+)$/i, "MobQRedits Conversion Percentage need to be in the form of '.###'", updateTips(tips));
-
+*/
 					 if ( bValid && unfilledRequiredFields) {
 					     var userBonusCodes;
 					     (bonusCodes.val())?userBonusCodes = _.unique(bonusCodes.val().split(',')):userBonusCodes = null;
