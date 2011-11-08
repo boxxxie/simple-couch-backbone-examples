@@ -4,7 +4,6 @@
     <title>Company Management</title>
     <link href="layout.css" rel="stylesheet" type="text/css">
     <link href="css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css">
-    <link href="css/jquery-ui-timepicker-addon.css" rel="stylesheet" type="text/css">
     <link href="css/jquery.multiselect.css" rel="stylesheet" type="text/css">
 
     <script language="javascript" type="text/javascript" src="lib/jquery-1.6.4.js"></script>
@@ -22,7 +21,6 @@
 
     <script language="javascript" type="text/javascript" src="site.js"></script>
 
-    <!-- <script language="javascript" type="text/javascript" src="lib/campaign maker.js"></script> -->
     <script language="javascript" type="text/javascript" src="lib/couch-backbone.js"></script>
     <script language="javascript" type="text/javascript" src="company management.js"></script>
     <script language="javascript" type="text/javascript" src="docRdy.js"></script> <!-- needs to go last -->
@@ -40,12 +38,12 @@
     </style>
 
     <script id="option_TMP" type="text/html">
-      <option value={{value}}>{{label}}</option>
+      <option value="{{value}}">{{label}}</option>
     </script>
 
     <script id="options_TMP1" type="text/html">
       {{#list}}
-      <option value={{name}}
+      <option value="{{name}}"
 	      {{#selected}}
 	      selected="true"
 	      {{/selected}}
@@ -60,19 +58,58 @@
 	  <th>Name</th>
 	  <th>Address</th>
 	  <th>Contact</th>
-	  <th>Maser User ID</th>
+	  <th>Maser ID</th>
 	  <th>Maser Password</th>
 	  <th>Centrally Controlled Menus</th>
 	</tr>
 	{{#list}}
-	<tr><td><a href="#/company/{{companyName}}">{{companyName}}</a></td>{{#address}}<td>{{street}}, {{city}}, {{province}}, {{country}}</td>{{/address}}<td>{{contact}}</td><td>{{user}}</td><td>{{password}}</td><td>{{centrallyControlledMenus}}</td></tr>
+	<tr><td><a href="#/company/{{_id}}">{{_id}}</a>
+	  </td>{{#address}}<td>{{street}}, {{city}}, {{province}}, {{country}}</td>{{/address}}
+	  <td>{{contact}}</td><td>{{user}}</td><td>{{password}}</td><td>{{centrallyControlledMenus}}</td></tr>
+	{{/list}}
+      </table>
+    </script>
+
+    <script id="storesTabel_TMP" type="text/html">
+      <table border="1">
+	<tr>
+	  <th>Name</th>
+	  <th>Number</th>
+	  <th>Address</th>
+	  <th>Contact</th>
+	  <th>Maser ID</th>
+	  <th>Maser Password</th>
+	  <th>Automated Payments</th>
+	  <th>mobQRedits</th>
+	</tr>
+	{{#list}}
+	<tr><td><a href="#/company/{{_id}}/stores/{{name}}">{{name}}</a><td>{{number}}</td>
+	  </td>{{#address}}<td>{{street}}, {{city}}, {{province}}, {{country}}</td>{{/address}}
+	  <td>{{contact}}</td><td>{{user}}</td><td>{{password}}</td><td>{{autoPayment}}</td><td>{{mobQRedits}}</td></tr>
+	{{/list}}
+      </table>
+    </script>
+
+   <script id="terminalsTabel_TMP" type="text/html">
+      <table border="1">
+	<tr>
+	  <th>ID</th>
+	  <th>Mobile-Payment</th>
+	  <th>Debit-Payment</th>
+	  <th>Credit-Payment</th>
+	  <th>MobQRedits Bonus Codes</th>
+	  <th>MobQRedits Conversion Percentage</th>
+	</tr>
+	{{#list}}
+	<tr><td><a href="#/company/{{_id}}/stores/{{storeName}}/terminals/{{id}}">{{id}}</a><td>{{mobilePayment}}</td>
+	  <td>{{debitPayment}}</td><td>{{creditPayment}}</td>{{#mobQRedits}}<td>{{bonusCodes}}</td><td>{{convertPercentage}}</td>{{/mobQRedits}}</tr>
 	{{/list}}
       </table>
     </script>
 
     <script id="company_management_page_TMP" type="text/html">
       <h1>Company Management</h1>
-      <div id="dialog-form" title="Create new user">
+      <div id="dialog-form" title="Create new Company">
 	<p class="validateTips">All form fields are required.</p>
 	<form>
 	  <fieldset>
@@ -93,61 +130,200 @@
 	    </dl>
 	    <label for="contact">Contact</label>
 	    <input type="text" name="contact" id="contact" class="text ui-widget-content ui-corner-all" />
-	    <label for="user">User Name</label>
+	    <label for="user">Master User ID</label>
 	    <input type="text" name="user" id="user" class="text ui-widget-content ui-corner-all" />
-	    <label for="password">Password</label>
+	    <label for="password">Master Password</label>
 	    <input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all" />
 	    <label for="centrally-controlled-menus">Centrally Controlled Menus</label>
 	    <input type="checkbox" name="centrally controlled menus" id="centrally-controlled-menus" value="" class="text ui-widget-content ui-corner-all" />
 	  </fieldset>
 	</form>
       </div>
-=======
-
-	<script id="modifyCompanyPage_TMP" type="text/html">
-      <table border="1">
-		<h1>Company Management</h1>
-		    <div>
-		    <form>
-			<fieldset>
-			  <label for="company name">Company name</label>
-			  <input type="text" name="company name" id="company name" value={{name}} />
-			  <dl>
-			    <dt>Address</dt>
-			    <dd>{{#address}}
-			      <label for="address.street">Street</label>
-				  <input type="text" name="address.street" id="address.street" value={{street}} />
-				  <label for="address.city">City</label>
-				  <input type="text" name="address.city" id="address.city" value={{city}} />
-				  <label for="address.province">State/Province</label>
-				  <input type="text" name="address.province" id="address.province" value={{province}} />
-				  <label for="address.country">Country</label>
-				  {{/address}}
-				  <input type="text" name="address.country" id="address.country" value={{country}} />
-				  <label for="centrally controlled menus">Centrally Controlled Menus</label>
-	  			  <input type="checkbox" name="centrally controlled menus" id="centrally controlled menus" {{#centrallyControlledMenus}}
-  						checked=true {{/centrallyControlledMenus}} />
-			    </dd>
-			  </dl>
-			</fieldset>
-		    </form>
-			</div>
-		    <div id="companies"></div>
-		    <input type="button" id="modify-company" value="modify company" />
-			<input type="button" id="show-stores" value="show stores" />
-      </table>
-    </script>
-	
-
-  </head>
->>>>>>> 0c4cc7d21f78d49200d12fb981ab629d462b151c
-
       <div id="companies"></div>
       <input type="button" id="create-company" value="make a new company" />
     </script>
 
+    <script id="store_management_page_TMP" type="text/html">
+      <h1>Stores Management</h1>
+      <div id="dialog-form" title="Create new Store">
+	<p class="validateTips">All form fields are required.</p>
+	<form>
+	  <fieldset>
+	    <label for="store-name">Store Name</label>
+	    <input type="text" id="store-name" class="text ui-widget-content ui-corner-all" />
+	    <label for="store-num">Store Number</label>
+	    <input type="text" id="store-num" class="text ui-widget-content ui-corner-all" />
+	    <dl>
+	      <dt>Address</dt>
+	      <dd>
+	      	<label for="address.street">Street</label>
+		<input type="text"  id="address.street" class="text ui-widget-content ui-corner-all" />
+		<label for="address.city">City</label>
+		<input type="text"  id="address.city" class="text ui-widget-content ui-corner-all" />
+		<label for="address.province">State/Province</label>
+		<input type="text"  id="address.province" class="text ui-widget-content ui-corner-all" />
+		<label for="address.country">Country</label>
+		<input type="text"  id="address.country" class="text ui-widget-content ui-corner-all" />
+	      </dd>
+	    </dl>
+	    <label for="contact">Contact</label>
+	    <input type="text" name="contact" id="contact" class="text ui-widget-content ui-corner-all" />
+	    <label for="user">Master Store User ID</label>
+	    <input type="text" name="user" id="user" class="text ui-widget-content ui-corner-all" />
+	    <label for="password">Master Store Password</label>
+	    <input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all" />
+	    <label for="automated-payment">Using Automated Payment?</label>
+	    <input type="checkbox" id="automated-payment" value="" class="text ui-widget-content ui-corner-all" />
+	    <label for="mobQRedits">Using mobQRedits?</label>
+	    <input type="checkbox" id="mobQRedits" value="" class="text ui-widget-content ui-corner-all" />
+	  </fieldset>
+	</form>
+      </div>
+      <div id="stores"></div>
+      <input type="button" id="create-store" value="make a new store" />
+    </script>
 
-  </head>
+    <script id="terminal_management_page_TMP" type="text/html">
+      <h1>Terminals Management</h1>
+      <div id="dialog-form" title="Create new Terminal">
+	<p class="validateTips">All form fields are required.</p>
+	<form>
+	  <fieldset>
+	    <label for="terminal-id">Terminal ID</label>
+	    <input type="text" id="terminal-id" class="text ui-widget-content ui-corner-all" />
+	    <label for="mobile-payment">Mobile-Payment</label>
+	    <input type="checkbox" id="mobile-payment" class="text ui-widget-content ui-corner-all" />
+	    <label for="debit-payment">Debit-Payment</label>
+	    <input type="checkbox" id="debit-payment" class="text ui-widget-content ui-corner-all" />
+	    <label for="credit-payment">Credit-Payment</label>
+	    <input type="checkbox" id="credit-payment" class="text ui-widget-content ui-corner-all" />
+	    <label for="bonus-codes">MobQRedits Bonus Codes (comma delimited list)</label>
+	    <input type="text" id="bonus-codes" class="text ui-widget-content ui-corner-all" />
+	    <label for="convert-percentage">MobQRedits Conversion Percentage</label>
+	    <input type="text" id="convert-percentage" class="text ui-widget-content ui-corner-all" />
+	  </fieldset>
+	</form>
+      </div>
+      <div id="terminals"></div>
+      <input type="button" id="create-terminal" value="make a new terminal" />
+    </script>
 
-  <body></body>
+
+      <script id="modify_company_page_TMP" type="text/html">
+	<table border="1">
+	  <h1>Modify Company</h1>
+	  <div>
+	    <form>
+	      <fieldset>
+		{{#company}}
+		<label for="company name">Company name</label>
+		<input type="text" name="company name" id="company-name" value="{{_id}}" class="text ui-widget-content ui-corner-all" disabled="true" />
+		<label for="contact">Contact</label>
+		<input type="text" name="contact" id="contact" value="{{contact}}" class="text ui-widget-content ui-corner-all" />
+		<label for="user">User Name</label>
+		<input type="text" name="user" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" />
+		<label for="password">Password</label>
+		<input type="password" name="password" id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
+		<dl>
+		  <dt>Address</dt>
+		  <dd>{{#address}}
+		    <label for="address.street">Street</label>
+		    <input type="text" name="address.street" id="address.street" value="{{street}}" class="text ui-widget-content ui-corner-all" />
+		    <label for="address.city">City</label>
+		    <input type="text" name="address.city" id="address.city" value="{{city}}" class="text ui-widget-content ui-corner-all"/>
+		    <label for="address.province">State/Province</label>
+		    <input type="text" name="address.province" id="address.province" value="{{province}}" class="text ui-widget-content ui-corner-all"/>
+		    <label for="address.country">Country</label>
+		    <input type="text" name="address.country" id="address.country" value="{{country}}" class="text ui-widget-content ui-corner-all"/>
+		    {{/address}}
+		    <label for="centrally controlled menus">Centrally Controlled Menus</label>
+	  	    <input type="checkbox" name="centrally controlled menus" id="centrally-controlled-menus" {{#centrallyControlledMenus}}
+  			   checked="true" {{/centrallyControlledMenus}} />
+		  </dd>
+		</dl>
+	      </fieldset>
+	    </form>
+	  </div>
+	  <input type="button" id="modify-company" value="modify company" />
+	  <a href="#/company/{{_id}}/stores">Store Manager</a>
+	  {{/company}}
+	</table>
+      </script>   
+
+      <script id="modify_store_page_TMP" type="text/html">
+	<table border="1">
+	  <h1>Modify Store</h1>
+	  <div>
+	    <form>
+	      <fieldset>
+		{{#store}}
+		<label for="store-name">Store Name</label>
+		<input type="text" id="store-name" value="{{name}}" class="text ui-widget-content ui-corner-all" disabled="true" />
+		<label for="store-num">Store Number</label>
+		<input type="text" id="store-num" value="{{number}}" class="text ui-widget-content ui-corner-all" />
+		<label for="contact">Contact</label>
+		<input type="text"  id="contact" value="{{contact}}" class="text ui-widget-content ui-corner-all" />
+		<label for="user">Master Store User ID</label>
+		<input type="text" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" />
+		<label for="password">Master Store Password</label>
+		<input type="password"  id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
+		<dl>
+		  <dt>Address</dt>
+		  <dd>{{#address}}
+		    <label for="address.street">Street</label>
+		    <input type="text" name="address.street" id="address.street" value="{{street}}" class="text ui-widget-content ui-corner-all" />
+		    <label for="address.city">City</label>
+		    <input type="text" name="address.city" id="address.city" value="{{city}}" class="text ui-widget-content ui-corner-all"/>
+		    <label for="address.province">State/Province</label>
+		    <input type="text" name="address.province" id="address.province" value="{{province}}" class="text ui-widget-content ui-corner-all"/>
+		    <label for="address.country">Country</label>
+		    <input type="text" name="address.country" id="address.country" value="{{country}}" class="text ui-widget-content ui-corner-all"/>
+		    {{/address}}
+		    <label for="automated-payment">Using Automated Payment?</label>
+		    <input type="checkbox" id="automated-payment" value="" {{#autoPayment}} checked="true" {{/autoPayment}} class="text ui-widget-content ui-corner-all" />
+		    <label for="mobQRedits">Using mobQRedits?</label>
+		    <input type="checkbox" id="mobQRedits" value="" {{#mobQRedits}} checked="true" {{/mobQRedits}} class="text ui-widget-content ui-corner-all" />
+		  </dd>
+		</dl>
+	      </fieldset>
+	    </form>
+	  </div>
+	  <input type="button" id="modify-store" value="modify store" />
+	  <a href="#/company/{{_id}}/stores/{{name}}/terminals">Terminal Manager</a>
+	  {{/store}}
+	</table>
+      </script>   
+
+      <script id="modify_terminal_page_TMP" type="text/html">
+	<table border="1">
+	  <h1>Modify Terminal</h1>
+	  <div>
+	    <form>
+	      <fieldset>
+		{{#terminal}}
+		<label for="terminal-id">Terminal ID</label>
+		<input type="text" id="terminal-id" class="text ui-widget-content ui-corner-all" value="{{id}}" disabled="true" />
+		<label for="mobile-payment">Mobile-Payment</label>
+		<input type="checkbox" id="mobile-payment" class="text ui-widget-content ui-corner-all" {{#mobilePayment}} checked="true" {{/mobilePayment}} />
+		<label for="debit-payment">Debit-Payment</label>
+		<input type="checkbox" id="debit-payment" class="text ui-widget-content ui-corner-all" {{#debitPayment}} checked="true" {{/debitPayment}}/>
+		<label for="credit-payment">Credit-Payment</label>
+		<input type="checkbox" id="credit-payment" class="text ui-widget-content ui-corner-all" {{#creditPayment}} checked="true" {{/creditPayment}} />
+		{{#mobQRedits}}
+		<label for="bonus-codes">MobQRedits Bonus Codes (comma delimited list)</label>
+		<input type="text" id="bonus-codes" class="text ui-widget-content ui-corner-all" value="{{#bonusCodes}}{{.}},{{/bonusCodes}}"/>
+		<label for="convert-percentage">MobQRedits Conversion Percentage</label>
+		<input type="text" id="convert-percentage" class="text ui-widget-content ui-corner-all" value="{{convertPercentage}}" />
+		{{/mobQRedits}}
+	      </fieldset>
+	    </form>
+	  </div>
+	  <input type="button" id="modify-terminal" value="modify terminal" />
+	  {{/terminal}}
+	</table>
+      </script> 
+
+</head>
+
+<body></body>
 </html>

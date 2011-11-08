@@ -1,5 +1,6 @@
 var install_db = db('install');
 
+//not used in new version
 var Selection = new (Backbone
 		     .Model
 		     .extend({setCompany:function(name){
@@ -16,10 +17,12 @@ var Selection = new (Backbone
 			      }
 			     }));
 
+
+
 var Company = couchDoc.extend(	
     {defaults: function() {
 	 return {
-	     companyName:"unknown",
+	     _id:"unknown",
 	     hierarchy:{groups:[{name:"none"}]}
 	 };
      },
@@ -36,104 +39,93 @@ var Company = couchDoc.extend(
 	     this.trigger("add:group"); //triggers go last
 	 }
      },
-     addStore: function(groupName,storeName){
+     addStore: function(groupName,store){
 	 var oldHierarchy = this.get('hierarchy');
 	 var groups = oldHierarchy.groups;
 	 if(!groups) return;
-	 if(!_(groups).chain().pluck('name').contains(group)){}
+	 if(!_(groups).chain().pluck('name').contains(groupName)){}
 	 var groupToAddTo = _.find(groups, function(group){return group.name == groupName;});
-	 var stores = grouptToAddTo.stores;
+	 var stores = groupToAddTo.stores;
 	 stores || (stores = []);
-	 var newStores = stores.concat({store:storeName});
+	 var newStores = stores.concat(store);
 	 groupToAddTo.stores = newStores;
 	 this.set({hierarchy:oldHierarchy}); //assuming that this was changed in place...
 	 this.save();
 	 this.trigger("add:store"); //triggers go last
      },
-     addTerminal: function(group,store,terminal){},
+     addTerminal: function(groupName,storeName,terminal){
+	 var oldHierarchy = this.get('hierarchy');
+	 var groups = oldHierarchy.groups;
+	 if(!groups) return;
+	 if(!_(groups).chain().pluck('name').contains(groupName)){}
+	 var groupToAddTo = _.find(groups, function(group){return group.name == groupName;});
+	 var stores = groupToAddTo.stores;
+	 stores || (stores = []);
+	 var storeToAddTo = _.find(stores, function(store){return store.name == storeName;});
+	 var terminals = storeToAddTo.terminals;
+	 terminals || (terminals = []);
+	 storeToAddTo.terminals = terminals.concat(terminal);
+	 this.set({hierarchy:oldHierarchy}); //assuming that this was changed in place...
+	 this.save();
+	 this.trigger("add:terminal"); //triggers go last
+     },
      getGroups:function(){
 	 return this.get('hierarchy').groups;
      },
-     getStores:function(group){
-	// groups = 
+     getStores:function(groupName){
+	 var hierarchy =  this.get('hierarchy');
+	 var foundGroup = _.find(hierarchy.groups,function(group){ return group.name == groupName;});
+	 return foundGroup.stores;
+     },
+     getTerminals:function(groupName,storeName){
+	 var hierarchy =  this.get('hierarchy');
+	 var foundGroup = _.find(hierarchy.groups,function(group){return group.name == groupName;});
+	 var foundStore = _.find(foundGroup.stores,function(store){return store.name == storeName;});
+	 return foundStore.terminals;
+     },
+     getTerminal:function(groupName,storeName,terminalID){
+	 var terminals = this.getTerminals(groupName,storeName);
+	 return _.find(terminals,function(terminal){return terminal.id == terminalID;});	 
+     },
+     getStore:function(groupName,storeName){
+     	 var stores = this.getStores(groupName);
+	 return _.find(stores,function(store){return store.name == storeName;});
      }
     });
 
 var Companies;
 var companiesView;
 var companiesViewTest;
-var groupsView;
-var groupsViewTest;
 var storesView;
 var storesViewTest;
+var terminalsView;
+var terminalsViewTest;
 
-var Workspace;
-
-//may not need this
-function multiselectClick(caller,checkbox){
-    // $(caller).target().id()
-    var callerID = caller.target.id;
-    var checkboxName = checkbox.value;
-    switch(callerID){
-    case "companies": 
-	Selection.setCompany(checkboxName);
-	break;
-    case "groups": 
-	Selection.setGroup(checkboxName);
-	break;
-    case "stores": 
-	Selection.setStore(checkboxName);
-	break;
-    }
-    console.log("click");
-}
-
-var regionSelectorSettings = {
-    minWidth:700,
-    selectedList: 6,
-    multiple: false,
-    //the below would fire off events for backbone to take care of
-    click: multiselectClick,
-    /* checkAll:multiselectRefresh,
-     uncheckAll:multiselectRefresh,
-     optgroupToggle:multiselectRefresh,
-     refresh: multiselectRefresh,*/
-    position: {
-	my: 'left bottom',
-	at: 'left top'
-    }
-};
-function genericButtonSetup($node,clickCallback){
-    $node.click(clickCallback);		    
-};
 function addCompany(collection){
     return {success: function(resp){
-		if(_(collection.pluck('name')).contains(resp.companyName))
-		{return;}
 		collection.create(resp);
 	    }
-    };
-};
-function addGroup(model){
-	//get the model that is represented in the select box
-	var input = window.prompt("Enter New Group Name","");
-	if(!input || input == "")return;
-	model.addGroup(input);
+	   };
 };
 function addStore(model,group){
-	//get the model that is represented in the select box
-	var input = window.prompt("Enter New Store Name","");
-	if(!input || input == "")return;
-	model.addStore(group,input);
+    return {success: function(resp){
+		model.addStore(group,resp);
+	    }
+	   };
 };
-
+function addTerminal(model,group,storeName){
+    return {success: function(resp){
+		model.addTerminal(group,storeName,resp);
+	    }
+	   };
+};
 
 function doc_setup(){
     Companies = 
 	new (couchCollection({db:'install'},
 			     {model:Company,
 			      getModelByName : function(modelName){
-				  return this.find(function(model){return model.get('name') == modelName;});
+				  return this.find(function(model){return model.get('_id') == modelName;});
 			      },
 			      getSelectedModel : function(){
 				  return this.find(function(model){return model.selected == true;});
@@ -141,32 +133,138 @@ function doc_setup(){
 			     }));
     Companies.fetch();
 
-    //genericButtonSetup($("#create-company"), addCompany(Companies));
-    genericButtonSetup($("#btnAddGroup"), function(){
-			   return  function(collection){
-			       var modelName = Selection.get('company');
-			       var model = collection.getModelByName(modelName);
-			       if(model){addGroup(model);}
-			   }(Companies);
-		       });
-    genericButtonSetup($("#btnAddStore"), function(){
-			   return  function(collection){
-			       var modelName = Selection.get('company');
-			       var selectedGroup = Selection.get('group');
-			       var model = collection.getModelByName(modelName);
-			       if(model && selectedGroup){addStore(model,group);}
-			   }(Companies);
-		       });
-    //    genericButtonSetup($("#btnAddTerminal"));
+var AppRouter = new 
+(Backbone.Router.extend(
+     {
+	 routes: {
+	     "":"companyManagementHome",
+	     "company/:name": "modifyCompany", 
+	     "company/:name/stores": "storesManager" ,
+	     "company/:companyName/stores/:storeName": "modifyStore",
+	     "company/:companyName/stores/:storeName/terminals": "terminalsManager",
+	     "company/:companyName/stores/:storeName/terminals/:terminalID": "modifyterminal"   	 	 
+	 },
+	 companyManagementHome:function(){
+	     console.log("companyManagementHome");
+	     $('body').html(ich.company_management_page_TMP());
+	     newCompanyDialogSetup(addCompany(Companies));
+	 },
+	 modifyCompany:function(name){
+	     console.log("modifyCompanies: " + name);
+	     var model = Companies.getModelByName(name);
+	     var modelJSON = model.toJSON();
+	     $('body').html(ich.modify_company_page_TMP({company:modelJSON}));
+	     $("#modify-company")
+		 .click(function(){
+			    var user = $("#user"),
+			    password = $("#password"),
+			    _id = $("#company-name"),
+			    contact = $("#contact"),
+			    street = $("#address\\.street"),
+			    city = $("#address\\.city"),
+			    province = $("#address\\.province"),
+			    country = $("#address\\.country"),
+			    centrallyControlledMenus = $("#centrally-controlled-menus");
+			    var modelChanges = {user:user.val(),
+						password:password.val(),
+						contact:contact.val(),
+						address:{street:street.val(),
+							 city:city.val(),
+							 country:country.val(),
+							 province:province.val()},
+						centrallyControlledMenus:centrallyControlledMenus.is(":checked"),
+						_id:_id.val()};
+			    model.set(modelChanges);
+			    model.save({success:function(){alert("saved!");}}); //FIXME:allert isn't being invoked
+			    //$('body').html(ich.modify_company_page_TMP({company:model.toJSON()}));  over writes button.click
+			}
+		       );
+	 },
+	 storesManager:function(name){
+	     console.log("storesManager: " + name);
+	     var model = Companies.getModelByName(name);
+	     var modelObj = model.toJSON();
+	     var stores = model.getStores("none");
+	     var stores_w_ids = _.map(stores,function(store){return _.extend(store,{_id:modelObj._id});});
+	     $('body').html(ich.store_management_page_TMP({list:stores_w_ids}));
+	     newStoreDialogSetup(addStore(model,'none'));
+	 },
+	 modifyStore:function(companyName, storeName){
+	     console.log("modifyStore: " + companyName + " " + storeName);
+	     var model = Companies.getModelByName(companyName);
+	     var storeToEdit = model.getStore("none",storeName);
+	     var originalStoreName = storeName;
+	     $('body').html(ich.modify_store_page_TMP({store:storeToEdit}));
+	     $("#modify-store")
+		 .click(function(){
+			    var user = $("#user"),
+			    password = $("#password"),
+			    storeName = $("#store-name"),
+			    storeNum = $("#store-num"),
+			    contact = $("#contact"),
+			    street = $("#address\\.street"),
+			    city = $("#address\\.city"),
+			    province = $("#address\\.province"),
+			    country = $("#address\\.country"),
+			    mobQRedits = $("#mobQRedits"),
+			    autoPayment = $("#automated-payment");
+			    var storeChanges = {user:user.val(),
+						password:password.val(),
+						contact:contact.val(),
+						address : {street:street.val(),
+							   city:city.val(),
+							   country:country.val(),
+							   province:province.val()},
+						mobQRedits:mobQRedits.is(":checked"),
+						autoPayment:autoPayment.is(":checked"),
+						name:storeName.val(),
+						number:storeNum.val()};
+			    storeToEdit = _.extend(storeToEdit,storeChanges);
+			    model.save({success:function(){alert("saved!");}});
+			    //var newStore = model.getStore("none",originalStoreName);
+			   // $('body').html(ich.modify_store_page_TMP({store:newStore})); over writes the button and thus button.click
+			}
+		       );
+	 },
+	 terminalsManager:function(companyName,storeName){
+	     console.log("terminalsManager: " + companyName + " " + storeName);
+	     var model = Companies.getModelByName(companyName);
+	     var modelObj = model.toJSON();
+	     var store = model.getStore("none",storeName);
+	     var terminals = store.terminals;
+	     var terminals_w_ids = _.map(store,function(store){return _.extend(store,{_id:companyName,storeName:storeName});});
+	     $('body').html(ich.terminal_management_page_TMP({lists:terminals_w_ids}));
+	     newTerminalDialogSetup(addTerminal(model,'none',storeName));
+	 },
+	 modifyterminal:function(companyName,storeName,terminalName){
+	     console.log("modifyterminal: " + companyName + " " + storeName + " " + terminalName);
+	     var model = Companies.getModelByName(companyName);
+	     var terminalToEdit = model.getTerminal("none",storeName,terminalName);
+	     var originalTerminalName = terminalName;
+	     $('body').html(ich.modify_terminal_page_TMP({terminal:terminalToEdit}));
+	     $("#modify-terminal")
+		 .click(function(){
+			    var id = $("#terminal-id"),
+			    mobilePayment = $("#mobile-payment"),
+			    debitPayment = $("#debit-payment"),
+			    creditPayment = $("#credit-payment"),
+			    bonusCodes = $("#bonus-codes"),
+			    convertPercentage = $("#convert-percentage");
+			    var userBonusCodes;
+			    (bonusCodes.val())?userBonusCodes = _.flatten(bonusCodes.val().split(',')):userBonusCodes = null;
+			    var terminalChanges = {id:id.val(),
+					    mobilePayment:mobilePayment.is(":checked"),
+					    debitPayment:debitPayment.is(":checked"),
+					    creditPayment: creditPayment.is(":checked"),
+					    mobQRedits : {bonusCodes:userBonusCodes,
+							  convertPercentage:convertPercentage.val()}
+					   };
+			    terminalToEdit = _.extend(terminalToEdit,terminalChanges);
+			    model.save({success:function(){alert("saved!");}});
+			});
+	 }
+     }));
 
-
-    function applySelection(selector,list,getName){
-	var selectionName = selector.get(getName);
-	if(!selectionName) return list;
-	var add_selected = _.find(list,function(item){return item.name == selectionName;});
-	add_selected.selected = true;
-	return list;
-    };
     companiesView = Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
@@ -175,7 +273,11 @@ function doc_setup(){
 	     this.collection.bind('change',view.render);
 	     this.collection.bind('add',view.render);
 	     this.bind('change:model',function(){console.log('change:model:companies');view.render();});
-	     Selection.bind('change:company',function(){console.log('change:company');view.updateModel();});
+	     AppRouter.bind('route:companyManagementHome', function(){
+				console.log('companiesView:route:companyManagementHome');
+				view.el =_.first($("#companies"));
+				view.render();});
+	     
 	 },
 	 render:function(){
 	     var forTMP = {list:this.collection.toJSON()};
@@ -190,135 +292,71 @@ function doc_setup(){
 	 }
 	});
 
- /*   
-
-
-    groupsView = Backbone.View.extend(
-	{initialize:function(){
-	     var view = this;
-	     _.bindAll(view, 'render'); 
-	     //    this.collection.bind('change',view.render);
-	     companiesViewTest.bind('change:model',function(){console.log('change:model:group');view.updateModel();});
-	     this.bind('change:model',view.render);
-	     Selection.bind('change:group',function(){console.log('change:group');view.render();});
-	     $(this.el).multiselect(_.extend(regionSelectorSettings,{ noneSelectedText:"Groups"}));
-	 },
-	 render:function(){
-	     var model = this.model;
-	     if(!model) return this;
-	     var groups = model.getGroups();
-	     var forTMP = {list:applySelection(Selection,groups,'groups')};
-	     var html = ich.options_TMP1(forTMP);
-	     $(this.el).html(html);
-	     $(this.el).multiselect("refresh");
-	     console.log("groups view rendered");
-	     return this;
-	 },
-	 updateModel:function(){
-	     var view = this;
-	     this.model = this.collection.getModelByName(Selection.get('company'));
-	     this.model.bind('add:group',function(){console.log('add:group');view.render();});
-	     this.trigger("change:model");
-	 }
-	});
-
-    groupsViewTest = new groupsView(
+    companiesViewTest = new companiesView(
 	{
 	    collection: Companies,
-	    el:_.first($("#groups"))
+	    el:_.first($("#companies"))
 	});
 
     storesView = Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
 	     _.bindAll(view, 'render'); 
-	     //    this.collection.bind('change',view.render);
-	     companiesViewTest.bind('change:model',function(){console.log('change:model:group');view.updateModel();});
-	     this.bind('change:model',view.render);
-	     Selection.bind('change:store',function(){console.log('change:store');view.render();});
-	     $(this.el).multiselect(_.extend(regionSelectorSettings,{ noneSelectedText:"Stores"}));
+	     AppRouter.bind('route:storesManager',function(name){
+				console.log('storesView:route:storesManager');
+				view.model = Companies.getModelByName(name);
+				view.model.bind('add:store',view.render(name));
+				view.el =_.first($("#stores"));
+				view.render(name)();});
+	     
 	 },
-	 render:function(){
-	     var model = this.model;
-	     if(!model) return this;
-	     var stores = model.getStores();
-	     var forTMP = {list:applySelection(Selection,stores,'stores')};
-	     var html = ich.options_TMP1(forTMP);
-	     $(this.el).html(html);
-	     $(this.el).multiselect("refresh");
-	     console.log("stores view rendered");
-	     return this;
-	 },
-	 updateModel:function(){
+	 render:function(companyName){
 	     var view = this;
-	     this.model = this.collection.getModelByName(Selection.get('company'));
-	     this.model.bind('add:store',function(){console.log('add:store');view.render();});
-	     this.trigger("change:model");
+	     return function(){
+		 var forTMP = {list:_.map(view.model.getStores("none"),
+					 function(store){return _.extend(store,{_id:companyName});})};
+		 var html = ich.storesTabel_TMP(forTMP);
+		 $(view.el).html(html);
+		 console.log("stores view rendered");
+		 return view;
+	     };
 	 }
 	});
 
     storesViewTest = new storesView(
 	{
-	    collection: Companies,
 	    el:_.first($("#stores"))
 	});
-  */
-/* Workspace = new (Backbone.Router.extend(
-	{
-	    routes: {
-		"company/:name":     "company",
-		"help/:page":         "help",
-		"download/*path":     "download",
-		"folder/:name":       "openFolder",
-		"folder/:name-:mode": "openFolder"
-	    }
-	}));
 
- 
-    Workspace.bind("route:company", function(name) {
-		       alert("SDFSDFSDF");
-		    console.log("help route");
-		});
- */
-    var AppRouter = Backbone.Router.extend(
-	{
-	    routes: {
-		"":"companyManagementHome",
-		"company/:actions": "defaultRoute", // matches http://example.com/#anything-here
-		"company/:actions/store/*more": "defaultRoute1" // matches http://example.com/#anything-here
-	    },
-	    companyManagementHome:function(){
-		//alert( "home page" );
-		$('body').html(ich.company_management_page_TMP());
-		companiesViewTest = new companiesView(
-		    {
-			collection: Companies,
-			el:_.first($("#companies"))
-		    });
-		newCompanyDialogSetup(addCompany(Companies));
-	    },
-	    defaultRoute: function(actions){
-		// The variable passed in matches the variable in the route definition "actions"
-		alert( actions ); 
-	    },
-	    defaultRoute1: function(actions,more){
-		// The variable passed in matches the variable in the route definition "actions"
-		alert( actions + more );
-	    }
+    terminalsView = Backbone.View.extend(
+	{initialize:function(){
+	     var view = this;
+	     _.bindAll(view, 'render'); 
+	     AppRouter.bind('route:terminalsManager',function(companyName,storeName){
+				console.log('terminalsView:route:terminalsManager');
+				view.model = Companies.getModelByName(companyName);
+				view.model.bind('add:terminal',view.render(companyName,storeName));
+				view.el =_.first($("#terminals"));
+				view.render(companyName,storeName)();});
+	     
+	 },
+	 render:function(companyName,storeName){
+	     var view = this;
+	     return function(){
+		 var forTMP = {list:_.map(view.model.getTerminals("none",storeName),
+					  function(terminal){return _.extend(terminal,{_id:companyName,storeName:storeName});})};
+		 var html = ich.terminalsTabel_TMP(forTMP);
+		 $(view.el).html(html);
+		 console.log("terminals view rendered");
+		 return view;
+	     };
+	 }
 	});
-    // Initiate the router
-    var app_router = new AppRouter;
+
+    terminalsViewTest = new terminalsView(
+	{
+	    el:_.first($("#terminals"))
+	});
 
     Backbone.history.start();
-/*
-    routes: {
-	"help/:page":         "help",
-	"download/*path":     "download",
-	"folder/:name":       "openFolder",
-	"folder/:name-:mode": "openFolder"
-    };
-    router.bind("route:help", function(page) {
-		    console.log("help route event handled");
-		});
-    */
 };
