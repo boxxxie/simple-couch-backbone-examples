@@ -1,10 +1,7 @@
 function updateTips(tips){
     return function (t) {
-	tips.text( t )
-	    .addClass( "ui-state-highlight" );
-	setTimeout(function() {
-		       tips.removeClass( "ui-state-highlight", 1500 );
-		   }, 500 );
+	tips.text( t ).addClass( "ui-state-highlight" );
+	setTimeout(function() {tips.removeClass( "ui-state-highlight", 1500 );}, 500 );
     };
 }
 
@@ -50,7 +47,7 @@ function newCompanyDialogSetup (options) {
 	.add(city)
 	.add(province)
 	.add(country)
-	.add(centrallyControlledMenus)
+//	.add(centrallyControlledMenus)
 	.add(password),
     tips = $( ".validateTips" );
    
@@ -63,10 +60,10 @@ function newCompanyDialogSetup (options) {
 				       "Create the Company": function() {
 				       	var bValid = true;
 				       	
-				       //if(user.val()=="" || password.val()=="" || contact.val()=="" ||
-				       //		street.val()=="" || city.val()=="" || country.val()=="" ||
-				       //		province.val()==""){bValid=false;}
-				       bValid = _.any(allFields, function(field) { return field=="" })						   
+					   bValid = !_.any(allFields, function(field) { 
+							       var val = $(field).val()=="";
+							       return val=="";
+							   });						   
 					   allFields.removeClass( "ui-state-error" );
 
 					   bValid = bValid && checkLength( companyName, "The Company Name", 3, 64, updateTips(tips) );
@@ -88,7 +85,7 @@ function newCompanyDialogSetup (options) {
 					       
 					       $( this ).dialog( "close" );
 					   } else {
-					   		alert("All feilds are required!!");
+					   		alert("All fields are required!");
 					   }
 				       },
 				       Cancel: function() {
