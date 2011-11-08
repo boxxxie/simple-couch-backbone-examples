@@ -65,7 +65,7 @@ Backbone.Model.prototype.save = function() {
 
 var Test = Backbone.Model.extend({
   initialize: function() {
-    this.set({ lol: "hi" });
+    this.set({ lol: "HI" });
   },
 
   persistFilter: function(attrs) {
