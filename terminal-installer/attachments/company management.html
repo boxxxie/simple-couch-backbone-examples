@@ -70,7 +70,7 @@
       </table>
     </script>
 
-<<<<<<< HEAD
+
 	<script id="modifyCompanyPage_TMP" type="text/html">
       <table border="1">
 		<h1>Company Management</h1>
@@ -92,7 +92,8 @@
 				  {{/address}}
 				  <input type="text" name="address.country" id="address.country" value={{country}} />
 				  <label for="centrally controlled menus">Centrally Controlled Menus</label>
-	  			  <input type="checkbox" name="centrally controlled menus" id="centrally controlled menus" />
+	  			  <input type="checkbox" name="centrally controlled menus" id="centrally controlled menus" {{#centrallyControlledMenus}}
+  						checked=true {{/centrallyControlledMenus}} />
 			    </dd>
 			  </dl>
 			</fieldset>
@@ -100,13 +101,11 @@
 			</div>
 		    <div id="companies"></div>
 		    <input type="button" id="modify-company" value="modify company" />
-
+			<input type="button" id="show-stores" value="show stores" />
       </table>
     </script>
 	
 
-=======
->>>>>>> upstream/master
   </head>
 
   <body>
