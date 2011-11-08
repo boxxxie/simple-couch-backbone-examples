@@ -145,8 +145,6 @@ function newStoreDialogSetup (options) {
     autoPayment = $("#automated-payment"),
     
 
-    
-
     requiredFields = $([])
 	.add(user)
 	.add(password)

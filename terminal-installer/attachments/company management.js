@@ -49,10 +49,13 @@ var Company = couchDoc.extend(
 	 var storeToAddTo = _.find(stores, function(store){return store.name == storeName;});
 	 var terminals = storeToAddTo.terminals;
 	 terminals || (terminals = []);
-	 storeToAddTo.terminals = terminals.concat(terminal);
-	 this.set({hierarchy:oldHierarchy}); //assuming that this was changed in place...
-	 this.save();
-	 this.trigger("add:terminal"); //triggers go last
+	 if(!_(terminals).chain().pluck('id').contains(terminal.id).value()) {
+		 var newTerminals = terminals.concat(terminal);
+		 storeToAddTo.terminals = newTerminals;
+		 this.set({hierarchy:oldHierarchy}); //assuming that this was changed in place...
+		 this.save();
+		 this.trigger("add:terminal"); //triggers go last
+	 }
      },
      getGroups:function(){
 	 return this.get('hierarchy').groups;
