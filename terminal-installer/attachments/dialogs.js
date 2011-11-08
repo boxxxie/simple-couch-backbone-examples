@@ -132,8 +132,6 @@ function newStoreDialogSetup (options) {
     autoPayment = $("#automated-payment"),
     
 
-    
-
     requiredFields = $([])
 	.add(user)
 	.add(password)
@@ -258,7 +256,10 @@ function newTerminalDialogSetup (options) {
 				     }
 				 },
 				 close: function() {
+				 	 bonusCodes.val("").removeClass( "ui-state-error" );
 				     requiredFields.val("").removeClass( "ui-state-error" );
+				     mobilePayment.is("false");
+				     
 				 }
 			     });
 
@@ -268,3 +269,4 @@ function newTerminalDialogSetup (options) {
 		   $( "#dialog-form" ).dialog( "open" );
 	       });
 };
+
