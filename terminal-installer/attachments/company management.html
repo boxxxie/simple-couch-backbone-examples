@@ -102,6 +102,45 @@
 	  </fieldset>
 	</form>
       </div>
+=======
+
+	<script id="modifyCompanyPage_TMP" type="text/html">
+      <table border="1">
+		<h1>Company Management</h1>
+		    <div>
+		    <form>
+			<fieldset>
+			  <label for="company name">Company name</label>
+			  <input type="text" name="company name" id="company name" value={{name}} />
+			  <dl>
+			    <dt>Address</dt>
+			    <dd>{{#address}}
+			      <label for="address.street">Street</label>
+				  <input type="text" name="address.street" id="address.street" value={{street}} />
+				  <label for="address.city">City</label>
+				  <input type="text" name="address.city" id="address.city" value={{city}} />
+				  <label for="address.province">State/Province</label>
+				  <input type="text" name="address.province" id="address.province" value={{province}} />
+				  <label for="address.country">Country</label>
+				  {{/address}}
+				  <input type="text" name="address.country" id="address.country" value={{country}} />
+				  <label for="centrally controlled menus">Centrally Controlled Menus</label>
+	  			  <input type="checkbox" name="centrally controlled menus" id="centrally controlled menus" {{#centrallyControlledMenus}}
+  						checked=true {{/centrallyControlledMenus}} />
+			    </dd>
+			  </dl>
+			</fieldset>
+		    </form>
+			</div>
+		    <div id="companies"></div>
+		    <input type="button" id="modify-company" value="modify company" />
+			<input type="button" id="show-stores" value="show stores" />
+      </table>
+    </script>
+	
+
+  </head>
+>>>>>>> 0c4cc7d21f78d49200d12fb981ab629d462b151c
 
       <div id="companies"></div>
       <input type="button" id="create-company" value="make a new company" />
