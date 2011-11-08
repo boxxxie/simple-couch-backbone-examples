@@ -65,47 +65,50 @@
 	  <th>Centrally Controlled Menus</th>
 	</tr>
 	{{#list}}
-	<tr><td><a href="company management.html/{{name}}">{{name}}</a></td><td>{{address}}</td><td>{{contact}}</td><td>{{user}}</td><td>{{pass}}</td><td>{{centrally_controlled_menus}}</td></tr>
+	<tr><td><a href="#/company/{{companyName}}">{{companyName}}</a></td>{{#address}}<td>{{street}}, {{city}}, {{province}}, {{country}}</td>{{/address}}<td>{{contact}}</td><td>{{user}}</td><td>{{password}}</td><td>{{centrallyControlledMenus}}</td></tr>
 	{{/list}}
       </table>
     </script>
 
+    <script id="company_management_page_TMP" type="text/html">
+      <h1>Company Management</h1>
+      <div id="dialog-form" title="Create new user">
+	<p class="validateTips">All form fields are required.</p>
+	<form>
+	  <fieldset>
+	    <label for="company-name">Company name</label>
+	    <input type="text" name="company name" id="company-name" class="text ui-widget-content ui-corner-all" />
+	    <dl>
+	      <dt>Address</dt>
+	      <dd>
+	      	<label for="address.street">Street</label>
+		<input type="text" name="address.street" id="address.street" class="text ui-widget-content ui-corner-all" />
+		<label for="address.city">City</label>
+		<input type="text" name="address.city" id="address.city" class="text ui-widget-content ui-corner-all" />
+		<label for="address.province">State/Province</label>
+		<input type="text" name="address.province" id="address.province" class="text ui-widget-content ui-corner-all" />
+		<label for="address.country">Country</label>
+		<input type="text" name="address.country" id="address.country" class="text ui-widget-content ui-corner-all" />
+	      </dd>
+	    </dl>
+	    <label for="contact">Contact</label>
+	    <input type="text" name="contact" id="contact" class="text ui-widget-content ui-corner-all" />
+	    <label for="user">User Name</label>
+	    <input type="text" name="user" id="user" class="text ui-widget-content ui-corner-all" />
+	    <label for="password">Password</label>
+	    <input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all" />
+	    <label for="centrally-controlled-menus">Centrally Controlled Menus</label>
+	    <input type="checkbox" name="centrally controlled menus" id="centrally-controlled-menus" value="" class="text ui-widget-content ui-corner-all" />
+	  </fieldset>
+	</form>
+      </div>
+
+      <div id="companies"></div>
+      <input type="button" id="create-company" value="make a new company" />
+    </script>
+
+
   </head>
 
-  <body>
-    <h1>Company Management</h1>
-    <div id="dialog-form" title="Create new user">
-      <p class="validateTips">All form fields are required.</p>
-
-      <form>
-	<fieldset>
-	  <label for="company-name">Company name</label>
-	  <input type="text" name="company name" id="company-name" class="text ui-widget-content ui-corner-all" />
-	  <dl>
-	    <dt>Address</dt>
-	    <dd>
-	      	  <label for="address.street">Street</label>
-		  <input type="text" name="address.street" id="address.street" class="text ui-widget-content ui-corner-all" />
-		  <label for="address.city">City</label>
-		  <input type="text" name="address.city" id="address.city" class="text ui-widget-content ui-corner-all" />
-		  <label for="address.province">State/Province</label>
-		  <input type="text" name="address.province" id="address.province" class="text ui-widget-content ui-corner-all" />
-		  <label for="address.country">Country</label>
-		  <input type="text" name="address.country" id="address.country" class="text ui-widget-content ui-corner-all" />
-	    </dd>
-	  </dl>
-	  <label for="name">Name</label>
-	  <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
-	  <label for="password">Password</label>
-	  <input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all" />
-	  <label for="centrally-controlled-menus">Centrally Controlled Menus</label>
-	  <input type="checkbox" name="centrally controlled menus" id="centrally-controlled-menus" value="" class="text ui-widget-content ui-corner-all" />
-	</fieldset>
-      </form>
-    </div>
-
-    <div id="companies"></div>
-    <input type="button" id="create-company" value="make a new company" />
-
-  </body>
+  <body></body>
 </html>

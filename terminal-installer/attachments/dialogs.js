@@ -2,9 +2,10 @@ function newCompanyDialogSetup (options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
     
-    var name = $("#name"),
+    var user = $("#user"),
     password = $("#password"),
     companyName = $("#company-name"),
+    contact = $("#contact"),
    
     street = $("#address\\.street"),
     city = $("#address\\.city"),
@@ -13,8 +14,9 @@ function newCompanyDialogSetup (options) {
   
     centrallyControlledMenus = $("#centrally-controlled-menus"),
     allFields = $([])
-	.add(name)
+	.add(user)
 	.add(companyName)
+	.add(contact)
 	.add(street)
 	.add(city)
 	.add(province)
@@ -70,8 +72,9 @@ function newCompanyDialogSetup (options) {
 					   bValid = bValid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
 */
 					   if ( bValid ) {
-					       options.success({name:name.val(),
+					       options.success({user:user.val(),
 								password:password.val(),
+								contact:contact.val(),
 								address : {street:street.val(),
 									  city:city.val(),
 									  country:country.val(),

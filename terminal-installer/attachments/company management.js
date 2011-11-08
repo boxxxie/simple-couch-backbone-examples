@@ -19,7 +19,7 @@ var Selection = new (Backbone
 var Company = couchDoc.extend(	
     {defaults: function() {
 	 return {
-	     name:"unknown",
+	     companyName:"unknown",
 	     hierarchy:{groups:[{name:"none"}]}
 	 };
      },
@@ -66,6 +66,8 @@ var groupsView;
 var groupsViewTest;
 var storesView;
 var storesViewTest;
+
+var Workspace;
 
 //may not need this
 function multiselectClick(caller,checkbox){
@@ -138,7 +140,7 @@ function doc_setup(){
 			      }
 			     }));
     Companies.fetch();
-    newCompanyDialogSetup(addCompany(Companies));
+
     //genericButtonSetup($("#create-company"), addCompany(Companies));
     genericButtonSetup($("#btnAddGroup"), function(){
 			   return  function(collection){
@@ -188,11 +190,7 @@ function doc_setup(){
 	 }
 	});
 
-    companiesViewTest = new companiesView(
-	{
-	    collection: Companies,
-	    el:_.first($("#companies"))
-	});
+ /*   
 
 
     groupsView = Backbone.View.extend(
@@ -264,5 +262,63 @@ function doc_setup(){
 	    collection: Companies,
 	    el:_.first($("#stores"))
 	});
-    
+  */
+/* Workspace = new (Backbone.Router.extend(
+	{
+	    routes: {
+		"company/:name":     "company",
+		"help/:page":         "help",
+		"download/*path":     "download",
+		"folder/:name":       "openFolder",
+		"folder/:name-:mode": "openFolder"
+	    }
+	}));
+
+ 
+    Workspace.bind("route:company", function(name) {
+		       alert("SDFSDFSDF");
+		    console.log("help route");
+		});
+ */
+    var AppRouter = Backbone.Router.extend(
+	{
+	    routes: {
+		"":"companyManagementHome",
+		"company/:actions": "defaultRoute", // matches http://example.com/#anything-here
+		"company/:actions/store/*more": "defaultRoute1" // matches http://example.com/#anything-here
+	    },
+	    companyManagementHome:function(){
+		//alert( "home page" );
+		$('body').html(ich.company_management_page_TMP());
+		companiesViewTest = new companiesView(
+		    {
+			collection: Companies,
+			el:_.first($("#companies"))
+		    });
+		newCompanyDialogSetup(addCompany(Companies));
+	    },
+	    defaultRoute: function(actions){
+		// The variable passed in matches the variable in the route definition "actions"
+		alert( actions ); 
+	    },
+	    defaultRoute1: function(actions,more){
+		// The variable passed in matches the variable in the route definition "actions"
+		alert( actions + more );
+	    }
+	});
+    // Initiate the router
+    var app_router = new AppRouter;
+
+    Backbone.history.start();
+/*
+    routes: {
+	"help/:page":         "help",
+	"download/*path":     "download",
+	"folder/:name":       "openFolder",
+	"folder/:name-:mode": "openFolder"
+    };
+    router.bind("route:help", function(page) {
+		    console.log("help route event handled");
+		});
+    */
 };
