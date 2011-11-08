@@ -4,14 +4,14 @@ function newCompanyDialogSetup (options) {
     
     var name = $("#name"),
     password = $("#password"),
-    
-    companyName = $("#company name"),
-    street = $("#address.street"),
-    city = $("#address.city"),
-    province = $("#address.province"),
-    country = $("#address.country"),
+    companyName = $("#company-name"),
+   
+    street = $("#address\\.street"),
+    city = $("#address\\.city"),
+    province = $("#address\\.province"),
+    country = $("#address\\.country"),
   
-    centrallyControlledMenus = $("#centrally controlled menus"),
+    centrallyControlledMenus = $("#centrally-controlled-menus"),
     allFields = $([])
 	.add(name)
 	.add(companyName)
@@ -76,7 +76,7 @@ function newCompanyDialogSetup (options) {
 									  city:city.val(),
 									  country:country.val(),
 									  province:province.val()},
-								centrallyControlledMenus:centrallyControlledMenus.val(),
+								centrallyControlledMenus:centrallyControlledMenus.is(":checked"),
 								companyName:companyName.val()});
 					       //appends to a table on the webpage... need to make it give me it's data instead
 					    /*   $( "#users tbody" ).append( "<tr>" +
