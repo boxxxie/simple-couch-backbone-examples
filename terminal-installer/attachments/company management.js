@@ -49,10 +49,13 @@ var Company = couchDoc.extend(
 	 var storeToAddTo = _.find(stores, function(store){return store.name == storeName;});
 	 var terminals = storeToAddTo.terminals;
 	 terminals || (terminals = []);
-	 storeToAddTo.terminals = terminals.concat(terminal);
-	 this.set({hierarchy:oldHierarchy}); //assuming that this was changed in place...
-	 this.save();
-	 this.trigger("add:terminal"); //triggers go last
+	 if(!_(terminals).chain().pluck('id').contains(terminal.id).value()) {
+		 var newTerminals = terminals.concat(terminal);
+		 storeToAddTo.terminals = newTerminals;
+		 this.set({hierarchy:oldHierarchy}); //assuming that this was changed in place...
+		 this.save();
+		 this.trigger("add:terminal"); //triggers go last
+	 }
      },
      getGroups:function(){
 	 return this.get('hierarchy').groups;
@@ -215,10 +218,12 @@ function doc_setup(){
 		 console.log("terminalsManager: " + companyName + " " + storeName);
 		 var model = Companies.getModelByName(companyName);
 		 var modelObj = model.toJSON();
-		 var store = model.getStore("none",storeName);
-		 var terminals = store.terminals;
-		 var terminals_w_ids = _.map(store,function(store){return _.extend(store,{_id:companyName,storeName:storeName});});
-		 $('body').html(ich.terminal_management_page_TMP({lists:terminals_w_ids}));
+		 //var store = model.getStore("none",storeName);
+		 var terminals = model.getTerminals("none", storeName);
+		 //var terminals_w_ids = _.map(store,function(store){return _.extend(store,{_id:companyName,storeName:storeName});});
+		 //var terminals_wo_ids = _.map(terminals,function(terminal){return _.extend(terminal,{});});
+		 //$('body').html(ich.terminal_management_page_TMP({lists:terminals_wo_ids}));
+		 $('body').html(ich.terminal_management_page_TMP({lists:terminals}));
 		 newTerminalDialogSetup(addTerminal(model,'none',storeName));
 	     },
 	     modifyterminal:function(companyName,storeName,terminalName){

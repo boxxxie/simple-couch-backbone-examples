@@ -170,7 +170,7 @@ function newStoreDialogSetup (options) {
 					 bValid = bValid && checkLength( password, "The Master User Password", 10, 256 ,updateTips(tips));
 					 bValid = bValid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "The Master Password field only allow : a-z 0-9", updateTips(tips) );
 					 
-					 if ( bValid ) {
+					 if ( bValid && unfilledRequiredFields ) {
 					     options.success({user:user.val(),
 							      password:password.val(),
 							      contact:contact.val(),
@@ -236,7 +236,7 @@ function newTerminalDialogSetup (options) {
 					  bValid = bValid && checkRegexp( name, /^[a-z]([0-9a-z_])+$/i, "Username may consist of a-z, 0-9, underscores, begin with a letter." );
 					  bValid = bValid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
 					  */
-					 if ( bValid ) {
+					 if ( bValid  && unfilledRequiredFields) {
 					     var userBonusCodes;
 					     (bonusCodes.val())?userBonusCodes = _.flatten(bonusCodes.val().split(',')):userBonusCodes = null;
 					     options.success(
