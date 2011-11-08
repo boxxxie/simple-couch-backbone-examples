@@ -65,20 +65,21 @@ function newCompanyDialogSetup (options) {
 				       //		province.val()=="" || companyName.val()==""){bValid=false;}
 				   
 
-					   bValid = !_.any(allFields, function(field) { 
-							       var val = $(field).val()=="";
+					   var requiredFields = !_.any(allFields, function(field) { 
+							       var val = $(field).val();
 							       return val=="";
 							   });						   
 
 					   allFields.removeClass( "ui-state-error" );
 
 					   bValid = bValid && checkLength( companyName, "The Company Name", 3, 64, updateTips(tips) );
+					   bValid = bValid && checkRegexp( companyName, /^[a-z]([0-9a-z_])+$/i, "The Company Name may consist of a-z, 0-9, underscores, begin with a letter.", updateTips(tips));
 					   bValid = bValid && checkLength( user, "The Master User ID", 3, 64, updateTips(tips) );
 					   bValid = bValid && checkRegexp( user, /^[a-z]([0-9a-z_])+$/i, "The Master User ID may consist of a-z, 0-9, underscores, begin with a letter.", updateTips(tips));
 					   bValid = bValid && checkLength( password, "The Master User Password", 10, 256 ,updateTips(tips));
 					   bValid = bValid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "The Master Password field only allow : a-z 0-9", updateTips(tips) );
 
-					   if ( bValid ) {
+					   if ( bValid && requiredFields ) {
 					       options.success({user:user.val(),
 								password:password.val(),
 								contact:contact.val(),
@@ -90,7 +91,7 @@ function newCompanyDialogSetup (options) {
 								_id:companyName.val()});
 					       
 					       $( this ).dialog( "close" );
-					   } else {
+					   } else if(!requiredFields) {
 					   		alert("All fields are required!");
 					   }
 				       },
