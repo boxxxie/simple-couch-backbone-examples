@@ -28,11 +28,15 @@ var Company = couchDoc.extend(
 	 var groupToAddTo = _.find(groups, function(group){return group.name == groupName;});
 	 var stores = groupToAddTo.stores;
 	 stores || (stores = []);
-	 var newStores = stores.concat(store);
-	 groupToAddTo.stores = newStores;
-	 this.set({hierarchy:oldHierarchy}); //assuming that this was changed in place...
-	 this.save();
-	 this.trigger("add:store"); //triggers go last
+	 if(!_(stores).chain().pluck('name').contains(store.name).value()) {
+		 var newStores = stores.concat(store);
+		 groupToAddTo.stores = newStores;
+		 this.set({hierarchy:oldHierarchy}); //assuming that this was changed in place...
+		 this.save();
+		 this.trigger("add:store"); //triggers go last
+	 } else {
+	 	alert("The store you tried to add had the same name as one already in the database, please choose a different name");
+	 }
      },
      addTerminal: function(groupName,storeName,terminal){
 	 var oldHierarchy = this.get('hierarchy');
@@ -83,7 +87,7 @@ function addCompany(collection){
 };
 function addStore(model,group){
     return {success: function(resp){
-		model.addStore(group,resp);
+			model.addStore(group,resp);
 	    }
 	   };
 };
