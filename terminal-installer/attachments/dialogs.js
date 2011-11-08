@@ -4,8 +4,8 @@ function newCompanyDialogSetup (options) {
     
     var name = $("#name"),
     password = $("#password"),
+    
     companyName = $("#company name"),
-   
     street = $("#address.street"),
     city = $("#address.city"),
     province = $("#address.province"),
