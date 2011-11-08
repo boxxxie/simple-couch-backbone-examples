@@ -61,7 +61,12 @@ function newCompanyDialogSetup (options) {
 				   modal: true,
 				   buttons: {
 				       "Create the Company": function() {
-					   var bValid = true;
+				       	var bValid = true;
+				       	
+				       //if(user.val()=="" || password.val()=="" || contact.val()=="" ||
+				       //		street.val()=="" || city.val()=="" || country.val()=="" ||
+				       //		province.val()==""){bValid=false;}
+				       bValid = _.any(allFields, function(field) { return field=="" })						   
 					   allFields.removeClass( "ui-state-error" );
 /*
 					   bValid = bValid && checkLength( name, "username", 3, 16 );
@@ -82,6 +87,8 @@ function newCompanyDialogSetup (options) {
 								_id:companyName.val()});
 					       
 					       $( this ).dialog( "close" );
+					   } else {
+					   		alert("All feilds are required!!");
 					   }
 				       },
 				       Cancel: function() {
@@ -171,6 +178,7 @@ function newStoreDialogSetup (options) {
 				   buttons: {
 				       "Create the Store": function() {
 					   var bValid = true;
+					   bValid = _.any(allFields, function(field) { return field=="" })
 					   allFields.removeClass( "ui-state-error" );
 /*
 					   bValid = bValid && checkLength( name, "username", 3, 16 );
@@ -193,6 +201,8 @@ function newStoreDialogSetup (options) {
 							       number:storeNum.val()});
 					       
 					       $( this ).dialog( "close" );
+					   } else {
+					   		alert("All feilds are required!");
 					   }
 				       },
 				       Cancel: function() {
@@ -270,6 +280,7 @@ function newTerminalDialogSetup (options) {
 				   buttons: {
 				       "Create the Terminal": function() {
 					   var bValid = true;
+					   if(id.val()=="") {bValid=false;}
 					   allFields.removeClass( "ui-state-error" );
 /*
 					   bValid = bValid && checkLength( name, "username", 3, 16 );
@@ -291,6 +302,8 @@ function newTerminalDialogSetup (options) {
 						   });
 					       
 					       $( this ).dialog( "close" );
+					   } else {
+					   	 alert("Input Terminal ID!")
 					   }
 				       },
 				       Cancel: function() {
