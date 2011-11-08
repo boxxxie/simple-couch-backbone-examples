@@ -1,44 +1,49 @@
-function updateTips(tips){
-    return function (tipText) {
-	tips.text(tipText).addClass( "ui-state-highlight" );
-	setTimeout(function() {tips.removeClass( "ui-state-highlight", 1500 );}, 500 );
+function DialogValidator(){
+    return {
+	updateTips:function(tips){
+	    return function (tipText) {
+		tips.text(tipText).addClass( "ui-state-highlight" );
+		setTimeout(function() {tips.removeClass( "ui-state-highlight", 1500 );}, 500 );
+	    };
+	},
+	checkLength:function( o, n, min, max, updateTips ) {
+	    if ( o.val().length > max || o.val().length < min ) {
+		o.addClass( "ui-state-error" );
+		updateTips( "Length of " + n + " must be between " +
+			    min + " and " + max + "." );
+		return false;
+	    } else {
+		return true;
+	    }
+	},
+	checkRegexp:function( o, regexp, n , updateTips) {
+	    if ( !( regexp.test( o.val() ) ) ) {
+		o.addClass( "ui-state-error" );
+		updateTips( n );
+		return false;
+	    } else {
+		return true;
+	    }
+	},
+	checkRequiredFields:function(fields) {
+	    return !_.any(fields, function(field) {return _.isEmpty($(field).val());});	
+	},
+	missingRequiredFields:function(fields) {
+	    return _.filter(fields, function(field) {return _.isEmpty($(field).val());});	
+	},
+	handleMissingFields:function(fields,updateTips){
+	    _.each(missingRequiredFields(fields),
+		   function(el){
+		       $(el).addClass( "ui-state-error" );
+		       updateTips("The highlighted fields are required!");});
+	}
     };
-}
-function checkLength( o, n, min, max, updateTips ) {
-    if ( o.val().length > max || o.val().length < min ) {
-	o.addClass( "ui-state-error" );
-	updateTips( "Length of " + n + " must be between " +
-		    min + " and " + max + "." );
-	return false;
-    } else {
-	return true;
-    }
-}
-function checkRegexp( o, regexp, n , updateTips) {
-    if ( !( regexp.test( o.val() ) ) ) {
-	o.addClass( "ui-state-error" );
-	updateTips( n );
-	return false;
-    } else {
-	return true;
-    }
-}
-function checkRequiredFields(fields) {
-    return !_.any(fields, function(field) {return _.isEmpty($(field).val());});	
-}
-function missingRequiredFields(fields) {
-    return _.filter(fields, function(field) {return _.isEmpty($(field).val());});	
-}
-function handleMissingFields(fields,updateTips){
-    _.each(missingRequiredFields(fields),
-	   function(el){
-	       $(el).addClass( "ui-state-error" );
-	       updateTips("The highlighted fields are required!");});
-}
+};
+
 function newCompanyDialogSetup (options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
-    
+    _.extend(this,DialogValidator());
     var user = $("#user"),
     password = $("#password"),
     companyName = $("#company-name"),
@@ -113,7 +118,7 @@ function newCompanyDialogSetup (options) {
 function newStoreDialogSetup (options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
-    
+    _.extend(this,DialogValidator());
     var user = $("#user"),
     password = $("#password"),
     storeName = $("#store-name"),
@@ -201,7 +206,7 @@ function newStoreDialogSetup (options) {
 function newTerminalDialogSetup (options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
-    
+     _.extend(this,DialogValidator());
     var id = $("#terminal-id"),
     mobilePayment = $("#mobile-payment"),
     debitPayment = $("#debit-payment"),
