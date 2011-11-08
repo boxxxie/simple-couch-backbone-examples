@@ -20,7 +20,7 @@ function newCompanyDialogSetup (options) {
 	.add(city)
 	.add(province)
 	.add(country)
-	.add(centrallyControlledMenus)
+//	.add(centrallyControlledMenus)
 	.add(password),
     tips = $( ".validateTips" );
 
@@ -65,8 +65,8 @@ function newCompanyDialogSetup (options) {
 				       	
 				       //if(user.val()=="" || password.val()=="" || contact.val()=="" ||
 				       //		street.val()=="" || city.val()=="" || country.val()=="" ||
-				       //		province.val()==""){bValid=false;}
-				       bValid = _.any(allFields, function(field) { return field=="" })						   
+				       //		province.val()=="" || companyName.val()==""){bValid=false;}
+				       bValid = !(_.any(allFields, function(field) { return field.val()=="" }))						   
 					   allFields.removeClass( "ui-state-error" );
 /*
 					   bValid = bValid && checkLength( name, "username", 3, 16 );
@@ -178,7 +178,10 @@ function newStoreDialogSetup (options) {
 				   buttons: {
 				       "Create the Store": function() {
 					   var bValid = true;
-					   bValid = _.any(allFields, function(field) { return field=="" })
+					   if(user.val()=="" || password.val()=="" || contact.val()=="" ||
+					   		street.val()=="" || city.val()=="" || country.val()=="" ||
+					   		province.val()=="" || storeName.val()=="" || storeNum.val()=="") {bValid=false}
+					   //bValid = !(_.any(allFields, function(field) { return field.val()=="" }))
 					   allFields.removeClass( "ui-state-error" );
 /*
 					   bValid = bValid && checkLength( name, "username", 3, 16 );
