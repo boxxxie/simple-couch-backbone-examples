@@ -25,6 +25,12 @@ function checkRegexp( o, regexp, n , updateTips) {
 	return true;
     }
 }
+function checkRequiredFields(fields) {
+	return !_.any(fields, function(field) { 
+							       var val = $(field).val();
+							       return val=="";
+							   });	
+}
 function newCompanyDialogSetup (options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
@@ -65,11 +71,7 @@ function newCompanyDialogSetup (options) {
 				       //		province.val()=="" || companyName.val()==""){bValid=false;}
 				   
 
-					   var requiredFields = !_.any(allFields, function(field) { 
-							       var val = $(field).val();
-							       return val=="";
-							   });						   
-
+					   var requiredFields = checkRequiredFields(allFields);
 					   allFields.removeClass( "ui-state-error" );
 
 					   bValid = bValid && checkLength( companyName, "The Company Name", 3, 64, updateTips(tips) );
@@ -91,10 +93,10 @@ function newCompanyDialogSetup (options) {
 								_id:companyName.val()});
 					       
 					       $( this ).dialog( "close" );
-					   } else if(!requiredFields) {
+					   } else if(bValid && !requiredFields) {
 					   		alert("All fields are required!");
-					   }
-				       },
+					   }		
+				     },		
 				       Cancel: function() {
 					   $( this ).dialog( "close" );
 				       }
@@ -134,8 +136,8 @@ function newStoreDialogSetup (options) {
 	.add(password)
 	.add(storeName)
 	.add(storeNum)
-	.add(mobQRedits)
-	.add(autoPayment)
+//	.add(mobQRedits)
+//	.add(autoPayment)
 	.add(contact)
 	.add(street)
 	.add(city)
@@ -152,10 +154,11 @@ function newStoreDialogSetup (options) {
 				   buttons: {
 				       "Create the Store": function() {
 					   var bValid = true;
-					   if(user.val()=="" || password.val()=="" || contact.val()=="" ||
-					   		street.val()=="" || city.val()=="" || country.val()=="" ||
-					   		province.val()=="" || storeName.val()=="" || storeNum.val()=="") {bValid=false}
+					   //if(user.val()=="" || password.val()=="" || contact.val()=="" ||
+					   //		street.val()=="" || city.val()=="" || country.val()=="" ||
+					   //		province.val()=="" || storeName.val()=="" || storeNum.val()=="") {bValid=false}
 					   //bValid = !(_.any(allFields, function(field) { return field.val()=="" }))
+					   var requiredFields = checkRequiredFields(allFields);
 					   allFields.removeClass( "ui-state-error" );
 /*
 					   bValid = bValid && checkLength( name, "username", 3, 16 );
@@ -178,10 +181,10 @@ function newStoreDialogSetup (options) {
 							       number:storeNum.val()});
 					       
 					       $( this ).dialog( "close" );
-					   } else {
-					   		alert("All feilds are required!");
+					   }else if(bValid && !requiredFields) {
+					   		alert("All fields are required!");
 					   }
-				       },
+				    },
 				       Cancel: function() {
 					   $( this ).dialog( "close" );
 				       }
@@ -209,12 +212,12 @@ function newTerminalDialogSetup (options) {
     convertPercentage = $("#convert-percentage"),
 
     allFields = $([])
-	.add(id)
-	.add(mobilePayment)
-	.add(debitPayment)
-	.add(creditPayment)
-	.add(bonusCodes)
-	.add(convertPercentage);
+	.add(id);
+//	.add(mobilePayment)
+//	.add(debitPayment)
+//	.add(creditPayment)
+//	.add(bonusCodes)
+//	.add(convertPercentage);
 
     
     tips = $( ".validateTips" );
@@ -228,7 +231,7 @@ function newTerminalDialogSetup (options) {
 				   buttons: {
 				       "Create the Terminal": function() {
 					   var bValid = true;
-					   if(id.val()=="") {bValid=false;}
+					   var requiredFields=checkRequiredFields(allFields);
 					   allFields.removeClass( "ui-state-error" );
 /*
 					   bValid = bValid && checkLength( name, "username", 3, 16 );
@@ -250,9 +253,9 @@ function newTerminalDialogSetup (options) {
 						   });
 					       
 					       $( this ).dialog( "close" );
-					   } else {
-					   	 alert("Input Terminal ID!")
-					   }
+					   } else if(bValid && !requiredFields) {
+					   		alert("All fields are required!");
+				       }
 				       },
 				       Cancel: function() {
 					   $( this ).dialog( "close" );
