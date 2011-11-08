@@ -1,6 +1,8 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<script language="javascript" type="text/javascript" src="lib/jquery-1.6.4.js"></script>
+		<script language="javascript" type="text/javascript" src="lib/jquery.timers-1.0.0.js.txt"></script>
 		<title>RT7 RMS v2</title>
 		<script language="javascript" type="text/javascript">
 			function login() {
@@ -12,10 +14,22 @@
 					alert("wrong")
 				}
 			}
+			
+			function getDate() {
+				//var date = new Date();
+				//document.formLogin.txtDate.value = date;
+				//return date;
+				$(document).everyTime("1s", function(){
+					var date = new Date();
+					$("#txtDate").val(date.toLocaleDateString());
+					$("#txtTime").val(date.toLocaleTimeString());
+				}, 0);
+				
+			}
 		</script>
-	</head>
-	<body>
-		<form>
+ 	</head>
+	<body onload="getDate()">
+		<form name="formLogin">
 			<h1>RT7 BACKOFFICE</h1>
 	    	<dl>
 	    		USER ID : <input type="text" id="userID" />
@@ -26,27 +40,14 @@
 	    	<dl>
 	    		<input type="button" id="btnLogin" value="Login" onclick="login()"/>
 	    	</dl>
+	    	<dl>
+	    		<label id="date">Date</label>
+	    		<input type="text" id="txtDate" disabled="true"/>
+	    		<label id="time">Time</label>
+	    		<input type="text" id="txtTime" disabled="true"/>
+	    		<!--<label id="contentdate">Date</label>-->
+	    	</dl>
     	</form>
     
-    
-    
-    <!--
-    <dl>
-      <dd>
-	<div> <select id="companies" type="select"  name="companies" size=8></select>
-	  <input type="button" id="btnAddCompany" value="make a new company" />
-	</div>
-	<div> <select id="groups" type="select"  name="groups" size=8></select>
-	  <input type="button" id="btnAddGroup" value="make a new group for this company" />
-	</div>
-	<div> <select id="stores" type="select"  name="stores" size=8></select>
-	  <input type="button" id="btnAddStore" value="make a new store for this group" />
-	</div>
-	<div> <select id="terminals" type="select"  name="terminals" size=8></select>
-	  <input type="button" id="btnAddTerminal" value="make a new terminal for this store" />
-	</div>
-      </dd>	
-    </dl>
-    -->
 	</body>
 </html>
