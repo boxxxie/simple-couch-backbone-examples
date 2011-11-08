@@ -55,6 +55,8 @@ var Company = couchDoc.extend(
 		 this.set({hierarchy:oldHierarchy}); //assuming that this was changed in place...
 		 this.save();
 		 this.trigger("add:terminal"); //triggers go last
+	 } else {
+	 	alert("The terminal you tried to add had the same name as one already in the database, please choose a different name");
 	 }
      },
      getGroups:function(){
