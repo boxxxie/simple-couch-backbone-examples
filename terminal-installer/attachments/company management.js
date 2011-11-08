@@ -74,13 +74,6 @@ var Company = couchDoc.extend(
      }
     });
 
-var Companies;
-var companiesView;
-var companiesViewTest;
-var storesView;
-var storesViewTest;
-var terminalsView;
-var terminalsViewTest;
 
 function addCompany(collection){
     return {success: function(resp){
@@ -102,6 +95,14 @@ function addTerminal(model,group,storeName){
 };
 
 function doc_setup(){
+	var Companies;
+	var companiesView;
+	var companiesViewTest;
+	var storesView;
+	var storesViewTest;
+	var terminalsView;
+	var terminalsViewTest;
+
     Companies = 
 	new (couchCollection(
 		 {db:'install'},
