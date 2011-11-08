@@ -152,38 +152,40 @@ function newStoreDialogSetup (options) {
 				   width: 500,
 				   modal: true,
 				   buttons: {
-				       "Create the Store": function() {
-					   var bValid = true;
-					   //if(user.val()=="" || password.val()=="" || contact.val()=="" ||
-					   //		street.val()=="" || city.val()=="" || country.val()=="" ||
-					   //		province.val()=="" || storeName.val()=="" || storeNum.val()=="") {bValid=false}
-					   //bValid = !(_.any(allFields, function(field) { return field.val()=="" }))
-					   var requiredFields = checkRequiredFields(allFields);
-					   allFields.removeClass( "ui-state-error" );
-/*
-					   bValid = bValid && checkLength( name, "username", 3, 16 );
-					   bValid = bValid && checkLength( email, "email", 6, 80 );
-					   bValid = bValid && checkLength( password, "password", 5, 16 );
-					   bValid = bValid && checkRegexp( name, /^[a-z]([0-9a-z_])+$/i, "Username may consist of a-z, 0-9, underscores, begin with a letter." );
-					   bValid = bValid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
-*/
-					   if ( bValid ) {
-					       options.success({user:user.val(),
-								password:password.val(),
-								contact:contact.val(),
-								address : {street:street.val(),
-									  city:city.val(),
-									  country:country.val(),
-									  province:province.val()},
-								mobQRedits:mobQRedits.is(":checked"),
-								autoPayment:autoPayment.is(":checked"),
-								name:storeName.val(),
-							       number:storeNum.val()});
-					       
-					       $( this ).dialog( "close" );
-					   }else if(bValid && !requiredFields) {
-					   		alert("All fields are required!");
-					   }
+				   "Create the Store": function() {
+				   var bValid = true;
+				   //if(user.val()=="" || password.val()=="" || contact.val()=="" ||
+				   //		street.val()=="" || city.val()=="" || country.val()=="" ||
+				   //		province.val()=="" || storeName.val()=="" || storeNum.val()=="") {bValid=false}
+				   //bValid = !(_.any(allFields, function(field) { return field.val()=="" }))
+				   var requiredFields = checkRequiredFields(allFields);
+				   
+				   allFields.removeClass( "ui-state-error" );
+					
+				   bValid = bValid && checkLength( storeName, "The Stroe Name", 3, 64, updateTips(tips) );
+				   bValid = bValid && checkRegexp( storeName, /^[a-z]([0-9a-z_])+$/i, "The Store Name may consist of a-z, 0-9, underscores, begin with a letter.", updateTips(tips));
+				   bValid = bValid && checkLength( user, "The Master User ID", 3, 64, updateTips(tips) );
+				   bValid = bValid && checkRegexp( user, /^[a-z]([0-9a-z_])+$/i, "The Master User ID may consist of a-z, 0-9, underscores, begin with a letter.", updateTips(tips));
+				   bValid = bValid && checkLength( password, "The Master User Password", 10, 256 ,updateTips(tips));
+				   bValid = bValid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "The Master Password field only allow : a-z 0-9", updateTips(tips) );
+				
+				   if ( bValid ) {
+				       options.success({user:user.val(),
+							password:password.val(),
+							contact:contact.val(),
+							address : {street:street.val(),
+								  city:city.val(),
+								  country:country.val(),
+								  province:province.val()},
+							mobQRedits:mobQRedits.is(":checked"),
+				        autoPayment:autoPayment.is(":checked"),
+						name:storeName.val(),
+					       number:storeNum.val()});
+				   
+				   $( this ).dialog( "close" );
+				   }else if(bValid && !requiredFields) {
+				   		alert("All fields are required!");
+				   }
 				    },
 				       Cancel: function() {
 					   $( this ).dialog( "close" );
