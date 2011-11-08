@@ -1,3 +1,33 @@
+function updateTips(tips){
+    return function (t) {
+	tips.text( t )
+	    .addClass( "ui-state-highlight" );
+	setTimeout(function() {
+		       tips.removeClass( "ui-state-highlight", 1500 );
+		   }, 500 );
+    };
+}
+
+function checkLength( o, n, min, max, updateTips ) {
+    if ( o.val().length > max || o.val().length < min ) {
+	o.addClass( "ui-state-error" );
+	updateTips( "Length of " + n + " must be between " +
+		    min + " and " + max + "." );
+	return false;
+    } else {
+	return true;
+    }
+}
+
+function checkRegexp( o, regexp, n , updateTips) {
+    if ( !( regexp.test( o.val() ) ) ) {
+	o.addClass( "ui-state-error" );
+	updateTips( n );
+	return false;
+    } else {
+	return true;
+    }
+}
 function newCompanyDialogSetup (options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
@@ -23,53 +53,23 @@ function newCompanyDialogSetup (options) {
 	.add(centrallyControlledMenus)
 	.add(password),
     tips = $( ".validateTips" );
-
-    function updateTips( t ) {
-	tips
-	    .text( t )
-	    .addClass( "ui-state-highlight" );
-	setTimeout(function() {
-		       tips.removeClass( "ui-state-highlight", 1500 );
-		   }, 500 );
-    }
-
-    function checkLength( o, n, min, max ) {
-	if ( o.val().length > max || o.val().length < min ) {
-	    o.addClass( "ui-state-error" );
-	    updateTips( "Length of " + n + " must be between " +
-			min + " and " + max + "." );
-	    return false;
-	} else {
-	    return true;
-	}
-    }
-
-    function checkRegexp( o, regexp, n ) {
-	if ( !( regexp.test( o.val() ) ) ) {
-	    o.addClass( "ui-state-error" );
-	    updateTips( n );
-	    return false;
-	} else {
-	    return true;
-	}
-    }
-    
+   
     $("#dialog-form").dialog({
 				   autoOpen: false,
-				   height: 1000,
+				   height: 900,
 				   width: 500,
 				   modal: true,
 				   buttons: {
 				       "Create the Company": function() {
 					   var bValid = true;
 					   allFields.removeClass( "ui-state-error" );
-/*
-					   bValid = bValid && checkLength( name, "username", 3, 16 );
-					   bValid = bValid && checkLength( email, "email", 6, 80 );
-					   bValid = bValid && checkLength( password, "password", 5, 16 );
-					   bValid = bValid && checkRegexp( name, /^[a-z]([0-9a-z_])+$/i, "Username may consist of a-z, 0-9, underscores, begin with a letter." );
-					   bValid = bValid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
-*/
+
+					   bValid = bValid && checkLength( companyName, "The Company Name", 3, 64, updateTips(tips) );
+					   bValid = bValid && checkLength( user, "The Master User ID", 3, 64, updateTips(tips) );
+					   bValid = bValid && checkRegexp( user, /^[a-z]([0-9a-z_])+$/i, "The Master User ID may consist of a-z, 0-9, underscores, begin with a letter.", updateTips(tips));
+					   bValid = bValid && checkLength( password, "The Master User Password", 10, 256 ,updateTips(tips));
+					   bValid = bValid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "The Master Password field only allow : a-z 0-9", updateTips(tips) );
+
 					   if ( bValid ) {
 					       options.success({user:user.val(),
 								password:password.val(),
@@ -132,36 +132,6 @@ function newStoreDialogSetup (options) {
 	.add(country),
     
     tips = $( ".validateTips" );
-
-    function updateTips( t ) {
-	tips
-	    .text( t )
-	    .addClass( "ui-state-highlight" );
-	setTimeout(function() {
-		       tips.removeClass( "ui-state-highlight", 1500 );
-		   }, 500 );
-    }
-
-    function checkLength( o, n, min, max ) {
-	if ( o.val().length > max || o.val().length < min ) {
-	    o.addClass( "ui-state-error" );
-	    updateTips( "Length of " + n + " must be between " +
-			min + " and " + max + "." );
-	    return false;
-	} else {
-	    return true;
-	}
-    }
-
-    function checkRegexp( o, regexp, n ) {
-	if ( !( regexp.test( o.val() ) ) ) {
-	    o.addClass( "ui-state-error" );
-	    updateTips( n );
-	    return false;
-	} else {
-	    return true;
-	}
-    }
     
     $("#dialog-form").dialog({
 				   autoOpen: false,
@@ -232,36 +202,7 @@ function newTerminalDialogSetup (options) {
     
     tips = $( ".validateTips" );
 
-    function updateTips( t ) {
-	tips
-	    .text( t )
-	    .addClass( "ui-state-highlight" );
-	setTimeout(function() {
-		       tips.removeClass( "ui-state-highlight", 1500 );
-		   }, 500 );
-    }
-
-    function checkLength( o, n, min, max ) {
-	if ( o.val().length > max || o.val().length < min ) {
-	    o.addClass( "ui-state-error" );
-	    updateTips( "Length of " + n + " must be between " +
-			min + " and " + max + "." );
-	    return false;
-	} else {
-	    return true;
-	}
-    }
-
-    function checkRegexp( o, regexp, n ) {
-	if ( !( regexp.test( o.val() ) ) ) {
-	    o.addClass( "ui-state-error" );
-	    updateTips( n );
-	    return false;
-	} else {
-	    return true;
-	}
-    }
-    
+   
     $("#dialog-form").dialog({
 				   autoOpen: false,
 				   height: 500,
