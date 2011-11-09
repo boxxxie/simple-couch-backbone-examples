@@ -39,6 +39,9 @@ var Company = couchDoc.extend(
 	 stores || (stores = []);
 	 //if(!_(stores).chain().pluck('name').contains(store.name).value()) {
 	 	var addStoreTo = store;
+	 	function test() {
+	 		
+	 	}
 	 	if(!_(stores).find(function(store, addStoreTo) { return (store.name == addStoreTo.name && store.number == addStore.number)})!="") {
 		 var newStores = stores.concat(store);
 		 groupToAddTo.stores = newStores;
