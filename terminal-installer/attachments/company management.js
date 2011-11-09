@@ -62,7 +62,7 @@ var Company = couchDoc.extend(
 	 return this.get('hierarchy').groups;
      },
      getGroup:function(groupID){
-	 return _.find(hierarchy.groups,function(group){ return group.group_id == groupID;});
+	 return _.find(this.getGroups(),function(group){ return group.group_id == groupID;});
      },
      getStores:function(groupID){
 	 var hierarchy =  this.get('hierarchy');
@@ -235,6 +235,21 @@ function doc_setup(){
 		 var stores_w_ids = _.map(stores,function(store){return _.extend(store,{_id:modelObj._id});});
 		 $('body').html(ich.store_management_page_TMP({list:stores_w_ids}));
 		 newStoreDialogSetup(addStore(model,'none'));
+	     },
+	     modifyGroup:function(companyID, groupID){
+		 console.log("modifyGroup: " + companyID + " " + groupID);
+		 var model = Companies.getModelByName(companyID);
+		 var groupToEdit = model.getGroup(groupID);
+		 var originalGroupID = groupID;
+		 $('body').html(ich.modify_group_page_TMP({group:groupToEdit}));
+		 $("#modify-group")
+		     .click(function(){
+				var groupName = $("#group-name");
+				var groupChanges = {groupName:groupName.val()};
+				groupToEdit = _.extend(groupToEdit,groupChanges);
+				model.save({success:function(){alert("saved!");}});
+			    }
+			   );
 	     },
 	     modifyStore:function(companyName, storeName){
 		 console.log("modifyStore: " + companyName + " " + storeName);
