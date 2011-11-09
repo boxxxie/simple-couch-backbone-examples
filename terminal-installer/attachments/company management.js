@@ -172,7 +172,7 @@ function doc_setup(){
 	     companyManagementHome:function(){
 		 console.log("companyManagementHome");
 		 $('body').html(ich.company_management_page_TMP());
-		 $("#companyCreateDialog").html(ich.companyInputDialog_TMP());
+		 $("#companyCreateDialog").html(ich.companyInputDialog_TMP({title:"Make a new Company",company:{address:{},contact:{}}}));
 		 newCompanyDialogSetup(addCompany(Companies));
 
 	     },
