@@ -323,8 +323,16 @@ function doc_setup(){
 		 console.log("modifyterminal: " + companyID + " " + groupID + " " + storeID + " " + terminalID);
 		 var model = Companies.getModelById(companyID);
 		 var terminalToEdit = model.getTerminal(groupID,storeID,terminalID);
-		 //var originalTerminalName = terminalName;
-		 $('body').html(ich.modify_terminal_page_TMP({terminal:terminalToEdit}));
+		 var group = model.getGroup(groupID);
+		 var store = model.getStore(groupID,storeID);
+		 $('body').html(ich.modify_terminal_page_TMP({operationalname: model.get('operationalname'),
+							      _id: model.get("id") ,
+							      group_id:group.group_id,
+							      groupName:group.groupName,
+							      storeName: store.storeName,
+							      store_id:store.store_id,
+							      terminal_id:terminalToEdit.terminal_id,
+							      terminal:terminalToEdit}));
 		 $("#modify-terminal")
 		     .click(function(){
 				var id = $("#terminal-id"),
