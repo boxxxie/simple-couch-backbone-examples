@@ -369,7 +369,7 @@ function newGroupDialogSetup (options) {
  
 
 function quickViewDialog (html,options) {
-    var form = $(html).find('form');
+    var form = $(html).find('fieldset');
     $("#dialog-quickView").html(form);
     $("#dialog-quickView").dialog({
 		       autoOpen: false,

@@ -124,8 +124,9 @@ function addTerminal(model,group,storeName){
 
 function quickView(template,companyID){
     var company = Companies.getModelById(companyID);
-    console.log(ich[template]({company:company}));
-    quickViewDialog(ich[template]({company:company}));
+    var companyJSON = company.toJSON();
+    console.log(ich[template]({company:companyJSON}));
+    quickViewDialog(ich[template]({company:companyJSON}));
 }
 
 function doc_setup(){
