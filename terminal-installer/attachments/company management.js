@@ -439,7 +439,7 @@ function doc_setup(){
 				view.render(companyName,storeName)();});
 	     
 	 },
-	 render:function(companyName,storeName){
+	 render:function(companyID,storeName){
 	     var view = this;
 	     return function(){
 		 var forTMP = {list:_.map(view.model.getTerminals("none",storeName),
