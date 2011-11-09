@@ -20,7 +20,7 @@ var Company = couchDoc.extend(
 	 var oldHierarchy = this.get('hierarchy');
 	 var groups = oldHierarchy.groups;
 	 groups || (groups = []);
-	 var newGroups = groups.concat({name:groupName,group_id:guidGenerator()});
+	 var newGroups = groups.concat(_.extend(group,{name:groupName,group_id:guidGenerator()}));
 	 var newHierarchy = {groups : newGroups};
 	 this.set({hierarchy:newHierarchy});
 	 this.save();

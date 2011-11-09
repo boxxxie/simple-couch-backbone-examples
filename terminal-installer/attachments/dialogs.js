@@ -355,8 +355,8 @@ function newGroupDialogSetup (options) {
  }
  },
  close: function() {
- allFields.val("").removeClass( "ui-state-error" );
- allFields.filter("input:checked").attr("checked",false);
+ groupName.val("").removeClass( "ui-state-error" );
+ //allFields.filter("input:checked").attr("checked",false);
  }
  });
 
