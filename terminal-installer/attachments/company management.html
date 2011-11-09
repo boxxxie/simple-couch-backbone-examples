@@ -64,7 +64,7 @@
 	  <th>Detail</th>
 	</tr>
 	{{#list}}
-	<tr><td><a href="#/company/{{_id}}">{{_id}}</a>
+	<tr><td><a href="#/company/{{_id}}">{{companyName}}</a>
 	  </td><td>{{operationalname}}</td>
 	  <td>{{contact}}</td><td>{{user}}</td><td>{{password}}</td><td>{{creationdate}}</td>
 	  <td>
@@ -85,11 +85,7 @@
 	  <th>Group Name</th>
 	  <th># of Terminals</th>
 	  <th>Creation Date</th>
-	  <th>Detail</th>
-	  <!--<th>Automated Payments</th>
-	  <th>mobQRedits</th>
-	  <th>Detail</th>
-	  -->
+	  <th>Details</th>
 	</tr>
 	{{#list}}
 	<tr><td><a href="#/company/{{_id}}/stores/{{name}}">{{name}}</a><td>{{number}}</td>

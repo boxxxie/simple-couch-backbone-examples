@@ -125,7 +125,7 @@ function newCompanyDialogSetup (options) {
 								       postalcode:postalcode.val()},
 							      operationalname:operationalname.val(),
 							      creationdate:new Date(),					
-							      name:companyName.val()});
+							      companyName:companyName.val()});
 					     
 					     $( this ).dialog( "close" );
 					 } else if(bValid && !unfilledRequiredFields) {
