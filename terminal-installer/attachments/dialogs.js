@@ -389,3 +389,4 @@ function quickViewDialog (html,options) {
 		   });
     $("#dialog-quickView").dialog("open");
 };
+

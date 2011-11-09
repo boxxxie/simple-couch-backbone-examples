@@ -36,20 +36,59 @@
       .validateTips { border: 1px solid transparent; padding: 0.3em; }
     </style>
 
-    <script id="option_TMP" type="text/html">
-      <option value="{{value}}">{{label}}</option>
-    </script>
+   
 
-    <script id="options_TMP1" type="text/html">
-      {{#list}}
-      <option value="{{name}}"
-	      {{#selected}}
-	      selected="true"
-	      {{/selected}}
-	      >{{name}}
-      </option>
-      {{/list}}
-    </script>
+   <script id="companyInputDialog_TMP" type="text/html">
+		<div id="dialog-form" title="Create new Company">
+	<p class="validateTips">All form fields are required.</p>
+	<form>
+	  <fieldset>
+	    <label for="company-name">Company name</label>
+	    <input type="text" name="company name" id="company-name" class="text ui-widget-content ui-corner-all" />
+	    <label for="operationalname">Operational Name</label>
+	    <input type="text" id="operationalname" value="" class="text ui-widget-content ui-corner-all" />
+	    <label for="user">Master User ID</label>
+	    <input type="text" name="user" id="user" class="text ui-widget-content ui-corner-all" />
+	    <label for="password">Master Password</label>
+	    <input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all" />
+	    <dl>
+	      <dt>Address</dt>
+	      <dd>
+		<label for="address.street0">Street 0</label>
+		<input type="text" id="address.street0" class="text ui-widget-content ui-corner-all" />
+		<label for="address.street1">Street 1</label>
+		<input type="text" id="address.street1" class="text ui-widget-content ui-corner-all" />
+		<label for="address.street2">Street 2</label>
+		<input type="text" id="address.street2" class="text ui-widget-content ui-corner-all" />
+		<label for="address.city">City</label>
+		<input type="text" id="address.city" class="text ui-widget-content ui-corner-all" />
+		<label for="address.province">State/Province</label>
+		<input type="text" id="address.province" class="text ui-widget-content ui-corner-all" />
+		<label for="address.country">Country</label>
+		<input type="text" id="address.country" class="text ui-widget-content ui-corner-all" />
+		<label for="address.postalcode">Postal code</label>
+		<input type="text" id="address.postalcode" class="text ui-widget-content ui-corner-all" />
+	      </dd>
+	    </dl>
+	    <dl>
+	      <dt>Contact</dt>
+	      <dd>
+		<label for="contact.firstname">First Name</label>
+		<input type="text" id="contact.firstname" class="text ui-widget-content ui-corner-all" />
+		<label for="contact.lastname">Last Name</label>
+		<input type="text" id="contact.lastname" class="text ui-widget-content ui-corner-all" />
+		<label for="contact.website">Web site</label>
+		<input type="text" id="contact.website" class="text ui-widget-content ui-corner-all" />
+		<label for="contact.email">e-mail</label>
+		<input type="text" id="contact.email" class="text ui-widget-content ui-corner-all" />
+		<label for="contact.phone">phone</label>
+		<input type="text" id="contact.phone" class="text ui-widget-content ui-corner-all" />
+	      </dd>
+	    </dl>
+	  </fieldset>
+	</form>
+      </div>	
+   </script>
     
     <script id="companiesTabel_TMP" type="text/html">
       <table border="1">
@@ -141,56 +180,8 @@
 
     <script id="company_management_page_TMP" type="text/html">
       <h1>Company Management</h1>
-      <div id="dialog-form" title="Create new Company">
-	<p class="validateTips">All form fields are required.</p>
-	<form>
-	  <fieldset>
-	    <label for="company-name">Company name</label>
-	    <input type="text" name="company name" id="company-name" class="text ui-widget-content ui-corner-all" />
-	    <label for="operationalname">Operational Name</label>
-	    <input type="text" id="operationalname" value="" class="text ui-widget-content ui-corner-all" />
-	    <label for="user">Master User ID</label>
-	    <input type="text" name="user" id="user" class="text ui-widget-content ui-corner-all" />
-	    <label for="password">Master Password</label>
-	    <input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all" />
-	    <dl>
-	      <dt>Address</dt>
-	      <dd>
-		<label for="address.street0">Street 0</label>
-		<input type="text" id="address.street0" class="text ui-widget-content ui-corner-all" />
-		<label for="address.street1">Street 1</label>
-		<input type="text" id="address.street1" class="text ui-widget-content ui-corner-all" />
-		<label for="address.street2">Street 2</label>
-		<input type="text" id="address.street2" class="text ui-widget-content ui-corner-all" />
-		<label for="address.city">City</label>
-		<input type="text" id="address.city" class="text ui-widget-content ui-corner-all" />
-		<label for="address.province">State/Province</label>
-		<input type="text" id="address.province" class="text ui-widget-content ui-corner-all" />
-		<label for="address.country">Country</label>
-		<input type="text" id="address.country" class="text ui-widget-content ui-corner-all" />
-		<label for="address.postalcode">Postal code</label>
-		<input type="text" id="address.postalcode" class="text ui-widget-content ui-corner-all" />
-	      </dd>
-	    </dl>
-	    <dl>
-	      <dt>Contact</dt>
-	      <dd>
-		<label for="contact.firstname">First Name</label>
-		<input type="text" id="contact.firstname" class="text ui-widget-content ui-corner-all" />
-		<label for="contact.lastname">Last Name</label>
-		<input type="text" id="contact.lastname" class="text ui-widget-content ui-corner-all" />
-		<label for="contact.website">Web site</label>
-		<input type="text" id="contact.website" class="text ui-widget-content ui-corner-all" />
-		<label for="contact.email">e-mail</label>
-		<input type="text" id="contact.email" class="text ui-widget-content ui-corner-all" />
-		<label for="contact.phone">phone</label>
-		<input type="text" id="contact.phone" class="text ui-widget-content ui-corner-all" />
-	      </dd>
-	    </dl>
-	  </fieldset>
-	</form>
-      </div>
       <div id="companies"></div>
+      <div id="companyCreateDialog"></div>
       <input type="button" id="create-company" value="make a new company" />
       <a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
 	  <span class="ui-button-text">Menu</span>

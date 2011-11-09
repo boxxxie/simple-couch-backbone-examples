@@ -172,6 +172,7 @@ function doc_setup(){
 	     companyManagementHome:function(){
 		 console.log("companyManagementHome");
 		 $('body').html(ich.company_management_page_TMP());
+		 $("#companyCreateDialog").html(ich.companyInputDialog_TMP());
 		 newCompanyDialogSetup(addCompany(Companies));
 
 	     },
