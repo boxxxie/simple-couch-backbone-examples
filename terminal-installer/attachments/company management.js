@@ -43,7 +43,7 @@ var Company = couchDoc.extend(
      },
      addTerminal: function(groupID,storeID,terminalToAdd){
 	 // var oldHierarchy = this.get('hierarchy');
-	 var storeToAddTo = getStore(groupID,storeID);
+	 var storeToAddTo = this.getStore(groupID,storeID);
 	 var storeTerminals = storeToAddTo.terminals;
 	 storeTerminals || (storeTerminals = []);
 	 if(!_(storeTerminals).chain().pluck('terminal_id').contains(terminalToAdd.terminal_id).value()) {
@@ -452,7 +452,7 @@ function doc_setup(){
 		 var forTMP = {list:_.map(view.model.getTerminals(groupID,storeID),
 					  function(terminal){
 					      var clonedTerminal = _.clone(terminal);
-					      return _.extend(clonedTerminal,{_id:companyName,storeName:storeName});})};
+					      return _.extend(clonedTerminal,{_id:companyID, group_id:groupID, store_id:storeID});})};
 		 var html = ich.terminalsTabel_TMP(forTMP);
 		 $(view.el).html(html);
 		 console.log("terminals view rendered");
