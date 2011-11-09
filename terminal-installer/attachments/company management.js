@@ -233,8 +233,10 @@ function doc_setup(){
 		 var model = Companies.getModelByName(companyID);
 		 var groupToEdit = model.getGroup(groupID);
 		 var originalGroupID = groupID;
-		 $('body').html(ich.modify_group_page_TMP({company: {operationalname: model.get('operationalname'),
-								     _id: model.get("id")} ,
+		 $('body').html(ich.modify_group_page_TMP({operationalname: model.get('operationalname'),
+							   _id: model.get("id"),
+							   group_id:groupToEdit.group_id,
+							   groupName:groupToEdit.groupName,
 							   group:groupToEdit}));
 		 $("#modify-group")
 		     .click(function(){
@@ -251,16 +253,23 @@ function doc_setup(){
 		 var modelObj = model.toJSON();
 		 var stores = model.getStores(groupID);
 		 var stores_w_ids = _.map(stores,function(store){return _.extend(store,{_id:modelObj._id});});
-		 $('body').html(ich.store_management_page_TMP({list:stores_w_ids}));
+		 $('body').html(ich.store_management_page_TMP({operationalname:model.get('operationalname'),
+							       _id:model.get('_id'),
+							       groupName:model.getGroup(groupID).groupName}));
 		 newStoreDialogSetup(addStore(model,groupID));
 	     },
 	     
 	     modifyStore:function(companyID, groupID, storeID){
 		 console.log("modifyStore: " + companyID + " " + groupID + " " + storeID);
 		 var model = Companies.getModelById(companyID);
+		 var group = model.getGroup(groupID);
 		 var storeToEdit = model.getStore(groupID,storeID);
-		 //var originalStoreName = storeName;
-		 $('body').html(ich.modify_store_page_TMP({store:storeToEdit}));
+		 $('body').html(ich.modify_group_page_TMP({operationalname: model.get('operationalname'),
+							   _id: model.get("id") ,
+							   group_id:group.group_id,
+							   groupName:group.groupName,
+							   storeName: storeToEdit.storeName,
+							   store: storeToEdit}));
 		 $("#modify-store")
 		     .click(function(){
 				var user = $("#user"),

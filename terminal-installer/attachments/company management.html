@@ -222,9 +222,7 @@
 
     <script id="store_management_page_TMP" type="text/html">
       <h1>Stores Management</h1>
-      {{#company}}
-      <h2>{{operationalname}} - {{#group}}{{groupName}}{/group}}</h2>
-      {{/company}}
+      <h2>{{operationalname}} - {{groupName}}</h2>
       <div id="dialog-form" title="Create new Store">
 	<p class="validateTips">All form fields are required.</p>
 	<form>
@@ -281,8 +279,7 @@
       </button></a>
       <a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
 	  <span class="ui-button-text">Menus</span>
-      </button></a>
-      
+      </button></a>  
     </script>
 
     <script id="terminal_management_page_TMP" type="text/html">
@@ -395,19 +392,17 @@
       <script id="modify_group_page_TMP" type="text/html">
 	<table border="1">
 	  <h1>Modify Group</h1>
-	  {{#company}}
-	  <h2>{{operationalname}} - {{#group}}{{groupName}}{{/group}}</h2>
-	  {{/company}}
+	  <h2>{{operationalname}} - {{groupName}}</h2>
 	  <div>
 	    <form>
 	      <fieldset>
 		<label for="group-name">Group Name</label>
-		<input type="text" id="group-name" value="{{#group}}{{groupName}}{{/group}}" class="text ui-widget-content ui-corner-all"/>
+		<input type="text" id="group-name" value="{{groupName}}" class="text ui-widget-content ui-corner-all"/>
 	      </fieldset>
 	    </form>
 	  </div>
 	  <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="modify-group" value="Edit" />
-	  <a href="#/company/{{#company}}{{_id}}{{/company}}/groups/{{#group}}{{group_id}}{{/group}}/stores"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	  <a href="#/company/{{_id}}/groups/{{group_id}}/stores"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
 	      <span class="ui-button-text">Store Manager</span>
 	  </button></a>
 	  <a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
@@ -423,14 +418,19 @@
       <script id="modify_store_page_TMP" type="text/html">
 	<table border="1">
 	  <h1>Modify Store</h1>
+	  <h2>{{operationalname}} - {{groupName}} - {{storeName}}</h2>
 	  <div>
 	    <form>
 	      <fieldset>
 		{{#store}}
 		<label for="store-name">Store Name</label>
-		<input type="text" id="store-name" value="{{name}}" class="text ui-widget-content ui-corner-all" disabled="true" />
+		<input type="text" id="store-name" value="{{storeName}}" class="text ui-widget-content ui-corner-all" disabled="true" />
 		<label for="store-num">Store Number</label>
 		<input type="text" id="store-num" value="{{number}}" class="text ui-widget-content ui-corner-all" />
+		<label for="user">Master User ID</label>
+		<input type="text" name="user" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" />
+		<label for="password">Master Password</label>
+		<input type="password" name="password" id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
 		<dl>
 		  <dt>Address</dt>
 		  <dd>
@@ -470,10 +470,7 @@
 		    {{/contact}}
 		  </dd>
 		</dl>
-		<label for="user">Master User ID</label>
-		<input type="text" name="user" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" />
-		<label for="password">Master Password</label>
-		<input type="password" name="password" id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
+
 	      </fieldset>
 	    </form>
 	  </div>
