@@ -369,6 +369,9 @@ function newGroupDialogSetup (options) {
 
 function quickViewDialog (html,options) {
     var form = $(html).find('fieldset');
+//    form.find('input:text').attr("disabled",true);
+//    form.find('input:checkbox').attr("disabled",true);	
+    	
     $("#dialog-quickView").html(form);
     $("#dialog-quickView").dialog({
 		       autoOpen: false,
