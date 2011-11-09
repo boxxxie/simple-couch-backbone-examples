@@ -328,16 +328,17 @@ function doc_setup(){
 		 console.log("modifyterminal: " + companyID + " " + groupID + " " + storeID + " " + terminalID);
 		 var model = Companies.getModelById(companyID);
 		 var terminalToEdit = model.getTerminal(groupID,storeID,terminalID);
-		 var originalTerminalName = terminalName;
+		 //var originalTerminalName = terminalName;
 		 $('body').html(ich.modify_terminal_page_TMP({terminal:terminalToEdit}));
 		 $("#modify-terminal")
 		     .click(function(){
 				var id = $("#terminal-id"),
-				mobilePayment = $("#mobile-payment"),
-				debitPayment = $("#debit-payment"),
-				creditPayment = $("#credit-payment"),
-				bonusCodes = $("#bonus-codes"),
-				convertPercentage = $("#convert-percentage");
+				areaCode = $("#areaCode"),
+				postalCode = $("#postalCode"),
+				countryCode = $("#countryCode"),
+				cityCode = $("#cityCode"),
+				storeCode = $("#storeCode"),
+				companyCode = $("#companyCode");
 				var userBonusCodes;
 				(bonusCodes.val())?userBonusCodes = _.flatten(bonusCodes.val().split(',')):userBonusCodes = null;
 				var terminalChanges = {id:id.val(),
