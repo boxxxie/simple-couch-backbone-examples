@@ -284,6 +284,7 @@
 
     <script id="terminal_management_page_TMP" type="text/html">
       <h1>Terminals Management</h1>
+      <h2>{{operationalname}} - {{groupName}} - {{storeName}}</h2>
       <div id="dialog-form" title="Create new Terminal">
 	<p class="validateTips">All form fields are required.</p>
 	<form>
@@ -475,7 +476,7 @@
 	    </form>
 	  </div>
 	  <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="modify-store" value="Edit" />
-	  <a href="#/company/{{_id}}/stores/{{name}}/terminals"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	  <a href="#/company/{{_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
 		   <span class="ui-button-text">Terminal Manager</span>
 		   </button></a>
 	   <a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">

@@ -264,11 +264,12 @@ function doc_setup(){
 		 var model = Companies.getModelById(companyID);
 		 var group = model.getGroup(groupID);
 		 var storeToEdit = model.getStore(groupID,storeID);
-		 $('body').html(ich.modify_group_page_TMP({operationalname: model.get('operationalname'),
+		 $('body').html(ich.modify_store_page_TMP({operationalname: model.get('operationalname'),
 							   _id: model.get("id") ,
 							   group_id:group.group_id,
 							   groupName:group.groupName,
 							   storeName: storeToEdit.storeName,
+							   store_id:storeToEdit.store_id,
 							   store: storeToEdit}));
 		 $("#modify-store")
 		     .click(function(){
@@ -316,9 +317,11 @@ function doc_setup(){
 		 var modelObj = model.toJSON();
 		 var store = model.getStore(groupID,storeID);
 		 var terminals = store.terminals;
-		 // FIXME: is this right? terminals_w_ids
-		 var terminals_w_ids = _.map(store,function(store){return _.extend(store,{_id:companyID,storeName:storeName});});
-		 $('body').html(ich.terminal_management_page_TMP({lists:terminals_w_ids}));
+		 $('body').html(ich.terminal_management_page_TMP({operationalname:model.get('operationalname'),
+							       _id:model.get('_id'),
+							       groupName:model.getGroup(groupID).groupName,
+							       storeName:store.storeName}));
+
 		 newTerminalDialogSetup(addTerminal(model,groupID,storeID));
 	     },
 	     modifyterminal:function(companyID, groupID, storeID,terminalID){
