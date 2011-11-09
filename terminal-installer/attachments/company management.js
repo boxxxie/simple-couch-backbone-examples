@@ -431,21 +431,21 @@ function doc_setup(){
 	{initialize:function(){
 	     var view = this;
 	     _.bindAll(view, 'render'); 
-	     AppRouter.bind('route:terminalsManager',function(companyName,storeName){
+	     AppRouter.bind('route:terminalsManager',function(companyID, groupID, storeID){
 				console.log('terminalsView:route:terminalsManager');
-				view.model = Companies.getModelByName(companyName);
-				view.model.bind('add:terminal',view.render(companyName,storeName));
+				view.model = Companies.getModelById(companyID);
+				view.model.bind('add:terminal',view.render(companyID,groupID,storeID));
 				view.el =_.first($("#terminals"));
 				view.render(companyName,storeName)();});
 	     
 	 },
-	 render:function(companyID,storeName){
+	 render:function(companyID, groupID, storeID){
 	     var view = this;
 	     return function(){
-		 var forTMP = {list:_.map(view.model.getTerminals("none",storeName),
+		 var forTMP = {list:_.map(view.model.getTerminals(groupID,storeID),
 					  function(terminal){
 					      var clonedTerminal = _.clone(terminal);
-					      return _.extend(clonedTerminal,{_id:companyName,storeName:storeName});})};
+					      return _.extend(clonedTerminal,{_id:companyID, group_id:groupID, store_id:storeID});})};
 		 var html = ich.terminalsTabel_TMP(forTMP);
 		 $(view.el).html(html);
 		 console.log("terminals view rendered");
