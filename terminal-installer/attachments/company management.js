@@ -12,91 +12,90 @@ var Company = couchDoc.extend(
     {defaults: function() {
 	 return {
 	     _id:"unknown",
-	     hierarchy:{groups:[{name:"none"}]},
-	     //creationdate : new Date()
+	     hierarchy:{groups:[{groupName:"none",
+				 group_id:guidGenerator()}]}
 	 };
      },
-     addGroup: function(groupToAdd){
+     addGroup: function(groupName){
 	 var oldHierarchy = this.get('hierarchy');
 	 var groups = oldHierarchy.groups;
 	 groups || (groups = []);
-	 //the below code may not work (in the if statement)
-	 if(!_(groups).chain().pluck('name').contains(groupToAdd).value()){
-	     var newGroups = groups.concat({name:groupToAdd});
-	     var newHierarchy = {groups : newGroups};
-	     this.set({hierarchy:newHierarchy});
-	     this.save();
-	     this.trigger("add:group"); //triggers go last
-	 }
+	 var newGroups = groups.concat({name:groupName,group_id:guidGenerator()});
+	 var newHierarchy = {groups : newGroups};
+	 this.set({hierarchy:newHierarchy});
+	 this.save();
+	 this.trigger("add:group"); //triggers go last
+
      },
-     addStore: function(groupName,store){
-	 var oldHierarchy = this.get('hierarchy');
-	 var groups = oldHierarchy.groups;
-	 if(!groups) return;
-	 if(!_(groups).chain().pluck('name').contains(groupName)){}
-	 var groupToAddTo = _.find(groups, function(group){return group.name == groupName;});
+     addStore: function(groupID,storeToAdd){
+	// var oldHierarchy = this.get('hierarchy');
+	 var groupToAddTo = getGroup(groupID);
 	 var stores = groupToAddTo.stores;
 	 stores || (stores = []);
 	 //this is supposed to check if we are adding a dup store number to this group of stores
-	 if(!_(stores).chain().pluck('number').contains(store.number).value()) {
-		 var newStores = stores.concat(store);
+	 if(!_(stores).chain().pluck('number').contains(storeToAdd.number).value()) {
+		 var newStores = stores.concat(_.extend(store,{store_id:guidGenerator()}));
 		 groupToAddTo.stores = newStores;
-		 this.set({hierarchy:oldHierarchy}); //assuming that this was changed in place...
+		// this.set({hierarchy:oldHierarchy}); //assuming that this was changed in place...
 		 this.save();
 		 this.trigger("add:store"); //triggers go last
 	 } else {
 	 	alert("The store you tried to add had the same number as one already in this group, please choose a different store number");
 	 }
      },
-     addTerminal: function(groupName,storeName,terminal){
-	 var oldHierarchy = this.get('hierarchy');
-	 var groups = oldHierarchy.groups;
-	 if(!groups) return;
-	 if(!_(groups).chain().pluck('name').contains(groupName)){}
-	 var groupToAddTo = _.find(groups, function(group){return group.name == groupName;});
-	 var stores = groupToAddTo.stores;
-	 stores || (stores = []);
-	 var storeToAddTo = _.find(stores, function(store){return store.name == storeName;});
-	 var terminals = storeToAddTo.terminals;
-	 terminals || (terminals = []);
-	 if(!_(terminals).chain().pluck('id').contains(terminal.id).value()) {
-		 var newTerminals = terminals.concat(terminal);
+     addTerminal: function(groupID,storeID,terminalToAdd){
+	// var oldHierarchy = this.get('hierarchy');
+	 var storeToAddTo = getStore(groupID,storeID);
+	 var storeTerminals = storeToAddTo.terminals;
+	 storeTerminals || (storeTerminals = []);
+	 if(!_(storeTerminals).chain().pluck('terminal_id').contains(terminalToAdd.terminal_id).value()) {
+		 var newTerminals = storeTerminals.concat(terminalToAdd);
 		 storeToAddTo.terminals = newTerminals;
-		 this.set({hierarchy:oldHierarchy}); //assuming that this was changed in place...
+		// this.set({hierarchy:oldHierarchy}); //assuming that this was changed in place...
 		 this.save();
 		 this.trigger("add:terminal"); //triggers go last
 	 } else {
-	 	alert("The terminal you tried to add had the same name as one already in the database, please choose a different name");
+	 	alert("The terminal you tried to add had the same ID as one already in this store, please choose a different ID");
 	 }
      },
      getGroups:function(){
 	 return this.get('hierarchy').groups;
      },
-     getStores:function(groupName){
+     getGroup:function(groupID){
+	 return _.find(hierarchy.groups,function(group){ return group.group_id == groupID;});
+     },
+     getStores:function(groupID){
 	 var hierarchy =  this.get('hierarchy');
-	 var foundGroup = _.find(hierarchy.groups,function(group){ return group.name == groupName;});
+	 var foundGroup = _.find(hierarchy.groups,function(group){ return group.group_id == groupID;});
 	 return foundGroup.stores;
      },
-     getTerminals:function(groupName,storeName){
+     getStore:function(groupID,storeID){
+     	 var stores = this.getStores(groupID);
+	 return _.find(stores,function(store){return store.store_id == storeID;});
+     },
+     getTerminals:function(groupID,storeID){
 	 var hierarchy =  this.get('hierarchy');
-	 var foundGroup = _.find(hierarchy.groups,function(group){return group.name == groupName;});
-	 var foundStore = _.find(foundGroup.stores,function(store){return store.name == storeName;});
+	 var foundGroup = _.find(hierarchy.groups,function(group){return group.group_id == groupID;});
+	 var foundStore = _.find(foundGroup.stores,function(store){return store.store_id == storeID;});
 	 return foundStore.terminals;
      },
-     getTerminal:function(groupName,storeName,terminalID){
-	 var terminals = this.getTerminals(groupName,storeName);
-	 return _.find(terminals,function(terminal){return terminal.id == terminalID;});	 
-     },
-     getStore:function(groupName,storeName){
-     	 var stores = this.getStores(groupName);
-	 return _.find(stores,function(store){return store.name == storeName;});
+     getTerminal:function(groupID,storeID,terminalID){
+	 var terminals = this.getTerminals(groupID,storeID);
+	 return _.find(terminals,function(terminal){return terminal.terminal_id == terminalID;});	 
      }
+
     });
 
 
 function addCompany(collection){
     return {success: function(resp){
 		collection.create(resp);
+	    }
+	   };
+};
+function addGroup(model){
+    return {success: function(resp){
+			model.addGroup(resp);
 	    }
 	   };
 };
