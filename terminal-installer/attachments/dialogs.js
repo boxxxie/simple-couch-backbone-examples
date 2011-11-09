@@ -327,32 +327,14 @@ function newTerminalDialogSetup (options) {
 	       });
 };
 
-/*
- function CompanyViewDialogSetup (options) {
+
+function newGroupDialogSetup (options) {
  // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
  $( "#dialog:ui-dialog" ).dialog( "destroy" );
  _.extend(this,DialogValidator());
 
- var user = $("#user"),
- password = $("#password"),
- companyName = $("#company-name"),
- //contact = $("#contact"),
- firstname = $("#contact\\.firstname"),
- lastname = $("#contact\\.lastname"),
- website = $("#contact\\.website"),
- email = $("#contact\\.email"),
- phone = $("#contact\\.phone"),
- street0 = $("#address\\.street0"),
- street1 = $("#address\\.street1"),
- street2 = $("#address\\.street2"),
- city = $("#address\\.city"),
- province = $("#address\\.province"),
- country = $("#address\\.country"),
- postalcode = $("#address\\.postalcode"),
- operationalname = $("#operationalname");
- //creationdate = new Date(),
- 
- 
+ var groupName = $("#group-name");
+  
  
  $("#dialog-form").dialog({
  autoOpen: false,
@@ -360,25 +342,11 @@ function newTerminalDialogSetup (options) {
  width: 500,
  modal: true,
  buttons: {
- "Create the Company": function() {
- options.success({user:user.val(),
- password:password.val(),
- //contact:contact.val(),
- contact:{firstname : firstname.val(),
- lastname : lastname.val(),
- website : website.val(),
- email : email.val(),
- phone : phone.val()},
- address:{street0:street0.val(),
- street1:street1.val(),
- street2:street2.val(),
- city:city.val(),
- country:country.val(),
- province:province.val(),
- postalcode:postalcode.val()},
- operationalname:operationalname.val(),
- creationdate:new Date(),					
- _id:companyName.val()});
+ "Create the Group": function() {
+ options.success({
+	 groupName:groupName.val(),
+	 creationdate:new Date()}					
+ );
  
  $( this ).dialog( "close" );
  },		
@@ -392,10 +360,10 @@ function newTerminalDialogSetup (options) {
  }
  });
 
- $( "#create-company" )
+ $( "#create-group" )
  .button()
  .click(function() {
  $( "#dialog-form" ).dialog( "open" );
  });
  };
- */
+ 

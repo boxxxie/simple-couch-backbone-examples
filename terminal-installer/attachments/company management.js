@@ -223,7 +223,7 @@ function doc_setup(){
 		 var groups = model.getGroups();
 		 var groups_w_ids = _.map(groups,function(group){return _.extend(group,{_id:modelObj._id});});
 		 $('body').html(ich.group_management_page_TMP());
-		 newStoreDialogSetup(addGroup(model));
+		 newGroupDialogSetup(addGroup(model));
 	     },
 	     storesManager:function(name){
 		 console.log("storesManager: " + name);
