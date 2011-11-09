@@ -367,3 +367,23 @@ function newGroupDialogSetup (options) {
 	       });
 };
  
+
+function quickViewDialog (html,options) {
+    var form = $(html).find('form');
+    $("#dialog-quickView").html(form);
+    $("#dialog-quickView").dialog({
+		       autoOpen: false,
+		       height: 400,
+		       width: 500,
+		       modal: true,
+		       buttons: {
+			   Cancel: function() {
+			       $("#dialog-quickView").dialog('destroy');
+			   }
+		       },
+		       close: function() {
+			   $("#dialog-quickView").dialog('destroy');
+		       }
+		   });
+    $("#dialog-quickView").dialog("open");
+};
