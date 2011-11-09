@@ -28,13 +28,12 @@ var Company = couchDoc.extend(
 
      },
      addStore: function(groupID,storeToAdd){
-	 // var oldHierarchy = this.get('hierarchy');
-	 var groupToAddTo = getGroup(groupID);
+	 var groupToAddTo = this.getGroup(groupID);
 	 var stores = groupToAddTo.stores;
 	 stores || (stores = []);
 	 //this is supposed to check if we are adding a dup store number to this group of stores
 	 if(!_(stores).chain().pluck('number').contains(storeToAdd.number).value()) {
-	     var newStores = stores.concat(_.extend(store,{store_id:guidGenerator()}));
+	     var newStores = stores.concat(_.extend(storeToAdd,{store_id:guidGenerator()}));
 	     groupToAddTo.stores = newStores;
 	     // this.set({hierarchy:oldHierarchy}); //assuming that this was changed in place...
 	     this.save();
