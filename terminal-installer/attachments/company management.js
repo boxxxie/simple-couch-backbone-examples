@@ -158,11 +158,11 @@ function doc_setup(){
 		 "":"companyManagementHome",
 		 "company/:_id": "modifyCompany", 
 		 "company/:_id/groups": "groupsManager" ,
-		 "company/:companyName/groups/:groupsName": "modifyGroup",
-		 "company/:companyName/groups/:groupsName/stores": "storesManager" ,
-		 "company/:companyName/groups/:groupsName/stores/:storeName": "modifyStore",
-		 "company/:companyName/groups/:groupsName/stores/:storeName/terminals": "terminalsManager",
-		 "company/:companyName/groups/:groupsName/stores/:storeName/terminals/:terminalID": "modifyterminal"	 
+		 "company/:_id/groups/:group_id": "modifyGroup",
+		 "company/:_id/groups/:group_id/stores": "storesManager" ,
+		 "company/:_id/groups/:group_id/stores/:storeName": "modifyStore",
+		 "company/:_id/groups/:group_id/stores/:storeName/terminals": "terminalsManager",
+		 "company/:_id/groups/:group_id/stores/:storeName/terminals/:terminalID": "modifyterminal"	 
 	     },
 	     companyManagementHome:function(){
 		 console.log("companyManagementHome");
@@ -226,6 +226,7 @@ function doc_setup(){
 		 $('body').html(ich.group_management_page_TMP());
 		 newGroupDialogSetup(addGroup(model));
 	     },
+	     
 	     storesManager:function(name){
 		 console.log("storesManager: " + name);
 		 var model = Companies.getModelByName(name);
