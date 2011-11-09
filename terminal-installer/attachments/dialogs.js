@@ -260,6 +260,13 @@ function newTerminalDialogSetup (options) {
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
     _.extend(this,DialogValidator());
     var id = $("#terminal-id"),
+    areaCode = $("#areaCode"),
+    postalCode = $("#postalCode"),
+    countryCode = $("#countryCode"),
+    cityCode = $("#cityCode"),
+    storeCode = $("#storeCode"),
+    companyCode = $("#companyCode"),
+    
     requiredFields = $([])
 	.add(id),
 

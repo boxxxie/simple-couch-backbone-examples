@@ -44,7 +44,7 @@ var Company = couchDoc.extend(
      },
      addTerminal: function(groupID,storeID,terminalToAdd){
 	 // var oldHierarchy = this.get('hierarchy');
-	 var storeToAddTo = getStore(groupID,storeID);
+	 var storeToAddTo = this.getStore(groupID,storeID);
 	 var storeTerminals = storeToAddTo.terminals;
 	 storeTerminals || (storeTerminals = []);
 	 if(!_(storeTerminals).chain().pluck('terminal_id').contains(terminalToAdd.terminal_id).value()) {
@@ -448,7 +448,7 @@ function doc_setup(){
 				view.model = Companies.getModelById(companyID);
 				view.model.bind('add:terminal',view.render(companyID,groupID,storeID));
 				view.el =_.first($("#terminals"));
-				view.render(companyName,storeName)();});
+				view.render(companyID, groupID, storeID)();});
 	     
 	 },
 	 render:function(companyID, groupID, storeID){
