@@ -65,7 +65,7 @@ var Company = couchDoc.extend(
      },
      getStores:function(groupID){
 	 var groups =  this.get('hierarchy').groups;
-	 var foundGroup = _.filter(groups,function(group){ return group.group_id == groupID;});
+	 var foundGroup = this.getGroup(groupID); //_.filter(groups,function(group){ return group.group_id == groupID;});
 	 return foundGroup.stores;
      },
      getStore:function(groupID,storeID){
@@ -414,8 +414,8 @@ function doc_setup(){
 	     return function(){
 		 var forTMP = {list:_.map(view.model.getStores(groupID),
 					  function(store){
-					      var groupClone = _.clone(store);
-					      return _.extend(groupClone,{_id:companyID},view.model.companyStats(groupID,store.store_id));
+					      var storeClone = _.clone(store);
+					      return _.extend(storeClone,{_id:companyID},view.model.companyStats(groupID,store.store_id));
 					  })};
 		 var html = ich.storesTabel_TMP(forTMP);
 		 $(view.el).html(html);
