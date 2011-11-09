@@ -152,20 +152,7 @@ function newStoreDialogSetup (options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
     _.extend(this,DialogValidator());
-    
-    /*
-     var user = $("#user"),
-     password = $("#password"),
-     storeName = $("#store-name"),
-     storeNum = $("#store-num"),
-     contact = $("#contact"),
-     street = $("#address\\.street"),
-     city = $("#address\\.city"),
-     province = $("#address\\.province"),
-     country = $("#address\\.country"),
-     mobQRedits = $("#mobQRedits"),
-     autoPayment = $("#automated-payment"),
-     */
+ 
     var user = $("#user"),
     password = $("#password"),
     storeName = $("#store-name"),
@@ -183,34 +170,17 @@ function newStoreDialogSetup (options) {
     province = $("#address\\.province"),
     country = $("#address\\.country"),
     postalcode = $("#address\\.postalcode"),
-    //operationalname = $("#operationalname"),
-
+ 
     requiredFields = $([])
-	.add(user)
 	.add(storeName)
 	.add(storeNum)
-    //.add(contact)
-	.add(firstname)
-	.add(lastname)
-	.add(website)
-	.add(email)
-	.add(phone)
-	.add(street0)
-	.add(street1)
-	.add(street2)
-    //.add(street)
-	.add(city)
-	.add(province)
-	.add(country)
-	.add(postalcode)
-    //.add(operationalname)
-	.add(password),
+	.add(user)
+ 	.add(password),
     
     allFields = $([])
 	.add(user)
 	.add(storeName)
 	.add(storeNum)
-    //.add(contact)
 	.add(firstname)
 	.add(lastname)
 	.add(website)
@@ -219,12 +189,10 @@ function newStoreDialogSetup (options) {
 	.add(street0)
 	.add(street1)
 	.add(street2)
-    //.add(street)
-	.add(city)
+ 	.add(city)
 	.add(province)
 	.add(country)
 	.add(postalcode)
-    //.add(operationalname)
 	.add(password);
     
     var tips = $( ".validateTips" );
@@ -242,6 +210,7 @@ function newStoreDialogSetup (options) {
 					 requiredFields.removeClass( "ui-state-error" );
 					 bValid = bValid && checkLength( user, "The Master User ID", 1, 8, updateTips(tips) );
 					 bValid = bValid && checkLength( password, "The Master User Password", 1, 8 ,updateTips(tips));
+					 bValid = bValid && checkRegexp( storeNum, /^([0-9])+$/i, "The Store Number may consist of Digits only.", updateTips(tips));
 					 /*		 
 					  bValid = bValid && checkLength( storeName, "The Store Name", 3, 64, updateTips(tips) );
 					  bValid = bValid && checkRegexp( storeName, /^[a-z]([0-9a-z_])+$/i, "The Store Name may consist of a-z, 0-9, underscores, begin with a letter.", updateTips(tips));
@@ -253,22 +222,8 @@ function newStoreDialogSetup (options) {
 					  */		 
 					 if ( bValid && unfilledRequiredFields) {
 					     options.success({
-					     			 /*
-					     			  user:user.val(),
-								  password:password.val(),
-								  contact:contact.val(),
-								  address : {street:street.val(),
-								  city:city.val(),
-								  country:country.val(),
-								  province:province.val()},
-								  mobQRedits:mobQRedits.is(":checked"),
-								  autoPayment:autoPayment.is(":checked"),
-								  name:storeName.val(),
-								  number:storeNum.val()
-								  */
 							 	 user:user.val(),
 								 password:password.val(),
-								 //contact:contact.val(),
 								 contact:{firstname : firstname.val(),
 									  lastname : lastname.val(),
 									  website : website.val(),
@@ -281,11 +236,9 @@ function newStoreDialogSetup (options) {
 									  country:country.val(),
 									  province:province.val(),
 									  postalcode:postalcode.val()},
-								 //operationalname:operationalname.val(),
 								 creationdate:new Date(),
 								 name:storeName.val(),
-								 number:storeNum.val(),					
-								 _id:guidGenerator()    
+								 number:storeNum.val()   
 							     });
 					     $( this ).dialog( "close" );
 					 }else if(bValid && !unfilledRequiredFields) {
@@ -313,23 +266,18 @@ function newTerminalDialogSetup (options) {
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
     _.extend(this,DialogValidator());
     var id = $("#terminal-id"),
-    /*mobilePayment = $("#mobile-payment"),
-     debitPayment = $("#debit-payment"),
-     creditPayment = $("#credit-payment"),
-     bonusCodes = $("#bonus-codes"),
-     convertPercentage = $("#convert-percentage"),
-     */
     requiredFields = $([])
 	.add(id),
 
     allFields = $([])
-	.add(id);
-    /*.add(mobilePayment)
-     .add(debitPayment)
-     .add(creditPayment)
-     .add(bonusCodes)
-     .add(convertPercentage);
-     */
+	.add(id)
+	.add(areaCode)
+	.add(postalCode)
+	.add(countryCode)
+	.add(cityCode)
+	.add(storeCode)
+	.add(companyCode);
+
     var tips = $( ".validateTips" );
 
     $("#dialog-form").dialog({
@@ -342,31 +290,21 @@ function newTerminalDialogSetup (options) {
 					 var bValid = true;
 					 var unfilledRequiredFields=checkRequiredFields(requiredFields);
 					 requiredFields.removeClass( "ui-state-error" );
-					 /*
-					  bValid = bValid && checkRegexp( id, /^([0-9a-zA-Z]?[0-9a-zA-Z_]+)$/i, 
-					  "The Terminal ID can only consist of digits letters and underscores, and can not start with an underscore", 
-					  updateTips(tips));
-					  bValid = bValid && checkRegexp( bonusCodes, /^(([0-9a-zA-Z][0-9a-zA-Z_]*)([,][0-9a-zA-Z][0-9a-zA-Z_]*)*)$/i,
-					  "MobQRedits Bonus Codes need to be in the form of 'code,code,code' and can not start with an underscore", 
-					  updateTips(tips));
-					  bValid = bValid && checkRegexp( convertPercentage, /^(\.[0-9]+)$/i, "MobQRedits Conversion Percentage need to be in the form of '.###'", updateTips(tips));
-					  */
+
 					 if ( bValid && unfilledRequiredFields) {
-					     //var userBonusCodes;
-					     //(bonusCodes.val())?userBonusCodes = _.unique(bonusCodes.val().split(',')):userBonusCodes = null;
+
 					     options.success(
 						 {
-						     _id:guidGenerator(),
-						     id:id.val(),
+						     terminal_id:id.val(),
 						     creationdate:new Date(),
-						     installed:false
-						     //mobilePayment:mobilePayment.is(":checked"),
-						     //debitPayment:debitPayment.is(":checked"),
-						     //creditPayment: creditPayment.is(":checked"),
-						     //mobQRedits : {bonusCodes:userBonusCodes,
-						     //	convertPercentage:convertPercentage.val()}
+						     installed:false,
+						     areaCode:areaCode.val(),
+						     postalCode:postalCode.val(),
+						     countryCode:countryCode.val(),
+						     cityCode:cityCode.val(),
+						     storeCode:storeCode.val(),
+						     companyCode:companyCode.val()
 						 });
-					     
 					     $( this ).dialog( "close" );
 					 } else if(bValid && !unfilledRequiredFields) {
 					     handleMissingFields(requiredFields,updateTips(tips));
