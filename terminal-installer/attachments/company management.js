@@ -84,7 +84,7 @@ var Company = couchDoc.extend(
 	 return _.find(terminals,function(terminal){return terminal.terminal_id == terminalID;});	 
      },
      companyStats:function(){
-	 return {group_num:getGroups().count};	 
+	 return {group_num:_.size(this.get('hierarchy').groups)};	 
      }
 
     });
@@ -315,8 +315,8 @@ function doc_setup(){
 	 },
 	 render:function(){
 	     var view = this;
-	     var forTMP = {list:this.collection.toJSON()};
-	     var forTMP_w_stats = _.map(forTMP,function(model){return _.extend(model,view.collection.get(model._id).companyStats());});
+	     var forTMP = this.collection.toJSON();
+	     var forTMP_w_stats = {list:_.map(forTMP,function(model){return _.extend(model,view.collection.get(model._id).companyStats());})};
 	     var html = ich.companiesTabel_TMP(forTMP_w_stats);
 	     $(this.el).html(html);
 	     console.log("companies view rendered");
