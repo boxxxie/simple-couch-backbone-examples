@@ -153,11 +153,17 @@ function doc_setup(){
 	 {
 	     routes: {
 		 "":"companyManagementHome",
-		 "company/:_id": "modifyCompany", 
-		 "company/:_id/stores": "storesManager" ,
-		 "company/:companyName/stores/:storeName": "modifyStore",
-		 "company/:companyName/stores/:storeName/terminals": "terminalsManager",
-		 "company/:companyName/stores/:storeName/terminals/:terminalID": "modifyterminal"	 
+		 "company/:_id": "modifyCompany",
+		 "company/:_id/groups": "groupsManager",
+		 "company/:_id/groups/:groupID": "modifyGroup",
+		 "company/:_id/groups/:groupID/stores" : "storesManager", 
+		 "company/:_id/groups/:groupID/stores/:stroreID" : "modifyStore",
+		 "company/:_id/groups/:groupID/stores/:stroreID/terminals" : "terminalsManager",
+		 "company/:_id/groups/:groupID/stores/:stroreID/terminals/:terminalID" : "modifyterminal"
+		 //"company/:_id/stores": "storesManager" ,
+		 //"company/:companyName/stores/:storeName": "modifyStore",
+		 //"company/:companyName/stores/:storeName/terminals": "terminalsManager",
+		 //"company/:companyName/stores/:storeName/terminals/:terminalID": "modifyterminal"	 
 	     },
 	     companyManagementHome:function(){
 		 console.log("companyManagementHome");
@@ -212,6 +218,15 @@ function doc_setup(){
 				model.save({success:function(){alert("saved!");}}); //FIXME:allert isn't being invoked
 			    }
 			   );
+	     },
+	     groupsManager:function(id) {
+	     console.log("groupsManager: " + id);
+		 var model = Companies.getModelById(id);
+		 var modelObj = model.toJSON();
+		 var groups = model.getGroups();
+		 //var gruops_w_ids = _.map(groups,function(group){return _.extend(group,{id:modelObj._id});});
+		 //$('body').html(ich.group_management_page_TMP({list:groups_w_ids}));
+		 //newStoreDialogSetup(addStore(model,'none'));	
 	     },
 	     storesManager:function(name){
 		 console.log("storesManager: " + name);
