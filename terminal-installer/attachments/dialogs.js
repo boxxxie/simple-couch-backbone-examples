@@ -366,4 +366,3 @@ function newGroupDialogSetup (options) {
 		   $( "#dialog-form" ).dialog( "open" );
 	       });
 };
- 

@@ -121,6 +121,7 @@ function addTerminal(model,group,storeName){
 	   };
 };
 
+
 function doc_setup(){
     var Companies;
     var companiesView;
@@ -488,4 +489,5 @@ function doc_setup(){
 	});
 
     Backbone.history.start();
+
 };
