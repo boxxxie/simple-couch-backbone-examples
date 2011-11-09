@@ -82,6 +82,9 @@ var Company = couchDoc.extend(
      getTerminal:function(groupID,storeID,terminalID){
 	 var terminals = this.getTerminals(groupID,storeID);
 	 return _.find(terminals,function(terminal){return terminal.terminal_id == terminalID;});	 
+     },
+     companyStats:function(){
+	 return {group_num:getGroups().count};	 
      }
 
     });
@@ -175,11 +178,8 @@ function doc_setup(){
 				country = $("#address\\.country"),
 				postalcode = $("#address\\.postalcode"),
 				operationalname = $("#operationalname");
-				//creationdate = new Date();
-				//centrallyControlledMenus = $("#centrally-controlled-menus");
 				var modelChanges = {user:user.val(),
 								    password:password.val(),
-								    //contact:contact.val(),
 								    contact:{firstname : firstName.val(),
 								    		 lastname : lastName.val(),
 								    		 website : website.val(),
@@ -193,7 +193,6 @@ function doc_setup(){
 										     province:province.val(),
 										     postalcode:postalcode.val()},
 									 operationalname:operationalname.val(),					
-							    	 //centrallyControlledMenus:centrallyControlledMenus.is(":checked"),
 							    	 _id:_id.val()};
 				model.set(modelChanges);
 				model.save({success:function(){alert("saved!");}}); //FIXME:allert isn't being invoked
@@ -313,8 +312,10 @@ function doc_setup(){
 	     
 	 },
 	 render:function(){
+	     var view = this;
 	     var forTMP = {list:this.collection.toJSON()};
-	     var html = ich.companiesTabel_TMP(forTMP);
+	     var forTMP_w_stats = _.map(forTMP,function(model){return _.extend(model,view.collection.get(model._id).companyStats());});
+	     var html = ich.companiesTabel_TMP(forTMP_w_stats);
 	     $(this.el).html(html);
 	     console.log("companies view rendered");
 	     return this;
