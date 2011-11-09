@@ -2,7 +2,7 @@ var install_db = db('install');
 
 function guidGenerator() {
     var S4 = function() {
-       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+	return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
     };
     return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
@@ -28,34 +28,34 @@ var Company = couchDoc.extend(
 
      },
      addStore: function(groupID,storeToAdd){
-	// var oldHierarchy = this.get('hierarchy');
+	 // var oldHierarchy = this.get('hierarchy');
 	 var groupToAddTo = getGroup(groupID);
 	 var stores = groupToAddTo.stores;
 	 stores || (stores = []);
 	 //this is supposed to check if we are adding a dup store number to this group of stores
 	 if(!_(stores).chain().pluck('number').contains(storeToAdd.number).value()) {
-		 var newStores = stores.concat(_.extend(store,{store_id:guidGenerator()}));
-		 groupToAddTo.stores = newStores;
-		// this.set({hierarchy:oldHierarchy}); //assuming that this was changed in place...
-		 this.save();
-		 this.trigger("add:store"); //triggers go last
+	     var newStores = stores.concat(_.extend(store,{store_id:guidGenerator()}));
+	     groupToAddTo.stores = newStores;
+	     // this.set({hierarchy:oldHierarchy}); //assuming that this was changed in place...
+	     this.save();
+	     this.trigger("add:store"); //triggers go last
 	 } else {
-	 	alert("The store you tried to add had the same number as one already in this group, please choose a different store number");
+	     alert("The store you tried to add had the same number as one already in this group, please choose a different store number");
 	 }
      },
      addTerminal: function(groupID,storeID,terminalToAdd){
-	// var oldHierarchy = this.get('hierarchy');
+	 // var oldHierarchy = this.get('hierarchy');
 	 var storeToAddTo = getStore(groupID,storeID);
 	 var storeTerminals = storeToAddTo.terminals;
 	 storeTerminals || (storeTerminals = []);
 	 if(!_(storeTerminals).chain().pluck('terminal_id').contains(terminalToAdd.terminal_id).value()) {
-		 var newTerminals = storeTerminals.concat(terminalToAdd);
-		 storeToAddTo.terminals = newTerminals;
-		// this.set({hierarchy:oldHierarchy}); //assuming that this was changed in place...
-		 this.save();
-		 this.trigger("add:terminal"); //triggers go last
+	     var newTerminals = storeTerminals.concat(terminalToAdd);
+	     storeToAddTo.terminals = newTerminals;
+	     // this.set({hierarchy:oldHierarchy}); //assuming that this was changed in place...
+	     this.save();
+	     this.trigger("add:terminal"); //triggers go last
 	 } else {
-	 	alert("The terminal you tried to add had the same ID as one already in this store, please choose a different ID");
+	     alert("The terminal you tried to add had the same ID as one already in this store, please choose a different ID");
 	 }
      },
      getGroups:function(){
@@ -98,13 +98,13 @@ function addCompany(collection){
 };
 function addGroup(model){
     return {success: function(resp){
-			model.addGroup(resp);
+		model.addGroup(resp);
 	    }
 	   };
 };
 function addStore(model,group){
     return {success: function(resp){
-			model.addStore(group,resp);
+		model.addStore(group,resp);
 	    }
 	   };
 };
@@ -116,13 +116,13 @@ function addTerminal(model,group,storeName){
 };
 
 function doc_setup(){
-	var Companies;
-	var companiesView;
-	var companiesViewTest;
-	var storesView;
-	var storesViewTest;
-	var terminalsView;
-	var terminalsViewTest;
+    var Companies;
+    var companiesView;
+    var companiesViewTest;
+    var storesView;
+    var storesViewTest;
+    var terminalsView;
+    var terminalsViewTest;
 
     Companies = 
 	new (couchCollection(
@@ -132,7 +132,7 @@ function doc_setup(){
 		      return this.find(function(model){return model.get('_id') == modelName;});
 		  },
 		  getModelById : function(modelId){
-		  	return this.find(function(model){return model.get('_id') == modelId});
+		      return this.find(function(model){return model.get('_id') == modelId;});
 		  },
 		  getSelectedModel : function(){
 		      return this.find(function(model){return model.selected == true;});
@@ -149,8 +149,7 @@ function doc_setup(){
 		 "company/:_id/stores": "storesManager" ,
 		 "company/:companyName/stores/:storeName": "modifyStore",
 		 "company/:companyName/stores/:storeName/terminals": "terminalsManager",
-		 "company/:companyName/stores/:storeName/terminals/:terminalID": "modifyterminal"/*,
-		 "*actions": "defaultRoute" // Backbone will try match the route above first   	doesn't work the way i expected it to */	 
+		 "company/:companyName/stores/:storeName/terminals/:terminalID": "modifyterminal"	 
 	     },
 	     companyManagementHome:function(){
 		 console.log("companyManagementHome");
@@ -184,26 +183,23 @@ function doc_setup(){
 				postalcode = $("#address\\.postalcode"),
 				operationalname = $("#operationalname");
 				var modelChanges = {user:user.val(),
-								    password:password.val(),
-								    contact:{firstname : firstName.val(),
-								    		 lastname : lastName.val(),
-								    		 website : website.val(),
-								    		 email : email.val(),
-								    		 phone : phone.val()},
-								    address:{street0:street0.val(),
-								    		 street1:street1.val(),
-								    		 street2:street2.val(),
-										     city:city.val(),
-										     country:country.val(),
-										     province:province.val(),
-										     postalcode:postalcode.val()},
-									 operationalname:operationalname.val(),					
-							    	 _id:_id.val()};
-=======
-							    	 //centrallyControlledMenus:centrallyControlledMenus.is(":checked"),
-							    	 //_id:_id.val()};
-							    	 companyName:companyName.val()};
->>>>>>> 92001e12997aa6ab52cb3b3bf1966f9b60e0f393
+						    password:password.val(),
+						    contact:{firstname : firstName.val(),
+							     lastname : lastName.val(),
+							     website : website.val(),
+							     email : email.val(),
+							     phone : phone.val()},
+						    address:{street0:street0.val(),
+							     street1:street1.val(),
+							     street2:street2.val(),
+							     city:city.val(),
+							     country:country.val(),
+							     province:province.val(),
+							     postalcode:postalcode.val()},
+						    operationalname:operationalname.val(),	
+						    companyName:companyName.val(),				
+						    _id:_id.val()};
+
 				model.set(modelChanges);
 				model.save({success:function(){alert("saved!");}}); //FIXME:allert isn't being invoked
 			    }
@@ -244,21 +240,21 @@ function doc_setup(){
 				postalcode = $("#address\\.postalcode");
 				
 				var storeChanges = {user:user.val(),
-								    password:password.val(),
-								    contact:{firstname : firstName.val(),
-										    		 lastname : lastName.val(),
-										    		 website : website.val(),
-										    		 email : email.val(),
-										    		 phone : phone.val()},
-								    address:{street0:street0.val(),
-								    		 street1:street1.val(),
-								    		 street2:street2.val(),
-										     city:city.val(),
-										     country:country.val(),
-										     province:province.val(),
-										     postalcode:postalcode.val()},
-								    name:storeName.val(),
-								    number:storeNum.val()};
+						    password:password.val(),
+						    contact:{firstname : firstName.val(),
+							     lastname : lastName.val(),
+							     website : website.val(),
+							     email : email.val(),
+							     phone : phone.val()},
+						    address:{street0:street0.val(),
+							     street1:street1.val(),
+							     street2:street2.val(),
+							     city:city.val(),
+							     country:country.val(),
+							     province:province.val(),
+							     postalcode:postalcode.val()},
+						    name:storeName.val(),
+						    number:storeNum.val()};
 				storeToEdit = _.extend(storeToEdit,storeChanges);
 				model.save({success:function(){alert("saved!");}});
 			    }
@@ -300,11 +296,7 @@ function doc_setup(){
 				terminalToEdit = _.extend(terminalToEdit,terminalChanges);
 				model.save({success:function(){alert("saved!");}});
 			    });
-	     }/*,
-	     defaultRoute:function(){
-		 console.log("defaultRoute");
-		 this.companyManagementHome();
-	     }*/
+	     }
 	 }));
 
     companiesView = Backbone.View.extend(
@@ -378,8 +370,8 @@ function doc_setup(){
 	     return function(){
 		 var forTMP = {list:_.map(view.model.getTerminals("none",storeName),
 					  function(terminal){
-					  	var clonedTerminal = _.clone(terminal);
-					  	return _.extend(clonedTerminal,{_id:companyName,storeName:storeName});})};
+					      var clonedTerminal = _.clone(terminal);
+					      return _.extend(clonedTerminal,{_id:companyName,storeName:storeName});})};
 		 var html = ich.terminalsTabel_TMP(forTMP);
 		 $(view.el).html(html);
 		 console.log("terminals view rendered");
