@@ -7,6 +7,7 @@ function guidGenerator() {
     return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
 
+var Companies;
 
 var Company = couchDoc.extend(	
     {defaults: function() {
@@ -121,9 +122,14 @@ function addTerminal(model,group,storeName){
 	   };
 };
 
+function quickView(template,companyID){
+    var company = Companies.getModelById(companyID);
+    console.log(ich[template]({company:company}));
+    quickViewDialog(ich[template]({company:company}));
+}
 
 function doc_setup(){
-    var Companies;
+ 
     var companiesView;
     var companiesViewTest;
     var groupsView;
@@ -166,6 +172,7 @@ function doc_setup(){
 		 console.log("companyManagementHome");
 		 $('body').html(ich.company_management_page_TMP());
 		 newCompanyDialogSetup(addCompany(Companies));
+
 	     },
 	     modifyCompany:function(id){
 		 console.log("modifyCompanies: " + id);
