@@ -320,7 +320,7 @@
 	      <fieldset>
 		{{#company}}
 		<label for="company name">Company name</label>
-		<input type="text" name="company name" id="company-name" value="{{companyName}}" class="text ui-widget-content ui-corner-all" disabled="true" />
+		<input type="text" name="company name" id="company-name" value="{{companyName}}" class="text ui-widget-content ui-corner-all" />
 		<dl>
 		  <dt>Address</dt>
 		  <dd>
@@ -384,6 +384,32 @@
 	  </button></a>
 	  
 	  {{/company}}
+	</table>
+      </script>   
+
+      <script id="modify_group_page_TMP" type="text/html">
+	<table border="1">
+	  <h1>Modify Group</h1>
+	  <div>
+	    <form>
+	      <fieldset>
+		{{#group}}
+		<label for="group-name">Group Name</label>
+		<input type="text" id="group-name" value="{{groupName}}" class="text ui-widget-content ui-corner-all"/>
+	      </fieldset>
+	    </form>
+	  </div>
+	  <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="modify-store" value="Edit" />
+	  <a href="#/company/{{_id}}/groups/{{group_id}}/stores"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	      <span class="ui-button-text">Store Manager</span>
+	  </button></a>
+	  <a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	      <span class="ui-button-text">Back</span>
+	  </button></a>
+	  <a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	      <span class="ui-button-text">Menus</span>
+	  </button></a>
+	  {{/group}}
 	</table>
       </script>   
 
