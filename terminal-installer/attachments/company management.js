@@ -84,7 +84,15 @@ var Company = couchDoc.extend(
 	 return _.find(terminals,function(terminal){return terminal.terminal_id == terminalID;});	 
      },
      companyStats:function(){
-	 return {group_num:_.size(this.get('hierarchy').groups)};	 
+	 var groups = this.get('hierarchy').groups;
+	 var stores = _(groups).chain().map(function(group){return group.stores;}).flatten().compact().value();
+	// stores || (stores = []);
+	 var terminals = _(stores).chain().map(function(store){return store.terminals;}).flatten().compact().value();
+	// terminals || (terminals = []);
+	 return {group_num:_.size(groups),
+		 store_num:_.size(stores),
+		 terminal_num:_.size(terminals)
+		};	 
      }
 
     });
