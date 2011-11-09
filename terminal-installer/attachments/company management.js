@@ -11,7 +11,7 @@ function guidGenerator() {
 var Company = couchDoc.extend(	
     {defaults: function() {
 	 return {
-	     _id:"unknown",
+	     companyName:"unknown",
 	     hierarchy:{groups:[{groupName:"none",
 				 group_id:guidGenerator()}]}
 	 };
@@ -131,6 +131,9 @@ function doc_setup(){
 		  getModelByName : function(modelName){
 		      return this.find(function(model){return model.get('_id') == modelName;});
 		  },
+		  getModelById : function(modelId){
+		  	return this.find(function(model){return model.get('_id') == modelId});
+		  },
 		  getSelectedModel : function(){
 		      return this.find(function(model){return model.selected == true;});
 		  }
@@ -142,8 +145,8 @@ function doc_setup(){
 	 {
 	     routes: {
 		 "":"companyManagementHome",
-		 "company/:name": "modifyCompany", 
-		 "company/:name/stores": "storesManager" ,
+		 "company/:_id": "modifyCompany", 
+		 "company/:_id/stores": "storesManager" ,
 		 "company/:companyName/stores/:storeName": "modifyStore",
 		 "company/:companyName/stores/:storeName/terminals": "terminalsManager",
 		 "company/:companyName/stores/:storeName/terminals/:terminalID": "modifyterminal"/*,
@@ -154,16 +157,18 @@ function doc_setup(){
 		 $('body').html(ich.company_management_page_TMP());
 		 newCompanyDialogSetup(addCompany(Companies));
 	     },
-	     modifyCompany:function(name){
-		 console.log("modifyCompanies: " + name);
-		 var model = Companies.getModelByName(name);
+	     modifyCompany:function(id){
+		 console.log("modifyCompanies: " + id);
+		 //var model = Companies.getModelByName(name);
+		 var model = Companies.getModelById(id);
 		 var modelJSON = model.toJSON();
 		 $('body').html(ich.modify_company_page_TMP({company:modelJSON}));
 		 $("#modify-company")
 		     .click(function(){
 				var user = $("#user"),
 				password = $("#password"),
-				_id = $("#company-name"),
+				//_id = $("#company-name"),
+				conpanyName = $("#company-name"),
 				//contact = $("#contact"),
 				firstName = $("#contact\\.firstname"),
 				lastName = $("#contact\\.lastname"),
@@ -194,6 +199,11 @@ function doc_setup(){
 										     postalcode:postalcode.val()},
 									 operationalname:operationalname.val(),					
 							    	 _id:_id.val()};
+=======
+							    	 //centrallyControlledMenus:centrallyControlledMenus.is(":checked"),
+							    	 //_id:_id.val()};
+							    	 companyName:companyName.val()};
+>>>>>>> 92001e12997aa6ab52cb3b3bf1966f9b60e0f393
 				model.set(modelChanges);
 				model.save({success:function(){alert("saved!");}}); //FIXME:allert isn't being invoked
 			    }
