@@ -106,7 +106,7 @@
 	  <th>Details</th>
 	</tr>
 	{{#list}}
-	<tr><td><a href="#/company/{{companyName}}/groups/{{group_id}}/stores/{{store_id}}">{{storeName}}</a><td>{{number}}</td></td><td>{{country}}</td><td>{{contact}}</td><td>{{creationdate}}</td>
+	<tr><td><a href="#/company/{{_id}}/groups/{{group_id}}/stores/{{store_id}}">{{storeName}}</a><td>{{number}}</td></td><td>{{terminal_num}}</td><td>{{creationdate}}</td>
 	  <td>
 	  <a href="./mainMenus.html"><button class="ui-state-default ui-corner-all">
 		   <span class="ui-button-text">View</span>
@@ -401,14 +401,13 @@
 	  <div>
 	    <form>
 	      <fieldset>
-		{{#group}}
 		<label for="group-name">Group Name</label>
-		<input type="text" id="group-name" value="{{groupName}}" class="text ui-widget-content ui-corner-all"/>
+		<input type="text" id="group-name" value="{{#group}}{{groupName}}{{/group}}" class="text ui-widget-content ui-corner-all"/>
 	      </fieldset>
 	    </form>
 	  </div>
 	  <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="modify-group" value="Edit" />
-	  <a href="#/company/{{_id}}/groups/{{group_id}}/stores"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	  <a href="#/company/{{#company}}{{_id}}{{/company}}/groups/{{#group}}{{group_id}}{{/group}}/stores"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
 	      <span class="ui-button-text">Store Manager</span>
 	  </button></a>
 	  <a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
@@ -417,7 +416,6 @@
 	  <a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
 	      <span class="ui-button-text">Menus</span>
 	  </button></a>
-	  {{/group}}
 	</table>
 
       </script>   
