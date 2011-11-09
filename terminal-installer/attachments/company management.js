@@ -183,42 +183,12 @@ function doc_setup(){
 		 $('body').html(ich.modify_company_page_TMP({company:modelJSON}));
 		 $("#modify-company")
 		     .click(function(){
-				var user = $("#user"),
-				password = $("#password"),
-				//_id = $("#company-name"),
-				conpanyName = $("#company-name"),
-				//contact = $("#contact"),
-				firstName = $("#contact\\.firstname"),
-				lastName = $("#contact\\.lastname"),
-				website = $("#contact\\.website"),
-				email = $("#contact\\.email"),
-				phone = $("#contact\\.phone"),
-				street0 = $("#address\\.street0"),
-				street1 = $("#address\\.street1"),
-				street2 = $("#address\\.street2"),
-				city = $("#address\\.city"),
-				province = $("#address\\.province"),
-				country = $("#address\\.country"),
-				postalcode = $("#address\\.postalcode"),
-				operationalname = $("#operationalname");
-				var modelChanges = {user:user.val(),
-						    password:password.val(),
-						    contact:{firstname : firstName.val(),
-							     lastname : lastName.val(),
-							     website : website.val(),
-							     email : email.val(),
-							     phone : phone.val()},
-						    address:{street0:street0.val(),
-							     street1:street1.val(),
-							     street2:street2.val(),
-							     city:city.val(),
-							     country:country.val(),
-							     province:province.val(),
-							     postalcode:postalcode.val()},
-						    operationalname:operationalname.val(),	
-						    companyName:companyName.val(),				
-						    _id:_id.val()};
-
+	
+				    var company = Companies.getModelById(id);
+				    var companyJSON = company.toJSON();
+				    console.log(ich.companyInputDialog_TMP({title:"Make a new Company",company:companyJSON}));
+				    quickViewDialog(ich[template]({company:companyJSON}));
+			
 				model.set(modelChanges);
 				model.save({success:function(){alert("saved!");}}); //FIXME:allert isn't being invoked
 			    }
