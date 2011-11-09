@@ -37,7 +37,9 @@ var Company = couchDoc.extend(
 	 var groupToAddTo = _.find(groups, function(group){return group.name == groupName;});
 	 var stores = groupToAddTo.stores;
 	 stores || (stores = []);
-	 if(!_(stores).chain().pluck('name').contains(store.name).value()) {
+	 //if(!_(stores).chain().pluck('name').contains(store.name).value()) {
+	 	var addStoreTo = store;
+	 	if(!_(stores).find(function(store, addStoreTo) { return (store.name == addStoreTo.name && store.number == addStore.number)})!="") {
 		 var newStores = stores.concat(store);
 		 groupToAddTo.stores = newStores;
 		 this.set({hierarchy:oldHierarchy}); //assuming that this was changed in place...
