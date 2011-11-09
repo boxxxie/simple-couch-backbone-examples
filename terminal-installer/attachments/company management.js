@@ -82,12 +82,15 @@ var Company = couchDoc.extend(
 	 var terminals = this.getTerminals(groupID,storeID);
 	 return _.find(terminals,function(terminal){return terminal.terminal_id == terminalID;});	 
      },
-     companyStats:function(groupID){
+     companyStats:function(groupID,storeID){
 	 var groups = this.get('hierarchy').groups;
 	 if(groupID){
 	     groups = _.filter(groups,function(group){return group.group_id == groupID;}); //using filter instead of find because i only want to deal with arrays
 	 }
 	 var stores = _(groups).chain().map(function(group){return group.stores;}).flatten().compact().value();
+	 if(storeID){
+	     stores = _.filter(stores,function(store){return store.store_id == storeID;}); //using filter instead of find because i only want to deal with arrays
+	 }
 	 var terminals = _(stores).chain().map(function(store){return store.terminals;}).flatten().compact().value();
 	 return {group_num:_.size(groups),
 		 store_num:_.size(stores),
@@ -240,7 +243,9 @@ function doc_setup(){
 		 var model = Companies.getModelByName(companyID);
 		 var groupToEdit = model.getGroup(groupID);
 		 var originalGroupID = groupID;
-		 $('body').html(ich.modify_group_page_TMP({company: {operationalname: model.get('operationalname')} ,group:groupToEdit}));
+		 $('body').html(ich.modify_group_page_TMP({company: {operationalname: model.get('operationalname'),
+								     _id: model.get("id")} ,
+							   group:groupToEdit}));
 		 $("#modify-group")
 		     .click(function(){
 				var groupName = $("#group-name");
@@ -395,19 +400,22 @@ function doc_setup(){
 	{initialize:function(){
 	     var view = this;
 	     _.bindAll(view, 'render'); 
-	     AppRouter.bind('route:storesManager',function(name){
+	     AppRouter.bind('route:storesManager',function(companyID,groupID){
 				console.log('storesView:route:storesManager');
-				view.model = Companies.getModelByName(name);
-				view.model.bind('add:store',view.render(name));
+				view.model = Companies.getModelByName(companyID);
+				view.model.bind('add:store',view.render(companyID,groupID));
 				view.el =_.first($("#stores"));
-				view.render(name)();});
+				view.render(companyID,groupID)();});
 	     
 	 },
-	 render:function(companyName){
+	 render:function(companyID,groupID){
 	     var view = this;
 	     return function(){
-		 var forTMP = {list:_.map(view.model.getStores("none"),
-					  function(store){return _.extend(store,{_id:companyName});})};
+		 var forTMP = {list:_.map(view.model.getStores(groupID),
+					  function(store){
+					      var groupClone = _.clone(store);
+					      return _.extend(groupClone,{_id:companyID},view.model.companyStats(groupID,store.store_id));
+					  })};
 		 var html = ich.storesTabel_TMP(forTMP);
 		 $(view.el).html(html);
 		 console.log("stores view rendered");
