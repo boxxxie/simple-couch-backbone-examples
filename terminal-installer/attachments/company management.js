@@ -83,12 +83,13 @@ var Company = couchDoc.extend(
 	 var terminals = this.getTerminals(groupID,storeID);
 	 return _.find(terminals,function(terminal){return terminal.terminal_id == terminalID;});	 
      },
-     companyStats:function(){
+     companyStats:function(groupID){
 	 var groups = this.get('hierarchy').groups;
+	 if(groupID){
+	     groups = _.filter(groups,function(group){return group.group_id == groupID;}); //using filter instead of find because i only want to deal with arrays
+	 }
 	 var stores = _(groups).chain().map(function(group){return group.stores;}).flatten().compact().value();
-	// stores || (stores = []);
 	 var terminals = _(stores).chain().map(function(store){return store.terminals;}).flatten().compact().value();
-	// terminals || (terminals = []);
 	 return {group_num:_.size(groups),
 		 store_num:_.size(stores),
 		 terminal_num:_.size(terminals)
@@ -223,7 +224,7 @@ function doc_setup(){
 		 var groups = model.getGroups();
 		 var groups_w_ids = _.map(groups,function(group){return _.extend(group,{_id:modelObj._id});});
 		 $('body').html(ich.group_management_page_TMP());
-		 newStoreDialogSetup(addGroup(model));
+		 newGroupDialogSetup(addGroup(model));
 	     },
 	     storesManager:function(name){
 		 console.log("storesManager: " + name);
@@ -365,7 +366,7 @@ function doc_setup(){
 		 var forTMP = {list:_.map(view.model.getGroups(),
 					  function(group){
 					      var groupClone = _.clone(group);
-					      return _.extend(groupClone,{_id:companyID});
+					      return _.extend(groupClone,{_id:companyID},view.model.companyStats(group.group_id));
 					  })};
 		 var html = ich.groupsTabel_TMP(forTMP);
 		 $(view.el).html(html);

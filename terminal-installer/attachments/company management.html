@@ -75,7 +75,6 @@
       </table>
     </script>
 
-    <!--FIXME-->
     <script id="groupsTabel_TMP" type="text/html">
       <table border="1">
 	<tr>
@@ -475,19 +474,19 @@
 	      <fieldset>
 		{{#terminal}}
 		<label for="terminal-id">Terminal ID</label>
-		<input type="text" id="terminal-id" class="text ui-widget-content ui-corner-all" value="{{id}}" disabled="true" />
-		<!--<label for="mobile-payment">Mobile-Payment</label>
-		<input type="checkbox" id="mobile-payment" class="text ui-widget-content ui-corner-all" {{#mobilePayment}} checked="true" {{/mobilePayment}} />
-		<label for="debit-payment">Debit-Payment</label>
-		<input type="checkbox" id="debit-payment" class="text ui-widget-content ui-corner-all" {{#debitPayment}} checked="true" {{/debitPayment}}/>
-		<label for="credit-payment">Credit-Payment</label>
-		<input type="checkbox" id="credit-payment" class="text ui-widget-content ui-corner-all" {{#creditPayment}} checked="true" {{/creditPayment}} />
-		{{#mobQRedits}}
-		<label for="bonus-codes">MobQRedits Bonus Codes (comma delimited list)</label>
-		<input type="text" id="bonus-codes" class="text ui-widget-content ui-corner-all" value="{{#bonusCodes}}{{.}},{{/bonusCodes}}"/>
-		<label for="convert-percentage">MobQRedits Conversion Percentage</label>
-		<input type="text" id="convert-percentage" class="text ui-widget-content ui-corner-all" value="{{convertPercentage}}" />
-		{{/mobQRedits}}-->
+		<input type="text" id="terminal-id" class="text ui-widget-content ui-corner-all" value="{{terminal_id}}"/>
+		<label for="areaCode">Area Code</label>
+		<input type="text" id="areaCode" class="text ui-widget-content ui-corner-all" value="{{areaCode}}"/>
+		<label for="postalCode">Postal Code</label>
+		<input type="text" id="postalCode" class="text ui-widget-content ui-corner-all" value="{{postalCode}}"/>
+		<label for="countryCode">Country Code</label>
+		<input type="text" id="countryCode" class="text ui-widget-content ui-corner-all" value="{{countryCode}}" />
+		<label for="cityCode">City Code</label>
+		<input type="text" id="cityCode" class="text ui-widget-content ui-corner-all" value="{{cityCode}}" />
+		<label for="storeCode">Store Code</label>
+		<input type="text" id="storeCode" class="text ui-widget-content ui-corner-all" value="{{storeCode}}" />
+		<label for="companyCode">Company Code</label>
+		<input type="text" id="companyCode" class="text ui-widget-content ui-corner-all" value="{{companyCode}}" />
 	      </fieldset>
 	    </form>
 	  </div>
