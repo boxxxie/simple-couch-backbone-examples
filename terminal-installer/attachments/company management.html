@@ -88,7 +88,7 @@
 	  <th>Details</th>
 	</tr>
 	{{#list}}
-	<tr><td><a href="#/company/{{_id}}/stores/{{name}}">{{name}}</a><td>{{number}}</td>
+	<tr><td><a href="#/company/{{companyName}}/stores/{{name}}">{{name}}</a><td>{{number}}</td>
 	  </td><td>{{country}}</td><td>{{contact}}</td><td>{{creationdate}}</td>
 	  <td>
 	  <a href="./mainMenus.html"><button class="ui-state-default ui-corner-all">
@@ -294,7 +294,7 @@
 	      <fieldset>
 		{{#company}}
 		<label for="company name">Company name</label>
-		<input type="text" name="company name" id="company-name" value="{{_id}}" class="text ui-widget-content ui-corner-all" disabled="true" />
+		<input type="text" name="company name" id="company-name" value="{{companyName}}" class="text ui-widget-content ui-corner-all" disabled="true" />
 		<dl>
 		  <dt>Address</dt>
 		  <dd>
