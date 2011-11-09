@@ -127,6 +127,8 @@ function doc_setup(){
     var Companies;
     var companiesView;
     var companiesViewTest;
+    var groupsView;
+    var groupsViewTest;
     var storesView;
     var storesViewTest;
     var terminalsView;
@@ -153,17 +155,13 @@ function doc_setup(){
 	 {
 	     routes: {
 		 "":"companyManagementHome",
-		 "company/:_id": "modifyCompany",
-		 "company/:_id/groups": "groupsManager",
-		 "company/:_id/groups/:groupID": "modifyGroup",
-		 "company/:_id/groups/:groupID/stores" : "storesManager", 
-		 "company/:_id/groups/:groupID/stores/:stroreID" : "modifyStore",
-		 "company/:_id/groups/:groupID/stores/:stroreID/terminals" : "terminalsManager",
-		 "company/:_id/groups/:groupID/stores/:stroreID/terminals/:terminalID" : "modifyterminal"
-		 //"company/:_id/stores": "storesManager" ,
-		 //"company/:companyName/stores/:storeName": "modifyStore",
-		 //"company/:companyName/stores/:storeName/terminals": "terminalsManager",
-		 //"company/:companyName/stores/:storeName/terminals/:terminalID": "modifyterminal"	 
+		 "company/:_id": "modifyCompany", 
+		 "company/:_id/groups": "groupsManager" ,
+		 "company/:companyName/groups/:groupsName": "modifyGroup",
+		 "company/:companyName/groups/:groupsName/stores": "storesManager" ,
+		 "company/:companyName/groups/:groupsName/stores/:storeName": "modifyStore",
+		 "company/:companyName/groups/:groupsName/stores/:storeName/terminals": "terminalsManager",
+		 "company/:companyName/groups/:groupsName/stores/:storeName/terminals/:terminalID": "modifyterminal"	 
 	     },
 	     companyManagementHome:function(){
 		 console.log("companyManagementHome");
@@ -172,7 +170,6 @@ function doc_setup(){
 	     },
 	     modifyCompany:function(id){
 		 console.log("modifyCompanies: " + id);
-		 //var model = Companies.getModelByName(name);
 		 var model = Companies.getModelById(id);
 		 var modelJSON = model.toJSON();
 		 $('body').html(ich.modify_company_page_TMP({company:modelJSON}));
@@ -219,14 +216,14 @@ function doc_setup(){
 			    }
 			   );
 	     },
-	     groupsManager:function(id) {
-	     console.log("groupsManager: " + id);
-		 var model = Companies.getModelById(id);
+	     groupsManager:function(companyID){
+		 console.log("groupsManager: " + companyID);
+		 var model = Companies.getModelByName(companyID);
 		 var modelObj = model.toJSON();
 		 var groups = model.getGroups();
-		 //var gruops_w_ids = _.map(groups,function(group){return _.extend(group,{id:modelObj._id});});
-		 //$('body').html(ich.group_management_page_TMP({list:groups_w_ids}));
-		 //newStoreDialogSetup(addStore(model,'none'));	
+		 var groups_w_ids = _.map(groups,function(group){return _.extend(group,{_id:modelObj._id});});
+		 $('body').html(ich.group_management_page_TMP());
+		 newStoreDialogSetup(addGroup(model));
 	     },
 	     storesManager:function(name){
 		 console.log("storesManager: " + name);
@@ -350,6 +347,33 @@ function doc_setup(){
 	     this.trigger("change:model");
 	 }
 	});
+    groupsView = Backbone.View.extend(
+	{initialize:function(){
+	     var view = this;
+	     _.bindAll(view, 'render'); 
+	     AppRouter.bind('route:groupsManager',function(companyID){
+				console.log('groupsView:route:groupsManager');
+				view.model = Companies.getModelByName(companyID);
+				view.model.bind('add:group',view.render(companyID));
+				view.el =_.first($("#groups"));
+				view.render(companyID)();});
+	     
+	 },
+	 render:function(companyID){
+	     var view = this;
+	     return function(){
+		 var forTMP = {list:_.map(view.model.getGroups(),
+					  function(group){
+					      var groupClone = _.clone(group);
+					      return _.extend(groupClone,{_id:companyID});
+					  })};
+		 var html = ich.groupsTabel_TMP(forTMP);
+		 $(view.el).html(html);
+		 console.log("groups view rendered");
+		 return view;
+	     };
+	 }
+	});
 
     storesView = Backbone.View.extend(
 	{initialize:function(){
@@ -375,6 +399,8 @@ function doc_setup(){
 	     };
 	 }
 	});
+
+
 
     terminalsView = Backbone.View.extend(
 	{initialize:function(){
@@ -406,6 +432,10 @@ function doc_setup(){
 	{
 	    collection: Companies,
 	    el:_.first($("#companies"))
+	});
+    groupsViewTest = new groupsView(
+	{
+	    el:_.first($("#groups"))
 	});
     storesViewTest = new storesView(
 	{

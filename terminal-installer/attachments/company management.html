@@ -75,6 +75,29 @@
       </table>
     </script>
 
+    <!--FIXME-->
+    <script id="groupsTabel_TMP" type="text/html">
+      <table border="1">
+	<tr>
+	  <th>Name</th>
+	  <th># of Stores</th>
+	  <th># of Terminals</th>
+	  <th>Creation Date</th>
+	  <th>Detail</th>
+	</tr>
+	{{#list}}
+	<tr><td><a href="#/company/{{_id}}/groups/{{group_id}}">{{groupName}}</a>
+	  </td><td>{{store_num}}</td><td>{{terminal_num}}</td><td>{{creationdate}}</td>
+	  <td>
+	    <a href="./mainMenus.html"><button class="ui-state-default ui-corner-all">
+		<span class="ui-button-text">View</span>
+	    </button></a>
+	  </td>
+	</tr>
+	{{/list}}
+      </table>
+    </script>
+
     <script id="storesTabel_TMP" type="text/html">
       <table border="1">
 	<tr>
@@ -183,6 +206,27 @@
       </button></a>
     </script>	   
 
+    <script id="group_management_page_TMP" type="text/html">
+      <h1>Group Management</h1>
+      <div id="dialog-form" title="Create new Company">
+	<p class="validateTips">All form fields are required.</p>
+	<form>
+	  <fieldset>
+	    <label for="group-name">Group name</label>
+	    <input type="text" id="group-name" class="text ui-widget-content ui-corner-all" />
+	  </fieldset>
+	</form>
+      </div>
+      <div id="groups"></div>
+      <input type="button" id="create-group" value="make a new group" class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all"/>
+      <a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	  <span class="ui-button-text">Back</span>
+      </button></a>
+      <a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	  <span class="ui-button-text">Menu</span>
+      </button></a>
+    </script>	   
+
     <script id="store_management_page_TMP" type="text/html">
       <h1>Stores Management</h1>
       <div id="dialog-form" title="Create new Store">
@@ -237,11 +281,11 @@
       <div id="stores"></div>
       <input type="button" id="create-store" value="make a new store" />
       <a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	   <span class="ui-button-text">Back</span>
-	   </button></a>
+	  <span class="ui-button-text">Back</span>
+      </button></a>
       <a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	   <span class="ui-button-text">Menus</span>
-	   </button></a>
+	  <span class="ui-button-text">Menus</span>
+      </button></a>
       
     </script>
 
@@ -331,30 +375,22 @@
 		<label for="password">Password</label>
 		<input type="password" name="password" id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
 		<label for="operationalname">Operational Name</label>
-	    <input type="text" id="operationalname" value="{{operationalname}}" class="text ui-widget-content ui-corner-all" />
-		<!--<label for="centrally controlled menus">Centrally Controlled Menus</label>
-	  	<input type="checkbox" name="centrally controlled menus" id="centrally-controlled-menus" {{#centrallyControlledMenus}}
-  		       checked="true" {{/centrallyControlledMenus}} />
-  		      -->
+		<input type="text" id="operationalname" value="{{operationalname}}" class="text ui-widget-content ui-corner-all" />
 	      </fieldset>
 	    </form>
 	  </div>
 	  <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="modify-company" value="Edit" />
-		    
-	  <a href="#/company/{{_id}}/stores"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-		   <span class="ui-button-text">Store Manager</span>
-		   </button></a>
-	  
+	  	  
 	  <a href="#/company/{{_id}}/groups"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-		   <span class="ui-button-text">Group Manager</span>
-		   </button></a>
-		   
-	   <a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	   <span class="ui-button-text">Back</span>
-	   </button></a>
+	      <span class="ui-button-text">Group Manager</span>
+	  </button></a>
+	  
+	  <a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	      <span class="ui-button-text">Back</span>
+	  </button></a>
 	  <a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	   <span class="ui-button-text">Menus</span>
-	   </button></a>
+	      <span class="ui-button-text">Menus</span>
+	  </button></a>
 	  
 	  {{/company}}
 	</table>
