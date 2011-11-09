@@ -108,17 +108,17 @@
       <table border="1">
 	<tr>
 	  <th>ID</th>
-	  <th>Mobile-Payment</th>
-	  <th>Debit-Payment</th>
-	  <th>Credit-Payment</th>
-	  <th>MobQRedits Bonus Codes</th>
-	  <th>MobQRedits Conversion Percentage</th>
-	  <th>View</th>
+	  <th>Company Name</th>
+	  <th>Group Name</th>
+	  <th>Store Name</th>
+	  <th>Installed</th>
+	  <th>Creation Date</th>
+	  <th>Detail</th>
 	  
 	</tr>
 	{{#list}}
 	<tr><td><a href="#/company/{{_id}}/stores/{{storeName}}/terminals/{{id}}">{{id}}</a></td><td>{{mobilePayment}}</td>
-	  <td>{{debitPayment}}</td><td>{{creditPayment}}</td>{{#mobQRedits}}<td>{{bonusCodes}}</td><td>{{convertPercentage}}</td>{{/mobQRedits}}
+	  <td>{{debitPayment}}</td><td>{{creditPayment}}</td><td>{{installed}}</td><td>{{creationdate}}</td>
 	  
 	  <td>
 	  	<a href="./mainMenus.html"><button class="ui-state-default ui-corner-all">
@@ -266,7 +266,7 @@
 	  <fieldset>
 	    <label for="terminal-id">Terminal ID</label>
 	    <input type="text" id="terminal-id" class="text ui-widget-content ui-corner-all" />
-	    <label for="mobile-payment">Mobile-Payment</label>
+	    <!--<label for="mobile-payment">Mobile-Payment</label>
 	    <input type="checkbox" id="mobile-payment" class="text ui-widget-content ui-corner-all" />
 	    <label for="debit-payment">Debit-Payment</label>
 	    <input type="checkbox" id="debit-payment" class="text ui-widget-content ui-corner-all" />
@@ -275,7 +275,7 @@
 	    <label for="bonus-codes">MobQRedits Bonus Codes (comma delimited list)</label>
 	    <input type="text" id="bonus-codes" class="text ui-widget-content ui-corner-all" />
 	    <label for="convert-percentage">MobQRedits Conversion Percentage</label>
-	    <input type="text" id="convert-percentage" class="text ui-widget-content ui-corner-all" />
+	    <input type="text" id="convert-percentage" class="text ui-widget-content ui-corner-all" />-->
 	  </fieldset>
 	</form>
       </div>
@@ -453,7 +453,7 @@
 		{{#terminal}}
 		<label for="terminal-id">Terminal ID</label>
 		<input type="text" id="terminal-id" class="text ui-widget-content ui-corner-all" value="{{id}}" disabled="true" />
-		<label for="mobile-payment">Mobile-Payment</label>
+		<!--<label for="mobile-payment">Mobile-Payment</label>
 		<input type="checkbox" id="mobile-payment" class="text ui-widget-content ui-corner-all" {{#mobilePayment}} checked="true" {{/mobilePayment}} />
 		<label for="debit-payment">Debit-Payment</label>
 		<input type="checkbox" id="debit-payment" class="text ui-widget-content ui-corner-all" {{#debitPayment}} checked="true" {{/debitPayment}}/>
@@ -464,7 +464,7 @@
 		<input type="text" id="bonus-codes" class="text ui-widget-content ui-corner-all" value="{{#bonusCodes}}{{.}},{{/bonusCodes}}"/>
 		<label for="convert-percentage">MobQRedits Conversion Percentage</label>
 		<input type="text" id="convert-percentage" class="text ui-widget-content ui-corner-all" value="{{convertPercentage}}" />
-		{{/mobQRedits}}
+		{{/mobQRedits}}-->
 	      </fieldset>
 	    </form>
 	  </div>

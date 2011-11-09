@@ -348,23 +348,23 @@ function newTerminalDialogSetup (options) {
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
      _.extend(this,DialogValidator());
     var id = $("#terminal-id"),
-    mobilePayment = $("#mobile-payment"),
+    /*mobilePayment = $("#mobile-payment"),
     debitPayment = $("#debit-payment"),
     creditPayment = $("#credit-payment"),
     bonusCodes = $("#bonus-codes"),
     convertPercentage = $("#convert-percentage"),
-
+*/
     requiredFields = $([])
 	.add(id),
 
     allFields = $([])
-	.add(id)
-	.add(mobilePayment)
+	.add(id);
+	/*.add(mobilePayment)
 	.add(debitPayment)
 	.add(creditPayment)
 	.add(bonusCodes)
 	.add(convertPercentage);
-     
+     */
     var tips = $( ".validateTips" );
 
     $("#dialog-form").dialog({
@@ -387,15 +387,19 @@ function newTerminalDialogSetup (options) {
 					 bValid = bValid && checkRegexp( convertPercentage, /^(\.[0-9]+)$/i, "MobQRedits Conversion Percentage need to be in the form of '.###'", updateTips(tips));
 */
 					 if ( bValid && unfilledRequiredFields) {
-					     var userBonusCodes;
-					     (bonusCodes.val())?userBonusCodes = _.unique(bonusCodes.val().split(',')):userBonusCodes = null;
+					     //var userBonusCodes;
+					     //(bonusCodes.val())?userBonusCodes = _.unique(bonusCodes.val().split(',')):userBonusCodes = null;
 					     options.success(
-						 {id:id.val(),
-						  mobilePayment:mobilePayment.is(":checked"),
-						  debitPayment:debitPayment.is(":checked"),
-						  creditPayment: creditPayment.is(":checked"),
-						  mobQRedits : {bonusCodes:userBonusCodes,
-								convertPercentage:convertPercentage.val()}
+						 {
+						 	_id:guidGenerator(),
+						 	id:id.val(),
+						 	creationdate:new Date(),
+						 	installed:false
+						  //mobilePayment:mobilePayment.is(":checked"),
+						  //debitPayment:debitPayment.is(":checked"),
+						  //creditPayment: creditPayment.is(":checked"),
+						  //mobQRedits : {bonusCodes:userBonusCodes,
+							//	convertPercentage:convertPercentage.val()}
 						 });
 					     
 					     $( this ).dialog( "close" );
