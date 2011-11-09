@@ -16,11 +16,11 @@ var Company = couchDoc.extend(
 				 group_id:guidGenerator()}]}
 	 };
      },
-     addGroup: function(groupName){
+     addGroup: function(group){
 	 var oldHierarchy = this.get('hierarchy');
 	 var groups = oldHierarchy.groups;
 	 groups || (groups = []);
-	 var newGroups = groups.concat({name:groupName,group_id:guidGenerator()});
+	 var newGroups = groups.concat(_.extend(group,{group_id:guidGenerator()}));
 	 var newHierarchy = {groups : newGroups};
 	 this.set({hierarchy:newHierarchy});
 	 this.save();
@@ -274,7 +274,7 @@ function doc_setup(){
 							     country:country.val(),
 							     province:province.val(),
 							     postalcode:postalcode.val()},
-						    name:storeName.val(),
+						    storeName:storeName.val(),
 						    number:storeNum.val()};
 				storeToEdit = _.extend(storeToEdit,storeChanges);
 				model.save({success:function(){alert("saved!");}});

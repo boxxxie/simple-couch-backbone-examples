@@ -40,12 +40,6 @@ function DialogValidator(){
 	}
     };
 };
-function guidGenerator() {
-    var S4 = function() {
-	return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-    };
-    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
-}
 function newCompanyDialogSetup (options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
@@ -237,7 +231,7 @@ function newStoreDialogSetup (options) {
 									  province:province.val(),
 									  postalcode:postalcode.val()},
 								 creationdate:new Date(),
-								 name:storeName.val(),
+								 storeName:storeName.val(),
 								 number:storeNum.val()   
 							     });
 					     $( this ).dialog( "close" );
@@ -326,44 +320,43 @@ function newTerminalDialogSetup (options) {
 		   $( "#dialog-form" ).dialog( "open" );
 	       });
 };
-
-
 function newGroupDialogSetup (options) {
- // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
- $( "#dialog:ui-dialog" ).dialog( "destroy" );
- _.extend(this,DialogValidator());
+    // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
+    $( "#dialog:ui-dialog" ).dialog( "destroy" );
+    _.extend(this,DialogValidator());
 
- var groupName = $("#group-name");
-  
- 
- $("#dialog-form").dialog({
- autoOpen: false,
- height: 900,
- width: 500,
- modal: true,
- buttons: {
- "Create the Group": function() {
- options.success({
-	 groupName:groupName.val(),
-	 creationdate:new Date()}					
- );
- 
- $( this ).dialog( "close" );
- },		
- Cancel: function() {
- $( this ).dialog( "close" );
- }
- },
- close: function() {
- allFields.val("").removeClass( "ui-state-error" );
- allFields.filter("input:checked").attr("checked",false);
- }
- });
+    var groupName = $("#group-name");
+    var allFields = $([]).add(groupName);
+    
+    
+    $("#dialog-form").dialog({
+				 autoOpen: false,
+				 height: 400,
+				 width: 500,
+				 modal: true,
+				 buttons: {
+				     "Create the Group": function() {
+					 options.success({
+							     groupName:groupName.val(),
+							     creationdate:new Date()}					
+							);
+					 
+					 $( this ).dialog( "close" );
+				     },		
+				     Cancel: function() {
+					 $( this ).dialog( "close" );
+				     }
+				 },
+				 close: function() {
+				     allFields.val("").removeClass( "ui-state-error" );
+				     allFields.filter("input:checked").attr("checked",false);
+				 }
+			     });
 
- $( "#create-group" )
- .button()
- .click(function() {
- $( "#dialog-form" ).dialog( "open" );
- });
- };
+    $( "#create-group" )
+	.button()
+	.click(function() {
+		   $( "#dialog-form" ).dialog( "open" );
+	       });
+};
  
