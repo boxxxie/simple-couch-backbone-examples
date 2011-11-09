@@ -45,7 +45,7 @@ function newCompanyDialogSetup (options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
     _.extend(this,DialogValidator());
-    var user = $("#user"),
+   /* var user = $("#user"),
     password = $("#password"),
     companyName = $("#company-name"),
     contact = $("#contact"),
@@ -53,28 +53,65 @@ function newCompanyDialogSetup (options) {
     city = $("#address\\.city"),
     province = $("#address\\.province"),
     country = $("#address\\.country"),
-    centrallyControlledMenus = $("#centrally-controlled-menus"),
-
+    centrallyControlledMenus = $("#centrally-controlled-menus"),*/
+	var user = $("#user"),
+	password = $("#password"),
+	companyName = $("#company-name"),
+	//contact = $("#contact"),
+	firstname = $("#contact\\.firstname"),
+	lastname = $("#contact\\.lastname"),
+	website = $("#contact\\.website"),
+	email = $("#contact\\.email"),
+	phone = $("#contact\\.phone"),
+	street0 = $("#address\\.street0"),
+	street1 = $("#address\\.street1"),
+	street2 = $("#address\\.street2"),
+	city = $("#address\\.city"),
+	province = $("#address\\.province"),
+	country = $("#address\\.country"),
+	postalcode = $("#address\\.postalcode"),
+	operationalname = $("#operationalname"),
+	//creationdate = new Date(),
+				
     requiredFields = $([])
 	.add(user)
 	.add(companyName)
-	.add(contact)
-	.add(street)
+	//.add(contact)
+	.add(firstname)
+	.add(lastname)
+	.add(website)
+	.add(email)
+	.add(phone)
+	.add(street0)
+	.add(street1)
+	.add(street2)
+	//.add(street)
 	.add(city)
 	.add(province)
 	.add(country)
+	.add(postalcode)
+	.add(operationalname)
 	.add(password),
     
     allFields = $([])
     	.add(user)
 	.add(companyName)
-	.add(contact)
-	.add(street)
+	//.add(contact)
+	.add(firstname)
+	.add(lastname)
+	.add(website)
+	.add(email)
+	.add(phone)
+	.add(street0)
+	.add(street1)
+	.add(street2)
+	//.add(street)
 	.add(city)
 	.add(province)
 	.add(country)
-	.add(password)
-	.add(centrallyControlledMenus);
+	.add(postalcode)
+	.add(operationalname)
+	.add(password);
 
     var tips = $( ".validateTips" );
     
@@ -102,14 +139,23 @@ function newCompanyDialogSetup (options) {
 */
 					 if ( bValid && unfilledRequiredFields ) {
 					     options.success({user:user.val(),
-							      password:password.val(),
-							      contact:contact.val(),
-							      address : {street:street.val(),
-									 city:city.val(),
-									 country:country.val(),
-									 province:province.val()},
-							      centrallyControlledMenus:centrallyControlledMenus.is(":checked"),
-							      _id:companyName.val()});
+									    password:password.val(),
+									    //contact:contact.val(),
+									    contact:{firstname : firstname.val(),
+									    		 lastname : lastname.val(),
+									    		 website : website.val(),
+									    		 email : email.val(),
+									    		 phone : phone.val()},
+									    address:{street0:street0.val(),
+									    		 street1:street1.val(),
+									    		 street2:street2.val(),
+											     city:city.val(),
+											     country:country.val(),
+											     province:province.val(),
+											     postalcode:postalcode.val()},
+										 operationalname:operationalname.val(),
+										 creationdate:new Date(),					
+								    	 _id:companyName.val()});
 					     
 					     $( this ).dialog( "close" );
 					 } else if(bValid && !unfilledRequiredFields) {
@@ -307,3 +353,76 @@ function newTerminalDialogSetup (options) {
 		   $( "#dialog-form" ).dialog( "open" );
 	       });
 };
+
+/*
+function CompanyViewDialogSetup (options) {
+    // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
+    $( "#dialog:ui-dialog" ).dialog( "destroy" );
+    _.extend(this,DialogValidator());
+
+	var user = $("#user"),
+	password = $("#password"),
+	companyName = $("#company-name"),
+	//contact = $("#contact"),
+	firstname = $("#contact\\.firstname"),
+	lastname = $("#contact\\.lastname"),
+	website = $("#contact\\.website"),
+	email = $("#contact\\.email"),
+	phone = $("#contact\\.phone"),
+	street0 = $("#address\\.street0"),
+	street1 = $("#address\\.street1"),
+	street2 = $("#address\\.street2"),
+	city = $("#address\\.city"),
+	province = $("#address\\.province"),
+	country = $("#address\\.country"),
+	postalcode = $("#address\\.postalcode"),
+	operationalname = $("#operationalname");
+	//creationdate = new Date(),
+				
+    
+    
+    $("#dialog-form").dialog({
+				 autoOpen: false,
+				 height: 900,
+				 width: 500,
+				 modal: true,
+				 buttons: {
+				     "Create the Company": function() {
+					     options.success({user:user.val(),
+									    password:password.val(),
+									    //contact:contact.val(),
+									    contact:{firstname : firstname.val(),
+									    		 lastname : lastname.val(),
+									    		 website : website.val(),
+									    		 email : email.val(),
+									    		 phone : phone.val()},
+									    address:{street0:street0.val(),
+									    		 street1:street1.val(),
+									    		 street2:street2.val(),
+											     city:city.val(),
+											     country:country.val(),
+											     province:province.val(),
+											     postalcode:postalcode.val()},
+										 operationalname:operationalname.val(),
+										 creationdate:new Date(),					
+								    	 _id:companyName.val()});
+					     
+					     $( this ).dialog( "close" );
+				     },		
+				     Cancel: function() {
+					 $( this ).dialog( "close" );
+				     }
+				 },
+				 close: function() {
+				     allFields.val("").removeClass( "ui-state-error" );
+				     allFields.filter("input:checked").attr("checked",false);
+				 }
+			     });
+
+    $( "#create-company" )
+	.button()
+	.click(function() {
+		   $( "#dialog-form" ).dialog( "open" );
+	       });
+};
+*/

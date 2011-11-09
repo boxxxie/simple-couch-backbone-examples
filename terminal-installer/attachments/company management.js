@@ -12,7 +12,8 @@ var Company = couchDoc.extend(
     {defaults: function() {
 	 return {
 	     _id:"unknown",
-	     hierarchy:{groups:[{name:"none"}]}
+	     hierarchy:{groups:[{name:"none"}]},
+	     //creationdate : new Date()
 	 };
      },
      addGroup: function(groupToAdd){
@@ -160,21 +161,40 @@ function doc_setup(){
 				var user = $("#user"),
 				password = $("#password"),
 				_id = $("#company-name"),
-				contact = $("#contact"),
-				street = $("#address\\.street"),
+				//contact = $("#contact"),
+				firstName = $("#contact\\.firstname"),
+				lastName = $("#contact\\.lastname"),
+				website = $("#contact\\.website"),
+				email = $("#contact\\.email"),
+				phone = $("#contact\\.phone"),
+				street0 = $("#address\\.street0"),
+				street1 = $("#address\\.street1"),
+				street2 = $("#address\\.street2"),
 				city = $("#address\\.city"),
 				province = $("#address\\.province"),
 				country = $("#address\\.country"),
-				centrallyControlledMenus = $("#centrally-controlled-menus");
+				postalcode = $("#address\\.postalcode"),
+				operationalname = $("#operationalname");
+				//creationdate = new Date();
+				//centrallyControlledMenus = $("#centrally-controlled-menus");
 				var modelChanges = {user:user.val(),
-						    password:password.val(),
-						    contact:contact.val(),
-						    address:{street:street.val(),
-							     city:city.val(),
-							     country:country.val(),
-							     province:province.val()},
-						    centrallyControlledMenus:centrallyControlledMenus.is(":checked"),
-						    _id:_id.val()};
+								    password:password.val(),
+								    //contact:contact.val(),
+								    contact:{firstname : firstName.val(),
+								    		 lastname : lastName.val(),
+								    		 website : website.val(),
+								    		 email : email.val(),
+								    		 phone : phone.val()},
+								    address:{street0:street0.val(),
+								    		 street1:street1.val(),
+								    		 street2:street2.val(),
+										     city:city.val(),
+										     country:country.val(),
+										     province:province.val(),
+										     postalcode:postalcode.val()},
+									 operationalname:operationalname.val(),					
+							    	 //centrallyControlledMenus:centrallyControlledMenus.is(":checked"),
+							    	 _id:_id.val()};
 				model.set(modelChanges);
 				model.save({success:function(){alert("saved!");}}); //FIXME:allert isn't being invoked
 			    }
