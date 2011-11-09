@@ -35,7 +35,6 @@ var Company = couchDoc.extend(
 	 if(!_(stores).chain().pluck('number').contains(storeToAdd.number).value()) {
 	     var newStores = stores.concat(_.extend(storeToAdd,{store_id:guidGenerator()}));
 	     groupToAddTo.stores = newStores;
-	     // this.set({hierarchy:oldHierarchy}); //assuming that this was changed in place...
 	     this.save();
 	     this.trigger("add:store"); //triggers go last
 	 } else {
@@ -50,7 +49,6 @@ var Company = couchDoc.extend(
 	 if(!_(storeTerminals).chain().pluck('terminal_id').contains(terminalToAdd.terminal_id).value()) {
 	     var newTerminals = storeTerminals.concat(terminalToAdd);
 	     storeToAddTo.terminals = newTerminals;
-	     // this.set({hierarchy:oldHierarchy}); //assuming that this was changed in place...
 	     this.save();
 	     this.trigger("add:terminal"); //triggers go last
 	 } else {
@@ -64,7 +62,6 @@ var Company = couchDoc.extend(
 	 return _.find(this.getGroups(),function(group){ return group.group_id == groupID;});
      },
      getStores:function(groupID){
-	 var groups =  this.get('hierarchy').groups;
 	 var foundGroup = this.getGroup(groupID); //_.filter(groups,function(group){ return group.group_id == groupID;});
 	 return foundGroup.stores;
      },
@@ -73,9 +70,7 @@ var Company = couchDoc.extend(
 	 return _.find(stores,function(store){return store.store_id == storeID;});
      },
      getTerminals:function(groupID,storeID){
-	 var hierarchy =  this.get('hierarchy');
-	 var foundGroup = _.find(hierarchy.groups,function(group){return group.group_id == groupID;});
-	 var foundStore = _.find(foundGroup.stores,function(store){return store.store_id == storeID;});
+	 var foundStore = this.getStore(groupID,storeID);
 	 return foundStore.terminals;
      },
      getTerminal:function(groupID,storeID,terminalID){
@@ -444,15 +439,15 @@ function doc_setup(){
 	{initialize:function(){
 	     var view = this;
 	     _.bindAll(view, 'render'); 
-	     AppRouter.bind('route:terminalsManager',function(companyID, groupID, storeID){
+	     AppRouter.bind('route:terminalsManager',function(companyID,groupID,storeID){
 				console.log('terminalsView:route:terminalsManager');
-				view.model = Companies.getModelById(companyID);
+				view.model = Companies.getModelByName(companyID);
 				view.model.bind('add:terminal',view.render(companyID,groupID,storeID));
 				view.el =_.first($("#terminals"));
-				view.render(companyID, groupID, storeID)();});
+				view.render(companyID,groupID,storeID)();});
 	     
 	 },
-	 render:function(companyID, groupID, storeID){
+	 render:function(companyID,groupID,storeID){
 	     var view = this;
 	     return function(){
 		 var forTMP = {list:_.map(view.model.getTerminals(groupID,storeID),
