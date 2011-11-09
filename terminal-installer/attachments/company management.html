@@ -101,7 +101,6 @@
 	<tr>
 	  <th>Name</th>
 	  <th>Number</th>
-	  <th>Group Name</th>
 	  <th># of Terminals</th>
 	  <th>Creation Date</th>
 	  <th>Details</th>
@@ -199,6 +198,9 @@
 
     <script id="group_management_page_TMP" type="text/html">
       <h1>Group Management</h1>
+      {{#company}}
+      <h2>{{operationalname}}</h2>
+      {{/company}}
       <div id="dialog-form" title="Create new Company">
 	<p class="validateTips">All form fields are required.</p>
 	<form>
@@ -220,52 +222,55 @@
 
     <script id="store_management_page_TMP" type="text/html">
       <h1>Stores Management</h1>
+      {{#company}}
+      <h2>{{operationalname}} - {{#group}}{{groupName}}{/group}}</h2>
+      {{/company}}
       <div id="dialog-form" title="Create new Store">
 	<p class="validateTips">All form fields are required.</p>
 	<form>
 	  <fieldset>
-	  	<label for="store-name">Store name</label>
+	    <label for="store-name">Store name</label>
 	    <input type="text" id="store-name" class="text ui-widget-content ui-corner-all" />
 	    <label for="store-num">Store num</label>
 	    <input type="text" id="store-num" class="text ui-widget-content ui-corner-all" />
-	    <dl>
-	      <dt>Address</dt>
-	      <dd>
-		    <label for="address.street0">Street 0</label>
-			<input type="text" id="address.street0" class="text ui-widget-content ui-corner-all" />
-			<label for="address.street1">Street 1</label>
-			<input type="text" id="address.street1" class="text ui-widget-content ui-corner-all" />
-			<label for="address.street2">Street 2</label>
-			<input type="text" id="address.street2" class="text ui-widget-content ui-corner-all" />
-			<label for="address.city">City</label>
-			<input type="text" id="address.city" class="text ui-widget-content ui-corner-all" />
-			<label for="address.province">State/Province</label>
-			<input type="text" id="address.province" class="text ui-widget-content ui-corner-all" />
-			<label for="address.country">Country</label>
-			<input type="text" id="address.country" class="text ui-widget-content ui-corner-all" />
-			<label for="address.postalcode">Postal code</label>
-			<input type="text" id="address.postalcode" class="text ui-widget-content ui-corner-all" />
-	      </dd>
-	    </dl>
-	    <dl>
-		    <dt>Contact</dt>
-		    <dd>
-		    <label for="contact.firstname">First Name</label>
-		    <input type="text" id="contact.firstname" class="text ui-widget-content ui-corner-all" />
-		    <label for="contact.lastname">Last Name</label>
-		    <input type="text" id="contact.lastname" class="text ui-widget-content ui-corner-all" />
-		    <label for="contact.website">Web site</label>
-		    <input type="text" id="contact.website" class="text ui-widget-content ui-corner-all" />
-		    <label for="contact.email">e-mail</label>
-		    <input type="text" id="contact.email" class="text ui-widget-content ui-corner-all" />
-		    <label for="contact.phone">phone</label>
-		    <input type="text" id="contact.phone" class="text ui-widget-content ui-corner-all" />
-		    </dd>
-	    </dl>
 	    <label for="user">Master User ID</label>
 	    <input type="text" name="user" id="user" class="text ui-widget-content ui-corner-all" />
 	    <label for="password">Master Password</label>
 	    <input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all" />
+	    <dl>
+	      <dt>Address</dt>
+	      <dd>
+		<label for="address.street0">Street 0</label>
+		<input type="text" id="address.street0" class="text ui-widget-content ui-corner-all" />
+		<label for="address.street1">Street 1</label>
+		<input type="text" id="address.street1" class="text ui-widget-content ui-corner-all" />
+		<label for="address.street2">Street 2</label>
+		<input type="text" id="address.street2" class="text ui-widget-content ui-corner-all" />
+		<label for="address.city">City</label>
+		<input type="text" id="address.city" class="text ui-widget-content ui-corner-all" />
+		<label for="address.province">State/Province</label>
+		<input type="text" id="address.province" class="text ui-widget-content ui-corner-all" />
+		<label for="address.country">Country</label>
+		<input type="text" id="address.country" class="text ui-widget-content ui-corner-all" />
+		<label for="address.postalcode">Postal code</label>
+		<input type="text" id="address.postalcode" class="text ui-widget-content ui-corner-all" />
+	      </dd>
+	    </dl>
+	    <dl>
+	      <dt>Contact</dt>
+	      <dd>
+		<label for="contact.firstname">First Name</label>
+		<input type="text" id="contact.firstname" class="text ui-widget-content ui-corner-all" />
+		<label for="contact.lastname">Last Name</label>
+		<input type="text" id="contact.lastname" class="text ui-widget-content ui-corner-all" />
+		<label for="contact.website">Web site</label>
+		<input type="text" id="contact.website" class="text ui-widget-content ui-corner-all" />
+		<label for="contact.email">e-mail</label>
+		<input type="text" id="contact.email" class="text ui-widget-content ui-corner-all" />
+		<label for="contact.phone">phone</label>
+		<input type="text" id="contact.phone" class="text ui-widget-content ui-corner-all" />
+	      </dd>
+	    </dl>
 	  </fieldset>
 	</form>
       </div>
@@ -315,12 +320,19 @@
       <script id="modify_company_page_TMP" type="text/html">
 	<table border="1">
 	  <h1>Modify Company</h1>
+	  {{#company}}
+	  <h2>{{operationalname}}</h2>
 	  <div>
 	    <form>
 	      <fieldset>
-		{{#company}}
 		<label for="company name">Company name</label>
 		<input type="text" name="company name" id="company-name" value="{{companyName}}" class="text ui-widget-content ui-corner-all" />
+		<label for="operationalname">Operational Name</label>
+		<input type="text" id="operationalname" value="{{operationalname}}" class="text ui-widget-content ui-corner-all" />
+		<label for="user">User Name</label>
+		<input type="text" name="user" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" />
+		<label for="password">Password</label>
+		<input type="password" name="password" id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
 		<dl>
 		  <dt>Address</dt>
 		  <dd>
@@ -360,13 +372,6 @@
 		    {{/contact}}
 		  </dd>
 		</dl>
-		
-		<label for="user">User Name</label>
-		<input type="text" name="user" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" />
-		<label for="password">Password</label>
-		<input type="password" name="password" id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
-		<label for="operationalname">Operational Name</label>
-		<input type="text" id="operationalname" value="{{operationalname}}" class="text ui-widget-content ui-corner-all" />
 	      </fieldset>
 	    </form>
 	  </div>
@@ -390,6 +395,9 @@
       <script id="modify_group_page_TMP" type="text/html">
 	<table border="1">
 	  <h1>Modify Group</h1>
+	  {{#company}}
+	  <h2>{{operationalname}} - {{#group}}{{groupName}}{{/group}}</h2>
+	  {{/company}}
 	  <div>
 	    <form>
 	      <fieldset>
@@ -411,6 +419,7 @@
 	  </button></a>
 	  {{/group}}
 	</table>
+
       </script>   
 
       <script id="modify_store_page_TMP" type="text/html">

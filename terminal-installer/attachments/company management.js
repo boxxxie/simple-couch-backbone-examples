@@ -12,7 +12,7 @@ var Company = couchDoc.extend(
     {defaults: function() {
 	 return {
 	     companyName:"unknown",
-	     hierarchy:{groups:[{groupName:"none",
+	     hierarchy:{groups:[{groupName:"ungrouped",
 				 group_id:guidGenerator()}]}
 	 };
      },
@@ -28,13 +28,12 @@ var Company = couchDoc.extend(
 
      },
      addStore: function(groupID,storeToAdd){
-	 // var oldHierarchy = this.get('hierarchy');
-	 var groupToAddTo = getGroup(groupID);
+	 var groupToAddTo = this.getGroup(groupID);
 	 var stores = groupToAddTo.stores;
 	 stores || (stores = []);
 	 //this is supposed to check if we are adding a dup store number to this group of stores
 	 if(!_(stores).chain().pluck('number').contains(storeToAdd.number).value()) {
-	     var newStores = stores.concat(_.extend(store,{store_id:guidGenerator()}));
+	     var newStores = stores.concat(_.extend(storeToAdd,{store_id:guidGenerator()}));
 	     groupToAddTo.stores = newStores;
 	     // this.set({hierarchy:oldHierarchy}); //assuming that this was changed in place...
 	     this.save();
@@ -223,7 +222,7 @@ function doc_setup(){
 		 var modelObj = model.toJSON();
 		 var groups = model.getGroups();
 		 var groups_w_ids = _.map(groups,function(group){return _.extend(group,{_id:modelObj._id});});
-		 $('body').html(ich.group_management_page_TMP());
+		 $('body').html(ich.group_management_page_TMP({company:modelObj}));
 		 newGroupDialogSetup(addGroup(model));
 	     },
 	     modifyGroup:function(companyID, groupID){
@@ -231,7 +230,7 @@ function doc_setup(){
 		 var model = Companies.getModelByName(companyID);
 		 var groupToEdit = model.getGroup(groupID);
 		 var originalGroupID = groupID;
-		 $('body').html(ich.modify_group_page_TMP({group:groupToEdit}));
+		 $('body').html(ich.modify_group_page_TMP({company: {operationalname: model.get('operationalname')} ,group:groupToEdit}));
 		 $("#modify-group")
 		     .click(function(){
 				var groupName = $("#group-name");
