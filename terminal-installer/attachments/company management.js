@@ -415,7 +415,7 @@ function doc_setup(){
 		 var forTMP = {list:_.map(view.model.getStores(groupID),
 					  function(store){
 					      var storeClone = _.clone(store);
-					      return _.extend(storeClone,{_id:companyID},view.model.companyStats(groupID,store.store_id));
+					      return _.extend(storeClone,{_id:companyID, group_id:groupID },view.model.companyStats(groupID,store.store_id));
 					  })};
 		 var html = ich.storesTabel_TMP(forTMP);
 		 $(view.el).html(html);
