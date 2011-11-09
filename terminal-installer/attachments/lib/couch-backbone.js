@@ -8,14 +8,14 @@ var couchDoc = Backbone.Model.extend(
 	idAttribute: "_id",
 	save:function(attrs,options){
 	    function updateRev(model,resp,status){
-		model.set({_rev:status.rev},{silent: true});
+		model.set({_rev:status.rev,_id:status.id},{silent: true});
 	    };
 	    options || (options = {});
 	    var model = this;
 	    var success = options.success;   
 	    options.success = function(resp, status, xhr){
-		if (success){success(model, resp, status);}
 		updateRev(model,resp,status);
+		if (success){success(model, resp, status);}
 	    };
 	    Backbone.Model.prototype.save.call(this, attrs, options);
 	}	
