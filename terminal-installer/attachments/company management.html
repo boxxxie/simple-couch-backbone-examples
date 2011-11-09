@@ -85,8 +85,7 @@
 	  <th>Detail</th>
 	</tr>
 	{{#list}}
-	<tr><td><a href="#/company/{{_id}}/groups/{{group_id}}">{{groupName}}</a>
-	  </td><td>{{store_num}}</td><td>{{terminal_num}}</td><td>{{creationdate}}</td>
+	<tr><td><a href="#/company/{{_id}}/groups/{{group_id}}">{{groupName}}</a></td><td>{{store_num}}</td><td>{{terminal_num}}</td><td>{{creationdate}}</td>
 	  <td>
 	    <a href="./mainMenus.html"><button class="ui-state-default ui-corner-all">
 		<span class="ui-button-text">View</span>
@@ -108,8 +107,7 @@
 	  <th>Details</th>
 	</tr>
 	{{#list}}
-	<tr><td><a href="#/company/{{companyName}}/stores/{{name}}">{{name}}</a><td>{{number}}</td>
-	  </td><td>{{country}}</td><td>{{contact}}</td><td>{{creationdate}}</td>
+	<tr><td><a href="#/company/{{companyName}}/groups/{{group_id}}/stores/{{store_id}}">{{storeName}}</a><td>{{number}}</td></td><td>{{country}}</td><td>{{contact}}</td><td>{{creationdate}}</td>
 	  <td>
 	  <a href="./mainMenus.html"><button class="ui-state-default ui-corner-all">
 		   <span class="ui-button-text">View</span>
@@ -124,25 +122,19 @@
       <table border="1">
 	<tr>
 	  <th>ID</th>
-	  <th>Company Name</th>
-	  <th>Group Name</th>
-	  <th>Store Name</th>
 	  <th>Installed</th>
 	  <th>Creation Date</th>
 	  <th>Detail</th>
-	  
 	</tr>
 	{{#list}}
-	<tr><td><a href="#/company/{{_id}}/stores/{{storeName}}/terminals/{{id}}">{{id}}</a></td><td>{{mobilePayment}}</td>
-	  <td>{{debitPayment}}</td><td>{{creditPayment}}</td><td>{{installed}}</td><td>{{creationdate}}</td>
-	  
+	<tr><td><a href="#/company/{{_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals/{{terminal_id}}">{{termina_id}}</a></td>
+	  <td>{{installed}}</td><td>{{creationdate}}</td>
 	  <td>
-	  	<a href="./mainMenus.html"><button class="ui-state-default ui-corner-all">
-		   <span class="ui-button-text">View</span>
-		   </button></a>
-		</td>
-	  
-	  </tr>
+	    <a href="./mainMenus.html"><button class="ui-state-default ui-corner-all">
+		<span class="ui-button-text">View</span>
+	    </button></a>
+	  </td>
+	</tr>
 	{{/list}}
       </table>
     </script>
