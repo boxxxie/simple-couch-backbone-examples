@@ -40,7 +40,12 @@ function DialogValidator(){
 	}
     };
 };
-
+function guidGenerator() {
+    var S4 = function() {
+       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    };
+    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+}
 function newCompanyDialogSetup (options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
@@ -182,6 +187,8 @@ function newStoreDialogSetup (options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
     _.extend(this,DialogValidator());
+    
+    /*
     var user = $("#user"),
     password = $("#password"),
     storeName = $("#store-name"),
@@ -193,32 +200,67 @@ function newStoreDialogSetup (options) {
     country = $("#address\\.country"),
     mobQRedits = $("#mobQRedits"),
     autoPayment = $("#automated-payment"),
-    
+    */
+    var user = $("#user"),
+	password = $("#password"),
+	storeName = $("#store-name"),
+	storeNum = $("#store-num"),
+	//contact = $("#contact"),
+	firstname = $("#contact\\.firstname"),
+	lastname = $("#contact\\.lastname"),
+	website = $("#contact\\.website"),
+	email = $("#contact\\.email"),
+	phone = $("#contact\\.phone"),
+	street0 = $("#address\\.street0"),
+	street1 = $("#address\\.street1"),
+	street2 = $("#address\\.street2"),
+	city = $("#address\\.city"),
+	province = $("#address\\.province"),
+	country = $("#address\\.country"),
+	postalcode = $("#address\\.postalcode"),
+	//operationalname = $("#operationalname"),
 
     requiredFields = $([])
 	.add(user)
-	.add(password)
 	.add(storeName)
 	.add(storeNum)
-
-	.add(contact)
-	.add(street)
+	//.add(contact)
+	.add(firstname)
+	.add(lastname)
+	.add(website)
+	.add(email)
+	.add(phone)
+	.add(street0)
+	.add(street1)
+	.add(street2)
+	//.add(street)
 	.add(city)
 	.add(province)
-	.add(country),
+	.add(country)
+	.add(postalcode)
+	//.add(operationalname)
+	.add(password),
     
     allFields = $([])
 	.add(user)
-	.add(password)
 	.add(storeName)
 	.add(storeNum)
-	.add(mobQRedits)
-	.add(autoPayment)
-	.add(contact)
-	.add(street)
+	//.add(contact)
+	.add(firstname)
+	.add(lastname)
+	.add(website)
+	.add(email)
+	.add(phone)
+	.add(street0)
+	.add(street1)
+	.add(street2)
+	//.add(street)
 	.add(city)
 	.add(province)
-	.add(country);
+	.add(country)
+	.add(postalcode)
+	//.add(operationalname)
+	.add(password);
     
     var tips = $( ".validateTips" );
     
@@ -245,7 +287,9 @@ function newStoreDialogSetup (options) {
 					 bValid = bValid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "The Master Password field only allow : a-z 0-9", updateTips(tips) );
 			*/		 
 					 if ( bValid && unfilledRequiredFields) {
-					     options.success({user:user.val(),
+					     options.success({
+					     	/*
+					     	user:user.val(),
 							      password:password.val(),
 							      contact:contact.val(),
 							      address : {street:street.val(),
@@ -255,7 +299,29 @@ function newStoreDialogSetup (options) {
 							      mobQRedits:mobQRedits.is(":checked"),
 							      autoPayment:autoPayment.is(":checked"),
 							      name:storeName.val(),
-							      number:storeNum.val()});
+							      number:storeNum.val()
+							  */
+							 			user:user.val(),
+									    password:password.val(),
+									    //contact:contact.val(),
+									    contact:{firstname : firstname.val(),
+									    		 lastname : lastname.val(),
+									    		 website : website.val(),
+									    		 email : email.val(),
+									    		 phone : phone.val()},
+									    address:{street0:street0.val(),
+									    		 street1:street1.val(),
+									    		 street2:street2.val(),
+											     city:city.val(),
+											     country:country.val(),
+											     province:province.val(),
+											     postalcode:postalcode.val()},
+										 //operationalname:operationalname.val(),
+										 creationdate:new Date(),
+										 name:storeName.val(),
+										 number:storeNum.val(),					
+								    	 _id:guidGenerator()    
+							      });
 					     $( this ).dialog( "close" );
 					 }else if(bValid && !unfilledRequiredFields) {
 					     handleMissingFields(requiredFields,updateTips(tips));

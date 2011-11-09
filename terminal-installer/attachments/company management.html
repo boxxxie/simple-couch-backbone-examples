@@ -82,18 +82,18 @@
 	<tr>
 	  <th>Name</th>
 	  <th>Number</th>
-	  <th>Address</th>
-	  <th>Contact</th>
-	  <th>Maser ID</th>
-	  <th>Maser Password</th>
-	  <th>Automated Payments</th>
+	  <th>Group Name</th>
+	  <th># of Terminals</th>
+	  <th>Creation Date</th>
+	  <th>Detail</th>
+	  <!--<th>Automated Payments</th>
 	  <th>mobQRedits</th>
 	  <th>Detail</th>
+	  -->
 	</tr>
 	{{#list}}
 	<tr><td><a href="#/company/{{_id}}/stores/{{name}}">{{name}}</a><td>{{number}}</td>
-	  </td>{{#address}}<td>{{street}}, {{city}}, {{province}}, {{country}}</td>{{/address}}
-	  <td>{{contact}}</td><td>{{user}}</td><td>{{password}}</td><td>{{autoPayment}}</td>{{mobQRedits}}
+	  </td><td>{{country}}</td><td>{{contact}}</td><td>{{creationdate}}</td>
 	  <td>
 	  <a href="./mainMenus.html"><button class="ui-state-default ui-corner-all">
 		   <span class="ui-button-text">View</span>
@@ -202,33 +202,48 @@
 	<p class="validateTips">All form fields are required.</p>
 	<form>
 	  <fieldset>
-	    <label for="store-name">Store Name</label>
+	  	<label for="store-name">Store name</label>
 	    <input type="text" id="store-name" class="text ui-widget-content ui-corner-all" />
-	    <label for="store-num">Store Number</label>
+	    <label for="store-num">Store num</label>
 	    <input type="text" id="store-num" class="text ui-widget-content ui-corner-all" />
 	    <dl>
 	      <dt>Address</dt>
 	      <dd>
-	      	<label for="address.street">Street</label>
-		<input type="text"  id="address.street" class="text ui-widget-content ui-corner-all" />
-		<label for="address.city">City</label>
-		<input type="text"  id="address.city" class="text ui-widget-content ui-corner-all" />
-		<label for="address.province">State/Province</label>
-		<input type="text"  id="address.province" class="text ui-widget-content ui-corner-all" />
-		<label for="address.country">Country</label>
-		<input type="text"  id="address.country" class="text ui-widget-content ui-corner-all" />
+		    <label for="address.street0">Street 0</label>
+			<input type="text" id="address.street0" class="text ui-widget-content ui-corner-all" />
+			<label for="address.street1">Street 1</label>
+			<input type="text" id="address.street1" class="text ui-widget-content ui-corner-all" />
+			<label for="address.street2">Street 2</label>
+			<input type="text" id="address.street2" class="text ui-widget-content ui-corner-all" />
+			<label for="address.city">City</label>
+			<input type="text" id="address.city" class="text ui-widget-content ui-corner-all" />
+			<label for="address.province">State/Province</label>
+			<input type="text" id="address.province" class="text ui-widget-content ui-corner-all" />
+			<label for="address.country">Country</label>
+			<input type="text" id="address.country" class="text ui-widget-content ui-corner-all" />
+			<label for="address.postalcode">Postal code</label>
+			<input type="text" id="address.postalcode" class="text ui-widget-content ui-corner-all" />
 	      </dd>
 	    </dl>
-	    <label for="contact">Contact</label>
-	    <input type="text" name="contact" id="contact" class="text ui-widget-content ui-corner-all" />
-	    <label for="user">Master Store User ID</label>
+	    <dl>
+		    <dt>Contact</dt>
+		    <dd>
+		    <label for="contact.firstname">First Name</label>
+		    <input type="text" id="contact.firstname" class="text ui-widget-content ui-corner-all" />
+		    <label for="contact.lastname">Last Name</label>
+		    <input type="text" id="contact.lastname" class="text ui-widget-content ui-corner-all" />
+		    <label for="contact.website">Web site</label>
+		    <input type="text" id="contact.website" class="text ui-widget-content ui-corner-all" />
+		    <label for="contact.email">e-mail</label>
+		    <input type="text" id="contact.email" class="text ui-widget-content ui-corner-all" />
+		    <label for="contact.phone">phone</label>
+		    <input type="text" id="contact.phone" class="text ui-widget-content ui-corner-all" />
+		    </dd>
+	    </dl>
+	    <label for="user">Master User ID</label>
 	    <input type="text" name="user" id="user" class="text ui-widget-content ui-corner-all" />
-	    <label for="password">Master Store Password</label>
+	    <label for="password">Master Password</label>
 	    <input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all" />
-	    <label for="automated-payment">Using Automated Payment?</label>
-	    <input type="checkbox" id="automated-payment" value="" class="text ui-widget-content ui-corner-all" />
-	    <label for="mobQRedits">Using mobQRedits?</label>
-	    <input type="checkbox" id="mobQRedits" value="" class="text ui-widget-content ui-corner-all" />
 	  </fieldset>
 	</form>
       </div>
@@ -369,32 +384,49 @@
 		<input type="text" id="store-name" value="{{name}}" class="text ui-widget-content ui-corner-all" disabled="true" />
 		<label for="store-num">Store Number</label>
 		<input type="text" id="store-num" value="{{number}}" class="text ui-widget-content ui-corner-all" />
-		<label for="contact">Contact</label>
-		<input type="text"  id="contact" value="{{contact}}" class="text ui-widget-content ui-corner-all" />
-		<label for="user">Master Store User ID</label>
-		<input type="text" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" />
-		<label for="password">Master Store Password</label>
-		<input type="password"  id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
 		<dl>
 		  <dt>Address</dt>
 		  <dd>
 		    {{#address}}
-		    <label for="address.street">Street</label>
-		    <input type="text" name="address.street" id="address.street" value="{{street}}" class="text ui-widget-content ui-corner-all" />
+		    <label for="address.street0">Street 0</label>
+		    <input type="text" id="address.street0" value="{{street0}}" class="text ui-widget-content ui-corner-all" />
+		    <label for="address.street1">Street 1</label>
+		    <input type="text" id="address.street1" value="{{street1}}" class="text ui-widget-content ui-corner-all" />
+		    <label for="address.street2">Street 2</label>
+		    <input type="text" id="address.street2" value="{{street2}}" class="text ui-widget-content ui-corner-all" />
 		    <label for="address.city">City</label>
 		    <input type="text" name="address.city" id="address.city" value="{{city}}" class="text ui-widget-content ui-corner-all"/>
 		    <label for="address.province">State/Province</label>
 		    <input type="text" name="address.province" id="address.province" value="{{province}}" class="text ui-widget-content ui-corner-all"/>
 		    <label for="address.country">Country</label>
 		    <input type="text" name="address.country" id="address.country" value="{{country}}" class="text ui-widget-content ui-corner-all"/>
+		    <label for="address.postalcode">Postal code</label>
+		    <input type="text" name="address.postalcode" id="address.postalcode" value="{{postalcode}}" class="text ui-widget-content ui-corner-all"/>
 		    {{/address}}
 		  </dd>
 		</dl>
-		<label for="automated-payment">Using Automated Payment?</label>
-		<input type="checkbox" id="automated-payment" value="" {{#autoPayment}} checked="true" {{/autoPayment}} class="text ui-widget-content ui-corner-all" />
-		<label for="mobQRedits">Using mobQRedits?</label>
-		<input type="checkbox" id="mobQRedits" value="" {{#mobQRedits}} checked="true" {{/mobQRedits}} class="text ui-widget-content ui-corner-all" />
-
+		
+		<dl>
+		  <dt>Contact</dt>
+		  <dd>
+		    {{#contact}}
+		    <label for="contact.firstname">First Name</label>
+		    <input type="text" id="contact.firstname" value="{{firstname}}" class="text ui-widget-content ui-corner-all" />
+		    <label for="contact.lastname">Last Name</label>
+		    <input type="text" id="contact.lastname" value="{{lastname}}" class="text ui-widget-content ui-corner-all" />
+		    <label for="contact.website">Web site</label>
+		    <input type="text" id="contact.website" value="{{website}}" class="text ui-widget-content ui-corner-all" />
+		    <label for="contact.email">e-mail</label>
+		    <input type="text" id="contact.email" value="{{email}}" class="text ui-widget-content ui-corner-all" />
+		    <label for="contact.phone">Phone</label>
+		    <input type="text" id="contact.phone" value="{{phone}}" class="text ui-widget-content ui-corner-all" />
+		    {{/contact}}
+		  </dd>
+		</dl>
+		<label for="user">Master User ID</label>
+		<input type="text" name="user" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" />
+		<label for="password">Master Password</label>
+		<input type="password" name="password" id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
 	      </fieldset>
 	    </form>
 	  </div>
