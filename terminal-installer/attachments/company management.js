@@ -226,16 +226,6 @@ function doc_setup(){
 		 $('body').html(ich.group_management_page_TMP());
 		 newGroupDialogSetup(addGroup(model));
 	     },
-	     
-	     storesManager:function(companyID, groupID){
-		 console.log("storesManager: " + companyID + " , " + groupID);
-		 var model = Companies.getModelById(companyID);
-		 var modelObj = model.toJSON();
-		 var stores = model.getStores(groupID);
-		 var stores_w_ids = _.map(stores,function(store){return _.extend(store,{_id:modelObj._id});});
-		 $('body').html(ich.store_management_page_TMP({list:stores_w_ids}));
-		 newStoreDialogSetup(addStore(model,groupID));
-	     },
 	     modifyGroup:function(companyID, groupID){
 		 console.log("modifyGroup: " + companyID + " " + groupID);
 		 var model = Companies.getModelByName(companyID);
@@ -251,11 +241,21 @@ function doc_setup(){
 			    }
 			   );
 	     },
-	     modifyStore:function(companyName, storeName){
-		 console.log("modifyStore: " + companyName + " " + storeName);
-		 var model = Companies.getModelByName(companyName);
-		 var storeToEdit = model.getStore("none",storeName);
-		 var originalStoreName = storeName;
+	     storesManager:function(companyID, groupID){
+		 console.log("storesManager: " + companyID + " , " + groupID);
+		 var model = Companies.getModelById(companyID);
+		 var modelObj = model.toJSON();
+		 var stores = model.getStores(groupID);
+		 var stores_w_ids = _.map(stores,function(store){return _.extend(store,{_id:modelObj._id});});
+		 $('body').html(ich.store_management_page_TMP({list:stores_w_ids}));
+		 newStoreDialogSetup(addStore(model,groupID));
+	     },
+	     
+	     modifyStore:function(companyID, groupID, storeID){
+		 console.log("modifyStore: " + companyID + " " + groupID + " " + storeID);
+		 var model = Companies.getModelById(companyID);
+		 var storeToEdit = model.getStore(groupID,storeID);
+		 //var originalStoreName = storeName;
 		 $('body').html(ich.modify_store_page_TMP({store:storeToEdit}));
 		 $("#modify-store")
 		     .click(function(){
@@ -297,20 +297,21 @@ function doc_setup(){
 			    }
 			   );
 	     },
-	     terminalsManager:function(companyName,storeName){
-		 console.log("terminalsManager: " + companyName + " " + storeName);
-		 var model = Companies.getModelByName(companyName);
+	     terminalsManager:function(companyID, groupID, storeID){
+		 console.log("terminalsManager: " + companyID + " " + groupID + " " + storeID);
+		 var model = Companies.getModelById(companyID);
 		 var modelObj = model.toJSON();
-		 var store = model.getStore("none",storeName);
+		 var store = model.getStore(groupID,storeID);
 		 var terminals = store.terminals;
-		 var terminals_w_ids = _.map(store,function(store){return _.extend(store,{_id:companyName,storeName:storeName});});
+		 // FIXME: is this right? terminals_w_ids
+		 var terminals_w_ids = _.map(store,function(store){return _.extend(store,{_id:companyID,storeName:storeName});});
 		 $('body').html(ich.terminal_management_page_TMP({lists:terminals_w_ids}));
-		 newTerminalDialogSetup(addTerminal(model,'none',storeName));
+		 newTerminalDialogSetup(addTerminal(model,groupID,storeID));
 	     },
-	     modifyterminal:function(companyName,storeName,terminalName){
-		 console.log("modifyterminal: " + companyName + " " + storeName + " " + terminalName);
-		 var model = Companies.getModelByName(companyName);
-		 var terminalToEdit = model.getTerminal("none",storeName,terminalName);
+	     modifyterminal:function(companyID, groupID, storeID,terminalID){
+		 console.log("modifyterminal: " + companyID + " " + groupID + " " + storeID + " " + terminalID);
+		 var model = Companies.getModelById(companyID);
+		 var terminalToEdit = model.getTerminal(groupID,storeID,terminalID);
 		 var originalTerminalName = terminalName;
 		 $('body').html(ich.modify_terminal_page_TMP({terminal:terminalToEdit}));
 		 $("#modify-terminal")
