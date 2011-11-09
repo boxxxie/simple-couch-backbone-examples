@@ -185,7 +185,7 @@ function doc_setup(){
 		 var model = Companies.getModelByName(name);
 		 var modelObj = model.toJSON();
 		 var stores = model.getStores("none");
-		 var stores_w_ids = _.map(stores,function(store){return _.extend(_.clone(store,{_id:modelObj._id});});
+		 var stores_w_ids = _.map(stores,function(store){return _.extend(store,{_id:modelObj._id});});
 		 $('body').html(ich.store_management_page_TMP({list:stores_w_ids}));
 		 newStoreDialogSetup(addStore(model,'none'));
 	     },

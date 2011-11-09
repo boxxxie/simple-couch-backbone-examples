@@ -61,11 +61,18 @@
 	  <th>Maser ID</th>
 	  <th>Maser Password</th>
 	  <th>Centrally Controlled Menus</th>
+	  <th>Detail</th>
 	</tr>
 	{{#list}}
 	<tr><td><a href="#/company/{{_id}}">{{_id}}</a>
 	  </td>{{#address}}<td>{{street}}, {{city}}, {{province}}, {{country}}</td>{{/address}}
-	  <td>{{contact}}</td><td>{{user}}</td><td>{{password}}</td><td>{{centrallyControlledMenus}}</td></tr>
+	  <td>{{contact}}</td><td>{{user}}</td><td>{{password}}</td><td>{{centrallyControlledMenus}}</td>
+	  <td>
+	  <a href="./mainMenus.html"><button class="ui-state-default ui-corner-all">
+		   <span class="ui-button-text">View</span>
+		   </button></a>
+		</td>
+	  </tr>
 	{{/list}}
       </table>
     </script>
@@ -81,11 +88,18 @@
 	  <th>Maser Password</th>
 	  <th>Automated Payments</th>
 	  <th>mobQRedits</th>
+	  <th>Detail</th>
 	</tr>
 	{{#list}}
 	<tr><td><a href="#/company/{{_id}}/stores/{{name}}">{{name}}</a><td>{{number}}</td>
 	  </td>{{#address}}<td>{{street}}, {{city}}, {{province}}, {{country}}</td>{{/address}}
-	  <td>{{contact}}</td><td>{{user}}</td><td>{{password}}</td><td>{{autoPayment}}</td><td>{{mobQRedits}}</td></tr>
+	  <td>{{contact}}</td><td>{{user}}</td><td>{{password}}</td><td>{{autoPayment}}</td>{{mobQRedits}}
+	  <td>
+	  <a href="./mainMenus.html"><button class="ui-state-default ui-corner-all">
+		   <span class="ui-button-text">View</span>
+		   </button></a>
+		</td>
+	  </tr>
 	{{/list}}
       </table>
     </script>
@@ -99,10 +113,20 @@
 	  <th>Credit-Payment</th>
 	  <th>MobQRedits Bonus Codes</th>
 	  <th>MobQRedits Conversion Percentage</th>
+	  <th>View</th>
+	  
 	</tr>
 	{{#list}}
-	<tr><td><a href="#/company/{{_id}}/stores/{{storeName}}/terminals/{{id}}">{{id}}</a><td>{{mobilePayment}}</td>
-	  <td>{{debitPayment}}</td><td>{{creditPayment}}</td>{{#mobQRedits}}<td>{{bonusCodes}}</td><td>{{convertPercentage}}</td>{{/mobQRedits}}</tr>
+	<tr><td><a href="#/company/{{_id}}/stores/{{storeName}}/terminals/{{id}}">{{id}}</a></td><td>{{mobilePayment}}</td>
+	  <td>{{debitPayment}}</td><td>{{creditPayment}}</td>{{#mobQRedits}}<td>{{bonusCodes}}</td><td>{{convertPercentage}}</td>{{/mobQRedits}}
+	  
+	  <td>
+	  	<a href="./mainMenus.html"><button class="ui-state-default ui-corner-all">
+		   <span class="ui-button-text">View</span>
+		   </button></a>
+		</td>
+	  
+	  </tr>
 	{{/list}}
       </table>
     </script>
@@ -118,30 +142,57 @@
 	    <dl>
 	      <dt>Address</dt>
 	      <dd>
-	      	<label for="address.street">Street</label>
-		<input type="text" name="address.street" id="address.street" class="text ui-widget-content ui-corner-all" />
-		<label for="address.city">City</label>
-		<input type="text" name="address.city" id="address.city" class="text ui-widget-content ui-corner-all" />
-		<label for="address.province">State/Province</label>
-		<input type="text" name="address.province" id="address.province" class="text ui-widget-content ui-corner-all" />
-		<label for="address.country">Country</label>
-		<input type="text" name="address.country" id="address.country" class="text ui-widget-content ui-corner-all" />
+		    <label for="address.street[0]">Street 0</label>
+			<input type="text" id="address.street[0]" class="text ui-widget-content ui-corner-all" />
+			<label for="address.street[0]">Street 1</label>
+			<input type="text" id="address.street[1]" class="text ui-widget-content ui-corner-all" />
+			<label for="address.street[0]">Street 2</label>
+			<input type="text" id="address.street[2]" class="text ui-widget-content ui-corner-all" />
+			<label for="address.city">City</label>
+			<input type="text" id="address.city" class="text ui-widget-content ui-corner-all" />
+			<label for="address.province">State/Province</label>
+			<input type="text" id="address.province" class="text ui-widget-content ui-corner-all" />
+			<label for="address.country">Country</label>
+			<input type="text" id="address.country" class="text ui-widget-content ui-corner-all" />
+			<label for="address.postalcode">Postal code</label>
+			<input type="text" id="postalcode" class="text ui-widget-content ui-corner-all" />
 	      </dd>
 	    </dl>
-	    <label for="contact">Contact</label>
-	    <input type="text" name="contact" id="contact" class="text ui-widget-content ui-corner-all" />
+	    <dl>
+		    <dt>Contact</dt>
+		    <dd>
+		    <label for="contact.firstname">First Name</label>
+		    <input type="text" id="contact.firstname" class="text ui-widget-content ui-corner-all" />
+		    <label for="contact.lastname">Last Name</label>
+		    <input type="text" id="contact.lastname" class="text ui-widget-content ui-corner-all" />
+		    <label for="contact.website">Web site</label>
+		    <input type="text" id="contact.website" class="text ui-widget-content ui-corner-all" />
+		    <label for="contact.email">e-mail</label>
+		    <input type="text" id="contact.email" class="text ui-widget-content ui-corner-all" />
+		    <label for="contact.phone">phone</label>
+		    <input type="text" id="contact.phone" class="text ui-widget-content ui-corner-all" />
+		    </dd>
+	    </dl>
 	    <label for="user">Master User ID</label>
 	    <input type="text" name="user" id="user" class="text ui-widget-content ui-corner-all" />
 	    <label for="password">Master Password</label>
 	    <input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all" />
+	  <!--
 	    <label for="centrally-controlled-menus">Centrally Controlled Menus</label>
 	    <input type="checkbox" name="centrally controlled menus" id="centrally-controlled-menus" value="" class="text ui-widget-content ui-corner-all" />
+	  -->
 	  </fieldset>
 	</form>
       </div>
       <div id="companies"></div>
-      <input type="button" id="create-company" value="make a new company" />
-    </script>
+		<input type="button" id="create-company" value="make a new company" />
+		<a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	   <span class="ui-button-text">Back</span>
+	   </button></a>
+		<a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+		   <span class="ui-button-text">Menu</span>
+		   </button></a>
+	</script>	   
 
     <script id="store_management_page_TMP" type="text/html">
       <h1>Stores Management</h1>
@@ -181,6 +232,13 @@
       </div>
       <div id="stores"></div>
       <input type="button" id="create-store" value="make a new store" />
+      <a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	   <span class="ui-button-text">Back</span>
+	   </button></a>
+      <a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	   <span class="ui-button-text">Menus</span>
+	   </button></a>
+      
     </script>
 
     <script id="terminal_management_page_TMP" type="text/html">
@@ -206,6 +264,12 @@
       </div>
       <div id="terminals"></div>
       <input type="button" id="create-terminal" value="make a new terminal" />
+      <a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	   <span class="ui-button-text">Back</span>
+	   </button></a>
+      <a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	   <span class="ui-button-text">Menus</span>
+	   </button></a>
     </script>
 
 
@@ -245,8 +309,23 @@
 	      </fieldset>
 	    </form>
 	  </div>
-	  <input type="button" id="modify-company" value="modify company" />
-	  <a href="#/company/{{_id}}/stores">Store Manager</a>
+	  <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="modify-company" value="Edit" />
+		    
+	  <a href="#/company/{{_id}}/stores"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+		   <span class="ui-button-text">Store Manager</span>
+		   </button></a>
+	  
+	  <a href="#/company/{{_id}}/groups"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+		   <span class="ui-button-text">Group Manager</span>
+		   </button></a>
+		   
+	   <a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	   <span class="ui-button-text">Back</span>
+	   </button></a>
+	  <a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	   <span class="ui-button-text">Menus</span>
+	   </button></a>
+	  
 	  {{/company}}
 	</table>
       </script>   
@@ -291,8 +370,16 @@
 	      </fieldset>
 	    </form>
 	  </div>
-	  <input type="button" id="modify-store" value="modify store" />
-	  <a href="#/company/{{_id}}/stores/{{name}}/terminals">Terminal Manager</a>
+	  <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="modify-store" value="Edit" />
+	  <a href="#/company/{{_id}}/stores/{{name}}/terminals"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+		   <span class="ui-button-text">Terminal Manager</span>
+		   </button></a>
+	   <a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	   <span class="ui-button-text">Back</span>
+	   </button></a>
+	  <a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	   <span class="ui-button-text">Menus</span>
+	   </button></a>
 	  {{/store}}
 	</table>
       </script>   
@@ -321,7 +408,10 @@
 	      </fieldset>
 	    </form>
 	  </div>
-	  <input type="button" id="modify-terminal" value="modify terminal" />
+	  <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="modify-terminal" value="modify terminal" />
+	  <a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	   <span class="ui-button-text">Back</span>
+	   </button></a>
 	  {{/terminal}}
 	</table>
       </script> 
