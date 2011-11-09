@@ -199,6 +199,9 @@
 
     <script id="group_management_page_TMP" type="text/html">
       <h1>Group Management</h1>
+      {{#company}}
+      <h2>{{operationalname}}</h2>
+      {{/company}}
       <div id="dialog-form" title="Create new Company">
 	<p class="validateTips">All form fields are required.</p>
 	<form>
@@ -220,6 +223,9 @@
 
     <script id="store_management_page_TMP" type="text/html">
       <h1>Stores Management</h1>
+      {{#company}}
+      <h2>{{operationalname}} - {{#group}}{{groupName}}{/group}}</h2>
+      {{/company}}
       <div id="dialog-form" title="Create new Store">
 	<p class="validateTips">All form fields are required.</p>
 	<form>
@@ -315,12 +321,19 @@
       <script id="modify_company_page_TMP" type="text/html">
 	<table border="1">
 	  <h1>Modify Company</h1>
+	  {{#company}}
+	  <h2>{{operationalname}}</h2>
 	  <div>
 	    <form>
 	      <fieldset>
-		{{#company}}
 		<label for="company name">Company name</label>
 		<input type="text" name="company name" id="company-name" value="{{companyName}}" class="text ui-widget-content ui-corner-all" />
+		<label for="operationalname">Operational Name</label>
+		<input type="text" id="operationalname" value="{{operationalname}}" class="text ui-widget-content ui-corner-all" />
+		<label for="user">User Name</label>
+		<input type="text" name="user" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" />
+		<label for="password">Password</label>
+		<input type="password" name="password" id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
 		<dl>
 		  <dt>Address</dt>
 		  <dd>
@@ -360,13 +373,6 @@
 		    {{/contact}}
 		  </dd>
 		</dl>
-		
-		<label for="user">User Name</label>
-		<input type="text" name="user" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" />
-		<label for="password">Password</label>
-		<input type="password" name="password" id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
-		<label for="operationalname">Operational Name</label>
-		<input type="text" id="operationalname" value="{{operationalname}}" class="text ui-widget-content ui-corner-all" />
 	      </fieldset>
 	    </form>
 	  </div>
@@ -390,6 +396,8 @@
       <script id="modify_group_page_TMP" type="text/html">
 	<table border="1">
 	  <h1>Modify Group</h1>
+	  {{#company}}
+	  <h2>{{operationalname}} - {{#group}}{{groupName}}{{/group}}</h2>
 	  <div>
 	    <form>
 	      <fieldset>
@@ -411,6 +419,7 @@
 	  </button></a>
 	  {{/group}}
 	</table>
+	{{/company}}
       </script>   
 
       <script id="modify_store_page_TMP" type="text/html">

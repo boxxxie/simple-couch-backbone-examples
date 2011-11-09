@@ -12,7 +12,7 @@ var Company = couchDoc.extend(
     {defaults: function() {
 	 return {
 	     companyName:"unknown",
-	     hierarchy:{groups:[{groupName:"none",
+	     hierarchy:{groups:[{groupName:"ungrouped",
 				 group_id:guidGenerator()}]}
 	 };
      },
@@ -223,7 +223,7 @@ function doc_setup(){
 		 var modelObj = model.toJSON();
 		 var groups = model.getGroups();
 		 var groups_w_ids = _.map(groups,function(group){return _.extend(group,{_id:modelObj._id});});
-		 $('body').html(ich.group_management_page_TMP());
+		 $('body').html(ich.group_management_page_TMP({company:modelObj}));
 		 newGroupDialogSetup(addGroup(model));
 	     },
 	     storesManager:function(name){
@@ -240,7 +240,7 @@ function doc_setup(){
 		 var model = Companies.getModelByName(companyID);
 		 var groupToEdit = model.getGroup(groupID);
 		 var originalGroupID = groupID;
-		 $('body').html(ich.modify_group_page_TMP({group:groupToEdit}));
+		 $('body').html(ich.modify_group_page_TMP({company: {operationalname: model.get('operationalname')} ,group:groupToEdit}));
 		 $("#modify-group")
 		     .click(function(){
 				var groupName = $("#group-name");
