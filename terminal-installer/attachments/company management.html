@@ -115,7 +115,7 @@
 	  {{#terminal}}
 	  <fieldset>
 	    <label for="terminal-id">Terminal ID</label>
-	    <input type="text" id="terminal-id" value="{{terminal_id}}" class="text ui-widget-content ui-corner-all" />
+	    <input type="text" id="terminal-id" value="{{id}}" class="text ui-widget-content ui-corner-all" />
 	    <label for="areaCode">Area Code</label>
 	    <input type="text" id="areaCode" value="{{areaCode}}" class="text ui-widget-content ui-corner-all" />
 	    <label for="postalCode">Postal Code</label>
@@ -269,7 +269,7 @@
 	  <th>Detail</th>
 	</tr>
 	{{#list}}
-	<tr><td><a href="#/company/{{_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals/{{terminal_id}}">{{terminal_id}}</a></td>
+	<tr><td><a href="#/company/{{_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals/{{terminal_id}}">{{id}}</a></td>
 	  <td>{{installed}}</td><td>{{creationdate}}</td>
 	  <td>
 	    <button onclick=quickView("modify_terminal_page_TMP","{{_id}}","{{group_id}}","{{store_id}}","{{terminal_id}}") class="ui-state-default ui-corner-all">
@@ -516,13 +516,13 @@
       <script id="modify_terminal_page_TMP" type="text/html">
 	<table border="1">
 	  <h1>Modify Terminal</h1>
-	  <h2>{{operationalname}} - {{groupName}} - {{storeName}} - {{terminal_id}}</h2>
+	  <h2>{{operationalname}} - {{groupName}} - {{storeName}} - {{id}}</h2>
 	  <div>
 	    <form>
 	      <fieldset>
 		{{#terminal}}
 		<label for="terminal-id">Terminal ID</label>
-		<input type="text" id="terminal-id" class="text ui-widget-content ui-corner-all" disabled="true"  value="{{terminal_id}}"/>
+		<input type="text" id="terminal-id" class="text ui-widget-content ui-corner-all" disabled="true"  value="{{id}}"/>
 		<label for="areaCode">Area Code</label>
 		<input type="text" id="areaCode" class="text ui-widget-content ui-corner-all" disabled="true"  value="{{areaCode}}"/>
 		<label for="postalCode">Postal Code</label>
