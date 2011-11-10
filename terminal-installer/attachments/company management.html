@@ -229,13 +229,14 @@
 	{{#list}}
 	<tr><td><a href="#/company/{{_id}}/groups/{{group_id}}">{{groupName}}</a></td><td>{{store_num}}</td><td>{{terminal_num}}</td><td>{{creationdate}}</td>
 	  <td>
-	    <a href="./mainMenus.html"><button class="ui-state-default ui-corner-all">
-		<span class="ui-button-text">View</span>
-	    </button></a>
+	    <button onclick=quickView("modify_group_page_TMP","{{_id}},{{group_id}}") class="ui-state-default ui-corner-all">
+	      <span class="ui-button-text">View</span>
+	    </button>
 	  </td>
 	</tr>
 	{{/list}}
       </table>
+      <div id="dialog-quickView" title="QuickView"></div>
     </script>
 
     <script id="storesTabel_TMP" type="text/html">

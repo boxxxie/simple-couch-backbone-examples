@@ -128,11 +128,19 @@ function addTerminal(model,group,storeName){
 	   };
 };
 
-function quickView(template,companyID){
+function quickView(template,companyID,groupID,storeID,terminalID){
     var company = Companies.getModelById(companyID);
     var companyJSON = company.toJSON();
-    console.log(ich[template]({company:companyJSON}));
-    quickViewDialog(ich[template]({company:companyJSON}));
+    var for_TMP;
+    if(groupID){
+	var group = company.getGroup(groupID);
+	for_TMP = {groupName:group.groupName};
+    }
+    else{
+	for_TMP = {company:companyJSON};
+    }
+    console.log(ich[template](for_TMP));
+    quickViewDialog(ich[template](for_TMP));
 }
 
 function doc_setup(){
