@@ -57,11 +57,6 @@ var Company = couchDoc.extend(
 	     alert("The store you tried to add had the same number as one already in this group, please choose a different store number");
 	 }
      },
-     editStore:function(store, groupID){
-	 var storeToMod = this.getStore(groupID, store.store_id);
-	 _.extend(storeToMod,store);
-	 this.save();
-     },
      addTerminal: function(groupID,storeID,terminalToAdd){
 	 // var oldHierarchy = this.get('hierarchy');
 	 var storeToAddTo = this.getStore(groupID,storeID);
@@ -159,21 +154,9 @@ function addStore(model,group){
 	    }
 	   };
 };
-function editStore(model, groupID, store){
-    return {success:function(resp){
-		model.editStore(_.extend(resp,{group_id:groupID, store_id:sotre.store_id}));	    }
-	   };
-};
 function addTerminal(model,group,storeName){
     return {success: function(resp){
 		model.addTerminal(group,storeName,resp);
-	    }
-	   };
-};
-function editTerminal(terminal){
-    return {success:function(resp){
-		terminal.set(resp);
-		terminal.save();
 	    }
 	   };
 };
@@ -335,10 +318,6 @@ function doc_setup(){
 	});
     groupsView = Backbone.View.extend(
 	{initialize:function(){
-<<<<<<< HEAD
-=======
-		
->>>>>>> upstream/master
 		 var view = this;
 	     _.bindAll(view, 'renderManagementPage','renderModifyPage'); 
 
@@ -355,11 +334,6 @@ function doc_setup(){
 				view.el =_.first($("#groups"));
 				view.renderModifyPage(companyID,groupID);});
 	 },
-<<<<<<< HEAD
-
-=======
-	
->>>>>>> upstream/master
 	 renderManagementPage:function(companyID){
 	     var view = this;
 	     var forTMP = view.model.getGroups();
@@ -390,21 +364,6 @@ function doc_setup(){
     storesView = Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
-<<<<<<< HEAD
-	     _.bindAll(view, 'render'); 
-	     /*AppRouter.bind('route:storesManager',function(companyID,groupID){
-=======
-	     _.bindAll(view, 'renderManagementPage','renderModifyPage'); 
-	     AppRouter.bind('route:storesManager',function(companyID,groupID){
->>>>>>> upstream/master
-				console.log('storesView:route:storesManager');
-				view.model = Companies.getModelByName(companyID);
-				view.model.bind('add:store',view.render(companyID,groupID));
-				view.el =_.first($("#stores"));
-<<<<<<< HEAD
-				view.render(companyID,groupID)();});*/
-	
-	  var view = this;
 	     _.bindAll(view, 'renderManagementPage','renderModifyPage'); 
 
 	     AppRouter.bind('route:storesManager', function(companyID, groupID){
@@ -419,18 +378,6 @@ function doc_setup(){
 				console.log('groupsView:route:modifyGroup' + " " + companyID + " " + groupID + " " + storeID);
 				view.el =_.first($("#stores"));
 				view.renderModifyPage(companyID,groupID,storeID);});
-	 
-	     
-=======
-				view.render(companyID,groupID);});
-	     AppRouter.bind('route:modifyStore', function(companyID,groupID,storeID){
-				var model = Companies.getModelById(companyID);
-				view.model = model;
-				model.bind('change',function(){view.renderModifyPage(companyID,groupID,storeID);});
-				console.log('storesView:route:modifyStore' + " " + companyID + " " + groupID);
-				view.el =_.first($("#stores"));
-				view.renderModifyPage(companyID,groupID,storeID);});
->>>>>>> upstream/master
 	 },
 	 renderManagementPage:function(companyID,groupID){
 	     var view = this;
@@ -460,32 +407,6 @@ function doc_setup(){
 	     console.log("renderModifyPage stores view rendered");
 	     return view;
 	 }
-	 /*
-	  renderManagementPage:function(companyID,groupID){
-	     var view = this;
-	     var forTMP = view.model.getStore(companyID,groupID);
-	     var forTMP_w_stats = {list:_.map(forTMP,function(store){return _.extend(store,{_id:companyID},group_id:groupID, view.model.companyStats(groupID,store.store_id));})};
-	     var html = ich.groupsTabel_TMP(forTMP_w_stats);
-	     $(this.el).html(html);
-	     console.log("renderManagementPage");
-	     return this;
-	 },
-	 renderModifyPage:function(companyID, groupID){
-	     var view = this;
-	     var model = Companies.getModelById(companyID);
-	     var selectedgroup = view.model.getGroup(groupID);
-	     //var modelJSON = selectedgroup.toJSON();
-	     $('body').html(ich.modify_group_page_TMP({groupName:selectedgroup.groupName, operationalname:model.get("operationalname")}));
-	     $("#dialog-hook").html(ich.groupInputDialog_TMP({title:"Edit the Group",group:selectedgroup}));
-	     GroupInputDialog("modify-group",editGroup(model,groupID));
-	     console.log("renderModifyPage " + companyID + " " + groupID);
-	     return this;
-	 },
-	 updateModel:function(){
-	     this.model = this.collection.getModelByName(Selection.get('company'));
-	     this.trigger("change:model");
-	 }
-	  */
 	});
 
 
