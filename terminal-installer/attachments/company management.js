@@ -58,7 +58,6 @@ var Company = couchDoc.extend(
 	 }
      },
      addTerminal: function(groupID,storeID,terminalToAdd){
-	 // var oldHierarchy = this.get('hierarchy');
 	 var storeToAddTo = this.getStore(groupID,storeID);
 	 var storeTerminals = storeToAddTo.terminals;
 	 storeTerminals || (storeTerminals = []);
@@ -132,7 +131,8 @@ function addGroup(model){
 };   
 function editGroup(model, groupID){
     return {success:function(resp){
-		model.editGroup(_.extend(resp,{group_id:groupID}));	    }
+		model.editGroup(_.extend(resp,{group_id:groupID})); 
+	    }
 	   };
 };
 function editStore(model,storeID){
@@ -286,7 +286,7 @@ function doc_setup(){
 				view.renderManagementPage();});
 	     AppRouter.bind('route:modifyCompany', function(id){
 				var model = Companies.getModelById(id);
-				model.bind('change',function(){view.renderModifyPage(id)});
+				model.bind('change',function(){view.renderModifyPage(id);});
 				console.log('companiesView:route:modifyCompany');
 				view.el =_.first($("#companies"));
 				view.renderModifyPage(id);});
@@ -347,7 +347,6 @@ function doc_setup(){
 	     var view = this;
 	     var model = Companies.getModelById(companyID);
 	     var selectedgroup = view.model.getGroup(groupID);
-	     //var modelJSON = selectedgroup.toJSON();
 	     $('body').html(ich.modify_group_page_TMP({_id:model.get("_id"), group_id:selectedgroup.group_id, groupName:selectedgroup.groupName, operationalname:model.get("operationalname")}));
 	     $("#dialog-hook").html(ich.groupInputDialog_TMP({title:"Edit the Group",group:selectedgroup}));
 	     GroupInputDialog("modify-group",editGroup(model,groupID));
@@ -374,7 +373,7 @@ function doc_setup(){
 	     AppRouter.bind('route:modifyStore', function(companyID,groupID,storeID){
 				var model = Companies.getModelById(companyID);
 				view.model = model;
-				model.bind('change',function(){view.renderModifyPage(companyID,groupID,storeID)});
+				model.bind('change',function(){view.renderModifyPage(companyID,groupID,storeID);});
 				console.log('groupsView:route:modifyGroup' + " " + companyID + " " + groupID + " " + storeID);
 				view.el =_.first($("#stores"));
 				view.renderModifyPage(companyID,groupID,storeID);});
