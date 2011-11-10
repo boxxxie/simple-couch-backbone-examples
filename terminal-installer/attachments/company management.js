@@ -272,7 +272,7 @@ function doc_setup(){
     companiesView = Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
-	     _.bindAll(view, 'render'); 
+	     _.bindAll(view, 'renderManagementPage','renderModifyPage'); 
 	     this.collection.bind('reset',view.renderManagementPage);
 	     this.collection.bind('add',view.renderManagementPage);
 	     this.bind('change:model',function(){console.log('change:model:companies');view.renderManagementPage();view.renderModifyPage();});
