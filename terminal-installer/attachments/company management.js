@@ -168,8 +168,13 @@ function quickView(template,companyID,groupID,storeID,terminalID){
     if(groupID){
 	var group = company.getGroup(groupID);
 	for_TMP = {groupName:group.groupName};
-    }
-    else{
+    } 
+    /*else if(storeID) {
+    	var group = company.getGroup(groupID);
+    	var store = company.getStore(groupID, storeID);
+    	for_TMP = {groupName:group.groupName, storeName:store.storeName};
+    }*/ 
+    else {
 	for_TMP = {company:companyJSON};
     }
     console.log(ich[template](for_TMP));
