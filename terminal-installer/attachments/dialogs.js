@@ -205,7 +205,7 @@ function newStoreDialogSetup (attachTo,options) {
 			 bValid = bValid && checkRegexp( storeNum, /^([0-9])+$/i, "The Store Number may consist of Digits only.", updateTips(tips));
 			 /*		 
 			  bValid = bValid && checkLength( storeName, "The Store Name", 3, 64, updateTips(tips) );
-			  bValid = bValid && checkRegexp( storeName, /^[a-z]([0-9a-z_])+$/i, "The Store Name may consist of a-z, 0-9, underscores, begin with a letter.", updateTips(tips));
+			  bValid = bValid && ceckRegexp( storeName, /^[a-z]([0-9a-z_])+$/i, "The Store Name may consist of a-z, 0-9, underscores, begin with a letter.", updateTips(tips));
 			  bValid = bValid && checkRegexp( storeNum, /^([0-9])+$/i, "The Store Number may consist of Digits only.", updateTips(tips));
 			  bValid = bValid && checkLength( user, "The Master User ID", 3, 64, updateTips(tips) );
 			  bValid = bValid && checkRegexp( user, /^[a-z]([0-9a-z_])+$/i, "The Master User ID may consist of a-z, 0-9, underscores, begin with a letter.", updateTips(tips));
