@@ -33,13 +33,13 @@ var Company = couchDoc.extend(
 	 _.extend(groupToMod,group);
 	 this.save();
      },
-     editStore:function(store){
-	 var storeToMod = this.getStore(store.store_id);
+     editStore:function(groupID,storeID,store){
+	 var storeToMod = this.getStore(groupID,storeID);
 	 _.extend(storeToMod,store);
 	 this.save();
      },
-     editTerminal:function(terminal){
-	 var terminalToMod = this.getTerminal(terminal.terminal_id);
+     editTerminal:function(groupID,storeID,terminalID,terminal){
+	 var terminalToMod = this.getTerminal(groupID,storeID,terminalID);
 	 _.extend(terminalToMod,terminal);
 	 this.save();
      },
@@ -61,8 +61,8 @@ var Company = couchDoc.extend(
 	 var storeToAddTo = this.getStore(groupID,storeID);
 	 var storeTerminals = storeToAddTo.terminals;
 	 storeTerminals || (storeTerminals = []);
-	 if(!_(storeTerminals).chain().pluck('terminal_id').contains(terminalToAdd.terminal_id).value()) {
-	     var newTerminals = storeTerminals.concat(terminalToAdd);
+	 if(!_(storeTerminals).chain().pluck('id').contains(terminalToAdd.id).value()) {
+	     var newTerminals = storeTerminals.concat(_.extend(terminalToAdd,{terminal_id:guidGenerator()}));
 	     storeToAddTo.terminals = newTerminals;
 	     this.save();
 	     this.trigger("add:terminal"); //triggers go last
@@ -135,15 +135,15 @@ function editGroup(model, groupID){
 	    }
 	   };
 };
-function editStore(model,storeID){
+function editStore(model,groupID,storeID){
     return {success:function(resp){
-		model.editStore(_.extend(resp,{store_id:storeID}));
+		model.editStore(groupID,storeID,resp);
 	    }
 	   };
 };
-function editTerminal(model,terminalID){
+function editTerminal(model,groupID,storeID,terminalID){
     return {success:function(resp){
-		model.editTerminal(_.extend(resp,{terminal_id:terminalID}));
+		model.editTerminal(groupID,storeID,terminalID,resp);
 	    }
 	   };
 };
@@ -182,7 +182,7 @@ function quickView(template,companyID,groupID,storeID,terminalID){
 }
 
 function doc_setup(){
- 
+    
     var companiesView;
     var companiesViewTest;
     var groupsView;
@@ -255,7 +255,7 @@ function doc_setup(){
 		 $('body').html(ich.store_management_page_TMP({operationalname:model.get('operationalname'),
 							       _id:model.get('_id'),
 							       groupName:model.getGroup(groupID).groupName}));
-         $("#storeCreateDialog").html(ich.storeInputDialog_TMP({title:"Make a new Store",store:{address:{}, contact:{}}}));
+		 $("#storeCreateDialog").html(ich.storeInputDialog_TMP({title:"Make a new Store",store:{address:{}, contact:{}}}));
 		 StoreInputDialog("create-store",addStore(model,groupID));
 	     },
 	     
@@ -271,9 +271,9 @@ function doc_setup(){
 		 var store = model.getStore(groupID,storeID);
 		 var terminals = store.terminals;
 		 $('body').html(ich.terminal_management_page_TMP({operationalname:model.get('operationalname'),
-							       _id:model.get('_id'),
-							       groupName:model.getGroup(groupID).groupName,
-							       storeName:store.storeName}));
+								  _id:model.get('_id'),
+								  groupName:model.getGroup(groupID).groupName,
+								  storeName:store.storeName}));
 		 $("#terminalCreateDialog").html(ich.terminalInputDialog_TMP({title:"Make a new Terminal",terminal:{}}));
 		 TerminalInputDialog("create-terminal",addTerminal(model,groupID,storeID));
 	     },
@@ -326,7 +326,7 @@ function doc_setup(){
 	});
     groupsView = Backbone.View.extend(
 	{initialize:function(){
-		 var view = this;
+	     var view = this;
 	     _.bindAll(view, 'renderManagementPage','renderModifyPage'); 
 
 	     AppRouter.bind('route:groupsManager', function(companyID){
@@ -375,7 +375,7 @@ function doc_setup(){
 	     _.bindAll(view, 'renderManagementPage','renderModifyPage'); 
 
 	     AppRouter.bind('route:storesManager', function(companyID, groupID){
-				console.log('groupsView:route:groupsManager : ' + companyID + " " + groupID);
+				console.log('storeView:route:storesManager : ' + companyID + " " + groupID);
 				view.model = Companies.getModelById(companyID);
 				view.model.bind('add:store',function(){view.renderManagementPage(companyID, groupID);});
 				view.el =_.first($("#stores"));
@@ -384,36 +384,37 @@ function doc_setup(){
 				var model = Companies.getModelById(companyID);
 				view.model = model;
 				model.bind('change',function(){view.renderModifyPage(companyID,groupID,storeID);});
-				console.log('groupsView:route:modifyGroup' + " " + companyID + " " + groupID + " " + storeID);
+				console.log('storeView:route:modifyStore' + " " + companyID + " " + groupID + " " + storeID);
 				view.el =_.first($("#stores"));
 				view.renderModifyPage(companyID,groupID,storeID);});
 	 },
 	 renderManagementPage:function(companyID,groupID){
 	     var view = this;
-		 var forTMP = {list:_.map(view.model.getStores(groupID),
-					  function(store){
-					      var storeClone = _.clone(store);
-					      return _.extend(storeClone,{_id:companyID, group_id:groupID },view.model.companyStats(groupID,store.store_id));
-					  })};
-		 var html = ich.storesTabel_TMP(forTMP);
-		 $(view.el).html(html);
-		 console.log("renderManagementPage store rendered");
-		 return view;
+	     var forTMP = {list:_.map(view.model.getStores(groupID),
+				      function(store){
+					  var storeClone = _.clone(store);
+					  return _.extend(storeClone,{_id:companyID, group_id:groupID },view.model.companyStats(groupID,store.store_id));
+				      })};
+	     var html = ich.storesTabel_TMP(forTMP);
+	     $(view.el).html(html);
+	     console.log("renderManagementPage store rendered");
+	     return view;
 	 },
 	 renderModifyPage:function(companyID,groupID,storeID){
-	     		 var model = Companies.getModelById(companyID);
-		 var group = model.getGroup(groupID);
-		 var storeToEdit = model.getStore(groupID,storeID);
-		 $('body').html(ich.modify_store_page_TMP({operationalname: model.get('operationalname'),
-							   _id: model.get("id") ,
-							   group_id:group.group_id,
-							   groupName:group.groupName,
-							   storeName: storeToEdit.storeName,
-							   store_id:storeToEdit.store_id,
-							   store: storeToEdit}));
-	     $("#dialog-hook").html(ich.storeInputDialog_TMP({title:"Edit the store",terminal:storeToEdit}));
-	     TerminalInputDialog("modify-store",editTerminal(model,storeID));
-	     console.log("renderModifyPage stores view rendered");
+	     var model = Companies.getModelById(companyID);
+	     var group = model.getGroup(groupID);
+	     var storeToEdit = model.getStore(groupID,storeID);
+	     var html = ich.modify_store_page_TMP({operationalname: model.get('operationalname'),
+						       _id: model.get("_id") ,
+						       group_id:group.group_id,
+						       groupName:group.groupName,
+						       storeName: storeToEdit.storeName,
+						       store_id:storeToEdit.store_id,
+						       store: storeToEdit});
+	     $('body').html(html);
+	     $("#dialog-hook").html(ich.storeInputDialog_TMP({title:"Edit the store",store:storeToEdit}));
+	     StoreInputDialog("modify-store",editStore(model,groupID,storeID));
+	     console.log("renderModifyPage stores view rendered " + companyID+""+groupID+" "+storeID);
 	     return view;
 	 }
 	});
@@ -427,7 +428,7 @@ function doc_setup(){
 	     AppRouter.bind('route:terminalsManager',function(companyID,groupID,storeID){
 				console.log('terminalsView:route:terminalsManager');
 				view.model = Companies.getModelByName(companyID);
-				view.model.bind('add:terminal',view.renderManagementPage(companyID,groupID,storeID));
+				view.model.bind('add:terminal',function(){view.renderManagementPage(companyID,groupID,storeID);});
 				view.el =_.first($("#terminals"));
 				view.renderManagementPage(companyID,groupID,storeID);});
 	     AppRouter.bind('route:modifyTerminal', function(companyID,groupID,storeID,terminalID){
@@ -437,39 +438,40 @@ function doc_setup(){
 				console.log('terminalsView:route:modifyTerminals' + " " + companyID + " " + groupID);
 				view.el =_.first($("#terminals"));
 				view.renderModifyPage(companyID,groupID,storeID,terminalID);});
-		 
+	     
 	     
 	 },
 	 renderManagementPage:function(companyID,groupID,storeID){
 	     var view = this;
-		 var forTMP = {list:_.map(view.model.getTerminals(groupID,storeID),
-					  function(terminal){
-					      var clonedTerminal = _.clone(terminal);
-					      return _.extend(clonedTerminal,{_id:companyID, group_id:groupID, store_id:storeID});})};
-		 var html = ich.terminalsTabel_TMP(forTMP);
-		 $(view.el).html(html);
-		 console.log("renderManagementPage terminals view rendered");
-		 return view;
+	     var forTMP = {list:_.map(view.model.getTerminals(groupID,storeID),
+				      function(terminal){
+					  var clonedTerminal = _.clone(terminal);
+					  return _.extend(clonedTerminal,{_id:companyID, group_id:groupID, store_id:storeID});})};
+	     var html = ich.terminalsTabel_TMP(forTMP);
+	     $(view.el).html(html);
+	     console.log("renderManagementPage terminals view rendered");
+	     return view;
 	 },
 	 renderModifyPage:function(companyID,groupID,storeID,terminalID){
 	     var view = this;
-		 var model = Companies.getModelById(companyID);
-		 var terminalToEdit = model.getTerminal(groupID,storeID,terminalID);
-		 var group = model.getGroup(groupID);
-		 var store = model.getStore(groupID,storeID);
-		 $('body').html(ich.modify_terminal_page_TMP(
-				    {operationalname: model.get('operationalname'),
-				     _id: model.get("id") ,
-				     group_id:group.group_id,
-				     groupName:group.groupName,
-				     storeName: store.storeName,
-				     store_id:store.store_id,
-				     terminal_id:terminalToEdit.terminal_id,
-				     terminal:terminalToEdit}));
-		 $("#dialog-hook").html(ich.terminalInputDialog_TMP({title:"Edit the Terminal",terminal:terminalToEdit}));
-		 TerminalInputDialog("modify-terminal",editTerminal(model,terminalID));
-		 console.log("renderModifyPage terminals view rendered");
-		 return view;	     
+	     var model = Companies.getModelById(companyID);
+	     var terminalToEdit = model.getTerminal(groupID,storeID,terminalID);
+	     var group = model.getGroup(groupID);
+	     var store = model.getStore(groupID,storeID);
+	     var html = ich.modify_terminal_page_TMP(
+				{operationalname: model.get('operationalname'),
+				 _id: model.get("_id") ,
+				 group_id:groupID,
+				 groupName:group.groupName,
+				 storeName: store.storeName,
+				 store_id:storeID,
+				 terminal_id:terminalID,
+				 terminal:terminalToEdit});
+	     $('body').html(html);
+	     $("#dialog-hook").html(ich.terminalInputDialog_TMP({title:"Edit the Terminal",terminal:terminalToEdit}));
+	     TerminalInputDialog("modify-terminal",editTerminal(model,groupID,storeID,terminalID));
+	     console.log("renderModifyPage terminals view rendered");
+	     return view;	     
 	 }
 	});
     companiesViewTest = new companiesView(

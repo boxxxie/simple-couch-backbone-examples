@@ -293,7 +293,7 @@ function TerminalInputDialog (attachTo,options) {
 
 			     options.success(
 				 {
-				     terminal_id:id.val(),
+				     id:id.val(),
 				     creationdate:new Date(),
 				     installed:false,
 				     areaCode:areaCode.val(),
