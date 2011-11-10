@@ -208,15 +208,7 @@ function StoreInputDialog (attachTo,options) {
 			 bValid = bValid && checkLength( user, "The Master User ID", 1, 8, updateTips(tips) );
 			 bValid = bValid && checkLength( password, "The Master User Password", 1, 8 ,updateTips(tips));
 			 bValid = bValid && checkRegexp( storeNum, /^([0-9])+$/i, "The Store Number may consist of Digits only.", updateTips(tips));
-			 /*		 
-			  bValid = bValid && checkLength( storeName, "The Store Name", 3, 64, updateTips(tips) );
-			  bValid = bValid && ceckRegexp( storeName, /^[a-z]([0-9a-z_])+$/i, "The Store Name may consist of a-z, 0-9, underscores, begin with a letter.", updateTips(tips));
-			  bValid = bValid && checkRegexp( storeNum, /^([0-9])+$/i, "The Store Number may consist of Digits only.", updateTips(tips));
-			  bValid = bValid && checkLength( user, "The Master User ID", 3, 64, updateTips(tips) );
-			  bValid = bValid && checkRegexp( user, /^[a-z]([0-9a-z_])+$/i, "The Master User ID may consist of a-z, 0-9, underscores, begin with a letter.", updateTips(tips));
-			  bValid = bValid && checkLength( password, "The Master User Password", 10, 256 ,updateTips(tips));
-			  bValid = bValid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "The Master Password field only allow : a-z 0-9", updateTips(tips) );
-			  */		 
+	 
 			 if ( bValid && unfilledRequiredFields) {
 			     options.success({
 						 user:user.val(),
@@ -312,8 +304,7 @@ function TerminalInputDialog (attachTo,options) {
 		         allFields.filter("input:checked").attr("checked",false);
 			     $( this ).dialog( "close" );
 			 } else if(bValid && !unfilledRequiredFields) {
-			     handleMissingFields(requiredFields,updateTips(tips));
-			 }
+			     handleMissingFields(requiredFields,updateTips(tips));			 }
 		     },
 		     Cancel: function() {
 			 $( this ).dialog( "close" );
