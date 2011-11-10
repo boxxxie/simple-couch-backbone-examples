@@ -251,10 +251,9 @@
 	{{#list}}
 	<tr><td><a href="#/company/{{_id}}/groups/{{group_id}}/stores/{{store_id}}">{{storeName}}</a><td>{{number}}</td></td><td>{{terminal_num}}</td><td>{{creationdate}}</td>
 	  <td>
-	  <a href="./mainMenus.html"><button class="ui-state-default ui-corner-all">
-		   <span class="ui-button-text">View</span>
-		   </button></a>
-		</td>
+	    <button onclick=quickView("modify_store_page_TMP","{{_id}}","{{group_id}}","{{store_id}}") class="ui-state-default ui-corner-all">
+	      <span class="ui-button-text">View</span>
+	    </button>
 	  </tr>
 	{{/list}}
       </table>
@@ -272,9 +271,9 @@
 	<tr><td><a href="#/company/{{_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals/{{terminal_id}}">{{terminal_id}}</a></td>
 	  <td>{{installed}}</td><td>{{creationdate}}</td>
 	  <td>
-	    <a href="./mainMenus.html"><button class="ui-state-default ui-corner-all">
-		<span class="ui-button-text">View</span>
-	    </button></a>
+	    <button onclick=quickView("modify_terminal_page_TMP","{{_id}}","{{group_id}}","{{store_id}}","{{terminal_id}}") class="ui-state-default ui-corner-all">
+	      <span class="ui-button-text">View</span>
+	    </button>
 	  </td>
 	</tr>
 	{{/list}}
