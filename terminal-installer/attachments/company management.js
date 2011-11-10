@@ -114,15 +114,15 @@ function editCompany(company){
 	    }
 	   };
 };
-function addGroup(model,groupID){
+function addGroup(model){
     return {success: function(resp){
-		model.addGroup(_.extend(resp,{group_id:groupID}));
+		model.addGroup(resp);
 	    }
 	   };
 };
-function editGroup(model){
+function editGroup(model,groupID){
     return {success:function(resp){
-		model.editGroup(resp);
+		model.editGroup(_.extend(resp,{group_id:groupID}));
 	    }
 	   };
 };
