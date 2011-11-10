@@ -215,7 +215,7 @@ function doc_setup(){
 		 var groups = model.getGroups();
 		 var groups_w_ids = _.map(groups,function(group){return _.extend(group,{_id:modelObj._id});});
 		 $('body').html(ich.group_management_page_TMP({company:modelObj}));
-		 newGroupDialogSetup(addGroup(model));
+		 GroupInputDialog("create-group", addGroup(model));
 	     },
 	     modifyGroup:function(companyID, groupID){
 		 console.log("modifyGroup: " + companyID + " " + groupID);
@@ -349,14 +349,15 @@ function doc_setup(){
 		
 		 var view = this;
 	     _.bindAll(view, 'renderManagementPage','renderModifyPage'); 
-	     this.collection.bind('reset',view.renderManagementPage);
-	     this.collection.bind('add',view.renderManagementPage);
+
 	     AppRouter.bind('route:groupsManager', function(companyID){
 				console.log('groupsView:route:groupsManager');
+				view.model = Companies.getModelById(companyID);
 				view.el =_.first($("#groups"));
 				view.renderManagementPage(companyID);});
 	     AppRouter.bind('route:modifyGroup', function(companyID,groupID){
 				var model = Companies.getModelById(companyID);
+				view.model = model;
 				model.bind('change',function(){view.renderModifyPage(companyID,groupID)});
 				console.log('groupsView:route:modifyGroup' + " " + companyID + " " + groupID);
 				view.el =_.first($("#groups"));
@@ -383,18 +384,18 @@ function doc_setup(){
 	     var view = this;
 	     var forTMP = view.model.getGroups();
 	     var forTMP_w_stats = {list:_.map(forTMP,function(group){return _.extend(group,{_id:companyID},view.model.companyStats(group.group_id));})};
-	     var html = ich.companiesTabel_TMP(forTMP_w_stats);
+	     var html = ich.groupsTabel_TMP(forTMP_w_stats);
 	     $(this.el).html(html);
 	     console.log("renderManagementPage");
 	     return this;
 	 },
 	 renderModifyPage:function(companyID, groupID){
 	     var view = this;
-	     var model = Companies.getModelById(companyID);
-	     var selectedgroup = model.getGroup(groupID);
-	     var modelJSON = selectedgroup.toJSON();
-	     $('body').html(ich.modify_group_page_TMP({group:modelJSON}));
-	     $("#dialog-hook").html(ich.groupInputDialog_TMP({title:"Edit the Group",group:modelJSON}));
+	     //var model = Companies.getModelById(companyID);
+	     var selectedgroup = view.model.getGroup(groupID);
+	     //var modelJSON = selectedgroup.toJSON();
+	     $('body').html(ich.modify_group_page_TMP({group:selectedgroup}));
+	     $("#dialog-hook").html(ich.groupInputDialog_TMP({title:"Edit the Group",group:selectedgroup}));
 	     GroupInputDialog("modify-group",editGroup(selectedgroup));
 	     console.log("renderModifyPage " + companyID + " " + groupID);
 	     return this;
