@@ -95,9 +95,10 @@ function CompanyInputDialog (attachTo,options) {
 				 width: 500,
 				 modal: true,
 				 close: function() {
-				     allFields.val("").removeClass( "ui-state-error" );
-				     allFields.filter("input:checked").attr("checked",false);
+				     //allFields.val("").removeClass( "ui-state-error" );
+				     //allFields.filter("input:checked").attr("checked",false);
 				 },
+				 //closeOnEscape: false,
 				 buttons: {			 
 				     Submit : function() {
 				       	 var bValid = true;
@@ -126,16 +127,20 @@ function CompanyInputDialog (attachTo,options) {
 							      creationdate:new Date(),					
 							      companyName:companyName.val()});
 					     
+					     allFields.val("").removeClass( "ui-state-error" );
+				     	 allFields.filter("input:checked").attr("checked",false);
 					     $( this ).dialog( "close" );
 					 } else if(bValid && !unfilledRequiredFields) {
 					     handleMissingFields(requiredFields,updateTips(tips));
 					 }		
 				     },	
 				     Cancel: function() {
-					 $( this ).dialog( "close" );
+					 	( this ).dialog( "close" );
 				     }
 				 }
 			     });
+
+
     $("#"+attachTo).button().click(function() {
 				       $("#dialog-form").dialog("open");
 				   });
@@ -232,6 +237,8 @@ function StoreInputDialog (attachTo,options) {
 						 storeName:storeName.val(),
 						 number:storeNum.val()   
 					     });
+			 	 allFields.val("").removeClass( "ui-state-error" );
+		     	 allFields.filter("input:checked").attr("checked",false);
 			     $( this ).dialog( "close" );
 			 }else if(bValid && !unfilledRequiredFields) {
 			     handleMissingFields(requiredFields,updateTips(tips));
@@ -242,8 +249,6 @@ function StoreInputDialog (attachTo,options) {
 		     }
 		 },
 		 close: function() {
-		     allFields.val("").removeClass( "ui-state-error" );
-		     allFields.filter("input:checked").attr("checked",false);
 		 }
 	     });
 
@@ -303,6 +308,8 @@ function TerminalInputDialog (attachTo,options) {
 				     storeCode:storeCode.val(),
 				     companyCode:companyCode.val()
 				 });
+				 allFields.val("").removeClass( "ui-state-error" );
+		         allFields.filter("input:checked").attr("checked",false);
 			     $( this ).dialog( "close" );
 			 } else if(bValid && !unfilledRequiredFields) {
 			     handleMissingFields(requiredFields,updateTips(tips));
@@ -313,8 +320,8 @@ function TerminalInputDialog (attachTo,options) {
 		     }
 		 },
 		 close: function() {
-		     allFields.val("").removeClass( "ui-state-error" );
-		     allFields.filter("input:checked").attr("checked",false);
+		     //allFields.val("").removeClass( "ui-state-error" );
+		     //allFields.filter("input:checked").attr("checked",false);
 		 }
 	     });
 
@@ -341,7 +348,8 @@ function GroupInputDialog (attachTo,options) {
 					     groupName:groupName.val(),
 					     creationdate:new Date()}					
 					);
-			 
+			 allFields.val("").removeClass( "ui-state-error" );
+		     allFields.filter("input:checked").attr("checked",false);
 			 $( this ).dialog( "close" );
 		     },		
 		     Cancel: function() {
@@ -349,8 +357,8 @@ function GroupInputDialog (attachTo,options) {
 		     }
 		 },
 		 close: function() {
-		     allFields.val("").removeClass( "ui-state-error" );
-		     allFields.filter("input:checked").attr("checked",false);
+		     //allFields.val("").removeClass( "ui-state-error" );
+		     //allFields.filter("input:checked").attr("checked",false);
 		 }
 	     });
 

@@ -36,6 +36,66 @@
       .validateTips { border: 1px solid transparent; padding: 0.3em; }
     </style>
 
+
+
+	<script id="companyInputDialog_TMP" type="text/html">
+      <div id="dialog-form" title="{{title}}">
+	<p class="validateTips"></p>
+	<form>
+	  {{#company}}
+	  <fieldset>
+	    <label for="company-name">Company name</label>
+	    <input type="text" id="company-name" value="{{companyName}}" class="text ui-widget-content ui-corner-all" />
+	    <label for="operationalname">Operational Name</label>
+	    <input type="text" id="operationalname" value="{{operationalname}}" class="text ui-widget-content ui-corner-all" />
+	    <label for="user">Master User ID</label>
+	    <input type="text" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" />
+	    <label for="password">Master Password</label>
+	    <input type="password" id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
+	    <dl>
+	      <dt>Address</dt>
+	      {{#address}}
+	      <dd>
+		<label for="address.street0">Street 0</label>
+		<input type="text" id="address.street0" value="{{street0}}" class="text ui-widget-content ui-corner-all" />
+		<label for="address.street1">Street 1</label>
+		<input type="text" id="address.street1" value="{{street1}}" class="text ui-widget-content ui-corner-all" />
+		<label for="address.street2">Street 2</label>
+		<input type="text" id="address.street2" value="{{street2}}" class="text ui-widget-content ui-corner-all" />
+		<label for="address.city">City</label>
+		<input type="text" id="address.city" value="{{city}}" class="text ui-widget-content ui-corner-all" />
+		<label for="address.province">State/Province</label>
+		<input type="text" id="address.province" value="{{province}}" class="text ui-widget-content ui-corner-all" />
+		<label for="address.country">Country</label>
+		<input type="text" id="address.country" value="{{country}}" class="text ui-widget-content ui-corner-all" />
+		<label for="address.postalcode">Postal code</label>
+		<input type="text" id="address.postalcode" value="{{postalCode}}" class="text ui-widget-content ui-corner-all" />
+	      </dd>
+	    </dl>
+	    <dl>
+	      {{/address}}
+	      <dt>Contact</dt>
+	      {{#contact}}
+	      <dd>
+		<label for="contact.firstname">First Name</label>
+		<input type="text" id="contact.firstname" value="{{firstName}}" class="text ui-widget-content ui-corner-all" />
+		<label for="contact.lastname">Last Name</label>
+		<input type="text" id="contact.lastname" value="{{lastName}}" class="text ui-widget-content ui-corner-all" />
+		<label for="contact.website">Web site</label>
+		<input type="text" id="contact.website" value="{{website}}" class="text ui-widget-content ui-corner-all" />
+		<label for="contact.email">e-mail</label>
+		<input type="text" id="contact.email" value="{{email}}" class="text ui-widget-content ui-corner-all" />
+		<label for="contact.phone">phone</label>
+		<input type="text" id="contact.phone" value="{{phone}}" class="text ui-widget-content ui-corner-all" />
+	      </dd>
+	      {{/contact}}
+	    </dl>
+	  </fieldset>
+	</form>
+	{{/company}}
+      </div>	
+    </script>
+
    <script id="groupInputDialog_TMP" type="text/html">
      <div id="dialog-form" title="{{title}}">
        <p class="validateTips"></p>
@@ -134,64 +194,6 @@
       </div>
    </script>
 
-    <script id="companyInputDialog_TMP" type="text/html">
-      <div id="dialog-form" title="{{title}}">
-	<p class="validateTips"></p>
-	<form>
-	  {{#company}}
-	  <fieldset>
-	    <label for="company-name">Company name</label>
-	    <input type="text" id="company-name" value="{{companyName}}" class="text ui-widget-content ui-corner-all" />
-	    <label for="operationalname">Operational Name</label>
-	    <input type="text" id="operationalname" value="{{operationalname}}" class="text ui-widget-content ui-corner-all" />
-	    <label for="user">Master User ID</label>
-	    <input type="text" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" />
-	    <label for="password">Master Password</label>
-	    <input type="password" id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
-	    <dl>
-	      <dt>Address</dt>
-	      {{#address}}
-	      <dd>
-		<label for="address.street0">Street 0</label>
-		<input type="text" id="address.street0" value="{{street0}}" class="text ui-widget-content ui-corner-all" />
-		<label for="address.street1">Street 1</label>
-		<input type="text" id="address.street1" value="{{street1}}" class="text ui-widget-content ui-corner-all" />
-		<label for="address.street2">Street 2</label>
-		<input type="text" id="address.street2" value="{{street2}}" class="text ui-widget-content ui-corner-all" />
-		<label for="address.city">City</label>
-		<input type="text" id="address.city" value="{{city}}" class="text ui-widget-content ui-corner-all" />
-		<label for="address.province">State/Province</label>
-		<input type="text" id="address.province" value="{{province}}" class="text ui-widget-content ui-corner-all" />
-		<label for="address.country">Country</label>
-		<input type="text" id="address.country" value="{{country}}" class="text ui-widget-content ui-corner-all" />
-		<label for="address.postalcode">Postal code</label>
-		<input type="text" id="address.postalcode" value="{{postalCode}}" class="text ui-widget-content ui-corner-all" />
-	      </dd>
-	    </dl>
-	    <dl>
-	      {{/address}}
-	      <dt>Contact</dt>
-	      {{#contact}}
-	      <dd>
-		<label for="contact.firstname">First Name</label>
-		<input type="text" id="contact.firstname" value="{{firstName}}" class="text ui-widget-content ui-corner-all" />
-		<label for="contact.lastname">Last Name</label>
-		<input type="text" id="contact.lastname" value="{{lastName}}" class="text ui-widget-content ui-corner-all" />
-		<label for="contact.website">Web site</label>
-		<input type="text" id="contact.website" value="{{website}}" class="text ui-widget-content ui-corner-all" />
-		<label for="contact.email">e-mail</label>
-		<input type="text" id="contact.email" value="{{email}}" class="text ui-widget-content ui-corner-all" />
-		<label for="contact.phone">phone</label>
-		<input type="text" id="contact.phone" value="{{phone}}" class="text ui-widget-content ui-corner-all" />
-	      </dd>
-	      {{/contact}}
-	    </dl>
-	  </fieldset>
-	</form>
-	{{/company}}
-      </div>	
-    </script>
-    
     <script id="companiesTabel_TMP" type="text/html">
       <table border="1">
 	<tr>

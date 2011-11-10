@@ -177,7 +177,9 @@ function quickView(template,companyID,groupID,storeID,terminalID){
     } else{
 	for_TMP = {company:companyJSON};
     }
-    console.log(ich[template](for_TMP));
+    //console.log("template : " + template);
+    //console.log("companyID : " + companyID + " ,groupID : " + groupID);
+    //console.log("storeID : " + storeID + ", terID : " + terminalID);
     quickViewDialog(ich[template](for_TMP));
 }
 
@@ -226,7 +228,6 @@ function doc_setup(){
 		 $('body').html(ich.company_management_page_TMP());
 		 $("#companyCreateDialog").html(ich.companyInputDialog_TMP({title:"Make a new Company",company:{address:{},contact:{}}}));
 		 CompanyInputDialog("create-company",addCompany(Companies));
-
 	     },
 	     modifyCompany:function(id){
 		 console.log("modifyCompanies: " + id);
