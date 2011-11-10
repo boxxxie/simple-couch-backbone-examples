@@ -147,13 +147,13 @@ function editTerminal(model,terminalID){
 	    }
 	   };
 };
-
+                  
 function addStore(model,group){
     return {success: function(resp){
 		model.addStore(group,resp);
 	    }
 	   };
-};
+};                   
 function addTerminal(model,group,storeName){
     return {success: function(resp){
 		model.addTerminal(group,storeName,resp);
@@ -405,7 +405,7 @@ function doc_setup(){
 		 var group = model.getGroup(groupID);
 		 var storeToEdit = model.getStore(groupID,storeID);
 		 $('body').html(ich.modify_store_page_TMP({operationalname: model.get('operationalname'),
-							   _id: model.get("id") ,
+							   _id: model.get("_id") ,
 							   group_id:group.group_id,
 							   groupName:group.groupName,
 							   storeName: storeToEdit.storeName,
@@ -415,6 +415,7 @@ function doc_setup(){
 	     TerminalInputDialog("modify-store",editTerminal(model,storeID));
 	     console.log("renderModifyPage stores view rendered");
 	     return view;
+	     
 	 }
 	});
 
