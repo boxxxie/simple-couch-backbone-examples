@@ -348,7 +348,7 @@ function doc_setup(){
 	     var model = Companies.getModelById(companyID);
 	     var selectedgroup = view.model.getGroup(groupID);
 	     //var modelJSON = selectedgroup.toJSON();
-	     $('body').html(ich.modify_group_page_TMP({groupName:selectedgroup.groupName, operationalname:model.get("operationalname")}));
+	     $('body').html(ich.modify_group_page_TMP({_id:model.get("_id"), group_id:selectedgroup.group_id, groupName:selectedgroup.groupName, operationalname:model.get("operationalname")}));
 	     $("#dialog-hook").html(ich.groupInputDialog_TMP({title:"Edit the Group",group:selectedgroup}));
 	     GroupInputDialog("modify-group",editGroup(model,groupID));
 	     console.log("renderModifyPage " + companyID + " " + groupID);
