@@ -140,7 +140,7 @@ function CompanyInputDialog (attachTo,options) {
 				       $("#dialog-form").dialog("open");
 				   });
 };
-function newStoreDialogSetup (attachTo,options) {
+function StoreInputDialog (attachTo,options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
     _.extend(this,DialogValidator());
@@ -251,7 +251,7 @@ function newStoreDialogSetup (attachTo,options) {
 				       d.dialog( "open" );
 				   });
 };
-function newTerminalDialogSetup (attachTo,options) {
+function TerminalInputDialog (attachTo,options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
     var d = $("#dialog-form");
