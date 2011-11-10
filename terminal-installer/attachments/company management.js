@@ -165,19 +165,16 @@ function quickView(template,companyID,groupID,storeID,terminalID){
     var company = Companies.getModelById(companyID);
     var companyJSON = company.toJSON();
     var for_TMP;
-    if(groupID){
+    if(terminalID){
+	var terminal = company.getTerminal(groupID,storeID,terminalID);
+	for_TMP = {terminal:terminal};
+    } else if(storeID){
+	var store = company.getStore(groupID,storeID);
+	for_TMP = {store:store};
+    } else if(groupID){
 	var group = company.getGroup(groupID);
 	for_TMP = {groupName:group.groupName};
-    }
-    else if(storeID){
-	var store = company.getStore(storeID);
-	for_TMP = {store:store};
-    }
-    else if(terminalID){
-	var terminal = company.getTerminal(terminalID);
-	for_TMP = {terminal:terminal};
-    }
-    else{
+    } else{
 	for_TMP = {company:companyJSON};
     }
     console.log(ich[template](for_TMP));
