@@ -28,6 +28,11 @@ var Company = couchDoc.extend(
 	 this.trigger("add:group"); //triggers go last
 
      },
+     editGroup:function(group){
+	 var groupToMod = this.getGroup(group.group_id);
+	 _.extend(groupToMod,group);
+	 this.save();
+     },
      addStore: function(groupID,storeToAdd){
 	 var groupToAddTo = this.getGroup(groupID);
 	 var stores = groupToAddTo.stores;
@@ -115,11 +120,9 @@ function addGroup(model){
 	    }
 	   };
 };
-
 function editGroup(model){
     return {success:function(resp){
-		group.set(resp);
-		group.save();
+		model.editGroup(resp);
 	    }
 	   };
 };
