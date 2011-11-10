@@ -116,9 +116,25 @@ function addGroup(model){
 	    }
 	   };
 };
+
+function editGroup(group){
+    return {success:function(resp){
+		group.set(resp);
+		group.save();
+	    }
+	   };
+};
+
 function addStore(model,group){
     return {success: function(resp){
 		model.addStore(group,resp);
+	    }
+	   };
+};
+function editStore(store){
+    return {success:function(resp){
+		store.set(resp);
+		store.save();
 	    }
 	   };
 };
@@ -128,7 +144,13 @@ function addTerminal(model,group,storeName){
 	    }
 	   };
 };
-
+function editTerminal(terminal){
+    return {success:function(resp){
+		terminal.set(resp);
+		terminal.save();
+	    }
+	   };
+};
 function quickView(template,companyID){
     var company = Companies.getModelById(companyID);
     var companyJSON = company.toJSON();
@@ -189,6 +211,7 @@ function doc_setup(){
 	     groupsManager:function(companyID){
 		 console.log("groupsManager: " + companyID);
 		 var model = Companies.getModelByName(companyID);
+		 model.unbind('change');
 		 var modelObj = model.toJSON();
 		 var groups = model.getGroups();
 		 var groups_w_ids = _.map(groups,function(group){return _.extend(group,{_id:modelObj._id});});
@@ -315,17 +338,34 @@ function doc_setup(){
 	});
     groupsView = Backbone.View.extend(
 	{initialize:function(){
-	     var view = this;
+	     /*var view = this;
 	     _.bindAll(view, 'render'); 
 	     AppRouter.bind('route:groupsManager',function(companyID){
 				console.log('groupsView:route:groupsManager');
-				view.model = Companies.getModelByName(companyID);
+				view.model = Companies.getModelById(companyID);
 				view.model.bind('add:group',view.render(companyID));
 				view.el =_.first($("#groups"));
 				view.render(companyID)();});
+		*/
+		
+		 var view = this;
+	     _.bindAll(view, 'renderManagementPage','renderModifyPage'); 
+	     this.collection.bind('reset',view.renderManagementPage);
+	     this.collection.bind('add',view.renderManagementPage);
+	     AppRouter.bind('route:groupsManager', function(companyID){
+				console.log('groupsView:route:groupsManager');
+				view.el =_.first($("#groups"));
+				view.renderManagementPage(companyID);});
+	     AppRouter.bind('route:modifyGroup', function(companyID,groupID){
+				var model = Companies.getModelById(companyID);
+				model.bind('change',function(){view.renderModifyPage(companyID,groupID)});
+				console.log('groupsView:route:modifyGroup' + " " + companyID + " " + groupID);
+				view.el =_.first($("#groups"));
+				view.renderModifyPage(companyID,groupID);});
+		 
 	     
 	 },
-	 render:function(companyID){
+	 /*render:function(companyID){
 	     var view = this;
 	     return function(){
 		 var forTMP = {list:_.map(view.model.getGroups(),
@@ -338,7 +378,33 @@ function doc_setup(){
 		 console.log("groups view rendered");
 		 return view;
 	     };
+	 }*/
+	
+	 renderManagementPage:function(companyID){
+	     var view = this;
+	     var forTMP = view.model.getGroups();
+	     var forTMP_w_stats = {list:_.map(forTMP,function(group){return _.extend(group,{_id:companyID},view.model.companyStats(group.group_id));})};
+	     var html = ich.companiesTabel_TMP(forTMP_w_stats);
+	     $(this.el).html(html);
+	     console.log("renderManagementPage");
+	     return this;
+	 },
+	 renderModifyPage:function(companyID, groupID){
+	     var view = this;
+	     var model = Companies.getModelById(companyID);
+	     var selectedgroup = model.getGroup(groupID);
+	     var modelJSON = selectedgroup.toJSON();
+	     $('body').html(ich.modify_group_page_TMP({group:modelJSON}));
+	     $("#dialog-hook").html(ich.groupInputDialog_TMP({title:"Edit the Group",group:modelJSON}));
+	     GroupInputDialog("modify-group",editGroup(selectedgroup));
+	     console.log("renderModifyPage " + companyID + " " + groupID);
+	     return this;
+	 },
+	 updateModel:function(){
+	     this.model = this.collection.getModelByName(Selection.get('company'));
+	     this.trigger("change:model");
 	 }
+	 
 	});
 
     storesView = Backbone.View.extend(
