@@ -40,13 +40,14 @@ function DialogValidator(){
 	}
     };
 };
-function newCompanyDialogSetup (options) {
+function CompanyInputDialog (attachTo,options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
     _.extend(this,DialogValidator());
+    var d = $("#dialog-form");
     var user = $("#user"),
     password = $("#password"),
-    companyName = $("#company-name"),
+    companyName = d.find("#company-name"),
     firstname = $("#contact\\.firstname"),
     lastname = $("#contact\\.lastname"),
     website = $("#contact\\.website"),
@@ -93,8 +94,12 @@ function newCompanyDialogSetup (options) {
 				 height: 900,
 				 width: 500,
 				 modal: true,
-				 buttons: {
-				     "Create the Company": function() {
+				 close: function() {
+				     allFields.val("").removeClass( "ui-state-error" );
+				     allFields.filter("input:checked").attr("checked",false);
+				 },
+				 buttons: {			 
+				     Submit : function() {
 				       	 var bValid = true;
 				       	 var unfilledRequiredFields = checkRequiredFields(requiredFields);
 					 requiredFields.removeClass( "ui-state-error" );
@@ -125,22 +130,15 @@ function newCompanyDialogSetup (options) {
 					 } else if(bValid && !unfilledRequiredFields) {
 					     handleMissingFields(requiredFields,updateTips(tips));
 					 }		
-				     },		
+				     },	
 				     Cancel: function() {
 					 $( this ).dialog( "close" );
 				     }
-				 },
-				 close: function() {
-				     allFields.val("").removeClass( "ui-state-error" );
-				     allFields.filter("input:checked").attr("checked",false);
 				 }
 			     });
-
-    $( "#create-company" )
-	.button()
-	.click(function() {
-		   $( "#dialog-form" ).dialog( "open" );
-	       });
+    $("#"+attachTo).button().click(function() {
+				       $("#dialog-form").dialog("open");
+				   });
 };
 function newStoreDialogSetup (options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
@@ -368,10 +366,7 @@ function newGroupDialogSetup (options) {
 };
 
 function quickViewDialog (html,options) {
-    var form = $(html).find('fieldset');
-//    form.find('input:text').attr("disabled",true);
-//    form.find('input:checkbox').attr("disabled",true);	
-    	
+    var form = $(html).find('fieldset');    	
     $("#dialog-quickView").html(form);
     $("#dialog-quickView").dialog({
 		       autoOpen: false,

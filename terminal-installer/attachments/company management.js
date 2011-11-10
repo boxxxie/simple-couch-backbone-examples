@@ -103,6 +103,12 @@ function addCompany(collection){
 	    }
 	   };
 };
+function editCompany(company){
+    return {success:function(resp){
+		company.save(resp);
+	    }
+	   };
+};
 function addGroup(model){
     return {success: function(resp){
 		model.addGroup(resp);
@@ -167,32 +173,17 @@ function doc_setup(){
 		 "company/:_id/groups/:group_id/stores": "storesManager" ,
 		 "company/:_id/groups/:group_id/stores/:storeName": "modifyStore",
 		 "company/:_id/groups/:group_id/stores/:storeName/terminals": "terminalsManager",
-		 "company/:_id/groups/:group_id/stores/:storeName/terminals/:terminalID": "modifyterminal"	 
+		 "company/:_id/groups/:group_id/stores/:storeName/terminals/:terminalID": "modifyTerminal"	 
 	     },
 	     companyManagementHome:function(){
 		 console.log("companyManagementHome");
 		 $('body').html(ich.company_management_page_TMP());
 		 $("#companyCreateDialog").html(ich.companyInputDialog_TMP({title:"Make a new Company",company:{address:{},contact:{}}}));
-		 newCompanyDialogSetup(addCompany(Companies));
+		 CompanyInputDialog("create-company",addCompany(Companies));
 
 	     },
 	     modifyCompany:function(id){
 		 console.log("modifyCompanies: " + id);
-		 var model = Companies.getModelById(id);
-		 var modelJSON = model.toJSON();
-		 $('body').html(ich.modify_company_page_TMP({company:modelJSON}));
-		 $("#modify-company")
-		     .click(function(){
-	
-				    var company = Companies.getModelById(id);
-				    var companyJSON = company.toJSON();
-				    console.log(ich.companyInputDialog_TMP({title:"Make a new Company",company:companyJSON}));
-				    quickViewDialog(ich[template]({company:companyJSON}));
-			
-				model.set(modelChanges);
-				model.save({success:function(){alert("saved!");}}); //FIXME:allert isn't being invoked
-			    }
-			   );
 	     },
 	     groupsManager:function(companyID){
 		 console.log("groupsManager: " + companyID);
@@ -246,45 +237,7 @@ function doc_setup(){
 							   storeName: storeToEdit.storeName,
 							   store_id:storeToEdit.store_id,
 							   store: storeToEdit}));
-		 $("#modify-store")
-		     .click(function(){
-				var user = $("#user"),
-				password = $("#password"),
-				storeName = $("#store-name"),
-				storeNum = $("#store-num"),
-				firstName = $("#contact\\.firstname"),
-				lastName = $("#contact\\.lastname"),
-				website = $("#contact\\.website"),
-				email = $("#contact\\.email"),
-				phone = $("#contact\\.phone"),
-				street0 = $("#address\\.street0"),
-				street1 = $("#address\\.street1"),
-				street2 = $("#address\\.street2"),
-				city = $("#address\\.city"),
-				province = $("#address\\.province"),
-				country = $("#address\\.country"),
-				postalcode = $("#address\\.postalcode");
-				
-				var storeChanges = {user:user.val(),
-						    password:password.val(),
-						    contact:{firstname : firstName.val(),
-							     lastname : lastName.val(),
-							     website : website.val(),
-							     email : email.val(),
-							     phone : phone.val()},
-						    address:{street0:street0.val(),
-							     street1:street1.val(),
-							     street2:street2.val(),
-							     city:city.val(),
-							     country:country.val(),
-							     province:province.val(),
-							     postalcode:postalcode.val()},
-						    storeName:storeName.val(),
-						    number:storeNum.val()};
-				storeToEdit = _.extend(storeToEdit,storeChanges);
-				model.save({success:function(){alert("saved!");}});
-			    }
-			   );
+
 	     },
 	     terminalsManager:function(companyID, groupID, storeID){
 		 console.log("terminalsManager: " + companyID + " " + groupID + " " + storeID);
@@ -299,7 +252,7 @@ function doc_setup(){
 
 		 newTerminalDialogSetup(addTerminal(model,groupID,storeID));
 	     },
-	     modifyterminal:function(companyID, groupID, storeID,terminalID){
+	     modifyTerminal:function(companyID, groupID, storeID,terminalID){
 		 console.log("modifyterminal: " + companyID + " " + groupID + " " + storeID + " " + terminalID);
 		 var model = Companies.getModelById(companyID);
 		 var terminalToEdit = model.getTerminal(groupID,storeID,terminalID);
@@ -313,27 +266,6 @@ function doc_setup(){
 							      store_id:store.store_id,
 							      terminal_id:terminalToEdit.terminal_id,
 							      terminal:terminalToEdit}));
-		 $("#modify-terminal")
-		     .click(function(){
-				var id = $("#terminal-id"),
-				areaCode = $("#areaCode"),
-				postalCode = $("#postalCode"),
-				countryCode = $("#countryCode"),
-				cityCode = $("#cityCode"),
-				storeCode = $("#storeCode"),
-				companyCode = $("#companyCode");
-				var userBonusCodes;
-				(bonusCodes.val())?userBonusCodes = _.flatten(bonusCodes.val().split(',')):userBonusCodes = null;
-				var terminalChanges = {id:id.val(),
-						       mobilePayment:mobilePayment.is(":checked"),
-						       debitPayment:debitPayment.is(":checked"),
-						       creditPayment: creditPayment.is(":checked"),
-						       mobQRedits : {bonusCodes:userBonusCodes,
-								     convertPercentage:convertPercentage.val()}
-						      };
-				terminalToEdit = _.extend(terminalToEdit,terminalChanges);
-				model.save({success:function(){alert("saved!");}});
-			    });
 	     }
 	 }));
 
@@ -341,23 +273,35 @@ function doc_setup(){
 	{initialize:function(){
 	     var view = this;
 	     _.bindAll(view, 'render'); 
-	     this.collection.bind('reset',view.render);
-	     this.collection.bind('change',view.render);
-	     this.collection.bind('add',view.render);
-	     this.bind('change:model',function(){console.log('change:model:companies');view.render();});
+	     this.collection.bind('reset',view.renderManagementPage);
+	     this.collection.bind('add',view.renderManagementPage);
+	     this.bind('change:model',function(){console.log('change:model:companies');view.renderManagementPage();view.renderModifyPage();});
 	     AppRouter.bind('route:companyManagementHome', function(){
 				console.log('companiesView:route:companyManagementHome');
 				view.el =_.first($("#companies"));
-				view.render();});
+				view.renderManagementPage();});
+	     AppRouter.bind('route:modifyCompany', function(id){
+				console.log('companiesView:route:modifyCompany');
+				view.el =_.first($("#companies"));
+				view.renderModifyPage(id);});
 	     
 	 },
-	 render:function(){
+	 renderManagementPage:function(){
 	     var view = this;
 	     var forTMP = this.collection.toJSON();
 	     var forTMP_w_stats = {list:_.map(forTMP,function(model){return _.extend(model,view.collection.get(model._id).companyStats());})};
 	     var html = ich.companiesTabel_TMP(forTMP_w_stats);
 	     $(this.el).html(html);
-	     console.log("companies view rendered");
+	     console.log("renderManagementPage");
+	     return this;
+	 },
+	 renderModifyPage:function(id){
+	     var model = Companies.getModelById(id);
+	     var modelJSON = model.toJSON();
+	     $('body').html(ich.modify_company_page_TMP({company:modelJSON}));
+	     $("#dialog-hook").html(ich.companyInputDialog_TMP({title:"Edit the Company",company:modelJSON}));
+	     CompanyInputDialog("modify-company",editCompany(model));
+	     console.log("renderModifyPage " + id);
 	     return this;
 	 },
 	 updateModel:function(){
