@@ -49,7 +49,27 @@ function CompanyCreateDialog (attachTo,options){
 function CompanyModifyDialog (attachTo,options){
     CompanyInputDialog(attachTo,options);
 };
-
+function GroupCreateDialog (attachTo,options){
+    _.extend(options,{clearOnExit:true});
+    GroupInputDialog(attachTo,options);
+};
+function GroupModifyDialog (attachTo,options){
+    GroupInputDialog(attachTo,options);
+};
+function StoreCreateDialog (attachTo,options){
+    _.extend(options,{clearOnExit:true});
+    StoreInputDialog(attachTo,options);
+};
+function StoreModifyDialog (attachTo,options){
+    StoreInputDialog(attachTo,options);
+};
+function TerminalCreateDialog (attachTo,options){
+    _.extend(options,{clearOnExit:true});
+    TerminalInputDialog(attachTo,options);
+};
+function TerminalModifyDialog (attachTo,options){
+    TerminalInputDialog(attachTo,options);
+};
 function CompanyInputDialog (attachTo,options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
