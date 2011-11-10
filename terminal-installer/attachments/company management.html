@@ -36,7 +36,17 @@
       .validateTips { border: 1px solid transparent; padding: 0.3em; }
     </style>
 
-   
+   <script id="groupInputDialog_TMP" type="text/html">
+     <div id="dialog-form" title="Create new Company">
+       <p class="validateTips">All form fields are required.</p>
+       <form>
+	 <fieldset>
+	   <label for="group-name">Group name</label>
+	   <input type="text" id="group-name" class="text ui-widget-content ui-corner-all" />
+	 </fieldset>
+       </form>
+     </div>
+   </script>
 
     <script id="companyInputDialog_TMP" type="text/html">
       <div id="dialog-form" title="{{title}}">
@@ -199,15 +209,7 @@
       {{#company}}
       <h2>{{operationalname}}</h2>
       {{/company}}
-      <div id="dialog-form" title="Create new Company">
-	<p class="validateTips">All form fields are required.</p>
-	<form>
-	  <fieldset>
-	    <label for="group-name">Group name</label>
-	    <input type="text" id="group-name" class="text ui-widget-content ui-corner-all" />
-	  </fieldset>
-	</form>
-      </div>
+      <div id="createGroupDialog">
       <div id="groups"></div>
       <input type="button" id="create-group" value="make a new group" class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all"/>
       <a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">

@@ -140,28 +140,28 @@ function CompanyInputDialog (attachTo,options) {
 				       $("#dialog-form").dialog("open");
 				   });
 };
-function newStoreDialogSetup (options) {
+function newStoreDialogSetup (attachTo,options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
     _.extend(this,DialogValidator());
- 
-    var user = $("#user"),
-    password = $("#password"),
-    storeName = $("#store-name"),
-    storeNum = $("#store-num"),
-    //contact = $("#contact"),
-    firstname = $("#contact\\.firstname"),
-    lastname = $("#contact\\.lastname"),
-    website = $("#contact\\.website"),
-    email = $("#contact\\.email"),
-    phone = $("#contact\\.phone"),
-    street0 = $("#address\\.street0"),
-    street1 = $("#address\\.street1"),
-    street2 = $("#address\\.street2"),
-    city = $("#address\\.city"),
-    province = $("#address\\.province"),
-    country = $("#address\\.country"),
-    postalcode = $("#address\\.postalcode"),
+    var d = $("#dialog-form");
+
+    var user = d.find("#user"),
+    password = d.find("#password"),
+    storeName = d.find("#store-name"),
+    storeNum = d.find("#store-num"),
+    firstname = d.find("#contact\\.firstname"),
+    lastname = d.find("#contact\\.lastname"),
+    website = d.find("#contact\\.website"),
+    email = d.find("#contact\\.email"),
+    phone = d.find("#contact\\.phone"),
+    street0 = d.find("#address\\.street0"),
+    street1 = d.find("#address\\.street1"),
+    street2 = d.find("#address\\.street2"),
+    city = d.find("#address\\.city"),
+    province = d.find("#address\\.province"),
+    country = d.find("#address\\.country"),
+    postalcode = d.find("#address\\.postalcode"),
  
     requiredFields = $([])
 	.add(storeName)
@@ -189,81 +189,80 @@ function newStoreDialogSetup (options) {
     
     var tips = $( ".validateTips" );
     
-    $("#dialog-form").dialog({
-				 autoOpen: false,
-				 height: 700,
-				 width: 500,
-				 modal: true,
-				 buttons: {
-				     "Create the Store": function() {
-					 var bValid = true;
-					 var unfilledRequiredFields = checkRequiredFields(requiredFields);
-					 
-					 requiredFields.removeClass( "ui-state-error" );
-					 bValid = bValid && checkLength( user, "The Master User ID", 1, 8, updateTips(tips) );
-					 bValid = bValid && checkLength( password, "The Master User Password", 1, 8 ,updateTips(tips));
-					 bValid = bValid && checkRegexp( storeNum, /^([0-9])+$/i, "The Store Number may consist of Digits only.", updateTips(tips));
-					 /*		 
-					  bValid = bValid && checkLength( storeName, "The Store Name", 3, 64, updateTips(tips) );
-					  bValid = bValid && checkRegexp( storeName, /^[a-z]([0-9a-z_])+$/i, "The Store Name may consist of a-z, 0-9, underscores, begin with a letter.", updateTips(tips));
-					  bValid = bValid && checkRegexp( storeNum, /^([0-9])+$/i, "The Store Number may consist of Digits only.", updateTips(tips));
-					  bValid = bValid && checkLength( user, "The Master User ID", 3, 64, updateTips(tips) );
-					  bValid = bValid && checkRegexp( user, /^[a-z]([0-9a-z_])+$/i, "The Master User ID may consist of a-z, 0-9, underscores, begin with a letter.", updateTips(tips));
-					  bValid = bValid && checkLength( password, "The Master User Password", 10, 256 ,updateTips(tips));
-					  bValid = bValid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "The Master Password field only allow : a-z 0-9", updateTips(tips) );
-					  */		 
-					 if ( bValid && unfilledRequiredFields) {
-					     options.success({
-							 	 user:user.val(),
-								 password:password.val(),
-								 contact:{firstname : firstname.val(),
-									  lastname : lastname.val(),
-									  website : website.val(),
-									  email : email.val(),
-									  phone : phone.val()},
-								 address:{street0:street0.val(),
-									  street1:street1.val(),
-									  street2:street2.val(),
-									  city:city.val(),
-									  country:country.val(),
-									  province:province.val(),
-									  postalcode:postalcode.val()},
-								 creationdate:new Date(),
-								 storeName:storeName.val(),
-								 number:storeNum.val()   
-							     });
-					     $( this ).dialog( "close" );
-					 }else if(bValid && !unfilledRequiredFields) {
-					     handleMissingFields(requiredFields,updateTips(tips));
-					 }
-				     },
-				     Cancel: function() {
-					 $( this ).dialog( "close" );
-				     }
-				 },
-				 close: function() {
-				     allFields.val("").removeClass( "ui-state-error" );
-				     allFields.filter("input:checked").attr("checked",false);
-				 }
-			     });
+    d.dialog({
+		 autoOpen: false,
+		 height: 700,
+		 width: 500,
+		 modal: true,
+		 buttons: {
+		     "Submit": function() {
+			 var bValid = true;
+			 var unfilledRequiredFields = checkRequiredFields(requiredFields);
+			 
+			 requiredFields.removeClass( "ui-state-error" );
+			 bValid = bValid && checkLength( user, "The Master User ID", 1, 8, updateTips(tips) );
+			 bValid = bValid && checkLength( password, "The Master User Password", 1, 8 ,updateTips(tips));
+			 bValid = bValid && checkRegexp( storeNum, /^([0-9])+$/i, "The Store Number may consist of Digits only.", updateTips(tips));
+			 /*		 
+			  bValid = bValid && checkLength( storeName, "The Store Name", 3, 64, updateTips(tips) );
+			  bValid = bValid && checkRegexp( storeName, /^[a-z]([0-9a-z_])+$/i, "The Store Name may consist of a-z, 0-9, underscores, begin with a letter.", updateTips(tips));
+			  bValid = bValid && checkRegexp( storeNum, /^([0-9])+$/i, "The Store Number may consist of Digits only.", updateTips(tips));
+			  bValid = bValid && checkLength( user, "The Master User ID", 3, 64, updateTips(tips) );
+			  bValid = bValid && checkRegexp( user, /^[a-z]([0-9a-z_])+$/i, "The Master User ID may consist of a-z, 0-9, underscores, begin with a letter.", updateTips(tips));
+			  bValid = bValid && checkLength( password, "The Master User Password", 10, 256 ,updateTips(tips));
+			  bValid = bValid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "The Master Password field only allow : a-z 0-9", updateTips(tips) );
+			  */		 
+			 if ( bValid && unfilledRequiredFields) {
+			     options.success({
+						 user:user.val(),
+						 password:password.val(),
+						 contact:{firstname : firstname.val(),
+							  lastname : lastname.val(),
+							  website : website.val(),
+							  email : email.val(),
+							  phone : phone.val()},
+						 address:{street0:street0.val(),
+							  street1:street1.val(),
+							  street2:street2.val(),
+							  city:city.val(),
+							  country:country.val(),
+							  province:province.val(),
+							  postalcode:postalcode.val()},
+						 creationdate:new Date(),
+						 storeName:storeName.val(),
+						 number:storeNum.val()   
+					     });
+			     $( this ).dialog( "close" );
+			 }else if(bValid && !unfilledRequiredFields) {
+			     handleMissingFields(requiredFields,updateTips(tips));
+			 }
+		     },
+		     Cancel: function() {
+			 $( this ).dialog( "close" );
+		     }
+		 },
+		 close: function() {
+		     allFields.val("").removeClass( "ui-state-error" );
+		     allFields.filter("input:checked").attr("checked",false);
+		 }
+	     });
 
-    $( "#create-store" )
-	.button()
-	.click(function() {
-		   $( "#dialog-form" ).dialog( "open" );
-	       });
+    $("#"+attachTo).button().click(function() {
+				       d.dialog( "open" );
+				   });
 };
-function newTerminalDialogSetup (options) {
+function newTerminalDialogSetup (attachTo,options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
+    var d = $("#dialog-form");
     _.extend(this,DialogValidator());
-    var id = $("#terminal-id"),
-    areaCode = $("#areaCode"),
-    postalCode = $("#postalCode"),
-    countryCode = $("#countryCode"),
-    cityCode = $("#cityCode"),
-    storeCode = $("#storeCode"),
-    companyCode = $("#companyCode"),
+    var id = d.find("#terminal-id"),
+    areaCode = d.find("#areaCode"),
+    postalCode = d.find("#postalCode"),
+    countryCode = d.find("#countryCode"),
+    cityCode = d.find("#cityCode"),
+    storeCode = d.find("#storeCode"),
+    companyCode = d.find("#companyCode"),
     
     requiredFields = $([])
 	.add(id),
@@ -279,92 +278,86 @@ function newTerminalDialogSetup (options) {
 
     var tips = $( ".validateTips" );
 
-    $("#dialog-form").dialog({
-				 autoOpen: false,
-				 height: 600,
-				 width: 500,
-				 modal: true,
-				 buttons: {
-				     "Create the Terminal": function() {
-					 var bValid = true;
-					 var unfilledRequiredFields=checkRequiredFields(requiredFields);
-					 requiredFields.removeClass( "ui-state-error" );
+    d.dialog({
+		 autoOpen: false,
+		 height: 600,
+		 width: 500,
+		 modal: true,
+		 buttons: {
+		     "Submit": function() {
+			 var bValid = true;
+			 var unfilledRequiredFields=checkRequiredFields(requiredFields);
+			 requiredFields.removeClass( "ui-state-error" );
 
-					 if ( bValid && unfilledRequiredFields) {
+			 if ( bValid && unfilledRequiredFields) {
 
-					     options.success(
-						 {
-						     terminal_id:id.val(),
-						     creationdate:new Date(),
-						     installed:false,
-						     areaCode:areaCode.val(),
-						     postalCode:postalCode.val(),
-						     countryCode:countryCode.val(),
-						     cityCode:cityCode.val(),
-						     storeCode:storeCode.val(),
-						     companyCode:companyCode.val()
-						 });
-					     $( this ).dialog( "close" );
-					 } else if(bValid && !unfilledRequiredFields) {
-					     handleMissingFields(requiredFields,updateTips(tips));
-					 }
-				     },
-				     Cancel: function() {
-					 $( this ).dialog( "close" );
-				     }
-				 },
-				 close: function() {
-				     allFields.val("").removeClass( "ui-state-error" );
-				     allFields.filter("input:checked").attr("checked",false);
-				 }
-			     });
+			     options.success(
+				 {
+				     terminal_id:id.val(),
+				     creationdate:new Date(),
+				     installed:false,
+				     areaCode:areaCode.val(),
+				     postalCode:postalCode.val(),
+				     countryCode:countryCode.val(),
+				     cityCode:cityCode.val(),
+				     storeCode:storeCode.val(),
+				     companyCode:companyCode.val()
+				 });
+			     $( this ).dialog( "close" );
+			 } else if(bValid && !unfilledRequiredFields) {
+			     handleMissingFields(requiredFields,updateTips(tips));
+			 }
+		     },
+		     Cancel: function() {
+			 $( this ).dialog( "close" );
+		     }
+		 },
+		 close: function() {
+		     allFields.val("").removeClass( "ui-state-error" );
+		     allFields.filter("input:checked").attr("checked",false);
+		 }
+	     });
 
-    $( "#create-terminal" )
-	.button()
-	.click(function() {
-		   $( "#dialog-form" ).dialog( "open" );
-	       });
+    $("#"+attachTo).button().click(function() {
+				       d.dialog("open");
+				   });
 };
-function newGroupDialogSetup (options) {
+function GroupInputDialog (attachTo,options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
     _.extend(this,DialogValidator());
-
-    var groupName = $("#group-name");
+    var d = $("#dialog-form");
+    var groupName = d.find("#group-name");
     var allFields = $([]).add(groupName);
     
-    
-    $("#dialog-form").dialog({
-				 autoOpen: false,
-				 height: 400,
-				 width: 500,
-				 modal: true,
-				 buttons: {
-				     "Create the Group": function() {
-					 options.success({
-							     groupName:groupName.val(),
-							     creationdate:new Date()}					
-							);
-					 
-					 $( this ).dialog( "close" );
-				     },		
-				     Cancel: function() {
-					 $( this ).dialog( "close" );
-				     }
-				 },
-				 close: function() {
-				     allFields.val("").removeClass( "ui-state-error" );
-				     allFields.filter("input:checked").attr("checked",false);
-				 }
-			     });
+    d.dialog({
+		 autoOpen: false,
+		 height: 400,
+		 width: 500,
+		 modal: true,
+		 buttons: {
+		     "Submit": function() {
+			 options.success({
+					     groupName:groupName.val(),
+					     creationdate:new Date()}					
+					);
+			 
+			 $( this ).dialog( "close" );
+		     },		
+		     Cancel: function() {
+			 $( this ).dialog( "close" );
+		     }
+		 },
+		 close: function() {
+		     allFields.val("").removeClass( "ui-state-error" );
+		     allFields.filter("input:checked").attr("checked",false);
+		 }
+	     });
 
-    $( "#create-group" )
-	.button()
-	.click(function() {
-		   $( "#dialog-form" ).dialog( "open" );
-	       });
+    $("#"+attachTo).button().click(function() {
+				       d.dialog( "open" );
+				   });
 };
-
 function quickViewDialog (html,options) {
     var form = $(html).find('fieldset');    	
     $("#dialog-quickView").html(form);
