@@ -37,20 +37,84 @@
     </style>
 
    <script id="groupInputDialog_TMP" type="text/html">
-     <div id="dialog-form" title="Create new Company">
-       <p class="validateTips">All form fields are required.</p>
+     <div id="dialog-form" title="{{title}}">
+       <p class="validateTips"></p>
        <form>
+	 {{#group}}
 	 <fieldset>
 	   <label for="group-name">Group name</label>
-	   <input type="text" id="group-name" class="text ui-widget-content ui-corner-all" />
+	   <input type="text" id="group-name" value="{{groupName}}" class="text ui-widget-content ui-corner-all" />
 	 </fieldset>
+	 {{/group}}
        </form>
      </div>
    </script>
 
+   <script id="storeInputDialog_TMP" type="text/html">
+     <div id="dialog-form" title="{{title}}">
+	<p class="validateTips"></p>
+	<form>
+	  {{#store}}
+	  <fieldset>
+	    <label for="store-name">Store name</label>
+	    <input type="text" id="store-name" value="{{storeName}}" class="text ui-widget-content ui-corner-all" />
+	    <label for="store-num">Store num</label>
+	    <input type="text" id="store-num" value="{{number}}" class="text ui-widget-content ui-corner-all" />
+	    <label for="user">Master User ID</label>
+	    <input type="text" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" />
+	    <label for="password">Master Password</label>
+	    <input type="password"  id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
+	    <dl>
+	      {{#address}}
+	      <dt>Address</dt>
+	      <dd>
+		<label for="address.street0">Street 0</label>
+		<input type="text" id="address.street0" value="{{street0}}" class="text ui-widget-content ui-corner-all" />
+		<label for="address.street1">Street 1</label>
+		<input type="text" id="address.street1" value="{{street1}}" class="text ui-widget-content ui-corner-all" />
+		<label for="address.street2">Street 2</label>
+		<input type="text" id="address.street2" value="{{street2}}" class="text ui-widget-content ui-corner-all" />
+		<label for="address.city">City</label>
+		<input type="text" id="address.city" value="{{city}}"class="text ui-widget-content ui-corner-all" />
+		<label for="address.province">State/Province</label>
+		<input type="text" id="address.province" value="{{province}}" class="text ui-widget-content ui-corner-all" />
+		<label for="address.country">Country</label>
+		<input type="text" id="address.country" value="{{country}}" class="text ui-widget-content ui-corner-all" />
+		<label for="address.postalcode">Postal code</label>
+		<input type="text" id="address.postalcode" value="{{postalCode}}" class="text ui-widget-content ui-corner-all" />
+	      </dd>
+	    </dl>
+	    <dl>
+	      {{/address}}
+	      {{#contact}}
+	      <dt>Contact</dt>
+	      <dd>
+		<label for="contact.firstname">First Name</label>
+		<input type="text" id="contact.firstname" value="{{firstName}}" class="text ui-widget-content ui-corner-all" />
+		<label for="contact.lastname">Last Name</label>
+		<input type="text" id="contact.lastname" value="{{lastName}}" class="text ui-widget-content ui-corner-all" />
+		<label for="contact.website">Web site</label>
+		<input type="text" id="contact.website" value="{{website}}" class="text ui-widget-content ui-corner-all" />
+		<label for="contact.email">e-mail</label>
+		<input type="text" id="contact.email" value="{{email}}" class="text ui-widget-content ui-corner-all" />
+		<label for="contact.phone">phone</label>
+		<input type="text" id="contact.phone" value="{{phone}}"  class="text ui-widget-content ui-corner-all" />
+	      </dd>
+	    </dl>
+	    {{/contact}}
+	  </fieldset>
+	  {{/store}}
+	</form>
+      </div>
+   </script>   
+
+   <script id="terminalInputDialog_TMP" type="text/html">
+     
+   </script>
+
     <script id="companyInputDialog_TMP" type="text/html">
       <div id="dialog-form" title="{{title}}">
-	<p class="validateTips">All form fields are required.</p>
+	<p class="validateTips"></p>
 	<form>
 	  {{#company}}
 	  <fieldset>
@@ -209,69 +273,21 @@
       {{#company}}
       <h2>{{operationalname}}</h2>
       {{/company}}
-      <div id="createGroupDialog">
-      <div id="groups"></div>
-      <input type="button" id="create-group" value="make a new group" class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all"/>
-      <a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	  <span class="ui-button-text">Back</span>
-      </button></a>
-      <a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	  <span class="ui-button-text">Menu</span>
-      </button></a>
+      <div id="groupCreateDialog"></div>
+	<div id="groups"></div>
+	<input type="button" id="create-group" value="make a new group" class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all"/>
+	<a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	    <span class="ui-button-text">Back</span>
+	</button></a>
+	<a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	    <span class="ui-button-text">Menu</span>
+	</button></a>
     </script>	   
 
     <script id="store_management_page_TMP" type="text/html">
       <h1>Stores Management</h1>
       <h2>{{operationalname}} - {{groupName}}</h2>
-      <div id="dialog-form" title="Create new Store">
-	<p class="validateTips">All form fields are required.</p>
-	<form>
-	  <fieldset>
-	    <label for="store-name">Store name</label>
-	    <input type="text" id="store-name" class="text ui-widget-content ui-corner-all" />
-	    <label for="store-num">Store num</label>
-	    <input type="text" id="store-num" class="text ui-widget-content ui-corner-all" />
-	    <label for="user">Master User ID</label>
-	    <input type="text" name="user" id="user" class="text ui-widget-content ui-corner-all" />
-	    <label for="password">Master Password</label>
-	    <input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all" />
-	    <dl>
-	      <dt>Address</dt>
-	      <dd>
-		<label for="address.street0">Street 0</label>
-		<input type="text" id="address.street0" class="text ui-widget-content ui-corner-all" />
-		<label for="address.street1">Street 1</label>
-		<input type="text" id="address.street1" class="text ui-widget-content ui-corner-all" />
-		<label for="address.street2">Street 2</label>
-		<input type="text" id="address.street2" class="text ui-widget-content ui-corner-all" />
-		<label for="address.city">City</label>
-		<input type="text" id="address.city" class="text ui-widget-content ui-corner-all" />
-		<label for="address.province">State/Province</label>
-		<input type="text" id="address.province" class="text ui-widget-content ui-corner-all" />
-		<label for="address.country">Country</label>
-		<input type="text" id="address.country" class="text ui-widget-content ui-corner-all" />
-		<label for="address.postalcode">Postal code</label>
-		<input type="text" id="address.postalcode" class="text ui-widget-content ui-corner-all" />
-	      </dd>
-	    </dl>
-	    <dl>
-	      <dt>Contact</dt>
-	      <dd>
-		<label for="contact.firstname">First Name</label>
-		<input type="text" id="contact.firstname" class="text ui-widget-content ui-corner-all" />
-		<label for="contact.lastname">Last Name</label>
-		<input type="text" id="contact.lastname" class="text ui-widget-content ui-corner-all" />
-		<label for="contact.website">Web site</label>
-		<input type="text" id="contact.website" class="text ui-widget-content ui-corner-all" />
-		<label for="contact.email">e-mail</label>
-		<input type="text" id="contact.email" class="text ui-widget-content ui-corner-all" />
-		<label for="contact.phone">phone</label>
-		<input type="text" id="contact.phone" class="text ui-widget-content ui-corner-all" />
-	      </dd>
-	    </dl>
-	  </fieldset>
-	</form>
-      </div>
+      <div id="storeCreateDialog"></div>
       <div id="stores"></div>
       <input type="button" id="create-store" value="make a new store" />
       <a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
