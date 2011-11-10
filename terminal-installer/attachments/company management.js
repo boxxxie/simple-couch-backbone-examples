@@ -105,8 +105,7 @@ function addCompany(collection){
 };
 function editCompany(company){
     return {success:function(resp){
-		company.set(resp);
-		company.save();
+		company.save(resp);
 	    }
 	   };
 };
