@@ -169,6 +169,14 @@ function quickView(template,companyID,groupID,storeID,terminalID){
 	var group = company.getGroup(groupID);
 	for_TMP = {groupName:group.groupName};
     }
+    else if(storeID){
+	var store = company.getStore(storeID);
+	for_TMP = {store:store};
+    }
+    else if(terminalID){
+	var terminal = company.getTerminal(terminalID);
+	for_TMP = {terminal:terminal};
+    }
     else{
 	for_TMP = {company:companyJSON};
     }
