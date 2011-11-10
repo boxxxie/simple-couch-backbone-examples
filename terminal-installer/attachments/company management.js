@@ -38,7 +38,7 @@ var Company = couchDoc.extend(
 	 _.extend(storeToMod,store);
 	 this.save();
      },
-     editGroup:function(terminal){
+     editTerminal:function(terminal){
 	 var terminalToMod = this.getTerminal(terminal.terminal_id);
 	 _.extend(terminalToMod,terminal);
 	 this.save();
