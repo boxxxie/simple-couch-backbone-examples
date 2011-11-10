@@ -40,13 +40,16 @@ function DialogValidator(){
 	}
     };
 };
+
 function CompanyCreateDialog (attachTo,options){
     _.extend(options,{clearOnExit:true});
     CompanyInputDialog(attachTo,options);
 };
+
 function CompanyModifyDialog (attachTo,options){
     CompanyInputDialog(attachTo,options);
 };
+
 function CompanyInputDialog (attachTo,options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
@@ -101,13 +104,17 @@ function CompanyInputDialog (attachTo,options) {
 				 height: 900,
 				 width: 500,
 				 modal: true,
+				 open : function() {
+				 	//FIXME: if you stop modifying(change something) and quit(cancel,esc), 
+				 	//       afterward when you click Edit, it shows me changed info 
+				 	//$("#dialog-form").("#company-name").val("does open work?");
+				 },
 				 close: function() {
-				 	//var title = $("#dialog-form").find("#title");
-				 	//console.log("title : " + title + " att : " + attachTo);
+				 	if(options.clearOnExit) {
 				 	 allFields.val("").removeClass( "ui-state-error" );
 				     allFields.filter("input:checked").attr("checked",false);
+				    }
 				 },
-				 //closeOnEscape: false,
 				 buttons: {			 
 				     Submit : function() {
 				       	 var bValid = true;
@@ -136,15 +143,13 @@ function CompanyInputDialog (attachTo,options) {
 							      creationdate:new Date(),					
 							      companyName:companyName.val()});
 					     
-					     allFields.val("").removeClass( "ui-state-error" );
-				     	 allFields.filter("input:checked").attr("checked",false);
 					     $( this ).dialog( "close" );
 					 } else if(bValid && !unfilledRequiredFields) {
 					     handleMissingFields(requiredFields,updateTips(tips));
 					 }		
 				     },	
 				     Cancel: function() {
-					 	( this ).dialog( "close" );
+					 	$( this ).dialog( "close" );
 				     }
 				 }
 			     });
@@ -154,6 +159,16 @@ function CompanyInputDialog (attachTo,options) {
 				       $("#dialog-form").dialog("open");
 				   });
 };
+
+function StoreCreateDialog (attachTo,options){
+    _.extend(options,{clearOnExit:true});
+    StoreInputDialog(attachTo,options);
+};
+
+function StoreModifyDialog (attachTo,options){
+    StoreInputDialog(attachTo,options);
+};
+
 function StoreInputDialog (attachTo,options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
@@ -238,8 +253,6 @@ function StoreInputDialog (attachTo,options) {
 						 storeName:storeName.val(),
 						 number:storeNum.val()   
 					     });
-			 	 allFields.val("").removeClass( "ui-state-error" );
-		     	 allFields.filter("input:checked").attr("checked",false);
 			     $( this ).dialog( "close" );
 			 }else if(bValid && !unfilledRequiredFields) {
 			     handleMissingFields(requiredFields,updateTips(tips));
@@ -250,6 +263,10 @@ function StoreInputDialog (attachTo,options) {
 		     }
 		 },
 		 close: function() {
+		 	if(options.clearOnExit) {
+		 	 allFields.val("").removeClass( "ui-state-error" );
+		     allFields.filter("input:checked").attr("checked",false);
+		    }
 		 }
 	     });
 
@@ -257,6 +274,16 @@ function StoreInputDialog (attachTo,options) {
 				       d.dialog( "open" );
 				   });
 };
+
+function TerminalCreateDialog (attachTo,options){
+    _.extend(options,{clearOnExit:true});
+    TerminalInputDialog(attachTo,options);
+};
+
+function TerminalModifyDialog (attachTo,options){
+    TerminalInputDialog(attachTo,options);
+};
+
 function TerminalInputDialog (attachTo,options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
@@ -309,8 +336,6 @@ function TerminalInputDialog (attachTo,options) {
 				     storeCode:storeCode.val(),
 				     companyCode:companyCode.val()
 				 });
-				 allFields.val("").removeClass( "ui-state-error" );
-		         allFields.filter("input:checked").attr("checked",false);
 			     $( this ).dialog( "close" );
 			 } else if(bValid && !unfilledRequiredFields) {
 			     handleMissingFields(requiredFields,updateTips(tips));			 }
@@ -320,8 +345,10 @@ function TerminalInputDialog (attachTo,options) {
 		     }
 		 },
 		 close: function() {
-		     //allFields.val("").removeClass( "ui-state-error" );
-		     //allFields.filter("input:checked").attr("checked",false);
+		 	if(options.clearOnExit) {
+		 	 allFields.val("").removeClass( "ui-state-error" );
+		     allFields.filter("input:checked").attr("checked",false);
+		    }
 		 }
 	     });
 
@@ -329,6 +356,16 @@ function TerminalInputDialog (attachTo,options) {
 				       d.dialog("open");
 				   });
 };
+
+function GroupCreateDialog (attachTo,options){
+    _.extend(options,{clearOnExit:true});
+    GroupInputDialog(attachTo,options);
+};
+
+function GroupModifyDialog (attachTo,options){
+    GroupInputDialog(attachTo,options);
+};
+
 function GroupInputDialog (attachTo,options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
@@ -357,8 +394,10 @@ function GroupInputDialog (attachTo,options) {
 		     }
 		 },
 		 close: function() {
-		     //allFields.val("").removeClass( "ui-state-error" );
-		     //allFields.filter("input:checked").attr("checked",false);
+		 	if(options.clearOnExit) {
+		 	 allFields.val("").removeClass( "ui-state-error" );
+		     allFields.filter("input:checked").attr("checked",false);
+		    }
 		 }
 	     });
 
@@ -366,6 +405,7 @@ function GroupInputDialog (attachTo,options) {
 				       d.dialog( "open" );
 				   });
 };
+
 function quickViewDialog (html,options) {
     var form = $(html).find('fieldset');    	
     $("#dialog-quickView").html(form);
