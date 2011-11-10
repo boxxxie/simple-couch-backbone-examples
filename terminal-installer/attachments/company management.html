@@ -419,7 +419,7 @@
 	    <form>
 	      <fieldset>
 		<label for="group-name">Group Name</label>
-		<input type="text" id="group-name" value="{{groupName}}" class="text ui-widget-content ui-corner-all"/>
+		<input type="text" id="group-name" value="{{groupName}}" disabled="true" class="text ui-widget-content ui-corner-all"/>
 	      </fieldset>
 	    </form>
 	  </div>
@@ -446,31 +446,31 @@
 	      <fieldset>
 		{{#store}}
 		<label for="store-name">Store Name</label>
-		<input type="text" id="store-name" value="{{storeName}}" class="text ui-widget-content ui-corner-all" disabled="true" />
+		<input type="text" id="store-name" value="{{storeName}}" disabled="true" class="text ui-widget-content ui-corner-all" disabled="true" />
 		<label for="store-num">Store Number</label>
-		<input type="text" id="store-num" value="{{number}}" class="text ui-widget-content ui-corner-all" />
+		<input type="text" id="store-num" value="{{number}}" disabled="true"  class="text ui-widget-content ui-corner-all" />
 		<label for="user">Master User ID</label>
-		<input type="text" name="user" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" />
+		<input type="text" name="user" id="user" value="{{user}}" disabled="true"  class="text ui-widget-content ui-corner-all" />
 		<label for="password">Master Password</label>
-		<input type="password" name="password" id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
+		<input type="password" name="password" id="password" disabled="true"  value="{{password}}" class="text ui-widget-content ui-corner-all" />
 		<dl>
 		  <dt>Address</dt>
 		  <dd>
 		    {{#address}}
 		    <label for="address.street0">Street 0</label>
-		    <input type="text" id="address.street0" value="{{street0}}" class="text ui-widget-content ui-corner-all" />
+		    <input type="text" id="address.street0" value="{{street0}}" disabled="true"  class="text ui-widget-content ui-corner-all" />
 		    <label for="address.street1">Street 1</label>
-		    <input type="text" id="address.street1" value="{{street1}}" class="text ui-widget-content ui-corner-all" />
+		    <input type="text" id="address.street1" value="{{street1}}" disabled="true"  class="text ui-widget-content ui-corner-all" />
 		    <label for="address.street2">Street 2</label>
-		    <input type="text" id="address.street2" value="{{street2}}" class="text ui-widget-content ui-corner-all" />
+		    <input type="text" id="address.street2" value="{{street2}}" disabled="true"  class="text ui-widget-content ui-corner-all" />
 		    <label for="address.city">City</label>
-		    <input type="text" name="address.city" id="address.city" value="{{city}}" class="text ui-widget-content ui-corner-all"/>
+		    <input type="text" name="address.city" id="address.city" value="{{city}}" disabled="true"  class="text ui-widget-content ui-corner-all"/>
 		    <label for="address.province">State/Province</label>
-		    <input type="text" name="address.province" id="address.province" value="{{province}}" class="text ui-widget-content ui-corner-all"/>
+		    <input type="text" name="address.province" id="address.province" value="{{province}}" disabled="true"  class="text ui-widget-content ui-corner-all"/>
 		    <label for="address.country">Country</label>
-		    <input type="text" name="address.country" id="address.country" value="{{country}}" class="text ui-widget-content ui-corner-all"/>
+		    <input type="text" name="address.country" id="address.country" value="{{country}}" disabled="true"  class="text ui-widget-content ui-corner-all"/>
 		    <label for="address.postalcode">Postal code</label>
-		    <input type="text" name="address.postalcode" id="address.postalcode" value="{{postalcode}}" class="text ui-widget-content ui-corner-all"/>
+		    <input type="text" name="address.postalcode" id="address.postalcode" value="{{postalcode}}" disabled="true"  class="text ui-widget-content ui-corner-all"/>
 		    {{/address}}
 		  </dd>
 		</dl>
@@ -480,15 +480,15 @@
 		  <dd>
 		    {{#contact}}
 		    <label for="contact.firstname">First Name</label>
-		    <input type="text" id="contact.firstname" value="{{firstname}}" class="text ui-widget-content ui-corner-all" />
+		    <input type="text" id="contact.firstname" value="{{firstname}}" disabled="true"  class="text ui-widget-content ui-corner-all" />
 		    <label for="contact.lastname">Last Name</label>
-		    <input type="text" id="contact.lastname" value="{{lastname}}" class="text ui-widget-content ui-corner-all" />
+		    <input type="text" id="contact.lastname" value="{{lastname}}" disabled="true"  class="text ui-widget-content ui-corner-all" />
 		    <label for="contact.website">Web site</label>
-		    <input type="text" id="contact.website" value="{{website}}" class="text ui-widget-content ui-corner-all" />
+		    <input type="text" id="contact.website" value="{{website}}" disabled="true"  class="text ui-widget-content ui-corner-all" />
 		    <label for="contact.email">e-mail</label>
-		    <input type="text" id="contact.email" value="{{email}}" class="text ui-widget-content ui-corner-all" />
+		    <input type="text" id="contact.email" value="{{email}}" disabled="true"  class="text ui-widget-content ui-corner-all" />
 		    <label for="contact.phone">Phone</label>
-		    <input type="text" id="contact.phone" value="{{phone}}" class="text ui-widget-content ui-corner-all" />
+		    <input type="text" id="contact.phone" value="{{phone}}" disabled="true"  class="text ui-widget-content ui-corner-all" />
 		    {{/contact}}
 		  </dd>
 		</dl>
@@ -519,19 +519,19 @@
 	      <fieldset>
 		{{#terminal}}
 		<label for="terminal-id">Terminal ID</label>
-		<input type="text" id="terminal-id" class="text ui-widget-content ui-corner-all" value="{{terminal_id}}"/>
+		<input type="text" id="terminal-id" class="text ui-widget-content ui-corner-all" disabled="true"  value="{{terminal_id}}"/>
 		<label for="areaCode">Area Code</label>
-		<input type="text" id="areaCode" class="text ui-widget-content ui-corner-all" value="{{areaCode}}"/>
+		<input type="text" id="areaCode" class="text ui-widget-content ui-corner-all" disabled="true"  value="{{areaCode}}"/>
 		<label for="postalCode">Postal Code</label>
-		<input type="text" id="postalCode" class="text ui-widget-content ui-corner-all" value="{{postalCode}}"/>
+		<input type="text" id="postalCode" class="text ui-widget-content ui-corner-all" disabled="true"  value="{{postalCode}}"/>
 		<label for="countryCode">Country Code</label>
-		<input type="text" id="countryCode" class="text ui-widget-content ui-corner-all" value="{{countryCode}}" />
+		<input type="text" id="countryCode" class="text ui-widget-content ui-corner-all" disabled="true"  value="{{countryCode}}" />
 		<label for="cityCode">City Code</label>
-		<input type="text" id="cityCode" class="text ui-widget-content ui-corner-all" value="{{cityCode}}" />
+		<input type="text" id="cityCode" class="text ui-widget-content ui-corner-all" disabled="true"  value="{{cityCode}}" />
 		<label for="storeCode">Store Code</label>
-		<input type="text" id="storeCode" class="text ui-widget-content ui-corner-all" value="{{storeCode}}" />
+		<input type="text" id="storeCode" class="text ui-widget-content ui-corner-all" disabled="true"  value="{{storeCode}}" />
 		<label for="companyCode">Company Code</label>
-		<input type="text" id="companyCode" class="text ui-widget-content ui-corner-all" value="{{companyCode}}" />
+		<input type="text" id="companyCode" class="text ui-widget-content ui-corner-all" disabled="true"  value="{{companyCode}}" />
 	      </fieldset>
 	  {{/terminal}}
 	    </form>
