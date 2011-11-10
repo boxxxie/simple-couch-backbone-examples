@@ -47,6 +47,11 @@ var Company = couchDoc.extend(
 	     alert("The store you tried to add had the same number as one already in this group, please choose a different store number");
 	 }
      },
+     editStore:function(store, groupID){
+	 var storeToMod = this.getStore(groupID, store.store_id);
+	 _.extend(storeToMod,store);
+	 this.save();
+     },
      addTerminal: function(groupID,storeID,terminalToAdd){
 	 // var oldHierarchy = this.get('hierarchy');
 	 var storeToAddTo = this.getStore(groupID,storeID);
@@ -119,11 +124,10 @@ function addGroup(model){
 		model.addGroup(resp);
 	    }
 	   };
-};
-function editGroup(model,groupID){
+};   
+function editGroup(model, groupID){
     return {success:function(resp){
-		model.editGroup(_.extend(resp,{group_id:groupID}));
-	    }
+		model.editGroup(_.extend(resp,{group_id:groupID}));	    }
 	   };
 };
 
@@ -133,11 +137,9 @@ function addStore(model,group){
 	    }
 	   };
 };
-function editStore(store){
+function editStore(model, groupID, store){
     return {success:function(resp){
-		store.set(resp);
-		store.save();
-	    }
+		model.editStore(_.extend(resp,{group_id:groupID, store_id:sotre.store_id}));	    }
 	   };
 };
 function addTerminal(model,group,storeName){
@@ -349,16 +351,6 @@ function doc_setup(){
 	});
     groupsView = Backbone.View.extend(
 	{initialize:function(){
-	     /*var view = this;
-	     _.bindAll(view, 'render'); 
-	     AppRouter.bind('route:groupsManager',function(companyID){
-				console.log('groupsView:route:groupsManager');
-				view.model = Companies.getModelById(companyID);
-				view.model.bind('add:group',view.render(companyID));
-				view.el =_.first($("#groups"));
-				view.render(companyID)();});
-		*/
-		
 		 var view = this;
 	     _.bindAll(view, 'renderManagementPage','renderModifyPage'); 
 
@@ -374,24 +366,8 @@ function doc_setup(){
 				console.log('groupsView:route:modifyGroup' + " " + companyID + " " + groupID);
 				view.el =_.first($("#groups"));
 				view.renderModifyPage(companyID,groupID);});
-		 
-	     
 	 },
-	 /*render:function(companyID){
-	     var view = this;
-	     return function(){
-		 var forTMP = {list:_.map(view.model.getGroups(),
-					  function(group){
-					      var groupClone = _.clone(group);
-					      return _.extend(groupClone,{_id:companyID},view.model.companyStats(group.group_id));
-					  })};
-		 var html = ich.groupsTabel_TMP(forTMP);
-		 $(view.el).html(html);
-		 console.log("groups view rendered");
-		 return view;
-	     };
-	 }*/
-	
+
 	 renderManagementPage:function(companyID){
 	     var view = this;
 	     var forTMP = view.model.getGroups();
@@ -423,12 +399,29 @@ function doc_setup(){
 	{initialize:function(){
 	     var view = this;
 	     _.bindAll(view, 'render'); 
-	     AppRouter.bind('route:storesManager',function(companyID,groupID){
+	     /*AppRouter.bind('route:storesManager',function(companyID,groupID){
 				console.log('storesView:route:storesManager');
 				view.model = Companies.getModelByName(companyID);
 				view.model.bind('add:store',view.render(companyID,groupID));
 				view.el =_.first($("#stores"));
-				view.render(companyID,groupID)();});
+				view.render(companyID,groupID)();});*/
+	
+	  var view = this;
+	     _.bindAll(view, 'renderManagementPage','renderModifyPage'); 
+
+	     AppRouter.bind('route:storesManager', function(companyID, groupID){
+				console.log('groupsView:route:groupsManager : ' + companyID + " " + groupID);
+				view.model = Companies.getModelById(companyID);
+				view.el =_.first($("#stores"));
+				view.renderManagementPage(companyID, groupID);});
+	     AppRouter.bind('route:modifyStore', function(companyID,groupID,storeID){
+				var model = Companies.getModelById(companyID);
+				view.model = model;
+				model.bind('change',function(){view.renderModifyPage(companyID,groupID,storeID)});
+				console.log('groupsView:route:modifyGroup' + " " + companyID + " " + groupID + " " + storeID);
+				view.el =_.first($("#stores"));
+				view.renderModifyPage(companyID,groupID,storeID);});
+	 
 	     
 	 },
 	 render:function(companyID,groupID){
@@ -445,6 +438,32 @@ function doc_setup(){
 		 return view;
 	     };
 	 }
+	 /*
+	  renderManagementPage:function(companyID,groupID){
+	     var view = this;
+	     var forTMP = view.model.getStore(companyID,groupID);
+	     var forTMP_w_stats = {list:_.map(forTMP,function(store){return _.extend(store,{_id:companyID},group_id:groupID, view.model.companyStats(groupID,store.store_id));})};
+	     var html = ich.groupsTabel_TMP(forTMP_w_stats);
+	     $(this.el).html(html);
+	     console.log("renderManagementPage");
+	     return this;
+	 },
+	 renderModifyPage:function(companyID, groupID){
+	     var view = this;
+	     var model = Companies.getModelById(companyID);
+	     var selectedgroup = view.model.getGroup(groupID);
+	     //var modelJSON = selectedgroup.toJSON();
+	     $('body').html(ich.modify_group_page_TMP({groupName:selectedgroup.groupName, operationalname:model.get("operationalname")}));
+	     $("#dialog-hook").html(ich.groupInputDialog_TMP({title:"Edit the Group",group:selectedgroup}));
+	     GroupInputDialog("modify-group",editGroup(model,groupID));
+	     console.log("renderModifyPage " + companyID + " " + groupID);
+	     return this;
+	 },
+	 updateModel:function(){
+	     this.model = this.collection.getModelByName(Selection.get('company'));
+	     this.trigger("change:model");
+	 }
+	  */
 	});
 
 
