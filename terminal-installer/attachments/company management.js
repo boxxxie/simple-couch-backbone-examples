@@ -116,7 +116,7 @@ function addGroup(model){
 	   };
 };
 
-function editGroup(group){
+function editGroup(model){
     return {success:function(resp){
 		group.set(resp);
 		group.save();
@@ -400,12 +400,12 @@ function doc_setup(){
 	 },
 	 renderModifyPage:function(companyID, groupID){
 	     var view = this;
-	     //var model = Companies.getModelById(companyID);
+	     var model = Companies.getModelById(companyID);
 	     var selectedgroup = view.model.getGroup(groupID);
 	     //var modelJSON = selectedgroup.toJSON();
-	     $('body').html(ich.modify_group_page_TMP({group:selectedgroup}));
+	     $('body').html(ich.modify_group_page_TMP({groupName:selectedgroup.groupName, operationalname:model.get("operationalname")}));
 	     $("#dialog-hook").html(ich.groupInputDialog_TMP({title:"Edit the Group",group:selectedgroup}));
-	     GroupInputDialog("modify-group",editGroup(selectedgroup));
+	     GroupInputDialog("modify-group",editGroup(model));
 	     console.log("renderModifyPage " + companyID + " " + groupID);
 	     return this;
 	 },
