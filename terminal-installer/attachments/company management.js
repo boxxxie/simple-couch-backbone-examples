@@ -105,7 +105,8 @@ function addCompany(collection){
 };
 function editCompany(company){
     return {success:function(resp){
-		company.save(resp);
+		company.set(resp);
+		company.save();
 	    }
 	   };
 };
@@ -275,12 +276,14 @@ function doc_setup(){
 	     _.bindAll(view, 'renderManagementPage','renderModifyPage'); 
 	     this.collection.bind('reset',view.renderManagementPage);
 	     this.collection.bind('add',view.renderManagementPage);
-	     this.bind('change:model',function(){console.log('change:model:companies');view.renderManagementPage();view.renderModifyPage();});
+	     //this.bind('change',function(){console.log('change:companies');view.renderManagementPage();view.renderModifyPage();});
 	     AppRouter.bind('route:companyManagementHome', function(){
 				console.log('companiesView:route:companyManagementHome');
 				view.el =_.first($("#companies"));
 				view.renderManagementPage();});
 	     AppRouter.bind('route:modifyCompany', function(id){
+				var model = Companies.getModelById(id);
+				model.bind('change',function(){view.renderModifyPage(id)});
 				console.log('companiesView:route:modifyCompany');
 				view.el =_.first($("#companies"));
 				view.renderModifyPage(id);});
@@ -296,6 +299,7 @@ function doc_setup(){
 	     return this;
 	 },
 	 renderModifyPage:function(id){
+	     var view = this;
 	     var model = Companies.getModelById(id);
 	     var modelJSON = model.toJSON();
 	     $('body').html(ich.modify_company_page_TMP({company:modelJSON}));
