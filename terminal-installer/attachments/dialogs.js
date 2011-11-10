@@ -45,22 +45,22 @@ function CompanyInputDialog (attachTo,options) {
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
     _.extend(this,DialogValidator());
     var d = $("#dialog-form");
-    var user = $("#user"),
-    password = $("#password"),
+    var user = d.find("#user"),
+    password = d.find("#password"),
     companyName = d.find("#company-name"),
-    firstname = $("#contact\\.firstname"),
-    lastname = $("#contact\\.lastname"),
-    website = $("#contact\\.website"),
-    email = $("#contact\\.email"),
-    phone = $("#contact\\.phone"),
-    street0 = $("#address\\.street0"),
-    street1 = $("#address\\.street1"),
-    street2 = $("#address\\.street2"),
-    city = $("#address\\.city"),
-    province = $("#address\\.province"),
-    country = $("#address\\.country"),
-    postalcode = $("#address\\.postalcode"),
-    operationalname = $("#operationalname"),
+    firstname = d.find("#contact\\.firstname"),
+    lastname = d.find("#contact\\.lastname"),
+    website = d.find("#contact\\.website"),
+    email = d.find("#contact\\.email"),
+    phone = d.find("#contact\\.phone"),
+    street0 = d.find("#address\\.street0"),
+    street1 = d.find("#address\\.street1"),
+    street2 = d.find("#address\\.street2"),
+    city = d.find("#address\\.city"),
+    province = d.find("#address\\.province"),
+    country = d.find("#address\\.country"),
+    postalcode = d.find("#address\\.postalcode"),
+    operationalname = d.find("#operationalname"),
 
     
     requiredFields = $([])
