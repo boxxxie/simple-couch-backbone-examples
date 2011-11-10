@@ -114,9 +114,9 @@ function editCompany(company){
 	    }
 	   };
 };
-function addGroup(model){
+function addGroup(model,groupID){
     return {success: function(resp){
-		model.addGroup(resp);
+		model.addGroup(_.extend(resp,{group_id:groupID}));
 	    }
 	   };
 };
@@ -408,7 +408,7 @@ function doc_setup(){
 	     //var modelJSON = selectedgroup.toJSON();
 	     $('body').html(ich.modify_group_page_TMP({groupName:selectedgroup.groupName, operationalname:model.get("operationalname")}));
 	     $("#dialog-hook").html(ich.groupInputDialog_TMP({title:"Edit the Group",group:selectedgroup}));
-	     GroupInputDialog("modify-group",editGroup(model));
+	     GroupInputDialog("modify-group",editGroup(model,groupID));
 	     console.log("renderModifyPage " + companyID + " " + groupID);
 	     return this;
 	 },
