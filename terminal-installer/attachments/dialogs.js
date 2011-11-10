@@ -40,6 +40,13 @@ function DialogValidator(){
 	}
     };
 };
+function CompanyCreateDialog (attachTo,options){
+    _.extend(options,{clearOnExit:true});
+    CompanyInputDialog(attachTo,options);
+};
+function CompanyModifyDialog (attachTo,options){
+    CompanyInputDialog(attachTo,options);
+};
 function CompanyInputDialog (attachTo,options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
