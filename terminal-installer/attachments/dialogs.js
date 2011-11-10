@@ -95,8 +95,10 @@ function CompanyInputDialog (attachTo,options) {
 				 width: 500,
 				 modal: true,
 				 close: function() {
-				     //allFields.val("").removeClass( "ui-state-error" );
-				     //allFields.filter("input:checked").attr("checked",false);
+				 	//var title = $("#dialog-form").find("#title");
+				 	//console.log("title : " + title + " att : " + attachTo);
+				 	 allFields.val("").removeClass( "ui-state-error" );
+				     allFields.filter("input:checked").attr("checked",false);
 				 },
 				 //closeOnEscape: false,
 				 buttons: {			 
