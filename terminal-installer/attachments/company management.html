@@ -150,13 +150,15 @@
 	  <th>Delete</th>
 	</tr>
 	{{#list}}
-	<tr><td><a href="#/company/{{_id}}">{{companyName}}</a>
-	  </td><td>{{operationalname}}</td><td>{{group_num}}</td><td>{{store_num}}</td><td>{{terminal_num}}</td><td>{{creationdate}}</td><td>
-	    {{>quickViewButton_P}}
-	  </td>
-	  <td>
-	    {{>deleteButton_P}}
-	  </td>
+	<tr>
+	  <td><a href="#/company/{{_id}}">{{companyName}}</a></td>
+	  <td>{{operationalname}}</td>
+	  <td>{{group_num}}</td>
+	  <td>{{store_num}}</td>
+	  <td>{{terminal_num}}</td>
+	  <td>{{creationdate}}</td>
+	  <td>{{>quickViewButton_P}}</td>
+	  <td>{{>deleteButton_P}}</td>
 	</tr>
 	{{/list}}
       </table>
@@ -229,10 +231,13 @@
 	  <th>Detail</th>
 	</tr>
 	{{#list}}
-	<tr><td><a href="#/company/{{_id}}/groups/{{group_id}}">{{groupName}}</a></td><td>{{store_num}}</td><td>{{terminal_num}}</td><td>{{creationdate}}</td>
-	  <td>
-	    {{>quickViewButton_P}}
-	  </td>
+	<tr>
+	  <td><a href="#/company/{{_id}}/groups/{{group_id}}">{{groupName}}</a></td>
+	  <td>{{store_num}}</td>
+	  <td>{{terminal_num}}</td>
+	  <td>{{creationdate}}</td>
+	  <td>{{>quickViewButton_P}}</td>
+	  <td>{{>deleteButton_P}}</td>
 	</tr>
 	{{/list}}
       </table>

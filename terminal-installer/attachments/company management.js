@@ -253,9 +253,14 @@ function doc_setup(){
 		 var modelObj = model.toJSON();
 		 var groups = model.getGroups();
 		 var groups_w_ids = _.map(groups,function(group){return _.extend(group,{_id:modelObj._id});});
-		 $('body').html(ich.group_management_page_TMP({company:modelObj}));
-		 $("#groupCreateDialog").html(ich.groupInputDialog_TMP({title:"Make a new Group",group:{}}));
-		 GroupCreateDialog("create-group", addGroup(model));
+		 var html = ich.group_management_page_TMP({createButtonLabel:"new group",
+							   company:modelObj});
+		 $('body').html(html);
+		 $("#groupCreateDialog")
+		     .html(ich.groupInputDialog_TMP(
+			       {title:"Make a new Group",
+				group:{address:{},contact:{}}}));
+		 GroupCreateDialog("create-thing", addGroup(model));
 	     },
 	     modifyGroup:function(companyID, groupID){
 		 console.log("modifyGroup: " + companyID + " " + groupID);
