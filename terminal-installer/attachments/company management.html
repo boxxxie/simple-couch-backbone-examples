@@ -93,7 +93,7 @@
     <script id="backButton_P" class="partial" type="text/html">
       <a href="javascript:history.go(-1)">
 	<button id="create-thing" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	    <span class="ui-button-text">Back</span>
+	  <span class="ui-button-text">Back</span>
 	</button>
       </a>
     </script>
@@ -101,7 +101,7 @@
     <script id="menuButton_P" class="partial" type="text/html">
       <a href="./mainMenus.html">
 	<button id="create-thing" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	    <span class="ui-button-text">Menus</span>
+	  <span class="ui-button-text">Menus</span>
 	</button>
       </a>
     </script>
@@ -111,7 +111,25 @@
     </script>
 
     <script id="editButton_P" class="partial" type="text/html">
-      <button id="edit-thing">Edit</button>
+      <button id="edit-thing">
+	Edit
+      </button>
+    </script>
+
+    <script id="quickViewButton_P" class="partial" type="text/html">
+      <button onclick=quickView("{{template}}","{{_id}}","{{group_id}}","{{store_id}}","{{terminal_id}}") class="ui-state-default ui-corner-all">
+	<span class="ui-button-text">
+	  View
+	</span>
+      </button>
+    </script>
+
+    <script id="deleteButton_P" class="partial" type="text/html">
+      <button class="ui-state-default ui-corner-all">
+	<span class="ui-button-text">
+	  Delete
+	</span>
+      </button>
     </script>
 
     <script id="quickViewHook_P" class="partial" type="text/html">
@@ -133,18 +151,19 @@
 	  <th>Delete</th>
 	</tr>
 	{{#list}}
-	<tr><td><a href="#/company/{{_id}}">{{companyName}}</a>
-	  </td><td>{{operationalname}}</td><td>{{group_num}}</td><td>{{store_num}}</td><td>{{terminal_num}}</td><td>{{creationdate}}</td><td>
-	    <button onclick=quickView("modify_company_page_TMP","{{_id}}") class="ui-state-default ui-corner-all" class="ui-button-text">View</button>
-	  </td>
-	  <td>
-	    <button class="ui-state-default ui-corner-all">
-	      <span class="ui-button-text">Delete</span>
-	    </button>
-	  </td>
+	<tr>
+	  <td><a href="#/company/{{_id}}">{{companyName}}</a></td>
+	  <td>{{operationalname}}</td>
+	  <td>{{group_num}}</td>
+	  <td>{{store_num}}</td>
+	  <td>{{terminal_num}}</td>
+	  <td>{{creationdate}}</td>
+	  <td>{{>quickViewButton_P}}</td>
+	  <td>{{>deleteButton_P}}</td>
 	</tr>
 	{{/list}}
       </table>
+      {{>quickViewHook_P}}
     </script>
 
     <script id="company_management_page_TMP" type="text/html">
@@ -214,12 +233,13 @@
 	  <th>Detail</th>
 	</tr>
 	{{#list}}
-	<tr><td><a href="#/company/{{_id}}/groups/{{group_id}}">{{groupName}}</a></td><td>{{store_num}}</td><td>{{terminal_num}}</td><td>{{creationdate}}</td>
-	  <td>
-	    <button onclick=quickView("modify_group_page_TMP","{{_id}}","{{group_id}}") class="ui-state-default ui-corner-all">
-	      <span class="ui-button-text">View</span>
-	    </button>
-	  </td>
+	<tr>
+	  <td><a href="#/company/{{_id}}/groups/{{group_id}}">{{groupName}}</a></td>
+	  <td>{{store_num}}</td>
+	  <td>{{terminal_num}}</td>
+	  <td>{{creationdate}}</td>
+	  <td>{{>quickViewButton_P}}</td>
+	  <td>{{>deleteButton_P}}</td>
 	</tr>
 	{{/list}}
       </table>
@@ -242,6 +262,10 @@
 	<fieldset>
 	  <label for="group-name">Group Name</label>
 	  <input type="text" id="group-name" value="{{groupName}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="user">Master User ID</label>
+	  <input type="text" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="password">Master Password</label>
+	  <input type="password" id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
 	  {{>addressFields_P}}
 	  {{>contactFields_P}}
 	</fieldset>
@@ -360,7 +384,7 @@
 	<tr><td><a href="#/company/{{_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals/{{terminal_id}}">{{id}}</a></td>
 	  <td>{{installed}}</td><td>{{creationdate}}</td>
 	  <td>
-	    <button onclick=quickView("modify_terminal_page_TMP","{{_id}}","{{group_id}}","{{store_id}}","{{terminal_id}}") class="ui-state-default ui-corner-all">
+	    <button onclick=quickView("{{fromTemplate}}","{{_id}}","{{group_id}}","{{store_id}}","{{terminal_id}}") class="ui-state-default ui-corner-all">
 	      <span class="ui-button-text">View</span>
 	    </button>
 	  </td>

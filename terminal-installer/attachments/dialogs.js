@@ -157,7 +157,6 @@ function CompanyInputDialog (attachTo,options) {
 							      companyName:companyName.val()});
 					     
 					     allFields.val("").removeClass("ui-state-error");
-				     	     allFields.filter("input:checked").attr("checked",false);
 					     $(this).dialog("close");
 					 } else if(bValid && !unfilledRequiredFields) {
 					     handleMissingFields(requiredFields,updateTips(tips));
@@ -308,46 +307,47 @@ function TerminalInputDialog (attachTo,options) {
 
     var tips = $( ".validateTips" );
 
-    d.dialog({
-		 autoOpen: false,
-		 height: 600,
-		 width: 500,
-		 modal: true,
-		 buttons: {
-		     "Submit": function() {
-			 var bValid = true;
-			 var unfilledRequiredFields=checkRequiredFields(requiredFields);
-			 requiredFields.removeClass( "ui-state-error" );
-			 if ( bValid && unfilledRequiredFields) {
-			     options.success(
-				 {
-				     id:id.val(),
-				     creationdate:new Date(),
-				     installed:false,
-				     areaCode:areaCode.val(),
-				     postalCode:postalCode.val(),
-				     countryCode:countryCode.val(),
-				     cityCode:cityCode.val(),
-				     storeCode:storeCode.val(),
-				     companyCode:companyCode.val()
-				 });
-			     allFields.val("").removeClass( "ui-state-error" );
-		             allFields.filter("input:checked").attr("checked",false);
-			     $(this).dialog("close");
-			 } else if(bValid && !unfilledRequiredFields) {
-			     handleMissingFields(requiredFields,updateTips(tips));			 }
-		     },
-		     Cancel: function() {
-			 $(this).dialog("close");
-		     }
-		 },
-		 close: function() {
-		 	if(options.clearOnExit) {
-		 	 allFields.val("").removeClass( "ui-state-error" );
+    d.dialog(
+	{autoOpen: false,
+	 height: 600,
+	 width: 500,
+	 modal: true,
+	 close: function() {
+	     if(options.clearOnExit) {
+		 allFields.val("").removeClass( "ui-state-error" );
+		 allFields.filter("input:checked").attr("checked",false);
+	     }
+	 },
+	 buttons: {
+	     "Submit": function() {
+		 var bValid = true;
+		 var unfilledRequiredFields=checkRequiredFields(requiredFields);
+		 requiredFields.removeClass( "ui-state-error" );
+		 if ( bValid && unfilledRequiredFields) {
+		     options.success(
+			 {
+			     id:id.val(),
+			     creationdate:new Date(),
+			     installed:false,
+			     areaCode:areaCode.val(),
+			     postalCode:postalCode.val(),
+			     countryCode:countryCode.val(),
+			     cityCode:cityCode.val(),
+			     storeCode:storeCode.val(),
+			     companyCode:companyCode.val()
+			 });
+		     allFields.val("").removeClass( "ui-state-error" );
 		     allFields.filter("input:checked").attr("checked",false);
-		    }
+		     $(this).dialog("close");
+		 } else if(bValid && !unfilledRequiredFields) {
+		     handleMissingFields(requiredFields,updateTips(tips));			 
 		 }
-	     });
+	     },
+	     Cancel: function() {
+		 $(this).dialog("close");
+	     }
+	 }
+	});
 
     $("#"+attachTo).button().click(function() {
 				       d.dialog("open");
@@ -358,57 +358,121 @@ function GroupInputDialog (attachTo,options) {
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
     _.extend(this,DialogValidator());
     var d = $("#dialog-form");
-    var groupName = d.find("#group-name");
-    var allFields = $([]).add(groupName);
-    
-    d.dialog({
-		 autoOpen: false,
-		 height: 400,
-		 width: 500,
-		 modal: true,
-		 buttons: {
-		     "Submit": function() {
-			 options.success({
-					     groupName:groupName.val(),
-					     creationdate:new Date()}					
-					);
-			 allFields.val("").removeClass( "ui-state-error" );
-			 allFields.filter("input:checked").attr("checked",false);
-			 $(this).dialog("close");
-		     },		
-		     Cancel: function() {
-			 $(this).dialog("close");
-		     }
-		 },
-		 close: function() {
-		 	if(options.clearOnExit) {
-		 	 allFields.val("").removeClass( "ui-state-error" );
-		     allFields.filter("input:checked").attr("checked",false);
-		    }
-		 }
-	     });
+    var groupName = d.find("#group-name"),
+    user = d.find("#user"),
+    password = d.find("#password"),
+    firstname = d.find("#contact\\.firstname"),
+    lastname = d.find("#contact\\.lastname"),
+    website = d.find("#contact\\.website"),
+    email = d.find("#contact\\.email"),
+    phone = d.find("#contact\\.phone"),
+    street0 = d.find("#address\\.street0"),
+    street1 = d.find("#address\\.street1"),
+    street2 = d.find("#address\\.street2"),
+    city = d.find("#address\\.city"),
+    province = d.find("#address\\.province"),
+    country = d.find("#address\\.country"),
+    postalcode = d.find("#address\\.postalcode"),
 
+    requiredFields = $([])
+	.add(user)
+	.add(groupName)
+	.add(password),
+
+    allFields = $([])
+	.add(groupName)
+   	.add(user)
+	.add(firstname)
+	.add(lastname)
+	.add(website)
+	.add(email)
+	.add(phone)
+	.add(street0)
+	.add(street1)
+	.add(street2)
+	.add(city)
+	.add(province)
+	.add(country)
+	.add(postalcode)
+	.add(password);
+    
+    var tips = $( ".validateTips" );
+    var dialogOptions = _.extend(
+	{autoOpen: false,
+	 height: 900,
+	 width: 500,
+	 modal: true,
+	 close: function() {
+	     if(options.clearOnExit) {
+		 allFields.val("").removeClass( "ui-state-error" );
+		 allFields.filter("input:checked").attr("checked",false);
+	     }
+	 },
+	 buttons: {
+	     "Submit": function() {
+		 var bValid = true;
+		 var unfilledRequiredFields = checkRequiredFields(requiredFields);
+		 requiredFields.removeClass( "ui-state-error" );
+
+		 bValid = bValid && checkLength( user, "The Master User ID", 1, 8, updateTips(tips) );
+		 bValid = bValid && checkLength( password, "The Master User Password", 1, 8 ,updateTips(tips));
+
+		 if ( bValid && unfilledRequiredFields) {
+		     options.success({user:user.val(),
+				      password:password.val(),
+				      contact:{firstname : firstname.val(),
+					       lastname : lastname.val(),
+					       website : website.val(),
+					       email : email.val(),
+					       phone : phone.val()},
+				      address:{street0:street0.val(),
+					       street1:street1.val(),
+					       street2:street2.val(),
+					       city:city.val(),
+					       country:country.val(),
+					       province:province.val(),
+					       postalcode:postalcode.val()},
+				      groupName:groupName.val(),
+				      creationdate:new Date()}					
+				    );
+		     allFields.val("").removeClass( "ui-state-error" );
+		     d.dialog("close");
+		 } else if(bValid && !unfilledRequiredFields) {
+		     handleMissingFields(requiredFields,updateTips(tips));			 
+		 }
+	     },		
+	     Cancel: function() {
+		 d.dialog("close");
+	     }
+	 }
+	},_.clone(options));
+    
+    d.dialog(dialogOptions);
     $("#"+attachTo).button().click(function() {
 				       d.dialog( "open" );
 				   });
 };
 function quickViewDialog (html,options) {
-    var form = $(html).find('fieldset');    	
-    $("#dialog-quickView").html(form);
-    $("#dialog-quickView").dialog({
-				      autoOpen: false,
-				      height: 400,
-				      width: 500,
-				      modal: true,
-				      buttons: {
-					  Cancel: function() {
-					      $("#dialog-quickView").dialog('destroy');
-					  }
-				      },
-				      close: function() {
-					  $("#dialog-quickView").dialog('destroy');
-				      }
-				  });
-    $("#dialog-quickView").dialog("open");
+    var form = $(html).filter('fieldset');
+    var d = $("#dialog-quickView");    	
+    d.html(form);
+    d.find('input').attr('disabled',true);
+    var dialogOptions = _.extend(
+	{autoOpen: false,
+	 height: 400,
+	 width: 500,
+	 modal: true,
+	 buttons: {
+	     Cancel: function() {
+		 d.dialog('destroy');
+	     }
+	 },
+	 close: function() {
+	     d.dialog('destroy');
+	 }
+	},_.clone(options));
+
+    d.dialog(dialogOptions);
+    d.dialog("open");
 };
 
