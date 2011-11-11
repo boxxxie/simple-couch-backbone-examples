@@ -37,162 +37,95 @@
     </style>
 
 
+    <!--------------------------------------------------------GENERAL--------------------------------------------------->
 
-	<script id="companyInputDialog_TMP" type="text/html">
-      <div id="dialog-form" title="{{title}}">
-	<p class="validateTips"></p>
-	<form>
-	  {{#company}}
-	  <fieldset>
-	    <label for="company-name">Company name</label>
-	    <input type="text" id="company-name" value="{{companyName}}" class="text ui-widget-content ui-corner-all" />
-	    <label for="operationalname">Operational Name</label>
-	    <input type="text" id="operationalname" value="{{operationalname}}" class="text ui-widget-content ui-corner-all" />
-	    <label for="user">Master User ID</label>
-	    <input type="text" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" />
-	    <label for="password">Master Password</label>
-	    <input type="password" id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
-	    <dl>
-	      <dt>Address</dt>
-	      {{#address}}
-	      <dd>
-		<label for="address.street0">Street 0</label>
-		<input type="text" id="address.street0" value="{{street0}}" class="text ui-widget-content ui-corner-all" />
-		<label for="address.street1">Street 1</label>
-		<input type="text" id="address.street1" value="{{street1}}" class="text ui-widget-content ui-corner-all" />
-		<label for="address.street2">Street 2</label>
-		<input type="text" id="address.street2" value="{{street2}}" class="text ui-widget-content ui-corner-all" />
-		<label for="address.city">City</label>
-		<input type="text" id="address.city" value="{{city}}" class="text ui-widget-content ui-corner-all" />
-		<label for="address.province">State/Province</label>
-		<input type="text" id="address.province" value="{{province}}" class="text ui-widget-content ui-corner-all" />
-		<label for="address.country">Country</label>
-		<input type="text" id="address.country" value="{{country}}" class="text ui-widget-content ui-corner-all" />
-		<label for="address.postalcode">Postal code</label>
-		<input type="text" id="address.postalcode" value="{{postalCode}}" class="text ui-widget-content ui-corner-all" />
-	      </dd>
-	    </dl>
-	    <dl>
-	      {{/address}}
-	      <dt>Contact</dt>
-	      {{#contact}}
-	      <dd>
-		<label for="contact.firstname">First Name</label>
-		<input type="text" id="contact.firstname" value="{{firstName}}" class="text ui-widget-content ui-corner-all" />
-		<label for="contact.lastname">Last Name</label>
-		<input type="text" id="contact.lastname" value="{{lastName}}" class="text ui-widget-content ui-corner-all" />
-		<label for="contact.website">Web site</label>
-		<input type="text" id="contact.website" value="{{website}}" class="text ui-widget-content ui-corner-all" />
-		<label for="contact.email">e-mail</label>
-		<input type="text" id="contact.email" value="{{email}}" class="text ui-widget-content ui-corner-all" />
-		<label for="contact.phone">phone</label>
-		<input type="text" id="contact.phone" value="{{phone}}" class="text ui-widget-content ui-corner-all" />
-	      </dd>
-	      {{/contact}}
-	    </dl>
-	  </fieldset>
-	</form>
-	{{/company}}
-      </div>	
+    <script id="addressFields_P" class="partial" type="text/html">
+      {{#address}}
+      <dl>
+	<dt>Address</dt>
+	<dd>
+	  <label for="address.street0">Street 1</label>
+	  <input type="text" id="address.street0" value="{{street0}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="address.street1">Street 2</label>
+	  <input type="text" id="address.street1" value="{{street1}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="address.city">City</label>
+	  <input type="text" id="address.city" value="{{city}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="address.province">State/Province</label>
+	  <input type="text" id="address.province" value="{{province}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="address.country">Country</label>
+	  <input type="text" id="address.country" value="{{country}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="address.postalcode">Postal code</label>
+	  <input type="text" id="address.postalcode" value="{{postalCode}}" class="text ui-widget-content ui-corner-all" />
+	</dd>
+      </dl>
+      {{/address}}
     </script>
 
-   <script id="groupInputDialog_TMP" type="text/html">
-     <div id="dialog-form" title="{{title}}">
-       <p class="validateTips"></p>
-       <form>
-	 {{#group}}
-	 <fieldset>
-	   <label for="group-name">Group name</label>
-	   <input type="text" id="group-name" value="{{groupName}}" class="text ui-widget-content ui-corner-all" />
-	 </fieldset>
-	 {{/group}}
-       </form>
-     </div>
-   </script>
+    <script id="contactFields_P" class="partial" type="text/html">
+      {{#contact}}
+      <dl>
+	<dt>Contact</dt>
+	<dd>
+	  <label for="contact.firstname">First Name</label>
+	  <input type="text" id="contact.firstname" value="{{firstName}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="contact.lastname">Last Name</label>
+	  <input type="text" id="contact.lastname" value="{{lastName}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="contact.website">Web site</label>
+	  <input type="text" id="contact.website" value="{{website}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="contact.email">e-mail</label>
+	  <input type="text" id="contact.email" value="{{email}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="contact.phone">phone</label>
+	  <input type="text" id="contact.phone" value="{{phone}}" class="text ui-widget-content ui-corner-all" />
+	</dd>
+      </dl>
+      {{/contact}}
+    </script>
 
-   <script id="storeInputDialog_TMP" type="text/html">
-     <div id="dialog-form" title="{{title}}">
-	<p class="validateTips"></p>
-	<form>
-	  {{#store}}
-	  <fieldset>
-	    <label for="store-name">Store name</label>
-	    <input type="text" id="store-name" value="{{storeName}}" class="text ui-widget-content ui-corner-all" />
-	    <label for="store-num">Store num</label>
-	    <input type="text" id="store-num" value="{{number}}" class="text ui-widget-content ui-corner-all" />
-	    <label for="user">Master User ID</label>
-	    <input type="text" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" />
-	    <label for="password">Master Password</label>
-	    <input type="password"  id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
-	    <dl>
-	      {{#address}}
-	      <dt>Address</dt>
-	      <dd>
-		<label for="address.street0">Street 0</label>
-		<input type="text" id="address.street0" value="{{street0}}" class="text ui-widget-content ui-corner-all" />
-		<label for="address.street1">Street 1</label>
-		<input type="text" id="address.street1" value="{{street1}}" class="text ui-widget-content ui-corner-all" />
-		<label for="address.street2">Street 2</label>
-		<input type="text" id="address.street2" value="{{street2}}" class="text ui-widget-content ui-corner-all" />
-		<label for="address.city">City</label>
-		<input type="text" id="address.city" value="{{city}}"class="text ui-widget-content ui-corner-all" />
-		<label for="address.province">State/Province</label>
-		<input type="text" id="address.province" value="{{province}}" class="text ui-widget-content ui-corner-all" />
-		<label for="address.country">Country</label>
-		<input type="text" id="address.country" value="{{country}}" class="text ui-widget-content ui-corner-all" />
-		<label for="address.postalcode">Postal code</label>
-		<input type="text" id="address.postalcode" value="{{postalCode}}" class="text ui-widget-content ui-corner-all" />
-	      </dd>
-	    </dl>
-	    <dl>
-	      {{/address}}
-	      {{#contact}}
-	      <dt>Contact</dt>
-	      <dd>
-		<label for="contact.firstname">First Name</label>
-		<input type="text" id="contact.firstname" value="{{firstName}}" class="text ui-widget-content ui-corner-all" />
-		<label for="contact.lastname">Last Name</label>
-		<input type="text" id="contact.lastname" value="{{lastName}}" class="text ui-widget-content ui-corner-all" />
-		<label for="contact.website">Web site</label>
-		<input type="text" id="contact.website" value="{{website}}" class="text ui-widget-content ui-corner-all" />
-		<label for="contact.email">e-mail</label>
-		<input type="text" id="contact.email" value="{{email}}" class="text ui-widget-content ui-corner-all" />
-		<label for="contact.phone">phone</label>
-		<input type="text" id="contact.phone" value="{{phone}}"  class="text ui-widget-content ui-corner-all" />
-	      </dd>
-	    </dl>
-	    {{/contact}}
-	  </fieldset>
-	  {{/store}}
-	</form>
-      </div>
-   </script>   
+    <script id="breadcrumb_P" class="partial" type="text/html">
+      <h2>{{company}} - {{group}} - {{store}} - {{terminal}}</h2>
+    </script>
+    
+    <script id="commonButtonClasses_P" class="partial"  type="text/html">
+      ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only
+    </script>
+    
+    <script id="backButton_P" class="partial" type="text/html">
+      <a href="javascript:history.go(-1)">
+	<button id="create-thing" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
+	  <span class="ui-button-text">
+	    <span class="ui-button-text">Back</span>
+	  </span>
+	</button>
+      </a>
+    </script>
 
-   <script id="terminalInputDialog_TMP" type="text/html">
-     <div id="dialog-form" title="{{title}}">
-	<p class="validateTips"></p>
-	<form>
-	  {{#terminal}}
-	  <fieldset>
-	    <label for="terminal-id">Terminal ID</label>
-	    <input type="text" id="terminal-id" value="{{id}}" class="text ui-widget-content ui-corner-all" />
-	    <label for="areaCode">Area Code</label>
-	    <input type="text" id="areaCode" value="{{areaCode}}" class="text ui-widget-content ui-corner-all" />
-	    <label for="postalCode">Postal Code</label>
-	    <input type="text" id="postalCode" value="{{postalCode}}" class="text ui-widget-content ui-corner-all" />
-	    <label for="countryCode">Country Code</label>
-	    <input type="text" id="countryCode" value="{{countryCode}}" class="text ui-widget-content ui-corner-all" />
-	    <label for="cityCode">City Code</label>
-	    <input type="text" id="cityCode" value="{{cityCode}}"  class="text ui-widget-content ui-corner-all" />
-	    <label for="storeCode">Store Code</label>
-	    <input type="text" id="storeCode" value="{{storeCode}}" class="text ui-widget-content ui-corner-all" />
-	    <label for="companyCode">Company Code</label>
-	    <input type="text" id="companyCode" value="{{companyCode}}" class="text ui-widget-content ui-corner-all" />
-	  </fieldset>
-	  {{/terminal}}
-	</form>
-      </div>
-   </script>
+    <script id="menuButton_P" class="partial" type="text/html">
+      <a href="./mainMenus.html">
+	<button id="create-thing" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
+	    <span class="ui-button-text">Menus</span>
+	</button>
+      </a>
+    </script>
+
+    <script id="createButton_P" class="partial" type="text/html">
+      <input type="button" id="create-thing" value="{{createButtonLabel}}"/>
+    </script>
+
+    <script id="createButton2_P" class="partial" type="text/html">
+      <button id="create-thing2">{{createButtonLabel}}</button>
+    </script>
+
+    <script id="editButton_P" class="partial" type="text/html">
+      <button id="edit-thing">
+	<span class="ui-button-text">Edit</span>
+      </button>
+    </script>
+
+    <script id="quickViewHook_P" class="partial" type="text/html">
+      <div id="dialog-quickView" title="QuickView"></div>
+    </script>
+    
+    <!--------------------------------------------------------COMPANY--------------------------------------------------->
 
     <script id="companiesTabel_TMP" type="text/html">
       <table border="1">
@@ -207,17 +140,70 @@
 	</tr>
 	{{#list}}
 	<tr><td><a href="#/company/{{_id}}">{{companyName}}</a>
-	  </td><td>{{operationalname}}</td><td>{{group_num}}</td><td>{{store_num}}</td><td>{{terminal_num}}</td><td>{{creationdate}}</td>
-	  <td>
-	    <button onclick=quickView("modify_company_page_TMP","{{_id}}") class="ui-state-default ui-corner-all">
-	      <span class="ui-button-text">View</span>
-	    </button>
+	  </td><td>{{operationalname}}</td><td>{{group_num}}</td><td>{{store_num}}</td><td>{{terminal_num}}</td><td>{{creationdate}}</td><td>
+	    <button onclick=quickView("modify_company_page_TMP","{{_id}}") class="ui-state-default ui-corner-all" class="ui-button-text">View</button>
 	  </td>
 	</tr>
 	{{/list}}
       </table>
-      <div id="dialog-quickView" title="QuickView"></div>
     </script>
+
+    <script id="company_management_page_TMP" type="text/html">
+      <h1>Company Management</h1>
+      <div id="companies"></div>
+      <div id="companyCreateDialog"></div>
+      {{>createButton_P}}
+      {{>createButton2_P}}
+      {{>menuButton_P}}
+    </script>	   
+    
+    <script id="companyForm_P" class="partial" type="text/html">
+      {{#company}}
+      <form>
+	<fieldset>
+	  <label for="company-name">Company name</label>
+	  <input type="text" id="company-name" value="{{companyName}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="operationalname">Operational Name</label>
+	  <input type="text" id="operationalname" value="{{operationalname}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="user">Master User ID</label>
+	  <input type="text" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="password">Master Password</label>
+	  <input type="password" id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
+	  {{>addressFields_P}}
+	  {{>contactFields_P}}
+	</fieldset>
+      </form>
+      {{/company}}
+    </script>
+
+    <script id="companyInputDialog_TMP" type="text/html">
+      <div id="dialog-form" title="{{title}}">
+	<p class="validateTips"></p>
+	{{>companyForm_P}}
+      </div>	
+    </script>
+
+    <script id="modify_company_page_TMP" type="text/html">
+      <table border="1">
+	<h1>Modify Company</h1>
+	{{>breadcrumb_P}}
+	{{>companyForm_P}}
+	<div id="dialog-hook"></div>
+	{{>editButton_P}}
+	{{#company}}
+	<a href="#/company/{{_id}}/groups">
+	  <button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	    <span class="ui-button-text">Groupe Manager</span>
+	  </button>
+	</a>
+	{{/company}}
+	{{>backButton_P}}
+	{{>menuButton_P}}
+      </table>
+      {{>quickViewHook_P}}
+    </script>   
+
+    <!--------------------------------------------------------GROUP--------------------------------------------------->
 
     <script id="groupsTabel_TMP" type="text/html">
       <table border="1">
@@ -238,8 +224,81 @@
 	</tr>
 	{{/list}}
       </table>
-      <div id="dialog-quickView" title="QuickView"></div>
+      {{>quickViewHook_P}}
     </script>
+
+    <script id="group_management_page_TMP" type="text/html">
+      <h1>Group Management</h1>
+      {{>breadcrumb_P}}
+      <div id="groupCreateDialog"></div>
+      <div id="groups"></div>
+      {{>createButton_P}}
+      {{>backButton_P}}
+      {{>menuButton_P}}
+    </script>
+
+    <script id="groupForm_P" class="partial" type="text/html">
+      {{#group}}
+      <form>
+	<fieldset>
+	  <label for="group-name">Group Name</label>
+	  <input type="text" id="group-name" value="{{groupName}}" class="text ui-widget-content ui-corner-all" />
+	  {{>addressFields_P}}
+	  {{>contactFields_P}}
+	</fieldset>
+      </form>
+      {{/group}}
+    </script>
+
+    <script id="groupInputDialog_TMP" type="text/html">
+      <div id="dialog-form" title="{{title}}">
+	<p class="validateTips"></p>
+	{{>groupForm_P}}
+      </div>
+    </script>
+
+    <script id="modify_group_page_TMP" type="text/html">
+      <table border="1">
+	<h1>Modify Group</h1>
+	{{>breadcrumb_P}}
+	{{>groupForm_P}}
+	<div id="dialog-hook"></div>
+	<input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="modify-group" value="Edit" />
+	<a href="#/company/{{_id}}/groups/{{group_id}}/stores"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	    <span class="ui-button-text">Store Manager</span>
+	</button></a>
+	{{>backButton_P}}
+	{{>menuButton_P}}
+      </table>
+    </script>   
+
+    <!--------------------------------------------------------STORES--------------------------------------------------->
+
+    <script id="storeForm_P" class="partial" type="text/html">
+      {{#store}}
+      <form>
+	<fieldset>
+	  <label for="store-name">Store name</label>
+	  <input type="text" id="store-name" value="{{storeName}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="store-num">Store num</label>
+	  <input type="text" id="store-num" value="{{number}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="user">Master User ID</label>
+	  <input type="text" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="password">Master Password</label>
+	  <input type="password"  id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
+	  {{>addressFields_P}}
+	  {{>contactFields_P}}
+	</fieldset>
+      </form>
+      {{/store}}
+    </script>
+
+    <script id="storeInputDialog_TMP" type="text/html">
+      <div id="dialog-form" title="{{title}}">
+	<p class="validateTips"></p>
+	{{>storeForm_P}}
+      </div>
+    </script>  
 
     <script id="storesTabel_TMP" type="text/html">
       <table border="1">
@@ -256,13 +315,41 @@
 	    <button onclick=quickView("modify_store_page_TMP","{{_id}}","{{group_id}}","{{store_id}}") class="ui-state-default ui-corner-all">
 	      <span class="ui-button-text">View</span>
 	    </button>
-	  </tr>
+	</tr>
 	{{/list}}
       </table>
-      <div id="dialog-quickView" title="QuickView"></div>
+      {{>quickViewHook_P}}
     </script>
 
-   <script id="terminalsTabel_TMP" type="text/html">
+    <script id="store_management_page_TMP" type="text/html">
+      <h1>Stores Management</h1>
+      {{>breadcrumb_P}}
+      <div id="storeCreateDialog"></div>
+      <div id="stores"></div>
+      <input type="button" id="create-store" value="make a new store" />
+      {{>backButton_P}}
+      {{>menuButton_P}}
+    </script>
+
+    <script id="modify_store_page_TMP" type="text/html">
+      <table border="1">
+	<h1>Modify Store</h1>
+	{{>breadcrumb_P}}
+	{{>storeForm_P}}
+	<div id="dialog-hook"></div>
+	<input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="modify-store" value="Edit" />
+	<a href="#/company/{{_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	    <span class="ui-button-text">Terminal Manager</span>
+	</button></a>
+	{{/store}}
+	{{>backButton_P}}
+	{{>menuButton_P}}
+      </table>
+    </script>   
+
+    <!--------------------------------------------------------TERMINALS--------------------------------------------------->
+
+    <script id="terminalsTabel_TMP" type="text/html">
       <table border="1">
 	<tr>
 	  <th>ID</th>
@@ -281,282 +368,63 @@
 	</tr>
 	{{/list}}
       </table>
-      <div id="dialog-quickView" title="QuickView"></div>
-    </script>
-
-    <script id="company_management_page_TMP" type="text/html">
-      <h1>Company Management</h1>
-      <div id="companies"></div>
-      <div id="companyCreateDialog"></div>
-      <input type="button" id="create-company" value="make a new company" />
-      <a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	  <span class="ui-button-text">Menu</span>
-      </button></a>
-    </script>	   
-
-    <script id="group_management_page_TMP" type="text/html">
-      <h1>Group Management</h1>
-      {{#company}}
-      <h2>{{operationalname}}</h2>
-      {{/company}}
-      <div id="groupCreateDialog"></div>
-	<div id="groups"></div>
-	<input type="button" id="create-group" value="make a new group" class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all"/>
-	<a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	    <span class="ui-button-text">Back</span>
-	</button></a>
-	<a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	    <span class="ui-button-text">Menu</span>
-	</button></a>
-    </script>	   
-
-    <script id="store_management_page_TMP" type="text/html">
-      <h1>Stores Management</h1>
-      <h2>{{operationalname}} - {{groupName}}</h2>
-      <div id="storeCreateDialog"></div>
-      <div id="stores"></div>
-      <input type="button" id="create-store" value="make a new store" />
-      <a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	  <span class="ui-button-text">Back</span>
-      </button></a>
-      <a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	  <span class="ui-button-text">Menus</span>
-      </button></a>  
+      {{>quickViewHook_P}}
     </script>
 
     <script id="terminal_management_page_TMP" type="text/html">
       <h1>Terminals Management</h1>
-      <h2>{{operationalname}} - {{groupName}} - {{storeName}}</h2>
+      {{>breadcrumb_P}}
       <div id="terminalCreateDialog"></div>
       <div id="terminals"></div>
       <input type="button" id="create-terminal" value="make a new terminal" />
-      <a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	  <span class="ui-button-text">Back</span></button></a>
-      <a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	  <span class="ui-button-text">Menus</span></button></a>
+      {{>backButton_P}}
+      {{>menuButton_P}}
     </script>
 
+    <script id="terminalFrom_P" class="partial" type="text/html">
+      {{#terminal}}	
+      <form>
+	<fieldset>
+	  <label for="terminal-id">Terminal ID</label>
+	  <input type="text" id="terminal-id" value="{{id}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="companyCode">Company Code</label>
+	  <input type="text" id="companyCode" value="{{companyCode}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="storeCode">Store Code</label>
+	  <input type="text" id="storeCode" value="{{storeCode}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="areaCode">Area Code</label>
+	  <input type="text" id="areaCode" value="{{areaCode}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="cityCode">City Code</label>
+	  <input type="text" id="cityCode" value="{{cityCode}}"  class="text ui-widget-content ui-corner-all" />
+	  <label for="countryCode">Country Code</label>
+	  <input type="text" id="countryCode" value="{{countryCode}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="postalCode">Postal Code</label>
+	  <input type="text" id="postalCode" value="{{postalCode}}" class="text ui-widget-content ui-corner-all" />
+	</fieldset>
+      </form>
+      {{/terminal}}
+    </script>
 
-      <script id="modify_company_page_TMP" type="text/html">
-	<table border="1">
-	  <h1>Modify Company</h1>
-	  {{#company}}
-	  <h2>{{operationalname}}</h2>
-	  <div>
-	    <form>
-	      <fieldset>
-		<label for="company name">Company name</label>
-		<input type="text" id="company-name" value="{{companyName}}" class="text ui-widget-content ui-corner-all" disabled="true" />
-		<label for="operationalname">Operational Name</label>
-		<input type="text" id="operationalname" value="{{operationalname}}" class="text ui-widget-content ui-corner-all" disabled="true"/>
-		<label for="user">User Name</label>
-		<input type="text" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" disabled="true"/>
-		<label for="password">Password</label>
-		<input type="password" id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" disabled="true"/>
-		<dl>
-		  <dt>Address</dt>
-		  <dd>
-		    {{#address}}
-		    <label for="address.street0">Street 0</label>
-		    <input type="text" id="address.street0" value="{{street0}}" class="text ui-widget-content ui-corner-all" disabled="true"/>
-		    <label for="address.street1">Street 1</label>
-		    <input type="text" id="address.street1" value="{{street1}}" class="text ui-widget-content ui-corner-all" disabled="true"/>
-		    <label for="address.street2">Street 2</label>
-		    <input type="text" id="address.street2" value="{{street2}}" class="text ui-widget-content ui-corner-all" disabled="true"/>
-		    <label for="address.city">City</label>
-		    <input type="text" name="address.city" id="address.city" value="{{city}}" class="text ui-widget-content ui-corner-all" disabled="true"/>
-		    <label for="address.province">State/Province</label>
-		    <input type="text" name="address.province" id="address.province" value="{{province}}" class="text ui-widget-content ui-corner-all" disabled="true"/>
-		    <label for="address.country">Country</label>
-		    <input type="text" name="address.country" id="address.country" value="{{country}}" class="text ui-widget-content ui-corner-all" disabled="true"/>
-		    <label for="address.postalcode">Postal code</label>
-		    <input type="text" name="address.postalcode" id="address.postalcode" value="{{postalcode}}" class="text ui-widget-content ui-corner-all" disabled="true"/>
-		    {{/address}}
-		  </dd>
-		</dl>
-		
-		<dl>
-		  <dt>Contact</dt>
-		  <dd>
-		    {{#contact}}
-		    <label for="contact.firstname">First Name</label>
-		    <input type="text" id="contact.firstname" value="{{firstname}}" class="text ui-widget-content ui-corner-all" disabled="true" />
-		    <label for="contact.lastname">Last Name</label>
-		    <input type="text" id="contact.lastname" value="{{lastname}}" class="text ui-widget-content ui-corner-all" disabled="true"/>
-		    <label for="contact.website">Web site</label>
-		    <input type="text" id="contact.website" value="{{website}}" class="text ui-widget-content ui-corner-all" disabled="true" />
-		    <label for="contact.email">e-mail</label>
-		    <input type="text" id="contact.email" value="{{email}}" class="text ui-widget-content ui-corner-all" disabled="true"/>
-		    <label for="contact.phone">Phone</label>
-		    <input type="text" id="contact.phone" value="{{phone}}" class="text ui-widget-content ui-corner-all" disabled="true"/>
-		    {{/contact}}
-		  </dd>
-		</dl>
-	      </fieldset>
-	    </form>
-	  </div>
-	  <div id="dialog-hook"></div>
-	  <input type="button"  class="ui-button ui-widget ui-state-default ui-corner-all" id="modify-company" value="Edit" />
-	  	  
-	  <a href="#/company/{{_id}}/groups"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	      <span class="ui-button-text">Group Manager</span>
-	  </button></a>
-	  
-	  <a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	      <span class="ui-button-text">Back</span>
-	  </button></a>
-	  <a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	      <span class="ui-button-text">Menus</span>
-	  </button></a>
-	  
-	  {{/company}}
-	</table>
-	<div id="dialog-quickView" title="QuickView"></div>
-      </script>   
+    <script id="terminalInputDialog_TMP" type="text/html">
+      <div id="dialog-form" title="{{title}}">
+	<p class="validateTips"></p>
+	{{>terminalForm_P}}
+      </div>
+    </script>
 
-      <script id="modify_group_page_TMP" type="text/html">
-	<table border="1">
-	  <h1>Modify Group</h1>
-	  <h2>{{operationalname}} - {{groupName}}</h2>
-	  <div>
-	    <form>
-	      <fieldset>
-		<label for="group-name">Group Name</label>
-		<input type="text" id="group-name" value="{{groupName}}" disabled="true" class="text ui-widget-content ui-corner-all"/>
-	      </fieldset>
-	    </form>
-	    <div id="dialog-hook"></div>
-	  </div>
-	  <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="modify-group" value="Edit" />
-	  <a href="#/company/{{_id}}/groups/{{group_id}}/stores"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	      <span class="ui-button-text">Store Manager</span>
-	  </button></a>
-	  <a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	      <span class="ui-button-text">Back</span>
-	  </button></a>
-	  <a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	      <span class="ui-button-text">Menus</span>
-	  </button></a>
-	</table>
-
-      </script>   
-
-      <script id="modify_store_page_TMP" type="text/html">
-	<table border="1">
-	  <h1>Modify Store</h1>
-	  <h2>{{operationalname}} - {{groupName}} - {{storeName}}</h2>
-	  <div>
-	    <form>
-	      <fieldset>
-		{{#store}}
-		<label for="store-name">Store Name</label>
-		<input type="text" id="store-name" value="{{storeName}}" disabled="true" class="text ui-widget-content ui-corner-all" disabled="true" />
-		<label for="store-num">Store Number</label>
-		<input type="text" id="store-num" value="{{number}}" disabled="true"  class="text ui-widget-content ui-corner-all" />
-		<label for="user">Master User ID</label>
-		<input type="text" name="user" id="user" value="{{user}}" disabled="true"  class="text ui-widget-content ui-corner-all" />
-		<label for="password">Master Password</label>
-		<input type="password" name="password" id="password" disabled="true"  value="{{password}}" class="text ui-widget-content ui-corner-all" />
-		<dl>
-		  <dt>Address</dt>
-		  <dd>
-		    {{#address}}
-		    <label for="address.street0">Street 0</label>
-		    <input type="text" id="address.street0" value="{{street0}}" disabled="true"  class="text ui-widget-content ui-corner-all" />
-		    <label for="address.street1">Street 1</label>
-		    <input type="text" id="address.street1" value="{{street1}}" disabled="true"  class="text ui-widget-content ui-corner-all" />
-		    <label for="address.street2">Street 2</label>
-		    <input type="text" id="address.street2" value="{{street2}}" disabled="true"  class="text ui-widget-content ui-corner-all" />
-		    <label for="address.city">City</label>
-		    <input type="text" name="address.city" id="address.city" value="{{city}}" disabled="true"  class="text ui-widget-content ui-corner-all"/>
-		    <label for="address.province">State/Province</label>
-		    <input type="text" name="address.province" id="address.province" value="{{province}}" disabled="true"  class="text ui-widget-content ui-corner-all"/>
-		    <label for="address.country">Country</label>
-		    <input type="text" name="address.country" id="address.country" value="{{country}}" disabled="true"  class="text ui-widget-content ui-corner-all"/>
-		    <label for="address.postalcode">Postal code</label>
-		    <input type="text" name="address.postalcode" id="address.postalcode" value="{{postalcode}}" disabled="true"  class="text ui-widget-content ui-corner-all"/>
-		    {{/address}}
-		  </dd>
-		</dl>
-		
-		<dl>
-		  <dt>Contact</dt>
-		  <dd>
-		    {{#contact}}
-		    <label for="contact.firstname">First Name</label>
-		    <input type="text" id="contact.firstname" value="{{firstname}}" disabled="true"  class="text ui-widget-content ui-corner-all" />
-		    <label for="contact.lastname">Last Name</label>
-		    <input type="text" id="contact.lastname" value="{{lastname}}" disabled="true"  class="text ui-widget-content ui-corner-all" />
-		    <label for="contact.website">Web site</label>
-		    <input type="text" id="contact.website" value="{{website}}" disabled="true"  class="text ui-widget-content ui-corner-all" />
-		    <label for="contact.email">e-mail</label>
-		    <input type="text" id="contact.email" value="{{email}}" disabled="true"  class="text ui-widget-content ui-corner-all" />
-		    <label for="contact.phone">Phone</label>
-		    <input type="text" id="contact.phone" value="{{phone}}" disabled="true"  class="text ui-widget-content ui-corner-all" />
-		    {{/contact}}
-		  </dd>
-		</dl>
-
-	      </fieldset>
-	    </form>
-	    <div id="dialog-hook"></div>
-	  </div>
-	  <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="modify-store" value="Edit" />
-	  <a href="#/company/{{_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-		   <span class="ui-button-text">Terminal Manager</span>
-		   </button></a>
-	   <a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	   <span class="ui-button-text">Back</span>
-	   </button></a>
-	  <a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	   <span class="ui-button-text">Menus</span>
-	   </button></a>
-	  {{/store}}
-	</table>
-      </script>   
-
-      <script id="modify_terminal_page_TMP" type="text/html">
-	<table border="1">
-	  <h1>Modify Terminal</h1>
-	  <h2>{{operationalname}} - {{groupName}} - {{storeName}} - {{id}}</h2>
-	  <div>
-	    <form>
-	      <fieldset>
-		{{#terminal}}
-		<label for="terminal-id">Terminal ID</label>
-		<input type="text" id="terminal-id" class="text ui-widget-content ui-corner-all" disabled="true"  value="{{id}}"/>
-		<label for="areaCode">Area Code</label>
-		<input type="text" id="areaCode" class="text ui-widget-content ui-corner-all" disabled="true"  value="{{areaCode}}"/>
-		<label for="postalCode">Postal Code</label>
-		<input type="text" id="postalCode" class="text ui-widget-content ui-corner-all" disabled="true"  value="{{postalCode}}"/>
-		<label for="countryCode">Country Code</label>
-		<input type="text" id="countryCode" class="text ui-widget-content ui-corner-all" disabled="true"  value="{{countryCode}}" />
-		<label for="cityCode">City Code</label>
-		<input type="text" id="cityCode" class="text ui-widget-content ui-corner-all" disabled="true"  value="{{cityCode}}" />
-		<label for="storeCode">Store Code</label>
-		<input type="text" id="storeCode" class="text ui-widget-content ui-corner-all" disabled="true"  value="{{storeCode}}" />
-		<label for="companyCode">Company Code</label>
-		<input type="text" id="companyCode" class="text ui-widget-content ui-corner-all" disabled="true"  value="{{companyCode}}" />
-	      </fieldset>
-	  {{/terminal}}
-	    </form>
-	    <div id="dialog-hook"></div>
-	  </div>
-	  <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="modify-terminal" value="Edit" />
-	  <a href="javascript:history.go(-1)"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	   <span class="ui-button-text">Back</span>	   </button></a>
-	   <a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	   <span class="ui-button-text">Menus</span>
-	   </button></a>
-	   <a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	   <span class="ui-button-text">Install</span>
-	   </button></a>
-
-	</table>
-      </script> 
-
-
-</head>
-
-<body></body>
+    <script id="modify_terminal_page_TMP" type="text/html">
+      <table border="1">
+	<h1>Modify Terminal</h1>
+	{{>breadcrumb_P}}
+	{{>terminalForm_P}}
+	<div id="dialog-hook"></div>
+	<input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="modify-terminal" value="Edit" />
+	{{>backButton_P}}
+	{{>menuButton_P}}
+	<a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	    <span class="ui-button-text">Install</span>
+	</button></a>
+      </table>
+    </script> 
+  </head>
+  <body></body>
 </html>

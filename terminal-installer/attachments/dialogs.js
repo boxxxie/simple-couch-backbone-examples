@@ -155,15 +155,15 @@ function CompanyInputDialog (attachTo,options) {
 							      creationdate:new Date(),					
 							      companyName:companyName.val()});
 					     
-					     allFields.val("").removeClass( "ui-state-error" );
-				     	 allFields.filter("input:checked").attr("checked",false);
-					     $( this ).dialog( "close" );
+					     allFields.val("").removeClass("ui-state-error");
+				     	     allFields.filter("input:checked").attr("checked",false);
+					     $(this).dialog("close");
 					 } else if(bValid && !unfilledRequiredFields) {
 					     handleMissingFields(requiredFields,updateTips(tips));
 					 }		
 				     },	
 				     Cancel: function() {
-					 	( this ).dialog( "close" );
+					 $(this).dialog("close");
 				     }
 				 }
 			     });
@@ -195,7 +195,7 @@ function StoreInputDialog (attachTo,options) {
     province = d.find("#address\\.province"),
     country = d.find("#address\\.country"),
     postalcode = d.find("#address\\.postalcode"),
- 
+    
     requiredFields = $([])
 	.add(storeName)
 	.add(storeNum)
@@ -236,7 +236,7 @@ function StoreInputDialog (attachTo,options) {
 			 bValid = bValid && checkLength( user, "The Master User ID", 1, 8, updateTips(tips) );
 			 bValid = bValid && checkLength( password, "The Master User Password", 1, 8 ,updateTips(tips));
 			 bValid = bValid && checkRegexp( storeNum, /^([0-9])+$/i, "The Store Number may consist of Digits only.", updateTips(tips));
-	 
+			 
 			 if ( bValid && unfilledRequiredFields) {
 			     options.success({
 						 user:user.val(),
@@ -257,15 +257,15 @@ function StoreInputDialog (attachTo,options) {
 						 storeName:storeName.val(),
 						 number:storeNum.val()   
 					     });
-			 	 allFields.val("").removeClass( "ui-state-error" );
-		     	 allFields.filter("input:checked").attr("checked",false);
-			     $( this ).dialog( "close" );
+			     allFields.val("").removeClass("ui-state-error");
+		     	     allFields.filter("input:checked").attr("checked",false);
+			     $(this).dialog("close");
 			 }else if(bValid && !unfilledRequiredFields) {
 			     handleMissingFields(requiredFields,updateTips(tips));
 			 }
 		     },
 		     Cancel: function() {
-			 $( this ).dialog( "close" );
+			 $(this).dialog("close");
 		     }
 		 },
 		 close: function() {
@@ -313,9 +313,7 @@ function TerminalInputDialog (attachTo,options) {
 			 var bValid = true;
 			 var unfilledRequiredFields=checkRequiredFields(requiredFields);
 			 requiredFields.removeClass( "ui-state-error" );
-
 			 if ( bValid && unfilledRequiredFields) {
-
 			     options.success(
 				 {
 				     id:id.val(),
@@ -328,14 +326,14 @@ function TerminalInputDialog (attachTo,options) {
 				     storeCode:storeCode.val(),
 				     companyCode:companyCode.val()
 				 });
-				 allFields.val("").removeClass( "ui-state-error" );
-		         allFields.filter("input:checked").attr("checked",false);
-			     $( this ).dialog( "close" );
+			     allFields.val("").removeClass( "ui-state-error" );
+		             allFields.filter("input:checked").attr("checked",false);
+			     $(this).dialog("close");
 			 } else if(bValid && !unfilledRequiredFields) {
 			     handleMissingFields(requiredFields,updateTips(tips));			 }
 		     },
 		     Cancel: function() {
-			 $( this ).dialog( "close" );
+			 $(this).dialog("close");
 		     }
 		 },
 		 close: function() {
@@ -368,11 +366,11 @@ function GroupInputDialog (attachTo,options) {
 					     creationdate:new Date()}					
 					);
 			 allFields.val("").removeClass( "ui-state-error" );
-		     allFields.filter("input:checked").attr("checked",false);
-			 $( this ).dialog( "close" );
+			 allFields.filter("input:checked").attr("checked",false);
+			 $(this).dialog("close");
 		     },		
 		     Cancel: function() {
-			 $( this ).dialog( "close" );
+			 $(this).dialog("close");
 		     }
 		 },
 		 close: function() {
@@ -389,19 +387,19 @@ function quickViewDialog (html,options) {
     var form = $(html).find('fieldset');    	
     $("#dialog-quickView").html(form);
     $("#dialog-quickView").dialog({
-		       autoOpen: false,
-		       height: 400,
-		       width: 500,
-		       modal: true,
-		       buttons: {
-			   Cancel: function() {
-			       $("#dialog-quickView").dialog('destroy');
-			   }
-		       },
-		       close: function() {
-			   $("#dialog-quickView").dialog('destroy');
-		       }
-		   });
+				      autoOpen: false,
+				      height: 400,
+				      width: 500,
+				      modal: true,
+				      buttons: {
+					  Cancel: function() {
+					      $("#dialog-quickView").dialog('destroy');
+					  }
+				      },
+				      close: function() {
+					  $("#dialog-quickView").dialog('destroy');
+				      }
+				  });
     $("#dialog-quickView").dialog("open");
 };
 
