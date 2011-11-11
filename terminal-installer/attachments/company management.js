@@ -330,14 +330,15 @@ function doc_setup(){
 	 },
 	 renderManagementPage:function(){
 	     var view = this;
-	     var forTMP = this.collection.toJSON();
+	     var companies = this.collection.toJSON();
 	     var forTMP_w_stats = 
-		 {list:_.map(forTMP,
-			     function(model)
-			     { var modelClone = _.clone(model);
-			       var companyStats = view.collection.get(model._id).companyStats();
-			       var quickViewArgs = {template:"modify_company_page_TMP"};
-			       return _.extend(modelClone,companyStats,quickViewArgs);})};
+		 {list:_.map(companies,
+			     function(company)
+			     { var companyClone = _.clone(company);
+			       var companyStats = view.collection.get(company._id).companyStats();
+			       var quickViewArgs = {template:"modify_company_page_TMP",
+						   company_id:company._id};
+			       return _.extend(companyClone,companyStats,quickViewArgs);})};
 	     var html = ich.companiesTabel_TMP(forTMP_w_stats);
 	     $(this.el).html(html);
 	     console.log("companiesView renderManagementPage");
@@ -379,15 +380,17 @@ function doc_setup(){
 	 },
 	 renderManagementPage:function(companyID){
 	     var view = this;
-	     var forTMP = view.model.getGroups();
-	     var forTMP_w_stats = 
-		 {list:_.map(forTMP,
+	     var groups = view.model.getGroups();
+	     var forTMP = 
+		 {list:_.map(groups,
 			     function(group)
 			     { var groupClone = _.clone(group);
 			       var companyStats = view.model.companyStats(group.group_id);
-			       var quickViewArgs = {template:"modify_group_page_TMP"};
-			       return _.extend(groupClone,{_id:companyID},companyStats,quickViewArgs);})};
-	     var html = ich.groupsTabel_TMP(forTMP_w_stats);
+			       var quickViewArgs = {template:"modify_group_page_TMP",
+						   company_id:companyID,
+						   group_id:group.group_id};
+			       return _.extend(groupClone,companyStats,quickViewArgs);})};
+	     var html = ich.groupsTabel_TMP(forTMP);
 	     $(this.el).html(html);
 	     console.log("renderManagementPage groupsView");
 	     return this;
@@ -433,11 +436,19 @@ function doc_setup(){
 	 },
 	 renderManagementPage:function(companyID,groupID){
 	     var view = this;
-	     var forTMP = {list:_.map(view.model.getStores(groupID),
-				      function(store){
-					  var storeClone = _.clone(store);
-					  return _.extend(storeClone,{_id:companyID, group_id:groupID },view.model.companyStats(groupID,store.store_id));
-				      })};
+	     var stores = view.model.getStores(groupID);
+	     var forTMP = 
+		 {list:_.map(stores,
+			     function(store){
+				 var storeClone = _.clone(store);
+				 var companyStats = view.model.companyStats(groupID,store.store_id);
+				 var quickViewArgs = {template:"modify_store_page_TMP",
+						      company_id:companyID, 
+						      group_id:groupID,
+						      store_id:store.store_id};
+				 //fixme: i  don't know what the middle args are for
+				 return _.extend(storeClone,companyStats,quickViewArgs);
+			     })};
 	     var html = ich.storesTabel_TMP(forTMP);
 	     $(view.el).html(html);
 	     console.log("renderManagementPage store rendered");
@@ -489,9 +500,12 @@ function doc_setup(){
 	     var forTMP = {list:_.map(view.model.getTerminals(groupID,storeID),
 				      function(terminal){
 					  var clonedTerminal = _.clone(terminal);
-					  return _.extend(clonedTerminal,{company_id:companyID, 
-									  group_id:groupID, 
-									  store_id:storeID});})};
+					  var quickViewArgs = {template:"modify_terminal_page_TMP",
+							       company_id:companyID, 
+							       group_id:groupID, 
+							       store_id:storeID,
+							       terminal_id:terminal.terminal_id};
+					  return _.extend(clonedTerminal,quickViewArgs);})};
 	     var html = ich.terminalsTabel_TMP(forTMP);
 	     $(view.el).html(html);
 	     console.log("renderManagementPage terminals view rendered");
