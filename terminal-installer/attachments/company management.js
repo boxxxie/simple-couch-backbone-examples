@@ -32,16 +32,22 @@ var Company = couchDoc.extend(
 	 _.extend(groupToMod,group);
 	 this.save();
      },
-     editStore:function(groupID,storeID,store){
-	 var storeToMod = this.getStore(groupID,storeID);
-	 _.extend(storeToMod,store);
-	 this.save();
+     deleteGroup:function(groupID) {
+     	var groupToDel = this.getGroup(groupID);
+     	var stores = this.getStores(groupID);
+     	if((typeof stores === "undefined") || stores.length==0) {
+     		var oldHierarchy = this.get('hierarchy');
+	 		var groups = oldHierarchy.groups;
+	 		var newGroups = _.reject(groups, function(group) { return group.group_id==groupID});
+	 		var newHierarchy = {groups : newGroups};
+	 		this.set({hierarchy:newHierarchy});
+			this.save();
+			console.log("delete completed");
+     	} else {
+     		alert("Can't delete group, group has store(s)")
+     	}
      },
-     editTerminal:function(groupID,storeID,terminalID,terminal){
-	 var terminalToMod = this.getTerminal(groupID,storeID,terminalID);
-	 _.extend(terminalToMod,terminal);
-	 this.save();
-     },
+     
      addStore: function(groupID,storeToAdd){
 	 var groupToAddTo = this.getGroup(groupID);
 	 var stores = groupToAddTo.stores;
@@ -56,6 +62,24 @@ var Company = couchDoc.extend(
 	     alert("The store you tried to add had the same number as one already in this group, please choose a different store number");
 	 }
      },
+     editStore:function(groupID,storeID,store){
+	 var storeToMod = this.getStore(groupID,storeID);
+	 _.extend(storeToMod,store);
+	 this.save();
+     },
+     deleteStore:function(groupID,storeID) {
+     	var terminals = this.getTerminals(groupID,storeID);
+     	if((typeof terminals === "undefined") || terminals.length==0) {
+	 		var stores = this.getStores(gorupID);
+	 		var newStores = _.reject(stores, function(store) { return store.store_id==storeID});
+	 		stores = newStores;
+			this.save();
+			console.log("delete completed");
+     	} else {
+     		alert("Can't delete store, store has terminal(s)")
+     	}
+     },
+     
      addTerminal: function(groupID,storeID,terminalToAdd){
 	 var storeToAddTo = this.getStore(groupID,storeID);
 	 var storeTerminals = storeToAddTo.terminals;
@@ -68,6 +92,24 @@ var Company = couchDoc.extend(
 	 } else {
 	     alert("The terminal you tried to add had the same ID as one already in this store, please choose a different ID");
 	 }
+     },
+     editTerminal:function(groupID,storeID,terminalID,terminal){
+	 var terminalToMod = this.getTerminal(groupID,storeID,terminalID);
+	 _.extend(terminalToMod,terminal);
+	 this.save();
+     },
+     //FIXME:do we delete terminal?
+     deleteTerminal:function(groupID,storeID,terminalID){
+     	var terminals = this.getTerminals(groupID,storeID);
+     	if((typeof terminals === "undefined") || terminals.length==0) {
+	 		var stores = this.getStores(gorupID);
+	 		var newStores = _.reject(stores, function(store) { return store.store_id==storeID});
+	 		stores = newStores;
+			this.save();
+			console.log("delete completed");
+     	} else {
+     		alert("Can't delete store, store has terminal(s)")
+     	}
      },
      getGroups:function(){
 	 return this.get('hierarchy').groups;

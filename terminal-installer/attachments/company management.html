@@ -137,11 +137,17 @@
 	  <th># of Terminals</th>
 	  <th>Creation Date</th>
 	  <th>Detail</th>
+	  <th>Delete</th>
 	</tr>
 	{{#list}}
 	<tr><td><a href="#/company/{{_id}}">{{companyName}}</a>
 	  </td><td>{{operationalname}}</td><td>{{group_num}}</td><td>{{store_num}}</td><td>{{terminal_num}}</td><td>{{creationdate}}</td><td>
 	    <button onclick=quickView("modify_company_page_TMP","{{_id}}") class="ui-state-default ui-corner-all" class="ui-button-text">View</button>
+	  </td>
+	  <td>
+	    <button class="ui-state-default ui-corner-all">
+	      <span class="ui-button-text">Delete</span>
+	    </button>
 	  </td>
 	</tr>
 	{{/list}}

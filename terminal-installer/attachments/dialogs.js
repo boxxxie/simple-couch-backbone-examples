@@ -123,10 +123,11 @@ function CompanyInputDialog (attachTo,options) {
 				 width: 500,
 				 modal: true,
 				 close: function() {
-				     //allFields.val("").removeClass( "ui-state-error" );
-				     //allFields.filter("input:checked").attr("checked",false);
+				 	if(options.clearOnExit) {
+				 	 allFields.val("").removeClass( "ui-state-error" );
+				     allFields.filter("input:checked").attr("checked",false);
+				    }
 				 },
-				 //closeOnEscape: false,
 				 buttons: {			 
 				     Submit : function() {
 				       	 var bValid = true;
@@ -269,6 +270,10 @@ function StoreInputDialog (attachTo,options) {
 		     }
 		 },
 		 close: function() {
+		 	if(options.clearOnExit) {
+		 	 allFields.val("").removeClass( "ui-state-error" );
+		     allFields.filter("input:checked").attr("checked",false);
+		    }
 		 }
 	     });
 
@@ -337,8 +342,10 @@ function TerminalInputDialog (attachTo,options) {
 		     }
 		 },
 		 close: function() {
-		     //allFields.val("").removeClass( "ui-state-error" );
-		     //allFields.filter("input:checked").attr("checked",false);
+		 	if(options.clearOnExit) {
+		 	 allFields.val("").removeClass( "ui-state-error" );
+		     allFields.filter("input:checked").attr("checked",false);
+		    }
 		 }
 	     });
 
@@ -374,8 +381,10 @@ function GroupInputDialog (attachTo,options) {
 		     }
 		 },
 		 close: function() {
-		     //allFields.val("").removeClass( "ui-state-error" );
-		     //allFields.filter("input:checked").attr("checked",false);
+		 	if(options.clearOnExit) {
+		 	 allFields.val("").removeClass( "ui-state-error" );
+		     allFields.filter("input:checked").attr("checked",false);
+		    }
 		 }
 	     });
 
