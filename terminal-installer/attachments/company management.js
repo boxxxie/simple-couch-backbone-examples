@@ -13,8 +13,7 @@ var Company = couchDoc.extend(
     {defaults: function() {
 	 return {
 	     companyName:"unknown",
-	     hierarchy:{groups:[{groupName:"ungrouped",
-				 group_id:guidGenerator()}]}
+	     hierarchy:{groups:[]}
 	 };
      },
      addGroup: function(group){
@@ -150,80 +149,30 @@ var Company = couchDoc.extend(
 		};	 
      }
     });
-
-
 function addCompany(collection){
     return {success: function(resp){
-		collection.create(resp);
-	    }
-	   };
-};
-//TODO: fill it up
-function deleteCompany() {
-	return {
-		
-	};
-}
+		collection.create(resp);}};};
 function editCompany(company){
     return {success:function(resp){
-		company.save(resp);
-	    }
-	   };
-};
-
+		company.save(resp);}};};
 function addGroup(model){
     return {success: function(resp){
-		model.addGroup(resp);
-	    }
-	   };
-};   
+		model.addGroup(resp);}};};   
 function editGroup(model, groupID){
     return {success:function(resp){
-		model.editGroup(resp,groupID); 
-	    }
-	   };
-};
-function deleteGroup(model, groupID) {
-	return {
-		success: function(resp) {
-			model.deleteGroup(resp,groupID);
-		}		
-	};
-};
-
-function addStore(model,group){
-    return {success: function(resp){
-		model.addStore(group,resp);
-	    }
-	   };
-};  
+		model.editGroup(resp,groupID);}};};
 function editStore(model,groupID,storeID){
     return {success:function(resp){
-		model.editStore(groupID,storeID,resp);
-	    }
-	   };
-};
-function deleteStore(model, groupID,storeID) {
-	return {
-		success: function(resp) {
-			model.deleteGroup(resp,groupID,storeID);
-		}		
-	};
-};
-                  
-                 
-function addTerminal(model,group,storeName){
-    return {success: function(resp){
-		model.addTerminal(group,storeName,resp);
-	    }
-	   };
-};
+		model.editStore(groupID,storeID,resp);}};};
 function editTerminal(model,groupID,storeID,terminalID){
     return {success:function(resp){
-		model.editTerminal(groupID,storeID,terminalID,resp);
-	    }
-	   };
-};
+		model.editTerminal(groupID,storeID,terminalID,resp);}};};
+function addStore(model,group){
+    return {success: function(resp){
+		model.addStore(group,resp);}};};                   
+function addTerminal(model,group,storeName){
+    return {success: function(resp){
+		model.addTerminal(group,storeName,resp);}};};
 
 function quickView(template,companyID,groupID,storeID,terminalID){
     var company = Companies.getModelById(companyID);
@@ -241,10 +190,7 @@ function quickView(template,companyID,groupID,storeID,terminalID){
     } else{
 	for_TMP = {company:companyJSON};
     }
-    //console.log("template : " + template);
-    //console.log("companyID : " + companyID + " ,groupID : " + groupID);
-    //console.log("storeID : " + storeID + ", terID : " + terminalID);
-    quickViewDialog(ich[template](for_TMP));
+   quickViewDialog(ich[template](for_TMP));
 }
 
 function doc_setup(){
@@ -289,9 +235,13 @@ function doc_setup(){
 	     },
 	     companyManagementHome:function(){
 		 console.log("companyManagementHome");
-		 $('body').html(ich.company_management_page_TMP());
-		 $("#companyCreateDialog").html(ich.companyInputDialog_TMP({title:"Make a new Company",company:{address:{},contact:{}}}));
-		 CompanyCreateDialog("create-company",addCompany(Companies));
+		 var html = ich.company_management_page_TMP({createButtonLabel:"new company"});
+		 $('body').html(html);
+		 $("#companyCreateDialog")
+		     .html(ich.companyInputDialog_TMP(
+			       {title:"Make a new Company",
+				company:{address:{},contact:{}}}));
+		 CompanyCreateDialog("create-thing",addCompany(Companies));
 	     },
 	     modifyCompany:function(id){
 		 console.log("modifyCompanies: " + id);
@@ -381,7 +331,7 @@ function doc_setup(){
 	     var modelJSON = model.toJSON();
 	     $('body').html(ich.modify_company_page_TMP({company:modelJSON}));
 	     $("#dialog-hook").html(ich.companyInputDialog_TMP({title:"Edit the Company",company:modelJSON}));
-	     CompanyModifyDialog("modify-company",editCompany(model));
+	     CompanyModifyDialog("edit-thing",editCompany(model));
 	     console.log("renderModifyPage " + id);
 	     return this;
 	 },
@@ -393,8 +343,7 @@ function doc_setup(){
     groupsView = Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
-	     _.bindAll(view, 'renderManagementPage','renderModifyPage'); 
-
+	     _.bindAll(view,'renderManagementPage','renderModifyPage'); 
 	     AppRouter.bind('route:groupsManager', function(companyID){
 				console.log('groupsView:route:groupsManager');
 				view.model = Companies.getModelById(companyID);
@@ -415,7 +364,7 @@ function doc_setup(){
 	     var forTMP_w_stats = {list:_.map(forTMP,function(group){return _.extend(group,{_id:companyID},view.model.companyStats(group.group_id));})};
 	     var html = ich.groupsTabel_TMP(forTMP_w_stats);
 	     $(this.el).html(html);
-	     console.log("renderManagementPage");
+	     console.log("renderManagementPage groupsView");
 	     return this;
 	 },
 	 renderModifyPage:function(companyID, groupID){
@@ -425,7 +374,7 @@ function doc_setup(){
 	     $('body').html(ich.modify_group_page_TMP({_id:model.get("_id"), group_id:selectedgroup.group_id, groupName:selectedgroup.groupName, operationalname:model.get("operationalname")}));
 	     $("#dialog-hook").html(ich.groupInputDialog_TMP({title:"Edit the Group",group:selectedgroup}));
 	     GroupModifyDialog("modify-group",editGroup(model,groupID));
-	     console.log("renderModifyPage " + companyID + " " + groupID);
+	     console.log("renderModifyPage groupsView");
 	     return this;
 	 },
 	 updateModel:function(){

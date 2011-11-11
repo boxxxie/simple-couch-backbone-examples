@@ -40,12 +40,10 @@ function DialogValidator(){
 	}
     };
 };
-
 function CompanyCreateDialog (attachTo,options){
     _.extend(options,{clearOnExit:true});
     CompanyInputDialog(attachTo,options);
 };
-
 function CompanyModifyDialog (attachTo,options){
     CompanyInputDialog(attachTo,options);
 };
@@ -124,11 +122,6 @@ function CompanyInputDialog (attachTo,options) {
 				 height: 900,
 				 width: 500,
 				 modal: true,
-				 open : function() {
-				 	//FIXME: if you stop modifying(change something) and quit(cancel,esc), 
-				 	//       afterward when you click Edit, it shows me changed info 
-				 	//$("#dialog-form").("#company-name").val("does open work?");
-				 },
 				 close: function() {
 				 	if(options.clearOnExit) {
 				 	 allFields.val("").removeClass( "ui-state-error" );
@@ -160,16 +153,18 @@ function CompanyInputDialog (attachTo,options) {
 								       province:province.val(),
 								       postalcode:postalcode.val()},
 							      operationalname:operationalname.val(),
-							      creationdate:(new Date()).toDateString(),					
+							      creationdate:new Date(),					
 							      companyName:companyName.val()});
 					     
-					     $( this ).dialog( "close" );
+					     allFields.val("").removeClass("ui-state-error");
+				     	     allFields.filter("input:checked").attr("checked",false);
+					     $(this).dialog("close");
 					 } else if(bValid && !unfilledRequiredFields) {
 					     handleMissingFields(requiredFields,updateTips(tips));
 					 }		
 				     },	
 				     Cancel: function() {
-					 	$( this ).dialog( "close" );
+					 $(this).dialog("close");
 				     }
 				 }
 			     });
@@ -179,16 +174,6 @@ function CompanyInputDialog (attachTo,options) {
 				       $("#dialog-form").dialog("open");
 				   });
 };
-
-function StoreCreateDialog (attachTo,options){
-    _.extend(options,{clearOnExit:true});
-    StoreInputDialog(attachTo,options);
-};
-
-function StoreModifyDialog (attachTo,options){
-    StoreInputDialog(attachTo,options);
-};
-
 function StoreInputDialog (attachTo,options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
@@ -211,7 +196,7 @@ function StoreInputDialog (attachTo,options) {
     province = d.find("#address\\.province"),
     country = d.find("#address\\.country"),
     postalcode = d.find("#address\\.postalcode"),
- 
+    
     requiredFields = $([])
 	.add(storeName)
 	.add(storeNum)
@@ -252,7 +237,7 @@ function StoreInputDialog (attachTo,options) {
 			 bValid = bValid && checkLength( user, "The Master User ID", 1, 8, updateTips(tips) );
 			 bValid = bValid && checkLength( password, "The Master User Password", 1, 8 ,updateTips(tips));
 			 bValid = bValid && checkRegexp( storeNum, /^([0-9])+$/i, "The Store Number may consist of Digits only.", updateTips(tips));
-	 
+			 
 			 if ( bValid && unfilledRequiredFields) {
 			     options.success({
 						 user:user.val(),
@@ -269,17 +254,19 @@ function StoreInputDialog (attachTo,options) {
 							  country:country.val(),
 							  province:province.val(),
 							  postalcode:postalcode.val()},
-						 creationdate:(new Date()).toDateString(),
+						 creationdate:new Date(),
 						 storeName:storeName.val(),
 						 number:storeNum.val()   
 					     });
-			     $( this ).dialog( "close" );
+			     allFields.val("").removeClass("ui-state-error");
+		     	     allFields.filter("input:checked").attr("checked",false);
+			     $(this).dialog("close");
 			 }else if(bValid && !unfilledRequiredFields) {
 			     handleMissingFields(requiredFields,updateTips(tips));
 			 }
 		     },
 		     Cancel: function() {
-			 $( this ).dialog( "close" );
+			 $(this).dialog("close");
 		     }
 		 },
 		 close: function() {
@@ -294,16 +281,6 @@ function StoreInputDialog (attachTo,options) {
 				       d.dialog( "open" );
 				   });
 };
-
-function TerminalCreateDialog (attachTo,options){
-    _.extend(options,{clearOnExit:true});
-    TerminalInputDialog(attachTo,options);
-};
-
-function TerminalModifyDialog (attachTo,options){
-    TerminalInputDialog(attachTo,options);
-};
-
 function TerminalInputDialog (attachTo,options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
@@ -341,13 +318,11 @@ function TerminalInputDialog (attachTo,options) {
 			 var bValid = true;
 			 var unfilledRequiredFields=checkRequiredFields(requiredFields);
 			 requiredFields.removeClass( "ui-state-error" );
-
 			 if ( bValid && unfilledRequiredFields) {
-
 			     options.success(
 				 {
 				     id:id.val(),
-				     creationdate:(new Date()).toDateString(),
+				     creationdate:new Date(),
 				     installed:false,
 				     areaCode:areaCode.val(),
 				     postalCode:postalCode.val(),
@@ -356,12 +331,14 @@ function TerminalInputDialog (attachTo,options) {
 				     storeCode:storeCode.val(),
 				     companyCode:companyCode.val()
 				 });
-			     $( this ).dialog( "close" );
+			     allFields.val("").removeClass( "ui-state-error" );
+		             allFields.filter("input:checked").attr("checked",false);
+			     $(this).dialog("close");
 			 } else if(bValid && !unfilledRequiredFields) {
 			     handleMissingFields(requiredFields,updateTips(tips));			 }
 		     },
 		     Cancel: function() {
-			 $( this ).dialog( "close" );
+			 $(this).dialog("close");
 		     }
 		 },
 		 close: function() {
@@ -376,16 +353,6 @@ function TerminalInputDialog (attachTo,options) {
 				       d.dialog("open");
 				   });
 };
-
-function GroupCreateDialog (attachTo,options){
-    _.extend(options,{clearOnExit:true});
-    GroupInputDialog(attachTo,options);
-};
-
-function GroupModifyDialog (attachTo,options){
-    GroupInputDialog(attachTo,options);
-};
-
 function GroupInputDialog (attachTo,options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
@@ -403,14 +370,14 @@ function GroupInputDialog (attachTo,options) {
 		     "Submit": function() {
 			 options.success({
 					     groupName:groupName.val(),
-					     creationdate:(new Date()).toDateString()}					
+					     creationdate:new Date()}					
 					);
 			 allFields.val("").removeClass( "ui-state-error" );
-		     allFields.filter("input:checked").attr("checked",false);
-			 $( this ).dialog( "close" );
+			 allFields.filter("input:checked").attr("checked",false);
+			 $(this).dialog("close");
 		     },		
 		     Cancel: function() {
-			 $( this ).dialog( "close" );
+			 $(this).dialog("close");
 		     }
 		 },
 		 close: function() {
@@ -425,24 +392,23 @@ function GroupInputDialog (attachTo,options) {
 				       d.dialog( "open" );
 				   });
 };
-
 function quickViewDialog (html,options) {
     var form = $(html).find('fieldset');    	
     $("#dialog-quickView").html(form);
     $("#dialog-quickView").dialog({
-		       autoOpen: false,
-		       height: 400,
-		       width: 500,
-		       modal: true,
-		       buttons: {
-			   Cancel: function() {
-			       $("#dialog-quickView").dialog('destroy');
-			   }
-		       },
-		       close: function() {
-			   $("#dialog-quickView").dialog('destroy');
-		       }
-		   });
+				      autoOpen: false,
+				      height: 400,
+				      width: 500,
+				      modal: true,
+				      buttons: {
+					  Cancel: function() {
+					      $("#dialog-quickView").dialog('destroy');
+					  }
+				      },
+				      close: function() {
+					  $("#dialog-quickView").dialog('destroy');
+				      }
+				  });
     $("#dialog-quickView").dialog("open");
 };
 
