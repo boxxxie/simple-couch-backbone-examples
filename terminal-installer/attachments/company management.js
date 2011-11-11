@@ -260,7 +260,7 @@ function doc_setup(){
 		     .html(ich.groupInputDialog_TMP(
 			       {title:"Make a new Group",
 				group:{address:{},contact:{}}}));
-		 GroupCreateDialog("create-thing", addGroup(model));
+		 GroupCreateDialog("create-thing", _.extend(addGroup(model),{company:model} ));
 	     },
 	     modifyGroup:function(companyID, groupID){
 		 console.log("modifyGroup: " + companyID + " " + groupID);
@@ -341,10 +341,6 @@ function doc_setup(){
 	     var model = Companies.getModelById(id);
 	     var modelJSON = model.toJSON();
 
-//FIXME:disable input text /
-	     //var forTMP = {company: modelJSON}; 
-	     //var forTMP_w_stats = _.extend(forTMP, view.collection.get(id).companyStats());
-	     //$('body').html(ich.modify_company_page_TMP(forTMP_w_stats));
 	     $('body').html(ich.modify_company_page_TMP({company:modelJSON,
 							 company_id:id}));
 	     $('fieldset').find('input').attr("disabled",true);
@@ -398,11 +394,12 @@ function doc_setup(){
 	     var selectedgroup = view.model.getGroup(groupID);
 	     $('body').html(ich.modify_group_page_TMP({company_id:model.get("_id"), 
 						       group_id:selectedgroup.group_id, 
-						       groupName:selectedgroup.groupName, 
+						       groupname:selectedgroup.groupName, 
 						       operationalname:model.get("operationalname"),
 						       group:selectedgroup}));
+         $('fieldset').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.groupInputDialog_TMP({title:"Edit the Group",group:selectedgroup}));
-	     GroupModifyDialog("edit-thing",editGroup(model,groupID));
+	     GroupModifyDialog("edit-thing",_.extend(editGroup(model,groupID), {company:model, groupName:selectedgroup.groupName}));
 	     console.log("renderModifyPage groupsView");
 	     return this;
 	 },

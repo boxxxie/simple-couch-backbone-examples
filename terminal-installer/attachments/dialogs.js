@@ -16,6 +16,31 @@ function DialogValidator(){
 		return true;
 	    }
 	},
+//TODO: dododododododo	
+	checkUniqueInList: function(isCreate, originid ,newid, list, listname, fieldname, updateTips) {
+		if((!isCreate)) {
+			if(originid==newid.val()) {
+				return true;
+			} else {
+				if(!list.pluck(fieldname).contans(newid.val())) {
+					return true;
+				} else {
+					newid.addClass( "ui-state-error" );
+					updateTips("There's a same ID(Name) in " + listname);
+					return false;
+				}
+			}
+		} else {
+			if(!list.pluck(fieldname).contans(newid.val())) {
+				return true;
+			} else {
+				newid.addClass( "ui-state-error" );
+				updateTips("There's a same ID(Name) in " + listname);
+				return false;
+			}
+		}
+
+	},
 	checkRegexp:function( o, regexp, n , updateTips) {
 	    if(_.isEmpty(o.val()))return true; //accept empty strings
 	    if ( !( regexp.test( o.val() ) ) ) {
@@ -48,10 +73,12 @@ function CompanyModifyDialog (attachTo,options){
     CompanyInputDialog(attachTo,options);
 };
 function GroupCreateDialog (attachTo,options){
-    _.extend(options,{clearOnExit:true});
+    _.extend(options,{clearOnExit:true, isCreate:true});
     GroupInputDialog(attachTo,options);
 };
 function GroupModifyDialog (attachTo,options){
+	//options.isCreate, options.groupName
+	_.extend(options,{isCreate:false});
     GroupInputDialog(attachTo,options);
 };
 function StoreCreateDialog (attachTo,options){
@@ -412,10 +439,19 @@ function GroupInputDialog (attachTo,options) {
 	     "Submit": function() {
 		 var bValid = true;
 		 var unfilledRequiredFields = checkRequiredFields(requiredFields);
+//		 var isUniqueId = false;
 		 requiredFields.removeClass( "ui-state-error" );
 
 		 bValid = bValid && checkLength( user, "The Master User ID", 1, 8, updateTips(tips) );
 		 bValid = bValid && checkLength( password, "The Master User Password", 1, 8 ,updateTips(tips));
+				 
+		 var model = options.company;
+		 var groups = model.get('hierarchy').groups;
+//		 isUniqueId = groups.pluck('groupName').contains(groupName);
+//	     checkUniqueInList(isCreate, originid ,newid, list, listname, fieldname, updateTips);
+		 
+		 bValid = bValid && checkUniqueInList(options.isCreate, options.groupName ,
+		 							groupName, groups, "Group", "groupName", updateTips(tips));
 
 		 if ( bValid && unfilledRequiredFields) {
 		     options.success({user:user.val(),
