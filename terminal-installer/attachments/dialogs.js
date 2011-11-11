@@ -393,22 +393,24 @@ function GroupInputDialog (attachTo,options) {
 				   });
 };
 function quickViewDialog (html,options) {
-    var form = $(html).find('fieldset');    	
-    $("#dialog-quickView").html(form);
-    $("#dialog-quickView").dialog({
-				      autoOpen: false,
-				      height: 400,
-				      width: 500,
-				      modal: true,
-				      buttons: {
-					  Cancel: function() {
-					      $("#dialog-quickView").dialog('destroy');
-					  }
-				      },
-				      close: function() {
-					  $("#dialog-quickView").dialog('destroy');
+    var form = $(html).filter('fieldset');
+    var d = $("#dialog-quickView");    	
+    d.html(form);
+    d.find('input').attr('disabled',true);
+    var dialogOptions = _.extend({autoOpen: false,
+				  height: 400,
+				  width: 500,
+				  modal: true,
+				  buttons: {
+				      Cancel: function() {
+					  d.dialog('destroy');
 				      }
-				  });
-    $("#dialog-quickView").dialog("open");
+				  },
+				  close: function() {
+				      d.dialog('destroy');
+				  }
+				 },_.clone(options));
+    d.dialog(dialogOptions);
+    d.dialog("open");
 };
 

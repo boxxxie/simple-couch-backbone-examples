@@ -178,13 +178,13 @@ function quickView(template,companyID,groupID,storeID,terminalID){
     var company = Companies.getModelById(companyID);
     var companyJSON = company.toJSON();
     var for_TMP;
-    if(terminalID){
+    if(!_.isEmpty(terminalID)){
 	var terminal = company.getTerminal(groupID,storeID,terminalID);
 	for_TMP = {terminal:terminal};
-    } else if(storeID){
+    } else if(!_.isEmpty(storeID)){
 	var store = company.getStore(groupID,storeID);
 	for_TMP = {store:store};
-    } else if(groupID){
+    } else if(!_.isEmpty(groupID)){
 	var group = company.getGroup(groupID);
 	for_TMP = {groupName:group.groupName};
     } else{
@@ -318,10 +318,16 @@ function doc_setup(){
 	 renderManagementPage:function(){
 	     var view = this;
 	     var forTMP = this.collection.toJSON();
-	     var forTMP_w_stats = {list:_.map(forTMP,function(model){return _.extend(model,view.collection.get(model._id).companyStats());})};
+	     var forTMP_w_stats = 
+		 {list:_.map(forTMP,
+			     function(model)
+			     { var modelClone = _.clone(model);
+			       var companyStats = view.collection.get(model._id).companyStats();
+			       var quickViewArgs = {template:"modify_company_page_TMP"};
+			       return _.extend(modelClone,companyStats,quickViewArgs);})};
 	     var html = ich.companiesTabel_TMP(forTMP_w_stats);
 	     $(this.el).html(html);
-	     console.log("renderManagementPage");
+	     console.log("companiesView renderManagementPage");
 	     return this;
 	 },
 	 renderModifyPage:function(id){
@@ -331,7 +337,7 @@ function doc_setup(){
 	     $('body').html(ich.modify_company_page_TMP({company:modelJSON}));
 	     $("#dialog-hook").html(ich.companyInputDialog_TMP({title:"Edit the Company",company:modelJSON}));
 	     CompanyModifyDialog("edit-thing",editCompany(model));
-	     console.log("renderModifyPage " + id);
+	     console.log("companiesView renderModifyPage " + id);
 	     return this;
 	 },
 	 updateModel:function(){
