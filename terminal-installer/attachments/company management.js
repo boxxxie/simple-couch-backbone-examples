@@ -368,6 +368,7 @@ function doc_setup(){
 	 renderManagementPage:function(){
 	     var view = this;
 	     var forTMP = this.collection.toJSON();
+	     //TODO: redering, time format change
 	     var forTMP_w_stats = {list:_.map(forTMP,function(model){return _.extend(model,view.collection.get(model._id).companyStats());})};
 	     var html = ich.companiesTabel_TMP(forTMP_w_stats);
 	     $(this.el).html(html);
