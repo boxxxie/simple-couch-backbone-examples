@@ -350,6 +350,7 @@ function doc_setup(){
 	     var modelJSON = model.toJSON();
 	     $('body').html(ich.modify_company_page_TMP({company:modelJSON,
 							 company_id:id}));
+	     $('fieldset').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.companyInputDialog_TMP({title:"Edit the Company",
 								company:modelJSON}));
 	     CompanyModifyDialog("edit-thing",editCompany(model));
@@ -404,6 +405,7 @@ function doc_setup(){
 						       groupName:selectedgroup.groupName, 
 						       operationalname:model.get("operationalname"),
 						       group:selectedgroup}));
+         $('fieldset').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.groupInputDialog_TMP({title:"Edit the Group",group:selectedgroup}));
 	     GroupModifyDialog("edit-thing",editGroup(model,groupID));
 	     console.log("renderModifyPage groupsView");
