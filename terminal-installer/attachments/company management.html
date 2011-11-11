@@ -206,13 +206,11 @@
 	{{>companyForm_P}}
 	<div id="dialog-hook"></div>
 	{{>editButton_P}}
-	{{#company}}
-	<a href="#/company/{{_id}}/groups">
+	<a href="#/company/{{company_id}}/groups">
 	  <button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
 	    <span class="ui-button-text">Groupe Manager</span>
 	  </button>
 	</a>
-	{{/company}}
 	{{>backButton_P}}
 	{{>menuButton_P}}
       </table>
@@ -283,13 +281,13 @@
 	<h1>Modify Group</h1>
 	{{>breadcrumb_P}}
 	{{>groupForm_P}}
-	<div id="dialog-hook"></div>
-	<input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="modify-group" value="Edit" />
-	<a href="#/company/{{_id}}/groups/{{group_id}}/stores"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	{{>editButton_P}}
+	<a href="#/company/{{company_id}}/groups/{{group_id}}/stores"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
 	    <span class="ui-button-text">Store Manager</span>
 	</button></a>
 	{{>backButton_P}}
 	{{>menuButton_P}}
+	<div id="dialog-hook"></div>
       </table>
     </script>   
 
