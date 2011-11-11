@@ -253,7 +253,7 @@ function doc_setup(){
 		 var modelObj = model.toJSON();
 		 var groups = model.getGroups();
 		 var groups_w_ids = _.map(groups,function(group){return _.extend(group,{_id:modelObj._id});});
-		 var html = ich.group_management_page_TMP({createButtonLabel:"new group",
+		 var html = ich.group_management_page_TMP({operationalname:modelObj.operationalname, createButtonLabel:"new group",
 							   company:modelObj});
 		 $('body').html(html);
 		 $("#groupCreateDialog")
@@ -323,7 +323,6 @@ function doc_setup(){
 	 renderManagementPage:function(){
 	     var view = this;
 	     var forTMP = this.collection.toJSON();
-<<<<<<< HEAD
 //TODO: redering, time format change
 	     var forTMP_w_stats = 
 		 {list:_.map(forTMP,
@@ -394,7 +393,9 @@ function doc_setup(){
 	     var view = this;
 	     var model = Companies.getModelById(companyID);
 	     var selectedgroup = view.model.getGroup(groupID);
-	     $('body').html(ich.modify_group_page_TMP({_id:model.get("_id"), group_id:selectedgroup.group_id, groupName:selectedgroup.groupName, operationalname:model.get("operationalname")}));
+	     var stroperationalname = model.get('operationalname');
+	     var strgroupname = selectedgroup.groupName;
+	     $('body').html(ich.modify_group_page_TMP({operationalname:stroperationalname, groupname:strgroupname, _id:model.get("_id"), group_id:selectedgroup.group_id, groupName:selectedgroup.groupName, operationalname:model.get("operationalname")}));
 	     $("#dialog-hook").html(ich.groupInputDialog_TMP({title:"Edit the Group",group:selectedgroup}));
 	     GroupModifyDialog("modify-group",editGroup(model,groupID));
 	     console.log("renderModifyPage groupsView");
