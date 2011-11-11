@@ -92,9 +92,7 @@
     <script id="backButton_P" class="partial" type="text/html">
       <a href="javascript:history.go(-1)">
 	<button id="create-thing" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	  <span class="ui-button-text">
 	    <span class="ui-button-text">Back</span>
-	  </span>
 	</button>
       </a>
     </script>
@@ -108,17 +106,11 @@
     </script>
 
     <script id="createButton_P" class="partial" type="text/html">
-      <input type="button" id="create-thing" value="{{createButtonLabel}}"/>
-    </script>
-
-    <script id="createButton2_P" class="partial" type="text/html">
-      <button id="create-thing2">{{createButtonLabel}}</button>
+      <button id="create-thing">{{createButtonLabel}}</button>
     </script>
 
     <script id="editButton_P" class="partial" type="text/html">
-      <button id="edit-thing">
-	<span class="ui-button-text">Edit</span>
-      </button>
+      <button id="edit-thing">Edit</button>
     </script>
 
     <script id="quickViewHook_P" class="partial" type="text/html">
@@ -159,7 +151,6 @@
       <div id="companies"></div>
       <div id="companyCreateDialog"></div>
       {{>createButton_P}}
-     <!-- {{>createButton2_P}} -->
       {{>menuButton_P}}
     </script>	   
     
