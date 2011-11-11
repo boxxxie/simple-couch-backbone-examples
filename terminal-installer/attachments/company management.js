@@ -340,13 +340,16 @@ function doc_setup(){
 	     var view = this;
 	     var model = Companies.getModelById(id);
 	     var modelJSON = model.toJSON();
+
 //FIXME:disable input text /
 	     //var forTMP = {company: modelJSON}; 
 	     //var forTMP_w_stats = _.extend(forTMP, view.collection.get(id).companyStats());
 	     //$('body').html(ich.modify_company_page_TMP(forTMP_w_stats));
-	     $('body').html(ich.modify_company_page_TMP({company:modelJSON}));
+	     $('body').html(ich.modify_company_page_TMP({company:modelJSON,
+							 company_id:id}));
 	     $('fieldset').find('input').attr("disabled",true);
-	     $("#dialog-hook").html(ich.companyInputDialog_TMP({title:"Edit the Company",company:modelJSON}));
+	     $("#dialog-hook").html(ich.companyInputDialog_TMP({title:"Edit the Company",
+								company:modelJSON}));
 	     CompanyModifyDialog("edit-thing",editCompany(model));
 	     console.log("companiesView renderModifyPage " + id);
 	     return this;
@@ -393,11 +396,13 @@ function doc_setup(){
 	     var view = this;
 	     var model = Companies.getModelById(companyID);
 	     var selectedgroup = view.model.getGroup(groupID);
-	     var stroperationalname = model.get('operationalname');
-	     var strgroupname = selectedgroup.groupName;
-	     $('body').html(ich.modify_group_page_TMP({operationalname:stroperationalname, groupname:strgroupname, _id:model.get("_id"), group_id:selectedgroup.group_id, groupName:selectedgroup.groupName, operationalname:model.get("operationalname")}));
+	     $('body').html(ich.modify_group_page_TMP({company_id:model.get("_id"), 
+						       group_id:selectedgroup.group_id, 
+						       groupName:selectedgroup.groupName, 
+						       operationalname:model.get("operationalname"),
+						       group:selectedgroup}));
 	     $("#dialog-hook").html(ich.groupInputDialog_TMP({title:"Edit the Group",group:selectedgroup}));
-	     GroupModifyDialog("modify-group",editGroup(model,groupID));
+	     GroupModifyDialog("edit-thing",editGroup(model,groupID));
 	     console.log("renderModifyPage groupsView");
 	     return this;
 	 },
@@ -486,7 +491,9 @@ function doc_setup(){
 	     var forTMP = {list:_.map(view.model.getTerminals(groupID,storeID),
 				      function(terminal){
 					  var clonedTerminal = _.clone(terminal);
-					  return _.extend(clonedTerminal,{_id:companyID, group_id:groupID, store_id:storeID});})};
+					  return _.extend(clonedTerminal,{company_id:companyID, 
+									  group_id:groupID, 
+									  store_id:storeID});})};
 	     var html = ich.terminalsTabel_TMP(forTMP);
 	     $(view.el).html(html);
 	     console.log("renderManagementPage terminals view rendered");
@@ -500,7 +507,7 @@ function doc_setup(){
 	     var store = model.getStore(groupID,storeID);
 	     var html = ich.modify_terminal_page_TMP(
 				{operationalname: model.get('operationalname'),
-				 _id: model.get("_id") ,
+				 company_id: model.get("_id") ,
 				 group_id:groupID,
 				 groupName:group.groupName,
 				 storeName: store.storeName,
