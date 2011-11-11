@@ -204,17 +204,17 @@
 	<h1>Modify Company</h1>
 	{{>breadcrumb_P}}
 	{{>companyForm_P}}
-	<div id="dialog-hook"></div>
+
 	{{>editButton_P}}
+	{{>backButton_P}}
+	{{>menuButton_P}}
 	<a href="#/company/{{company_id}}/groups">
 	  <button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
 	    <span class="ui-button-text">Groupe Manager</span>
 	  </button>
 	</a>
-	{{>backButton_P}}
-	{{>menuButton_P}}
       </table>
-      {{>quickViewHook_P}}
+      <div id="dialog-hook"></div>
     </script>   
 
     <!--------------------------------------------------------GROUP--------------------------------------------------->
@@ -226,7 +226,8 @@
 	  <th># of Stores</th>
 	  <th># of Terminals</th>
 	  <th>Creation Date</th>
-	  <th>Detail</th>
+	  <th>Details</th>
+	  <th>Delete</th>
 	</tr>
 	{{#list}}
 	<tr>
@@ -245,7 +246,6 @@
     <script id="group_management_page_TMP" type="text/html">
       <h1>Group Management</h1>
       {{>breadcrumb_P}}
-      <div id="groupCreateDialog"></div>
       <div id="groups"></div>
       {{>createButton_P}}
       {{>backButton_P}}
@@ -282,13 +282,15 @@
 	{{>breadcrumb_P}}
 	{{>groupForm_P}}
 	{{>editButton_P}}
-	<a href="#/company/{{company_id}}/groups/{{group_id}}/stores"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	    <span class="ui-button-text">Store Manager</span>
-	</button></a>
 	{{>backButton_P}}
 	{{>menuButton_P}}
-	<div id="dialog-hook"></div>
+	<a href="#/company/{{company_id}}/groups/{{group_id}}/stores">
+	  <button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	    <span class="ui-button-text">Store Manager</span>
+	  </button>
+	</a>
       </table>
+      <div id="dialog-hook"></div>
     </script>   
 
     <!--------------------------------------------------------STORES--------------------------------------------------->
@@ -327,13 +329,16 @@
 	  <th># of Terminals</th>
 	  <th>Creation Date</th>
 	  <th>Details</th>
+	  <th>Delete</th>
 	</tr>
 	{{#list}}
-	<tr><td><a href="#/company/{{_id}}/groups/{{group_id}}/stores/{{store_id}}">{{storeName}}</a><td>{{number}}</td></td><td>{{terminal_num}}</td><td>{{creationdate}}</td>
-	  <td>
-	    <button onclick=quickView("modify_store_page_TMP","{{_id}}","{{group_id}}","{{store_id}}") class="ui-state-default ui-corner-all">
-	      <span class="ui-button-text">View</span>
-	    </button>
+	<tr>
+	  <td><a href="#/company/{{_id}}/groups/{{group_id}}/stores/{{store_id}}">{{storeName}}</a></td>
+	  <td>{{number}}</td>
+	  <td>{{terminal_num}}</td>
+	  <td>{{creationdate}}</td>
+	  <td>{{>quickViewButton_P}}</td>
+	  <td>{{>deleteButton_P}}</td>
 	</tr>
 	{{/list}}
       </table>
@@ -343,9 +348,8 @@
     <script id="store_management_page_TMP" type="text/html">
       <h1>Stores Management</h1>
       {{>breadcrumb_P}}
-      <div id="storeCreateDialog"></div>
       <div id="stores"></div>
-      <input type="button" id="create-store" value="make a new store" />
+      {{>createButton_P}}
       {{>backButton_P}}
       {{>menuButton_P}}
     </script>
@@ -355,15 +359,16 @@
 	<h1>Modify Store</h1>
 	{{>breadcrumb_P}}
 	{{>storeForm_P}}
-	<div id="dialog-hook"></div>
-	<input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="modify-store" value="Edit" />
-	<a href="#/company/{{_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	    <span class="ui-button-text">Terminal Manager</span>
-	</button></a>
-	{{/store}}
+	{{>editButton_P}}
 	{{>backButton_P}}
 	{{>menuButton_P}}
+	<a href="#/company/{{_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals">
+	  <button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	    <span class="ui-button-text">Terminal Manager</span>
+	  </button>
+	</a>
       </table>
+      <div id="dialog-hook"></div>
     </script>   
 
     <!--------------------------------------------------------TERMINALS--------------------------------------------------->
@@ -374,7 +379,7 @@
 	  <th>ID</th>
 	  <th>Installed</th>
 	  <th>Creation Date</th>
-	  <th>Detail</th>
+	  <th>Details</th>
 	</tr>
 	{{#list}}
 	<tr><td><a href="#/company/{{_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals/{{terminal_id}}">{{id}}</a></td>
@@ -435,14 +440,16 @@
 	<h1>Modify Terminal</h1>
 	{{>breadcrumb_P}}
 	{{>terminalForm_P}}
-	<div id="dialog-hook"></div>
-	<input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="modify-terminal" value="Edit" />
+	{{>editButton_P}}
 	{{>backButton_P}}
 	{{>menuButton_P}}
-	<a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	<a href="./mainMenus.html">
+	  <button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
 	    <span class="ui-button-text">Install</span>
-	</button></a>
+	  </button>
+	</a>
       </table>
+      <div id="dialog-hook"></div>
     </script> 
   </head>
   <body></body>

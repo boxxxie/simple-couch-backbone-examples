@@ -235,7 +235,7 @@ function doc_setup(){
 	     },
 	     companyManagementHome:function(){
 		 console.log("companyManagementHome");
-		 var html = ich.company_management_page_TMP({createButtonLabel:"new company"});
+		 var html = ich.company_management_page_TMP({createButtonLabel:"New Company"});
 		 $('body').html(html);
 		 $("#companyCreateDialog")
 		     .html(ich.companyInputDialog_TMP(
@@ -253,7 +253,7 @@ function doc_setup(){
 		 var modelObj = model.toJSON();
 		 var groups = model.getGroups();
 		 var groups_w_ids = _.map(groups,function(group){return _.extend(group,{_id:modelObj._id});});
-		 var html = ich.group_management_page_TMP({createButtonLabel:"new group",
+		 var html = ich.group_management_page_TMP({createButtonLabel:"New Group",
 							   company:modelObj});
 		 $('body').html(html);
 		 $("#groupCreateDialog")
@@ -272,11 +272,16 @@ function doc_setup(){
 		 var modelObj = model.toJSON();
 		 var stores = model.getStores(groupID);
 		 var stores_w_ids = _.map(stores,function(store){return _.extend(store,{_id:modelObj._id});});
-		 $('body').html(ich.store_management_page_TMP({operationalname:model.get('operationalname'),
-							       _id:model.get('_id'),
-							       groupName:model.getGroup(groupID).groupName}));
-		 $("#storeCreateDialog").html(ich.storeInputDialog_TMP({title:"Make a new Store",store:{address:{}, contact:{}}}));
-		 StoreCreateDialog("create-store",addStore(model,groupID));
+		 var html = ich.store_management_page_TMP({createButtonLabel:"New Store",
+							   operationalname:model.get('operationalname'),
+							   _id:model.get('_id'),
+							   groupName:model.getGroup(groupID).groupName});
+		 $('body').html(html);
+		 $("#storeCreateDialog")
+		 .html(ich.storeInputDialog_TMP(
+			   {title:"Make a new Store",
+			    store:{address:{}, contact:{}}}));
+		 StoreCreateDialog("create-thing",addStore(model,groupID));
 	     },
 	     
 	     modifyStore:function(companyID, groupID, storeID){
@@ -290,12 +295,16 @@ function doc_setup(){
 		 var modelObj = model.toJSON();
 		 var store = model.getStore(groupID,storeID);
 		 var terminals = store.terminals;
-		 $('body').html(ich.terminal_management_page_TMP({operationalname:model.get('operationalname'),
+		 var html = ich.terminal_management_page_TMP({createButtonLabel:"New Terminal",
+								  operationalname:model.get('operationalname'),
 								  _id:model.get('_id'),
 								  groupName:model.getGroup(groupID).groupName,
-								  storeName:store.storeName}));
-		 $("#terminalCreateDialog").html(ich.terminalInputDialog_TMP({title:"Make a new Terminal",terminal:{}}));
-		 TerminalCreateDialog("create-terminal",addTerminal(model,groupID,storeID));
+								  storeName:store.storeName});
+		 $('body').html(html);
+		 $("#terminalCreateDialog")
+		     .html(ich.terminalInputDialog_TMP(
+			       {title:"Make a new Terminal",terminal:{}}));
+		 TerminalCreateDialog("create-thing",addTerminal(model,groupID,storeID));
 	     },
 	     modifyTerminal:function(companyID, groupID, storeID,terminalID){
 		 console.log("modifyterminal: " + companyID + " " + groupID + " " + storeID + " " + terminalID);
@@ -450,7 +459,7 @@ function doc_setup(){
 						       store: storeToEdit});
 	     $('body').html(html);
 	     $("#dialog-hook").html(ich.storeInputDialog_TMP({title:"Edit the store",store:storeToEdit}));
-	     StoreModifyDialog("modify-store",editStore(model,groupID,storeID));
+	     StoreModifyDialog("edit-thing",editStore(model,groupID,storeID));
 	     console.log("renderModifyPage stores view rendered " + companyID+""+groupID+" "+storeID);
 	     return view;
 	     
@@ -509,7 +518,7 @@ function doc_setup(){
 				 terminal:terminalToEdit});
 	     $('body').html(html);
 	     $("#dialog-hook").html(ich.terminalInputDialog_TMP({title:"Edit the Terminal",terminal:terminalToEdit}));
-	     TerminalModifyDialog("modify-terminal",editTerminal(model,groupID,storeID,terminalID));
+	     TerminalModifyDialog("edit-thing",editTerminal(model,groupID,storeID,terminalID));
 	     console.log("renderModifyPage terminals view rendered");
 	     return view;	     
 	 }
