@@ -98,7 +98,7 @@ var Company = couchDoc.extend(
 	 _.extend(terminalToMod,terminal);
 	 this.save();
      },
-     //FIXME:do we delete terminal?
+//FIXME:do we delete terminal?
      deleteTerminal:function(groupID,storeID,terminalID){
      	var terminals = this.getTerminals(groupID,storeID);
      	if((typeof terminals === "undefined") || terminals.length==0) {
@@ -253,7 +253,7 @@ function doc_setup(){
 		 var modelObj = model.toJSON();
 		 var groups = model.getGroups();
 		 var groups_w_ids = _.map(groups,function(group){return _.extend(group,{_id:modelObj._id});});
-		 $('body').html(ich.group_management_page_TMP({company:modelObj}));
+		 $('body').html(ich.group_management_page_TMP({company:modelObj, operationalname:modelObj.operationalname, createButtonLabel:"new group"}));
 		 $("#groupCreateDialog").html(ich.groupInputDialog_TMP({title:"Make a new Group",group:{}}));
 		 GroupCreateDialog("create-group", addGroup(model));
 	     },
@@ -318,7 +318,7 @@ function doc_setup(){
 	 renderManagementPage:function(){
 	     var view = this;
 	     var forTMP = this.collection.toJSON();
-	     //TODO: redering, time format change
+//TODO: redering, time format change
 	     var forTMP_w_stats = {list:_.map(forTMP,function(model){return _.extend(model,view.collection.get(model._id).companyStats());})};
 	     var html = ich.companiesTabel_TMP(forTMP_w_stats);
 	     $(this.el).html(html);
@@ -329,7 +329,12 @@ function doc_setup(){
 	     var view = this;
 	     var model = Companies.getModelById(id);
 	     var modelJSON = model.toJSON();
+//FIXME:disable input text /
+	     //var forTMP = {company: modelJSON}; 
+	     //var forTMP_w_stats = _.extend(forTMP, view.collection.get(id).companyStats());
+	     //$('body').html(ich.modify_company_page_TMP(forTMP_w_stats));
 	     $('body').html(ich.modify_company_page_TMP({company:modelJSON}));
+	     $('fieldset').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.companyInputDialog_TMP({title:"Edit the Company",company:modelJSON}));
 	     CompanyModifyDialog("edit-thing",editCompany(model));
 	     console.log("renderModifyPage " + id);
