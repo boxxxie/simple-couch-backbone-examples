@@ -275,8 +275,8 @@ function doc_setup(){
 		 $('body').html(ich.store_management_page_TMP({operationalname:model.get('operationalname'),
 							       _id:model.get('_id'),
 							       groupName:model.getGroup(groupID).groupName}));
-		 $("#storeCreateDialog").html(ich.storeInputDialog_TMP({title:"Make a new Store",store:{address:{}, contact:{}}}));
-		 StoreCreateDialog("create-store",addStore(model,groupID));
+		 $("#storeCreateDialog").html(ich.storeInputDialog_TMP({title:"Make a new Store", store:{address:{}, contact:{}}}));
+		 StoreCreateDialog("create-store",_.extend(addStore(model,groupID), {company:model, groupID:groupID}));
 	     },
 	     
 	     modifyStore:function(companyID, groupID, storeID){
@@ -453,8 +453,9 @@ function doc_setup(){
 						       store_id:storeToEdit.store_id,
 						       store: storeToEdit});
 	     $('body').html(html);
+	     $('fieldset').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.storeInputDialog_TMP({title:"Edit the store",store:storeToEdit}));
-	     StoreModifyDialog("modify-store",editStore(model,groupID,storeID));
+	     StoreModifyDialog("modify-store",_.extend(editStore(model,groupID,storeID),{company:model, groupID:groupID, storeNum:storeToEdit.number }));
 	     console.log("renderModifyPage stores view rendered " + companyID+""+groupID+" "+storeID);
 	     return view;
 	     

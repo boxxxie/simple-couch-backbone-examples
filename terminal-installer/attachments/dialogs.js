@@ -16,13 +16,13 @@ function DialogValidator(){
 		return true;
 	    }
 	},
-//TODO: dododododododo	
 	checkUniqueInList: function(isCreate, originid ,newid, list, listname, fieldname, updateTips) {
 		if((!isCreate)) {
 			if(originid==newid.val()) {
 				return true;
 			} else {
-				if(!list.pluck(fieldname).contans(newid.val())) {
+				
+				if(!_.contains(_.pluck(list,fieldname), newid.val())) {
 					return true;
 				} else {
 					newid.addClass( "ui-state-error" );
@@ -31,7 +31,7 @@ function DialogValidator(){
 				}
 			}
 		} else {
-			if(!list.pluck(fieldname).contans(newid.val())) {
+			if(!_.contains(_.pluck(list,fieldname), newid.val())) {
 				return true;
 			} else {
 				newid.addClass( "ui-state-error" );
@@ -82,10 +82,11 @@ function GroupModifyDialog (attachTo,options){
     GroupInputDialog(attachTo,options);
 };
 function StoreCreateDialog (attachTo,options){
-    _.extend(options,{clearOnExit:true});
+    _.extend(options,{clearOnExit:true, isCreate:true});
     StoreInputDialog(attachTo,options);
 };
 function StoreModifyDialog (attachTo,options){
+	_.extend(options,{isCreate:false});
     StoreInputDialog(attachTo,options);
 };
 function TerminalCreateDialog (attachTo,options){
@@ -264,6 +265,13 @@ function StoreInputDialog (attachTo,options) {
 			 bValid = bValid && checkLength( password, "The Master User Password", 1, 8 ,updateTips(tips));
 			 bValid = bValid && checkRegexp( storeNum, /^([0-9])+$/i, "The Store Number may consist of Digits only.", updateTips(tips));
 			 
+			 var model = options.company;
+		 	 //var groups = model.get('hierarchy').groups;
+		 	 var stores = model.getStores(options.groupID);
+		 	 
+		 	 bValid = bValid && checkUniqueInList(options.isCreate, options.storeNum ,
+		 							storeNum, stores, "Store", "number", updateTips(tips));
+			 
 			 if ( bValid && unfilledRequiredFields) {
 			     options.success({
 						 user:user.val(),
@@ -439,7 +447,6 @@ function GroupInputDialog (attachTo,options) {
 	     "Submit": function() {
 		 var bValid = true;
 		 var unfilledRequiredFields = checkRequiredFields(requiredFields);
-//		 var isUniqueId = false;
 		 requiredFields.removeClass( "ui-state-error" );
 
 		 bValid = bValid && checkLength( user, "The Master User ID", 1, 8, updateTips(tips) );
@@ -447,9 +454,6 @@ function GroupInputDialog (attachTo,options) {
 				 
 		 var model = options.company;
 		 var groups = model.get('hierarchy').groups;
-//		 isUniqueId = groups.pluck('groupName').contains(groupName);
-//	     checkUniqueInList(isCreate, originid ,newid, list, listname, fieldname, updateTips);
-		 
 		 bValid = bValid && checkUniqueInList(options.isCreate, options.groupName ,
 		 							groupName, groups, "Group", "groupName", updateTips(tips));
 
