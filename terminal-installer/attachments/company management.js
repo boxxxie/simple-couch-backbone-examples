@@ -186,7 +186,7 @@ function quickView(template,companyID,groupID,storeID,terminalID){
 	for_TMP = {store:store};
     } else if(!_.isEmpty(groupID)){
 	var group = company.getGroup(groupID);
-	for_TMP = {groupName:group.groupName};
+	for_TMP = {group:group};
     } else{
 	for_TMP = {company:companyJSON};
     }
@@ -371,7 +371,13 @@ function doc_setup(){
 	 renderManagementPage:function(companyID){
 	     var view = this;
 	     var forTMP = view.model.getGroups();
-	     var forTMP_w_stats = {list:_.map(forTMP,function(group){return _.extend(group,{_id:companyID},view.model.companyStats(group.group_id));})};
+	     var forTMP_w_stats = 
+		 {list:_.map(forTMP,
+			     function(group)
+			     { var groupClone = _.clone(group);
+			       var companyStats = view.model.companyStats(group.group_id);
+			       var quickViewArgs = {template:"modify_group_page_TMP"};
+			       return _.extend(groupClone,{_id:companyID},companyStats,quickViewArgs);})};
 	     var html = ich.groupsTabel_TMP(forTMP_w_stats);
 	     $(this.el).html(html);
 	     console.log("renderManagementPage groupsView");
