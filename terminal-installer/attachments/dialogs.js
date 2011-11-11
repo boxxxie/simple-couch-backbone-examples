@@ -471,7 +471,6 @@ function quickViewDialog (html,options) {
 	     d.dialog('destroy');
 	 }
 	},_.clone(options));
-
     d.dialog(dialogOptions);
     d.dialog("open");
 };

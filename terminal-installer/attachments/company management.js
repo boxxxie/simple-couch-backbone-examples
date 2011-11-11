@@ -237,7 +237,7 @@ function doc_setup(){
 		 console.log("companyManagementHome");
 		 var html = ich.company_management_page_TMP({createButtonLabel:"New Company"});
 		 $('body').html(html);
-		 $("#companyCreateDialog")
+		 $("#create-dialog")
 		     .html(ich.companyInputDialog_TMP(
 			       {title:"Make a new Company",
 				company:{address:{},contact:{}}}));
@@ -256,7 +256,7 @@ function doc_setup(){
 		 var html = ich.group_management_page_TMP({createButtonLabel:"New Group",
 							   company:modelObj});
 		 $('body').html(html);
-		 $("#groupCreateDialog")
+		 $("#create-dialog")
 		     .html(ich.groupInputDialog_TMP(
 			       {title:"Make a new Group",
 				group:{address:{},contact:{}}}));
@@ -277,7 +277,7 @@ function doc_setup(){
 							   _id:model.get('_id'),
 							   groupName:model.getGroup(groupID).groupName});
 		 $('body').html(html);
-		 $("#storeCreateDialog")
+		 $("#create-dialog")
 		 .html(ich.storeInputDialog_TMP(
 			   {title:"Make a new Store",
 			    store:{address:{}, contact:{}}}));
@@ -296,12 +296,12 @@ function doc_setup(){
 		 var store = model.getStore(groupID,storeID);
 		 var terminals = store.terminals;
 		 var html = ich.terminal_management_page_TMP({createButtonLabel:"New Terminal",
-								  operationalname:model.get('operationalname'),
-								  _id:model.get('_id'),
-								  groupName:model.getGroup(groupID).groupName,
-								  storeName:store.storeName});
+							      operationalname:model.get('operationalname'),
+							      _id:model.get('_id'),
+							      groupName:model.getGroup(groupID).groupName,
+							      storeName:store.storeName});
 		 $('body').html(html);
-		 $("#terminalCreateDialog")
+		 $("#create-dialog")
 		     .html(ich.terminalInputDialog_TMP(
 			       {title:"Make a new Terminal",terminal:{}}));
 		 TerminalCreateDialog("create-thing",addTerminal(model,groupID,storeID));
@@ -319,13 +319,12 @@ function doc_setup(){
 	     this.collection.bind('add',view.renderManagementPage);
 	     AppRouter.bind('route:companyManagementHome', function(){
 				console.log('companiesView:route:companyManagementHome');
-				view.el =_.first($("#companies"));
+				view.el =_.first($("#list-things"));
 				view.renderManagementPage();});
 	     AppRouter.bind('route:modifyCompany', function(id){
 				var model = Companies.getModelById(id);
 				model.bind('change',function(){view.renderModifyPage(id);});
 				console.log('companiesView:route:modifyCompany');
-				view.el =_.first($("#companies"));
 				view.renderModifyPage(id);});
 	     
 	 },
@@ -369,14 +368,13 @@ function doc_setup(){
 				console.log('groupsView:route:groupsManager');
 				view.model = Companies.getModelById(companyID);
 				view.model.bind('add:group',function(){view.renderManagementPage(companyID);});
-				view.el =_.first($("#groups"));
+				view.el =_.first($("#list-things"));
 				view.renderManagementPage(companyID);});
 	     AppRouter.bind('route:modifyGroup', function(companyID,groupID){
 				var model = Companies.getModelById(companyID);
 				view.model = model;
 				model.bind('change',function(){view.renderModifyPage(companyID,groupID);});
 				console.log('groupsView:route:modifyGroup' + " " + companyID + " " + groupID);
-				view.el =_.first($("#groups"));
 				view.renderModifyPage(companyID,groupID);});
 	 },
 	 renderManagementPage:function(companyID){
@@ -424,14 +422,13 @@ function doc_setup(){
 				console.log('storeView:route:storesManager : ' + companyID + " " + groupID);
 				view.model = Companies.getModelById(companyID);
 				view.model.bind('add:store',function(){view.renderManagementPage(companyID, groupID);});
-				view.el =_.first($("#stores"));
+				view.el =_.first($("#list-things"));
 				view.renderManagementPage(companyID, groupID);});
 	     AppRouter.bind('route:modifyStore', function(companyID,groupID,storeID){
 				var model = Companies.getModelById(companyID);
 				view.model = model;
 				model.bind('change',function(){view.renderModifyPage(companyID,groupID,storeID);});
 				console.log('storeView:route:modifyStore' + " " + companyID + " " + groupID + " " + storeID);
-				view.el =_.first($("#stores"));
 				view.renderModifyPage(companyID,groupID,storeID);});
 	 },
 	 renderManagementPage:function(companyID,groupID){
@@ -476,14 +473,13 @@ function doc_setup(){
 				console.log('terminalsView:route:terminalsManager');
 				view.model = Companies.getModelByName(companyID);
 				view.model.bind('add:terminal',function(){view.renderManagementPage(companyID,groupID,storeID);});
-				view.el =_.first($("#terminals"));
+				view.el =_.first($("#list-things"));
 				view.renderManagementPage(companyID,groupID,storeID);});
 	     AppRouter.bind('route:modifyTerminal', function(companyID,groupID,storeID,terminalID){
 				var model = Companies.getModelById(companyID);
 				view.model = model;
 				model.bind('change',function(){view.renderModifyPage(companyID,groupID,storeID,terminalID);});
 				console.log('terminalsView:route:modifyTerminals' + " " + companyID + " " + groupID);
-				view.el =_.first($("#terminals"));
 				view.renderModifyPage(companyID,groupID,storeID,terminalID);});
 	     
 	     
@@ -509,12 +505,9 @@ function doc_setup(){
 	     var store = model.getStore(groupID,storeID);
 	     var html = ich.modify_terminal_page_TMP(
 				{operationalname: model.get('operationalname'),
-				 company_id: model.get("_id") ,
-				 group_id:groupID,
 				 groupName:group.groupName,
 				 storeName: store.storeName,
-				 store_id:storeID,
-				 terminal_id:terminalID,
+				 terminalName:terminalToEdit.id,
 				 terminal:terminalToEdit});
 	     $('body').html(html);
 	     $("#dialog-hook").html(ich.terminalInputDialog_TMP({title:"Edit the Terminal",terminal:terminalToEdit}));
