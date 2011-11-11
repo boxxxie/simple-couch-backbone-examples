@@ -33,16 +33,22 @@ var Company = couchDoc.extend(
 	 _.extend(groupToMod,group);
 	 this.save();
      },
-     editStore:function(groupID,storeID,store){
-	 var storeToMod = this.getStore(groupID,storeID);
-	 _.extend(storeToMod,store);
-	 this.save();
+     deleteGroup:function(groupID) {
+     	var groupToDel = this.getGroup(groupID);
+     	var stores = this.getStores(groupID);
+     	if((typeof stores === "undefined") || stores.length==0) {
+     		var oldHierarchy = this.get('hierarchy');
+	 		var groups = oldHierarchy.groups;
+	 		var newGroups = _.reject(groups, function(group) { return group.group_id==groupID});
+	 		var newHierarchy = {groups : newGroups};
+	 		this.set({hierarchy:newHierarchy});
+			this.save();
+			console.log("delete completed");
+     	} else {
+     		alert("Can't delete group, group has store(s)")
+     	}
      },
-     editTerminal:function(groupID,storeID,terminalID,terminal){
-	 var terminalToMod = this.getTerminal(groupID,storeID,terminalID);
-	 _.extend(terminalToMod,terminal);
-	 this.save();
-     },
+     
      addStore: function(groupID,storeToAdd){
 	 var groupToAddTo = this.getGroup(groupID);
 	 var stores = groupToAddTo.stores;
@@ -57,6 +63,24 @@ var Company = couchDoc.extend(
 	     alert("The store you tried to add had the same number as one already in this group, please choose a different store number");
 	 }
      },
+     editStore:function(groupID,storeID,store){
+	 var storeToMod = this.getStore(groupID,storeID);
+	 _.extend(storeToMod,store);
+	 this.save();
+     },
+     deleteStore:function(groupID,storeID) {
+     	var terminals = this.getTerminals(groupID,storeID);
+     	if((typeof terminals === "undefined") || terminals.length==0) {
+	 		var stores = this.getStores(gorupID);
+	 		var newStores = _.reject(stores, function(store) { return store.store_id==storeID});
+	 		stores = newStores;
+			this.save();
+			console.log("delete completed");
+     	} else {
+     		alert("Can't delete store, store has terminal(s)")
+     	}
+     },
+     
      addTerminal: function(groupID,storeID,terminalToAdd){
 	 var storeToAddTo = this.getStore(groupID,storeID);
 	 var storeTerminals = storeToAddTo.terminals;
@@ -69,6 +93,24 @@ var Company = couchDoc.extend(
 	 } else {
 	     alert("The terminal you tried to add had the same ID as one already in this store, please choose a different ID");
 	 }
+     },
+     editTerminal:function(groupID,storeID,terminalID,terminal){
+	 var terminalToMod = this.getTerminal(groupID,storeID,terminalID);
+	 _.extend(terminalToMod,terminal);
+	 this.save();
+     },
+     //FIXME:do we delete terminal?
+     deleteTerminal:function(groupID,storeID,terminalID){
+     	var terminals = this.getTerminals(groupID,storeID);
+     	if((typeof terminals === "undefined") || terminals.length==0) {
+	 		var stores = this.getStores(gorupID);
+	 		var newStores = _.reject(stores, function(store) { return store.store_id==storeID});
+	 		stores = newStores;
+			this.save();
+			console.log("delete completed");
+     	} else {
+     		alert("Can't delete store, store has terminal(s)")
+     	}
      },
      getGroups:function(){
 	 return this.get('hierarchy').groups;
@@ -116,12 +158,19 @@ function addCompany(collection){
 	    }
 	   };
 };
+//TODO: fill it up
+function deleteCompany() {
+	return {
+		
+	};
+}
 function editCompany(company){
     return {success:function(resp){
 		company.save(resp);
 	    }
 	   };
 };
+
 function addGroup(model){
     return {success: function(resp){
 		model.addGroup(resp);
@@ -134,28 +183,44 @@ function editGroup(model, groupID){
 	    }
 	   };
 };
+function deleteGroup(model, groupID) {
+	return {
+		success: function(resp) {
+			model.deleteGroup(resp,groupID);
+		}		
+	};
+};
+
+function addStore(model,group){
+    return {success: function(resp){
+		model.addStore(group,resp);
+	    }
+	   };
+};  
 function editStore(model,groupID,storeID){
     return {success:function(resp){
 		model.editStore(groupID,storeID,resp);
 	    }
 	   };
 };
-function editTerminal(model,groupID,storeID,terminalID){
-    return {success:function(resp){
-		model.editTerminal(groupID,storeID,terminalID,resp);
-	    }
-	   };
+function deleteStore(model, groupID,storeID) {
+	return {
+		success: function(resp) {
+			model.deleteGroup(resp,groupID,storeID);
+		}		
+	};
 };
                   
-function addStore(model,group){
-    return {success: function(resp){
-		model.addStore(group,resp);
-	    }
-	   };
-};                   
+                 
 function addTerminal(model,group,storeName){
     return {success: function(resp){
 		model.addTerminal(group,storeName,resp);
+	    }
+	   };
+};
+function editTerminal(model,groupID,storeID,terminalID){
+    return {success:function(resp){
+		model.editTerminal(groupID,storeID,terminalID,resp);
 	    }
 	   };
 };

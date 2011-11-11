@@ -160,7 +160,7 @@ function CompanyInputDialog (attachTo,options) {
 								       province:province.val(),
 								       postalcode:postalcode.val()},
 							      operationalname:operationalname.val(),
-							      creationdate:new Date(),					
+							      creationdate:(new Date()).toDateString(),					
 							      companyName:companyName.val()});
 					     
 					     $( this ).dialog( "close" );
@@ -269,7 +269,7 @@ function StoreInputDialog (attachTo,options) {
 							  country:country.val(),
 							  province:province.val(),
 							  postalcode:postalcode.val()},
-						 creationdate:new Date(),
+						 creationdate:(new Date()).toDateString(),
 						 storeName:storeName.val(),
 						 number:storeNum.val()   
 					     });
@@ -347,7 +347,7 @@ function TerminalInputDialog (attachTo,options) {
 			     options.success(
 				 {
 				     id:id.val(),
-				     creationdate:new Date(),
+				     creationdate:(new Date()).toDateString(),
 				     installed:false,
 				     areaCode:areaCode.val(),
 				     postalCode:postalCode.val(),
@@ -403,7 +403,7 @@ function GroupInputDialog (attachTo,options) {
 		     "Submit": function() {
 			 options.success({
 					     groupName:groupName.val(),
-					     creationdate:new Date()}					
+					     creationdate:(new Date()).toDateString()}					
 					);
 			 allFields.val("").removeClass( "ui-state-error" );
 		     allFields.filter("input:checked").attr("checked",false);
