@@ -194,9 +194,13 @@ function quickView(template,companyID,groupID,storeID,terminalID){
    quickViewDialog(ich[template](for_TMP));
 }
 
+//TODO: actually install the terminal to the terminal DB.
 function installTerminal(companyID,groupID,storeID,terminalID){
     if(_.isEmpty(companyID)||_.isEmpty(groupID)||_.isEmpty(storeID)||_.isEmpty(terminalID)){
 	alert("could not install the terminal");
+    }
+    else{
+	alert("The terminal has been installed");
     }
 }
 
