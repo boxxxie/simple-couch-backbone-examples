@@ -109,19 +109,16 @@
     </script>
     
     <script id="backButton_P" class="partial" type="text/html">
-      <a href="javascript:history.go(-1)">
-	<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	  <span class="ui-button-text">Back</span>
-	</button>
-      </a>
+      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="javascript:history.go(-1);">
+	<span class="ui-button-text">Back</span>
+      </button>
     </script>
 
     <script id="menuButton_P" class="partial" type="text/html">
-      <a href="./mainMenus.html">
-	<button  class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	  <span class="ui-button-text">Menus</span>
-	</button>
-      </a>
+      <button  class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
+	       onClick="javascript:window.location.href ='./mainMenus.html';">
+	<span class="ui-button-text">Menus</span>
+      </button>
     </script>
 
     <script id="createButton_P" class="partial" type="text/html">
@@ -232,11 +229,10 @@
 	{{>editButton_P}}
 	{{>backButton_P}}
 	{{>menuButton_P}}
-	<a href="#/company/{{company_id}}/groups">
-	  <button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	    <span class="ui-button-text">Groupe Manager</span>
-	  </button>
-	</a>
+	<button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all"
+		onClick="javascript:window.location.href ='#/company/{{company_id}}/groups';">
+	  <span class="ui-button-text">Groupe Manager</span>
+	</button>
       </table>
       <div id="dialog-hook"></div>
     </script>   
@@ -306,11 +302,10 @@
 	{{>editButton_P}}
 	{{>backButton_P}}
 	{{>menuButton_P}}
-	<a href="#/company/{{company_id}}/groups/{{group_id}}/stores">
-	  <button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	    <span class="ui-button-text">Store Manager</span>
-	  </button>
-	</a>
+	<button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all"
+		onClick="javascript:window.location.href ='#/company/{{company_id}}/groups/{{group_id}}/stores';">
+	  <span class="ui-button-text">Store Manager</span>
+	</button>
       </table>
       <div id="dialog-hook"></div>
     </script>   
@@ -382,11 +377,10 @@
 	{{>editButton_P}}
 	{{>backButton_P}}
 	{{>menuButton_P}}
-	<a href="#/company/{{company_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals">
-	  <button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	    <span class="ui-button-text">Terminal Manager</span>
-	  </button>
-	</a>
+	<button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all"
+		onClick="javascript:window.location.href ='#/company/{{company_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals';">
+	  <span class="ui-button-text">Terminal Manager</span>
+	</button>
       </table>
       <div id="dialog-hook"></div>
     </script>   
