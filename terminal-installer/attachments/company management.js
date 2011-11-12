@@ -38,13 +38,13 @@ var Company = couchDoc.extend(
      	if((typeof stores === "undefined") || stores.length==0) {
      		var oldHierarchy = this.get('hierarchy');
 	 		var groups = oldHierarchy.groups;
-	 		var newGroups = _.reject(groups, function(group) { return group.group_id==groupID});
+	 		var newGroups = _.reject(groups, function(group) {return group.group_id==groupID;});
 	 		var newHierarchy = {groups : newGroups};
 	 		this.set({hierarchy:newHierarchy});
 			this.save();
 			console.log("delete completed");
      	} else {
-     		alert("Can't delete group, group has store(s)")
+     		alert("Can't delete group, group has store(s)");
      	}
      },
      
@@ -71,12 +71,12 @@ var Company = couchDoc.extend(
      	var terminals = this.getTerminals(groupID,storeID);
      	if((typeof terminals === "undefined") || terminals.length==0) {
 	 		var stores = this.getStores(gorupID);
-	 		var newStores = _.reject(stores, function(store) { return store.store_id==storeID});
+	 		var newStores = _.reject(stores, function(store) {return store.store_id==storeID;});
 	 		stores = newStores;
 			this.save();
 			console.log("delete completed");
      	} else {
-     		alert("Can't delete store, store has terminal(s)")
+     		alert("Can't delete store, store has terminal(s)");
      	}
      },
      
@@ -98,17 +98,16 @@ var Company = couchDoc.extend(
 	 _.extend(terminalToMod,terminal);
 	 this.save();
      },
-//FIXME:do we delete terminal?
      deleteTerminal:function(groupID,storeID,terminalID){
      	var terminals = this.getTerminals(groupID,storeID);
      	if((typeof terminals === "undefined") || terminals.length==0) {
 	 		var stores = this.getStores(gorupID);
-	 		var newStores = _.reject(stores, function(store) { return store.store_id==storeID});
+	 		var newStores = _.reject(stores, function(store) {return store.store_id==storeID;});
 	 		stores = newStores;
 			this.save();
 			console.log("delete completed");
      	} else {
-     		alert("Can't delete store, store has terminal(s)")
+     		alert("Can't delete store, store has terminal(s)");
      	}
      },
      getGroups:function(){
@@ -204,6 +203,25 @@ function doc_setup(){
     var terminalsView;
     var terminalsViewTest;
 
+    function breadCrumb(companyID,groupID,storeID,terminalID){
+	var companyName,groupName,storeName,terminalName;
+	var model;
+	if(companyID){
+	    model = Companies.getModelById(companyID);
+	    companyName =  model.get('operationalname');
+	}
+	if(groupID){
+	    groupName = model.getGroup(groupID).groupName;
+	}
+	if(storeID){
+	    storeName = model.getStore(groupID,storeID).storeName;
+	}
+	if(terminalID){
+	    terminalName = model.getTerminal(groupID,storeID,terminalID).id;
+	}
+	return {companyName:companyName,groupName:groupName,storeName:storeName,terminalName:terminalName};
+    }
+
     Companies = 
 	new (couchCollection(
 		 {db:'install'},
@@ -250,12 +268,10 @@ function doc_setup(){
 		 console.log("groupsManager: " + companyID);
 		 var model = Companies.getModelByName(companyID);
 		 model.unbind('change');
-		 var modelObj = model.toJSON();
-		 var groups = model.getGroups();
-		 var groups_w_ids = _.map(groups,function(group){return _.extend(group,{_id:modelObj._id});});
-		 var html = ich.group_management_page_TMP({operationalname:modelObj.operationalname, createButtonLabel:"new group",
-	//	 var html = ich.group_management_page_TMP({createButtonLabel:"New Group",
-							   company:modelObj});
+		 var company = model.toJSON();
+		 var html = ich.group_management_page_TMP(_.extend({createButtonLabel:"New Group",
+								    company:company},
+								   breadCrumb(companyID)));
 		 $('body').html(html);
 		 $("#create-dialog")
 		     .html(ich.groupInputDialog_TMP(
@@ -270,21 +286,17 @@ function doc_setup(){
 		 console.log("storesManager: " + companyID + " , " + groupID);
 		 var model = Companies.getModelById(companyID);
 		 model.unbind('change');
-		 var modelObj = model.toJSON();
+		 var company = model.toJSON();
 		 var stores = model.getStores(groupID);
-		 var stores_w_ids = _.map(stores,function(store){return _.extend(store,{_id:modelObj._id});});
-//		 $('body').html(ich.store_management_page_TMP({operationalname:model.get('operationalname'),
-//							       _id:model.get('_id'),
-//							       groupName:model.getGroup(groupID).groupName}));
-		 $("#storeCreateDialog").html(ich.storeInputDialog_TMP({title:"Make a new Store", store:{address:{}, contact:{}}}));
-		 StoreCreateDialog("create-store",_.extend(addStore(model,groupID), {company:model, groupID:groupID}));
-		 var html = ich.store_management_page_TMP({createButtonLabel:"New Store",
-							   operationalname:model.get('operationalname'),
-							   _id:model.get('_id'),
-							   groupName:model.getGroup(groupID).groupName});
+		 var stores_w_ids = _.map(stores,function(store){return _.extend(store,{company_id:company._id});});
+		 var html = ich.store_management_page_TMP(_.extend({createButtonLabel:"New Store",
+								    company:company.operationalname,
+								    company_id:model.get('_id'),
+								    groupName:model.getGroup(groupID).groupName},
+								   breadCrumb(companyID,groupID)));
 		 $('body').html(html);
 		 $("#create-dialog")
-		 .html(ich.storeInputDialog_TMP(
+		     .html(ich.storeInputDialog_TMP(
 			   {title:"Make a new Store",
 			    store:{address:{}, contact:{}}}));
 	     },
@@ -297,14 +309,16 @@ function doc_setup(){
 		 console.log("terminalsManager: " + companyID + " " + groupID + " " + storeID);
 		 var model = Companies.getModelById(companyID);
 		 model.unbind('change');
-		 var modelObj = model.toJSON();
+		 var company = model.toJSON();
 		 var store = model.getStore(groupID,storeID);
 		 var terminals = store.terminals;
-		 var html = ich.terminal_management_page_TMP({createButtonLabel:"New Terminal",
-							      operationalname:model.get('operationalname'),
-							      _id:model.get('_id'),
-							      groupName:model.getGroup(groupID).groupName,
-							      storeName:store.storeName});
+		 var html = ich.terminal_management_page_TMP(
+		     _.extend({createButtonLabel:"New Terminal",
+			       operationalname:model.get('operationalname'),
+			       company_id:model.get('_id'),
+			       groupName:model.getGroup(groupID).groupName,
+			       storeName:store.storeName},
+			      breadCrumb(companyID,groupID,storeID)));
 		 $('body').html(html);
 		 $("#create-dialog")
 		     .html(ich.terminalInputDialog_TMP(
@@ -335,8 +349,6 @@ function doc_setup(){
 	 },
 	 renderManagementPage:function(){
 	     var view = this;
-//	     var forTMP = this.collection.toJSON();
-//TODO: redering, time format change
 	     var companies = this.collection.toJSON();
 	     var forTMP_w_stats = 
 		 {list:_.map(companies,
@@ -355,9 +367,9 @@ function doc_setup(){
 	     var view = this;
 	     var model = Companies.getModelById(id);
 	     var modelJSON = model.toJSON();
-
-	     $('body').html(ich.modify_company_page_TMP({company:modelJSON,
-							 company_id:id}));
+	     $('body').html(ich.modify_company_page_TMP(_.extend({company:modelJSON,
+								  company_id:id},
+								 breadCrumb(id))));
 	     $('fieldset').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.companyInputDialog_TMP({title:"Edit the Company",
 								company:modelJSON}));
@@ -408,11 +420,12 @@ function doc_setup(){
 	     var view = this;
 	     var model = Companies.getModelById(companyID);
 	     var selectedgroup = view.model.getGroup(groupID);
-	     $('body').html(ich.modify_group_page_TMP({company_id:model.get("_id"), 
-						       group_id:selectedgroup.group_id, 
-						       groupname:selectedgroup.groupName, 
-						       operationalname:model.get("operationalname"),
-						       group:selectedgroup}));
+	     $('body').html(ich.modify_group_page_TMP(_.extend({company_id:model.get("_id"), 
+								group_id:selectedgroup.group_id, 
+								groupName:selectedgroup.groupName, 
+								operationalname:model.get("operationalname"),
+								group:selectedgroup},
+							       breadCrumb(companyID,groupID))));
          $('fieldset').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.groupInputDialog_TMP({title:"Edit the Group",group:selectedgroup}));
 	     GroupModifyDialog("edit-thing",_.extend(editGroup(model,groupID), {company:model, groupName:selectedgroup.groupName}));
@@ -468,13 +481,14 @@ function doc_setup(){
 	     var model = Companies.getModelById(companyID);
 	     var group = model.getGroup(groupID);
 	     var storeToEdit = model.getStore(groupID,storeID);
-	     var html = ich.modify_store_page_TMP({operationalname: model.get('operationalname'),
-						       _id: model.get("_id") ,
-						       group_id:group.group_id,
-						       groupName:group.groupName,
-						       storeName: storeToEdit.storeName,
-						       store_id:storeToEdit.store_id,
-						       store: storeToEdit});
+	     var html = ich.modify_store_page_TMP(_.extend({operationalname: model.get('operationalname'),
+							    company_id: model.get("_id") ,
+							    group_id:group.group_id,
+							    groupName:group.groupName,
+							    storeName: storeToEdit.storeName,
+							    store_id:storeToEdit.store_id,
+							    store: storeToEdit},
+							   breadCrumb(companyID,groupID,storeID)));
 	     $('body').html(html);
 	     $('fieldset').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.storeInputDialog_TMP({title:"Edit the store",store:storeToEdit}));
@@ -529,11 +543,12 @@ function doc_setup(){
 	     var group = model.getGroup(groupID);
 	     var store = model.getStore(groupID,storeID);
 	     var html = ich.modify_terminal_page_TMP(
-				{operationalname: model.get('operationalname'),
-				 groupName:group.groupName,
-				 storeName: store.storeName,
-				 terminalName:terminalToEdit.id,
-				 terminal:terminalToEdit});
+		 _.extend({operationalname: model.get('operationalname'),
+			   groupName:group.groupName,
+			   storeName: store.storeName,
+			   terminalName:terminalToEdit.id,
+			   terminal:terminalToEdit},
+			  breadCrumb(companyID,groupID,storeID,terminalID)));
 	     $('body').html(html);
 	     $("#dialog-hook").html(ich.terminalInputDialog_TMP({title:"Edit the Terminal",terminal:terminalToEdit}));
 	     TerminalModifyDialog("edit-thing",editTerminal(model,groupID,storeID,terminalID));

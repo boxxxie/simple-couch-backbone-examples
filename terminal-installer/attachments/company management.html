@@ -29,6 +29,7 @@
       input.text { margin-bottom:12px; width:95%; padding: .4em; }
       fieldset { padding:0; border:0; margin-top:25px; }
       h1 { font-size: 1.2em; margin: .6em 0; }
+      i {color: grey;}
       div#users-contain { width: 350px; margin: 20px 0; }
       div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
       div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
@@ -81,9 +82,20 @@
       {{/contact}}
     </script>
 
-	<!--//FIXME: it has to be, operationalname - groupname - storename -->
     <script id="breadcrumb_P" class="partial" type="text/html">
-      <h2>{{operationalname}} - {{groupname}} - {{storename}} - {{terminal}}</h2>
+      <h2>{{#companyName}}
+	<i>Company</i> {{companyName}}
+	{{#groupName}}
+	- <i>Group</i> {{groupName}}
+	{{#storeName}}
+	- <i>Store</i> {{storeName}}
+	{{#terminalName}}
+	- <i>Terminal</i> {{terminalName}}
+	{{/terminalName}}
+	{{/storeName}}
+	{{/groupName}}
+	{{/companyName}}
+      </h2>
     </script>
     
     <script id="commonButtonClasses_P" class="partial"  type="text/html">
@@ -160,7 +172,7 @@
 	</tr>
 	{{#list}}
 	<tr>
-	  <td><a href="#/company/{{_id}}">{{companyName}}</a></td>
+	  <td><a href="#/company/{{company_id}}">{{companyName}}</a></td>
 	  <td>{{operationalname}}</td>
 	  <td>{{group_num}}</td>
 	  <td>{{store_num}}</td>
@@ -211,7 +223,6 @@
     <script id="modify_company_page_TMP" type="text/html">
       <table border="1">
 	<h1>Modify Company</h1>
-	
 	{{>breadcrumb_P}}
 	{{>companyForm_P}}
 
@@ -241,7 +252,7 @@
 	</tr>
 	{{#list}}
 	<tr>
-	  <td><a href="#/company/{{_id}}/groups/{{group_id}}">{{groupName}}</a></td>
+	  <td><a href="#/company/{{company_id}}/groups/{{group_id}}">{{groupName}}</a></td>
 	  <td>{{store_num}}</td>
 	  <td>{{terminal_num}}</td>
 	  <td>{{creationdate}}</td>
@@ -337,7 +348,7 @@
 	</tr>
 	{{#list}}
 	<tr>
-	  <td><a href="#/company/{{_id}}/groups/{{group_id}}/stores/{{store_id}}">{{storeName}}</a></td>
+	  <td><a href="#/company/{{company_id}}/groups/{{group_id}}/stores/{{store_id}}">{{storeName}}</a></td>
 	  <td>{{number}}</td>
 	  <td>{{terminal_num}}</td>
 	  <td>{{creationdate}}</td>
@@ -374,7 +385,7 @@
 	{{>editButton_P}}
 	{{>backButton_P}}
 	{{>menuButton_P}}
-	<a href="#/company/{{_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals">
+	<a href="#/company/{{company_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals">
 	  <button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
 	    <span class="ui-button-text">Terminal Manager</span>
 	  </button>
