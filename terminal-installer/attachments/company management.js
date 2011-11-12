@@ -299,6 +299,7 @@ function doc_setup(){
 		     .html(ich.storeInputDialog_TMP(
 			   {title:"Make a new Store",
 			    store:{address:{}, contact:{}}}));
+	     StoreCreateDialog("create-thing", _.extend(addStore(model,groupID),{company:model, groupID:groupID} ));
 	     },
 	     
 	     modifyStore:function(companyID, groupID, storeID){
