@@ -84,7 +84,7 @@ var Company = couchDoc.extend(
 	 var storeToAddTo = this.getStore(groupID,storeID);
 	 var storeTerminals = storeToAddTo.terminals;
 	 storeTerminals || (storeTerminals = []);
-	 if(!_(storeTerminals).chain().pluck('id').contains(terminalToAdd.id).value()) {
+	 if(!_(storeTerminals).chain().pluck('terminal_label').contains(terminalToAdd.terminal_label).value()) {
 	     var newTerminals = storeTerminals.concat(_.extend(terminalToAdd,{terminal_id:guidGenerator()}));
 	     storeToAddTo.terminals = newTerminals;
 	     this.save();
@@ -191,6 +191,12 @@ function quickView(template,companyID,groupID,storeID,terminalID){
 	for_TMP = {company:companyJSON};
     }
    quickViewDialog(ich[template](for_TMP));
+}
+
+function installTerminal(companyID,groupID,storeID,terminalID){
+    if(_.isEmpty(companyID)||_.isEmpty(groupID)||_.isEmpty(storeID)||_.isEmpty(terminalID)){
+	alert("could not install the terminal");
+    }
 }
 
 function doc_setup(){

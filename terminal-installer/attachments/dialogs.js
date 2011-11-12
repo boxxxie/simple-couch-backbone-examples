@@ -329,7 +329,7 @@ function TerminalInputDialog (attachTo,options) {
     companyCode = d.find("#companyCode"),
     
     requiredFields = $([])
-	.add(id),
+	.add(label),
 
     allFields = $([])
 	.add(label)
