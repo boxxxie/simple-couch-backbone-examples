@@ -163,9 +163,10 @@ function editGroup(model, groupID){
 function editStore(model,groupID,storeID){
     return {success:function(resp){
 		model.editStore(groupID,storeID,resp);}};};
-function editTerminal(model,groupID,storeID,terminalID){
+function editTerminal(companyID,groupID,storeID,terminalID){
     return {success:function(resp){
-		model.editTerminal(groupID,storeID,terminalID,resp);}};};
+		var company = Companies.getModelById(companyID);
+		company.editTerminal(groupID,storeID,terminalID,resp);}};};
 function addStore(model,group){
     return {success: function(resp){
 		model.addStore(group,resp);}};};                   
@@ -553,20 +554,18 @@ function doc_setup(){
 	 },
 	 renderModifyPage:function(companyID,groupID,storeID,terminalID){
 	     var view = this;
-	     var model = Companies.getModelById(companyID);
-	     var terminalToEdit = model.getTerminal(groupID,storeID,terminalID);
-	     var group = model.getGroup(groupID);
-	     var store = model.getStore(groupID,storeID);
+	     var company = Companies.getModelById(companyID);
+	     var terminalToEdit = company.getTerminal(groupID,storeID,terminalID);
 	     var html = ich.modify_terminal_page_TMP(
-		 _.extend({operationalname: model.get('operationalname'),
-			   groupName:group.groupName,
-			   storeName: store.storeName,
-			   terminalName:terminalToEdit.id,
-			   terminal:terminalToEdit},
-			  breadCrumb(companyID,groupID,storeID,terminalID)));
+		 _.extend({terminal:terminalToEdit},
+			  breadCrumb(companyID,groupID,storeID,terminalID),
+			 {terminal_id:terminalID,
+			  store_id:storeID,
+			  group_id:groupID,
+			  company_id:companyID}));
 	     $('body').html(html);
 	     $("#dialog-hook").html(ich.terminalInputDialog_TMP({title:"Edit the Terminal",terminal:terminalToEdit}));
-	     TerminalModifyDialog("edit-thing",editTerminal(model,groupID,storeID,terminalID));
+	     TerminalModifyDialog("edit-thing",editTerminal(companyID,groupID,storeID,terminalID));
 	     console.log("renderModifyPage terminals view rendered");
 	     return view;	     
 	 }
