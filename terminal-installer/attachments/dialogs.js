@@ -320,7 +320,7 @@ function TerminalInputDialog (attachTo,options) {
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
     var d = $("#dialog-form");
     _.extend(this,DialogValidator());
-    var id = d.find("#terminal-id"),
+    var label = d.find("#terminal-id"),
     areaCode = d.find("#areaCode"),
     postalCode = d.find("#postalCode"),
     countryCode = d.find("#countryCode"),
@@ -332,7 +332,7 @@ function TerminalInputDialog (attachTo,options) {
 	.add(id),
 
     allFields = $([])
-	.add(id)
+	.add(label)
 	.add(areaCode)
 	.add(postalCode)
 	.add(countryCode)
@@ -361,7 +361,7 @@ function TerminalInputDialog (attachTo,options) {
 		 if ( bValid && unfilledRequiredFields) {
 		     options.success(
 			 {
-			     id:id.val(),
+			     terminal_label:label.val(),
 			     creationdate:new Date(),
 			     installed:false,
 			     areaCode:areaCode.val(),

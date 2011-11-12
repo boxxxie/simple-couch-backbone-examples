@@ -429,7 +429,7 @@
 	</tr>
 	{{#list}}
 	<tr>
-	  <td><a href="#/company/{{company_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals/{{terminal_id}}">{{id}}</a></td>
+	  <td><a href="#/company/{{company_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals/{{terminal_id}}">{{terminal_label}}</a></td>
 	  <td>{{installed}}</td>
 	  <td>{{creationdate}}</td>
 	  <td>{{>quickViewButton_P}}</td>
@@ -464,8 +464,8 @@
 	{{>editButton_P}}
 	{{>backButton_P}}
 	{{>menuButton_P}}
-	<button id="install_terminal" 
-		class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	<button id="install_terminal" class="{{>commonButtonClasses_P}}"
+		onclick=installTerminal("{{company_id}}","{{group_id}}","{{store_id}}","{{terminal_id}}")>
 	  <span class="ui-button-text">Install</span>
 	</button>
       </table>

@@ -170,7 +170,8 @@ function addStore(model,group){
     return {success: function(resp){
 		model.addStore(group,resp);}};};                   
 function addTerminal(model,group,storeName){
-    return {success: function(resp){
+    return {valdiate:function(obj){},
+	    success: function(resp){
 		model.addTerminal(group,storeName,resp);}};};
 
 function quickView(template,companyID,groupID,storeID,terminalID){
@@ -301,7 +302,6 @@ function doc_setup(){
 			    store:{address:{}, contact:{}}}));
 		 StoreCreateDialog("create-thing", _.extend(addStore(model,groupID),{company:model, groupID:groupID} ));
 	     },
-	     
 	     modifyStore:function(companyID, groupID, storeID){
 		 console.log("modifyStore: " + companyID + " " + groupID + " " + storeID);
 
