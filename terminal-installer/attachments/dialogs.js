@@ -16,7 +16,14 @@ function DialogValidator(){
 		return true;
 	    }
 	},
-	checkUniqueInList: function(isCreate, originid ,newid, list, listname, fieldname, updateTips) {
+	//checkUniqueInList: function(options, isCreate, originid ,newid, list, listname, fieldname, updateTips) {
+	checkValidateId: function (options, newGroupName, strForTip, updateTips) {
+		 var isValid = options.checkValidate({
+					 							newGroupName : newGroupName,
+					 							isCreate : options.isCreate
+					 						});
+		console.log("valid : " + isValid);
+	/*	 
 		if((!isCreate)) {
 			if(originid==newid.val()) {
 				return true;
@@ -39,6 +46,7 @@ function DialogValidator(){
 				return false;
 			}
 		}
+	*/
 
 	},
 	checkRegexp:function( o, regexp, n , updateTips) {
@@ -90,10 +98,11 @@ function StoreModifyDialog (attachTo,options){
     StoreInputDialog(attachTo,options);
 };
 function TerminalCreateDialog (attachTo,options){
-    _.extend(options,{clearOnExit:true});
+    _.extend(options,{clearOnExit:true,isCreate:true});
     TerminalInputDialog(attachTo,options);
 };
 function TerminalModifyDialog (attachTo,options){
+	_.extend(options,{isCreate:false});
     TerminalInputDialog(attachTo,options);
 };
 function CompanyInputDialog (attachTo,options) {
@@ -358,6 +367,15 @@ function TerminalInputDialog (attachTo,options) {
 		 var bValid = true;
 		 var unfilledRequiredFields=checkRequiredFields(requiredFields);
 		 requiredFields.removeClass( "ui-state-error" );
+		 bValid = bValid && checkLength( id, "The Terminal ID", 1, 8, updateTips(tips) );
+		 
+		 var model = options.model;
+	 	 //var groups = model.get('hierarchy').groups;
+	 	 var terminals = model.getTerminals(options.groupID, options.storeID);
+	 	 
+	 	 bValid = bValid && checkUniqueInList(options.isCreate, options.terminalID ,
+		 							id, terminals, "Terminal", "id", updateTips(tips));
+		 
 		 if ( bValid && unfilledRequiredFields) {
 		     options.success(
 			 {
@@ -452,10 +470,14 @@ function GroupInputDialog (attachTo,options) {
 		 bValid = bValid && checkLength( user, "The Master User ID", 1, 8, updateTips(tips) );
 		 bValid = bValid && checkLength( password, "The Master User Password", 1, 8 ,updateTips(tips));
 				 
-		 var model = options.company;
-		 var groups = model.get('hierarchy').groups;
-		 bValid = bValid && checkUniqueInList(options.isCreate, options.groupName ,
-		 							groupName, groups, "Group", "groupName", updateTips(tips));
+		 //bValid = bValid && checkUniqueInList(groupName, "group", "groupName", updateTips(tips))'
+//TODO:
+		 checkValidateId(options, groupName.val(), "Group", updateTips(tips));
+		 //var model = options.company;
+		 //var groups = model.get('hierarchy').groups;
+		 //checkUniqueInList(groupName, "group", "groupName", updateTips(tips))
+		 //bValid = bValid && checkUniqueInList(options.isCreate, options.groupName ,
+		 //							groupName, groups, "Group", "groupName", updateTips(tips));
 
 		 if ( bValid && unfilledRequiredFields) {
 		     options.success({user:user.val(),

@@ -155,8 +155,33 @@ function editCompany(company){
     return {success:function(resp){
 		company.save(resp);}};};
 function addGroup(model){
-    return {success: function(resp){
-		model.addGroup(resp);}};};   
+    return {
+    		success		  : function(resp){
+								model.addGroup(resp);
+					 		},
+		    checkValidate : function(resp){
+		    				//TODO: check validate
+		    					var list = model.get('hierarchy').groups;
+								if((!resp.isCreate)) {
+									if(model.groupName==resp.newGroupName) {
+										return true;
+									} else {
+										if(!_.contains(_.pluck(list,'groupName'), resp.newGroupName)) {
+											return true;
+										} else {
+											return false;
+										}
+									}
+								} else {
+									if(!_.contains(_.pluck(list,'groupName'), resp.newGroupName)) {
+										return true;
+									} else {
+										return false;
+									}
+								}
+		    		 		}				 
+			};
+};   
 function editGroup(model, groupID){
     return {success:function(resp){
 		model.editGroup(resp,groupID);}};};
@@ -277,7 +302,7 @@ function doc_setup(){
 		     .html(ich.groupInputDialog_TMP(
 			       {title:"Make a new Group",
 				group:{address:{},contact:{}}}));
-		 GroupCreateDialog("create-thing", _.extend(addGroup(model),{company:model} ));
+		 GroupCreateDialog("create-thing", addGroup(model));
 	     },
 	     modifyGroup:function(companyID, groupID){
 		 console.log("modifyGroup: " + companyID + " " + groupID);
@@ -299,7 +324,7 @@ function doc_setup(){
 		     .html(ich.storeInputDialog_TMP(
 			   {title:"Make a new Store",
 			    store:{address:{}, contact:{}}}));
-	     StoreCreateDialog("create-thing", _.extend(addStore(model,groupID),{company:model, groupID:groupID} ));
+	     StoreCreateDialog("create-thing", addStore(model,groupID));
 	     },
 	     
 	     modifyStore:function(companyID, groupID, storeID){
@@ -324,7 +349,7 @@ function doc_setup(){
 		 $("#create-dialog")
 		     .html(ich.terminalInputDialog_TMP(
 			       {title:"Make a new Terminal",terminal:{}}));
-		 TerminalCreateDialog("create-thing",addTerminal(model,groupID,storeID));
+		 TerminalCreateDialog("create-thing", addTerminal(model,groupID,storeID));
 	     },
 	     modifyTerminal:function(companyID, groupID, storeID,terminalID){
 		 console.log("modifyterminal: " + companyID + " " + groupID + " " + storeID + " " + terminalID);
@@ -429,7 +454,7 @@ function doc_setup(){
 							       breadCrumb(companyID,groupID))));
          $('fieldset').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.groupInputDialog_TMP({title:"Edit the Group",group:selectedgroup}));
-	     GroupModifyDialog("edit-thing",_.extend(editGroup(model,groupID), {company:model, groupName:selectedgroup.groupName}));
+	     GroupModifyDialog("edit-thing",editGroup(model,groupID));
 	     console.log("renderModifyPage groupsView");
 	     return this;
 	 },
@@ -493,7 +518,7 @@ function doc_setup(){
 	     $('body').html(html);
 	     $('fieldset').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.storeInputDialog_TMP({title:"Edit the store",store:storeToEdit}));
-	     StoreModifyDialog("edit-thing",_.extend(editStore(model,groupID,storeID),{company:model, groupID:groupID, storeNum:storeToEdit.number }));
+	     StoreModifyDialog("edit-thing",editStore(model,groupID,storeID));
 	     console.log("renderModifyPage stores view rendered " + companyID+""+groupID+" "+storeID);
 	     return view;
 	     
@@ -552,7 +577,7 @@ function doc_setup(){
 			  breadCrumb(companyID,groupID,storeID,terminalID)));
 	     $('body').html(html);
 	     $("#dialog-hook").html(ich.terminalInputDialog_TMP({title:"Edit the Terminal",terminal:terminalToEdit}));
-	     TerminalModifyDialog("edit-thing",editTerminal(model,groupID,storeID,terminalID));
+	     TerminalModifyDialog("edit-thing", editTerminal(model,groupID,storeID,terminalID));
 	     console.log("renderModifyPage terminals view rendered");
 	     return view;	     
 	 }
