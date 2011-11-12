@@ -117,7 +117,7 @@
     </script>
 
     <script id="quickViewButton_P" class="partial" type="text/html">
-      <button onclick=quickView("{{template}}","{{_id}}","{{group_id}}","{{store_id}}","{{terminal_id}}") class="ui-state-default ui-corner-all">
+      <button onclick=quickView("{{template}}","{{company_id}}","{{group_id}}","{{store_id}}","{{terminal_id}}") class="ui-state-default ui-corner-all">
 	<span class="ui-button-text">
 	  View
 	</span>
@@ -134,6 +134,14 @@
 
     <script id="quickViewHook_P" class="partial" type="text/html">
       <div id="dialog-quickView" title="QuickView"></div>
+    </script>
+
+    <script id="createDialogHook_P" class="partial" type="text/html">
+      <div id="create-dialog"></div>
+    </script>
+
+    <script id="managementTableHook_P" class="partial" type="text/html">
+      <div id="list-things"></div>
     </script>
     
     <!--------------------------------------------------------COMPANY--------------------------------------------------->
@@ -168,10 +176,10 @@
 
     <script id="company_management_page_TMP" type="text/html">
       <h1>Company Management</h1>
-      <div id="companies"></div>
-      <div id="companyCreateDialog"></div>
+      {{>managementTableHook_P}}
       {{>createButton_P}}
       {{>menuButton_P}}
+      {{>createDialogHook_P}}
     </script>	   
     
     <script id="companyForm_P" class="partial" type="text/html">
@@ -206,17 +214,17 @@
 	
 	{{>breadcrumb_P}}
 	{{>companyForm_P}}
-	<div id="dialog-hook"></div>
+
 	{{>editButton_P}}
+	{{>backButton_P}}
+	{{>menuButton_P}}
 	<a href="#/company/{{company_id}}/groups">
 	  <button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
 	    <span class="ui-button-text">Groupe Manager</span>
 	  </button>
 	</a>
-	{{>backButton_P}}
-	{{>menuButton_P}}
       </table>
-      {{>quickViewHook_P}}
+      <div id="dialog-hook"></div>
     </script>   
 
     <!--------------------------------------------------------GROUP--------------------------------------------------->
@@ -228,7 +236,8 @@
 	  <th># of Stores</th>
 	  <th># of Terminals</th>
 	  <th>Creation Date</th>
-	  <th>Detail</th>
+	  <th>Details</th>
+	  <th>Delete</th>
 	</tr>
 	{{#list}}
 	<tr>
@@ -247,11 +256,11 @@
     <script id="group_management_page_TMP" type="text/html">
       <h1>Group Management</h1>
       {{>breadcrumb_P}}
-      <div id="groupCreateDialog"></div>
-      <div id="groups"></div>
+      {{>managementTableHook_P}}
       {{>createButton_P}}
       {{>backButton_P}}
       {{>menuButton_P}}
+      {{>createDialogHook_P}}
     </script>
 
     <script id="groupForm_P" class="partial" type="text/html">
@@ -284,13 +293,15 @@
 	{{>breadcrumb_P}}
 	{{>groupForm_P}}
 	{{>editButton_P}}
-	<a href="#/company/{{company_id}}/groups/{{group_id}}/stores"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	    <span class="ui-button-text">Store Manager</span>
-	</button></a>
 	{{>backButton_P}}
 	{{>menuButton_P}}
-	<div id="dialog-hook"></div>
+	<a href="#/company/{{company_id}}/groups/{{group_id}}/stores">
+	  <button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	    <span class="ui-button-text">Store Manager</span>
+	  </button>
+	</a>
       </table>
+      <div id="dialog-hook"></div>
     </script>   
 
     <!--------------------------------------------------------STORES--------------------------------------------------->
@@ -314,13 +325,6 @@
       {{/store}}
     </script>
 
-    <script id="storeInputDialog_TMP" type="text/html">
-      <div id="dialog-form" title="{{title}}">
-	<p class="validateTips"></p>
-	{{>storeForm_P}}
-      </div>
-    </script>  
-
     <script id="storesTabel_TMP" type="text/html">
       <table border="1">
 	<tr>
@@ -329,27 +333,37 @@
 	  <th># of Terminals</th>
 	  <th>Creation Date</th>
 	  <th>Details</th>
+	  <th>Delete</th>
 	</tr>
 	{{#list}}
-	<tr><td><a href="#/company/{{_id}}/groups/{{group_id}}/stores/{{store_id}}">{{storeName}}</a><td>{{number}}</td></td><td>{{terminal_num}}</td><td>{{creationdate}}</td>
-	  <td>
-	    <button onclick=quickView("modify_store_page_TMP","{{_id}}","{{group_id}}","{{store_id}}") class="ui-state-default ui-corner-all">
-	      <span class="ui-button-text">View</span>
-	    </button>
+	<tr>
+	  <td><a href="#/company/{{_id}}/groups/{{group_id}}/stores/{{store_id}}">{{storeName}}</a></td>
+	  <td>{{number}}</td>
+	  <td>{{terminal_num}}</td>
+	  <td>{{creationdate}}</td>
+	  <td>{{>quickViewButton_P}}</td>
+	  <td>{{>deleteButton_P}}</td>
 	</tr>
 	{{/list}}
       </table>
       {{>quickViewHook_P}}
     </script>
 
+    <script id="storeInputDialog_TMP" type="text/html">
+      <div id="dialog-form" title="{{title}}">
+	<p class="validateTips"></p>
+	{{>storeForm_P}}
+      </div>
+    </script>  
+
     <script id="store_management_page_TMP" type="text/html">
       <h1>Stores Management</h1>
       {{>breadcrumb_P}}
-      <div id="storeCreateDialog"></div>
-      <div id="stores"></div>
-      <input type="button" id="create-store" value="make a new store" />
+      {{>managementTableHook_P}}
+      {{>createButton_P}}
       {{>backButton_P}}
       {{>menuButton_P}}
+      {{>createDialogHook_P}}
     </script>
 
     <script id="modify_store_page_TMP" type="text/html">
@@ -357,50 +371,19 @@
 	<h1>Modify Store</h1>
 	{{>breadcrumb_P}}
 	{{>storeForm_P}}
-	<div id="dialog-hook"></div>
-	<input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="modify-store" value="Edit" />
-	<a href="#/company/{{_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	    <span class="ui-button-text">Terminal Manager</span>
-	</button></a>
-	{{/store}}
+	{{>editButton_P}}
 	{{>backButton_P}}
 	{{>menuButton_P}}
+	<a href="#/company/{{_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals">
+	  <button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	    <span class="ui-button-text">Terminal Manager</span>
+	  </button>
+	</a>
       </table>
+      <div id="dialog-hook"></div>
     </script>   
 
     <!--------------------------------------------------------TERMINALS--------------------------------------------------->
-
-    <script id="terminalsTabel_TMP" type="text/html">
-      <table border="1">
-	<tr>
-	  <th>ID</th>
-	  <th>Installed</th>
-	  <th>Creation Date</th>
-	  <th>Detail</th>
-	</tr>
-	{{#list}}
-	<tr><td><a href="#/company/{{_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals/{{terminal_id}}">{{id}}</a></td>
-	  <td>{{installed}}</td><td>{{creationdate}}</td>
-	  <td>
-	    <button onclick=quickView("{{fromTemplate}}","{{_id}}","{{group_id}}","{{store_id}}","{{terminal_id}}") class="ui-state-default ui-corner-all">
-	      <span class="ui-button-text">View</span>
-	    </button>
-	  </td>
-	</tr>
-	{{/list}}
-      </table>
-      {{>quickViewHook_P}}
-    </script>
-
-    <script id="terminal_management_page_TMP" type="text/html">
-      <h1>Terminals Management</h1>
-      {{>breadcrumb_P}}
-      <div id="terminalCreateDialog"></div>
-      <div id="terminals"></div>
-      <input type="button" id="create-terminal" value="make a new terminal" />
-      {{>backButton_P}}
-      {{>menuButton_P}}
-    </script>
 
     <script id="terminalFrom_P" class="partial" type="text/html">
       {{#terminal}}	
@@ -425,26 +408,57 @@
       {{/terminal}}
     </script>
 
+    <script id="terminalsTabel_TMP" type="text/html">
+      <table border="1">
+	<tr>
+	  <th>ID</th>
+	  <th>Installed</th>
+	  <th>Creation Date</th>
+	  <th>Details</th>
+	</tr>
+	{{#list}}
+	<tr>
+	  <td><a href="#/company/{{company_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals/{{terminal_id}}">{{id}}</a></td>
+	  <td>{{installed}}</td>
+	  <td>{{creationdate}}</td>
+	  <td>{{>quickViewButton_P}}</td>
+	</tr>
+	{{/list}}
+      </table>
+      {{>quickViewHook_P}}
+    </script>
+
     <script id="terminalInputDialog_TMP" type="text/html">
       <div id="dialog-form" title="{{title}}">
 	<p class="validateTips"></p>
-	{{>terminalForm_P}}
+	{{>terminalFrom_P}}
       </div>
+    </script>
+
+    <script id="terminal_management_page_TMP" type="text/html">
+      <h1>Terminals Management</h1>
+      {{>breadcrumb_P}}
+      {{>managementTableHook_P}}
+      {{>createButton_P}}
+      {{>backButton_P}}
+      {{>menuButton_P}}
+      {{>createDialogHook_P}}
     </script>
 
     <script id="modify_terminal_page_TMP" type="text/html">
       <table border="1">
 	<h1>Modify Terminal</h1>
 	{{>breadcrumb_P}}
-	{{>terminalForm_P}}
-	<div id="dialog-hook"></div>
-	<input type="button" class="ui-button ui-widget ui-state-default ui-corner-all" id="modify-terminal" value="Edit" />
+	{{>terminalFrom_P}}
+	{{>editButton_P}}
 	{{>backButton_P}}
 	{{>menuButton_P}}
-	<a href="./mainMenus.html"><button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	    <span class="ui-button-text">Install</span>
-	</button></a>
+	<button id="install_terminal" 
+		class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	  <span class="ui-button-text">Install</span>
+	</button>
       </table>
+      <div id="dialog-hook"></div>
     </script> 
   </head>
   <body></body>
