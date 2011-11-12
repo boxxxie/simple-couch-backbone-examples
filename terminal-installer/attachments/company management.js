@@ -355,6 +355,8 @@ function doc_setup(){
 		 {list:_.map(companies,
 			     function(company)
 			     { var companyClone = _.clone(company);
+			       var date = new Date(companyClone.creationdate);
+			       _.extend(companyClone,{creationdate:date.toDateString()});
 			       var companyStats = view.collection.get(company._id).companyStats();
 			       var quickViewArgs = {template:"modify_company_page_TMP",
 						   company_id:company._id};
@@ -407,6 +409,8 @@ function doc_setup(){
 		 {list:_.map(groups,
 			     function(group)
 			     { var groupClone = _.clone(group);
+			       var date = new Date(groupClone.creationdate);
+			       _.extend(groupClone,{creationdate:date.toDateString()});
 			       var companyStats = view.model.companyStats(group.group_id);
 			       var quickViewArgs = {template:"modify_group_page_TMP",
 						   company_id:companyID,
@@ -465,6 +469,8 @@ function doc_setup(){
 		 {list:_.map(stores,
 			     function(store){
 				 var storeClone = _.clone(store);
+				 var date = new Date(storeClone.creationdate);
+				 _.extend(storeClone,{creationdate:date.toDateString()});
 				 var companyStats = view.model.companyStats(groupID,store.store_id);
 				 var quickViewArgs = {template:"modify_store_page_TMP",
 						      company_id:companyID, 
@@ -526,6 +532,8 @@ function doc_setup(){
 	     var forTMP = {list:_.map(view.model.getTerminals(groupID,storeID),
 				      function(terminal){
 					  var clonedTerminal = _.clone(terminal);
+					  var date = new Date(clonedTerminal.creationdate);
+					  _.extend(clonedTerminal,{creationdate:date.toDateString()});
 					  var quickViewArgs = {template:"modify_terminal_page_TMP",
 							       company_id:companyID, 
 							       group_id:groupID, 
