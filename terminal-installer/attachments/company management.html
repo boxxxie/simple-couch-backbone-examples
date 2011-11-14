@@ -39,6 +39,12 @@
 
 
     <!--------------------------------------------------------GENERAL--------------------------------------------------->
+    <script id="userpass_P" class="partial" type="text/html">
+      <label for="user">Master User ID</label>
+      <input type="text" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" />
+      <label for="password">Master Password</label>
+      <input type="password"  id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
+    </script>
 
     <script id="addressFields_P" class="partial" type="text/html">
       {{#address}}
@@ -103,19 +109,16 @@
     </script>
     
     <script id="backButton_P" class="partial" type="text/html">
-      <a href="javascript:history.go(-1)">
-	<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	  <span class="ui-button-text">Back</span>
-	</button>
-      </a>
+      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="javascript:history.go(-1);">
+	<span class="ui-button-text">Back</span>
+      </button>
     </script>
 
     <script id="menuButton_P" class="partial" type="text/html">
-      <a href="./mainMenus.html">
-	<button  class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	  <span class="ui-button-text">Menus</span>
-	</button>
-      </a>
+      <button  class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
+	       onClick="javascript:window.location.href ='./mainMenus.html';">
+	<span class="ui-button-text">Menus</span>
+      </button>
     </script>
 
     <script id="createButton_P" class="partial" type="text/html">
@@ -202,10 +205,7 @@
 	  <input type="text" id="company-name" value="{{companyName}}" class="text ui-widget-content ui-corner-all" />
 	  <label for="operationalname">Operational Name</label>
 	  <input type="text" id="operationalname" value="{{operationalname}}" class="text ui-widget-content ui-corner-all" />
-	  <label for="user">Master User ID</label>
-	  <input type="text" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" />
-	  <label for="password">Master Password</label>
-	  <input type="password" id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
+	  {{>userpass_P}}
 	  {{>addressFields_P}}
 	  {{>contactFields_P}}
 	</fieldset>
@@ -229,11 +229,10 @@
 	{{>editButton_P}}
 	{{>backButton_P}}
 	{{>menuButton_P}}
-	<a href="#/company/{{company_id}}/groups">
-	  <button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	    <span class="ui-button-text">Groupe Manager</span>
-	  </button>
-	</a>
+	<button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all"
+		onClick="javascript:window.location.href ='#/company/{{company_id}}/groups';">
+	  <span class="ui-button-text">Groupe Manager</span>
+	</button>
       </table>
       <div id="dialog-hook"></div>
     </script>   
@@ -280,10 +279,7 @@
 	<fieldset>
 	  <label for="group-name">Group Name</label>
 	  <input type="text" id="group-name" value="{{groupName}}" class="text ui-widget-content ui-corner-all" />
-	  <label for="user">Master User ID</label>
-	  <input type="text" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" />
-	  <label for="password">Master Password</label>
-	  <input type="password" id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
+	  {{>userpass_P}}
 	  {{>addressFields_P}}
 	  {{>contactFields_P}}
 	</fieldset>
@@ -306,11 +302,10 @@
 	{{>editButton_P}}
 	{{>backButton_P}}
 	{{>menuButton_P}}
-	<a href="#/company/{{company_id}}/groups/{{group_id}}/stores">
-	  <button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	    <span class="ui-button-text">Store Manager</span>
-	  </button>
-	</a>
+	<button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all"
+		onClick="javascript:window.location.href ='#/company/{{company_id}}/groups/{{group_id}}/stores';">
+	  <span class="ui-button-text">Store Manager</span>
+	</button>
       </table>
       <div id="dialog-hook"></div>
     </script>   
@@ -325,10 +320,7 @@
 	  <input type="text" id="store-name" value="{{storeName}}" class="text ui-widget-content ui-corner-all" />
 	  <label for="store-num">Store num</label>
 	  <input type="text" id="store-num" value="{{number}}" class="text ui-widget-content ui-corner-all" />
-	  <label for="user">Master User ID</label>
-	  <input type="text" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" />
-	  <label for="password">Master Password</label>
-	  <input type="password"  id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
+	  {{>userpass_P}}
 	  {{>addressFields_P}}
 	  {{>contactFields_P}}
 	</fieldset>
@@ -385,11 +377,10 @@
 	{{>editButton_P}}
 	{{>backButton_P}}
 	{{>menuButton_P}}
-	<a href="#/company/{{company_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals">
-	  <button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-	    <span class="ui-button-text">Terminal Manager</span>
-	  </button>
-	</a>
+	<button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all"
+		onClick="javascript:window.location.href ='#/company/{{company_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals';">
+	  <span class="ui-button-text">Terminal Manager</span>
+	</button>
       </table>
       <div id="dialog-hook"></div>
     </script>   
@@ -401,7 +392,7 @@
       <form>
 	<fieldset>
 	  <label for="terminal-id">Terminal ID</label>
-	  <input type="text" id="terminal-id" value="{{id}}" class="text ui-widget-content ui-corner-all" />
+	  <input type="text" id="terminal-id" value="{{terminal_label}}" class="text ui-widget-content ui-corner-all" />
 	  <label for="companyCode">Company Code</label>
 	  <input type="text" id="companyCode" value="{{companyCode}}" class="text ui-widget-content ui-corner-all" />
 	  <label for="storeCode">Store Code</label>
@@ -429,7 +420,7 @@
 	</tr>
 	{{#list}}
 	<tr>
-	  <td><a href="#/company/{{company_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals/{{terminal_id}}">{{id}}</a></td>
+	  <td><a href="#/company/{{company_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals/{{terminal_id}}">{{terminal_label}}</a></td>
 	  <td>{{installed}}</td>
 	  <td>{{creationdate}}</td>
 	  <td>{{>quickViewButton_P}}</td>
@@ -464,8 +455,8 @@
 	{{>editButton_P}}
 	{{>backButton_P}}
 	{{>menuButton_P}}
-	<button id="install_terminal" 
-		class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	<button id="install_terminal" class="{{>commonButtonClasses_P}}"
+		onClick="javascript:installTerminal('{{company_id}}','{{group_id}}','{{store_id}}','{{terminal_id}}');">
 	  <span class="ui-button-text">Install</span>
 	</button>
       </table>

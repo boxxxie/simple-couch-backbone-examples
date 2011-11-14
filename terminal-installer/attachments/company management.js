@@ -7,6 +7,25 @@ function guidGenerator() {
     return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
 
+
+function checkLength( str, min, max) {
+	    if ( str.length > max || str.length < min ) {
+		return false;
+	    } else {
+		return true;
+	    }
+}
+
+function checkRegexp(str, regexp) {
+	    if(_.isEmpty(str)) return true; //accept empty strings
+	    if ( !( regexp.test(str) ) ) {
+		return false;
+	    } else {
+		return true;
+	    }
+}
+
+
 var Companies;
 
 var Company = couchDoc.extend(	
@@ -32,6 +51,28 @@ var Company = couchDoc.extend(
 	 _.extend(groupToMod,group);
 	 this.save();
      },
+	 checkValidateGroup : function (newGroup_w_options) {
+		//TODO:check validation and return array of results ex : [{fieldname : "group-name", isInvalid:true, errMsg:"this will be shown in tips" }]
+		var results = [];
+		var oldHierarchy = this.get('hierarchy');
+		var groups = oldHierarchy.groups;
+		var foundGroups = _.filter(groups, function(group){ return group.groupName==newGroup_w_options.groupName; });
+
+		if(_.isEmpty(newGroup_w_options.user)) {results = results.concat({fieldname:"user", isInvalid:true, errMsg:"EMPTY"});}
+		else{if(!checkLength(newGroup_w_options.user,1,8)){results= results.concat({fieldname:"user", isInvalid:true, errMsg:"Master User ID  length should be 1~8"});}}
+		if(_.isEmpty(newGroup_w_options.password)) { results = results.concat({fieldname:"password", isInvalid:true, errMsg:"EMPTY"});}
+		else{if(!checkLength(newGroup_w_options.password,1,8)){results = results.concat({fieldname:"password", isInvalid:true, errMsg:"Master User Password  length should be 1~8"});}}
+		if(_.isEmpty(newGroup_w_options.groupName)) {results = results.concat({fieldname:"group-name", isInvalid:true, errMsg:"EMPTY"});}
+		if((!newGroup_w_options.isCreate)) {
+			if((foundGroups.length>0) && !_.contains(_.pluck(foundGroups, "group_id"),newGroup_w_options.groupID)) {
+				results = results.concat({fieldname:"group-name", isInvalid:true, errMsg:"There's a same Group Name in this Company"});
+			}
+		} else {
+			if(foundGroups.length>0) {results = results.concat({fieldname:"group-name", isInvalid:true, errMsg:"There's a same Group Name in this Company"});}
+		}
+
+		return results;
+	 },
      deleteGroup:function(groupID) {
      	var groupToDel = this.getGroup(groupID);
      	var stores = this.getStores(groupID);
@@ -67,6 +108,35 @@ var Company = couchDoc.extend(
 	 _.extend(storeToMod,store);
 	 this.save();
      },
+	 checkValidateStore : function (newStore_w_options) {
+		//TODO:check validation and return array of results ex : [{fieldname : "group-name", isInvalid:true, errMsg:"this will be shown in tips" }]
+		var results = [];
+		//var oldHierarchy = this.get('hierarchy');
+		//var groups = oldHierarchy.groups;
+		var stores = this.getStores(newStore_w_options.groupID);
+		//if(typeof stores === "undefined") { stores = [];}
+		var foundStores = _.filter(stores, function(store){ return store.number==newStore_w_options.number; });
+
+		if(_.isEmpty(newStore_w_options.user)) {results = results.concat({fieldname:"user", isInvalid:true, errMsg:"EMPTY"});}
+		else{if(!checkLength(newStore_w_options.user,1,8)){results= results.concat({fieldname:"user", isInvalid:true, errMsg:"Master User ID  length should be 1~8"});}}
+		if(_.isEmpty(newStore_w_options.password)) { results = results.concat({fieldname:"password", isInvalid:true, errMsg:"EMPTY"});}
+		else{if(!checkLength(newStore_w_options.password,1,8)){results = results.concat({fieldname:"password", isInvalid:true, errMsg:"Master User Password  length should be 1~8"});}}
+		if(_.isEmpty(newStore_w_options.number)) { results = results.concat({fieldname:"store-num", isInvalid:true, errMsg:"EMPTY"});}
+		else{if(!checkRegexp(newStore_w_options.number, /^([0-9])+$/i )){results = results.concat({fieldname:"sotre-number", isInvalid:true, errMsg:"Store Number should be number"});}}
+		if(_.isEmpty(newStore_w_options.storeName)) {results = results.concat({fieldname:"store-name", isInvalid:true, errMsg:"EMPTY"});}
+
+		
+		
+		if((!newStore_w_options.isCreate)) {
+			if((foundStores.length>0) && !_.contains(_.pluck(foundStores, "store_id"),newStore_w_options.storeID)) {
+				results = results.concat({fieldname:"store-number", isInvalid:true, errMsg:"There's a same Store Number in this Group"});
+			}
+		} else {
+			if(foundStores.length>0) {results = results.concat({fieldname:"store-number", isInvalid:true, errMsg:"There's a same Store Number in this Group"});}
+		}
+
+		return results;
+	 },
      deleteStore:function(groupID,storeID) {
      	var terminals = this.getTerminals(groupID,storeID);
      	if((typeof terminals === "undefined") || terminals.length==0) {
@@ -84,7 +154,7 @@ var Company = couchDoc.extend(
 	 var storeToAddTo = this.getStore(groupID,storeID);
 	 var storeTerminals = storeToAddTo.terminals;
 	 storeTerminals || (storeTerminals = []);
-	 if(!_(storeTerminals).chain().pluck('id').contains(terminalToAdd.id).value()) {
+	 if(!_(storeTerminals).chain().pluck('terminal_label').contains(terminalToAdd.terminal_label).value()) {
 	     var newTerminals = storeTerminals.concat(_.extend(terminalToAdd,{terminal_id:guidGenerator()}));
 	     storeToAddTo.terminals = newTerminals;
 	     this.save();
@@ -98,6 +168,35 @@ var Company = couchDoc.extend(
 	 _.extend(terminalToMod,terminal);
 	 this.save();
      },
+	 checkValidateTerminal : function (newTerminal_w_options) {
+		//TODO:check validation and return array of results ex : [{fieldname : "group-name", isInvalid:true, errMsg:"this will be shown in tips" }]
+		var results = [];
+		//var oldHierarchy = this.get('hierarchy');
+		//var groups = oldHierarchy.groups;
+		var terminals = this.getTerminals(newTerminal_w_options.groupID, newTerminal_w_options.storeID);
+		//if(typeof stores === "undefined") { stores = [];}
+		var foundTerminals = _.filter(terminals, function(terminal){ return terminal.terminal_label==newTerminal_w_options.terminal_label; });
+
+		if(_.isEmpty(newTerminal_w_options.terminal_label)) {results = results.concat({fieldname:"terminal-id", isInvalid:true, errMsg:"EMPTY"});}
+		//else{if(checkLength(newStore_w_options.user,1,8)){results= results.concat({fieldname:"user", isInvalid:true, errMsg:"Master User ID  length should be 1~8"});}}
+		//if(_.isEmpty(newStore_w_options.password)) { results = results.concat({fieldname:"password", isInvalid:true, errMsg:"EMPTY"});}
+		//else{if(checkLength(newStore_w_options.password,1,8)){results = results.concat({fieldname:"password", isInvalid:true, errMsg:"Master User Password  length should be 1~8"});}}
+		//if(_.isEmpty(newStore_w_options.number)) { results = results.concat({fieldname:"store-num", isInvalid:true, errMsg:"EMPTY"});}
+		//else{if(checkRegexp(newStore_w_options.number, /^([0-9])+$/i )){results = results.concat({fieldname:"sotre-number", isInvalid:true, errMsg:"Store Number should be number"});}}
+		//if(_.isEmpty(newStore_w_options.storeName)) {results = results.concat({fieldname:"store-name", isInvalid:true, errMsg:"EMPTY"});}
+
+		
+		
+		if((!newTerminal_w_options.isCreate)) {
+			if((foundTerminals.length>0) && !_.contains(_.pluck(foundTerminals, "terminal_id"),newTerminal_w_options.terminalID)) {
+				results = results.concat({fieldname:"terminal-id", isInvalid:true, errMsg:"There's a same Terminal in this Store"});
+			}
+		} else {
+			if(foundTerminals.length>0) {results = results.concat({fieldname:"terminal-id", isInvalid:true, errMsg:"There's a same Terminal in this Store"});}
+		}
+
+		return results;
+	 },
      deleteTerminal:function(groupID,storeID,terminalID){
      	var terminals = this.getTerminals(groupID,storeID);
      	if((typeof terminals === "undefined") || terminals.length==0) {
@@ -148,55 +247,109 @@ var Company = couchDoc.extend(
 		};	 
      }
     });
+
+function checkValidateCompany(newCompany_w_options) {
+	var results = [];
+	//TODO:checkvalidate
+	if(_.isEmpty(newCompany_w_options.user)) {results = results.concat({fieldname:"user", isInvalid:true, errMsg:"EMPTY"});}
+	else{if(!checkLength(newCompany_w_options.user,1,8)){results= results.concat({fieldname:"user", isInvalid:true, errMsg:"Master User ID  length should be 1~8"});}}
+	if(_.isEmpty(newCompany_w_options.password)) { results = results.concat({fieldname:"password", isInvalid:true, errMsg:"EMPTY"});}
+	else{if(!checkLength(newCompany_w_options.password,1,8)){results = results.concat({fieldname:"password", isInvalid:true, errMsg:"Master User Password  length should be 1~8"});}}
+	if(_.isEmpty(newCompany_w_options.companyName)) {results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:"EMPTY"});}
+	if(_.isEmpty(newCompany_w_options.operationalname)) {results = results.concat({fieldname:"operationalname", isInvalid:true, errMsg:"EMPTY"});}
+	
+	var foundCompany = _.find(Companies.toJSON(), function(company){ return company.companyName==newCompany_w_options.companyName; });
+	//var foundCompany = Companies.find(function(company){ return company.companyName==newCompany_w_options.companyName; });
+	if(foundCompany) {
+		if(newCompany_w_options.isCreate) {
+			results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:"There's a same company name"});
+		} else {
+			//if(foundCompany.companyName!=newCompany_w_options.oldCompany.companyName) {
+			if(foundCompany._id!=newCompany_w_options.oldCompany.id) {
+				results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:"There's a same company name"});
+			}
+		}
+	}
+	return results;
+};
+
+
+
+
 function addCompany(collection){
     return {success: function(resp){
-		collection.create(resp);}};};
+						collection.create(resp);},
+			validator : function(resp) {	// resp has newCompanyData and isCreate
+							 return checkValidateCompany(resp);
+							}};};
+
 function editCompany(company){
     return {success:function(resp){
-		company.save(resp);}};};
+						company.save(resp);},
+			validator : function(resp) {	// resp has newCompanyData and isCreate
+							 _.extend(resp, {oldCompany:company});
+							 return checkValidateCompany(resp);
+							}};};
+
+
+
+
 function addGroup(model){
-    return {
-    		success		  : function(resp){
-								model.addGroup(resp);
-					 		},
-		    checkValidate : function(resp){
-		    				//TODO: check validate
-		    					var list = model.get('hierarchy').groups;
-								if((!resp.isCreate)) {
-									if(model.groupName==resp.newGroupName) {
-										return true;
-									} else {
-										if(!_.contains(_.pluck(list,'groupName'), resp.newGroupName)) {
-											return true;
-										} else {
-											return false;
-										}
-									}
-								} else {
-									if(!_.contains(_.pluck(list,'groupName'), resp.newGroupName)) {
-										return true;
-									} else {
-										return false;
-									}
-								}
-		    		 		}				 
-			};
-};   
+    return {success: function(resp){
+						model.addGroup(resp);
+					 },
+			validator : function(resp) {	// resp has newGroupData and isCreate
+						 return model.checkValidateGroup(resp);
+						}
+			};};   
 function editGroup(model, groupID){
     return {success:function(resp){
-		model.editGroup(resp,groupID);}};};
+						model.editGroup(resp,groupID);},
+			validator : function(resp) {	// resp has newGroupData and isCreate and groupID
+						 _.extend(resp, {groupID:groupID});
+						 return model.checkValidateGroup(resp);
+						}};};
+
+
+
+function addStore(model,groupID){
+    return {
+		success: function(resp){
+				model.addStore(groupID,resp);},
+		validator : function(resp) {
+				_.extend(resp, {groupID:groupID});
+				return model.checkValidateStore(resp);
+			}
+			};};
+			
 function editStore(model,groupID,storeID){
     return {success:function(resp){
-		model.editStore(groupID,storeID,resp);}};};
-function editTerminal(model,groupID,storeID,terminalID){
-    return {success:function(resp){
-		model.editTerminal(groupID,storeID,terminalID,resp);}};};
-function addStore(model,group){
-    return {success: function(resp){
-		model.addStore(group,resp);}};};                   
-function addTerminal(model,group,storeName){
-    return {success: function(resp){
-		model.addTerminal(group,storeName,resp);}};};
+				model.editStore(groupID,storeID,resp);},
+			validator : function(resp) {
+				_.extend(resp, {groupID:groupID, storeID:storeID});
+				return model.checkValidateStore(resp);
+			}
+			};};
+
+
+function addTerminal(model,groupID,storeID){
+    return {validator : function(resp) {
+							_.extend(resp, {groupID:groupID, storeID:storeID});
+							return model.checkValidateTerminal(resp);
+						},
+			success: function(resp){
+						model.addTerminal(groupID,storeID,resp);}};};
+
+function editTerminal(companyID,groupID,storeID,terminalID){
+    return {validator : function(resp) {
+				_.extend(resp, {groupID:groupID, storeID:storeID, terminalID:terminalID});
+				var model = Companies.getModelById(companyID);
+				return model.checkValidateTerminal(resp);
+			},
+			success:function(resp){
+						var company = Companies.getModelById(companyID);
+						company.editTerminal(groupID,storeID,terminalID,resp);}};};
+                  
 
 function quickView(template,companyID,groupID,storeID,terminalID){
     var company = Companies.getModelById(companyID);
@@ -215,6 +368,16 @@ function quickView(template,companyID,groupID,storeID,terminalID){
 	for_TMP = {company:companyJSON};
     }
    quickViewDialog(ich[template](for_TMP));
+}
+
+//TODO: actually install the terminal to the terminal DB.
+function installTerminal(companyID,groupID,storeID,terminalID){
+    if(_.isEmpty(companyID)||_.isEmpty(groupID)||_.isEmpty(storeID)||_.isEmpty(terminalID)){
+	alert("could not install the terminal");
+    }
+    else{
+	alert("The terminal has been installed");
+    }
 }
 
 function doc_setup(){
@@ -283,7 +446,7 @@ function doc_setup(){
 		 $("#create-dialog")
 		     .html(ich.companyInputDialog_TMP(
 			       {title:"Make a new Company",
-				company:{address:{},contact:{}}}));
+					company:{address:{},contact:{}}}));
 		 CompanyCreateDialog("create-thing",addCompany(Companies));
 	     },
 	     modifyCompany:function(id){
@@ -302,7 +465,7 @@ function doc_setup(){
 		     .html(ich.groupInputDialog_TMP(
 			       {title:"Make a new Group",
 				group:{address:{},contact:{}}}));
-		 GroupCreateDialog("create-thing", addGroup(model));
+		 GroupCreateDialog("create-thing", _.extend(addGroup(model),{company:model} ));
 	     },
 	     modifyGroup:function(companyID, groupID){
 		 console.log("modifyGroup: " + companyID + " " + groupID);
@@ -324,9 +487,8 @@ function doc_setup(){
 		     .html(ich.storeInputDialog_TMP(
 			   {title:"Make a new Store",
 			    store:{address:{}, contact:{}}}));
-	     StoreCreateDialog("create-thing", addStore(model,groupID));
+		 StoreCreateDialog("create-thing", _.extend(addStore(model,groupID),{company:model, groupID:groupID} ));
 	     },
-	     
 	     modifyStore:function(companyID, groupID, storeID){
 		 console.log("modifyStore: " + companyID + " " + groupID + " " + storeID);
 
@@ -349,7 +511,7 @@ function doc_setup(){
 		 $("#create-dialog")
 		     .html(ich.terminalInputDialog_TMP(
 			       {title:"Make a new Terminal",terminal:{}}));
-		 TerminalCreateDialog("create-thing", addTerminal(model,groupID,storeID));
+		 TerminalCreateDialog("create-thing",addTerminal(model,groupID,storeID));
 	     },
 	     modifyTerminal:function(companyID, groupID, storeID,terminalID){
 		 console.log("modifyterminal: " + companyID + " " + groupID + " " + storeID + " " + terminalID);
@@ -380,6 +542,8 @@ function doc_setup(){
 		 {list:_.map(companies,
 			     function(company)
 			     { var companyClone = _.clone(company);
+			       var date = new Date(companyClone.creationdate);
+			       _.extend(companyClone,{creationdate:date.toDateString()});
 			       var companyStats = view.collection.get(company._id).companyStats();
 			       var quickViewArgs = {template:"modify_company_page_TMP",
 						   company_id:company._id};
@@ -432,6 +596,8 @@ function doc_setup(){
 		 {list:_.map(groups,
 			     function(group)
 			     { var groupClone = _.clone(group);
+			       var date = new Date(groupClone.creationdate);
+			       _.extend(groupClone,{creationdate:date.toDateString()});
 			       var companyStats = view.model.companyStats(group.group_id);
 			       var quickViewArgs = {template:"modify_group_page_TMP",
 						   company_id:companyID,
@@ -454,7 +620,7 @@ function doc_setup(){
 							       breadCrumb(companyID,groupID))));
          $('fieldset').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.groupInputDialog_TMP({title:"Edit the Group",group:selectedgroup}));
-	     GroupModifyDialog("edit-thing",editGroup(model,groupID));
+	     GroupModifyDialog("edit-thing",_.extend(editGroup(model,groupID), {company:model, groupName:selectedgroup.groupName}));
 	     console.log("renderModifyPage groupsView");
 	     return this;
 	 },
@@ -490,6 +656,8 @@ function doc_setup(){
 		 {list:_.map(stores,
 			     function(store){
 				 var storeClone = _.clone(store);
+				 var date = new Date(storeClone.creationdate);
+				 _.extend(storeClone,{creationdate:date.toDateString()});
 				 var companyStats = view.model.companyStats(groupID,store.store_id);
 				 var quickViewArgs = {template:"modify_store_page_TMP",
 						      company_id:companyID, 
@@ -518,7 +686,7 @@ function doc_setup(){
 	     $('body').html(html);
 	     $('fieldset').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.storeInputDialog_TMP({title:"Edit the store",store:storeToEdit}));
-	     StoreModifyDialog("edit-thing",editStore(model,groupID,storeID));
+	     StoreModifyDialog("edit-thing",_.extend(editStore(model,groupID,storeID),{company:model, groupID:groupID, storeNum:storeToEdit.number }));
 	     console.log("renderModifyPage stores view rendered " + companyID+""+groupID+" "+storeID);
 	     return view;
 	     
@@ -551,6 +719,8 @@ function doc_setup(){
 	     var forTMP = {list:_.map(view.model.getTerminals(groupID,storeID),
 				      function(terminal){
 					  var clonedTerminal = _.clone(terminal);
+					  var date = new Date(clonedTerminal.creationdate);
+					  _.extend(clonedTerminal,{creationdate:date.toDateString()});
 					  var quickViewArgs = {template:"modify_terminal_page_TMP",
 							       company_id:companyID, 
 							       group_id:groupID, 
@@ -564,20 +734,18 @@ function doc_setup(){
 	 },
 	 renderModifyPage:function(companyID,groupID,storeID,terminalID){
 	     var view = this;
-	     var model = Companies.getModelById(companyID);
-	     var terminalToEdit = model.getTerminal(groupID,storeID,terminalID);
-	     var group = model.getGroup(groupID);
-	     var store = model.getStore(groupID,storeID);
+	     var company = Companies.getModelById(companyID);
+	     var terminalToEdit = company.getTerminal(groupID,storeID,terminalID);
 	     var html = ich.modify_terminal_page_TMP(
-		 _.extend({operationalname: model.get('operationalname'),
-			   groupName:group.groupName,
-			   storeName: store.storeName,
-			   terminalName:terminalToEdit.id,
-			   terminal:terminalToEdit},
-			  breadCrumb(companyID,groupID,storeID,terminalID)));
+		 _.extend({terminal:terminalToEdit},
+			  breadCrumb(companyID,groupID,storeID,terminalID),
+			 {terminal_id:terminalID,
+			  store_id:storeID,
+			  group_id:groupID,
+			  company_id:companyID}));
 	     $('body').html(html);
 	     $("#dialog-hook").html(ich.terminalInputDialog_TMP({title:"Edit the Terminal",terminal:terminalToEdit}));
-	     TerminalModifyDialog("edit-thing", editTerminal(model,groupID,storeID,terminalID));
+	     TerminalModifyDialog("edit-thing",editTerminal(companyID,groupID,storeID,terminalID));
 	     console.log("renderModifyPage terminals view rendered");
 	     return view;	     
 	 }
