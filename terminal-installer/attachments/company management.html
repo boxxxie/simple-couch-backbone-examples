@@ -14,6 +14,7 @@
     <script language="javascript" type="text/javascript" src="dialogs.js"></script>
     
     <script language="javascript" type="text/javascript" src="lib/underscore.js"></script>
+    <script language="javascript" type="text/javascript" src="lib/underscore_extended.js"></script>
     <script language="javascript" type="text/javascript" src="lib/backbone.js"></script>
     <script language="javascript" type="text/javascript" src="lib/mustache.js"></script>
     <script language="javascript" type="text/javascript" src="lib/ICanHaz.js"></script>
@@ -317,9 +318,9 @@
       {{#store}}
       <form>
 	<fieldset>
-	  <label for="store-name">Store name</label>
+	  <label for="store-name">Store Name</label>
 	  <input type="text" id="store-name" value="{{storeName}}" class="text ui-widget-content ui-corner-all" />
-	  <label for="store-num">Store num</label>
+	  <label for="store-num">Store Number</label>
 	  <input type="text" id="store-num" value="{{number}}" class="text ui-widget-content ui-corner-all" />
 	  {{>userpass_P}}
 	  {{>addressFields_P}}
