@@ -21,7 +21,7 @@ var Company = couchDoc.extend(
 	 _.extend(groupToMod,group);
 	 this.save();
      },
-     validateGroup : function (newGroup_w_options,groupID) {
+     validateGroup : function (newGroup_w_options) {
 	 //TODO:check validation and return array of results ex : [{fieldname : "group-name", isInvalid:true, errMsg:"this will be shown in tips" }]
 	 var results = [];
 	 var oldHierarchy = this.get('hierarchy');
@@ -107,9 +107,10 @@ var Company = couchDoc.extend(
      deleteStore:function(groupID,storeID) {
      	 var terminals = this.getTerminals(groupID,storeID);
      	 if((typeof terminals === "undefined") || terminals.length==0) {
-	     var stores = this.getStores(gorupID);
-	     var newStores = _.reject(stores, function(store) {return store.store_id==storeID;});
-	     stores = newStores;
+     	     var groupToDelTo = this.getGroup(groupID);
+	     //var stores = this.getStores(groupID);
+	     var newStores = _.reject(groupToDelTo.stores, function(store) {return store.store_id==storeID;});
+	     groupToDelTo.stores = newStores;
 	     this.save();
 	     console.log("delete completed");
      	 } else {
