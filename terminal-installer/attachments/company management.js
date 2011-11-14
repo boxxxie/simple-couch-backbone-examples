@@ -68,7 +68,7 @@ function deleteCompany(collection, companyID) {
     if(groups.length==0) {
 	//TODO : doesn't work, needs to be checked 
 	collection.remove(model);
-	model.destory(); // model doesn't have destory()
+	model.destroy(); // A "url" property or function must be specified or conflict
     } else {
 	alert("can't delete. this company has group(s).");
     }
@@ -119,10 +119,10 @@ function addTerminal(companyID,groupID,storeID){
     var company = Companies.getModelById(companyID);
     return {validator : function(resp) {
 		_.extend(resp, {groupID:groupID, storeID:storeID});
-		return model.validateTerminal(resp);
+		return company.validateTerminal(resp);
 	    },
 	    success: function(resp){
-		model.addTerminal(groupID,storeID,resp);}};};
+		company.addTerminal(groupID,storeID,resp);}};};
 function editTerminal(companyID,groupID,storeID,terminalID){
     var company = Companies.getModelById(companyID);
     return {

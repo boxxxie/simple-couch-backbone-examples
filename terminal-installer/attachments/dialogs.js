@@ -10,16 +10,12 @@ function PostValidator(allFields, results) {
 		 if(!foundInvalidField) {
 			 return true;		 
 		 } else {
-//FIXME: in modify page, when you edit name to another already existed name, 
-//       err class is in modify page not in dialog page
 			 d.find("#"+foundInvalidField.fieldname).addClass( "ui-state-error" );
 			 tips.text(foundInvalidField.errMsg).addClass( "ui-state-highlight" );
 			 setTimeout(function() {tips.removeClass( "ui-state-highlight", 1500 );}, 500 );
 			 return false;
 		 }
 	 } else {
-//FIXME: in modify page, when you edit name to another already existed name, 
-//       err class is in modify page not in dialog page	 	
 		 _.each(foundEmptyFields, 
 		 function(field){
 		  d.find("#"+field.fieldname).addClass( "ui-state-error" );
@@ -111,7 +107,7 @@ function CompanyInputDialog (attachTo,options) {
 				    }
 				 },
 				 buttons: {			 
-				     Submit : function() {
+				     "Submit" : function() {
 				       	 var bValid = true;
 				       	 
 				 var newCompanyData = {user:user.val(),
@@ -200,6 +196,22 @@ function GroupInputDialog (attachTo,options) {
 	 height: 900,
 	 width: 500,
 	 modal: true,
+	 open: function() {
+		if(options.isCreate){
+			var company = options.company.toJSON();
+			street0.val(company.address.street0);
+			street1.val(company.address.street1);
+			city.val(company.address.city);
+			province.val(company.address.province);
+			country.val(company.address.country);
+			postalcode.val(company.address.postalcode);
+			firstname.val(company.contact.firstname);
+			lastname.val(company.contact.lastname);
+			website.val(company.contact.website);
+			email.val(company.contact.email);
+			phone.val(company.contact.phone);
+		}			 	
+	 },
 	 close: function() {
 	     if(options.clearOnExit) {
 		 allFields.val("").removeClass( "ui-state-error" );
