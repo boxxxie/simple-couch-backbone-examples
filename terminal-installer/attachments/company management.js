@@ -1,4 +1,5 @@
 var install_db = db('install');
+var Companies;
 
 function guidGenerator() {
     var S4 = function() {
@@ -24,9 +25,6 @@ function checkRegexp(str, regexp) {
 	return true;
     }
 };
-
-var Companies;
-
 
 function validateCompany(newCompany_w_options) {
 	var results = [];
