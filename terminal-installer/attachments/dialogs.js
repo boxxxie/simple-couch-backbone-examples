@@ -9,12 +9,16 @@ function PostValidator(allFields, results) {
 		 if(!foundInvalidField) {
 			 return true;		 
 		 } else {
+//FIXME: in modify page, when you edit name to another already existed name, 
+//       err class is in modify page not in dialog page
 			 $("#"+foundInvalidField.fieldname).addClass( "ui-state-error" );
 			 tips.text(foundInvalidField.errMsg).addClass( "ui-state-highlight" );
 			 setTimeout(function() {tips.removeClass( "ui-state-highlight", 1500 );}, 500 );
 			 return false;
 		 }
 	 } else {
+//FIXME: in modify page, when you edit name to another already existed name, 
+//       err class is in modify page not in dialog page	 	
 		 _.each(foundEmptyFields, 
 		 function(field){
 		  $("#"+field.fieldname).addClass( "ui-state-error" );
@@ -44,7 +48,6 @@ function StoreCreateDialog (attachTo,options){
     StoreInputDialog(attachTo,options);
 };
 function StoreModifyDialog (attachTo,options){
-	_.extend(options,{isCreate:false});
     StoreInputDialog(attachTo,options);
 };
 function TerminalCreateDialog (attachTo,options){
@@ -393,38 +396,32 @@ function TerminalInputDialog (attachTo,options) {
 	 buttons: {
 	     "Submit": function() {
 		 var bValid = true;
-		 var unfilledRequiredFields=checkRequiredFields(requiredFields);
-		 requiredFields.removeClass( "ui-state-error" );
 		 
-		 if ( bValid && unfilledRequiredFields) {
+		 var newTerminalData = {
+		     terminal_label:label.val(),
+		     areaCode:areaCode.val(),
+		     postalCode:postalCode.val(),
+		     countryCode:countryCode.val(),
+		     cityCode:cityCode.val(),
+		     storeCode:storeCode.val(),
+		     companyCode:companyCode.val()
+		 };
 
-		     var newTerminalData = {
-			 terminal_label:label.val(),
-			 areaCode:areaCode.val(),
-			 postalCode:postalCode.val(),
-			 countryCode:countryCode.val(),
-			 cityCode:cityCode.val(),
-			 storeCode:storeCode.val(),
-			 companyCode:companyCode.val()
-		     };
-
-		     var newTerminalData_w_options = _.clone(newTerminalData);
-		     if(options.isCreate) {
-			 _.extend(newTerminalData, {creationdate:new Date(), installed:false});
-			 _.extend(newTerminalData_w_options, {isCreate:options.isCreate});
-		     }
-
-		     var results = options.validator(newTerminalData_w_options);
-		     bValid = PostValidator(allFields, results);
-
-		     if ( bValid) {
-			 options.success(newTerminalData);
-			 allFields.val("").removeClass( "ui-state-error" );
-			 allFields.filter("input:checked").attr("checked",false);
-			 $(this).dialog("close");
-		     } 
-
+		 var newTerminalData_w_options = _.clone(newTerminalData);
+		 if(options.isCreate) {
+		     _.extend(newTerminalData, {creationdate:new Date(), installed:false});
+		     _.extend(newTerminalData_w_options, {isCreate:options.isCreate});
 		 }
+
+		 var results = options.validator(newTerminalData_w_options);
+		 bValid = PostValidator(allFields, results);
+
+		 if ( bValid) {
+		     options.success(newTerminalData);
+		     allFields.val("").removeClass( "ui-state-error" );
+		     allFields.filter("input:checked").attr("checked",false);
+		     $(this).dialog("close");
+		 } 	 
 	     },
 	     Cancel: function() {
 		 $(this).dialog("close");}}});

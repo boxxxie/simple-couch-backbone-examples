@@ -30,7 +30,7 @@ function addCompany(collection){
     return {success: function(resp){
 		collection.create(resp);},
 	    validator : function(resp) {	// resp has newCompanyData and isCreate
-		return checkValidateCompany(resp);
+		return validateCompany(resp);
 	    }};};
 
 function editCompany(company){
@@ -38,7 +38,7 @@ function editCompany(company){
 		company.save(resp);},
 	    validator : function(resp) {	// resp has newCompanyData and isCreate
 		_.extend(resp, {oldCompany:company});
-		return checkValidateCompany(resp);
+		return validateCompany(resp);
 	    }};};
 
 function deleteCompany(collection, companyID) {
@@ -47,12 +47,11 @@ function deleteCompany(collection, companyID) {
 		if(groups.length==0) {
 			//FIXME:doesn't work'
 			collection.remove(model);
-			model.destory();
-			
+			model.destory();	
 		} else {
 			console.log("can't delete. this company has group(s).");
 		}
-		
+	
 }
 
 function addGroup(model){
@@ -87,7 +86,7 @@ function editGroup(model, groupID){
 		model.editGroup(resp,groupID);},
 	    validator : function(resp) {	// resp has newGroupData and isCreate and groupID
 		_.extend(resp, {groupID:groupID});
-		return model.checkValidateGroup(resp);
+		return model.validateGroup(resp);
 	    }};};
 
 function deleteGroup(model, groupID) {
@@ -100,7 +99,7 @@ function addStore(model,groupID){
 	    model.addStore(groupID,resp);},
 	validator : function(resp) {
 	    _.extend(resp, {groupID:groupID});
-	    return model.checkValidateStore(resp);
+	    return model.validateStore(resp);
 	}
     };};
 
@@ -109,27 +108,27 @@ function editStore(model,groupID,storeID){
 		model.editStore(groupID,storeID,resp);},
 	    validator : function(resp) {
 		_.extend(resp, {groupID:groupID, storeID:storeID});
-		return model.checkValidateStore(resp);}};};
+		return model.validateStore(resp);}};};
 
 function addStore(model,group){
     return {success: function(resp){
 		model.addStore(group,resp);},             
 	    validator : function(resp) {
 		_.extend(resp, {groupID:groupID, storeID:storeID});
-		return model.checkValidateStore(resp);}};};
+		return model.validateStore(resp);}};};
 
 function deleteStore(model, groupID, storeID) {
 	return model.deleteStore(groupID,storeID);
 }
 
 function addTerminal(companyID,groupID,storeID){
+    var company = Companies.getModelById(companyID);
     return {validator : function(resp) {
 		_.extend(resp, {groupID:groupID, storeID:storeID});
-		var company = Companies.getModelById(companyID);
 		return company.validateTerminal(resp);
 	    },
 	    success: function(resp){
-		model.addTerminal(groupID,storeID,resp);}};};
+		company.addTerminal(groupID,storeID,resp);}};};
 
 function editTerminal(companyID,groupID,storeID,terminalID){
     return {validator : function(resp) {
@@ -141,15 +140,13 @@ function editTerminal(companyID,groupID,storeID,terminalID){
 		var company = Companies.getModelById(companyID);
 		company.editTerminal(groupID,storeID,terminalID,resp);}};};
                   
-//TODO : delte company or group or store
+// delete company or group or store
 function deleteThing(companyID,groupID,storeID) {
 	var model = Companies.getModelById(companyID);
 	if(!_.isEmpty(storeID)) {
-		//TODO : delete store, after checking if there's terminal in this store
 		deleteStore(model,groupID, storeID);
 		console.log("deleteThing : " + companyID + ", " + groupID + ", " + storeID);
 	} else if(!_.isEmpty(groupID)) {
-		//TODO : delete group, after checking if there's store in this group
 		deleteGroup(model,groupID);
 		console.log("deleteThing : " + companyID + ", " + groupID);
 	} else if(!_.isEmpty(companyID)) {
@@ -205,7 +202,7 @@ function installTerminal(companyID,groupID,storeID,terminalID){
 		       creationDate:terminal.creationdate};
 
     if(terminal.installed){
-	alert("The terminal is already installed");
+	alert("The terminal has been installed already");
 	return;	
     }
 
@@ -213,7 +210,7 @@ function installTerminal(companyID,groupID,storeID,terminalID){
     var db = "terminals_rt7";
     var Terminal = couchDoc.extend({urlRoot:urlBase + db});
     var terminalToInstall = new Terminal(installInfo);
-    terminalToInstall.save({},{success:function(){alert("The terminal has been installed already");}});
+    terminalToInstall.save({},{success:function(){alert("The terminal has been installed successfully");}});
     terminal.installed = true;
     company.save();
     

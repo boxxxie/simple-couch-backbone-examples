@@ -78,7 +78,7 @@ var Company = couchDoc.extend(
 	 _.extend(storeToMod,store);
 	 this.save();
      },
-     checkValidateStore : function (newStore_w_options) {
+     validateStore : function (newStore_w_options) {
 	 //TODO:check validation and return array of results ex : [{fieldname : "group-name", isInvalid:true, errMsg:"this will be shown in tips" }]
 	 var results = [];
 	 var stores = this.getStores(newStore_w_options.groupID);
