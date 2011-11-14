@@ -552,6 +552,7 @@ function doc_setup(){
 			   group_id:groupID,
 			   company_id:companyID}));
 	     $('body').html(html);
+	     $('fieldset').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.terminalInputDialog_TMP({title:"Edit the Terminal",terminal:terminalToEdit}));
 	     TerminalModifyDialog("edit-thing",editTerminal(companyID,groupID,storeID,terminalID));
 	     console.log("renderModifyPage terminals view rendered");
