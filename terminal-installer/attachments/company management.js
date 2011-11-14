@@ -242,9 +242,6 @@ function doc_setup(){
 	new (couchCollection(
 		 {db:'install'},
 		 {model:Company,
-		  getModelByName : function(modelName){
-		      return this.find(function(model){return model.get('_id') == modelName;});
-		  },
 		  getModelById : function(modelId){
 		      return this.find(function(model){return model.get('_id') == modelId;});
 		  },
@@ -282,7 +279,7 @@ function doc_setup(){
 	     },
 	     groupsManager:function(companyID){
 		 console.log("groupsManager: " + companyID);
-		 var model = Companies.getModelByName(companyID);
+		 var model = Companies.getModelById(companyID);
 		 model.unbind('change');
 		 var company = model.toJSON();
 		 var html = ich.group_management_page_TMP(_.extend({createButtonLabel:"New Group",
@@ -397,7 +394,7 @@ function doc_setup(){
 	     return this;
 	 },
 	 updateModel:function(){
-	     this.model = this.collection.getModelByName(Selection.get('company'));
+	     this.model = this.collection.getModelById(Selection.get('company'));
 	     this.trigger("change:model");
 	 }
 	});
@@ -455,7 +452,7 @@ function doc_setup(){
 	     return this;
 	 },
 	 updateModel:function(){
-	     this.model = this.collection.getModelByName(Selection.get('company'));
+	     this.model = this.collection.getModelById(Selection.get('company'));
 	     this.trigger("change:model");
 	 }
 	 
@@ -532,7 +529,7 @@ function doc_setup(){
 	     _.bindAll(view, 'renderManagementPage','renderModifyPage'); 
 	     AppRouter.bind('route:terminalsManager',function(companyID,groupID,storeID){
 				console.log('terminalsView:route:terminalsManager');
-				view.model = Companies.getModelByName(companyID);
+				view.model = Companies.getModelById(companyID);
 				view.model.bind('add:terminal',function(){view.renderManagementPage(companyID,groupID,storeID);});
 				view.el =_.first($("#list-things"));
 				view.renderManagementPage(companyID,groupID,storeID);});
