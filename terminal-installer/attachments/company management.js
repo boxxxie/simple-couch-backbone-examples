@@ -1,5 +1,3 @@
-var install_db = db('install');
-
 function guidGenerator() {
     var S4 = function() {
 	return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
@@ -156,31 +154,32 @@ function editCompany(company){
 		company.save(resp);}};};
 function addGroup(model){
     return {
-    		success		  : function(resp){
-								model.addGroup(resp);
-					 		},
-		    checkValidate : function(resp){
-		    				//TODO: check validate
-		    					var list = model.get('hierarchy').groups;
-								if((!resp.isCreate)) {
-									if(model.groupName==resp.newGroupName) {
-										return true;
-									} else {
-										if(!_.contains(_.pluck(list,'groupName'), resp.newGroupName)) {
-											return true;
-										} else {
-											return false;
-										}
-									}
-								} else {
-									if(!_.contains(_.pluck(list,'groupName'), resp.newGroupName)) {
-										return true;
-									} else {
-										return false;
-									}
-								}
-		    		 		}				 
-			};
+    	success		  : function(resp){
+	    model.addGroup(resp);
+	},
+	//FIXME, put this in it's own area of code so it can be reused. change name to 'validator' or something simpler
+	checkValidate : function(resp){
+	    //TODO: check validate
+	    var list = model.get('hierarchy').groups;
+	    if((!resp.isCreate)) {
+		if(model.groupName==resp.newGroupName) {
+		    return true;
+		} else {
+		    if(!_.contains(_.pluck(list,'groupName'), resp.newGroupName)) {
+			return true;
+		    } else {
+			return false;
+		    }
+		}
+	    } else {
+		if(!_.contains(_.pluck(list,'groupName'), resp.newGroupName)) {
+		    return true;
+		} else {
+		    return false;
+		}
+	    }
+	}				 
+    };
 };   
 function editGroup(model, groupID){
     return {success:function(resp){
@@ -219,14 +218,45 @@ function quickView(template,companyID,groupID,storeID,terminalID){
    quickViewDialog(ich[template](for_TMP));
 }
 
-//TODO: actually install the terminal to the terminal DB.
 function installTerminal(companyID,groupID,storeID,terminalID){
+    //all of the IDs have to exist for the terminal to be installed. we'll trust that they are correct for now
     if(_.isEmpty(companyID)||_.isEmpty(groupID)||_.isEmpty(storeID)||_.isEmpty(terminalID)){
 	alert("could not install the terminal");
+	return;
     }
-    else{
-	alert("The terminal has been installed");
+    var company = Companies.getModelById(companyID);
+    var group = company.getGroup(groupID);
+    var store = company.getStore(groupID,storeID);
+    var terminal = company.getTerminal(groupID,storeID,terminalID);
+    //last check to make sure we have all of the data we need.
+    if(!company || !group || !store || !terminal){
+	alert("The terminal could not be installed");
+	return;
     }
+    var installInfo = {terminal_id:terminal.terminal_id,
+			    terminal_label:terminal.terminal_label,
+			    store_id:store.store_id,
+			    store_label:store.storeName,
+			    group_id:group.group_id,
+			    group_label:group.groupName,
+			    company_id:company.get('_id'),
+			    company_label:company.get('operationalname'),
+		       location:_.selectKeys(terminal,["postalCode","areaCode","storeCode","companyCode","cityCode","countryCode"]),
+		       creationDate:terminal.creationdate};
+
+    if(terminal.installed){
+	alert("The terminal is already installed");
+	return;	
+    }
+
+    var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
+    var db = "terminals_rt7";
+    var Terminal = couchDoc.extend({urlRoot:urlBase + db});
+    var terminalToInstall = new Terminal(installInfo);
+    terminalToInstall.save({},{success:function(){alert("The terminal has been installed already");}});
+    terminal.installed = true;
+    company.save();
+    
 }
 
 function doc_setup(){
@@ -334,12 +364,10 @@ function doc_setup(){
 		 $('body').html(html);
 		 $("#create-dialog")
 		     .html(ich.storeInputDialog_TMP(
-			   {title:"Make a new Store",
-			    store:{address:{}, contact:{}}}));
-		 StoreCreateDialog("create-thing", _.extend(addStore(model,groupID),{company:model, groupID:groupID} ));
-=======
-	     StoreCreateDialog("create-thing", addStore(model,groupID));
->>>>>>> d7b9b96624f2be38229f6828e92c9986c7837721
+			       {title:"Make a new Store",
+				store:{address:{}, contact:{}}}));
+		 StoreCreateDialog("create-thing", addStore(model,groupID));
+
 	     },
 	     modifyStore:function(companyID, groupID, storeID){
 		 console.log("modifyStore: " + companyID + " " + groupID + " " + storeID);
@@ -597,11 +625,7 @@ function doc_setup(){
 			  company_id:companyID}));
 	     $('body').html(html);
 	     $("#dialog-hook").html(ich.terminalInputDialog_TMP({title:"Edit the Terminal",terminal:terminalToEdit}));
-<<<<<<< HEAD
 	     TerminalModifyDialog("edit-thing",editTerminal(companyID,groupID,storeID,terminalID));
-=======
-	     TerminalModifyDialog("edit-thing", editTerminal(model,groupID,storeID,terminalID));
->>>>>>> d7b9b96624f2be38229f6828e92c9986c7837721
 	     console.log("renderModifyPage terminals view rendered");
 	     return view;	     
 	 }

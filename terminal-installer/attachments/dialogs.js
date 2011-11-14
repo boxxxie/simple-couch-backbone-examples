@@ -16,39 +16,6 @@ function DialogValidator(){
 		return true;
 	    }
 	},
-	//checkUniqueInList: function(options, isCreate, originid ,newid, list, listname, fieldname, updateTips) {
-	checkValidateId: function (options, newGroupName, strForTip, updateTips) {
-		 var isValid = options.checkValidate({
-					 							newGroupName : newGroupName,
-					 							isCreate : options.isCreate
-					 						});
-		console.log("valid : " + isValid);
-	/*	 
-		if((!isCreate)) {
-			if(originid==newid.val()) {
-				return true;
-			} else {
-				
-				if(!_.contains(_.pluck(list,fieldname), newid.val())) {
-					return true;
-				} else {
-					newid.addClass( "ui-state-error" );
-					updateTips("There's a same ID(Name) in " + listname);
-					return false;
-				}
-			}
-		} else {
-			if(!_.contains(_.pluck(list,fieldname), newid.val())) {
-				return true;
-			} else {
-				newid.addClass( "ui-state-error" );
-				updateTips("There's a same ID(Name) in " + listname);
-				return false;
-			}
-		}
-	*/
-
-	},
 	checkRegexp:function( o, regexp, n , updateTips) {
 	    if(_.isEmpty(o.val()))return true; //accept empty strings
 	    if ( !( regexp.test( o.val() ) ) ) {
@@ -367,14 +334,6 @@ function TerminalInputDialog (attachTo,options) {
 		 var bValid = true;
 		 var unfilledRequiredFields=checkRequiredFields(requiredFields);
 		 requiredFields.removeClass( "ui-state-error" );
-		 bValid = bValid && checkLength( id, "The Terminal ID", 1, 8, updateTips(tips) );
-		 
-		 var model = options.model;
-	 	 //var groups = model.get('hierarchy').groups;
-	 	 var terminals = model.getTerminals(options.groupID, options.storeID);
-	 	 
-	 	 bValid = bValid && checkUniqueInList(options.isCreate, options.terminalID ,
-		 							id, terminals, "Terminal", "id", updateTips(tips));
 		 
 		 if ( bValid && unfilledRequiredFields) {
 		     options.success(
