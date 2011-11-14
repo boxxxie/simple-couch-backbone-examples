@@ -92,7 +92,7 @@ function editGroup(companyID, groupID){
 	    }};};
 function deleteGroup(companyID, groupID) {
     var company = Companies.getModelById(companyID);
-    return model.deleteGroup(groupID);
+    return company.deleteGroup(groupID);
 }
 function addStore(companyID,groupID){
     var company = Companies.getModelById(companyID);
@@ -113,7 +113,7 @@ function editStore(companyID,groupID,storeID){
 	    }};};
 function deleteStore(companyID, groupID, storeID) {
     var company = Companies.getModelById(companyID);
-    return model.deleteStore(groupID,storeID);
+    return company.deleteStore(groupID,storeID);
 }
 function addTerminal(companyID,groupID,storeID){
     var company = Companies.getModelById(companyID);
@@ -137,10 +137,10 @@ function editTerminal(companyID,groupID,storeID,terminalID){
 function deleteThing(companyID,groupID,storeID) {
     var model = Companies.getModelById(companyID);
     if(!_.isEmpty(storeID)) {
-	deleteStore(model,groupID, storeID);
+	deleteStore(companyID,groupID, storeID);
 	console.log("deleteThing : " + companyID + ", " + groupID + ", " + storeID);
     } else if(!_.isEmpty(groupID)) {
-	deleteGroup(model,groupID);
+	deleteGroup(companyID,groupID);
 	console.log("deleteThing : " + companyID + ", " + groupID);
     } else if(!_.isEmpty(companyID)) {
 	console.log("deleteThing : " + companyID);
