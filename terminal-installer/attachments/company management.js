@@ -9,20 +9,20 @@ function guidGenerator() {
 
 
 function checkLength( str, min, max) {
-	    if ( str.length > max || str.length < min ) {
-		return false;
-	    } else {
-		return true;
-	    }
+    if ( str.length > max || str.length < min ) {
+	return false;
+    } else {
+	return true;
+    }
 }
 
 function checkRegexp(str, regexp) {
-	    if(_.isEmpty(str)) return true; //accept empty strings
-	    if ( !( regexp.test(str) ) ) {
-		return false;
-	    } else {
-		return true;
-	    }
+    if(_.isEmpty(str)) return true; //accept empty strings
+    if ( !( regexp.test(str) ) ) {
+	return false;
+    } else {
+	return true;
+    }
 }
 
 
@@ -48,8 +48,8 @@ function validateCompany(newCompany_w_options) {
 				results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:"There's a same company name"});
 			}
 		}
-	}
-	return results;
+    }
+    return results;
 };
 
 
@@ -71,15 +71,15 @@ function editCompany(company){
 							}};};
 
 function deleteCompany(collection, companyID) {
-		var model = collection.getModelById(companyID);
-		var groups = model.get('hierarchy').groups;;
-		if(groups.length==0) {
-//TODO : doesn't work, needs to be checked : conflict error
-			collection.remove(model);
-			model.destory();
-		} else {
-			console.log("can't delete. this company has group(s).");
-		}
+    var model = collection.getModelById(companyID);
+    var groups = model.get('hierarchy').groups;;
+    if(groups.length==0) {
+	//TODO : doesn't work, needs to be checked : conflict error
+	collection.remove(model);
+	model.destory();
+    } else {
+	console.log("can't delete. this company has group(s).");
+    }
 }
 
 
@@ -100,7 +100,7 @@ function editGroup(model, groupID){
 						 return model.validateGroup(resp);
 						}};};
 function deleteGroup(model, groupID) {
-	return model.deleteGroup(groupID);
+    return model.deleteGroup(groupID);
 }
 
 
@@ -123,7 +123,7 @@ function editStore(model,groupID,storeID){
 			}
 			};};
 function deleteStore(model, groupID, storeID) {
-	return model.deleteStore(groupID,storeID);
+    return model.deleteStore(groupID,storeID);
 }
 
 function addTerminal(model,groupID,storeID){
@@ -146,17 +146,17 @@ function editTerminal(companyID,groupID,storeID,terminalID){
                   
 // delete company or group or store
 function deleteThing(companyID,groupID,storeID) {
-	var model = Companies.getModelById(companyID);
-	if(!_.isEmpty(storeID)) {
-		deleteStore(model,groupID, storeID);
-		console.log("deleteThing : " + companyID + ", " + groupID + ", " + storeID);
-	} else if(!_.isEmpty(groupID)) {
-		deleteGroup(model,groupID);
-		console.log("deleteThing : " + companyID + ", " + groupID)
-	} else if(!_.isEmpty(companyID)) {
-		console.log("deleteThing : " + companyID)
-		deleteCompany(Companies, companyID);		
-	}
+    var model = Companies.getModelById(companyID);
+    if(!_.isEmpty(storeID)) {
+	deleteStore(model,groupID, storeID);
+	console.log("deleteThing : " + companyID + ", " + groupID + ", " + storeID);
+    } else if(!_.isEmpty(groupID)) {
+	deleteGroup(model,groupID);
+	console.log("deleteThing : " + companyID + ", " + groupID);
+    } else if(!_.isEmpty(companyID)) {
+	console.log("deleteThing : " + companyID);
+	deleteCompany(Companies, companyID);		
+    }
 }
 
 function quickView(template,companyID,groupID,storeID,terminalID){
@@ -175,7 +175,7 @@ function quickView(template,companyID,groupID,storeID,terminalID){
     } else{
 	for_TMP = {company:companyJSON};
     }
-   quickViewDialog(ich[template](for_TMP));
+    quickViewDialog(ich[template](for_TMP));
 }
 
 //TODO: actually install the terminal to the terminal DB.
@@ -254,7 +254,7 @@ function doc_setup(){
 		 $("#create-dialog")
 		     .html(ich.companyInputDialog_TMP(
 			       {title:"Make a new Company",
-					company:{address:{},contact:{}}}));
+				company:{address:{},contact:{}}}));
 		 CompanyCreateDialog("create-thing",addCompany(Companies));
 	     },
 	     modifyCompany:function(id){
@@ -293,8 +293,8 @@ function doc_setup(){
 		 $('body').html(html);
 		 $("#create-dialog")
 		     .html(ich.storeInputDialog_TMP(
-			   {title:"Make a new Store",
-			    store:{address:{}, contact:{}}}));
+			       {title:"Make a new Store",
+				store:{address:{}, contact:{}}}));
 		 StoreCreateDialog("create-thing", _.extend(addStore(model,groupID),{company:model, groupID:groupID} ));
 	     },
 	     modifyStore:function(companyID, groupID, storeID){
@@ -354,7 +354,7 @@ function doc_setup(){
 			       _.extend(companyClone,{creationdate:date.toDateString()});
 			       var companyStats = view.collection.get(company._id).companyStats();
 			       var quickViewArgs = {template:"modify_company_page_TMP",
-						   company_id:company._id};
+						    company_id:company._id};
 			       return _.extend(companyClone,companyStats,quickViewArgs);})};
 	     var html = ich.companiesTabel_TMP(forTMP_w_stats);
 	     $(this.el).html(html);
@@ -408,8 +408,8 @@ function doc_setup(){
 			       _.extend(groupClone,{creationdate:date.toDateString()});
 			       var companyStats = view.model.companyStats(group.group_id);
 			       var quickViewArgs = {template:"modify_group_page_TMP",
-						   company_id:companyID,
-						   group_id:group.group_id};
+						    company_id:companyID,
+						    group_id:group.group_id};
 			       return _.extend(groupClone,companyStats,quickViewArgs);})};
 	     var html = ich.groupsTabel_TMP(forTMP);
 	     $(this.el).html(html);
@@ -426,7 +426,7 @@ function doc_setup(){
 								operationalname:model.get("operationalname"),
 								group:selectedgroup},
 							       breadCrumb(companyID,groupID))));
-         $('fieldset').find('input').attr("disabled",true);
+             $('fieldset').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.groupInputDialog_TMP({title:"Edit the Group",group:selectedgroup}));
 	     GroupModifyDialog("edit-thing",_.extend(editGroup(model,groupID), {company:model, groupName:selectedgroup.groupName}));
 	     console.log("renderModifyPage groupsView");
@@ -547,10 +547,10 @@ function doc_setup(){
 	     var html = ich.modify_terminal_page_TMP(
 		 _.extend({terminal:terminalToEdit},
 			  breadCrumb(companyID,groupID,storeID,terminalID),
-			 {terminal_id:terminalID,
-			  store_id:storeID,
-			  group_id:groupID,
-			  company_id:companyID}));
+			  {terminal_id:terminalID,
+			   store_id:storeID,
+			   group_id:groupID,
+			   company_id:companyID}));
 	     $('body').html(html);
 	     $("#dialog-hook").html(ich.terminalInputDialog_TMP({title:"Edit the Terminal",terminal:terminalToEdit}));
 	     TerminalModifyDialog("edit-thing",editTerminal(companyID,groupID,storeID,terminalID));
