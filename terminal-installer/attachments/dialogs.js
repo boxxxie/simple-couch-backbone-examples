@@ -1,11 +1,5 @@
 
 function PostValidator(allFields, results) {
-	 //var foundInvalidFields = _.filter(results, function(result){ return result.isInvalid == true; });
-	 //$("#"+field.fieldname).addClass( "ui-state-error" );
-	// _.each(allFields, 
-	//	 function(field){
-	//	  field.removeClass( "ui-state-error" );
-	//	  });
 	allFields.removeClass("ui-state-error");
 	 var tips = $( ".validateTips" );
 	 tips.text("");
@@ -15,7 +9,6 @@ function PostValidator(allFields, results) {
 		 if(!foundInvalidField) {
 			 return true;		 
 		 } else {
-			 //var tips = $( ".validateTips" );
 			 $("#"+foundInvalidField.fieldname).addClass( "ui-state-error" );
 			 tips.text(foundInvalidField.errMsg).addClass( "ui-state-highlight" );
 			 setTimeout(function() {tips.removeClass( "ui-state-highlight", 1500 );}, 500 );
@@ -67,7 +60,6 @@ function TerminalModifyDialog (attachTo,options){
 function CompanyInputDialog (attachTo,options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
-    //_.extend(this,DialogValidator());
     var d = $("#dialog-form");
     var user = d.find("#user"),
     password = d.find("#password"),
@@ -87,12 +79,6 @@ function CompanyInputDialog (attachTo,options) {
     operationalname = d.find("#operationalname"),
 
     
-   // requiredFields = $([])
-	//.add(user)
-	//.add(companyName)
-	//.add(operationalname)
-	//.add(password),
-    
     allFields = $([])
     	.add(user)
 	.add(companyName)
@@ -111,8 +97,6 @@ function CompanyInputDialog (attachTo,options) {
 	.add(operationalname)
 	.add(password);
 
-    //var tips = $( ".validateTips" );
-    
     $("#dialog-form").dialog({
 				 autoOpen: false,
 				 height: 900,
@@ -143,7 +127,6 @@ function CompanyInputDialog (attachTo,options) {
 								       province:province.val(),
 								       postalcode:postalcode.val()},
 							      operationalname:operationalname.val(),
-							      //creationdate:new Date(),					
 							      companyName:companyName.val()};
 					 var newCompanyData_w_options = _.clone(newCompanyData);
 					 if(options.isCreate) {
@@ -160,9 +143,6 @@ function CompanyInputDialog (attachTo,options) {
 					     allFields.val("").removeClass("ui-state-error");
 					     $(this).dialog("close");
 					 } 
-					 //else if(bValid && !unfilledRequiredFields) {
-					 //    handleMissingFields(requiredFields,updateTips(tips));
-					 //}		
 				     },	
 				     Cancel: function() {
 					 $(this).dialog("close");
@@ -213,7 +193,6 @@ function GroupInputDialog (attachTo,options) {
 	.add(postalcode)
 	.add(password);
     
-    //var tips = $( ".validateTips" );
     var dialogOptions = _.extend(
 	{autoOpen: false,
 	 height: 900,
@@ -339,7 +318,6 @@ function StoreInputDialog (attachTo,options) {
 							  country:country.val(),
 							  province:province.val(),
 							  postalcode:postalcode.val()},
-						 //creationdate:new Date(),
 						 storeName:storeName.val(),
 						 number:storeNum.val()   
 					     };
@@ -381,7 +359,6 @@ function TerminalInputDialog (attachTo,options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
     var d = $("#dialog-form");
- //   _.extend(this,DialogValidator());
     var label = d.find("#terminal-id"),
     areaCode = d.find("#areaCode"),
     postalCode = d.find("#postalCode"),
@@ -389,9 +366,6 @@ function TerminalInputDialog (attachTo,options) {
     cityCode = d.find("#cityCode"),
     storeCode = d.find("#storeCode"),
     companyCode = d.find("#companyCode"),
-    
- //   requiredFields = $([])
-//	.add(label),
 
     allFields = $([])
 	.add(label)
@@ -418,8 +392,6 @@ function TerminalInputDialog (attachTo,options) {
 	 buttons: {
 	     "Submit": function() {
 		 var bValid = true;
-		 //var unfilledRequiredFields=checkRequiredFields(requiredFields);
-		 //requiredFields.removeClass( "ui-state-error" );
 		 var newTerminalData = {
 			     terminal_label:label.val(),
 			     //creationdate:new Date(),
@@ -447,9 +419,6 @@ function TerminalInputDialog (attachTo,options) {
 		     allFields.filter("input:checked").attr("checked",false);
 		     $(this).dialog("close");
 		 } 
-		 //else if(bValid && !unfilledRequiredFields) {
-		 //    handleMissingFields(requiredFields,updateTips(tips));			 
-		 //}
 	     },
 	     Cancel: function() {
 		 $(this).dialog("close");
