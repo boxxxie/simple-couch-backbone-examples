@@ -53,6 +53,7 @@ var Company = couchDoc.extend(
 	     var newHierarchy = {groups : newGroups};
 	     this.set({hierarchy:newHierarchy});
 	     this.save();
+	     this.trigger("delete:group"); //triggers go last
 	     console.log("delete completed");
      	 } else {
      	     alert("Can't delete group, group has store(s)");
@@ -112,6 +113,7 @@ var Company = couchDoc.extend(
 	     var newStores = _.reject(groupToDelTo.stores, function(store) {return store.store_id==storeID;});
 	     groupToDelTo.stores = newStores;
 	     this.save();
+	     this.trigger("delete:store"); //triggers go last
 	     console.log("delete completed");
      	 } else {
      	     alert("Can't delete store, store has terminal(s)");
