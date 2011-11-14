@@ -29,6 +29,7 @@ function PostValidator(allFields, results) {
 	 }
 	 
 };
+
 function CompanyCreateDialog (attachTo,options){
     _.extend(options,{clearOnExit:true, isCreate:true});
     CompanyInputDialog(attachTo,options);
@@ -78,7 +79,7 @@ function CompanyInputDialog (attachTo,options) {
     postalcode = d.find("#address\\.postalcode"),
     operationalname = d.find("#operationalname"),
 
-   
+    
     allFields = $([])
     	.add(user)
 	.add(companyName)
@@ -143,7 +144,6 @@ function CompanyInputDialog (attachTo,options) {
 					     allFields.val("").removeClass("ui-state-error");
 					     $(this).dialog("close");
 					 } 
-	
 				     },	
 				     Cancel: function() {
 					 $(this).dialog("close");
@@ -223,7 +223,7 @@ function GroupInputDialog (attachTo,options) {
 					       country:country.val(),
 					       province:province.val(),
 					       postalcode:postalcode.val()},
-				      groupName:groupName.val()
+				      groupName:groupName.val(),
 				      };
 		 var newGroupData_w_options = _.clone(newGroupData);
 
@@ -234,7 +234,7 @@ function GroupInputDialog (attachTo,options) {
 
 
 		 var results = options.validator(newGroupData_w_options);
-		 bValid = PostValidator(allFields, results);
+		 var bValid = PostValidator(allFields, results);
 
 		 if(bValid) {
 			 options.success(newGroupData);
@@ -330,7 +330,7 @@ function StoreInputDialog (attachTo,options) {
 			}
 
 			var results = options.validator(newStoreData_w_options);
-			bValid = PostValidator(allFields, results);
+			var bValid = PostValidator(allFields, results);
 
 			 if ( bValid) {
 			     options.success(newStoreData);
@@ -367,9 +367,6 @@ function TerminalInputDialog (attachTo,options) {
     cityCode = d.find("#cityCode"),
     storeCode = d.find("#storeCode"),
     companyCode = d.find("#companyCode"),
-    
-    requiredFields = $([])
-	.add(label),
 
     allFields = $([])
 	.add(label)
@@ -396,21 +393,22 @@ function TerminalInputDialog (attachTo,options) {
 	 buttons: {
 	     "Submit": function() {
 		 var bValid = true;
-		 
 		 var newTerminalData = {
-		     terminal_label:label.val(),
-		     areaCode:areaCode.val(),
-		     postalCode:postalCode.val(),
-		     countryCode:countryCode.val(),
-		     cityCode:cityCode.val(),
-		     storeCode:storeCode.val(),
-		     companyCode:companyCode.val()
-		 };
+			     terminal_label:label.val(),
+			     //creationdate:new Date(),
+			     //installed:false,
+			     areaCode:areaCode.val(),
+			     postalCode:postalCode.val(),
+			     countryCode:countryCode.val(),
+			     cityCode:cityCode.val(),
+			     storeCode:storeCode.val(),
+			     companyCode:companyCode.val()
+			 };
 
-		 var newTerminalData_w_options = _.clone(newTerminalData);
+		var newTerminalData_w_options = _.clone(newTerminalData);
 		 if(options.isCreate) {
-		     _.extend(newTerminalData, {creationdate:new Date(), installed:false});
-		     _.extend(newTerminalData_w_options, {isCreate:options.isCreate});
+			_.extend(newTerminalData, {creationdate:new Date(), installed:false});
+			_.extend(newTerminalData_w_options, {isCreate:options.isCreate});
 		 }
 
 		 var results = options.validator(newTerminalData_w_options);
@@ -421,10 +419,13 @@ function TerminalInputDialog (attachTo,options) {
 		     allFields.val("").removeClass( "ui-state-error" );
 		     allFields.filter("input:checked").attr("checked",false);
 		     $(this).dialog("close");
-		 } 	 
+		 } 
 	     },
 	     Cancel: function() {
-		 $(this).dialog("close");}}});
+		 $(this).dialog("close");
+	     }
+	 }
+	});
 
     $("#"+attachTo).button().click(function() {
 				       d.dialog("open");
