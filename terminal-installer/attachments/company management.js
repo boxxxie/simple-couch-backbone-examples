@@ -280,14 +280,12 @@ function deleteCompany(collection, companyID) {
 		var model = collection.getModelById(companyID);
 		var groups = model.get('hierarchy').groups;;
 		if(groups.length==0) {
-			//TODO:doesn't work'
+//TODO : doesn't work, needs to be checked : conflict error
 			collection.remove(model);
 			model.destory();
-			
 		} else {
 			console.log("can't delete. this company has group(s).");
 		}
-		
 }
 
 
@@ -352,15 +350,13 @@ function editTerminal(companyID,groupID,storeID,terminalID){
 						var company = Companies.getModelById(companyID);
 						company.editTerminal(groupID,storeID,terminalID,resp);}};};
                   
-//TODO : delte company or group or store
+// delete company or group or store
 function deleteThing(companyID,groupID,storeID) {
 	var model = Companies.getModelById(companyID);
 	if(!_.isEmpty(storeID)) {
-		//TODO : delete store, after checking if there's terminal in this store
 		deleteStore(model,groupID, storeID);
 		console.log("deleteThing : " + companyID + ", " + groupID + ", " + storeID);
 	} else if(!_.isEmpty(groupID)) {
-		//TODO : delete group, after checking if there's store in this group
 		deleteGroup(model,groupID);
 		console.log("deleteThing : " + companyID + ", " + groupID)
 	} else if(!_.isEmpty(companyID)) {

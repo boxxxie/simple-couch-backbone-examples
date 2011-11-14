@@ -9,12 +9,16 @@ function PostValidator(allFields, results) {
 		 if(!foundInvalidField) {
 			 return true;		 
 		 } else {
+//FIXME: in modify page, when you edit name to another already existed name, 
+//       err class is in modify page not in dialog page
 			 $("#"+foundInvalidField.fieldname).addClass( "ui-state-error" );
 			 tips.text(foundInvalidField.errMsg).addClass( "ui-state-highlight" );
 			 setTimeout(function() {tips.removeClass( "ui-state-highlight", 1500 );}, 500 );
 			 return false;
 		 }
 	 } else {
+//FIXME: in modify page, when you edit name to another already existed name, 
+//       err class is in modify page not in dialog page	 	
 		 _.each(foundEmptyFields, 
 		 function(field){
 		  $("#"+field.fieldname).addClass( "ui-state-error" );
@@ -38,8 +42,6 @@ function GroupCreateDialog (attachTo,options){
     GroupInputDialog(attachTo,options);
 };
 function GroupModifyDialog (attachTo,options){
-	//options.isCreate, options.groupName
-	_.extend(options,{isCreate:false});
     GroupInputDialog(attachTo,options);
 };
 function StoreCreateDialog (attachTo,options){
@@ -47,7 +49,6 @@ function StoreCreateDialog (attachTo,options){
     StoreInputDialog(attachTo,options);
 };
 function StoreModifyDialog (attachTo,options){
-	_.extend(options,{isCreate:false});
     StoreInputDialog(attachTo,options);
 };
 function TerminalCreateDialog (attachTo,options){
