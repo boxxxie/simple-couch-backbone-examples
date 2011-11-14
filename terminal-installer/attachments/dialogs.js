@@ -9,7 +9,6 @@ function PostValidator(allFields, results) {
 		 if(!foundInvalidField) {
 			 return true;		 
 		 } else {
-			 //var tips = $( ".validateTips" );
 			 $("#"+foundInvalidField.fieldname).addClass( "ui-state-error" );
 			 tips.text(foundInvalidField.errMsg).addClass( "ui-state-highlight" );
 			 setTimeout(function() {tips.removeClass( "ui-state-highlight", 1500 );}, 500 );
@@ -95,8 +94,6 @@ function CompanyInputDialog (attachTo,options) {
 	.add(operationalname)
 	.add(password);
 
-    //var tips = $( ".validateTips" );
-    
     $("#dialog-form").dialog({
 				 autoOpen: false,
 				 height: 900,
@@ -127,7 +124,6 @@ function CompanyInputDialog (attachTo,options) {
 								       province:province.val(),
 								       postalcode:postalcode.val()},
 							      operationalname:operationalname.val(),
-							      //creationdate:new Date(),					
 							      companyName:companyName.val()};
 					 var newCompanyData_w_options = _.clone(newCompanyData);
 					 if(options.isCreate) {
@@ -195,7 +191,6 @@ function GroupInputDialog (attachTo,options) {
 	.add(postalcode)
 	.add(password);
     
-    //var tips = $( ".validateTips" );
     var dialogOptions = _.extend(
 	{autoOpen: false,
 	 height: 900,
@@ -321,7 +316,6 @@ function StoreInputDialog (attachTo,options) {
 							  country:country.val(),
 							  province:province.val(),
 							  postalcode:postalcode.val()},
-						 //creationdate:new Date(),
 						 storeName:storeName.val(),
 						 number:storeNum.val()   
 					     };
@@ -404,38 +398,36 @@ function TerminalInputDialog (attachTo,options) {
 		 
 		 if ( bValid && unfilledRequiredFields) {
 
-		 var newTerminalData = {
-			     terminal_label:label.val(),
-			     areaCode:areaCode.val(),
-			     postalCode:postalCode.val(),
-			     countryCode:countryCode.val(),
-			     cityCode:cityCode.val(),
-			     storeCode:storeCode.val(),
-			     companyCode:companyCode.val()
-			 };
+		     var newTerminalData = {
+			 terminal_label:label.val(),
+			 areaCode:areaCode.val(),
+			 postalCode:postalCode.val(),
+			 countryCode:countryCode.val(),
+			 cityCode:cityCode.val(),
+			 storeCode:storeCode.val(),
+			 companyCode:companyCode.val()
+		     };
 
-		var newTerminalData_w_options = _.clone(newTerminalData);
-		 if(options.isCreate) {
-			_.extend(newTerminalData, {creationdate:new Date(), installed:false});
-			_.extend(newTerminalData_w_options, {isCreate:options.isCreate});
+		     var newTerminalData_w_options = _.clone(newTerminalData);
+		     if(options.isCreate) {
+			 _.extend(newTerminalData, {creationdate:new Date(), installed:false});
+			 _.extend(newTerminalData_w_options, {isCreate:options.isCreate});
+		     }
+
+		     var results = options.validator(newTerminalData_w_options);
+		     bValid = PostValidator(allFields, results);
+
+		     if ( bValid) {
+			 options.success(newTerminalData);
+			 allFields.val("").removeClass( "ui-state-error" );
+			 allFields.filter("input:checked").attr("checked",false);
+			 $(this).dialog("close");
+		     } 
+
 		 }
-
-		 var results = options.validator(newTerminalData_w_options);
-		 bValid = PostValidator(allFields, results);
-
-		 if ( bValid) {
-		     options.success(newTerminalData);
-		     allFields.val("").removeClass( "ui-state-error" );
-		     allFields.filter("input:checked").attr("checked",false);
-		     $(this).dialog("close");
-		 } 
-
-	     }
+	     },
 	     Cancel: function() {
-		 $(this).dialog("close");
-	     }
-	 }
-	}});
+		 $(this).dialog("close");}}});
 
     $("#"+attachTo).button().click(function() {
 				       d.dialog("open");

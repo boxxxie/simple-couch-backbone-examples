@@ -41,6 +41,20 @@ function editCompany(company){
 		return checkValidateCompany(resp);
 	    }};};
 
+function deleteCompany(collection, companyID) {
+		var model = collection.getModelById(companyID);
+		var groups = model.get('hierarchy').groups;;
+		if(groups.length==0) {
+			//FIXME:doesn't work'
+			collection.remove(model);
+			model.destory();
+			
+		} else {
+			console.log("can't delete. this company has group(s).");
+		}
+		
+}
+
 function addGroup(model){
     return {
     	success		  : function(resp){
@@ -76,7 +90,9 @@ function editGroup(model, groupID){
 		return model.checkValidateGroup(resp);
 	    }};};
 
-
+function deleteGroup(model, groupID) {
+	return model.deleteGroup(groupID);
+}
 
 function addStore(model,groupID){
     return {
@@ -90,10 +106,21 @@ function addStore(model,groupID){
 
 function editStore(model,groupID,storeID){
     return {success:function(resp){
-		model.editStore(groupID,storeID,resp);}};};
+		model.editStore(groupID,storeID,resp);},
+	    validator : function(resp) {
+		_.extend(resp, {groupID:groupID, storeID:storeID});
+		return model.checkValidateStore(resp);}};};
+
 function addStore(model,group){
     return {success: function(resp){
-		model.addStore(group,resp);}};};                   
+		model.addStore(group,resp);},             
+	    validator : function(resp) {
+		_.extend(resp, {groupID:groupID, storeID:storeID});
+		return model.checkValidateStore(resp);}};};
+
+function deleteStore(model, groupID, storeID) {
+	return model.deleteStore(groupID,storeID);
+}
 
 function addTerminal(companyID,groupID,storeID){
     return {validator : function(resp) {
@@ -113,6 +140,24 @@ function editTerminal(companyID,groupID,storeID,terminalID){
 	    success:function(resp){
 		var company = Companies.getModelById(companyID);
 		company.editTerminal(groupID,storeID,terminalID,resp);}};};
+                  
+//TODO : delte company or group or store
+function deleteThing(companyID,groupID,storeID) {
+	var model = Companies.getModelById(companyID);
+	if(!_.isEmpty(storeID)) {
+		//TODO : delete store, after checking if there's terminal in this store
+		deleteStore(model,groupID, storeID);
+		console.log("deleteThing : " + companyID + ", " + groupID + ", " + storeID);
+	} else if(!_.isEmpty(groupID)) {
+		//TODO : delete group, after checking if there's store in this group
+		deleteGroup(model,groupID);
+		console.log("deleteThing : " + companyID + ", " + groupID);
+	} else if(!_.isEmpty(companyID)) {
+		console.log("deleteThing : " + companyID);
+		deleteCompany(Companies, companyID);		
+	}
+}
+
 
 function quickView(template,companyID,groupID,storeID,terminalID){
     var company = Companies.getModelById(companyID);
