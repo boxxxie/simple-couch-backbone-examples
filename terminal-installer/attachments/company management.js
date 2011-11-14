@@ -68,9 +68,9 @@ function deleteCompany(collection, companyID) {
     var model = collection.getModelById(companyID);
     var groups = model.get('hierarchy').groups;;
     if(groups.length==0) {
-	//TODO : doesn't work, needs to be checked : conflict error
+	//TODO : doesn't work, needs to be checked 
 	collection.remove(model);
-	//model.destory(); // model doesn't have destory()
+	model.destory(); // model doesn't have destory()
     } else {
 	alert("can't delete. this company has group(s).");
     }
