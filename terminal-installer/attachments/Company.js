@@ -21,7 +21,7 @@ var Company = couchDoc.extend(
 	 _.extend(groupToMod,group);
 	 this.save();
      },
-     validateGroup : function (newGroup_w_options) {
+     validateGroup : function (newGroup_w_options,groupID) {
 	 //TODO:check validation and return array of results ex : [{fieldname : "group-name", isInvalid:true, errMsg:"this will be shown in tips" }]
 	 var results = [];
 	 var oldHierarchy = this.get('hierarchy');
