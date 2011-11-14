@@ -70,9 +70,9 @@ function deleteCompany(collection, companyID) {
     if(groups.length==0) {
 	//TODO : doesn't work, needs to be checked : conflict error
 	collection.remove(model);
-	model.destory();
+	//model.destory(); // model doesn't have destory()
     } else {
-	console.log("can't delete. this company has group(s).");
+	alert("can't delete. this company has group(s).");
     }
 }
 
@@ -355,6 +355,7 @@ function doc_setup(){
 	     _.bindAll(view, 'renderManagementPage','renderModifyPage'); 
 	     this.collection.bind('reset',view.renderManagementPage);
 	     this.collection.bind('add',view.renderManagementPage);
+	     this.collection.bind('remove', view.renderManagementPage);
 	     AppRouter.bind('route:companyManagementHome', function(){
 				console.log('companiesView:route:companyManagementHome');
 				view.el =_.first($("#list-things"));
@@ -411,6 +412,7 @@ function doc_setup(){
 				console.log('groupsView:route:groupsManager');
 				view.model = Companies.getModelById(companyID);
 				view.model.bind('add:group',function(){view.renderManagementPage(companyID);});
+				view.model.bind('delete:group',function(){view.renderManagementPage(companyID);});
 				view.el =_.first($("#list-things"));
 				view.renderManagementPage(companyID);});
 	     AppRouter.bind('route:modifyGroup', function(companyID,groupID){
@@ -471,6 +473,7 @@ function doc_setup(){
 				console.log('storeView:route:storesManager : ' + companyID + " " + groupID);
 				view.model = Companies.getModelById(companyID);
 				view.model.bind('add:store',function(){view.renderManagementPage(companyID, groupID);});
+				view.model.bind('delete:store',function(){view.renderManagementPage(companyID, groupID);});
 				view.el =_.first($("#list-things"));
 				view.renderManagementPage(companyID, groupID);});
 	     AppRouter.bind('route:modifyStore', function(companyID,groupID,storeID){
