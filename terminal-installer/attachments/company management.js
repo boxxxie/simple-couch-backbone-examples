@@ -27,43 +27,41 @@ function checkRegexp(str, regexp) {
 };
 
 function validateCompany(newCompany_w_options) {
-	var results = [];
-	//TODO:checkvalidate
-	if(_.isEmpty(newCompany_w_options.user)) {results = results.concat({fieldname:"user", isInvalid:true, errMsg:"EMPTY"});}
-	else{if(!checkLength(newCompany_w_options.user,1,8)){results= results.concat({fieldname:"user", isInvalid:true, errMsg:"Master User ID  length should be 1~8"});}}
-	if(_.isEmpty(newCompany_w_options.password)) { results = results.concat({fieldname:"password", isInvalid:true, errMsg:"EMPTY"});}
-	else{if(!checkLength(newCompany_w_options.password,1,8)){results = results.concat({fieldname:"password", isInvalid:true, errMsg:"Master User Password  length should be 1~8"});}}
-	if(_.isEmpty(newCompany_w_options.companyName)) {results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:"EMPTY"});}
-	if(_.isEmpty(newCompany_w_options.operationalname)) {results = results.concat({fieldname:"operationalname", isInvalid:true, errMsg:"EMPTY"});}
-	
-	var foundCompany = _.find(Companies.toJSON(), function(company){ return company.companyName==newCompany_w_options.companyName; });
-	if(foundCompany) {
-		if(newCompany_w_options.isCreate) {
-			results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:"There's a same company name"});
-		} else {
-			if(foundCompany._id!=newCompany_w_options.oldCompany.id) {
-				results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:"There's a same company name"});
-			}
-		}
+    var results = [];
+    //TODO:checkvalidate
+    if(_.isEmpty(newCompany_w_options.user)) {results = results.concat({fieldname:"user", isInvalid:true, errMsg:"EMPTY"});}
+    else{if(!checkLength(newCompany_w_options.user,1,8)){results= results.concat({fieldname:"user", isInvalid:true, errMsg:"Master User ID  length should be 1~8"});}}
+    if(_.isEmpty(newCompany_w_options.password)) { results = results.concat({fieldname:"password", isInvalid:true, errMsg:"EMPTY"});}
+    else{if(!checkLength(newCompany_w_options.password,1,8)){results = results.concat({fieldname:"password", isInvalid:true, errMsg:"Master User Password  length should be 1~8"});}}
+    if(_.isEmpty(newCompany_w_options.companyName)) {results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:"EMPTY"});}
+    if(_.isEmpty(newCompany_w_options.operationalname)) {results = results.concat({fieldname:"operationalname", isInvalid:true, errMsg:"EMPTY"});}
+    
+    var foundCompany = _.find(Companies.toJSON(), function(company){ return company.companyName==newCompany_w_options.companyName; });
+    if(foundCompany) {
+	if(newCompany_w_options.isCreate) {
+	    results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:"There's a same company name"});
+	} else {
+	    if(foundCompany._id!=newCompany_w_options.oldCompany.id) {
+		results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:"There's a same company name"});
+	    }
+	}
     }
     return results;
 };
 
 function addCompany(collection){
     return {success: function(resp){
-						collection.create(resp);},
-			validator : function(resp) {	// resp has newCompanyData and isCreate
-							 return validateCompany(resp);
-							}};};
-
+		collection.create(resp);},
+	    validator : function(resp) {	// resp has newCompanyData and isCreate
+		return validateCompany(resp);}
+};};
 function editCompany(company){
     return {success:function(resp){
-						company.save(resp);},
-			validator : function(resp) {	// resp has newCompanyData and isCreate
-							 _.extend(resp, {oldCompany:company});
-							 return validateCompany(resp);
-							}};};
-
+		company.save(resp);},
+	    validator : function(resp) {	// resp has newCompanyData and isCreate
+		_.extend(resp, {oldCompany:company});
+		return validateCompany(resp);}
+};};
 function deleteCompany(collection, companyID) {
     var model = collection.getModelById(companyID);
     var groups = model.get('hierarchy').groups;;
@@ -75,67 +73,66 @@ function deleteCompany(collection, companyID) {
 	alert("can't delete. this company has group(s).");
     }
 }
-
-function addGroup(model){
+function addGroup(companyID){
+    var company = Companies.getModelById(companyID);
     return {success: function(resp){
-						model.addGroup(resp);
-					 },
-			validator : function(resp) {	// resp has newGroupData and isCreate
-						 return model.validateGroup(resp);
-						}
-			};};   
-function editGroup(model, groupID){
+		company.addGroup(resp);
+	    },
+	    validator : function(resp) {	// resp has newGroupData and isCreate
+		return company.validateGroup(resp);
+	    }
+	   };};   
+function editGroup(companyID, groupID){
+    var company = Companies.getModelById(companyID);
     return {success:function(resp){
-						model.editGroup(resp,groupID);},
-			validator : function(resp) {	// resp has newGroupData and isCreate and groupID
-						 _.extend(resp, {groupID:groupID});
-						 return model.validateGroup(resp);
-						}};};
-function deleteGroup(model, groupID) {
+		company.editGroup(resp,groupID);},
+	    validator : function(resp) {	// resp has newGroupData and isCreate and groupID
+		_.extend(resp, {groupID:groupID});
+		return company.validateGroup(resp);
+	    }};};
+function deleteGroup(companyID, groupID) {
+    var company = Companies.getModelById(companyID);
     return model.deleteGroup(groupID);
 }
-
-
-function addStore(model,groupID){
+function addStore(companyID,groupID){
+    var company = Companies.getModelById(companyID);
     return {
-		success: function(resp){
-				model.addStore(groupID,resp);},
-		validator : function(resp) {
-				_.extend(resp, {groupID:groupID});
-				return model.validateStore(resp);
-			}
-			};};
-			
-function editStore(model,groupID,storeID){
+	success: function(resp){
+	    company.addStore(groupID,resp);},
+	validator : function(resp) {
+	    _.extend(resp, {groupID:groupID});
+	    return company.validateStore(resp);
+	}};};
+function editStore(companyID,groupID,storeID){
+    var company = Companies.getModelById(companyID);
     return {success:function(resp){
-				model.editStore(groupID,storeID,resp);},
-			validator : function(resp) {
-				_.extend(resp, {groupID:groupID, storeID:storeID});
-				return model.validateStore(resp);
-			}
-			};};
-function deleteStore(model, groupID, storeID) {
+		company.editStore(groupID,storeID,resp);},
+	    validator : function(resp) {
+		_.extend(resp, {groupID:groupID, storeID:storeID});
+		return company.validateStore(resp);
+	    }};};
+function deleteStore(companyID, groupID, storeID) {
+    var company = Companies.getModelById(companyID);
     return model.deleteStore(groupID,storeID);
 }
-
-function addTerminal(model,groupID,storeID){
+function addTerminal(companyID,groupID,storeID){
+    var company = Companies.getModelById(companyID);
     return {validator : function(resp) {
-							_.extend(resp, {groupID:groupID, storeID:storeID});
-							return model.validateTerminal(resp);
-						},
-			success: function(resp){
-						model.addTerminal(groupID,storeID,resp);}};};
-
+		_.extend(resp, {groupID:groupID, storeID:storeID});
+		return model.validateTerminal(resp);
+	    },
+	    success: function(resp){
+		model.addTerminal(groupID,storeID,resp);}};};
 function editTerminal(companyID,groupID,storeID,terminalID){
-	var company = Companies.getModelById(companyID);
+    var company = Companies.getModelById(companyID);
     return {
-    		validator : function(resp) {
-				_.extend(resp, {groupID:groupID, storeID:storeID, terminalID:terminalID});
-				return company.validateTerminal(resp);
-			},
-			success:function(resp){
-						company.editTerminal(groupID,storeID,terminalID,resp);}};};
-                  
+    	validator : function(resp) {
+	    _.extend(resp, {groupID:groupID, storeID:storeID, terminalID:terminalID});
+	    return company.validateTerminal(resp);
+	},
+	success:function(resp){
+	    company.editTerminal(groupID,storeID,terminalID,resp);}
+};};
 // delete company or group or store
 function deleteThing(companyID,groupID,storeID) {
     var model = Companies.getModelById(companyID);
@@ -245,9 +242,6 @@ function doc_setup(){
 	new (couchCollection(
 		 {db:'install'},
 		 {model:Company,
-		  getModelByName : function(modelName){
-		      return this.find(function(model){return model.get('_id') == modelName;});
-		  },
 		  getModelById : function(modelId){
 		      return this.find(function(model){return model.get('_id') == modelId;});
 		  },
@@ -285,7 +279,7 @@ function doc_setup(){
 	     },
 	     groupsManager:function(companyID){
 		 console.log("groupsManager: " + companyID);
-		 var model = Companies.getModelByName(companyID);
+		 var model = Companies.getModelById(companyID);
 		 model.unbind('change');
 		 var company = model.toJSON();
 		 var html = ich.group_management_page_TMP(_.extend({createButtonLabel:"New Group",
@@ -296,7 +290,7 @@ function doc_setup(){
 		     .html(ich.groupInputDialog_TMP(
 			       {title:"Make a new Group",
 				group:{address:{},contact:{}}}));
-		 GroupCreateDialog("create-thing", _.extend(addGroup(model),{company:model} ));
+		 GroupCreateDialog("create-thing", _.extend(addGroup(companyID),{company:model} ));
 	     },
 	     modifyGroup:function(companyID, groupID){
 		 console.log("modifyGroup: " + companyID + " " + groupID);
@@ -318,7 +312,7 @@ function doc_setup(){
 		     .html(ich.storeInputDialog_TMP(
 			       {title:"Make a new Store",
 				store:{address:{}, contact:{}}}));
-		 StoreCreateDialog("create-thing", _.extend(addStore(model,groupID),{company:model, groupID:groupID} ));
+		 StoreCreateDialog("create-thing", _.extend(addStore(companyID,groupID),{company:model, groupID:groupID} ));
 	     },
 	     modifyStore:function(companyID, groupID, storeID){
 		 console.log("modifyStore: " + companyID + " " + groupID + " " + storeID);
@@ -342,7 +336,7 @@ function doc_setup(){
 		 $("#create-dialog")
 		     .html(ich.terminalInputDialog_TMP(
 			       {title:"Make a new Terminal",terminal:{}}));
-		 TerminalCreateDialog("create-thing",addTerminal(model,groupID,storeID));
+		 TerminalCreateDialog("create-thing",addTerminal(companyID,groupID,storeID));
 	     },
 	     modifyTerminal:function(companyID, groupID, storeID,terminalID){
 		 console.log("modifyterminal: " + companyID + " " + groupID + " " + storeID + " " + terminalID);
@@ -400,7 +394,7 @@ function doc_setup(){
 	     return this;
 	 },
 	 updateModel:function(){
-	     this.model = this.collection.getModelByName(Selection.get('company'));
+	     this.model = this.collection.getModelById(Selection.get('company'));
 	     this.trigger("change:model");
 	 }
 	});
@@ -453,12 +447,12 @@ function doc_setup(){
 							       breadCrumb(companyID,groupID))));
              $('fieldset').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.groupInputDialog_TMP({title:"Edit the Group",group:selectedgroup}));
-	     GroupModifyDialog("edit-thing",_.extend(editGroup(model,groupID), {company:model, groupName:selectedgroup.groupName}));
+	     GroupModifyDialog("edit-thing",_.extend(editGroup(companyID,groupID), {company:model, groupName:selectedgroup.groupName}));
 	     console.log("renderModifyPage groupsView");
 	     return this;
 	 },
 	 updateModel:function(){
-	     this.model = this.collection.getModelByName(Selection.get('company'));
+	     this.model = this.collection.getModelById(Selection.get('company'));
 	     this.trigger("change:model");
 	 }
 	 
@@ -520,7 +514,7 @@ function doc_setup(){
 	     $('body').html(html);
 	     $('fieldset').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.storeInputDialog_TMP({title:"Edit the store",store:storeToEdit}));
-	     StoreModifyDialog("edit-thing",_.extend(editStore(model,groupID,storeID),{company:model, groupID:groupID, storeNum:storeToEdit.number }));
+	     StoreModifyDialog("edit-thing",_.extend(editStore(companyID,groupID,storeID),{company:model, groupID:groupID, storeNum:storeToEdit.number }));
 	     console.log("renderModifyPage stores view rendered " + companyID+""+groupID+" "+storeID);
 	     return view;
 	     
@@ -535,7 +529,7 @@ function doc_setup(){
 	     _.bindAll(view, 'renderManagementPage','renderModifyPage'); 
 	     AppRouter.bind('route:terminalsManager',function(companyID,groupID,storeID){
 				console.log('terminalsView:route:terminalsManager');
-				view.model = Companies.getModelByName(companyID);
+				view.model = Companies.getModelById(companyID);
 				view.model.bind('add:terminal',function(){view.renderManagementPage(companyID,groupID,storeID);});
 				view.el =_.first($("#list-things"));
 				view.renderManagementPage(companyID,groupID,storeID);});
