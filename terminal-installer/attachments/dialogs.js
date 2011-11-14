@@ -1,5 +1,6 @@
 
 function PostValidator(allFields, results) {
+	var d = $("#dialog-form");
 	allFields.removeClass("ui-state-error");
 	 var tips = $( ".validateTips" );
 	 tips.text("");
@@ -11,7 +12,8 @@ function PostValidator(allFields, results) {
 		 } else {
 //FIXME: in modify page, when you edit name to another already existed name, 
 //       err class is in modify page not in dialog page
-			 $("#"+foundInvalidField.fieldname).addClass( "ui-state-error" );
+			 //$("#"+foundInvalidField.fieldname).addClass( "ui-state-error" );
+			 d.find("#"+foundInvalidField.fieldname).addClass( "ui-state-error" );
 			 tips.text(foundInvalidField.errMsg).addClass( "ui-state-highlight" );
 			 setTimeout(function() {tips.removeClass( "ui-state-highlight", 1500 );}, 500 );
 			 return false;
@@ -21,7 +23,8 @@ function PostValidator(allFields, results) {
 //       err class is in modify page not in dialog page	 	
 		 _.each(foundEmptyFields, 
 		 function(field){
-		  $("#"+field.fieldname).addClass( "ui-state-error" );
+		  //$("#"+field.fieldname).addClass( "ui-state-error" );
+		  d.find("#"+foundInvalidField.fieldname).addClass( "ui-state-error" );
 		  tips.text("The highlighted fields are required!").addClass( "ui-state-highlight" );
 		  setTimeout(function() {tips.removeClass( "ui-state-highlight", 1500 );}, 500 );
 		  });
