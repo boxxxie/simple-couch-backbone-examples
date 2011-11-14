@@ -111,10 +111,7 @@ var Company = couchDoc.extend(
 	 checkValidateStore : function (newStore_w_options) {
 		//TODO:check validation and return array of results ex : [{fieldname : "group-name", isInvalid:true, errMsg:"this will be shown in tips" }]
 		var results = [];
-		//var oldHierarchy = this.get('hierarchy');
-		//var groups = oldHierarchy.groups;
 		var stores = this.getStores(newStore_w_options.groupID);
-		//if(typeof stores === "undefined") { stores = [];}
 		var foundStores = _.filter(stores, function(store){ return store.number==newStore_w_options.number; });
 
 		if(_.isEmpty(newStore_w_options.user)) {results = results.concat({fieldname:"user", isInvalid:true, errMsg:"EMPTY"});}
@@ -140,9 +137,10 @@ var Company = couchDoc.extend(
      deleteStore:function(groupID,storeID) {
      	var terminals = this.getTerminals(groupID,storeID);
      	if((typeof terminals === "undefined") || terminals.length==0) {
-	 		var stores = this.getStores(gorupID);
-	 		var newStores = _.reject(stores, function(store) {return store.store_id==storeID;});
-	 		stores = newStores;
+     		var groupToDelTo = this.getGroup(groupID);
+	 		//var stores = this.getStores(groupID);
+	 		var newStores = _.reject(groupToDelTo.stores, function(store) {return store.store_id==storeID;});
+	 		groupToDelTo.stores = newStores;
 			this.save();
 			console.log("delete completed");
      	} else {
@@ -171,21 +169,10 @@ var Company = couchDoc.extend(
 	 checkValidateTerminal : function (newTerminal_w_options) {
 		//TODO:check validation and return array of results ex : [{fieldname : "group-name", isInvalid:true, errMsg:"this will be shown in tips" }]
 		var results = [];
-		//var oldHierarchy = this.get('hierarchy');
-		//var groups = oldHierarchy.groups;
 		var terminals = this.getTerminals(newTerminal_w_options.groupID, newTerminal_w_options.storeID);
-		//if(typeof stores === "undefined") { stores = [];}
 		var foundTerminals = _.filter(terminals, function(terminal){ return terminal.terminal_label==newTerminal_w_options.terminal_label; });
 
 		if(_.isEmpty(newTerminal_w_options.terminal_label)) {results = results.concat({fieldname:"terminal-id", isInvalid:true, errMsg:"EMPTY"});}
-		//else{if(checkLength(newStore_w_options.user,1,8)){results= results.concat({fieldname:"user", isInvalid:true, errMsg:"Master User ID  length should be 1~8"});}}
-		//if(_.isEmpty(newStore_w_options.password)) { results = results.concat({fieldname:"password", isInvalid:true, errMsg:"EMPTY"});}
-		//else{if(checkLength(newStore_w_options.password,1,8)){results = results.concat({fieldname:"password", isInvalid:true, errMsg:"Master User Password  length should be 1~8"});}}
-		//if(_.isEmpty(newStore_w_options.number)) { results = results.concat({fieldname:"store-num", isInvalid:true, errMsg:"EMPTY"});}
-		//else{if(checkRegexp(newStore_w_options.number, /^([0-9])+$/i )){results = results.concat({fieldname:"sotre-number", isInvalid:true, errMsg:"Store Number should be number"});}}
-		//if(_.isEmpty(newStore_w_options.storeName)) {results = results.concat({fieldname:"store-name", isInvalid:true, errMsg:"EMPTY"});}
-
-		
 		
 		if((!newTerminal_w_options.isCreate)) {
 			if((foundTerminals.length>0) && !_.contains(_.pluck(foundTerminals, "terminal_id"),newTerminal_w_options.terminalID)) {
@@ -259,12 +246,10 @@ function checkValidateCompany(newCompany_w_options) {
 	if(_.isEmpty(newCompany_w_options.operationalname)) {results = results.concat({fieldname:"operationalname", isInvalid:true, errMsg:"EMPTY"});}
 	
 	var foundCompany = _.find(Companies.toJSON(), function(company){ return company.companyName==newCompany_w_options.companyName; });
-	//var foundCompany = Companies.find(function(company){ return company.companyName==newCompany_w_options.companyName; });
 	if(foundCompany) {
 		if(newCompany_w_options.isCreate) {
 			results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:"There's a same company name"});
 		} else {
-			//if(foundCompany.companyName!=newCompany_w_options.oldCompany.companyName) {
 			if(foundCompany._id!=newCompany_w_options.oldCompany.id) {
 				results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:"There's a same company name"});
 			}
@@ -291,6 +276,19 @@ function editCompany(company){
 							 return checkValidateCompany(resp);
 							}};};
 
+function deleteCompany(collection, companyID) {
+		var model = collection.getModelById(companyID);
+		var groups = model.get('hierarchy').groups;;
+		if(groups.length==0) {
+			//TODO:doesn't work'
+			collection.remove(model);
+			model.destory();
+			
+		} else {
+			console.log("can't delete. this company has group(s).");
+		}
+		
+}
 
 
 
@@ -309,7 +307,9 @@ function editGroup(model, groupID){
 						 _.extend(resp, {groupID:groupID});
 						 return model.checkValidateGroup(resp);
 						}};};
-
+function deleteGroup(model, groupID) {
+	return model.deleteGroup(groupID);
+}
 
 
 function addStore(model,groupID){
@@ -330,7 +330,9 @@ function editStore(model,groupID,storeID){
 				return model.checkValidateStore(resp);
 			}
 			};};
-
+function deleteStore(model, groupID, storeID) {
+	return model.deleteStore(groupID,storeID);
+}
 
 function addTerminal(model,groupID,storeID){
     return {validator : function(resp) {
@@ -350,6 +352,22 @@ function editTerminal(companyID,groupID,storeID,terminalID){
 						var company = Companies.getModelById(companyID);
 						company.editTerminal(groupID,storeID,terminalID,resp);}};};
                   
+//TODO : delte company or group or store
+function deleteThing(companyID,groupID,storeID) {
+	var model = Companies.getModelById(companyID);
+	if(!_.isEmpty(storeID)) {
+		//TODO : delete store, after checking if there's terminal in this store
+		deleteStore(model,groupID, storeID);
+		console.log("deleteThing : " + companyID + ", " + groupID + ", " + storeID);
+	} else if(!_.isEmpty(groupID)) {
+		//TODO : delete group, after checking if there's store in this group
+		deleteGroup(model,groupID);
+		console.log("deleteThing : " + companyID + ", " + groupID)
+	} else if(!_.isEmpty(companyID)) {
+		console.log("deleteThing : " + companyID)
+		deleteCompany(Companies, companyID);		
+	}
+}
 
 function quickView(template,companyID,groupID,storeID,terminalID){
     var company = Companies.getModelById(companyID);
