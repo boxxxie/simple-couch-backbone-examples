@@ -26,18 +26,23 @@ var Company = couchDoc.extend(
 	 var oldHierarchy = this.get('hierarchy');
 	 var groups = oldHierarchy.groups;
 	 var foundGroups = _.filter(groups, function(group){ return group.groupName==newGroup_w_options.groupName; });
-
-	 if(_.isEmpty(newGroup_w_options.user)) {results = results.concat({fieldname:"user", isInvalid:true, errMsg:"EMPTY"});}
+	 
+	 //validate user
+	 if(_.isEmpty(newGroup_w_options.user)) {results = results.concat({fieldname:"user", isInvalid:true, errMsg:"Master User ID  length should be 1~8"});}
 	 else{if(!checkLength(newGroup_w_options.user,1,8)){results= results.concat({fieldname:"user", isInvalid:true, errMsg:"Master User ID  length should be 1~8"});}}
-	 if(_.isEmpty(newGroup_w_options.password)) { results = results.concat({fieldname:"password", isInvalid:true, errMsg:"EMPTY"});}
+	 
+	 //validate pass
+	 if(_.isEmpty(newGroup_w_options.password)) { results = results.concat({fieldname:"password", isInvalid:true, errMsg:"Master User Password  length should be 1~8"});}
 	 else{if(!checkLength(newGroup_w_options.password,1,8)){results = results.concat({fieldname:"password", isInvalid:true, errMsg:"Master User Password  length should be 1~8"});}}
-	 if(_.isEmpty(newGroup_w_options.groupName)) {results = results.concat({fieldname:"group-name", isInvalid:true, errMsg:"EMPTY"});}
+	 
+	 //validate name
+	 if(_.isEmpty(newGroup_w_options.groupName)) {results = results.concat({fieldname:"group-name", isInvalid:true, errMsg:"The Group Name should be filled in"});}
 	 if((!newGroup_w_options.isCreate)) {
 	     if((foundGroups.length>0) && !_.contains(_.pluck(foundGroups, "group_id"),newGroup_w_options.groupID)) {
-		 results = results.concat({fieldname:"group-name", isInvalid:true, errMsg:"There's a same Group Name in this Company"});
+		 results = results.concat({fieldname:"group-name", isInvalid:true, errMsg:"A Group with this name already exists in this Company"});
 	     }
 	 } else {
-	     if(foundGroups.length>0) {results = results.concat({fieldname:"group-name", isInvalid:true, errMsg:"There's a same Group Name in this Company"});}
+	     if(foundGroups.length>0) {results = results.concat({fieldname:"group-name", isInvalid:true, errMsg:"A Group with this name already exists in this Company"});}
 	 }
 
 	 return results;
