@@ -192,10 +192,22 @@ function installTerminal(companyID,groupID,storeID,terminalID){
     }
 
     var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
-    var db = "terminals_corp";
-    var Terminal = couchDoc.extend({urlRoot:urlBase + db});
-    var terminalToInstall = new Terminal(installInfo);
-    terminalToInstall.save({},{success:function(){alert("The terminal has been installed successfully");}});
+    var db_corp = "terminals_corp";
+    var db_rt7 = "terminals_rt7";
+    var Terminal_rt7 = couchDoc.extend({urlRoot:urlBase + db_rt7});
+    var Terminal_corp = couchDoc.extend({urlRoot:urlBase + db_corp});
+    var terminalToInstall_rt7 = new Terminal_rt7(installInfo);
+    var terminalToInstall_corp = new Terminal_corp(installInfo);
+
+    //on the success of the install of the first terminal, install the second terminal.
+    //this way we only have one success message.
+    //it may be possible to do this with triggers, TameJS, or monads, in a more elegant way.
+    terminalToInstall_rt7.save({},
+			       {success:function(){terminalToInstall_corp.save(
+						       {},{success:function(){
+							       alert("The terminal has been installed successfully");
+							   }});}});
+
     terminal.installed = true;
     company.save();
     
