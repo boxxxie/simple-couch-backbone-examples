@@ -23,7 +23,6 @@ var couchDoc = Backbone.Model.extend(
 	destroy:function(options){
 	    options || (options = {});
 	    var model = this;
-	    //_.extend(options,{data:{rev:model.get('_rev')}}); DOESN'T WORK
 	    _.extend(options,{url: model.url()+"?rev="+model.get('_rev')});
 	    Backbone.Model.prototype.destroy.call(this, options);
 	}
