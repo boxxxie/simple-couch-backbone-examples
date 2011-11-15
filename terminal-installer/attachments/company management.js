@@ -3,26 +3,26 @@ var Companies;
 
 function guidGenerator() {
     var S4 = function() {
-				return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-    		 };
+	return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    };
     return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
 
 
 function checkLength( str, min, max) {
     if ( str.length > max || str.length < min ) {
-		return false;
+	return false;
     } else {
-		return true;
+	return true;
     }
 };
 
 function checkRegexp(str, regexp) {
     if(_.isEmpty(str)) return true; //accept empty strings
     if ( !( regexp.test(str) ) ) {
-		return false;
+	return false;
     } else {
-		return true;
+	return true;
     }
 };
 
@@ -53,19 +53,19 @@ function addCompany(collection){
 		collection.create(resp);},
 	    validator : function(resp) {	// resp has newCompanyData and isCreate
 		return validateCompany(resp);}
-};};
+	   };};
 function editCompany(company){
     return {success:function(resp){
 		company.save(resp);},
 	    validator : function(resp) {	// resp has newCompanyData and isCreate
 		_.extend(resp, {oldCompany:company});
 		return validateCompany(resp);}
-};};
+	   };};
 function deleteCompany(companyID) {
     var company = Companies.getModelById(companyID);
     var groups = company.get('hierarchy').groups;;
     if(groups.length==0) {
-		company.destroy(); 
+	company.destroy(); 
     } else {
 	alert("can't delete. this company has group(s).");
     }
@@ -129,7 +129,7 @@ function editTerminal(companyID,groupID,storeID,terminalID){
 	},
 	success:function(resp){
 	    company.editTerminal(groupID,storeID,terminalID,resp);}
-};};
+    };};
 // delete company or group or store
 function deleteThing(companyID,groupID,storeID) {
     if(!_.isEmpty(storeID)) {
