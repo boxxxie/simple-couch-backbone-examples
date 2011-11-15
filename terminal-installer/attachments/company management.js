@@ -67,7 +67,6 @@ function deleteCompany(collection, companyID) {
     var groups = model.get('hierarchy').groups;;
     if(groups.length==0) {
 	//TODO : doesn't work, needs to be checked 
-	collection.remove(model);
 	model.destroy(); // A "url" property or function must be specified or conflict
     } else {
 	alert("can't delete. this company has group(s).");

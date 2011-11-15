@@ -1080,9 +1080,9 @@
     }
 
     // Don't process data on a non-GET request.
-    if (params.type !== 'GET' && !Backbone.emulateJSON) {
-      params.processData = false;
-    }
+ //   if (params.type !== 'GET' && !Backbone.emulateJSON) {
+ //     params.processData = false;
+ //   }
 
     // Make the request.
     return $.ajax(params);

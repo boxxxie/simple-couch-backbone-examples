@@ -18,7 +18,15 @@ var couchDoc = Backbone.Model.extend(
 		if (success){success(model, resp, status);}
 	    };
 	    Backbone.Model.prototype.save.call(this, attrs, options);
-	}	
+	},	
+	//DELETE /somedatabase/some_doc?rev=1582603387 HTTP/1.0
+	destroy:function(options){
+	    options || (options = {});
+	    var model = this;
+	    //_.extend(options,{data:{rev:model.get('_rev')}}); DOESN'T WORK
+	    _.extend(options,{url: model.url()+"?rev="+model.get('_rev')});
+	    Backbone.Model.prototype.destroy.call(this, options);
+	}
     });
 /*
  couch = {db:dbname} they are names referring to the names of the database and ddoc
