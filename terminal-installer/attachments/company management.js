@@ -67,19 +67,21 @@ function deleteCompany(collection, companyID) {
     var groups = model.get('hierarchy').groups;;
     if(groups.length==0) {
 //TODO : needs to be checked , there might be a way to delete document through backbone.js
-		collection.remove(model);
-		var doc = {
-	    	_id: model.get('_id'),
-	    	_rev: model.get('_rev')
-		};
-		$.couch.db("install").removeDoc(doc, {
-	     success: function(data) {
-	         console.log(data);
-	    	},
-	    	error: function(status) {
-	        	console.log(status);
-	    	}
-		});
+//		collection.remove(model);
+//		var doc = {
+//	    	_id: model.get('_id'),
+//	    	_rev: model.get('_rev')
+//		};
+//		$.couch.db("install").removeDoc(doc, {
+//	     success: function(data) {
+//	         console.log(data);
+//	    	},
+//	    	error: function(status) {
+//	        	console.log(status);
+//	    	}
+//		});
+	//TODO : doesn't work, needs to be checked 
+	model.destroy(); // A "url" property or function must be specified or conflict
     } else {
 	alert("can't delete. this company has group(s).");
     }
