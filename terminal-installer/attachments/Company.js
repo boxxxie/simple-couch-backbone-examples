@@ -22,7 +22,6 @@ var Company = couchDoc.extend(
 	 this.save();
      },
      validateGroup : function (newGroup_w_options,groupID) {
-	 //TODO:check validation and return array of results ex : [{fieldname : "group-name", isInvalid:true, errMsg:"this will be shown in tips" }]
 	 var results = [];
 	 var oldHierarchy = this.get('hierarchy');
 	 var groups = oldHierarchy.groups;
@@ -80,7 +79,6 @@ var Company = couchDoc.extend(
 	 this.save();
      },
      validateStore : function (newStore_w_options) {
-	 //TODO:check validation and return array of results ex : [{fieldname : "group-name", isInvalid:true, errMsg:"this will be shown in tips" }]
 	 var results = [];
 	 var stores = this.getStores(newStore_w_options.groupID);
 	 var foundStores = _.filter(stores, function(store){ return store.number==newStore_w_options.number; });
@@ -139,7 +137,6 @@ var Company = couchDoc.extend(
 	 this.save();
      },
      validateTerminal : function (newTerminal_w_options) {
-	 //TODO:check validation and return array of results ex : [{fieldname : "group-name", isInvalid:true, errMsg:"this will be shown in tips" }]
 	 var results = [];
 	 var terminals = this.getTerminals(newTerminal_w_options.groupID, newTerminal_w_options.storeID);
 	 var foundTerminals = _.filter(terminals, function(terminal){ return terminal.terminal_label==newTerminal_w_options.terminal_label; });
