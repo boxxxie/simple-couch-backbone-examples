@@ -103,33 +103,33 @@ function CompanyInputDialog (attachTo,options) {
 				 close: function() {
 				 	if(options.clearOnExit) {
 				 	 allFields.val("").removeClass( "ui-state-error" );
-				     allFields.filter("input:checked").attr("checked",false);
-				    }
+					    allFields.filter("input:checked").attr("checked",false);
+					}
 				 },
 				 buttons: {			 
 				     "Submit" : function() {
 				       	 var bValid = true;
 				       	 
-				 var newCompanyData = {user:user.val(),
-							      password:password.val(),
-							      contact:{firstname : firstname.val(),
-								       lastname : lastname.val(),
-								       website : website.val(),
-								       email : email.val(),
-								       phone : phone.val()},
-							      address:{street0:street0.val(),
-								       street1:street1.val(),
-								       street2:street2.val(),
-								       city:city.val(),
-								       country:country.val(),
-								       province:province.val(),
-								       postalcode:postalcode.val()},
-							      operationalname:operationalname.val(),
-							      companyName:companyName.val()};
+					 var newCompanyData = {user:user.val(),
+							       password:password.val(),
+							       contact:{firstname : firstname.val(),
+									lastname : lastname.val(),
+									website : website.val(),
+									email : email.val(),
+									phone : phone.val()},
+							       address:{street0:street0.val(),
+									street1:street1.val(),
+									street2:street2.val(),
+									city:city.val(),
+									country:country.val(),
+									province:province.val(),
+									postalcode:postalcode.val()},
+							       operationalname:operationalname.val(),
+							       companyName:companyName.val()};
 					 var newCompanyData_w_options = _.clone(newCompanyData);
 					 if(options.isCreate) {
-						_.extend(newCompanyData, {creationdate:new Date()});
-						_.extend(newCompanyData_w_options, {isCreate:options.isCreate});
+					     _.extend(newCompanyData, {creationdate:new Date()});
+					     _.extend(newCompanyData_w_options, {isCreate:options.isCreate});
 					 }
 
 					 var results = options.validator(newCompanyData_w_options);
@@ -236,7 +236,7 @@ function GroupInputDialog (attachTo,options) {
 					       country:country.val(),
 					       province:province.val(),
 					       postalcode:postalcode.val()},
-				      groupName:groupName.val(),
+				      groupName:groupName.val()
 				      };
 		 var newGroupData_w_options = _.clone(newGroupData);
 
@@ -247,7 +247,7 @@ function GroupInputDialog (attachTo,options) {
 
 
 		 var results = options.validator(newGroupData_w_options);
-		 var bValid = PostValidator(allFields, results);
+		 bValid = PostValidator(allFields, results);
 
 		 if(bValid) {
 			 options.success(newGroupData);
@@ -343,7 +343,7 @@ function StoreInputDialog (attachTo,options) {
 			}
 
 			var results = options.validator(newStoreData_w_options);
-			var bValid = PostValidator(allFields, results);
+			bValid = PostValidator(allFields, results);
 
 			 if ( bValid) {
 			     options.success(newStoreData);
