@@ -1,4 +1,3 @@
-var install_db = db('install');
 var Companies;
 
 function guidGenerator() {
@@ -18,7 +17,6 @@ function checkLength( str, min, max) {
 };
 
 function checkRegexp(str, regexp) {
-    if(_.isEmpty(str)) return true; //accept empty strings
     if ( !( regexp.test(str) ) ) {
 	return false;
     } else {
@@ -26,25 +24,58 @@ function checkRegexp(str, regexp) {
     }
 };
 
+function userExists(user){
+    return Companies.find(function(company){return company.get('user')==user;});
+};
+
 function validateCompany(newCompany_w_options) {
+    function companyNameExists(companyName){
+	return Companies.find(function(company){return company.get('companyName')==companyName;});
+    };
     var results = [];
-    if(_.isEmpty(newCompany_w_options.user)) {results = results.concat({fieldname:"user", isInvalid:true, errMsg:"EMPTY"});}
-    else{if(!checkLength(newCompany_w_options.user,1,8)){results= results.concat({fieldname:"user", isInvalid:true, errMsg:"Master User ID  length should be 1~8"});}}
-    if(_.isEmpty(newCompany_w_options.password)) { results = results.concat({fieldname:"password", isInvalid:true, errMsg:"EMPTY"});}
-    else{if(!checkLength(newCompany_w_options.password,1,8)){results = results.concat({fieldname:"password", isInvalid:true, errMsg:"Master User Password  length should be 1~8"});}}
-    if(_.isEmpty(newCompany_w_options.companyName)) {results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:"EMPTY"});}
-    if(_.isEmpty(newCompany_w_options.operationalname)) {results = results.concat({fieldname:"operationalname", isInvalid:true, errMsg:"EMPTY"});}
-    
-    var foundCompany = _.find(Companies.toJSON(), function(company){ return company.companyName==newCompany_w_options.companyName; });
-    if(foundCompany) {
-	if(newCompany_w_options.isCreate) {
-	    results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:"There's a same company name"});
-	} else {
-	    if(foundCompany._id!=newCompany_w_options.oldCompany.id) {
-		results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:"There's a same company name"});
-	    }
-	}
+    var user = newCompany_w_options.user;
+    var password = newCompany_w_options.password;
+    var companyName = newCompany_w_options.companyName;
+    var operationalname = newCompany_w_options.operationalname;
+    var addingNewCompany = newCompany_w_options.isCreate;
+    var companyWithSameName = companyNameExists(companyName);
+    var companyWithSameUserID = userExists(user);
+
+    //verify user ID
+    if(!checkRegexp(user,/^\w{1,8}$/)){
+	results = results.concat({fieldname:"user", isInvalid:true, errMsg:"The Master User ID length should be 1~8"});
     }
+    else if(companyWithSameUserID && addingNewCompany){
+	results = results.concat({fieldname:"user", isInvalid:true, errMsg:"The Master User ID is taken already, please select a different one"});
+    }
+    else if(companyWithSameUserID && 
+	    companyWithSameUserID.get('_id') != newCompany_w_options.oldCompany.id ){
+		results = results.concat({fieldname:"user", isInvalid:true, errMsg:"The Master User ID is taken already, please select a different one"});
+	    }
+
+    //verify password
+    if(!checkRegexp(password,/^\w{1,8}$/)){
+	results = results.concat({fieldname:"password", isInvalid:true, errMsg:"Master User Password  length should be 1~8"});
+    }
+
+    //verify company operational name
+    if(_.isEmpty(operationalname)){
+	results = results.concat({fieldname:"operationalname", isInvalid:true, errMsg:""});
+    }
+
+    //verify company name
+    if(_.isEmpty(companyName)){
+	results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:""});
+    }
+    if(companyWithSameName && addingNewCompany) {
+	results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:"A Company with the same name already exists"});
+    } 
+    //for editing
+    else if(companyWithSameName && 
+	    companyWithSameName.get('_id') != newCompany_w_options.oldCompany.id) {
+	results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:"A Company with the same name already exists"});
+    }
+
     return results;
 };
 
