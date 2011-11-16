@@ -184,7 +184,13 @@ function installTerminal(companyID,groupID,storeID,terminalID){
 		       company_id:company.get('_id'),
 		       company_label:company.get('operationalname'),
 		       location:_.selectKeys(terminal,["postalCode","areaCode","storeCode","companyCode","cityCode","countryCode"]),
-		       creationDate:terminal.creationdate};
+		       creationDate:terminal.creationdate,
+		       
+		       printers:sample_terminal.printers,
+		       departments:sample_terminal.departments,
+		       menuButtonHeaders:sample_terminal.menuButtonHeaders,
+		       menuButtons:sample_terminal.menuButtons,
+		       scales:sample_terminal.scales};
 
     if(terminal.installed){
 	alert("The terminal has been installed already");
