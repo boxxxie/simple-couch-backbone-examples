@@ -215,10 +215,12 @@ function installTerminal(companyID,groupID,storeID,terminalID){
     //this way we only have one success message.
     //it may be possible to do this with triggers, TameJS, or monads, in a more elegant way.
     terminalToInstall_rt7.save({},
-			       {success:function(){terminalToInstall_corp.save(
-						       {},{success:function(){
-							       alert("The terminal has been installed successfully");
-							   }});}});
+			       {success:function(__,_,resp){
+				    terminalToInstall_corp.set({_id:resp.id});
+				    terminalToInstall_corp.save(
+					{},{success:function(){
+						alert("The terminal has been installed successfully");
+					    }});}});
 
     terminal.installed = true;
     company.save();
