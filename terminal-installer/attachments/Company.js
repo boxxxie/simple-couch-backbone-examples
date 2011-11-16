@@ -1,4 +1,8 @@
-function randInt_maker(length){return function(){return parseInt(Math.random()*Math.pow(10,length));};}
+function randInt_maker(length){
+    return function(){
+	return parseInt(Math.random()*Math.pow(10,length))+"";
+    };
+}
 
 var Company = couchDoc.extend(	
     {defaults: function() {
