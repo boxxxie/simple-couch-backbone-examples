@@ -190,7 +190,8 @@ function installTerminal(companyID,groupID,storeID,terminalID){
 		       departments:sample_terminal.departments,
 		       menuButtonHeaders:sample_terminal.menuButtonHeaders,
 		       menuButtons:sample_terminal.menuButtons,
-		       scales:sample_terminal.scales};
+		       scales:sample_terminal.scales,
+		       receiptHeaders:sample_terminal.receiptHeaders};
 
     if(terminal.installed){
 	alert("The terminal has been installed already");

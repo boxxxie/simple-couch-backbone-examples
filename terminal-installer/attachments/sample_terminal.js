@@ -43,11 +43,11 @@ var sample_terminal ={
        }
    ],
    "receiptHeaders": [
-       "RT7",
-       "130 Spadina",
-       "501",
-       "Toronto",
-       "Ciao"
+       "recently",
+       "installed",
+       "terminal",
+       "please",
+       "edit"
    ],
    "departments": [
        {
