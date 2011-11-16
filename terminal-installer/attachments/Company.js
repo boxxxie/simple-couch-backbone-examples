@@ -22,29 +22,42 @@ var Company = couchDoc.extend(
 	 this.save();
      },
      validateGroup : function (newGroup_w_options,groupID) {
+	 function userExists(groups,user){
+	     return groups.find(function(group){return group.user==user;});
+	 };
+	 function groupNameExists(groups,groupName){
+	     return groups.find(function(group){return group.groupName==groupName;});
+	 };
 	 var results = [];
-	 var oldHierarchy = this.get('hierarchy');
-	 var groups = oldHierarchy.groups;
-	 var foundGroups = _.filter(groups, function(group){ return group.groupName==newGroup_w_options.groupName; });
+	 var groups = this.get('hierarchy').groups;
+    
+	 var user = newGroup_w_options.user;
+	 var password = newGroup_w_options.password;
+	 var groupName = newGroup_w_options.companyName;
+	 var operationalname = newGroup_w_options.operationalname;
+	 var addingNewGroup = newGroup_w_options.isCreate;
+	 var groupWithSameName = groupNameExists(groups,groupName);
+	 var groupWithSameUserID = userExists(groups,user);
 	 
-	 //validate user
-	 if(_.isEmpty(newGroup_w_options.user)) {results = results.concat({fieldname:"user", isInvalid:true, errMsg:"Master User ID  length should be 1~8"});}
-	 else{if(!checkLength(newGroup_w_options.user,1,8)){results= results.concat({fieldname:"user", isInvalid:true, errMsg:"Master User ID  length should be 1~8"});}}
-	 
-	 //validate pass
-	 if(_.isEmpty(newGroup_w_options.password)) { results = results.concat({fieldname:"password", isInvalid:true, errMsg:"Master User Password  length should be 1~8"});}
-	 else{if(!checkLength(newGroup_w_options.password,1,8)){results = results.concat({fieldname:"password", isInvalid:true, errMsg:"Master User Password  length should be 1~8"});}}
+	 //verify user ID
+	 results = results.concat(validateUserName(user));
+	 if(groupWithSameUserID && 
+	    groupWithSameUserID.group_id != newGroup_w_options.oldGroup.id){
+		results = results.concat({fieldname:"user", isInvalid:true, errMsg:"The Master User ID is taken already, please select a different one"});
+	    }
+	 //verify password
+	 results = results.concat(validateUserName(user));
 	 
 	 //validate name
-	 if(_.isEmpty(newGroup_w_options.groupName)) {results = results.concat({fieldname:"group-name", isInvalid:true, errMsg:"The Group Name should be filled in"});}
-	 if((!newGroup_w_options.isCreate)) {
-	     if((foundGroups.length>0) && !_.contains(_.pluck(foundGroups, "group_id"),newGroup_w_options.groupID)) {
-		 results = results.concat({fieldname:"group-name", isInvalid:true, errMsg:"A Group with this name already exists in this Company"});
-	     }
-	 } else {
-	     if(foundGroups.length>0) {results = results.concat({fieldname:"group-name", isInvalid:true, errMsg:"A Group with this name already exists in this Company"});}
+	 if(_.isEmpty(groupName)){
+	     results = results.concat({fieldname:"group-name", isInvalid:true});
 	 }
-
+	 if(groupWithSameName && addingNewGroup){
+	     results = results.concat({fieldname:"group-name", isInvalid:true, errMsg:"A Group with this name already exists in this Company"});
+	 } else if (groupWithSameName &&
+		   groupWithSameName.group_id != newGroup_w_options.group_id){
+	     results = results.concat({fieldname:"group-name", isInvalid:true, errMsg:"A Group with this name already exists in this Company"});
+	 }
 	 return results;
      },
      deleteGroup:function(groupID) {
@@ -88,13 +101,13 @@ var Company = couchDoc.extend(
 	 var stores = this.getStores(newStore_w_options.groupID);
 	 var foundStores = _.filter(stores, function(store){ return store.number==newStore_w_options.number; });
 
-	 if(_.isEmpty(newStore_w_options.user)) {results = results.concat({fieldname:"user", isInvalid:true, errMsg:"EMPTY"});}
+	 if(_.isEmpty(newStore_w_options.user)) {results = results.concat({fieldname:"user", isInvalid:true});}
 	 else{if(!checkLength(newStore_w_options.user,1,8)){results= results.concat({fieldname:"user", isInvalid:true, errMsg:"Master User ID  length should be 1~8"});}}
-	 if(_.isEmpty(newStore_w_options.password)) { results = results.concat({fieldname:"password", isInvalid:true, errMsg:"EMPTY"});}
+	 if(_.isEmpty(newStore_w_options.password)) { results = results.concat({fieldname:"password", isInvalid:true});}
 	 else{if(!checkLength(newStore_w_options.password,1,8)){results = results.concat({fieldname:"password", isInvalid:true, errMsg:"Master User Password  length should be 1~8"});}}
-	 if(_.isEmpty(newStore_w_options.number)) { results = results.concat({fieldname:"store-num", isInvalid:true, errMsg:"EMPTY"});}
+	 if(_.isEmpty(newStore_w_options.number)) { results = results.concat({fieldname:"store-num", isInvalid:true});}
 	 else{if(!checkRegexp(newStore_w_options.number, /^([0-9])+$/i )){results = results.concat({fieldname:"store-num", isInvalid:true, errMsg:"Store Number should be number"});}}
-	 if(_.isEmpty(newStore_w_options.storeName)) {results = results.concat({fieldname:"store-name", isInvalid:true, errMsg:"EMPTY"});}
+	 if(_.isEmpty(newStore_w_options.storeName)) {results = results.concat({fieldname:"store-name", isInvalid:true});}
 
 	 
 	 
@@ -146,7 +159,7 @@ var Company = couchDoc.extend(
 	 var terminals = this.getTerminals(newTerminal_w_options.groupID, newTerminal_w_options.storeID);
 	 var foundTerminals = _.filter(terminals, function(terminal){ return terminal.terminal_label==newTerminal_w_options.terminal_label; });
 
-	 if(_.isEmpty(newTerminal_w_options.terminal_label)) {results = results.concat({fieldname:"terminal-id", isInvalid:true, errMsg:"EMPTY"});}
+	 if(_.isEmpty(newTerminal_w_options.terminal_label)) {results = results.concat({fieldname:"terminal-id", isInvalid:true});}
 	 
 	 if((!newTerminal_w_options.isCreate)) {
 	     if((foundTerminals.length>0) && !_.contains(_.pluck(foundTerminals, "terminal_id"),newTerminal_w_options.terminalID)) {

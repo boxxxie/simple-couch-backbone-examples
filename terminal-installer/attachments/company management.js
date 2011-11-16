@@ -24,11 +24,32 @@ function checkRegexp(str, regexp) {
     }
 };
 
-function userExists(user){
-    return Companies.find(function(company){return company.get('user')==user;});
+function validateUserName(user){
+    var results = [];
+    if(_.isEmpty(user)){
+	results = results.concat({fieldname:"user", isInvalid:true});
+    }
+    else if(!checkRegexp(user,/^\w{1,8}$/)){
+	results = results.concat({fieldname:"user", isInvalid:true, errMsg:"The Master User ID length should be 1~8"});
+    }
+    return results;
 };
 
+function validatePassword(password){
+    var results = [];
+    if(_.isEmpty(password)){
+	results = results.concat({fieldname:"password", isInvalid:true});
+    }
+    if(!checkRegexp(password,/^\w{1,8}$/)){
+	results = results.concat({fieldname:"password", isInvalid:true, errMsg:"Master User Password  length should be 1~8"});
+    }
+    return results;
+}
+
 function validateCompany(newCompany_w_options) {
+    function userExists(user){
+	return Companies.find(function(company){return company.get('user')==user;});
+    };
     function companyNameExists(companyName){
 	return Companies.find(function(company){return company.get('companyName')==companyName;});
     };
@@ -42,37 +63,29 @@ function validateCompany(newCompany_w_options) {
     var companyWithSameUserID = userExists(user);
 
     //verify user ID
-    if(!checkRegexp(user,/^\w{1,8}$/)){
-	results = results.concat({fieldname:"user", isInvalid:true, errMsg:"The Master User ID length should be 1~8"});
-    }
-    else if(companyWithSameUserID && addingNewCompany){
-	results = results.concat({fieldname:"user", isInvalid:true, errMsg:"The Master User ID is taken already, please select a different one"});
-    }
-    else if(companyWithSameUserID && 
-	    companyWithSameUserID.get('_id') != newCompany_w_options.oldCompany.id ){
-		results = results.concat({fieldname:"user", isInvalid:true, errMsg:"The Master User ID is taken already, please select a different one"});
-	    }
-
+    results = results.concat(validateUserName(user));
+    if(companyWithSameUserID && 
+       companyWithSameUserID.get('_id') != newCompany_w_options.oldCompany.id ){
+	   results = results.concat({fieldname:"user", isInvalid:true, errMsg:"The Master User ID is taken already, please select a different one"});
+       }
     //verify password
-    if(!checkRegexp(password,/^\w{1,8}$/)){
-	results = results.concat({fieldname:"password", isInvalid:true, errMsg:"Master User Password  length should be 1~8"});
-    }
+    results = results.concat(validateUserName(user));
 
     //verify company operational name
     if(_.isEmpty(operationalname)){
-	results = results.concat({fieldname:"operationalname", isInvalid:true, errMsg:""});
+	results = results.concat({fieldname:"operationalname", isInvalid:true});
     }
 
     //verify company name
     if(_.isEmpty(companyName)){
-	results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:""});
+	results = results.concat({fieldname:"company-name", isInvalid:true});
     }
     if(companyWithSameName && addingNewCompany) {
 	results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:"A Company with the same name already exists"});
     } 
     //for editing
     else if(companyWithSameName && 
-	    companyWithSameName.get('_id') != newCompany_w_options.oldCompany.id) {
+	    companyWithSameName.get('_id') != newCompany_w_options.id) {
 	results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:"A Company with the same name already exists"});
     }
 
