@@ -46,7 +46,7 @@ function validatePassword(password){
     return results;
 }
 
-function validateCompany(newCompany_w_options) {
+function validateCompany(newCompany_w_options, previous) {
     function userExists(user){
 	return Companies.find(function(company){return company.get('user')==user;});
     };
@@ -65,7 +65,7 @@ function validateCompany(newCompany_w_options) {
     //verify user ID
     results = results.concat(validateUserName(user));
     if(companyWithSameUserID && 
-       companyWithSameUserID.get('_id') != newCompany_w_options.oldCompany.id ){
+       companyWithSameUserID.get('_id') != previous.company_id ){
 	   results = results.concat({fieldname:"user", isInvalid:true, errMsg:"The Master User ID is taken already, please select a different one"});
        }
     //verify password
@@ -96,14 +96,13 @@ function addCompany(collection){
     return {success: function(resp){
 		collection.create(resp);},
 	    validator : function(resp) {	// resp has newCompanyData and isCreate
-		return validateCompany(resp);}
+		return validateCompany(resp,null);}
 	   };};
 function editCompany(company){
     return {success:function(resp){
 		company.save(resp);},
 	    validator : function(resp) {	// resp has newCompanyData and isCreate
-		_.extend(resp, {oldCompany:company});
-		return validateCompany(resp);}
+		return validateCompany(resp,company.toJSON());}
 	   };};
 function deleteCompany(companyID) {
     var company = Companies.getModelById(companyID);
