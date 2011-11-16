@@ -11,7 +11,6 @@ ddoc.views.user_pass = {
 	require("views/lib/underscore_extended");
 	const walk = require("views/lib/walk").walk;
 	function emitUserPass(item){
-	    log(item);
 	    function id_finder(item){
 		//returns a value in the form of [key,val] or null
 		return _.find(_.kv(item),function(kv){
@@ -24,7 +23,7 @@ ddoc.views.user_pass = {
 	    };
 	    const location = id_finder(item);
 	    if(!_.isEmpty(item.user) && !_.isEmpty(item.password) && location){
-		emit({user:item.user,password:item.password},location);
+		emit({user:item.user,password:item.password},_.extend(location,{company_id:doc._id}));
 	    }
 	}
 	//extending emitUserPass to work with the walk function

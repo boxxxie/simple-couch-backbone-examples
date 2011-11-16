@@ -191,7 +191,12 @@ function installTerminal(companyID,groupID,storeID,terminalID){
 		       menuButtonHeaders:sample_terminal.menuButtonHeaders,
 		       menuButtons:sample_terminal.menuButtons,
 		       scales:sample_terminal.scales,
-		       receiptHeaders:sample_terminal.receiptHeaders};
+		       receiptHeaders:sample_terminal.receiptHeaders,
+		       cardserver:sample_terminal.cardserver,
+		       cardserverport:sample_terminal.cardserverport,
+		       cardterminalid:sample_terminal.cardterminalid,
+		       connectiontimeout:sample_terminal.connectiontimeout
+		      };
 
     if(terminal.installed){
 	alert("The terminal has been installed already");
