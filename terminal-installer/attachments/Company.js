@@ -1,3 +1,5 @@
+function randInt_maker(length){return function(){return parseInt(Math.random()*Math.pow(10,length));};}
+
 var Company = couchDoc.extend(	
     {defaults: function() {
 	 return {
@@ -124,17 +126,21 @@ var Company = couchDoc.extend(
      },
      
      addTerminal: function(groupID,storeID,terminalToAdd){
+	 var recipt_id_maker = randInt_maker(10);
 	 var storeToAddTo = this.getStore(groupID,storeID);
 	 var storeTerminals = storeToAddTo.terminals;
 	 storeTerminals || (storeTerminals = []);
-	 if(!_(storeTerminals).chain().pluck('terminal_label').contains(terminalToAdd.terminal_label).value()) {
-	     var newTerminals = storeTerminals.concat(_.extend(terminalToAdd,{terminal_id:guidGenerator()}));
-	     storeToAddTo.terminals = newTerminals;
-	     this.save();
-	     this.trigger("add:terminal"); //triggers go last
-	 } else {
+	 
+	 //verify if terminal has the same label as another
+	 if(_(storeTerminals).chain().pluck('terminal_label').contains(terminalToAdd.terminal_label).value()) {
 	     alert("The terminal you tried to add had the same ID as one already in this store, please choose a different ID");
+	     return;
 	 }
+
+	 var newTerminals = storeTerminals.concat(_.extend(terminalToAdd,{terminal_id:guidGenerator(),recipt_id:recipt_id_maker()}));
+	 storeToAddTo.terminals = newTerminals;
+	 this.save();
+	 this.trigger("add:terminal"); //triggers go last
      },
      editTerminal:function(groupID,storeID,terminalID,terminal){
 	 var terminalToMod = this.getTerminal(groupID,storeID,terminalID);

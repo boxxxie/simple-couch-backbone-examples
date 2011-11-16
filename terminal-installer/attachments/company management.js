@@ -3,8 +3,8 @@ var Companies;
 
 function guidGenerator() {
     var S4 = function() {
-				return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-    		 };
+	return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    };
     return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
 
@@ -185,6 +185,7 @@ function installTerminal(companyID,groupID,storeID,terminalID){
 		       company_label:company.get('operationalname'),
 		       location:_.selectKeys(terminal,["postalCode","areaCode","storeCode","companyCode","cityCode","countryCode"]),
 		       creationDate:terminal.creationdate,
+		       recipt_id:terminal.recipt_id,
 		       
 		       printers:sample_terminal.printers,
 		       departments:sample_terminal.departments,

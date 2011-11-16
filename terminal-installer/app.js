@@ -35,6 +35,22 @@ ddoc.views.user_pass = {
     }
 };
 
+ddoc.views.receipt_id = {
+    map:function(doc){
+	var _ = require("views/lib/underscore");
+	const walk = require("views/lib/walk").walk;
+	function emit_receipt_id(item){
+	    if(!_.isEmpty(item.receipt_id)){
+		emit(item.receipt_id,1);
+	    }
+	}
+	walk(doc,function(item){
+		 emit_receipt_id(item);
+		 return item;
+	     });
+    }
+};
+
 ddoc.views.lib = couchapp.loadFiles('./common');
 couchapp.loadAttachments(ddoc, path.join(__dirname, 'attachments'));
 
