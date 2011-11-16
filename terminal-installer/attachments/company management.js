@@ -185,7 +185,7 @@ function installTerminal(companyID,groupID,storeID,terminalID){
 		       company_label:company.get('operationalname'),
 		       location:_.selectKeys(terminal,["postalCode","areaCode","storeCode","companyCode","cityCode","countryCode"]),
 		       creationDate:terminal.creationdate,
-		       recipt_id:terminal.recipt_id,
+		       receipt_id:terminal.receipt_id,
 		       
 		       printers:sample_terminal.printers,
 		       departments:sample_terminal.departments,

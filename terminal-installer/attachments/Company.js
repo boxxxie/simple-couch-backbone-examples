@@ -130,7 +130,7 @@ var Company = couchDoc.extend(
      },
      
      addTerminal: function(groupID,storeID,terminalToAdd){
-	 var recipt_id_maker = randInt_maker(10);
+	 var receipt_id_maker = randInt_maker(10);
 	 var storeToAddTo = this.getStore(groupID,storeID);
 	 var storeTerminals = storeToAddTo.terminals;
 	 storeTerminals || (storeTerminals = []);
@@ -141,7 +141,7 @@ var Company = couchDoc.extend(
 	     return;
 	 }
 
-	 var newTerminals = storeTerminals.concat(_.extend(terminalToAdd,{terminal_id:guidGenerator(),recipt_id:recipt_id_maker()}));
+	 var newTerminals = storeTerminals.concat(_.extend(terminalToAdd,{terminal_id:guidGenerator(),receipt_id:receipt_id_maker()}));
 	 storeToAddTo.terminals = newTerminals;
 	 this.save();
 	 this.trigger("add:terminal"); //triggers go last
