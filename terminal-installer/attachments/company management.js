@@ -10,81 +10,133 @@ function guidGenerator() {
 
 function checkLength( str, min, max) {
     if ( str.length > max || str.length < min ) {
-		return false;
+	return false;
     } else {
-		return true;
+	return true;
     }
 };
 
 function checkRegexp(str, regexp) {
-    if(_.isEmpty(str)) return true; //accept empty strings
     if ( !( regexp.test(str) ) ) {
-		return false;
+	return false;
     } else {
-		return true;
+	return true;
     }
 };
 
-function validateCompany(newCompany_w_options) {
-    var results = [];
-    if(_.isEmpty(newCompany_w_options.user)) {results = results.concat({fieldname:"user", isInvalid:true, errMsg:"EMPTY"});}
-    else{if(!checkLength(newCompany_w_options.user,1,8)){results= results.concat({fieldname:"user", isInvalid:true, errMsg:"Master User ID  length should be 1~8"});}}
-    if(_.isEmpty(newCompany_w_options.password)) { results = results.concat({fieldname:"password", isInvalid:true, errMsg:"EMPTY"});}
-    else{if(!checkLength(newCompany_w_options.password,1,8)){results = results.concat({fieldname:"password", isInvalid:true, errMsg:"Master User Password  length should be 1~8"});}}
-    if(_.isEmpty(newCompany_w_options.companyName)) {results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:"EMPTY"});}
-    if(_.isEmpty(newCompany_w_options.operationalname)) {results = results.concat({fieldname:"operationalname", isInvalid:true, errMsg:"EMPTY"});}
-    
-    var foundCompany = _.find(Companies.toJSON(), function(company){ return company.companyName==newCompany_w_options.companyName; });
-    if(foundCompany) {
-	if(newCompany_w_options.isCreate) {
-	    results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:"There's a same company name"});
-	} else {
-	    if(foundCompany._id!=newCompany_w_options.oldCompany.id) {
-		results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:"There's a same company name"});
-	    }
+function validateCompany(newCompany_w_options, previous) {
+    function userExists(user){
+	return Companies.find(function(company){return company.get('user')==user;});
+    };
+    function companyNameExists(companyName){
+	return Companies.find(function(company){return company.get('companyName')==companyName;});
+    };
+    function validateUserName(user,companyWithSameUserID,previous){
+	var results = [];
+	if(_.isEmpty(user)){
+	    results = results.concat({fieldname:"user", isInvalid:true});
 	}
-    }
+	else if(!checkRegexp(user,/^\w{1,8}$/)){
+	    results = results.concat({fieldname:"user", isInvalid:true, errMsg:"The Master User ID length should be 1~8 characters"});
+	}
+	//needs further abstraction
+	if((companyWithSameUserID && !previous) ||
+	    companyWithSameUserID &&
+	   companyWithSameUserID.get('_id') != previous._id ){
+	       results = results.concat({fieldname:"user", isInvalid:true, errMsg:"The Master User ID is taken already, please select a different one"});
+	   }
+	return results;
+    };
+    function validatePassword(password){
+	var results = [];
+	if(_.isEmpty(password)){
+	    results = results.concat({fieldname:"password", isInvalid:true});
+	}
+	if(!checkRegexp(password,/^\w{1,8}$/)){
+	    results = results.concat({fieldname:"password", isInvalid:true, errMsg:"The Master User Password length should be 1~8 characters"});
+	}
+	return results;
+    };
+    function validateOperationalName(name){
+	var results = [];
+	//verify company operational name
+	if(_.isEmpty(name)){
+	    results = results.concat({fieldname:"operationalname", isInvalid:true});
+	}
+	return results;
+    };
+    function validateCompanyName(companyName,companyWithSameName,addingNewCompany,previous){
+	var results = [];
+	if(_.isEmpty(companyName)){
+	    results = results.concat({fieldname:"company-name", isInvalid:true});
+	}
+	if((companyWithSameName && addingNewCompany) ||
+	    (companyWithSameName && !previous) ||
+	   companyWithSameName && companyWithSameName.get('_id') != previous._id) {
+	    results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:"A Company with the same name already exists"});
+	}
+	return results;
+    };
+    var results = [];
+    var user = newCompany_w_options.user;
+    var password = newCompany_w_options.password;
+    var companyName = newCompany_w_options.companyName;
+    var operationalname = newCompany_w_options.operationalname;
+    var addingNewCompany = newCompany_w_options.isCreate;
+    var companyWithSameName = companyNameExists(companyName);
+    var companyWithSameUserID = userExists(user);
+
+    //verify user ID
+    results = results.concat(validateUserName(user,companyWithSameUserID,previous));
+
+    //verify password
+    results = results.concat(validatePassword(password));
+
+    //verify company operational name
+    results = results.concat(validateOperationalName(operationalname));
+
+    //verify company name
+    results = results.concat(validateCompanyName(companyName,companyWithSameName,addingNewCompany,previous));
+
     return results;
 };
 
 function addCompany(collection){
     return {success: function(resp){
 		collection.create(resp);},
-	    validator : function(resp) {	// resp has newCompanyData and isCreate
-		return validateCompany(resp);}
-};};
+	    validator : function(resp) {
+		return validateCompany(resp,null);}
+	   };};
 function editCompany(company){
     return {success:function(resp){
 		company.save(resp);},
-	    validator : function(resp) {	// resp has newCompanyData and isCreate
-		_.extend(resp, {oldCompany:company});
-		return validateCompany(resp);}
-};};
+	    validator : function(resp) {
+		return validateCompany(resp,company.toJSON());}
+	   };};
 function deleteCompany(companyID) {
     var company = Companies.getModelById(companyID);
     var groups = company.get('hierarchy').groups;;
-    if(groups.length==0) {
-		company.destroy(); 
+    if(_.isEmpty(groups)) {
+	company.destroy(); 
     } else {
 	alert("can't delete. this company has group(s).");
-    }
-}
+    }};
 function addGroup(companyID){
     var company = Companies.getModelById(companyID);
     return {success: function(resp){
 		company.addGroup(resp);
 	    },
-	    validator : function(resp) {	// resp has newGroupData and isCreate
-		return company.validateGroup(resp);
+	    validator : function(resp) {
+		return company.validateGroup(resp,null);
 	    }
 	   };};   
 function editGroup(companyID, groupID){
     var company = Companies.getModelById(companyID);
+    var previousGroup = company.getGroup(groupID);
     return {success:function(resp){
 		company.editGroup(resp,groupID);},
-	    validator : function(resp) {	// resp has newGroupData and isCreate and groupID
-		_.extend(resp, {groupID:groupID});
-		return company.validateGroup(resp);
+	    validator : function(resp) {
+		return company.validateGroup(resp,previousGroup);
 	    }};};
 function deleteGroup(companyID, groupID) {
     var company = Companies.getModelById(companyID);
@@ -92,20 +144,21 @@ function deleteGroup(companyID, groupID) {
 }
 function addStore(companyID,groupID){
     var company = Companies.getModelById(companyID);
+    var comparisonStores = company.getStores(groupID);
     return {
 	success: function(resp){
 	    company.addStore(groupID,resp);},
 	validator : function(resp) {
-	    _.extend(resp, {groupID:groupID});
-	    return company.validateStore(resp);
+	    return company.validateStore(resp,null,comparisonStores);
 	}};};
 function editStore(companyID,groupID,storeID){
     var company = Companies.getModelById(companyID);
+    var previousStore = company.getStore(groupID,storeID);
+    var comparisonStores = company.getStores(groupID);
     return {success:function(resp){
 		company.editStore(groupID,storeID,resp);},
 	    validator : function(resp) {
-		_.extend(resp, {groupID:groupID, storeID:storeID});
-		return company.validateStore(resp);
+		return company.validateStore(resp,previousStore,comparisonStores);
 	    }};};
 function deleteStore(companyID, groupID, storeID) {
     var company = Companies.getModelById(companyID);
@@ -113,22 +166,23 @@ function deleteStore(companyID, groupID, storeID) {
 }
 function addTerminal(companyID,groupID,storeID){
     var company = Companies.getModelById(companyID);
+    var comparisonTerminals = company.getTerminals(groupID,storeID);
     return {validator : function(resp) {
-		_.extend(resp, {groupID:groupID, storeID:storeID});
-		return company.validateTerminal(resp);
+		return company.validateTerminal(resp,null,comparisonTerminals);
 	    },
 	    success: function(resp){
 		company.addTerminal(groupID,storeID,resp);}};};
 function editTerminal(companyID,groupID,storeID,terminalID){
     var company = Companies.getModelById(companyID);
+    var previousTerminal = company.getTerminal(groupID,storeID,terminalID);
+    var comparisonTerminals = company.getTerminals(groupID,storeID);
     return {
     	validator : function(resp) {
-	    _.extend(resp, {groupID:groupID, storeID:storeID, terminalID:terminalID});
-	    return company.validateTerminal(resp);
+	    return company.validateTerminal(resp,previousTerminal,comparisonTerminals);
 	},
 	success:function(resp){
 	    company.editTerminal(groupID,storeID,terminalID,resp);}
-};};
+    };};
 // delete company or group or store
 function deleteThing(companyID,groupID,storeID) {
     if(!_.isEmpty(storeID)) {
