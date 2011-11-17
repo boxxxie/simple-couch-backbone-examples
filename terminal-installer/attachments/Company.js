@@ -157,11 +157,11 @@ var Company = couchDoc.extend(
 	 
 	 //validate store name
 	 results = results.concat(
-	     validateItemName(storeName,storeWithSameName,addingNewStore,previous,'store_id','store-name',"A Store with the same name in this Company already exists"));
+	     validateItemName(storeName,storeWithSameName,addingNewStore,previous,'store_id','store-name',"A Store with the same name in this Group already exists"));
 
 	 //validate store number
 	 results = results.concat(
-	     validateItemName(storeNumber,storeWithSameNumber,addingNewStore,previous,'number','store-num',"A Store with the same number in this Company already exists"));
+	     validateItemName(storeNumber,storeWithSameNumber,addingNewStore,previous,'number','store-num',"A Store with the same number in this Group already exists"));
 	 
 	 return results;
      },
@@ -198,21 +198,18 @@ var Company = couchDoc.extend(
 	 _.extend(terminalToMod,terminal);
 	 this.save();
      },
-     validateTerminal : function (newTerminal_w_options) {
+     validateTerminal : function (newTerminal,previous,terminals) {
+	 function terminalIDExists(terminals,terminalName){
+	     return _.find(terminals,function(terminal){return terminal.terminal_label == terminalName;});
+	 };
 	 var results = [];
-	 var terminals = this.getTerminals(newTerminal_w_options.groupID, newTerminal_w_options.storeID);
-	 var foundTerminals = _.filter(terminals, function(terminal){ return terminal.terminal_label==newTerminal_w_options.terminal_label; });
-
-	 if(_.isEmpty(newTerminal_w_options.terminal_label)) {results = results.concat({fieldname:"terminal-id", isInvalid:true});}
-	 
-	 if((!newTerminal_w_options.isCreate)) {
-	     if((foundTerminals.length>0) && !_.contains(_.pluck(foundTerminals, "terminal_id"),newTerminal_w_options.terminalID)) {
-		 results = results.concat({fieldname:"terminal-id", isInvalid:true, errMsg:"There's a same Terminal in this Store"});
-	     }
-	 } else {
-	     if(foundTerminals.length>0) {results = results.concat({fieldname:"terminal-id", isInvalid:true, errMsg:"There's a same Terminal in this Store"});}
-	 }
-
+	 var terminalID = newTerminal.terminal_label;
+	 var addingNewTerminal = newTerminal.isCreate;
+	 var terminalWithSameID = terminalIDExists(terminals,terminalID);
+	 	 
+	 //validate terminal label
+	 results = results.concat(
+	     validateItemName(terminalID,terminalWithSameID,addingNewTerminal,previous,'terminal_label','terminal-id',"A Terminal with the same ID in this Store already exists"));
 	 return results;
      },
      deleteTerminal:function(groupID,storeID,terminalID){

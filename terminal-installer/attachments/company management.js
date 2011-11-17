@@ -166,18 +166,19 @@ function deleteStore(companyID, groupID, storeID) {
 }
 function addTerminal(companyID,groupID,storeID){
     var company = Companies.getModelById(companyID);
+    var comparisonTerminals = company.getTerminals(groupID,storeID);
     return {validator : function(resp) {
-		_.extend(resp, {groupID:groupID, storeID:storeID});
-		return company.validateTerminal(resp);
+		return company.validateTerminal(resp,null,comparisonTerminals);
 	    },
 	    success: function(resp){
 		company.addTerminal(groupID,storeID,resp);}};};
 function editTerminal(companyID,groupID,storeID,terminalID){
     var company = Companies.getModelById(companyID);
+    var previousTerminal = company.getTerminal(groupID,storeID,terminalID);
+    var comparisonTerminals = company.getTerminals(groupID,storeID);
     return {
     	validator : function(resp) {
-	    _.extend(resp, {groupID:groupID, storeID:storeID, terminalID:terminalID});
-	    return company.validateTerminal(resp);
+	    return company.validateTerminal(resp,previousTerminal,comparisonTerminals);
 	},
 	success:function(resp){
 	    company.editTerminal(groupID,storeID,terminalID,resp);}
