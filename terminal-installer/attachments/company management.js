@@ -196,7 +196,17 @@ function installTerminal(companyID,groupID,storeID,terminalID){
 		       cardserver:sample_terminal.cardserver,
 		       cardserverport:sample_terminal.cardserverport,
 		       cardterminalid:sample_terminal.cardterminalid,
-		       connectiontimeout:sample_terminal.connectiontimeout
+		       connectiontimeout:sample_terminal.connectiontimeout,
+		       store:{
+			   country:store.address.country,
+			   state_prov:store.address.province,
+			   city:store.address.city,
+			   zip_postal:store.address.postalcode,
+			   street:[store.address.street0,store.address.street1],
+			   phones:[store.contact.phone],
+			   emails:[store.contact.email]
+		       },
+		       store_number:store.number
 		      };
 
     if(terminal.installed){
