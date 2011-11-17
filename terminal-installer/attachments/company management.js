@@ -1,4 +1,3 @@
-var install_db = db('install');
 var Companies;
 
 function guidGenerator() {
@@ -197,7 +196,7 @@ function installTerminal(companyID,groupID,storeID,terminalID){
 		       cardserverport:sample_terminal.cardserverport,
 		       cardterminalid:sample_terminal.cardterminalid,
 		       connectiontimeout:sample_terminal.connectiontimeout,
-		       store:{
+		       store_info:{
 			   country:store.address.country,
 			   state_prov:store.address.province,
 			   city:store.address.city,
