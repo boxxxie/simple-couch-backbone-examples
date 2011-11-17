@@ -133,13 +133,18 @@ var Company = couchDoc.extend(
 	 function storeNameExists(stores,storeName){
 	     return _.find(stores,function(store){return store.storeName==storeName;});
 	 };
+	 function storeNumberExists(stores,storeNumber){
+	     return _.find(stores,function(store){return store.number==storeNumber;});
+	 };
 	 var results = [];
     
 	 var user = newStore.user;
 	 var password = newStore.password;
 	 var storeName = newStore.storeName;
+	 var storeNumber = newStore.number;
 	 var addingNewStore = newStore.isCreate;
 	 var storeWithSameName = storeNameExists(stores,storeName);
+	 var storeWithSameNumber = storeNumberExists(stores,storeNumber);
 	 var storeWithSameUserID = userExists(stores,user);
 	 
 	 //verify user ID
@@ -153,6 +158,10 @@ var Company = couchDoc.extend(
 	 //validate store name
 	 results = results.concat(
 	     validateItemName(storeName,storeWithSameName,addingNewStore,previous,'store_id','store-name',"A Store with the same name in this Company already exists"));
+
+	 //validate store number
+	 results = results.concat(
+	     validateItemName(storeNumber,storeWithSameNumber,addingNewStore,previous,'number','store-num',"A Store with the same number in this Company already exists"));
 	 
 	 return results;
      },

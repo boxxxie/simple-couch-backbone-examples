@@ -144,11 +144,12 @@ function deleteGroup(companyID, groupID) {
 }
 function addStore(companyID,groupID){
     var company = Companies.getModelById(companyID);
+    var comparisonStores = company.getStores(groupID);
     return {
 	success: function(resp){
 	    company.addStore(groupID,resp);},
 	validator : function(resp) {
-	    return company.validateStore(resp,null);
+	    return company.validateStore(resp,null,comparisonStores);
 	}};};
 function editStore(companyID,groupID,storeID){
     var company = Companies.getModelById(companyID);
@@ -157,7 +158,6 @@ function editStore(companyID,groupID,storeID){
     return {success:function(resp){
 		company.editStore(groupID,storeID,resp);},
 	    validator : function(resp) {
-		_.extend(resp, {groupID:groupID, storeID:storeID});
 		return company.validateStore(resp,previousStore,comparisonStores);
 	    }};};
 function deleteStore(companyID, groupID, storeID) {

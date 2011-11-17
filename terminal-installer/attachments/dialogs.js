@@ -66,6 +66,7 @@ function CompanyInputDialog (attachTo,options) {
     $("#dialog:ui-dialog").dialog( "destroy" );
     var tips = $(".validateTips");
     var d = $("#dialog-form");
+
     var user = d.find("#user"),
     password = d.find("#password"),
     companyName = d.find("#company-name"),
@@ -150,7 +151,7 @@ function CompanyInputDialog (attachTo,options) {
 		    if (passedValidation) {
 			options.success(newCompanyData);
 			allFields.val("");
-			$(this).dialog("close");
+			d.dialog("close");
 		    }
 		    else{
 			PostValidator(d,tips,validationResults);
@@ -268,9 +269,10 @@ function GroupInputDialog (attachTo,options) {
 };
 function StoreInputDialog (attachTo,options) {
     // a workaround for a flaw in the demo system (http://dev.jqueryui.com/ticket/4375), ignore!
-    $( "#dialog:ui-dialog" ).dialog( "destroy" );
+    $("#dialog:ui-dialog").dialog( "destroy" );
     var d = $("#dialog-form");
     var tips = $(".validateTips");
+
     var user = d.find("#user"),
     password = d.find("#password"),
     storeName = d.find("#store-name"),
@@ -310,14 +312,14 @@ function StoreInputDialog (attachTo,options) {
     d.dialog(
 	{
 	    autoOpen: false,
-	    height: 700,
+	    height: 900,
 	    width: 500,
 	    modal: true,
 	    buttons: {
 		"Submit": function() {
+
 		    var newStoreData = 
-			{
-			    user:user.val(),
+			{user:user.val(),
 			    password:password.val(),
 			    contact:{firstname : firstname.val(),
 				     lastname : lastname.val(),
@@ -332,8 +334,8 @@ function StoreInputDialog (attachTo,options) {
 				     province:province.val(),
 				     postalcode:postalcode.val()},
 			    storeName:storeName.val(),
-			    number:storeNum.val()   
-			};
+			    number:storeNum.val()};
+
 		    var newStoreData_w_options = _.clone(newStoreData);
 
 		    var validationResults = options.validator(newStoreData_w_options);
@@ -363,7 +365,7 @@ function StoreInputDialog (attachTo,options) {
 	});
 
     $("#"+attachTo).button().click(function() {
-				       d.dialog( "open" );
+				       d.dialog("open");
 				   });
 };
 function TerminalInputDialog (attachTo,options) {
