@@ -196,7 +196,7 @@ function installTerminal(companyID,groupID,storeID,terminalID){
 		       cardserverport:sample_terminal.cardserverport,
 		       cardterminalid:sample_terminal.cardterminalid,
 		       connectiontimeout:sample_terminal.connectiontimeout,
-		       store_info:{
+		       store_address:{
 			   country:store.address.country,
 			   state_prov:store.address.province,
 			   city:store.address.city,
