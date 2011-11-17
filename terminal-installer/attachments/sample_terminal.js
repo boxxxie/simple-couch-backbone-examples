@@ -17,18 +17,18 @@ var sample_terminal ={
            "connection_name": "COUNTER",
            "connectionType": 1,
            "print_original": true,
-           "print_duplicate": true,
+           "print_duplicate": false,
            "activate_cutter": true,
            "print_UPCCode": true,
            "print_zero_item_price": false,
            "message": [
-               "Printer Message 1",
-               "2",
-               "3",
-               "4"
+               "Thanks for shopping",
+               "in our store",
+               "Have a nice day",
+               "!!!"
            ],
            "type": "Default",
-           "enabled": true
+           "enabled": false
        },
        {
            "connection_name": "KITCHEN",
@@ -39,7 +39,7 @@ var sample_terminal ={
            "print_UPCCode": false,
            "print_zero_item_price": false,
            "type": "Kitchen",
-           "enabled": true
+           "enabled": false
        }
    ],
    "receiptHeaders": [
@@ -51,31 +51,31 @@ var sample_terminal ={
    ],
    "departments": [
        {
-           "description1": "Ben",
+           "description1": "Default",
            "description2": "Admin",
-           "description3": "2",
+           "description3": "1",
            "image": ""
        },
        {
-           "description1": "descriptio",
+           "description1": "Default",
            "description2": "",
            "description3": "",
            "image": ""
        },
        {
-           "description1": "descripti",
+           "description1": "Default",
            "description2": "",
            "description3": "",
            "image": ""
        },
        {
-           "description1": "descriptio",
+           "description1": "Default",
            "description2": "",
            "description3": "",
            "image": ""
        },
        {
-           "description1": "descriptio",
+           "description1": "Default",
            "description2": "",
            "description3": "",
            "image": ""
@@ -83,12 +83,12 @@ var sample_terminal ={
    ],
    "scales": [
        {
-           "description1": "sdfsdfsdf",
+           "description1": "Default",
            "description2": "",
-           "description3": "sssss",
+           "description3": "",
            "scaleId": "1",
            "comport": "COM1",
-           "manufacturer": "HP",
+           "manufacturer": "",
            "applyTax1": false,
            "applyTax2": false,
            "applyTax3": false,
@@ -101,7 +101,7 @@ var sample_terminal ={
            "description3": "",
            "scaleId": "2",
            "comport": "COM1",
-           "manufacturer": "HP",
+           "manufacturer": "",
            "applyTax1": false,
            "applyTax2": false,
            "applyTax3": false,
@@ -114,7 +114,7 @@ var sample_terminal ={
            "description3": "",
            "scaleId": "3",
            "comport": "COM1",
-           "manufacturer": "HP",
+           "manufacturer": "",
            "applyTax1": false,
            "applyTax2": false,
            "applyTax3": false,
@@ -4063,6 +4063,6 @@ var sample_terminal ={
    "mobqredits": {
        "bonus_codes": [
        ],
-       "convert_percentage": 0.5
+       "convert_percentage": 0
    }
 }
