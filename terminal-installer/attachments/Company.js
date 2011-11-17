@@ -1,3 +1,41 @@
+function validateUserName(user,itemWithSameUserID,previous,id_key){
+    var results = [];
+    if(_.isEmpty(user)){
+	results = results.concat({fieldname:"user", isInvalid:true});
+    }
+    else if(!checkRegexp(user,/^\w{1,8}$/)){
+	results = results.concat({fieldname:"user", isInvalid:true, errMsg:"The Master User ID length should be 1~8 characters"});
+    }
+    //needs further abstraction
+    if((itemWithSameUserID && !previous) ||
+	itemWithSameUserID &&
+       itemWithSameUserID[id_key] != previous[id_key]){
+	results = results.concat({fieldname:"user", isInvalid:true, errMsg:"The Master User ID is taken already, please select a different one"});
+    }
+    return results;
+};
+function validateItemName(itemName,itemWithSameName,addingNewItem,previous,id_key,fieldname,errMsg){
+    if(_.isEmpty(itemName)){
+	return {fieldname:fieldname, isInvalid:true};
+    }
+    else if((itemWithSameName && addingNewItem) ||
+	    (itemWithSameName && !previous) ||
+	    itemWithSameName && itemWithSameName[id_key] != previous[id_key]) {
+	return {fieldname:fieldname, isInvalid:true, errMsg:errMsg};
+    }
+    return [];
+};
+function validatePassword(password){
+    var results = [];
+    if(_.isEmpty(password)){
+	results = results.concat({fieldname:"password", isInvalid:true});
+    }
+    if(!checkRegexp(password,/^\w{1,8}$/)){
+	results = results.concat({fieldname:"password", isInvalid:true, errMsg:"The Master User Password length should be 1~8 characters"});
+    }
+    return results;
+};
+
 var Company = couchDoc.extend(	
     {defaults: function() {
 	 return {
@@ -21,43 +59,35 @@ var Company = couchDoc.extend(
 	 _.extend(groupToMod,group);
 	 this.save();
      },
-     validateGroup : function (newGroup_w_options,groupID) {
+     validateGroup : function (newGroup,previous) {
 	 function userExists(groups,user){
-	     return groups.find(function(group){return group.user==user;});
+	     return _.find(groups,function(group){return group.user==user;});
 	 };
 	 function groupNameExists(groups,groupName){
-	     return groups.find(function(group){return group.groupName==groupName;});
+	     return _.find(groups,function(group){return group.groupName==groupName;});
 	 };
 	 var results = [];
 	 var groups = this.get('hierarchy').groups;
     
-	 var user = newGroup_w_options.user;
-	 var password = newGroup_w_options.password;
-	 var groupName = newGroup_w_options.companyName;
-	 var operationalname = newGroup_w_options.operationalname;
-	 var addingNewGroup = newGroup_w_options.isCreate;
+	 var user = newGroup.user;
+	 var password = newGroup.password;
+	 var groupName = newGroup.groupName;
+	 var addingNewGroup = newGroup.isCreate;
 	 var groupWithSameName = groupNameExists(groups,groupName);
 	 var groupWithSameUserID = userExists(groups,user);
 	 
 	 //verify user ID
-	 results = results.concat(validateUserName(user));
-	 if(groupWithSameUserID && 
-	    groupWithSameUserID.group_id != newGroup_w_options.oldGroup.id){
-		results = results.concat({fieldname:"user", isInvalid:true, errMsg:"The Master User ID is taken already, please select a different one"});
-	    }
+	 results = results.concat(
+	     validateUserName(user,groupWithSameUserID,previous,'group_id'));
+
 	 //verify password
-	 results = results.concat(validateUserName(user));
+	 results = results.concat(
+	     validatePassword(password));
 	 
-	 //validate name
-	 if(_.isEmpty(groupName)){
-	     results = results.concat({fieldname:"group-name", isInvalid:true});
-	 }
-	 if(groupWithSameName && addingNewGroup){
-	     results = results.concat({fieldname:"group-name", isInvalid:true, errMsg:"A Group with this name already exists in this Company"});
-	 } else if (groupWithSameName &&
-		   groupWithSameName.group_id != newGroup_w_options.group_id){
-	     results = results.concat({fieldname:"group-name", isInvalid:true, errMsg:"A Group with this name already exists in this Company"});
-	 }
+	 //validate group name
+	 results = results.concat(
+	     validateItemName(groupName,groupWithSameName,addingNewGroup,previous,'group_id','group-name',"A Group with the same name in this Company already exists"));
+	 
 	 return results;
      },
      deleteGroup:function(groupID) {
@@ -96,29 +126,34 @@ var Company = couchDoc.extend(
 	 _.extend(storeToMod,store);
 	 this.save();
      },
-     validateStore : function (newStore_w_options) {
+     validateStore : function (newStore,previous,stores) {
+	 function userExists(stores,user){
+	     return _.find(stores,function(store){return store.user==user;});
+	 };
+	 function storeNameExists(stores,storeName){
+	     return _.find(stores,function(store){return store.storeName==storeName;});
+	 };
 	 var results = [];
-	 var stores = this.getStores(newStore_w_options.groupID);
-	 var foundStores = _.filter(stores, function(store){ return store.number==newStore_w_options.number; });
-
-	 if(_.isEmpty(newStore_w_options.user)) {results = results.concat({fieldname:"user", isInvalid:true});}
-	 else{if(!checkLength(newStore_w_options.user,1,8)){results= results.concat({fieldname:"user", isInvalid:true, errMsg:"Master User ID  length should be 1~8"});}}
-	 if(_.isEmpty(newStore_w_options.password)) { results = results.concat({fieldname:"password", isInvalid:true});}
-	 else{if(!checkLength(newStore_w_options.password,1,8)){results = results.concat({fieldname:"password", isInvalid:true, errMsg:"Master User Password  length should be 1~8"});}}
-	 if(_.isEmpty(newStore_w_options.number)) { results = results.concat({fieldname:"store-num", isInvalid:true});}
-	 else{if(!checkRegexp(newStore_w_options.number, /^([0-9])+$/i )){results = results.concat({fieldname:"store-num", isInvalid:true, errMsg:"Store Number should be number"});}}
-	 if(_.isEmpty(newStore_w_options.storeName)) {results = results.concat({fieldname:"store-name", isInvalid:true});}
-
+    
+	 var user = newStore.user;
+	 var password = newStore.password;
+	 var storeName = newStore.storeName;
+	 var addingNewStore = newStore.isCreate;
+	 var storeWithSameName = storeNameExists(stores,storeName);
+	 var storeWithSameUserID = userExists(stores,user);
 	 
-	 
-	 if((!newStore_w_options.isCreate)) {
-	     if((foundStores.length>0) && !_.contains(_.pluck(foundStores, "store_id"),newStore_w_options.storeID)) {
-		 results = results.concat({fieldname:"store-number", isInvalid:true, errMsg:"There's a same Store Number in this Group"});
-	     }
-	 } else {
-	     if(foundStores.length>0) {results = results.concat({fieldname:"store-number", isInvalid:true, errMsg:"There's a same Store Number in this Group"});}
-	 }
+	 //verify user ID
+	 results = results.concat(
+	     validateUserName(user,storeWithSameUserID,previous,'store_id'));
 
+	 //verify password
+	 results = results.concat(
+	     validatePassword(password));
+	 
+	 //validate store name
+	 results = results.concat(
+	     validateItemName(storeName,storeWithSameName,addingNewStore,previous,'store_id','store-name',"A Store with the same name in this Company already exists"));
+	 
 	 return results;
      },
      deleteStore:function(groupID,storeID) {
