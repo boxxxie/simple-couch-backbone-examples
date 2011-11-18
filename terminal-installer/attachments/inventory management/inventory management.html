@@ -1,0 +1,90 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Inventory Management</title>
+
+    <link href="layout.css" rel="stylesheet" type="text/css">
+    <link href="css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css">
+    <link href="css/jquery.multiselect.css" rel="stylesheet" type="text/css">
+
+    <script language="javascript" type="text/javascript" src="lib/jquery-1.6.4.js"></script>
+
+    <script language="javascript" type="text/javascript" src="lib/jquery-ui-1.8.16.custom.min.js"></script>
+    <script language="javascript" type="text/javascript" src="lib/jquery.couch.js"></script>
+    <script language="javascript" type="text/javascript" src="lib/couchDBhelpers.js"></script>
+    <script language="javascript" type="text/javascript" src="inventory management/dialogs.js"></script>
+    
+    <script language="javascript" type="text/javascript" src="lib/underscore.js"></script>
+    <script language="javascript" type="text/javascript" src="lib/underscore_extended.js"></script>
+    <script language="javascript" type="text/javascript" src="lib/backbone.js"></script>
+    <script language="javascript" type="text/javascript" src="lib/mustache.js"></script>
+    <script language="javascript" type="text/javascript" src="lib/ICanHaz.js"></script>
+
+    <script language="javascript" type="text/javascript" src="site.js"></script>
+
+    <script language="javascript" type="text/javascript" src="lib/couch-backbone.js"></script>
+    <script language="javascript" type="text/javascript" src="inventory management/Inventory.js"></script>
+    <script language="javascript" type="text/javascript" src="inventory management/inventory management.js"></script>
+    <script language="javascript" type="text/javascript" src="inventory management/docRdy.js"></script>
+
+
+    <!------------------------------------------------- GENERAL --------------------------------------------------------->
+
+    <script id="commonClasses_P" class="partial" type="text/html">
+      text ui-widget-content ui-corner-all
+    </script>
+
+    <!------------------------------------------------- INVENTORY --------------------------------------------------------->
+
+    <script id="inventoryForm_TMP" type="text/html">
+      {{#item}}
+      <form>
+	<dl>
+	  <dt>Location</dt>
+	  <dd>
+	    <label>Company</label>
+	    <input type="text" var="location.company" value="{{location.company}}" class="{{>commonClasses_P}}" />
+	    <label>Group</label>
+	    <input type="text" var="location.group" value="{{location.group}}" class="{{>commonClasses_P}}" />
+	    <label>Store</label>
+	    <input type="text" var="location.company" value="{{location.store}}" class="{{>commonClasses_P}}" />
+	  </dd>
+	</dl>
+	<dl>
+	  <dt>Apply Taxes</dt>
+	  <dd>
+	    <label>Tax 1</label>
+	    <input type="checkbox" var="apply_taxes.tax1" checked="{{apply_taxes.tax1}}" class="{{>commonClasses_P}}" />
+	    <label>Tax 2</label>
+	    <input type="checkbox" var="apply_taxes.tax2" checked="{{apply_taxes.tax2}}" class="{{>commonClasses_P}}" />
+	    <label>Tax 3</label>
+	    <input type="checkbox" var="apply_taxes.tax3" checked="{{apply_taxes.tax3}}" class="{{>commonClasses_P}}" />
+	    <label>Exemption</label>
+	    <input type="checkbox" var="apply_taxes.exemption" {{#exemption}}checked=true{{/exemption}} class="{{>commonClasses_P}}" />
+	  </dd>
+	</dl>
+	<dl>
+	  <dt>Price</dt>
+	  <dd>
+	    <label>Selling Price</label>
+	    <input type="text" var="price.selling_price" value="{{price.selling_price}}" class="{{>commonClasses_P}}" />
+	    <label>Standard price</label>
+	    <input type="text" var="price.selling_price" value="{{price.standard_price}}" class="{{>commonClasses_P}}" />
+	  </dd>
+	</dl>
+      </form>
+      {{/item}}
+    </script>
+
+    <script id="upcInput_TMP" type="text/html">
+      <input type="text" />
+    </script>
+
+    <!-------------------------------------------------------------------------------------------------------------------------->
+
+  </head>
+  <body>
+    <upc></upc>
+    <inv_item></inv_item>
+  </body>
+</html>
