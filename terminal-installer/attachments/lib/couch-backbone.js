@@ -1,8 +1,3 @@
-var campaignList;
-
-//FIXME: not working right... also should be assigning an ID if one doesn't exist
-/*The POST operation can be used to create a new document with a server generated DocID. To do so, the URL must point to the database's location. To create a named document, use the PUT method instead. 
- * */
 var couchDoc = Backbone.Model.extend(
     {
 	idAttribute: "_id",
@@ -19,7 +14,6 @@ var couchDoc = Backbone.Model.extend(
 	    };
 	    Backbone.Model.prototype.save.call(this, attrs, options);
 	},	
-	//DELETE /somedatabase/some_doc?rev=1582603387 HTTP/1.0
 	destroy:function(options){
 	    options || (options = {});
 	    var model = this;
@@ -54,6 +48,8 @@ var couchCollection = function(couch,options){
 		 }));
 };
 
+
+//-------------------- not part of couch-backbone yet------------------//
 
 //testing for persistfilter
 Backbone.Model.prototype.save = function() {
