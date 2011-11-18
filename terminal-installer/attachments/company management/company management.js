@@ -247,6 +247,7 @@ function installTerminal(companyID,groupID,storeID,terminalID){
 		       scales:sample_terminal.scales,
 		       showMobQRedits:terminal.usingmobqredits,
 		       locally_modifiable:!terminal.centrallycontrolmenus,
+		       automatedPayment:terminal.usingautomatedpayment,
 			   
 		       creditPayment:sample_terminal.creditPayment,
 		       debitPayment:sample_terminal.debitPayment,
