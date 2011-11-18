@@ -1,9 +1,8 @@
 function doc_setup() {
-    var InventoryItem;
     var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
     var db = 'inventory';
-    InventoryItem = new (couchDoc({urlRoot:urlBase+db}));
-     
+    var InventoryItem = couchDoc.extend({urlRoot:urlBase+db});
+
     var AppRouter = new 
     (Backbone.Router.extend(
 	 {
@@ -13,13 +12,14 @@ function doc_setup() {
 	     },
 	     inventoryManagementHome:function(){
 		 console.log("inventoryManagementHome");
-		 var html = ich.inventory_management_page_TMP({createButtonLabel:"New Inventory"});
-		 $('body').html(html);
-		 $("#create-dialog")
-		     .html(ich.inventoryInputDialog_TMP(
-			       {title:"Make a new Inventory",
-				inventory:{address:{},contact:{}}}));
-		 InventoryCreateDialog("create-thing",addInventory(Companies));
+		 var mainHTML = ich.inventoryManagementHome_TMP();
+		 $("body").html(mainHTML);
+		 var upcInputHTML = ich.upcInput_TMP();
+		 $("upc").html(upcInputHTML);
+		 $("upc").find("input").change(function(a){
+						   window.location.href ='#/inventory/'+$(this).val();
+						   console.log( $(this).val());
+						   console.log(a);});
 	     },
 	     addmodifyInventory:function(upc){
 		 console.log("addmodifyInventory: " + upc);
@@ -29,65 +29,45 @@ function doc_setup() {
     var InventoryView = Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
-	     _.bindAll(view, 'renderManagementPage','renderModifyPage'); 
-	     this.collection.bind('reset',view.renderManagementPage);
-	     this.collection.bind('add',view.renderManagementPage);
-	     this.collection.bind('remove', view.renderManagementPage);
+	     _.bindAll(view, 'renderManagementPage','renderModifyPage');
 	     AppRouter.bind('route:inventoryManagementHome', function(){
 				console.log('companiesView:route:inventoryManagementHome');
-				view.el =_.first($("#list-things"));
+				view.el= _.first($("inv_item"));
 				view.renderManagementPage();});
-	     AppRouter.bind('route:modifyInventory', function(id){
-				var inventory = Companies.getModelById(id);
-				inventory.bind('change',function(){view.renderModifyPage(id);});
+	     AppRouter.bind('route:addmodifyInventory', function(upc){
+				//fetch model based on upc code
+				view.model = new InventoryItem({_id:upc});
+				view.model.fetch();
+				view.model.bind('change',function(){view.renderModifyPage(upc);});
 				console.log('companiesView:route:modifyInventory');
-				view.renderModifyPage(id);});
+				view.renderModifyPage(upc);});
 	     
 	 },
 	 renderManagementPage:function(){
 	     var view = this;
-	     var companies = this.collection.toJSON();
-	     var forTMP_w_stats = 
-		 {list:_.map(companies,
-			     function(inventory)
-			     { var inventoryClone = _.clone(inventory);
-			       var date = new Date(inventoryClone.creationdate);
-			       _.extend(inventoryClone,{creationdate:date.toDateString()});
-			       var inventoryStats = view.collection.get(inventory._id).inventoryStats();
-			       var quickViewArgs = {template:"modify_inventory_page_TMP",
-						    inventory_id:inventory._id};
-			       return _.extend(inventoryClone,inventoryStats,quickViewArgs);})};
-	     var html = ich.companiesTabel_TMP(forTMP_w_stats);
-	     $(this.el).html(html);
-	     console.log("companiesView renderManagementPage");
+	     if(view.model){
+		 var html = ich.inventoryForm_TMP({item:view.model.toJSON()});
+		 $(this.el).html(html);
+	     }
+	     console.log("InventoryView renderManagementPage");
 	     return this;
 	 },
-	 renderModifyPage:function(id){
+	 renderModifyPage:function(upc){
 	     var view = this;
-	     var inventory = Companies.getModelById(id);
-	     var inventoryJSON = inventory.toJSON();
-	     $('body').html(ich.modify_inventory_page_TMP(_.extend({inventory:inventoryJSON,
-								    inventory_id:id},
-								   breadCrumb(id))));
-	     $('fieldset').find('input').attr("disabled",true);
-	     $("#dialog-hook").html(ich.inventoryInputDialog_TMP({title:"Edit the Inventory",
-								  inventory:inventoryJSON}));
-	     InventoryModifyDialog("edit-thing",editInventory(inventory));
-	     console.log("companiesView renderModifyPage " + id);
+	     if(view.model){
+		 var html = ich.inventoryForm_TMP({item:view.model.toJSON()});
+		 $(this.el).html(html);
+	     }
+	     console.log("InventoryView renderModifyPage " + upc);
 	     return this;
-	 },
-	 updateModel:function(){
-	     this.inventory = this.collection.getModelById(Selection.get('inventory'));
-	     this.trigger("change:model");
 	 }
 	});
 
     var InvItemDisplay = new InventoryView(
-	{
-	    model: InventoryItem,
-	    el:_.first($("inv_item"))
-	});
-
+//	{
+//	    el:_.first($("inv_item"))
+//	});
+);
     Backbone.history.start();
 
 }

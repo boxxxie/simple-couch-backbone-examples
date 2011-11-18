@@ -10,6 +10,6 @@ var Inventory = couchDoc.extend(
 	     description:"unknown",
 	     location:{/*company:company_id, group:group_id, store:store_id*/},
 	     price:{/*selling_price:0.00, standard_price:0.00*/}
-	 }
+	 };
      }
   });
