@@ -379,6 +379,12 @@ function TerminalInputDialog (attachTo,options) {
     cityCode = d.find("#cityCode"),
     storeCode = d.find("#storeCode"),
     companyCode = d.find("#companyCode"),
+    //centrallycontrolmenus = d.find("#centrallycontrolmenus"),
+    //usingautomatedpayment = d.find("#usingautomatedpayment"),
+    //usingmobqredits = d.find("#usingmobqredits");
+    centrallycontrolmenus = document.getElementById("centrallycontrolmenus");
+    usingautomatedpayment = document.getElementById("usingautomatedpayment");
+    usingmobqredits = document.getElementById("usingmobqredits");
 
     allFields = $([])
 	.add(label)
@@ -387,7 +393,10 @@ function TerminalInputDialog (attachTo,options) {
 	.add(countryCode)
 	.add(cityCode)
 	.add(storeCode)
-	.add(companyCode);
+	.add(companyCode)
+	.add(centrallycontrolmenus)
+	.add(usingautomatedpayment)
+	.add(usingmobqredits);
 
     var tips = $( ".validateTips" );
 
@@ -412,7 +421,11 @@ function TerminalInputDialog (attachTo,options) {
 			     countryCode:countryCode.val(),
 			     cityCode:cityCode.val(),
 			     storeCode:storeCode.val(),
-			     companyCode:companyCode.val()
+			     companyCode:companyCode.val(),
+			     autoPayment:usingautomatedpayment.checked,
+			     showMobQRedits:usingmobqredits.checked,
+			     locally_modifiable:!centrallycontrolmenus.checked
+			     
 			 };
 
 		var newTerminalData_w_options = _.clone(newTerminalData);
@@ -442,7 +455,8 @@ function TerminalInputDialog (attachTo,options) {
 	     }
 	 }
 	});
-
+	
+	
     $("#"+attachTo).button().click(function() {
 				       d.dialog("open");
 				   });
