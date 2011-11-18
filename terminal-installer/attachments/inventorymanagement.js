@@ -14,4 +14,5 @@ function inventory_doc_setup() {
 		  //}
 		 }));
     Inventories.fetch();
+    console.log("fetch is done");
 }
