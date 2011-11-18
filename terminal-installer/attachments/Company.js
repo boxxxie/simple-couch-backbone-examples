@@ -3,7 +3,6 @@ function randInt_maker(length){
 	return parseInt(Math.random()*Math.pow(10,length))+"";
     };
 }
-=======
 function validateUserName(user,itemWithSameUserID,previous,id_key){
     var results = [];
     if(_.isEmpty(user)){
@@ -41,7 +40,6 @@ function validatePassword(password){
     }
     return results;
 };
->>>>>>> userpass_validation
 
 var Company = couchDoc.extend(	
     {defaults: function() {
