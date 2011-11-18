@@ -11,7 +11,7 @@
     <script language="javascript" type="text/javascript" src="lib/jquery-ui-1.8.16.custom.min.js"></script>
     <script language="javascript" type="text/javascript" src="lib/jquery.couch.js"></script>
     <script language="javascript" type="text/javascript" src="lib/couchDBhelpers.js"></script>
-    <script language="javascript" type="text/javascript" src="dialogs.js"></script>
+    <script language="javascript" type="text/javascript" src="company management/dialogs.js"></script>
     
     <script language="javascript" type="text/javascript" src="lib/underscore.js"></script>
     <script language="javascript" type="text/javascript" src="lib/underscore_extended.js"></script>
@@ -22,10 +22,10 @@
     <script language="javascript" type="text/javascript" src="site.js"></script>
 
     <script language="javascript" type="text/javascript" src="lib/couch-backbone.js"></script>
-    <script language="javascript" type="text/javascript" src="sample_terminal.js"></script>
-    <script language="javascript" type="text/javascript" src="Company.js"></script>
-    <script language="javascript" type="text/javascript" src="company management.js"></script>
-    <script language="javascript" type="text/javascript" src="docRdy.js"></script> <!-- needs to go last -->
+    <script language="javascript" type="text/javascript" src="company management/sample_terminal.js"></script>
+    <script language="javascript" type="text/javascript" src="company management/Company.js"></script>
+    <script language="javascript" type="text/javascript" src="company management/company management.js"></script>
+    <script language="javascript" type="text/javascript" src="company management/docRdy.js"></script> <!-- needs to go last -->
     
     <style>
       label, input { display:block; }
@@ -418,12 +418,12 @@
 	  <input type="text" id="countryCode" value="{{countryCode}}" class="text ui-widget-content ui-corner-all" />
 	  <label for="postalCode">Postal Code</label>
 	  <input type="text" id="postalCode" value="{{postalCode}}" class="text ui-widget-content ui-corner-all" />
-	  <label for="centrallycontrolmenus">Centrally Control Menus</label>
-	  <input type="checkbox" id="centrallycontrolmenus" {{#centrallycontrolmenus}}checked=true{{/centrallycontrolmenus}}/>
-	  <label for="usingautomatedpayment">Using Automated Payment</label>
-	  <input type="checkbox" id="usingautomatedpayment" {{#usingautomatedpayment}}checked=true{{/usingautomatedpayment}}/>
+	  <label for="centrallycontrolmenus">Centrally Controled Menus</label>
+	  <input type="checkbox" id="centrallycontrolmenus" {{#centrallycontrolmenus}}checked=true{{/centrallycontrolmenus}} />
+	  <label for="usingautomatedpayment">Using Automated Payments</label>
+	  <input type="checkbox" id="usingautomatedpayment" {{#usingautomatedpayment}}checked=true{{/usingautomatedpayment}} />
 	  <label for="usingmobqredits">Using mobQRedits</label>
-	  <input type="checkbox" id="usingmobqredits" {{#usingmobqredits}}checked=true{{/usingmobqredits}}/>
+	  <input type="checkbox" id="usingmobqredits" {{#usingmobqredits}}checked=true{{/usingmobqredits}} />
 	  
 	</fieldset>
       </form>

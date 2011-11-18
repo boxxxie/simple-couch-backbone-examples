@@ -379,9 +379,9 @@ function TerminalInputDialog (attachTo,options) {
     cityCode = d.find("#cityCode"),
     storeCode = d.find("#storeCode"),
     companyCode = d.find("#companyCode"),
-    centrallycontrolmenus = document.getElementById("centrallycontrolmenus"),
-    usingautomatedpayment = document.getElementById("usingautomatedpayment"),
-    usingmobqredits = document.getElementById("usingmobqredits"),
+    centrallycontrolmenus = d.find("#centrallycontrolmenus"),
+    usingautomatedpayment = d.find("#usingautomatedpayment"),
+    usingmobqredits = d.find("#usingmobqredits"),
 
     allFields = $([])
 	.add(label)
@@ -395,7 +395,7 @@ function TerminalInputDialog (attachTo,options) {
 	.add(usingautomatedpayment)
 	.add(usingmobqredits);
 
-    var tips = $( ".validateTips" );
+    var tips = $(".validateTips");
 
     d.dialog(
 	{autoOpen: false,
@@ -404,13 +404,12 @@ function TerminalInputDialog (attachTo,options) {
 	 modal: true,
 	 close: function() {
 	     if(options.clearOnExit) {
-		 allFields.val("").removeClass( "ui-state-error" );
+		 allFields.val("").removeClass(genericClassError);
 		 allFields.filter("input:checked").attr("checked",false);
 	     }
 	 },
 	 buttons: {
 	     "Submit": function() {
-		 var bValid = true;
 		 var newTerminalData = {
 			     terminal_label:label.val(),
 			     areaCode:areaCode.val(),
@@ -419,9 +418,9 @@ function TerminalInputDialog (attachTo,options) {
 			     cityCode:cityCode.val(),
 			     storeCode:storeCode.val(),
 			     companyCode:companyCode.val(),
-			     usingautomatedpayment:usingautomatedpayment.checked,
-			     usingmobqredits:usingmobqredits.checked,
-			     centrallycontrolmenus:!centrallycontrolmenus.checked
+			     usingautomatedpayment:usingautomatedpayment.is(":checked"),
+			     usingmobqredits:usingmobqredits.is(":checked"),
+			     centrallycontrolmenus:centrallycontrolmenus.is(":checked")
 			     
 			 };
 
