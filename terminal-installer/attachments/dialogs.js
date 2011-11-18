@@ -379,6 +379,9 @@ function TerminalInputDialog (attachTo,options) {
     cityCode = d.find("#cityCode"),
     storeCode = d.find("#storeCode"),
     companyCode = d.find("#companyCode"),
+    centrallycontrolmenus = d.find("#centrallycontrolmenus"),
+    usingautomatedpayment = d.find("#usingautomatedpayment"),
+    usingmobqredits = d.find("#usingmobqredits"),
 
     allFields = $([])
 	.add(label)

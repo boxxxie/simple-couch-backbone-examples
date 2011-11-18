@@ -1,0 +1,85 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Inventory Management</title>
+    <link href="layout.css" rel="stylesheet" type="text/css">
+    <link href="css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css">
+    <link href="css/jquery.multiselect.css" rel="stylesheet" type="text/css">
+
+    <script language="javascript" type="text/javascript" src="lib/jquery-1.6.4.js"></script>
+
+    <script language="javascript" type="text/javascript" src="lib/jquery-ui-1.8.16.custom.min.js"></script>
+    <script language="javascript" type="text/javascript" src="lib/jquery.couch.js"></script>
+    <script language="javascript" type="text/javascript" src="lib/couchDBhelpers.js"></script>
+    <!--<script language="javascript" type="text/javascript" src="dialogs.js"></script>-->
+    
+    <script language="javascript" type="text/javascript" src="lib/underscore.js"></script>
+    <script language="javascript" type="text/javascript" src="lib/underscore_extended.js"></script>
+    <script language="javascript" type="text/javascript" src="lib/backbone.js"></script>
+    <script language="javascript" type="text/javascript" src="lib/mustache.js"></script>
+    <script language="javascript" type="text/javascript" src="lib/ICanHaz.js"></script>
+
+    <script language="javascript" type="text/javascript" src="site.js"></script>
+
+    <script language="javascript" type="text/javascript" src="lib/couch-backbone.js"></script>
+    <script language="javascript" type="text/javascript" src="Inventory.js"></script>
+    <script language="javascript" type="text/javascript" src="inventorymanagement.js"></script>
+    <script language="javascript" type="text/javascript" src="Inventory_docRdy.js"></script>
+
+
+
+<!------------------------------------------------- GENERAL --------------------------------------------------------->
+    <script id="apply_taxes_P" class="partial" type="text/html">
+      {{#apply_taxes}}
+      <dl>
+	<dt>Apply Taxes</dt>
+	<dd>
+	  <label for="apply_taxes.tax1">Tax 1</label>
+	  <input type="checkbox" id="apply_taxes.tax1" checked="{{tax1}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="apply_taxes.tax2">Tax 2</label>
+	  <input type="checkbox" id="apply_taxes.tax1" checked="{{tax2}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="apply_taxes.tax1">Tax 3</label>
+	  <input type="checkbox" id="apply_taxes.tax1" checked="{{tax3}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="apply_taxes.exemption">Exemption</label>
+	  <input type="checkbox" id="apply_taxes.exemption" checked="{{exemption}}" class="text ui-widget-content ui-corner-all" />
+	</dd>
+      </dl>
+      {{/apply_taxes}}
+    </script>
+    
+    <script id="location_P" class="partial" type="text/html">
+      {{#location}}
+      <dl>
+	<dt>Location</dt>
+	<dd>
+	  <label for="location.company">Company</label>
+	  <input type="text" id="location.company" value="{{company}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="location.group">Group</label>
+	  <input type="text" id="location.group" value="{{group}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="location.store">Store</label>
+	  <input type="text" id="location.company" value="{{store}}" class="text ui-widget-content ui-corner-all" />
+	</dd>
+      </dl>
+      {{/location}}
+    </script>
+    
+    <script id="price_P" class="partial" type="text/html">
+      {{#price}}
+      <dl>
+	<dt>Price</dt>
+	<dd>
+	  <label for="price.selling_price">Selling Price</label>
+	  <input type="text" id="price.selling_price" value="{{selling_price}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="price.standard_price">Standard price</label>
+	  <input type="text" id="price.selling_price" value="{{standard_price}}" class="text ui-widget-content ui-corner-all" />
+	</dd>
+      </dl>
+      {{/price}}
+    </script>
+<!-------------------------------------------------------------------------------------------------------------------------->
+   </head>
+   <body>
+		   	
+   </body>
+</html>
+   
