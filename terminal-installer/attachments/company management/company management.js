@@ -381,11 +381,7 @@ function doc_setup(){
 		 $("#create-dialog")
 		     .html(ich.groupInputDialog_TMP(
 			       {title:"Make a new Group",
-				group:companyJSON}));
-=======
 				group:{address:companyJSON.address,contact:companyJSON.contact}}));
-		 //GroupCreateDialog("create-thing", _.extend(addGroup(companyID),{company:company} ));
->>>>>>> 6f6be2bf6494101c8743b1ba54ce7b3ea7ce207f
 		 GroupCreateDialog("create-thing",addGroup(companyID));
 	     },
 	     modifyGroup:function(companyID, groupID){
