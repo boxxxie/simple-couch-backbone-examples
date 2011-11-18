@@ -1,6 +1,6 @@
 var Inventories;
 
-function inventory_doc_setup() {
+function doc_setup() {
 	Inventories = 
 	new (couchCollection(
 		 {db:'inventory'},
