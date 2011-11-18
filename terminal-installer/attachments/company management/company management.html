@@ -4,37 +4,27 @@
     <title>Company Management</title>
     <link href="../layout.css" rel="stylesheet" type="text/css">
     <link href="../css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css">
-    <link href="../css/jquery.multiselect.css" rel="stylesheet" type="text/css">
-
+  
     <script language="javascript" type="text/javascript" src="../lib/jquery-1.6.4.js"></script>
-
+  
     <script language="javascript" type="text/javascript" src="../lib/jquery-ui-1.8.16.custom.min.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/jquery.couch.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/couchDBhelpers.js"></script>
-    <script language="javascript" type="text/javascript" src="dialogs.js"></script>
-=======
     <script language="javascript" type="text/javascript" src="../company management/dialogs.js"></script>
->>>>>>> 9d3f55b688bdf4ffe12cb3a4566065b5620609f8
     
     <script language="javascript" type="text/javascript" src="../lib/underscore.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/underscore_extended.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/backbone.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/mustache.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/ICanHaz.js"></script>
-
+  
     <script language="javascript" type="text/javascript" src="../site.js"></script>
-
+  
     <script language="javascript" type="text/javascript" src="../lib/couch-backbone.js"></script>
-    <script language="javascript" type="text/javascript" src="sample_terminal.js"></script>
-    <script language="javascript" type="text/javascript" src="Company.js"></script>
-    <script language="javascript" type="text/javascript" src="company management.js"></script>
-    <script language="javascript" type="text/javascript" src="docRdy.js"></script> <!-- needs to go last -->
-=======
     <script language="javascript" type="text/javascript" src="../company management/sample_terminal.js"></script>
     <script language="javascript" type="text/javascript" src="../company management/Company.js"></script>
     <script language="javascript" type="text/javascript" src="../company management/company management.js"></script>
     <script language="javascript" type="text/javascript" src="../company management/docRdy.js"></script> <!-- needs to go last -->
->>>>>>> 9d3f55b688bdf4ffe12cb3a4566065b5620609f8
     
     <style>
       label, input { display:block; }
@@ -48,8 +38,8 @@
       .ui-dialog .ui-state-error { padding: .3em; }
       .validateTips { border: 1px solid transparent; padding: 0.3em; }
     </style>
-
-
+  
+  
     <!--------------------------------------------------------GENERAL--------------------------------------------------->
     <script id="userpass_P" class="partial" type="text/html">
       <label for="user">Master User ID</label>
@@ -57,7 +47,7 @@
       <label for="password">Master Password</label>
       <input type="password"  id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
     </script>
-
+  
     <script id="addressFields_P" class="partial" type="text/html">
       {{#address}}
       <dl>
@@ -79,7 +69,7 @@
       </dl>
       {{/address}}
     </script>
-
+  
     <script id="contactFields_P" class="partial" type="text/html">
       {{#contact}}
       <dl>
@@ -99,7 +89,7 @@
       </dl>
       {{/contact}}
     </script>
-
+  
     <script id="breadcrumb_P" class="partial" type="text/html">
       <h2>{{#companyName}}
 	<i>Company</i> {{companyName}}
@@ -125,24 +115,24 @@
 	<span class="ui-button-text">Back</span>
       </button>
     </script>
-
+  
     <script id="menuButton_P" class="partial" type="text/html">
       <button  class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
 	       onClick="javascript:window.location.href ='./mainMenus.html';">
 	<span class="ui-button-text">Menus</span>
       </button>
     </script>
-
+  
     <script id="createButton_P" class="partial" type="text/html">
       <button id="create-thing">{{createButtonLabel}}</button>
     </script>
-
+  
     <script id="editButton_P" class="partial" type="text/html">
       <button id="edit-thing">
 	Edit
       </button>
     </script>
-
+  
     <script id="quickViewButton_P" class="partial" type="text/html">
       <button onclick=quickView("{{template}}","{{company_id}}","{{group_id}}","{{store_id}}","{{terminal_id}}") class="ui-state-default ui-corner-all">
 	<span class="ui-button-text">
@@ -150,7 +140,7 @@
 	</span>
       </button>
     </script>
-
+  
     <script id="deleteButton_P" class="partial" type="text/html">
       <button onclick=deleteThing("{{company_id}}","{{group_id}}","{{store_id}}") class="ui-state-default ui-corner-all">
 	<span class="ui-button-text">
@@ -158,31 +148,31 @@
 	</span>
       </button>
     </script>
-
+  
     <script id="quickViewHook_P" class="partial" type="text/html">
       <div id="dialog-quickView" title="QuickView"></div>
     </script>
-
+  
     <script id="createDialogHook_P" class="partial" type="text/html">
       <div id="create-dialog"></div>
     </script>
-
+  
     <script id="managementTableHook_P" class="partial" type="text/html">
       <div id="list-things"></div>
     </script>
     
     <!--------------------------------------------------------DIALOG--------------------------------------------------->
-
+  
     <script id="tips_TMP" type="text/html">
       <ol>
-      {{#tips}}
-      <li>{{.}}</li>
-      {{/tips}}
+	{{#tips}}
+	<li>{{.}}</li>
+	{{/tips}}
       </ol>
     </script>
-
+  
     <!--------------------------------------------------------COMPANY--------------------------------------------------->
-
+  
     <script id="companiesTabel_TMP" type="text/html">
       <table border="1">
 	<tr>
@@ -210,7 +200,7 @@
       </table>
       {{>quickViewHook_P}}
     </script>
-
+  
     <script id="company_management_page_TMP" type="text/html">
       <h1>Company Management</h1>
       {{>managementTableHook_P}}
@@ -234,20 +224,20 @@
       </form>
       {{/company}}
     </script>
-
+  
     <script id="companyInputDialog_TMP" type="text/html">
       <div id="dialog-form" title="{{title}}">
 	<p class="validateTips"></p>
 	{{>companyForm_P}}
       </div>	
     </script>
-
+  
     <script id="modify_company_page_TMP" type="text/html">
       <table border="1">
 	<h1>Modify Company</h1>
 	{{>breadcrumb_P}}
 	{{>companyForm_P}}
-
+	
 	{{>editButton_P}}
 	{{>backButton_P}}
 	{{>menuButton_P}}
@@ -258,9 +248,9 @@
       </table>
       <div id="dialog-hook"></div>
     </script>   
-
+  
     <!--------------------------------------------------------GROUP--------------------------------------------------->
-
+  
     <script id="groupsTabel_TMP" type="text/html">
       <table border="1">
 	<tr>
@@ -284,7 +274,7 @@
       </table>
       {{>quickViewHook_P}}
     </script>
-
+  
     <script id="group_management_page_TMP" type="text/html">
       <h1>Group Management</h1>
       {{>breadcrumb_P}}
@@ -294,7 +284,7 @@
       {{>menuButton_P}}
       {{>createDialogHook_P}}
     </script>
-
+  
     <script id="groupForm_P" class="partial" type="text/html">
       {{#group}}
       <form>
@@ -308,14 +298,14 @@
       </form>
       {{/group}}
     </script>
-
+  
     <script id="groupInputDialog_TMP" type="text/html">
       <div id="dialog-form" title="{{title}}">
 	<p class="validateTips"></p>
 	{{>groupForm_P}}
       </div>
     </script>
-
+  
     <script id="modify_group_page_TMP" type="text/html">
       <table border="1">
 	<h1>Modify Group</h1>
@@ -331,9 +321,9 @@
       </table>
       <div id="dialog-hook"></div>
     </script>   
-
+  
     <!--------------------------------------------------------STORES--------------------------------------------------->
-
+  
     <script id="storeForm_P" class="partial" type="text/html">
       {{#store}}
       <form>
@@ -349,7 +339,7 @@
       </form>
       {{/store}}
     </script>
-
+  
     <script id="storesTabel_TMP" type="text/html">
       <table border="1">
 	<tr>
@@ -373,14 +363,14 @@
       </table>
       {{>quickViewHook_P}}
     </script>
-
+  
     <script id="storeInputDialog_TMP" type="text/html">
       <div id="dialog-form" title="{{title}}">
 	<p class="validateTips"></p>
 	{{>storeForm_P}}
       </div>
     </script>  
-
+  
     <script id="store_management_page_TMP" type="text/html">
       <h1>Stores Management</h1>
       {{>breadcrumb_P}}
@@ -390,7 +380,7 @@
       {{>menuButton_P}}
       {{>createDialogHook_P}}
     </script>
-
+  
     <script id="modify_store_page_TMP" type="text/html">
       <table border="1">
 	<h1>Modify Store</h1>
@@ -406,9 +396,9 @@
       </table>
       <div id="dialog-hook"></div>
     </script>   
-
+  
     <!--------------------------------------------------------TERMINALS--------------------------------------------------->
-
+  
     <script id="terminalFrom_P" class="partial" type="text/html">
       {{#terminal}}	
       <form>
@@ -438,7 +428,7 @@
       </form>
       {{/terminal}}
     </script>
-
+  
     <script id="terminalsTabel_TMP" type="text/html">
       <table border="1">
 	<tr>
@@ -458,14 +448,14 @@
       </table>
       {{>quickViewHook_P}}
     </script>
-
+  
     <script id="terminalInputDialog_TMP" type="text/html">
       <div id="dialog-form" title="{{title}}">
 	<p class="validateTips"></p>
 	{{>terminalFrom_P}}
       </div>
     </script>
-
+  
     <script id="terminal_management_page_TMP" type="text/html">
       <h1>Terminals Management</h1>
       {{>breadcrumb_P}}
@@ -475,7 +465,7 @@
       {{>menuButton_P}}
       {{>createDialogHook_P}}
     </script>
-
+  
     <script id="modify_terminal_page_TMP" type="text/html">
       <table border="1">
 	<h1>Modify Terminal</h1>
