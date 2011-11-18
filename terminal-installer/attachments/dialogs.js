@@ -379,12 +379,9 @@ function TerminalInputDialog (attachTo,options) {
     cityCode = d.find("#cityCode"),
     storeCode = d.find("#storeCode"),
     companyCode = d.find("#companyCode"),
-    //centrallycontrolmenus = d.find("#centrallycontrolmenus"),
-    //usingautomatedpayment = d.find("#usingautomatedpayment"),
-    //usingmobqredits = d.find("#usingmobqredits");
-    centrallycontrolmenus = document.getElementById("centrallycontrolmenus");
-    usingautomatedpayment = document.getElementById("usingautomatedpayment");
-    usingmobqredits = document.getElementById("usingmobqredits");
+    centrallycontrolmenus = document.getElementById("centrallycontrolmenus"),
+    usingautomatedpayment = document.getElementById("usingautomatedpayment"),
+    usingmobqredits = document.getElementById("usingmobqredits"),
 
     allFields = $([])
 	.add(label)
@@ -422,9 +419,9 @@ function TerminalInputDialog (attachTo,options) {
 			     cityCode:cityCode.val(),
 			     storeCode:storeCode.val(),
 			     companyCode:companyCode.val(),
-			     autoPayment:usingautomatedpayment.checked,
-			     showMobQRedits:usingmobqredits.checked,
-			     locally_modifiable:!centrallycontrolmenus.checked
+			     usingautomatedpayment:usingautomatedpayment.checked,
+			     usingmobqredits:usingmobqredits.checked,
+			     centrallycontrolmenus:!centrallycontrolmenus.checked
 			     
 			 };
 
