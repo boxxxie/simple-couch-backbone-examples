@@ -212,7 +212,7 @@ function GroupInputDialog (attachTo,options) {
 	 height: 900,
 	 width: 500,
 	 modal: true,
-	 open: function() {
+	 /*open: function() {
 	 	if(options.isCreate) {
 	 		firstname.val(options.company.get("contact").firstname);
 	 		lastname.val(options.company.get("contact").lastname);
@@ -226,7 +226,7 @@ function GroupInputDialog (attachTo,options) {
 	 		country.val(options.company.get("address").country);
 	 		postalcode.val(options.company.get("address").postalcode);
 	 	}
-	 },
+	 },*/
 	 close: function() {
 	     if(options.clearOnExit) {
 		 allFields.val("").removeClass( "ui-state-error" );
