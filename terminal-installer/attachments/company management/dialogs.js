@@ -212,21 +212,6 @@ function GroupInputDialog (attachTo,options) {
 	 height: 900,
 	 width: 500,
 	 modal: true,
-	 /*open: function() {
-	 	if(options.isCreate) {
-	 		firstname.val(options.company.get("contact").firstname);
-	 		lastname.val(options.company.get("contact").lastname);
-	 		website.val(options.company.get("contact").website);
-	 		email.val(options.company.get("contact").email);
-	 		phone.val(options.company.get("contact").phone);
-	 		street0.val(options.company.get("address").street0);
-	 		street1.val(options.company.get("address").street1);
-	 		city.val(options.company.get("address").city);
-	 		province.val(options.company.get("address").province);
-	 		country.val(options.company.get("address").country);
-	 		postalcode.val(options.company.get("address").postalcode);
-	 	}
-	 },*/
 	 close: function() {
 	     if(options.clearOnExit) {
 		 allFields.val("").removeClass( "ui-state-error" );
