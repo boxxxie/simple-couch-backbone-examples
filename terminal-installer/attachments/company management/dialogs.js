@@ -420,7 +420,8 @@ function TerminalInputDialog (attachTo,options) {
 			     companyCode:companyCode.val(),
 			     usingautomatedpayment:usingautomatedpayment.is(":checked"),
 			     usingmobqredits:usingmobqredits.is(":checked"),
-			     centrallycontrolmenus:centrallycontrolmenus.is(":checked")
+			     centrallycontrolmenus:centrallycontrolmenus.is(":checked"),
+			     usingautomatedpayment:usingautomatedpayment.is(":checked")
 			     
 			 };
 
