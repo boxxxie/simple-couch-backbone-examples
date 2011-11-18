@@ -11,7 +11,7 @@
     <script language="javascript" type="text/javascript" src="../lib/jquery-ui-1.8.16.custom.min.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/jquery.couch.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/couchDBhelpers.js"></script>
-    <script language="javascript" type="text/javascript" src="dialogs.js"></script>
+    <script language="javascript" type="text/javascript" src="../inventory management/dialogs.js"></script>
     
     <script language="javascript" type="text/javascript" src="../lib/underscore.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/underscore_extended.js"></script>
@@ -22,9 +22,9 @@
     <script language="javascript" type="text/javascript" src="../site.js"></script>
 
     <script language="javascript" type="text/javascript" src="../lib/couch-backbone.js"></script>
-    <script language="javascript" type="text/javascript" src="Inventory.js"></script>
-    <script language="javascript" type="text/javascript" src="inventory management.js"></script>
-    <script language="javascript" type="text/javascript" src="docRdy.js"></script>
+    <script language="javascript" type="text/javascript" src="../inventory management/Inventory.js"></script>
+    <script language="javascript" type="text/javascript" src="../inventory management/inventory management.js"></script>
+    <script language="javascript" type="text/javascript" src="../inventory management/docRdy.js"></script>
 
 
     <!------------------------------------------------- GENERAL --------------------------------------------------------->
@@ -38,6 +38,7 @@
     <script id="inventoryForm_TMP" type="text/html">
       {{#item}}
       <form>
+	<input type="hidden" var="upc" value="{{upc}}" class="{{>commonClasses_P}}" /></dd>
 	<dl>
 	  <dt>Location</dt>
 	  <dd>
@@ -53,11 +54,11 @@
 	  <dt>Apply Taxes</dt>
 	  <dd>
 	    <label>Tax 1</label>
-	    <input type="checkbox" var="apply_taxes.tax1" checked="{{apply_taxes.tax1}}" class="{{>commonClasses_P}}" />
+	    <input type="checkbox" var="apply_taxes.tax1" {{#apply_taxes.tax1}}checked=true{{/apply_taxes.tax1}} class="{{>commonClasses_P}}" />
 	    <label>Tax 2</label>
-	    <input type="checkbox" var="apply_taxes.tax2" checked="{{apply_taxes.tax2}}" class="{{>commonClasses_P}}" />
+	    <input type="checkbox" var="apply_taxes.tax2" {{#apply_taxes.tax2}}checked=true{{/apply_taxes.tax2}} class="{{>commonClasses_P}}" />
 	    <label>Tax 3</label>
-	    <input type="checkbox" var="apply_taxes.tax3" checked="{{apply_taxes.tax3}}" class="{{>commonClasses_P}}" />
+	    <input type="checkbox" var="apply_taxes.tax3" {{#apply_taxes.tax2}}checked=true{{/apply_taxes.tax3}} class="{{>commonClasses_P}}" />
 	    <label>Exemption</label>
 	    <input type="checkbox" var="apply_taxes.exemption" {{#exemption}}checked=true{{/exemption}} class="{{>commonClasses_P}}" />
 	  </dd>
@@ -76,14 +77,23 @@
     </script>
 
     <script id="upcInput_TMP" type="text/html">
-      <input type="text" />
+      <label>UPC-code: (enter a upc code to inspect an inventory item)</label>
+      <input type="text" value="{{upc}}" />
+    </script>
+
+    <script id="upcDoesntExist_TMP" type="text/html">
+      <h2>The UPC code you ented was not found in the database</h2>
+    </script>
+
+    <script id="inventoryManagementHome_TMP" type="text/html">
+      <h1>Inventory Management</h1>
+      <upc></upc>
+      <inv_item></inv_item>
     </script>
 
     <!-------------------------------------------------------------------------------------------------------------------------->
 
   </head>
   <body>
-    <upc></upc>
-    <inv_item></inv_item>
   </body>
 </html>

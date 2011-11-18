@@ -1,4 +1,4 @@
 $(document)
     .ready(function() {
-	       inventory_doc_setup();
+	       doc_setup();
 	   });
