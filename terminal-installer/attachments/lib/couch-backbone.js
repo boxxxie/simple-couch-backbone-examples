@@ -19,7 +19,6 @@ var couchDoc = Backbone.Model.extend(
 	    };
 	    Backbone.Model.prototype.save.call(this, attrs, options);
 	},	
-	//DELETE /somedatabase/some_doc?rev=1582603387 HTTP/1.0
 	destroy:function(options){
 	    options || (options = {});
 	    var model = this;
