@@ -36,14 +36,15 @@
     <!------------------------------------------------- INVENTORY --------------------------------------------------------->
 
     <script id="inventoryForm_TMP" type="text/html">
+    <div id="dialog-form">
       {{#item}}
       <form>
-	<input type="hidden" var="upc" value="{{upc}}" class="{{>commonClasses_P}}" /></dd>
+	<input type="hidden" id="upc" var="upc" value="{{upc}}" class="{{>commonClasses_P}}" /></dd>
 	<dl>
 	  <dt>Location</dt>
 	  <dd>
 	    <label>Company</label>
-	    <input type="text" var="location.company" value="{{location.company}}" class="{{>commonClasses_P}}" />
+	    <input type="text" id="location.company" var="location.company" value="{{location.company}}" class="{{>commonClasses_P}}" />
 	    <label>Group</label>
 	    <input type="text" var="location.group" value="{{location.group}}" class="{{>commonClasses_P}}" />
 	    <label>Store</label>
@@ -72,8 +73,13 @@
 	    <input type="text" var="price.selling_price" value="{{price.standard_price}}" class="{{>commonClasses_P}}" />
 	  </dd>
 	</dl>
+	<button id="addinventory" class="{{>commonClasses_P}}"
+		onClick=addInventory();>
+	  <span class="ui-button-text">Submit</span>
+	</button>
       </form>
       {{/item}}
+      </div>
     </script>
 
     <script id="upcInput_TMP" type="text/html">
@@ -82,7 +88,7 @@
     </script>
 
     <script id="upcDoesntExist_TMP" type="text/html">
-      <h2>The UPC code you ented was not found in the database</h2>
+      <h2>The UPC code you entered was not found in the database</h2>
     </script>
 
     <script id="inventoryManagementHome_TMP" type="text/html">
