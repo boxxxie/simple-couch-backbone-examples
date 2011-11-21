@@ -1,10 +1,10 @@
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Inventory Management</title>
 
-    <link href="../layout.css" rel="stylesheet" type="text/css">
-    <link href="../css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css">
+    <link href="../layout.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css"/>
 
     <script language="javascript" type="text/javascript" src="../lib/jquery-1.6.4.js"></script>
 
@@ -16,8 +16,8 @@
     <script language="javascript" type="text/javascript" src="../lib/underscore.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/underscore_extended.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/backbone.js"></script>
-    <script language="javascript" type="text/javascript" src="../lib/mustache.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/ICanHaz.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/mustache.js"></script>
 
     <script language="javascript" type="text/javascript" src="../site.js"></script>
 
@@ -33,68 +33,113 @@
       text ui-widget-content ui-corner-all
     </script>
 
+    <script id="backButton_P" class="partial" type="text/html">
+      <button class="{{>commonClasses_P}}" role="button" aria-disabled="false" 
+	      onClick="javascript:history.go(-1);">
+	<span class="ui-button-text">Back</span>
+      </button>
+    </script>
+  
+    <script id="menuButton_P" class="partial" type="text/html">
+      <button  class="{{>commonClasses_P}}" role="button" aria-disabled="false" 
+	       onClick="javascript:window.location.href ='../mainMenus.html';">
+	<span class="ui-button-text">Menus</span>
+      </button>
+    </script>
+  
+    <script id="createButton_P" class="partial" type="text/html">
+      <button id="create-thing">{{createButtonLabel}}</button>
+    </script>
+  
+    <script id="editButton_P" class="partial" type="text/html">
+      <button id="edit-thing">
+	Edit
+      </button>
+    </script>
+
     <!------------------------------------------------- INVENTORY --------------------------------------------------------->
 
+    <script id="inventoryForm_P" class="partial" type="text/html">
+	<form>
+	  <input type="hidden" id="upc" var="_id" value="{{_id}}" class="{{>commonClasses_P}}" />
+	  {{#location}}
+	  <dl>
+	    <dt>Location</dt>
+	    <dd>
+	      <label>Company</label>
+	      <input type="text" id="location.company" var="location.company" value="{{company}}" class="{{>commonClasses_P}}" />
+	      <label>Group</label>
+	      <input type="text" var="location.group" value="{{group}}" class="{{>commonClasses_P}}" />
+	      <label>Store</label>
+	      <input type="text" var="location.company" value="{{store}}" class="{{>commonClasses_P}}" />
+	    </dd>
+	  </dl>
+	  {{/location}}
+	  {{#apply_taxes}}
+	  <dl>
+	    <dt>Apply Taxes</dt>
+	    <dd>
+	      <label>Tax 1</label>
+	      <input type="checkbox" var="apply_taxes.tax1" {{#tax1}}checked=true{{/tax1}} class="{{>commonClasses_P}}" />
+	      <label>Tax 2</label>
+	      <input type="checkbox" var="apply_taxes.tax2" {{#tax2}}checked=true{{/tax2}} class="{{>commonClasses_P}}" />
+	      <label>Tax 3</label>
+	      <input type="checkbox" var="apply_taxes.tax3" {{#tax3}}checked=true{{/tax3}} class="{{>commonClasses_P}}" />
+	      <label>Exemption</label>
+	      <input type="checkbox" var="apply_taxes.exemption" {{#exemption}}checked=true{{/exemption}} class="{{>commonClasses_P}}" />
+	    </dd>
+	  </dl>
+	  {{/apply_taxes}}
+	  {{#price}}
+	  <dl>
+	    <dt>Price</dt>
+	    <dd>
+	      <label>Selling Price</label>
+	      <input type="text" var="price.selling_price" value="{{selling_price}}" class="{{>commonClasses_P}}" />
+	      <label>Standard price</label>
+	      <input type="text" var="price.selling_price" value="{{standard_price}}" class="{{>commonClasses_P}}" />
+	    </dd>
+	  </dl>
+	  {{/price}}
+	</form>
+    </script>
+
     <script id="inventoryForm_TMP" type="text/html">
-    <div id="dialog-form">
-      {{#item}}
-      <form>
-	<input type="hidden" id="upc" var="upc" value="{{upc}}" class="{{>commonClasses_P}}" /></dd>
-	<dl>
-	  <dt>Location</dt>
-	  <dd>
-	    <label>Company</label>
-	    <input type="text" id="location.company" var="location.company" value="{{location.company}}" class="{{>commonClasses_P}}" />
-	    <label>Group</label>
-	    <input type="text" var="location.group" value="{{location.group}}" class="{{>commonClasses_P}}" />
-	    <label>Store</label>
-	    <input type="text" var="location.company" value="{{location.store}}" class="{{>commonClasses_P}}" />
-	  </dd>
-	</dl>
-	<dl>
-	  <dt>Apply Taxes</dt>
-	  <dd>
-	    <label>Tax 1</label>
-	    <input type="checkbox" var="apply_taxes.tax1" {{#apply_taxes.tax1}}checked=true{{/apply_taxes.tax1}} class="{{>commonClasses_P}}" />
-	    <label>Tax 2</label>
-	    <input type="checkbox" var="apply_taxes.tax2" {{#apply_taxes.tax2}}checked=true{{/apply_taxes.tax2}} class="{{>commonClasses_P}}" />
-	    <label>Tax 3</label>
-	    <input type="checkbox" var="apply_taxes.tax3" {{#apply_taxes.tax2}}checked=true{{/apply_taxes.tax3}} class="{{>commonClasses_P}}" />
-	    <label>Exemption</label>
-	    <input type="checkbox" var="apply_taxes.exemption" {{#exemption}}checked=true{{/exemption}} class="{{>commonClasses_P}}" />
-	  </dd>
-	</dl>
-	<dl>
-	  <dt>Price</dt>
-	  <dd>
-	    <label>Selling Price</label>
-	    <input type="text" var="price.selling_price" value="{{price.selling_price}}" class="{{>commonClasses_P}}" />
-	    <label>Standard price</label>
-	    <input type="text" var="price.selling_price" value="{{price.standard_price}}" class="{{>commonClasses_P}}" />
-	  </dd>
-	</dl>
-	<button id="addinventory" class="{{>commonClasses_P}}"
-		onClick=addInventory();>
-	  <span class="ui-button-text">Submit</span>
-	</button>
-      </form>
-      {{/item}}
-      </div>
+      {{>inventoryForm_P}}
     </script>
 
-    <script id="upcInput_TMP" type="text/html">
-      <label>UPC-code: (enter a upc code to inspect an inventory item)</label>
-      <input type="text" value="{{upc}}" />
-    </script>
-
-    <script id="upcDoesntExist_TMP" type="text/html">
-      <h2>The UPC code you entered was not found in the database</h2>
+    <script id="upcInput_P" class="partial" type="text/html">
+      <label>UPC-code: (enter a upc code to inspect or add an inventory item)</label>
+      <input id="upc" type="text" value="{{_id}}" />
     </script>
 
     <script id="inventoryManagementHome_TMP" type="text/html">
-      <h1>Inventory Management</h1>
-      <upc></upc>
-      <inv_item></inv_item>
+      <header>
+	<h1>Inventory Management</h1>
+	{{>upcInput_P}}
+      </header>
+      <main></main>
+      <footer>
+	{{>backButton_P}}
+	{{>menuButton_P}}
+	<div id="dialog-hook"></div>
+      </footer>
+    </script>
+
+    <script id="inventoryViewPage_TMP" type="text/html">
+      {{>inventoryForm_P}}
+    </script>
+
+    <script id="inventoryAddPage_TMP" type="text/html">
+      <h2>The UPC code you entered was not found in the database</h2>
+      {{>createButton_P}}
+    </script>
+
+    <script id="inventoryInputDialog_TMP" type="text/html">
+      <div id="dialog-form" title="{{title}}">
+	<p class="validateTips"></p>
+	{{>inventoryForm_P}}
+      </div>	
     </script>
 
     <!-------------------------------------------------------------------------------------------------------------------------->
