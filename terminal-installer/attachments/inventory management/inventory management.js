@@ -1,31 +1,18 @@
 function doc_setup() {
     var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
-    var db = 'inventory';
+    var db = 'inventory_rt7';
     var InventoryItem = couchDoc.extend({urlRoot:urlBase+db});
 
-    function addItem(){
+    function addItem(viewItem){
 	return {success: function(resp){
-		    var itemToAdd = new InventoryItem(resp);
-		    itemToAdd.save({success:function(){
-					window.location.href ='#upc/'+resp._id;
-				    }});
-		}
-	       };
-    };
+		    //var itemToAdd = new InventoryItem(resp);
+		    _.extend(resp,{creationdate:new Date()});
+		    viewItem.save(resp);}};};
 
-
-    function addCompany(collection){
+    function editItem(viewItem){
 	return {success: function(resp){
-		    collection.create(resp);},
-		validator : function(resp) {
-		    return validateCompany(resp,null);}
-	       };};
-    function editCompany(company){
-	return {success:function(resp){
-		    company.save(resp);},
-		validator : function(resp) {
-		    return validateCompany(resp,company.toJSON());}
-	       };};
+		    //var itemToAdd = new InventoryItem(resp);
+		    viewItem.save(resp);}};};
 
     var AppRouter = new 
     (Backbone.Router.extend(
@@ -39,10 +26,13 @@ function doc_setup() {
 		 console.log("inventoryManagementHome");
 		 var html = ich.inventoryManagementHome_TMP();
 		 $("body").html(html);
+		 $("#upc").focus();
 		 $("#upc")
 		     .change(function(){
 				 var upc = $(this).val();
-				 window.location.href ='#upc/'+upc;		
+				 window.location.href ='#upc/'+upc;
+				 $(this).focus();
+				 $(this).val('');
 			     });
 	     },
 	     addmodifyInventory:function(upc){
@@ -75,23 +65,28 @@ function doc_setup() {
 	     if(view.model){
 		 $(this.el).html("");
 	     }
+	     $("#upc").focus();
 	     console.log("InventoryView renderManagementPage");
 	     return this;
 	 },
 	 renderModifyPage:function(upc){
 	     var view = this;
-	     var html = ich.inventoryForm_TMP(view.model.toJSON());
+	     var html = ich.inventoryViewPage_TMP(view.model.toJSON());
 	     $(html).find('input').attr('disabled',true);
 	     $(this.el).html(html);
+	     $("#dialog-hook").html(ich.inventoryInputDialog_TMP(_.extend({title:"Edit "+upc+" Information"},view.model.toJSON())));
+	     InventoryItemModifyDialog("edit-thing",editItem(view.model));
 	     console.log("InventoryView renderModifyPage " + upc);
+	     $("#upc").focus();
 	     return this;
 	 },
 	 renderAddPage:function(upc){
 	     var view = this;
-	     var html = ich.inventoryAddPage_TMP({createButtonLabel:"create new inventory item",_id:upc});
+	     var html = ich.inventoryAddPage_TMP({createButtonLabel:"add (" + upc + ") to the Inventory",upc:upc });
 	     $(this.el).html(html);
-	     $("#dialog-hook").html(ich.inventoryInputDialog_TMP({title:"Add "+upc+" to the Inventory",location:{},applyTaxes:{},price:{}}));
-	     InventoryItemCreateDialog("create-thing",addItem());
+	     $("#dialog-hook").html(ich.inventoryInputDialog_TMP({title:"Add "+upc+" to the Inventory",_id:upc,location:{},apply_taxes:{},price:{}}));
+	     InventoryItemCreateDialog("create-thing",addItem(view.model));
+	     $("#upc").focus();
 	     console.log("InventoryView renderAddPage " + upc);
 	     return this;
 	 }

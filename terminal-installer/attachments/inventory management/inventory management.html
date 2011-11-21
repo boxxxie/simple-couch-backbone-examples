@@ -58,20 +58,26 @@
     </script>
 
     <!------------------------------------------------- INVENTORY --------------------------------------------------------->
-
     <script id="inventoryForm_P" class="partial" type="text/html">
+      <form>
+	<input type="hidden" var="_id" value="{{_id}}" class="{{>commonClasses_P}}" />
+	<label>Description</label>
+	<input type="text" var="description" value="{{description}}" class="{{>commonClasses_P}}" />
+      </form>
+    </script>
+    <script id="inventoryForm_user_P" class="partial" type="text/html">
 	<form>
-	  <input type="hidden" id="upc" var="_id" value="{{_id}}" class="{{>commonClasses_P}}" />
+	  <input type="hidden" var="_id" value="{{_id}}" class="{{>commonClasses_P}}" />
 	  {{#location}}
 	  <dl>
 	    <dt>Location</dt>
 	    <dd>
 	      <label>Company</label>
-	      <input type="text" id="location.company" var="location.company" value="{{company}}" class="{{>commonClasses_P}}" />
+	      <input type="text" var="location.company" value="{{company}}" class="{{>commonClasses_P}}" />
 	      <label>Group</label>
 	      <input type="text" var="location.group" value="{{group}}" class="{{>commonClasses_P}}" />
 	      <label>Store</label>
-	      <input type="text" var="location.company" value="{{store}}" class="{{>commonClasses_P}}" />
+	      <input type="text" var="location.store" value="{{store}}" class="{{>commonClasses_P}}" />
 	    </dd>
 	  </dl>
 	  {{/location}}
@@ -97,7 +103,7 @@
 	      <label>Selling Price</label>
 	      <input type="text" var="price.selling_price" value="{{selling_price}}" class="{{>commonClasses_P}}" />
 	      <label>Standard price</label>
-	      <input type="text" var="price.selling_price" value="{{standard_price}}" class="{{>commonClasses_P}}" />
+	      <input type="text" var="price.standard_price" value="{{standard_price}}" class="{{>commonClasses_P}}" />
 	    </dd>
 	  </dl>
 	  {{/price}}
@@ -128,10 +134,12 @@
 
     <script id="inventoryViewPage_TMP" type="text/html">
       {{>inventoryForm_P}}
+      {{>editButton_P}}
     </script>
 
     <script id="inventoryAddPage_TMP" type="text/html">
       <h2>The UPC code you entered was not found in the database</h2>
+      <h3>code: {{upc}}</h3>
       {{>createButton_P}}
     </script>
 
