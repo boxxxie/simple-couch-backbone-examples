@@ -5,13 +5,17 @@ function appView(name){return view('app',name);};
 
 function query(options, view, database){
     return function(callback){
-	var mergedOptions = $.extend({success: callback},options);
+	var mergedOptions = _.extend({success: callback},options);
 	database.view(view, mergedOptions);
     };
 };
 
 function basicQuery(view,database){
     return query({},view,database);
+};
+
+function keyQuery(key, view, database) {
+	return query({key:key}, view, database);
 };
 
 function groupQuery(view,database,group_level){

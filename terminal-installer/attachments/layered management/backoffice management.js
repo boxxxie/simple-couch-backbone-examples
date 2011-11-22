@@ -1,102 +1,53 @@
 function doc_setup() {
-
-    var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
-    var db = 'inventory_rt7';
-    var InventoryItem = couchDoc.extend({urlRoot:urlBase+db});
-
-    function addItem(viewItem){
-	return {success: function(resp){
-		    _.extend(resp,{creationdate:new Date()});
-		    viewItem.save(resp);}};};
-
-    function editItem(viewItem){
-	return {success: function(resp){
-		    viewItem.save(resp);}};};
-
-    var AppRouter = new 
-    (Backbone.Router.extend(
-	 {
-	     routes: {
-		 "":"backofficeloginHome",
-		 //"upc/":"inventoryManagementHome",
-		 //"upc/:upc": "addmodifyInventory"  
-	     },
-	     backofficeloginHome:function(){
-		 console.log("backofficeloginHome");
-		 var html = ich.layerLogin_TMP();
-		 $("body").html(html);
-		 /* $("#upc").focus();
-		 $("#upc")
-		     .change(function(){
-				 var upc = $(this).val();
-				 window.location.href ='#upc/'+_.escape(upc);
-				 $(this).focus();
-				 $(this).val('');
-			     });
-	     },*/
-	     }
-	 }));
-
-    var BackofficeView = Backbone.View.extend(
-	{initialize:function(){
-	     var view = this;
-	     //_.bindAll(view, 'renderManagementPage','renderModifyPage');
-	     _.bindAll(view, 'renderManagementPage');
-	     AppRouter.bind('route:backofficeloginHome', function(){
-				console.log('BackofficeView:route:backofficeloginHome');
-				view.el= _.first($("form"));
-				view.renderManagementPage();});
-	     /*AppRouter.bind('route:addmodifyInventory', function(upc){
-				upc = _.unEscape(upc);
-				//fetch model based on upc code
-				view.model = new InventoryItem({_id:upc});
-				view.model.bind('change',function(){view.renderModifyPage(upc);});
-				view.model.bind('not_found',function(){view.renderAddPage(upc);});
-				view.model.fetch({error:function(a,b,c){
-						      console.log("couldn't load model");
-						      view.model.trigger('not_found');
-						  }});
-				console.log('InventoryView:route:modifyInventory');});*/
-	     
-	 },
-	 renderManagementPage:function(){
-	     var view = this;
-	     if(view.model){
-		 $(this.el).html("");
-	     }
-	     //$("#upc").focus();
-	     console.log("BackofficeView renderManagementPage");
-	     return this;
-	 }
-	 /*,
-	 renderModifyPage:function(upc){
-	     var view = this;
-	     var html = ich.inventoryViewPage_TMP(_.extend({upc:upc},view.model.toJSON()));
-	     $(html).find('input').attr('disabled',true);
-	     $(this.el).html(html);
-	     $("#dialog-hook").html(ich.inventoryInputDialog_TMP(_.extend({title:"Edit "+upc+" Information"},view.model.toJSON())));
-	     InventoryItemModifyDialog("edit-thing",editItem(view.model));
-	     console.log("InventoryView renderModifyPage " + upc);
-	     $("#upc").focus();
-	     return this;
-	 },
-	 renderAddPage:function(upc){
-	     var view = this;
-	     var html = ich.inventoryAddPage_TMP({createButtonLabel:"add (" + upc + ") to the Inventory",upc:upc });
-	     $(this.el).html(html);
-	     $("#dialog-hook").html(ich.inventoryInputDialog_TMP({title:"Add "+upc+" to the Inventory",_id:upc,location:{},apply_taxes:{},price:{}}));
-	     InventoryItemCreateDialog("create-thing",addItem(view.model));
-	     $("#upc").focus();
-	     console.log("InventoryView renderAddPage " + upc);
-	     return this;
-	 }*/
-	});
-
-    var BackofficeDisplay = new BackofficeView();
-    Backbone.history.start();
-
+	console.log("doc setup invoked");
+	var html = ich.layerLogin_TMP();
+	$("body").html(html);
 }
 
+function jsPather(pathStr){
+    //converts js obj notation into a path array
+    return pathStr
+	.replace(/\[/g,'.')
+	.replace(/\]/g,'')
+	.split(".");
+};
+
+function assignFromPath(obj,travel,assignVal){
+    var prop = _.first(travel);
+    //walks a path defined by an array of fields, assigns a value to the last field walked
+    //creates a path if one does not exist
+    if(_.isEmpty(travel)){
+	obj = assignVal;
+	return obj;
+    }
+    else if(obj && !obj[prop]){
+	obj[prop] = {};
+    }
+    if(!obj){return null;}
+    obj[prop] = assignFromPath(obj[prop],_.rest(travel),assignVal);
+    return obj; 
+};
+
 function login() {
-	console.log("login invoked");
+	var d = $("#ids_form");
+    var allFields = d.find('[var]');
+    var ids = {};
+    _(allFields).chain()
+			.map(function(el) {
+			 var $el = $(el);
+			 if($el.is(':checkbox')){
+			     return [jsPather($el.attr('var')),$el.is(':checked')];
+			 }
+			 return [jsPather($el.attr('var')),$el.val()];
+		     })
+		    .each(function(keyVal){
+			 ids = assignFromPath(ids,_.first(keyVal),_.last(keyVal));
+		     });
+		     var key = _(ids).chain().kv().reject(function(t){return _.isEmpty(_.last(t))}).toObject().value();
+		     console.log(key);
+		     
+		     var db_install = db("install");
+		     var user_passwordView = appView("user_pass");
+		     keyQuery(key, user_passwordView, db_install)();
+		     		     
 }
