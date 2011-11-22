@@ -4,13 +4,14 @@ var couchDoc = Backbone.Model.extend(
 	save:function(attrs,options){
 	    function updateRev(model,resp,status){
 		model.set({_rev:status.rev,_id:status.id},{silent: true});
+		resp = _.removeKeys(resp,['id','rev','ok']); //clean resp so that it doesn't pollute out object
 	    };
 	    options || (options = {});
 	    var model = this;
 	    var success = options.success;   
 	    options.success = function(resp, status, xhr){
 		updateRev(model,resp,status);
-		if (success){success(model, resp, status);}
+		if (success){success(model, resp, xhr);}
 	    };
 	    Backbone.Model.prototype.save.call(this, attrs, options);
 	},	
@@ -50,8 +51,10 @@ var couchCollection = function(couch,options){
 
 
 //-------------------- not part of couch-backbone yet------------------//
+//this is an outbound parser//
 
 //testing for persistfilter
+/*
 Backbone.Model.prototype.save = function() {
   var _save = Backbone.Model.prototype.save;
   
@@ -81,3 +84,4 @@ var Test = Backbone.Model.extend({
     return newAttrs;
   }
 });
+*/

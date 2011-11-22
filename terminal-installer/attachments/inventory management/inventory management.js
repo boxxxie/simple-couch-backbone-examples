@@ -1,4 +1,13 @@
 function doc_setup() {
+    //trying to display all events triggered use this before other backbone code is used (put in own file)
+    Backbone.Events.trigger = 
+	(function(orig) { 
+	     return function() { 
+		 console.log('triggered: ',this,arguments); 
+		 return orig.apply(this, arguments); 
+	     }; 
+	 })(Backbone.Events.trigger);
+
     var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
     var db = 'inventory_rt7';
     var InventoryItem = couchDoc.extend({urlRoot:urlBase+db});
@@ -30,7 +39,7 @@ function doc_setup() {
 		 $("#upc")
 		     .change(function(){
 				 var upc = $(this).val();
-				 window.location.href ='#upc/'+upc;
+				 window.location.href ='#upc/'+_.escape(upc);
 				 $(this).focus();
 				 $(this).val('');
 			     });
@@ -49,6 +58,7 @@ function doc_setup() {
 				view.el= _.first($("main"));
 				view.renderManagementPage();});
 	     AppRouter.bind('route:addmodifyInventory', function(upc){
+				upc = _.unEscape(upc);
 				//fetch model based on upc code
 				view.model = new InventoryItem({_id:upc});
 				view.model.bind('change',function(){view.renderModifyPage(upc);});
@@ -71,7 +81,7 @@ function doc_setup() {
 	 },
 	 renderModifyPage:function(upc){
 	     var view = this;
-	     var html = ich.inventoryViewPage_TMP(view.model.toJSON());
+	     var html = ich.inventoryViewPage_TMP(_.extend({upc:upc},view.model.toJSON()));
 	     $(html).find('input').attr('disabled',true);
 	     $(this.el).html(html);
 	     $("#dialog-hook").html(ich.inventoryInputDialog_TMP(_.extend({title:"Edit "+upc+" Information"},view.model.toJSON())));
