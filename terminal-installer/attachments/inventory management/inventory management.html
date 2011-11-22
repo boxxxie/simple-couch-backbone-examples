@@ -34,15 +34,19 @@
       text ui-widget-content ui-corner-all
     </script>
 
+    <script id="commonButtonClasses_P" class="partial" type="text/html">
+      ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only
+    </script>
+
     <script id="backButton_P" class="partial" type="text/html">
-      <button class="{{>commonClasses_P}}" role="button" aria-disabled="false" 
+      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
 	      onClick="javascript:history.go(-1);">
 	<span class="ui-button-text">Back</span>
       </button>
     </script>
   
     <script id="menuButton_P" class="partial" type="text/html">
-      <button  class="{{>commonClasses_P}}" role="button" aria-disabled="false" 
+      <button  class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
 	       onClick="javascript:window.location.href ='../mainMenus.html';">
 	<span class="ui-button-text">Menus</span>
       </button>
