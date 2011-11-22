@@ -1,12 +1,4 @@
 function doc_setup() {
-    //trying to display all events triggered use this before other backbone code is used (put in own file)
-    Backbone.Events.trigger = 
-	(function(orig) { 
-	     return function() { 
-		 console.log('triggered: ',this,arguments); 
-		 return orig.apply(this, arguments); 
-	     }; 
-	 })(Backbone.Events.trigger);
 
     var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
     var db = 'inventory_rt7';
@@ -14,13 +6,11 @@ function doc_setup() {
 
     function addItem(viewItem){
 	return {success: function(resp){
-		    //var itemToAdd = new InventoryItem(resp);
 		    _.extend(resp,{creationdate:new Date()});
 		    viewItem.save(resp);}};};
 
     function editItem(viewItem){
 	return {success: function(resp){
-		    //var itemToAdd = new InventoryItem(resp);
 		    viewItem.save(resp);}};};
 
     var AppRouter = new 
