@@ -75,6 +75,7 @@ function InventoryItemInputDialog (attachTo,options) {
     $("#dialog:ui-dialog").dialog( "destroy" );
     var tips = $(".validateTips");
     var d = $("#dialog-form");
+    var allFields = d.find('[var]');
 
     d.dialog(
 	{
@@ -89,8 +90,20 @@ function InventoryItemInputDialog (attachTo,options) {
 	    },
 	    buttons: {			 
 		"Submit" : function() {
-		    var allFields = d.find('[var]');
-		    var newInventoryItemData = {};
+//		    var allFields = d.find('[var]');
+		    var newInventoryItemData = {
+		    							description:d.find("#description").val(),
+		    							category:d.find("#category").val(),
+		    							location:{company:d.find("#location\\.company").val(), 
+		    										group:d.find("#location\\.group").val(), 
+		    										store:d.find("#location\\.store").val()},
+		    							apply_taxes:{tax1:d.find("#apply_taxes\\.tax1").is(":checked"),
+		    										 tax2:d.find("#apply_taxes\\.tax2").is(":checked"),
+		    										 tax3:d.find("#apply_taxes\\.tax3").is(":checked"),
+		    										 exemption:d.find("#apply_taxes\\.exemption").is(":checked")},
+		    							price:{selling_price:d.find("#selling_price").val(),
+		    									standard_price:d.find("#standard_price").val()}
+		    							};
 
 		    var newInventoryItemData_w_options = _.clone(newInventoryItemData);
 

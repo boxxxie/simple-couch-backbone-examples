@@ -13,19 +13,23 @@ function doc_setup() {
 	       };
     };
 
+//TODO:
+	function editItem(upc) {
+		
+	}
 
-    function addCompany(collection){
-	return {success: function(resp){
-		    collection.create(resp);},
-		validator : function(resp) {
-		    return validateCompany(resp,null);}
-	       };};
-    function editCompany(company){
-	return {success:function(resp){
-		    company.save(resp);},
-		validator : function(resp) {
-		    return validateCompany(resp,company.toJSON());}
-	       };};
+//    function addCompany(collection){
+//	return {success: function(resp){
+//		    collection.create(resp);},
+//		validator : function(resp) {
+//		    return validateCompany(resp,null);}
+//	       };};
+//   function editCompany(company){
+//	return {success:function(resp){
+//		    company.save(resp);},
+//		validator : function(resp) {
+//		    return validateCompany(resp,company.toJSON());}
+//	       };};
 
     var AppRouter = new 
     (Backbone.Router.extend(
@@ -90,7 +94,7 @@ function doc_setup() {
 	     var view = this;
 	     var html = ich.inventoryAddPage_TMP({createButtonLabel:"create new inventory item",_id:upc});
 	     $(this.el).html(html);
-	     $("#dialog-hook").html(ich.inventoryInputDialog_TMP({title:"Add "+upc+" to the Inventory",location:{},applyTaxes:{},price:{}}));
+	     $("#dialog-hook").html(ich.inventoryInputDialog_TMP({title:"Add "+upc+" to the Inventory",location:{},apply_taxes:{},price:{}}));
 	     InventoryItemCreateDialog("create-thing",addItem());
 	     console.log("InventoryView renderAddPage " + upc);
 	     return this;

@@ -62,6 +62,14 @@
     <script id="inventoryForm_P" class="partial" type="text/html">
 	<form>
 	  <input type="hidden" id="upc" var="_id" value="{{_id}}" class="{{>commonClasses_P}}" />
+	  <dl>
+	  	<label>Description</label>
+	      <input type="text" id="description" var="description" value="{{description}}" class="{{>commonClasses_P}}" />
+	  </dl>
+	  <dl>
+	  	<label>Category</label>
+	      <input type="text" id="category" var="category" value="{{category}}" class="{{>commonClasses_P}}" />
+	  </dl> 
 	  {{#location}}
 	  <dl>
 	    <dt>Location</dt>
@@ -69,9 +77,9 @@
 	      <label>Company</label>
 	      <input type="text" id="location.company" var="location.company" value="{{company}}" class="{{>commonClasses_P}}" />
 	      <label>Group</label>
-	      <input type="text" var="location.group" value="{{group}}" class="{{>commonClasses_P}}" />
+	      <input type="text" id="location.group" var="location.group" value="{{group}}" class="{{>commonClasses_P}}" />
 	      <label>Store</label>
-	      <input type="text" var="location.company" value="{{store}}" class="{{>commonClasses_P}}" />
+	      <input type="text" id="location.store" var="location.store" value="{{store}}" class="{{>commonClasses_P}}" />
 	    </dd>
 	  </dl>
 	  {{/location}}
@@ -97,7 +105,7 @@
 	      <label>Selling Price</label>
 	      <input type="text" var="price.selling_price" value="{{selling_price}}" class="{{>commonClasses_P}}" />
 	      <label>Standard price</label>
-	      <input type="text" var="price.selling_price" value="{{standard_price}}" class="{{>commonClasses_P}}" />
+	      <input type="text" var="price.standard_price" value="{{standard_price}}" class="{{>commonClasses_P}}" />
 	    </dd>
 	  </dl>
 	  {{/price}}
