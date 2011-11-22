@@ -338,6 +338,11 @@ function StoreInputDialog (attachTo,options) {
 
 		    var newStoreData_w_options = _.clone(newStoreData);
 
+		    if(options.isCreate) {
+			_.extend(newStoreData, {creationdate:new Date()});
+			_.extend(newStoreData_w_options, {isCreate:options.isCreate});
+		    }
+
 		    var validationResults = options.validator(newStoreData_w_options);
 
 		    var passedValidation;

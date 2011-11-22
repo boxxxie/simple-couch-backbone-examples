@@ -8,20 +8,22 @@ function jsPather(pathStr){
 	.replace(/\]/g,'')
 	.split(".");
 };
+
 function assignFromPath(obj,travel,assignVal){
+    var prop = _.first(travel);
     //walks a path defined by an array of fields, assigns a value to the last field walked
+    //creates a path if one does not exist
     if(_.isEmpty(travel)){
 	obj = assignVal;
 	return obj;
     }
-    if(!obj){
-	return null;
+    else if(obj && !obj[prop]){
+	obj[prop] = {};
     }
-    var prop = _.first(travel);
+    if(!obj){return null;}
     obj[prop] = assignFromPath(obj[prop],_.rest(travel),assignVal);
-    return obj;
+    return obj; 
 };
-//TODO: make the assignFromPath function create the obj structure for the path if it doesn't exist
 
 function PostValidator($node,tips,validationResults) {
     function clearErrorsAndTips(){	
@@ -44,10 +46,12 @@ function PostValidator($node,tips,validationResults) {
     clearErrorsAndTips();
     var invalidsWithEmptyMessages = 
 	_.filter(validationResults, 
-		 function(validationResult){return validationResult.isInvalid && _.isEmpty(validationResult.errMsg);});
+		 function(validationResult){return validationResult.isInvalid && 
+					    _.isEmpty(validationResult.errMsg);});
     var foundInvalidFieldWithMessage = 
 	_.filter(validationResults, 
-		 function(validationResult){return validationResult.isInvalid && !_.isEmpty(validationResult.errMsg);});
+		 function(validationResult){return validationResult.isInvalid && 
+					    !_.isEmpty(validationResult.errMsg);});
 
     if(!_.isEmpty(foundInvalidFieldWithMessage) && 
        _.isEmpty(invalidsWithEmptyMessages)){
@@ -76,7 +80,6 @@ function InventoryItemInputDialog (attachTo,options) {
     var tips = $(".validateTips");
     var d = $("#dialog-form");
     var allFields = d.find('[var]');
-
     d.dialog(
 	{
 	    autoOpen: false,
@@ -90,21 +93,19 @@ function InventoryItemInputDialog (attachTo,options) {
 	    },
 	    buttons: {			 
 		"Submit" : function() {
-//		    var allFields = d.find('[var]');
-		    var newInventoryItemData = {
-		    							description:d.find("#description").val(),
-		    							category:d.find("#category").val(),
-		    							location:{company:d.find("#location\\.company").val(), 
-		    										group:d.find("#location\\.group").val(), 
-		    										store:d.find("#location\\.store").val()},
-		    							apply_taxes:{tax1:d.find("#apply_taxes\\.tax1").is(":checked"),
-		    										 tax2:d.find("#apply_taxes\\.tax2").is(":checked"),
-		    										 tax3:d.find("#apply_taxes\\.tax3").is(":checked"),
-		    										 exemption:d.find("#apply_taxes\\.exemption").is(":checked")},
-		    							price:{selling_price:d.find("#selling_price").val(),
-		    									standard_price:d.find("#standard_price").val()}
-		    							};
-
+		    var newInventoryItemData = {};
+		    _(allFields).chain()
+			.map(function(el) {
+				 var $el = $(el);
+				 if($el.is(':checkbox')){
+				     return [jsPather($el.attr('var')),$el.is(':checked')];
+				 }
+				 return [jsPather($el.attr('var')),$el.val()];
+			     })
+			.each(function(keyVal){
+				  newInventoryItemData = assignFromPath(newInventoryItemData,_.first(keyVal),_.last(keyVal));
+			      });
+		    
 		    var newInventoryItemData_w_options = _.clone(newInventoryItemData);
 
 		    if(options.isCreate) {
