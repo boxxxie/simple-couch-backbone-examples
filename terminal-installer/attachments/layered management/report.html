@@ -1,0 +1,43 @@
+<html>
+	<head>
+	<link href="../layout.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css"/>
+
+    <script language="javascript" type="text/javascript" src="../lib/jquery-1.6.4.js"></script>
+
+    <script language="javascript" type="text/javascript" src="../lib/jquery-ui-1.8.16.custom.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/jquery.couch.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/couchDBhelpers.js"></script>
+    
+    <script language="javascript" type="text/javascript" src="../lib/underscore.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/underscore_extended.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/backbone.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/backbone-events-logger.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/ICanHaz.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/mustache.js"></script>
+
+    <script language="javascript" type="text/javascript" src="../site.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/couch-backbone.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/report.js"></script>
+    
+    <!-------------------------------------------- GENERAL --------------------------------------------------->
+    <script id="commonClasses_P" class="partial" type="text/html">
+      text ui-widget-content ui-corner-all
+    </script>
+
+    <script id="commonButtonClasses_P" class="partial" type="text/html">
+      ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only
+    </script>
+
+    <script id="backButton_P" class="partial" type="text/html">
+      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
+	      onClick="javascript:history.go(-1);">
+	<span class="ui-button-text">Back</span>
+      </button>
+    </script>
+    
+	</head>
+	<body onload="getUrlVars()">
+		
+	</body>
+</html>

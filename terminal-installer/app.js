@@ -7,15 +7,15 @@ ddoc.views = {};
 
 ddoc.views.user_pass = {
     map:function(doc){
-	//var _ = require("views/lib/underscore");
-	//require("views/lib/underscore_extended");
-	emit({user:doc.user,password:doc.password,company:doc.operationalname},{company:doc._id});
-	//_.each(doc.hierarchy.groups,function(group){
-		   //emit({user:group.user,password:group.password,company:doc.operationalname,group:group.groupName},{company:doc._id,group:group.group_id});
-	//	   _.each(group.stores,function(store){
-			      //emit({user:store.user,password:store.password,company:doc.operationalname,group:group.groupName,store:store.storeName},{company:doc._id,group:group.group_id,store:store.store_id});
-	//		  });
-	 //      });
+	var _ = require("views/lib/underscore");
+	require("views/lib/underscore_extended");
+	emit({company:doc.operationalname, user:doc.user,password:doc.password},{company:doc._id});
+	_.each(doc.hierarchy.groups,function(group){
+		   emit({company:doc.operationalname,group:group.groupName,user:group.user,password:group.password},{company:doc._id,group:group.group_id});
+		   _.each(group.stores,function(store){
+			      emit({company:doc.operationalname,group:group.groupName,store:store.storeName, user:store.user,password:store.password},{company:doc._id,group:group.group_id,store:store.store_id});
+			  });
+	       });
     }
 };
 
