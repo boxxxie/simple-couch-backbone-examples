@@ -56,3 +56,15 @@ _.mixin({
 		    .replace(/&#x2F;/g,  '\/')
 		    .replace(/&amp;/g,   '&');
 	    }});
+
+_.mixin({isNotEmpty:function (obj){
+	     return !_.isEmpty(obj);
+	 }});
+
+_.mixin({isLastEmpty:function (array){
+	     return _.isEmpty(_.last(array));
+	 }});
+
+_.mixin({isFirstEmpty:function (array){
+	     return _.isEmpty(_.first(array));
+	 }});

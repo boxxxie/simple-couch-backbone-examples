@@ -5,6 +5,7 @@ function doc_setup() {
     var Company = couchDoc.extend({urlRoot:urlBase+db});
     
 	var AppRouter = new 
+
     (Backbone.Router.extend(
 	 {
 	     routes: {
@@ -45,27 +46,26 @@ function doc_setup() {
 	     	console.log("storeReport : company_id : " + company_id + ", group_id : " + group_id + ", store_id : " + store_id);
 	     }
 	 }));
-	 
-	 var reportLoginView = Backbone.View.extend(
-	 {initialize:function(){
+
+    
+    var reportLoginView = Backbone.View.extend(
+	{initialize:function(){
 	     var view = this;
 	     _.bindAll(view, 'renderLoginPage');
 	     AppRouter.bind('route:reportLogin', function(){
 				console.log('reportLoginView:route:reportLogin');
 				view.el= _.first($("ids_form"));
 				view.renderLoginPage();});
-	     
 	 },
 	 renderLoginPage:function(){
 	     var view = this;
 	     console.log("reportview renderLoginPage");
 	     return this;
-	    }
+	 }
 	});
 
 
-//TODO
-	var companyReportView = Backbone.View.extend(
+    var companyReportView = Backbone.View.extend(
 	{initialize:function(){
 		var view = this;
 		_.bindAll(view, 'renderCompanyReport' , 'renderGroupsTable', 'renderStoresTable');
@@ -245,30 +245,6 @@ function doc_setup() {
 
 }
 
-function jsPather(pathStr){
-    //converts js obj notation into a path array
-    return pathStr
-	.replace(/\[/g,'.')
-	.replace(/\]/g,'')
-	.split(".");
-};
-
-function assignFromPath(obj,travel,assignVal){
-    var prop = _.first(travel);
-    //walks a path defined by an array of fields, assigns a value to the last field walked
-    //creates a path if one does not exist
-    if(_.isEmpty(travel)){
-	obj = assignVal;
-	return obj;
-    }
-    else if(obj && !obj[prop]){
-	obj[prop] = {};
-    }
-    if(!obj){return null;}
-    obj[prop] = assignFromPath(obj[prop],_.rest(travel),assignVal);
-    return obj; 
-};
-
 function login() {
 	var d = $("#ids_form");
     var allFields = d.find('[var]');
@@ -324,23 +300,30 @@ function login() {
 		     												});
 }
 
-
-function getUrlVars() {
-    var vars = {}, hash;
-    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    var $form = $("#ids_form");
+    var formEntries = varFormGrabber($form);
+    console.log("form entries");
+    console.log(formEntries);
+    var login_key = _(formEntries).chain()
+	.kv()
+	.reject(_.isLastEmpty)
+	.toObject()
+	.value();
+    console.log("login_key");
+    console.log(login_key);
     
-    hash = hashes[0].split('=');
-    if(hash[0]=="company") {
-    	_.extend(vars, {company:hash[1]});
-    }
-    if(!_.isEmpty(hashes[1])) {
-    	hash = hashes[1].split('=');
-    	_.extend(vars, {group:hash[1]});
-    }
-    if(!_.isEmpty(hashes[2])) {
-    	hash = hashes[2].split('=');
-    	_.extend(vars, {store:hash[1]});
-    }
-    console.log(vars);
-    return vars;
+    var db_install = db("install");
+    var user_passwordView = appView("user_pass");
+    var branch_show = appShow("branch");
+
+    keyQuery(login_key, user_passwordView, db_install)
+    (function (resp){
+	 console.log("view resp");
+	 console.log(resp);
+	 //todo: include {data:{:group,:store}} in the arg where the success function is
+	 db_install.show(branch_show,
+			 _.first(resp.rows).id,
+			 {success:function(data){console.log(data);}});
+     });
+    
 }
