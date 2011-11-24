@@ -2,6 +2,7 @@ function db(name){return $.couch.db(name);};
 
 function view(designDoc,name){return designDoc + "/" + name;};
 function appView(name){return view('app',name);};
+function appShow(name){return view('app',name);};
 
 function query(options, view, database){
     return function(callback){

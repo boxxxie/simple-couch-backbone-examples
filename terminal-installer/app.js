@@ -45,8 +45,8 @@ ddoc.shows = {
 	function getStores(groupID){return getGroup(groupID).stores;};
 	function getStore(groupID,storeID){return _.find(getStores(groupID),function(store){return store.store_id == storeID;});};
 
-	log(args);
-	log(args.group);
+	if(_.isEmpty(args)){return JSON.stringify(doc);}
+	
 	const groupID = args.group;
 	if(_.isEmpty(groupID)){throw (['error', 'no_group_id', "The group ID wasn't given"]);}
 
