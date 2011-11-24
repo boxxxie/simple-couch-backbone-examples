@@ -1,24 +1,27 @@
 function doc_setup() {
-	//var html = ich.layerLogin_TMP();
-	//$("body").html(html);
+	
+	var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
+    var db = 'install_yunbo';
+    var Company = couchDoc.extend({urlRoot:urlBase+db});
+    
 	var AppRouter = new 
     (Backbone.Router.extend(
 	 {
 	     routes: {
 		 "":"reportLogin",
-		 "company/:company":"companyReportManagementHome",
+		 "companyReport/:_id":"companyReport",
 	     },
 	     reportLogin:function(){
 		 console.log("reportLogin");
 		 var html = ich.layerLogin_TMP();
 		 $("body").html(html);
 	     },
-	     companyReportManagementHome:function(){
-		 console.log("companyReportManagement");
+	     companyReport:function(id){
+		 console.log("companyReport");
 	     }
 	 }));
 	 
-	 var ReportView = Backbone.View.extend(
+	 var reportLoginView = Backbone.View.extend(
 	 {initialize:function(){
 	     var view = this;
 	     _.bindAll(view, 'renderLoginPage');
@@ -26,53 +29,64 @@ function doc_setup() {
 				console.log('reportLoginView:route:reportLogin');
 				view.el= _.first($("ids_form"));
 				view.renderLoginPage();});
-	     /*AppRouter.bind('route:addmodifyInventory', function(upc){
-				upc = _.unEscape(upc);
-				//fetch model based on upc code
-				view.model = new InventoryItem({_id:upc});
-				view.model.bind('change',function(){view.renderModifyPage(upc);});
-				view.model.bind('not_found',function(){view.renderAddPage(upc);});
-				view.model.fetch({error:function(a,b,c){
-						      console.log("couldn't load model");
-						      view.model.trigger('not_found');
-						  }});
-				console.log('InventoryView:route:modifyInventory');});
-		*/
 	     
 	 },
 	 renderLoginPage:function(){
 	     var view = this;
-	     //if(view.model){
-		 //$(this.el).html("");
-	     //}
-	     //$("#upc").focus();
 	     console.log("reportview renderLoginPage");
 	     return this;
-	 }/*,
-	 renderModifyPage:function(upc){
-	     var view = this;
-	     var html = ich.inventoryViewPage_TMP(_.extend({upc:upc},view.model.toJSON()));
-	     $(html).find('input').attr('disabled',true);
-	     $(this.el).html(html);
-	     $("#dialog-hook").html(ich.inventoryInputDialog_TMP(_.extend({title:"Edit "+upc+" Information"},view.model.toJSON())));
-	     InventoryItemModifyDialog("edit-thing",editItem(view.model));
-	     console.log("InventoryView renderModifyPage " + upc);
-	     $("#upc").focus();
-	     return this;
-	 },
-	 renderAddPage:function(upc){
-	     var view = this;
-	     var html = ich.inventoryAddPage_TMP({createButtonLabel:"add (" + upc + ") to the Inventory",upc:upc });
-	     $(this.el).html(html);
-	     $("#dialog-hook").html(ich.inventoryInputDialog_TMP({title:"Add "+upc+" to the Inventory",_id:upc,location:{},apply_taxes:{},price:{}}));
-	     InventoryItemCreateDialog("create-thing",addItem(view.model));
-	     $("#upc").focus();
-	     console.log("InventoryView renderAddPage " + upc);
-	     return this;
-	 }*/
+	    }
 	});
 
-    var ReportDisplay = new ReportView();
+
+//TODO
+	var companyReportView = Backbone.View.extend(
+	{initialize:function(){
+		var view = this;
+		_.bindAll(view, 'renderCompanyReport');
+		AppRouter.bind('route:companyReport', function(id){
+			console.log("companyReportView, route:companyReport");
+			//view.el= _.first($("main"));
+			view.model = new Company({_id:id});
+			//view.model.bind('change',function(){view.renderModifyPage(upc);});
+			//view.model.bind('not_found',function(){view.renderAddPage(upc);});
+			console.log("new company");
+			view.model.fetch({error:function(a,b,c){
+					      console.log("couldn't load model");
+					      //view.model.trigger('not_found');
+					  }});
+			console.log("fetch");
+			view.renderCompanyReport();			
+		});
+	},
+	renderCompanyReport: function() {
+		var view = this;
+		var company = view.model.toJSON();
+		var groups = company.hierarchy.groups; //_.filter(company.hierarchy.groups, function(group){ return !_.isEmpty(group.stores)});
+		var stores = _(groups).chain().map(function(group) {return group.stores}).flatten().value();
+		
+		var numGroups = _.size(groups);
+		var numStores = _.reduce(groups, function(sum, group){ return sum + _.size(group.stores); }, 0);
+		var numTerminals = _.reduce(stores, function(sum, store){ return sum + _.size(store.terminals); }, 0);
+		var param =  {sales:{yesterdaysales:"100",mtdsales:"100",ytdsales:"100"},
+							 numberOfGroups:numGroups,
+							 numberOfStores:numStores,
+							 numberOfTerminals:numTerminals
+							};
+		console.log("param");
+		var html = ich.companyManagementPage_TMP(param);
+		console.log("html");
+	     $("body").html(html);
+	     console.log("companyReportView renderCompanyReport");
+	     return this;
+	}
+	
+	});
+	var groupManagementView = Backbone.View.extend();
+	var storeManagementView = Backbone.View.extend();
+
+    var LoginDisplay = new reportLoginView();
+    var CompanyReportDisplay = new companyReportView();
     Backbone.history.start();
 
 }
@@ -125,7 +139,7 @@ function login() {
 		     //var value =
 		     keyQuery(key, user_passwordView, db_install)(function (resp){/*return resp;*//*value=resp;*/ 
 			     												if(resp.rows.length>0) {
-			     													var tmp = resp.rows[0].value;
+			     													/*var tmp = resp.rows[0].value;
 			     													console.log(tmp);
 			     													var temp = "";
 			     													if(!_.isEmpty(tmp.company)) {
@@ -142,7 +156,9 @@ function login() {
 			     													//$.post("../layered management/report.html", 
 			     													//				tmp, 
 			     													//				function(){console.log("aaa");}
-			     													//				,"json");
+			     													//				,"json");*/
+			     													//TODO: after login
+			     													window.location.href='#companyReport/'+resp.rows[0].value.company;
 			     												}
 		     												});
 		     
