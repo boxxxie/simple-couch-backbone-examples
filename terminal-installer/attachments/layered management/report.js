@@ -7,9 +7,6 @@ Date.prototype.toArray = function(){
 	    this.getMinutes(),
 	    this.getSeconds()];
 };
-Date.prototype.beginningOfMonth = function(){
-    return Date.today().addDays(-Date.today().getDate()+1);
-};
 function doc_setup() {
 
     var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
