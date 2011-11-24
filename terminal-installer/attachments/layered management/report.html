@@ -96,7 +96,8 @@
 		<dd>
 		  <label># Of Groups</label>
 <!--//TODO:check if this link is right-->
-		  <a href="#">{{numberOfGroups}}</a>		  
+		  <a href="#companyReport/{{company_id}}/groups">{{numberOfGroups}}</a>
+		  		  
 		</dd>
       </dl>
       </form>
@@ -180,9 +181,11 @@
  	
  <!------------------------------------- groups table TMP -------------------------------------------->
  	<script id="groupsTabel_TMP" type="text/html">
+ 	<h1>Groups Table</h1>
       <table border="1">
 	<tr>
-	  <th>Name</th>
+	  <th>Company Name</th>
+	  <th>Group Name</th>
 	  <th># of Stores</th>
 	  <th># of Terminals</th>
 	  <th>Yesterday Sales</th>
@@ -192,9 +195,10 @@
 	{{#list}}
 	<tr>
 <!--TODO: check the href -->
+	  <td>{{operationalname}}</td>
 	  <td><a href="#/company/{{company_id}}/{{group_id}}">{{groupName}}</a></td>
-	  <td>{{store_num}}</td>
-	  <td>{{terminal_num}}</td>
+	  <td>{{numberOfStores}}</td>
+	  <td>{{numberOfTerminals}}</td>
 	  {{#sales}}
 	  <td>{{yesterdaysales}}</td>
 	  <td>{{mtdsales}}</td>
@@ -209,8 +213,10 @@
 
  <!------------------------------------- stores table TMP -------------------------------------------->
  	<script id="storesTabel_TMP" type="text/html">
+      <h1>Stores Table</h1>
       <table border="1">
 	<tr>
+	  <th>Company Name</th>
 	  <th>Group Name</th>
 	  <th>Store Name</th>
 	  <th>Store Number</th>
@@ -222,10 +228,11 @@
 	{{#list}}
 	<tr>
 <!--TODO: check the href -->
-	  <td>{{groupName}}</td>
-	  <td>{{storeName}}</a></td>
-	  <td><a href="#/company/{{company_id}}/{{group_id}}/{{store_id}}">{{storeNum}}</td>
-	  <td>{{terminal_num}}</td>
+	  <td>{{operationalname}}</td>
+	  <td>{{groupName}}</a></td>
+	  <td><a href="#">{{storeName}}</td>
+	  <td>{{storeNumber}}</td>
+	  <td>{{numberOfTerminals}}</td>
 	  {{#sales}}
 	  <td>{{yesterdaysales}}</td>
 	  <td>{{mtdsales}}</td>
