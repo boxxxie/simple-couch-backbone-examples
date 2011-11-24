@@ -2,12 +2,11 @@ var ReportData ={};
 
 function doc_setup() {
     
-    var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
-    var db = 'install_yunbo';
-    var Company = couchDoc.extend({urlRoot:urlBase+db});
+    //var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
+    //var db = 'install_yunbo';
+    //var Company = couchDoc.extend({urlRoot:urlBase+db});
     
     var AppRouter = new 
-
     (Backbone.Router.extend(
 	 {
 	     routes: {
@@ -16,13 +15,17 @@ function doc_setup() {
 		 "companyReport/":"companyReport",
 		 "companyReport/groups" :"companyReport_groupsTable",
 		 "companyReport/group/:group_id/stores" :"companyReport_storesTable",
-		 "companyReport/group/:group_id/store/:store_id/terminals" :"companyReport_terminalsTable",
-		 
+		 "companyReport/store/:store_id/terminals" :"companyReport_terminalsTable",
 		 "companyReport/stores" :"companyReport_storesTable",
+		 "companyReport/terminals" :"companyReport_terminalsTable",
 		 
 		 "groupReport/":"groupReport",
+		 "groupReport/stores":"groupReport_storesTable",
+		 "groupReport/store/:store_id/terminals" :"groupReport_terminalsTable",
+		 "groupReport/terminals":"groupReport_terminalsTable",
 		 
-		 "storeReport/":"storeReport"
+		 "storeReport/":"storeReport",
+		 "storeReport/terminals":"storeReport_terminalsTable"		 
 	     },
 	     reportLogin:function(){
 		 console.log("reportLogin");
@@ -40,17 +43,25 @@ function doc_setup() {
 	     companyReport_storesTable:function(group_id) {
 	     	 console.log("companyReport : storesTable ");
 	     },
-	     companyReport_terminalsTable:function(group_id, store_id) {
+	     companyReport_terminalsTable:function(store_id) {
 	     	 console.log("companyReport : terminalsTable ");
 	     },
 	     
 	     groupReport:function() {
 	     	 console.log("groupReport ");
 	     },
-	     
+	     groupReport_storesTable:function() {
+	     	 console.log("groupReport : storesTable ");
+	     },
+	     groupReport_terminalsTable:function(store_id) {
+	     	 console.log("groupReport : terminalsTable ");
+	     },
 	     
 	     storeReport:function() {
 	     	 console.log("storeReport ");
+	     },
+	     storeReport_terminalsTable:function() {
+	     	 console.log("storeReport : terminalsTable ");
 	     }
 	 }));
 
@@ -89,9 +100,9 @@ function doc_setup() {
 				console.log("companyReportView, route:companyReport_storesTable");
 				view.renderStoresTable(group_id);						
 			    });
-	     AppRouter.bind('route:companyReport_terminalsTable', function(group_id, store_id){
+	     AppRouter.bind('route:companyReport_terminalsTable', function(store_id){
 				console.log("companyReportView, route:companyReport_terminalsTable");
-				view.renderTerminalsTable(group_id,store_id);						
+				view.renderTerminalsTable(store_id);						
 			    });
 	 },
 	 renderCompanyReport: function() {
@@ -107,7 +118,8 @@ function doc_setup() {
 			   numberOfGroups:numGroups,
 			   numberOfStores:numStores,
 			   numberOfTerminals:numTerminals,
-			   company_id:company._id
+			   company_id:company._id,
+			   startPage:"companyReport"
 			  };
 	     var html = ich.companyManagementPage_TMP(param);
 	     $("body").html(html);
@@ -130,7 +142,8 @@ function doc_setup() {
 						  group_id:group.group_id,
 						  numberOfStores:numberOfStores,
 						  numberOfTerminals:numberOfTerminals,
-						  sales:sales};
+						  sales:sales,
+						  startPage:"companyReport"};
 				      })};
 	     var html = ich.groupsTabel_TMP(param);
 	     $("body").html(html);
@@ -168,24 +181,25 @@ function doc_setup() {
 						  storeName:storeName,
 						  storeNumber:storeNumber,
 						  numberOfTerminals:numberOfTerminals,
-						  sales:sales};
+						  sales:sales,
+						  startPage:"companyReport"};
 				      })};
 	     var html = ich.storesTabel_TMP(param);
 	     $("body").html(html);
 	     console.log("companyReportView renderStoresTable");
 	     return this;								
 	 },
-	 renderTerminalsTable : function(group_id, store_id) {
+	 renderTerminalsTable : function(store_id) {
 	     var view = this;
 	     var company = ReportData.company;
 	     var groups;
 	     var stores;
-	     
-	     if(_.isEmpty(group_id)){
-		 groups = company.hierarchy.groups;
-	     } else {
-		 groups = _.filter(company.hierarchy.groups, function(group){ return group.group_id==group_id});
-	     }
+	     groups = company.hierarchy.groups;
+	     /*if(_.isEmpty(group_id)){
+	      groups = company.hierarchy.groups;
+	      } else{
+	      groups = _.filter(company.hierarchy.groups, function(group){ return group.group_id==group_id});
+	      }*/
 	     if(_.isEmpty(store_id)){
 		 stores = _(groups).chain().map(function(group) {
 						    return _.map(group.stores, function(store){
@@ -217,7 +231,8 @@ function doc_setup() {
 						  storeName:storeName,
 						  storeNumber:storeNumber,
 						  terminalName:terminal.terminal_label,
-						  sales:sales};
+						  sales:sales,
+						  startPage:"companyReport"};
 				      })};
 	     var html = ich.terminalsTabel_TMP(param);
 	     $("body").html(html);
@@ -226,63 +241,168 @@ function doc_setup() {
 	 }
 	});
     
-    var groupReportView = Backbone.View.extend({initialize:function(){
-						    var view = this;
-						    _.bindAll(view, 'renderGroupReport');
-						    AppRouter.bind('route:groupReport', function(){
-								       console.log("groupReportView, route:groupReport : company name : "+ ReportData.companyName);
-								       view.model = ReportData.group; //new Company({_id:company_id});
-								       view.renderGroupReport();
-								   });
-						},
-						renderGroupReport: function() {
-						    var view = this;
-						    //var company = view.model;
-						    //var groups = company.hierarchy.groups; //_.filter(company.hierarchy.groups, function(group){ return !_.isEmpty(group.stores)});
-						    var group = ReportData.group; //_.find(groups, function(group){return group.group_id==group_id})
-						    var stores = group.stores;//_(groups).chain().map(function(group) {return group.stores}).flatten().value();
-						    
-						    var numStores = _.size(stores);//_.reduce(groups, function(sum, group){ return sum + _.size(group.stores); }, 0);
-						    var numTerminals = _.reduce(stores, function(sum, store){ return sum + _.size(store.terminals); }, 0);
-						    var param =  {sales:{yesterdaysales:"100",mtdsales:"100",ytdsales:"100"},
-								  numberOfStores:numStores,
-								  numberOfTerminals:numTerminals
-								  //company_id:company._id,
-								  //group_id:group_id
-								 };
-						    var html = ich.groupManagementPage_TMP(param);
-						    $("body").html(html);
-						    console.log("groupReportView renderGroupReport");
-						    return this;
-						}
-						
-					       });
+    var groupReportView = Backbone.View.extend(
+    	{initialize:function(){
+	     var view = this;
+	     _.bindAll(view, 'renderGroupReport', 'renderStoresTable', 'renderTerminalsTable');
+	     AppRouter.bind('route:groupReport', function(){
+				console.log("groupReportView, route:groupReport : company name : "+ ReportData.companyName);
+				view.model = ReportData.group; //new Company({_id:company_id});
+				view.renderGroupReport();
+			    });
+	     AppRouter.bind('route:groupReport_storesTable', function(){
+				console.log("groupReportView, route:groupReport_storesTable : company name : "+ ReportData.companyName);
+				view.model = ReportData.group; //new Company({_id:company_id});
+				view.renderStoresTable();
+			    });
+	     AppRouter.bind('route:groupReport_terminalsTable', function(store_id) {
+				console.log("groupReportView, route:groupReport_storesTable: company name : " +ReportData.companyName);
+				view.model = ReportData.group; //new Company({_id:company_id});
+				view.renderTerminalsTable(store_id);
+			    });
+	 },
+	 renderGroupReport: function() {
+	     var view = this;
+	     //var company = view.model;
+	     //var groups = company.hierarchy.groups; //_.filter(company.hierarchy.groups, function(group){ return !_.isEmpty(group.stores)});
+	     var group = ReportData.group; //_.find(groups, function(group){return group.group_id==group_id})
+	     var stores = group.stores;//_(groups).chain().map(function(group) {return group.stores}).flatten().value();
+	     
+	     var numStores = _.size(stores);//_.reduce(groups, function(sum, group){ return sum + _.size(group.stores); }, 0);
+	     var numTerminals = _.reduce(stores, function(sum, store){ return sum + _.size(store.terminals); }, 0);
+	     var param =  {sales:{yesterdaysales:"100",mtdsales:"100",ytdsales:"100"},
+			   numberOfStores:numStores,
+			   numberOfTerminals:numTerminals,
+			   //company_id:company._id,
+			   //group_id:group_id
+			   startPage:"groupReport"
+			  };
+	     var html = ich.groupManagementPage_TMP(param);
+	     $("body").html(html);
+	     console.log("groupReportView renderGroupReport");
+	     return this;
+	 },
+	 renderStoresTable : function() {
+	     var view = this;
+	     var group = ReportData.group;
+	     var stores = group.stores;
+	     var param = {list: _.map(stores, function(store) {
+					  var operationalname = ReportData.companyName;
+					  var groupName = group.groupName;
+					  var storeName = store.storeName;
+					  var storeNumber = store.number;
+					  var numberOfTerminals = _.size(store.terminals);
+					  var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
+					  return {operationalname:operationalname,
+						  //group_id:store.group_id,
+						  groupName:groupName,
+						  store_id:store.store_id,
+						  storeName:storeName,
+						  storeNumber:storeNumber,
+						  numberOfTerminals:numberOfTerminals,
+						  sales:sales,
+						  startPage:"groupReport"};
+				      })};
+	     var html = ich.storesTabel_TMP(param);
+	     $("body").html(html);
+	     console.log("groupReportView renderStoresTable");
+	     return this;
+	 },
+	 renderTerminalsTable:function(store_id) {
+	     var view = this;
+	     var group = ReportData.group;
+	     var stores;
+	     if(_.isEmpty(store_id)){
+		 stores = group.stores;
+	     } else {
+		 stores = _.filter(group.stores, function(store){return store.store_id ==store_id});
+	     }
+	     var terminals = _(stores).chain().map(function(store){
+						       return _.map(store.terminals, function(terminal){
+									return _.extend(terminal, {groupName:group.groupName, group_id:group.group_id, storeName:store.storeName, storeNumber:store.number, store_id:store.store_id})
+								    });	
+						   }).flatten().value();
+	     var param = {list: _.map(terminals, function(terminal) {
+					  var operationalname = ReportData.companyName;
+					  var groupName = terminal.groupName;
+					  var storeName = terminal.storeName;
+					  var storeNumber = terminal.storeNumber;
+					  var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
+					  return {operationalname:operationalname,
+						  group_id:terminal.group_id,
+						  groupName:groupName,
+						  store_id:terminal.store_id,
+						  storeName:storeName,
+						  storeNumber:storeNumber,
+						  terminalName:terminal.terminal_label,
+						  sales:sales,
+						  startPage:"groupReport"};
+				      })};
+	     var html = ich.terminalsTabel_TMP(param);
+	     $("body").html(html);
+	     console.log("groupReportView renderTerminalsTable");
+	     return this;
+	 }
+	 
+	});
     
-    var storeReportView = Backbone.View.extend({initialize:function(){
-						    var view = this;
-						    _.bindAll(view, 'renderStoreReport');
-						    AppRouter.bind('route:storeReport', function(){
-								       console.log("storeReportView, route:storeReport : companyname : " + ReportData.companyName + ", groupname : " + ReportData.groupName );
-								       view.model = ReportData.store; //new Company({_id:company_id});
-								       view.renderStoreReport();
-								   });
-						},
-						renderStoreReport: function() {
-						    var view = this;
-						    
-						    var store = ReportData.store;
-						    var terminals = store.terminals;
-						    var numTerminals = _.size(terminals);//_.reduce(stores, function(sum, store){ return sum + _.size(store.terminals); }, 0);
-						    var param =  {sales:{yesterdaysales:"100",mtdsales:"100",ytdsales:"100"},
-								  numberOfTerminals:numTerminals,
-								 };
-						    var html = ich.storeManagementPage_TMP(param);
-						    $("body").html(html);
-						    console.log("storeReportView renderStoreReport");
-						    return this;
-						}
-						
-					       });
+    var storeReportView = Backbone.View.extend(
+    	{initialize:function(){
+	     var view = this;
+	     _.bindAll(view, 'renderStoreReport', 'renderTerminalsTable');
+	     AppRouter.bind('route:storeReport', function(){
+				console.log("storeReportView, route:storeReport : companyname : " + ReportData.companyName + ", groupname : " + ReportData.groupName );
+				view.model = ReportData.store; //new Company({_id:company_id});
+				view.renderStoreReport();
+			    });
+	     AppRouter.bind('route:storeReport_terminalsTable', function(){
+				console.log("storeReportView, route:storeReport_terminalsTable : companyname : " + ReportData.companyName + ", groupname : " + ReportData.groupName );
+				view.model = ReportData.store; //new Company({_id:company_id});
+				view.renderTerminalsTable();
+			    });
+	 },
+	 renderStoreReport: function() {
+	     var view = this;
+	     
+	     var store = ReportData.store;
+	     var terminals = store.terminals;
+	     var numTerminals = _.size(terminals);//_.reduce(stores, function(sum, store){ return sum + _.size(store.terminals); }, 0);
+	     var param =  {sales:{yesterdaysales:"100",mtdsales:"100",ytdsales:"100"},
+			   numberOfTerminals:numTerminals,
+			   startPage:"storeReport"
+			  };
+	     var html = ich.storeManagementPage_TMP(param);
+	     $("body").html(html);
+	     console.log("storeReportView renderStoreReport");
+	     return this;
+	 },
+	 renderTerminalsTable: function() {
+	     var view = this;
+	     var store = ReportData.store;	
+	     
+	     var terminals = store.terminals;
+	     var param = {list: _.map(terminals, function(terminal) {
+					  var operationalname = ReportData.companyName;
+					  var groupName = ReportData.groupName;
+					  var storeName = store.storeName;
+					  var storeNumber = store.number;
+					  var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
+					  return {operationalname:operationalname,
+						  groupName:groupName,
+						  store_id:store.store_id,
+						  storeName:storeName,
+						  storeNumber:storeNumber,
+						  terminalName:terminal.terminal_label,
+						  sales:sales,
+						  startPage:"groupReport"};
+				      })};
+	     var html = ich.terminalsTabel_TMP(param);
+	     $("body").html(html);
+	     console.log("storeReportView renderTerminalsTable");
+	     return this;
+	 }
+	 
+	});
 
     var LoginDisplay = new reportLoginView();
     var CompanyReportDisplay = new companyReportView();
