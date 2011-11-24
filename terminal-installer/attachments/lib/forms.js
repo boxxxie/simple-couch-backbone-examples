@@ -46,3 +46,8 @@ function formGrabber($form,varName){
 		},{})
 	.value();
 };
+
+
+function varFormGrabber($form){
+    return formGrabber($form,'var');
+}
