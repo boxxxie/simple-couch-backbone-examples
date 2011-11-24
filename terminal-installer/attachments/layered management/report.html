@@ -96,7 +96,7 @@
 		<dd>
 		  <label># Of Groups</label>
 <!--//TODO:check if this link is right-->
-		  <a href="#companyReport/{{company_id}}/groups">{{numberOfGroups}}</a>
+		  <a href="#companyReport/groups">{{numberOfGroups}}</a>
 		  		  
 		</dd>
       </dl>
@@ -196,7 +196,7 @@
 	<tr>
 <!--TODO: check the href -->
 	  <td>{{operationalname}}</td>
-	  <td><a href="#/company/{{company_id}}/{{group_id}}">{{groupName}}</a></td>
+	  <td><a href="#/companyReport/group/{{group_id}}/stores">{{groupName}}</a></td>
 	  <td>{{numberOfStores}}</td>
 	  <td>{{numberOfTerminals}}</td>
 	  {{#sales}}
@@ -230,7 +230,7 @@
 <!--TODO: check the href -->
 	  <td>{{operationalname}}</td>
 	  <td>{{groupName}}</a></td>
-	  <td><a href="#">{{storeName}}</td>
+	  <td><a href="#companyReport/group/{{group_id}}/store/{{store_id}}/terminals">{{storeName}}</td>
 	  <td>{{storeNumber}}</td>
 	  <td>{{numberOfTerminals}}</td>
 	  {{#sales}}
