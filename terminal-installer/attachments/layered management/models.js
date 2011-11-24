@@ -1,4 +1,4 @@
-
+//fixme: it may not make sense to use this. also a Company var is already declared in lib/Company.js (this will conflict)
 var Company = couchDoc.extend(	
     {defaults: function() {
 	 return {
@@ -14,7 +14,7 @@ var Company = couchDoc.extend(
 	 return _.find(this.getGroups(),function(group){ return group.group_id == groupID;});
      },
      getStores:function(groupID){
-	 var foundGroup = this.getGroup(groupID); //_.filter(groups,function(group){ return group.group_id == groupID;});
+	 var foundGroup = this.getGroup(groupID);
 	 return foundGroup.stores;
      },
      getStore:function(groupID,storeID){
@@ -76,7 +76,7 @@ var Group = couchDoc.extend(
      getTerminal:function(groupID,storeID,terminalID){
 	 var terminals = this.getTerminals(groupID,storeID);
 	 return _.find(terminals,function(terminal){return terminal.terminal_id == terminalID;});	 
-     },
+     }
     /* companyStats:function(groupID,storeID){
 	 var groups = this.get('hierarchy').groups;
 	 if(groupID){
@@ -108,6 +108,6 @@ var Store = couchDoc.extend(
      getTerminal:function(groupID,storeID,terminalID){
 	 var terminals = this.getTerminals(groupID,storeID);
 	 return _.find(terminals,function(terminal){return terminal.terminal_id == terminalID;});	 
-     },
+     }
 
     });
