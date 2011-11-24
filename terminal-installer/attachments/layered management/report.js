@@ -87,11 +87,15 @@ function doc_setup() {
 			    });
 	 },
 	 renderCompanyReport: function() {
+	     var transaction_db = db('transactions');
+	     var transactionsView = view('reporting','id_type_date');
 	     var view = this;
 	     var company = ReportData;
-	     var groups = company.hierarchy.groups; //_.filter(company.hierarchy.groups, function(group){ return !_.isEmpty(group.stores)});
-	     var stores = _(groups).chain().map(function(group) {return group.stores}).flatten().value();
-	     
+	     var groups = company.hierarchy.groups;
+	     var stores = _(groups).chain()
+		 .map(function(group) {return group.stores;})
+		 .flatten()
+		 .value();
 	     var numGroups = _.size(groups);
 	     var numStores = _.reduce(groups, function(sum, group){ return sum + _.size(group.stores); }, 0);
 	     var numTerminals = _.reduce(stores, function(sum, store){ return sum + _.size(store.terminals); }, 0);
@@ -101,6 +105,8 @@ function doc_setup() {
 			   numberOfTerminals:numTerminals,
 			   company_id:company._id
 			  };
+
+	     //groupQuery(transactionsView,transaction_db,)
 	     var html = ich.companyManagementPage_TMP(param);
 	     $("body").html(html);
 	     console.log("companyReportView renderCompanyReport");
@@ -109,7 +115,7 @@ function doc_setup() {
 	 renderGroupsTable: function() {
 	     var view = this;
 	     var company = view.model.toJSON();
-	     var groups = company.hierarchy.groups; //_.filter(company.hierarchy.groups, function(group){ return !_.isEmpty(group.stores)});
+	     var groups = company.hierarchy.groups;
 	     
 	     var param = 
 		 {list: _.map(groups, function(group) {
@@ -280,7 +286,9 @@ function login() {
 			 	  window.location.href = "#groupReport/";
 			      } else if(!_.isEmpty(data.storeName)) {
 			 	  window.location.href = "#storeReport/";
-			      }else{//login failed}
+			      }else{
+				  //login failed
+			      }
 			      }});
 			});
      
