@@ -1,6 +1,6 @@
 <html>
-	<head>
-	<link href="../layout.css" rel="stylesheet" type="text/css"/>
+  <head>
+    <link href="../layout.css" rel="stylesheet" type="text/css"/>
     <link href="../css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css"/>
 
     <script language="javascript" type="text/javascript" src="../lib/jquery-1.6.4.js"></script>
@@ -25,7 +25,7 @@
     <script language="javascript" type="text/javascript" src="../layered management/docRdy.js"></script>
     
     <!-------------------------------------------- GENERAL --------------------------------------------------->
-    <<script id="commonClasses_P" class="partial" type="text/html">
+    <script id="commonClasses_P" class="partial" type="text/html">
       text ui-widget-content ui-corner-all
     </script>
 
@@ -33,7 +33,7 @@
       ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only
     </script>
 
-	<script id="loginButton_P" class="partial" type="text/html">
+    <script id="loginButton_P" class="partial" type="text/html">
       <button id="btnlogin" onclick="login()">LOGIN</button>
     </script>
     
@@ -51,7 +51,7 @@
       </button>
     </script>
 
-	<script id="reportsButton_P" class="partial" type="text/html">
+    <script id="reportsButton_P" class="partial" type="text/html">
       <button  class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
 	       onClick="">
 	<span class="ui-button-text">Reports</span>
@@ -63,127 +63,132 @@
       {{>inventoryButton_P}}
       {{>reportsButton_P}}
     </script>
-    
+
     <script id="backButton_P" class="partial" type="text/html">
       <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
 	      onClick="javascript:history.go(-1);">
 	<span class="ui-button-text">Back</span>
       </button>
     </script>
-    
+
     <script id="menuButton_P" class="partial" type="text/html">
       <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
 	      onClick="">
 	<span class="ui-button-text">Menu</span>
       </button>
     </script>
-    
+
     <script id="salesFields_P" class="partial" type="text/html">
-    	<form>
-      {{#sales}}
-      <dl>
-		<dd>
-		  <label>Yesterday Sale</label><text>{{yesterdaysales}}</text>
-		  <label>MTD Sale</label><text>{{mtdsales}}</text>
-		  <label>YTD Sale</label><text>{{ytdsales}}</text>
-		</dd>
-      </dl>
-      {{/sales}}
+      <form>
+	{{#sales}}
+	<dl>
+	  <dd>
+	    <label>Yesterday Sale</label><text>{{yesterdaysales}}</text>
+	    <label>MTD Sale</label><text>{{mtdsales}}</text>
+	    <label>YTD Sale</label><text>{{ytdsales}}</text>
+	  </dd>
+	</dl>
+	{{/sales}}
       </form>
     </script>
-    
+
     <script id="numberOfGroupsFields_P" class="partial" type="text/html">
-    <form>
-      <dl>
-		<dd>
-		  <label># Of Groups</label>
-<!--//TODO:check if this link is right-->
-		  <a href="#companyReport/{{company_id}}/groups">{{numberOfGroups}}</a>
-		  		  
-		</dd>
-      </dl>
+      <form>
+	<dl>
+	  <dd>
+	    <label># Of Groups</label>
+	    <!--//TODO:check if this link is right-->
+	    <a href="#{{startPage}}/groups">{{numberOfGroups}}</a>
+	  </dd>
+	</dl>
       </form>
     </script>
-    
+
     <script id="numberOfStoresFields_P" class="partial" type="text/html">
-    	<form>
-      <dl>
-		<dd>
-		  <label># Of Stores</label>
-<!--//TODO:check if this link is right-->
-		  <a href="#">{{numberOfStores}}</a>		  
-		</dd>
-      </dl>
+      <form>
+	<dl>
+	  <dd>
+	    <label># Of Stores</label>
+	    <!--//TODO:check if this link is right-->
+	    <a href="#{{startPage}}/stores">{{numberOfStores}}</a>		  
+	  </dd>
+	</dl>
       </form>
     </script>
 
     <script id="numberOfTerminalsFields_P" class="partial" type="text/html">
-    	<form>
-      <dl>
-		<dd>
-		  <label># Of Terminals</label>
-<!--//TODO:check if this link is right-->
-		  <a href="#">{{numberOfTerminals}}</a>		  
-		</dd>
-      </dl>
+      <form>
+	<dl>
+	  <dd>
+	    <label># Of Terminals</label>
+	    <!--//TODO:check if this link is right-->
+	    <a href="#{{startPage}}/terminals">{{numberOfTerminals}}</a>		  
+	  </dd>
+	</dl>
       </form>
     </script>
-    
-<!------------------------------------------------------- LAYER LOGIN------------------------------------------>
-	<script id="layerLogin_TMP" type="text/html">
-		<form id="ids_form">
-			<h1>RT7 BACK OFFICE LOGIN</h1>
-	    	<dl>
-	    		COMPANY ID : <input type="text" var="company" class="{{>commonClasses_P}}" />
-	    	</dl>
-	    	<dl>
-	    		GROUP ID : <input type="text" var="group" class="{{>commonClasses_P}}" />
-	    	</dl>
-	    	<dl>
-	    		STORE ID : <input type="text" var="store" class="{{>commonClasses_P}}" />
-	    	</dl>
-	    	<dl>
-	    		USER ID : <input type="text" var="user" class="{{>commonClasses_P}}" />
-	    	</dl>
-	    	<dl>
-	    		PASSWORD : <input type="password" var="password" class="{{>commonClasses_P}}" />
-	    	</dl>
-	    	 <!--{{>loginButton_P}}-->
-	    	 <input type="button" value="login" onclick="login()" class="{{>commonButtonClasses_P}}" />
-		</form>
-	</script>
-    
- <!------------------------------------  company management page TMP ------------------------------->
- 	<script id="companyManagementPage_TMP" type="text/html">
-    	<h1>Company Management</h1>
-      	{{>salesFields_P}}
-      	{{>numberOfGroupsFields_P}}
-      	{{>numberOfStoresFields_P}}
-      	{{>numberOfTerminalsFields_P}}
-      	{{>AIR_Buttons_P}}
+
+    <!------------------------------------------------------- LAYER LOGIN------------------------------------------>
+    <script id="layerLogin_TMP" type="text/html">
+      <form id="ids_form">
+	<h1>RT7 BACK OFFICE LOGIN</h1>
+	<dl>
+	  COMPANY ID : <input type="text" var="company" class="{{>commonClasses_P}}" />
+	</dl>
+	<dl>
+	  GROUP ID : <input type="text" var="group" class="{{>commonClasses_P}}" />
+	</dl>
+	<dl>
+	  STORE ID : <input type="text" var="store" class="{{>commonClasses_P}}" />
+	</dl>
+	<dl>
+	  USER ID : <input type="text" var="user" class="{{>commonClasses_P}}" />
+	</dl>
+	<dl>
+	  PASSWORD : <input type="password" var="password" class="{{>commonClasses_P}}" />
+	</dl>
+	<!--{{>loginButton_P}}-->
+	<input type="button" value="login" onclick="login()" class="{{>commonButtonClasses_P}}" />
+      </form>
     </script>
-    
-    
- <!------------------------------------  group management page TMP ------------------------------->
- 	<script id="groupManagementPage_TMP" type="text/html">
-		<h1>Group Management</h1>
-      	{{>salesFields_P}}
-      	{{>numberOfStoresFields_P}}
-      	{{>numberOfTerminalsFields_P}}
-		{{>AIR_Buttons_P}}
+
+    <!------------------------------------  company management page TMP ------------------------------->
+    <script id="companyManagementPage_TMP" type="text/html">
+      <h1>Company Management</h1>
+      {{>salesFields_P}}
+      {{>numberOfGroupsFields_P}}
+      {{>numberOfStoresFields_P}}
+      {{>numberOfTerminalsFields_P}}
+      {{>AIR_Buttons_P}}
+      {{>backButton_P}}
+      {{>menuButton_P}}
     </script>
-    
- <!------------------------------------  store management page TMP ------------------------------->
- 	<script id="storeManagementPage_TMP" type="text/html">
-		<h1>Store Management</h1>
-      	{{>salesFields_P}}
-      	{{>numberOfTerminalsFields_P}}
-		{{>AIR_Buttons_P}}
+
+
+    <!------------------------------------  group management page TMP ------------------------------->
+    <script id="groupManagementPage_TMP" type="text/html">
+      <h1>Group Management</h1>
+      {{>salesFields_P}}
+      {{>numberOfStoresFields_P}}
+      {{>numberOfTerminalsFields_P}}
+      {{>AIR_Buttons_P}}
+      {{>backButton_P}}
+      {{>menuButton_P}}
     </script>
- 	
- <!------------------------------------- groups table TMP -------------------------------------------->
- 	<script id="groupsTabel_TMP" type="text/html">
- 	<h1>Groups Table</h1>
+
+    <!------------------------------------  store management page TMP ------------------------------->
+    <script id="storeManagementPage_TMP" type="text/html">
+      <h1>Store Management</h1>
+      {{>salesFields_P}}
+      {{>numberOfTerminalsFields_P}}
+      {{>AIR_Buttons_P}}
+      {{>backButton_P}}
+      {{>menuButton_P}}
+    </script>
+
+    <!------------------------------------- groups table TMP -------------------------------------------->
+    <script id="groupsTabel_TMP" type="text/html">
+      <h1>Groups Table</h1>
       <table border="1">
 	<tr>
 	  <th>Company Name</th>
@@ -196,9 +201,9 @@
 	</tr>
 	{{#list}}
 	<tr>
-<!--TODO: check the href -->
+	  <!--TODO: check the href -->
 	  <td>{{operationalname}}</td>
-	  <td><a href="#/company/{{company_id}}/{{group_id}}">{{groupName}}</a></td>
+	  <td><a href="#{{startPage}}/group/{{group_id}}/stores">{{groupName}}</a></td>
 	  <td>{{numberOfStores}}</td>
 	  <td>{{numberOfTerminals}}</td>
 	  {{#sales}}
@@ -213,8 +218,8 @@
       {{>menuButton_P}}
     </script>
 
- <!------------------------------------- stores table TMP -------------------------------------------->
- 	<script id="storesTabel_TMP" type="text/html">
+    <!------------------------------------- stores table TMP -------------------------------------------->
+    <script id="storesTabel_TMP" type="text/html">
       <h1>Stores Table</h1>
       <table border="1">
 	<tr>
@@ -229,10 +234,10 @@
 	</tr>
 	{{#list}}
 	<tr>
-<!--TODO: check the href -->
+	  <!--TODO: check the href -->
 	  <td>{{operationalname}}</td>
-	  <td>{{groupName}}</a></td>
-	  <td><a href="#">{{storeName}}</td>
+	  <td>{{groupName}}</td>
+	  <td><a href="#{{startPage}}/store/{{store_id}}/terminals">{{storeName}}</a></td>
 	  <td>{{storeNumber}}</td>
 	  <td>{{numberOfTerminals}}</td>
 	  {{#sales}}
@@ -246,9 +251,10 @@
       {{>backButton_P}}
       {{>menuButton_P}}
     </script> 
- 
-<!------------------------------------- terminals table TMP -------------------------------------------->
- 	<script id="terminalsTabel_TMP" type="text/html">
+
+    <!------------------------------------- terminals table TMP -------------------------------------------->
+    <script id="terminalsTabel_TMP" type="text/html">
+      <h1>Terminals Table</h1>
       <table border="1">
 	<tr>
 	  <th>Group Name</th>
@@ -263,21 +269,21 @@
 	<tr>
 	  <td>{{groupName}}</td>
 	  <td>{{storeName}}</a></td>
-	  <td>{{storeNum}}</td>
-	  <td>{{terminalName}}</td>
-	  {{#sales}}
-	  <td>{{yesterdaysales}}</td>
-	  <td>{{mtdsales}}</td>
-	  <td>{{ytdsales}}</td>
-	  {{/sales}}
-	</tr>
-	{{/list}}
-      </table>
-      {{>backButton_P}}
-      {{>menuButton_P}}
-    </script> 
-    
-	</head>
-	<body>
-	</body>
+<td>{{storeNumber}}</td>
+<td>{{terminalName}}</td>
+{{#sales}}
+<td>{{yesterdaysales}}</td>
+<td>{{mtdsales}}</td>
+<td>{{ytdsales}}</td>
+{{/sales}}
+</tr>
+{{/list}}
+</table>
+{{>backButton_P}}
+{{>menuButton_P}}
+</script> 
+
+</head>
+<body>
+</body>
 </html>
