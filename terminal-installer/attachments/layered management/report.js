@@ -1,3 +1,5 @@
+var ReportData ={};
+
 function doc_setup() {
 	
 	var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
@@ -11,13 +13,14 @@ function doc_setup() {
 	     routes: {
 		 "":"reportLogin",
 		 
-		 "companyReport/:_id":"companyReport",
-		 "companyReport/:_id/groups" :"companyReport_groupsTable",
-		 "companyReport/:_id/:group_id/stores" :"companyReport_storesTable",
+		 "companyReport/":"companyReport",
+		 "companyReport/groups" :"companyReport_groupsTable",
+		 "companyReport/group/:group_id/stores" :"companyReport_storesTable",
+		 "companyReport/groups/stores" :"companyReport_storesTable",
 		 
-		 "groupReport/:_id/:group_id":"groupReport",
+		 "groupReport/":"groupReport",
 		 
-		 "storeReport/:_id/:group_id/:store_id":"storeReport"
+		 "storeReport/":"storeReport"
 	     },
 	     reportLogin:function(){
 		 console.log("reportLogin");
@@ -26,24 +29,24 @@ function doc_setup() {
 	     },
 	     
 	     
-	     companyReport:function(id){
-		 console.log("companyReport : " + id);
+	     companyReport:function(){
+		 console.log("companyReport  ");
 	     },
-	     companyReport_groupsTable:function(id) {
-	     	console.log("companyReport : groupsTable : " + id);
+	     companyReport_groupsTable:function() {
+	     	console.log("companyReport : groupsTable  ");
 	     },
-	     companyReport_storesTable:function(id) {
-	     	console.log("companyReport : storesTable : " + id);
-	     },
-	     
-	     
-	     groupReport:function(company_id, group_id) {
-	     	console.log("groupReport : company_id : " + company_id + ", group_id : " + group_id);
+	     companyReport_storesTable:function() {
+	     	console.log("companyReport : storesTable ");
 	     },
 	     
 	     
-	     storeReport:function(company_id, group_id, store_id) {
-	     	console.log("storeReport : company_id : " + company_id + ", group_id : " + group_id + ", store_id : " + store_id);
+	     groupReport:function() {
+	     	console.log("groupReport ");
+	     },
+	     
+	     
+	     storeReport:function() {
+	     	console.log("storeReport ");
 	     }
 	 }));
 
@@ -69,29 +72,23 @@ function doc_setup() {
 	{initialize:function(){
 		var view = this;
 		_.bindAll(view, 'renderCompanyReport' , 'renderGroupsTable', 'renderStoresTable');
-		AppRouter.bind('route:companyReport', function(id){
+		AppRouter.bind('route:companyReport', function(){
 			console.log("companyReportView, route:companyReport");
-			view.model = new Company({_id:id});
-			view.model.fetch({error:function(a,b,c){
-					      console.log("couldn't load model");
-					  },
-					  success:function(a,b,c){
-					  	console.log("fetch model success");
-					  	view.renderCompanyReport();
-					  }});
+			view.model = ReportData; 
+			view.renderCompanyReport();
 		});
-		AppRouter.bind('route:companyReport_groupsTable', function(id){
+		AppRouter.bind('route:companyReport_groupsTable', function(){
 			console.log("companyReportView, route:companyReport_groupsTable");
 			view.renderGroupsTable();						
 		});
-		AppRouter.bind('route:companyReport_storesTable', function(id){
+		AppRouter.bind('route:companyReport_storesTable', function(){
 			console.log("companyReportView, route:companyReport_storesTable");
 			view.renderStoresTable();						
 		});
 	},
 	renderCompanyReport: function() {
 		var view = this;
-		var company = view.model.toJSON();
+		var company = ReportData;
 		var groups = company.hierarchy.groups; //_.filter(company.hierarchy.groups, function(group){ return !_.isEmpty(group.stores)});
 		var stores = _(groups).chain().map(function(group) {return group.stores}).flatten().value();
 		
@@ -246,60 +243,6 @@ function doc_setup() {
 }
 
 function login() {
-	var d = $("#ids_form");
-    var allFields = d.find('[var]');
-    var ids = {};
-    _(allFields).chain()
-			.map(function(el) {
-			 var $el = $(el);
-			 if($el.is(':checkbox')){
-			     return [jsPather($el.attr('var')),$el.is(':checked')];
-			 }
-			 return [jsPather($el.attr('var')),$el.val()];
-		     })
-		    .each(function(keyVal){
-			 ids = assignFromPath(ids,_.first(keyVal),_.last(keyVal));
-		     });
-		     console.log(ids);
-		     var key = _(ids).chain().kv().reject(function(t){return _.isEmpty(_.last(t))}).toObject().value();
-		     console.log(key);
-		     
-		     var db_install = db("install_yunbo");
-		     var user_passwordView = appView("user_pass");
-		     //var value =
-		     keyQuery(key, user_passwordView, db_install)(function (resp){/*return resp;*//*value=resp;*/ 
-			     												if(!_.isEmpty(resp.rows)) {
-			     													var tmp = resp.rows[0].value;
-			     													console.log(tmp);
-			     													var temp = "";
-			     													var r ="";
-			     													if(!_.isEmpty(tmp.company)) {
-			     														temp = temp.concat(tmp.company);
-			     														r = "#companyReport/";
-			     													}
-			     													if(!_.isEmpty(tmp.group)) {
-			     														temp = temp.concat("/"+tmp.group);
-			     														r = "#groupReport/";
-			     													}
-			     													if(!_.isEmpty(tmp.store)) {
-			     														temp = temp.concat("/"+tmp.store);
-			     														r= "#storeReport/"
-			     													}
-			     													console.log(r+temp);
-			     													//var par = $.param(tmp);
-			     													//window.location.href='../layered management/report.html?'+par;
-			     													//$.post("../layered management/report.html", 
-			     													//				tmp, 
-			     													//				function(){console.log("aaa");}
-			     													//				,"json");*/
-			     													//TODO: after login
-			     													window.location.href=r+temp;
-			     												} else {
-			     													alert("wrong login info. tyr again");
-			     												}
-		     												});
-}
-
     var $form = $("#ids_form");
     var formEntries = varFormGrabber($form);
     console.log("form entries");
@@ -312,7 +255,7 @@ function login() {
     console.log("login_key");
     console.log(login_key);
     
-    var db_install = db("install");
+    var db_install = db("install_yunbo");
     var user_passwordView = appView("user_pass");
     var branch_show = appShow("branch");
 
@@ -323,7 +266,23 @@ function login() {
 	 //todo: include {data:{:group,:store}} in the arg where the success function is
 	 db_install.show(branch_show,
 			 _.first(resp.rows).id,
-			 {success:function(data){console.log(data);}});
+			 {data : _.first(resp.rows).value,success:function(data){
+				var startpge ="";
+			 	if(!_.isEmpty(data.operationalname)) {
+					startpge = "#companyReport/";
+			 		ReportData = data;
+			 		console.log("data"); console.log(ReportData);
+			 	} else if(!_.isEmpty(data.groupName)) {
+			 		startpge = "#groupReport/";
+					ReportData = data;
+			 		console.log("data"); console.log(ReportData);
+			 	} else if(!_.isEmpty(data.storeName)) {
+			 		startpge = "#storeReport/";
+					ReportData = data;
+			 		console.log("data"); console.log(ReportData);
+			 	}
+			 	window.location.href=startpge;
+			 	}});
      });
     
 }
