@@ -68,3 +68,9 @@ _.mixin({isLastEmpty:function (array){
 _.mixin({isFirstEmpty:function (array){
 	     return _.isEmpty(_.first(array));
 	 }});
+_.mixin({isFirstNotEmpty:function (array){
+	     return !_.isEmpty(_.first(array));
+	 }});
+_.mixin({isLastNotEmpty:function (array){
+	     return !_.isEmpty(_.last(array));
+	 }});

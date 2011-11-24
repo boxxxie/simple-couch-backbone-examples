@@ -1,3 +1,10 @@
+var cdb = {
+    db:function(name){return $.couch.db(name);},
+
+    view:function(designDoc,name){return designDoc + "/" + name;}
+ 
+};
+
 function db(name){return $.couch.db(name);};
 
 function view(designDoc,name){return designDoc + "/" + name;};
@@ -11,6 +18,15 @@ function query(options, view, database){
     };
 };
 
+function queryF(view, database){
+    return function(options){
+	return function(callback){
+	    var mergedOptions = _.extend({success: callback},options);
+	    database.view(view, mergedOptions);
+	};
+    };
+};
+
 function basicQuery(view,database){
     return query({},view,database);
 };
@@ -21,6 +37,13 @@ function keyQuery(key, view, database) {
 
 function groupQuery(view,database,group_level){
     return query({group_level:group_level},view,database);
+};
+
+function group_start_end_Query(view,database,group_level,start,end){
+    return query({group_level:group_level,
+		  startkey:start,
+		  endkey:end
+		 },view,database);
 };
 
 function peekingQuery(view,database,startKey){

@@ -1,10 +1,20 @@
-var ReportData ={};
-
+var ReportData;
+Date.prototype.toArray = function(){
+    return [this.getFullYear(),
+	    (this.getMonth()+1),
+	    this.getDate(),
+	    this.getHours(),
+	    this.getMinutes(),
+	    this.getSeconds()];
+};
+Date.prototype.beginningOfMonth = function(){
+    return Date.today().addDays(-Date.today().getDate()+1);
+};
 function doc_setup() {
-    
+
     var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
-    var db = 'install_yunbo';
-    var Company = couchDoc.extend({urlRoot:urlBase+db});
+    var db_install = 'install_yunbo';
+    var Company = couchDoc.extend({urlRoot:urlBase+db_install});
     
     var AppRouter = new 
 
@@ -16,7 +26,9 @@ function doc_setup() {
 		 "companyReport/":"companyReport",
 		 "companyReport/groups" :"companyReport_groupsTable",
 		 "companyReport/group/:group_id/stores" :"companyReport_storesTable",
-		 "companyReport/groups/stores" :"companyReport_storesTable",
+		 "companyReport/group/:group_id/store/:store_id/terminals" :"companyReport_terminalsTable",
+		 
+		 "companyReport/stores" :"companyReport_storesTable",
 		 
 		 "groupReport/":"groupReport",
 		 
@@ -32,11 +44,13 @@ function doc_setup() {
 	     companyReport:function(){
 		 console.log("companyReport  ");
 	     },
-	     companyReport_groupsTable:function() {
-	     	 console.log("companyReport : groupsTable  ");
-	     },
-	     companyReport_storesTable:function() {
+
+	     companyReport_storesTable:function(group_id) {
 	     	 console.log("companyReport : storesTable ");
+
+	     },
+	     companyReport_terminalsTable:function(group_id, store_id) {
+	     	 console.log("companyReport : terminalsTable ");
 	     },
 	     
 	     
@@ -87,13 +101,12 @@ function doc_setup() {
 			    });
 	 },
 	 renderCompanyReport: function() {
-	     var transaction_db = db('transactions');
-	     var transactionsView = view('reporting','id_type_date');
+	     var transaction_db = cdb.db('transactions');
+	     var transactionsView = cdb.view('reporting','id_type_date');
 	     var view = this;
-	     var company = ReportData;
-	     var groups = company.hierarchy.groups;
+	     var groups = ReportData.company.hierarchy.groups;
 	     var stores = _(groups).chain()
-		 .map(function(group) {return group.stores;})
+		 .pluck('stores')
 		 .flatten()
 		 .value();
 	     var numGroups = _.size(groups);
@@ -103,13 +116,66 @@ function doc_setup() {
 			   numberOfGroups:numGroups,
 			   numberOfStores:numStores,
 			   numberOfTerminals:numTerminals,
-			   company_id:company._id
+			   company_id:ReportData.company._id
 			  };
+	     var today = _.first(Date.today().toArray(),3);
+	     var yesterday = _.first(Date.today().addDays(-1).toArray(),3);
 
-	     //groupQuery(transactionsView,transaction_db,)
-	     var html = ich.companyManagementPage_TMP(param);
-	     $("body").html(html);
-	     console.log("companyReportView renderCompanyReport");
+	     var startOfMonth = Date.today().moveToFirstDayOfMonth().toArray();
+	     var startOfYear = Date.today().moveToMonth(0,-1).moveToFirstDayOfMonth().toArray();
+	     
+	     var companySalesBaseKey = [ReportData.company._id,'SALE'];
+	     var companyRefundBaseKey = [ReportData.company._id,'REFUND'];
+	     
+	     var transactionQuery = queryF(transactionsView,transaction_db);
+	     
+	     function typedTransactionRangeQuery(base){
+		 return function(startDate,endDate){
+		     var startKey = base.concat(startDate);
+		     var endKey = base.concat(endDate);
+		     var options = {
+			 group_level:_.size(endKey),
+			 startkey:startKey,
+			 endkey:endKey
+		     };
+		     return transactionQuery(options);
+		 };
+	     }
+
+	     var companySalesRangeQuery = typedTransactionRangeQuery(companySalesBaseKey);
+	     var companyRefundRangeQuery = typedTransactionRangeQuery(companyRefundBaseKey);
+
+	     function extractTotalSales(salesData,refundData){
+		 var sales,refunds;
+		 _.isFirstNotEmpty(salesData)? sales = _.first(salesData).value.sum : sales = 0;
+		 _.isFirstNotEmpty(refundData)? refunds = _.first(refundData).value.sum : refunds = 0;
+		 return sales - refunds;
+	     }
+	     
+	     companySalesRangeQuery(yesterday,today)
+	     (function(salesData){
+		  companyRefundRangeQuery(yesterday,today)
+		  (function(refundData){
+		       param.sales.yesterdaysales = extractTotalSales(salesData,refundData);
+		       companySalesRangeQuery(startOfMonth,today)
+		       (function(salesData){
+			    companyRefundRangeQuery(startOfMonth,today)
+			    (function(refundData){
+				 param.sales.mtdsales = extractTotalSales(salesData,refundData);
+				 companySalesRangeQuery(startOfYear,today)
+				 (function(salesData){
+				      companyRefundRangeQuery(startOfYear,today)
+				      (function(refundData){
+					   param.sales.ytdsales = extractTotalSales(salesData,refundData);
+					   var html = ich.companyManagementPage_TMP(param);
+					   $("body").html(html);
+					   console.log("companyReportView renderCompanyReport");
+				       });
+				  });
+			     });
+			});
+		   });
+	      });
 	     return this;
 	 },
 	 renderGroupsTable: function() {
@@ -170,10 +236,7 @@ function doc_setup() {
 		 _.bindAll(view, 'renderGroupReport');
 		 AppRouter.bind('route:groupReport', function(company_id, group_id){
 				    console.log("groupReportView, route:groupReport : company_id : " + company_id + ", group_id : " + group_id);
-				    //view.el= _.first($("main"));
 				    view.model = new Company({_id:company_id});
-				    //view.model.bind('change',function(){view.renderModifyPage(upc);});
-				    //view.model.bind('not_found',function(){view.renderAddPage(upc);});
 				    view.model.fetch({error:function(a,b,c){
 							  console.log("couldn't load model");
 							  //view.model.trigger('not_found');
@@ -253,7 +316,7 @@ function doc_setup() {
     var StoreReportDisplay = new storeReportView();
     Backbone.history.start();
 
-}
+};
 
 function login() {
     var $form = $("#ids_form");
@@ -273,23 +336,31 @@ function login() {
     var branch_show = appShow("branch");
 
     keyQuery(login_key, user_passwordView, db_install)
-    (function (view_resp){
-	 console.log("view resp");
-	 console.log(view_resp);
-	 db_install.show(branch_show,
-			 _.first(view_resp.rows).id,
-			 {data : _.first(view_resp.rows).value,
-			  success:function(data){
-			      if(!_.isEmpty(data.operationalname)) {
-				  window.location.href="#companyReport/";
-			      } else if(!_.isEmpty(data.groupName)) {
-			 	  window.location.href = "#groupReport/";
-			      } else if(!_.isEmpty(data.storeName)) {
-			 	  window.location.href = "#storeReport/";
-			      }else{
-				  //login failed
-			      }
+    (function (resp){
+	 console.log(resp);
+	 var accountMatches = resp.rows;
+	 if(_.isNotEmpty(accountMatches)) {
+	     var account = {company_id:_.first(resp.rows).id,loginTo:_.first(resp.rows).value};
+	     db_install.show(branch_show,
+			     account.company_id,
+			     {data : account.loginTo,
+			      success:function(data){
+				  if(_.isNotEmpty(account.loginTo.store)) {
+				      ReportData = {store:data, companyName:login_key.company, groupName:login_key.group};
+				      window.location.href = "#storeReport/";
+				  }
+				  else if(_.isNotEmpty(account.loginTo.group)) {
+				      ReportData = {group:data, companyName:login_key.company};
+				      window.location.href = "#groupReport/";
+				  } 
+				  else if(_.isNotEmpty(account.loginTo.company)) {
+				      ReportData = {company:data};
+				      window.location.href = "#companyReport/";
+				  } 
+				  
 			      }});
-			});
-     
-    }
+	 } else {
+	     alert("wrong login info.");
+	 }
+     });
+}
