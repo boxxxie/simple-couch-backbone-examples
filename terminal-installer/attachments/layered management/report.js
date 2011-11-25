@@ -66,6 +66,7 @@ function doc_setup() {
 	     		 console.log("groupReport : terminalsTable ");
 		     },
 		     
+
 		     storeReport:function() {
 	     		 console.log("storeReport ");
 		     },
@@ -106,9 +107,13 @@ function doc_setup() {
 				console.log("companyReportView, route:companyReport_groupsTable");
 				view.renderGroupsTable();						
 			    });
-	     AppRouter.bind('route:companyReport_storesTable', function(){
+	     AppRouter.bind('route:companyReport_storesTable', function(group_id){
 				console.log("companyReportView, route:companyReport_storesTable");
-				view.renderStoresTable();						
+				view.renderStoresTable(group_id);						
+			    });
+	     AppRouter.bind('route:companyReport_termainalsTable', function(store_id){
+				console.log("companyReportView, route:companyReport_terminalsTable");
+				view.renderTerminalsTable(store_id);						
 			    });
 	 },
 	 renderCompanyReport: function() {
