@@ -111,7 +111,7 @@ function doc_setup() {
 				console.log("companyReportView, route:companyReport_storesTable");
 				view.renderStoresTable(group_id);						
 			    });
-	     AppRouter.bind('route:companyReport_termainalsTable', function(store_id){
+	     AppRouter.bind('route:companyReport_terminalsTable', function(store_id){
 				console.log("companyReportView, route:companyReport_terminalsTable");
 				view.renderTerminalsTable(store_id);						
 			    });
