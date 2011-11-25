@@ -97,7 +97,6 @@
 	<dl>
 	  <dd>
 	    <label># Of Groups</label>
-	    <!--//TODO:check if this link is right-->
 	    <a href="#{{startPage}}/groups">{{numberOfGroups}}</a>
 	  </dd>
 	</dl>
@@ -109,7 +108,6 @@
 	<dl>
 	  <dd>
 	    <label># Of Stores</label>
-	    <!--//TODO:check if this link is right-->
 	    <a href="#{{startPage}}/stores">{{numberOfStores}}</a>		  
 	  </dd>
 	</dl>
@@ -121,7 +119,6 @@
 	<dl>
 	  <dd>
 	    <label># Of Terminals</label>
-	    <!--//TODO:check if this link is right-->
 	    <a href="#{{startPage}}/terminals">{{numberOfTerminals}}</a>		  
 	  </dd>
 	</dl>
@@ -155,6 +152,8 @@
     <!------------------------------------  company management page TMP ------------------------------->
     <script id="companyManagementPage_TMP" type="text/html">
       <h1>Company Management</h1>
+      <p></p>
+      <h2>{{breadCrumb}}</h2>
       {{>salesFields_P}}
       {{>numberOfGroupsFields_P}}
       {{>numberOfStoresFields_P}}
@@ -168,6 +167,8 @@
     <!------------------------------------  group management page TMP ------------------------------->
     <script id="groupManagementPage_TMP" type="text/html">
       <h1>Group Management</h1>
+      <p></p>
+      <h2>{{breadCrumb}}</h2>
       {{>salesFields_P}}
       {{>numberOfStoresFields_P}}
       {{>numberOfTerminalsFields_P}}
@@ -179,6 +180,8 @@
     <!------------------------------------  store management page TMP ------------------------------->
     <script id="storeManagementPage_TMP" type="text/html">
       <h1>Store Management</h1>
+      <p></p>
+      <h2>{{breadCrumb}}</h2>
       {{>salesFields_P}}
       {{>numberOfTerminalsFields_P}}
       {{>AIR_Buttons_P}}
@@ -189,6 +192,8 @@
     <!------------------------------------- groups table TMP -------------------------------------------->
     <script id="groupsTabel_TMP" type="text/html">
       <h1>Groups Table</h1>
+      <p></p>
+      <h2>{{breadCrumb}}</h2>
       <table border="1">
 	<tr>
 	  <th>Company Name</th>
@@ -201,7 +206,6 @@
 	</tr>
 	{{#list}}
 	<tr>
-	  <!--TODO: check the href -->
 	  <td>{{operationalname}}</td>
 	  <td><a href="#{{startPage}}/group/{{group_id}}/stores">{{groupName}}</a></td>
 	  <td>{{numberOfStores}}</td>
@@ -221,6 +225,8 @@
     <!------------------------------------- stores table TMP -------------------------------------------->
     <script id="storesTabel_TMP" type="text/html">
       <h1>Stores Table</h1>
+      <p></p>
+      <h2>{{breadCrumb}}</h2>
       <table border="1">
 	<tr>
 	  <th>Company Name</th>
@@ -234,7 +240,6 @@
 	</tr>
 	{{#list}}
 	<tr>
-	  <!--TODO: check the href -->
 	  <td>{{operationalname}}</td>
 	  <td>{{groupName}}</td>
 	  <td><a href="#{{startPage}}/store/{{store_id}}/terminals">{{storeName}}</a></td>
@@ -255,8 +260,11 @@
     <!------------------------------------- terminals table TMP -------------------------------------------->
     <script id="terminalsTabel_TMP" type="text/html">
       <h1>Terminals Table</h1>
+      <p></p>
+      <h2>{{breadCrumb}}</h2>
       <table border="1">
 	<tr>
+	  <th>Company Name</th>
 	  <th>Group Name</th>
 	  <th>Store Name</th>
 	  <th>Store Number</th>
@@ -267,23 +275,24 @@
 	</tr>
 	{{#list}}
 	<tr>
+	  <td>{{operationalname}}</td>
 	  <td>{{groupName}}</td>
-	  <td>{{storeName}}</a></td>
-<td>{{storeNumber}}</td>
-<td>{{terminalName}}</td>
-{{#sales}}
-<td>{{yesterdaysales}}</td>
-<td>{{mtdsales}}</td>
-<td>{{ytdsales}}</td>
-{{/sales}}
-</tr>
-{{/list}}
-</table>
-{{>backButton_P}}
-{{>menuButton_P}}
-</script> 
+	  <td>{{storeName}}</td>
+	  <td>{{storeNumber}}</td>
+	  <td>{{terminalName}}</td>
+	  {{#sales}}
+	  <td>{{yesterdaysales}}</td>
+	  <td>{{mtdsales}}</td>
+	  <td>{{ytdsales}}</td>
+	  {{/sales}}
+	</tr>
+	{{/list}}
+      </table>
+      {{>backButton_P}}
+      {{>menuButton_P}}
+    </script> 
 
-</head>
-<body>
-</body>
+  </head>
+  <body>
+  </body>
 </html>
