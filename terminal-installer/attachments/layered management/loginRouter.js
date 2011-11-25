@@ -69,4 +69,9 @@ function login() {
 	     alert("wrong login info.");
 	 }
      });
-}
+};
+
+function logout() {
+	ReportData=null;
+	window.location.href ='';
+};

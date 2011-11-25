@@ -38,8 +38,19 @@
       ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only
     </script>
 
+<!--FIXME: in some reason, it doesn't work, when it's pressed, web page is refreshed.-->
     <script id="loginButton_P" class="partial" type="text/html">
-      <button id="btnlogin" onclick="login()">LOGIN</button>
+      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
+	      onClick="login()">
+	<span class="ui-button-text">Login</span>
+      </button>
+    </script>
+
+    <script id="logoutButton_P" class="partial" type="text/html">
+      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
+	      onClick="logout()">
+	<span class="ui-button-text">Logout</span>
+      </button>
     </script>
     
     <script id="adminButton_P" class="partial" type="text/html">
@@ -75,11 +86,11 @@
 	<span class="ui-button-text">Back</span>
       </button>
     </script>
-
+    
     <script id="menuButton_P" class="partial" type="text/html">
       <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
-	      onClick="">
-	<span class="ui-button-text">Menu</span>
+	      onClick="javascript:window.location.href = '#{{startPage}}/';">
+	<span class="ui-button-text">Home</span>
       </button>
     </script>
 
@@ -150,7 +161,8 @@
 	  PASSWORD : <input type="password" var="password" class="{{>commonClasses_P}}" />
 	</dl>
 	<!--{{>loginButton_P}}-->
-	<input type="button" value="login" onclick="login()" class="{{>commonButtonClasses_P}}" />
+	<input type="button" value="Login" onclick="login()" class="{{>commonButtonClasses_P}}"  />
+	
       </form>
     </script>
 
@@ -163,8 +175,7 @@
       {{>numberOfStoresFields_P}}
       {{>numberOfTerminalsFields_P}}
       {{>AIR_Buttons_P}}
-      {{>backButton_P}}
-      {{>menuButton_P}}
+      {{>logoutButton_P}}
     </script>
 
 
@@ -176,8 +187,7 @@
       {{>numberOfStoresFields_P}}
       {{>numberOfTerminalsFields_P}}
       {{>AIR_Buttons_P}}
-      {{>backButton_P}}
-      {{>menuButton_P}}
+      {{>logoutButton_P}}
     </script>
 
     <!------------------------------------  store management page TMP ------------------------------->
@@ -187,8 +197,7 @@
       {{>salesFields_P}}
       {{>numberOfTerminalsFields_P}}
       {{>AIR_Buttons_P}}
-      {{>backButton_P}}
-      {{>menuButton_P}}
+      {{>logoutButton_P}}
     </script>
 
     <!------------------------------------- groups table TMP -------------------------------------------->

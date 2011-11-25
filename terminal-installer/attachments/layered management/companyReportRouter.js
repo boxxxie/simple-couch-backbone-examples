@@ -104,6 +104,7 @@ var companyReportView =
 			});
 		   });
 	      });
+	      
 	     return this;
 	 },
 	 renderGroupsTable: function() {

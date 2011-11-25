@@ -46,7 +46,7 @@ function getGroupsTableParam() {
     var company = ReportData.company;
     var groups = company.hierarchy.groups; 
     
-    return {list: _.map(groups, function(group) {
+    return _.extend({list: _.map(groups, function(group) {
 			    var numberOfStores = _.size(group.stores);
 			    var numberOfTerminals = _.reduce(group.stores, function(sum, store){ return sum + _.size(store.terminals); }, 0);;
 			    var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
@@ -55,9 +55,9 @@ function getGroupsTableParam() {
 				    group_id:group.group_id,
 				    numberOfStores:numberOfStores,
 				    numberOfTerminals:numberOfTerminals,
-				    sales:sales,
-				    startPage:"companyReport"};
-			})};
+				    sales:sales/*,
+				    startPage:"companyReport"*/};
+			})}, {startPage:"companyReport"});
 };
 
 function getStoresTableParam(group_id) {
@@ -77,7 +77,7 @@ function getStoresTableParam(group_id) {
 							    }); 
 					   }).flatten().value();
 	
-	return {list: _.map(stores, function(store) {
+	return _.extend({list: _.map(stores, function(store) {
 				var numberOfTerminals = _.size(store.terminals);
 				var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
 				return {operationalname:company.operationalname,
@@ -86,13 +86,13 @@ function getStoresTableParam(group_id) {
 					storeName:store.storeName,
 					storeNumber:store.number,
 					numberOfTerminals:numberOfTerminals,
-					sales:sales,
-					startPage:"companyReport"};
-			    })};
+					sales:sales/*,
+					startPage:"companyReport"*/};
+			    })}, {startPage:"companyReport"});
     } else if(!_.isEmpty(ReportData.group)) {
 	var group = ReportData.group;
 	var stores = group.stores;
-	return {list: _.map(stores, function(store) {
+	return _.extend({list: _.map(stores, function(store) {
 				var numberOfTerminals = _.size(store.terminals);
 				var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
 				return {operationalname:ReportData.companyName,
@@ -101,9 +101,9 @@ function getStoresTableParam(group_id) {
 					storeName:store.storeName,
 					storeNumber:store.number,
 					numberOfTerminals:numberOfTerminals,
-					sales:sales,
-					startPage:"groupReport"};
-			    })};
+					sales:sales/*,
+					startPage:"groupReport"*/};
+			    })},{startPage:"groupReport"});
     }
 };
 
@@ -137,16 +137,16 @@ function getTerminalsTableParam(store_id) {
 				  });})
 	    .flatten()
 	    .value();
-	return {list: _.map(terminals, function(terminal) {
+	return _.extend({list: _.map(terminals, function(terminal) {
 				var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
 				return {operationalname:company.operationalname,
 					groupName:terminal.groupName,
 					storeName:terminal.storeName,
 					storeNumber:terminal.storeNumber,
 					terminalName:terminal.terminal_label,
-					sales:sales,
-					startPage:"companyReport"};
-			    })};
+					sales:sales/*,
+					startPage:"companyReport"*/};
+			    })},{startPage:"companyReport"});
     } else if(!_.isEmpty(ReportData.group)) {
 	var group = ReportData.group;
 	var stores;
@@ -165,29 +165,29 @@ function getTerminalsTableParam(store_id) {
 	    .flatten()
 	    .value();
 
-	return {list: _.map(terminals, function(terminal) {
+	return _.extend({list: _.map(terminals, function(terminal) {
 				var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
 				return {operationalname:ReportData.companyName,
 					groupName:terminal.groupName,
 					storeName:terminal.storeName,
 					storeNumber:terminal.storeNumber,
 					terminalName:terminal.terminal_label,
-					sales:sales,
-					startPage:"groupReport"};
-			    })};
+					sales:sales/*,
+					startPage:"groupReport"*/};
+			    })},{startPage:"groupReport"});
     } else if(!_.isEmpty(ReportData.store)) {
 	var store = ReportData.store;	
 	
 	var terminals = store.terminals;
-	return {list: _.map(terminals, function(terminal) {
+	return _.extend({list: _.map(terminals, function(terminal) {
 				var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
 				return {operationalname:ReportData.companyName,
 					groupName:ReportData.groupName,
 					storeName:store.storeName,
 					storeNumber:store.number,
 					terminalName:terminal.terminal_label,
-					sales:sales,
-					startPage:"storeReport"};
-			    })};
+					sales:sales/*,
+					startPage:"storeReport"*/};
+			    })},{startPage:"storeReport"});
     }
 };
