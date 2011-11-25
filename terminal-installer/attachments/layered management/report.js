@@ -10,7 +10,7 @@ Date.prototype.toArray = function(){
 function doc_setup() {
 
     var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
-    var db_install = 'install_yunbo';
+    var db_install = 'install';
     var Company = couchDoc.extend({urlRoot:urlBase+db_install});
     
     var AppRouter = 
@@ -140,6 +140,9 @@ function doc_setup() {
 
 	     var startOfMonth = Date.today().moveToFirstDayOfMonth().toArray();
 	     var startOfYear = Date.today().moveToMonth(0,-1).moveToFirstDayOfMonth().toArray();
+	     // startOfMonth = [2011,11, 1, 0, 0, 0]
+	     //startOfMonth = _.filter(startOfMonth, function(n){return n!=0});
+	     //startOfYear = _.filter(startOfYear, function(n){return n!=0});
 	     
 	     var companySalesBaseKey = [ReportData.company._id,'SALE'];
 	     var companyRefundBaseKey = [ReportData.company._id,'REFUND'];
@@ -336,8 +339,6 @@ function doc_setup() {
 	     var param =  {sales:{yesterdaysales:"100",mtdsales:"100",ytdsales:"100"},
 			   numberOfStores:numStores,
 			   numberOfTerminals:numTerminals,
-			   //company_id:company._id,
-			   //group_id:group_id
 			   startPage:"groupReport",
 			   breadCrumb:"company : " + ReportData.companyName + " , group : " + group.groupName
 			  };
@@ -489,7 +490,7 @@ function login() {
     console.log("login_key");
     console.log(login_key);
     
-    var db_install = db("install_yunbo");
+    var db_install = db("install");
     var user_passwordView = appView("user_pass");
     var branch_show = appShow("branch");
 
