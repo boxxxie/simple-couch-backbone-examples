@@ -124,9 +124,10 @@ function doc_setup() {
 	     var param = getReportParam();
 	     var today = _.first(Date.today().toArray(),3);
 	     var yesterday = _.first(Date.today().addDays(-1).toArray(),3);
+	     var tommorrow = _.first(Date.today().addDays(1).toArray(),3);
 
-	     var startOfMonth = Date.today().moveToFirstDayOfMonth().toArray();
-	     var startOfYear = Date.today().moveToMonth(0,-1).moveToFirstDayOfMonth().toArray();
+	     var startOfMonth = _.first(Date.today().moveToFirstDayOfMonth().toArray(),3);
+	     var startOfYear = _.first(Date.today().moveToMonth(0,-1).moveToFirstDayOfMonth().toArray(),3);
 	     
 	     var companySalesBaseKey = [ReportData.company._id,'SALE'];
 	     var companyRefundBaseKey = [ReportData.company._id,'REFUND'];
@@ -151,8 +152,8 @@ function doc_setup() {
 
 	     function extractTotalSales(salesData,refundData){
 		 var sales,refunds;
-		 _.isFirstNotEmpty(salesData)? sales = _.first(salesData).value.sum : sales = 0;
-		 _.isFirstNotEmpty(refundData)? refunds = _.first(refundData).value.sum : refunds = 0;
+		 _.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows).value.sum : sales = 0;
+		 _.isFirstNotEmpty(refundData.rows)? refunds = _.first(refundData.rows).value.sum : refunds = 0;
 		 return sales - refunds;
 	     }
 	     
@@ -161,14 +162,14 @@ function doc_setup() {
 		  companyRefundRangeQuery(yesterday,today)
 		  (function(refundData){
 		       param.sales.yesterdaysales = extractTotalSales(salesData,refundData);
-		       companySalesRangeQuery(startOfMonth,today)
+		       companySalesRangeQuery(startOfMonth,tommorrow)
 		       (function(salesData){
-			    companyRefundRangeQuery(startOfMonth,today)
+			    companyRefundRangeQuery(startOfMonth,tommorrow)
 			    (function(refundData){
 				 param.sales.mtdsales = extractTotalSales(salesData,refundData);
-				 companySalesRangeQuery(startOfYear,today)
+				 companySalesRangeQuery(startOfYear,tommorrow)
 				 (function(salesData){
-				      companyRefundRangeQuery(startOfYear,today)
+				      companyRefundRangeQuery(startOfYear,tommorrow)
 				      (function(refundData){
 					   param.sales.ytdsales = extractTotalSales(salesData,refundData);
 					   var html = ich.companyManagementPage_TMP(param);
