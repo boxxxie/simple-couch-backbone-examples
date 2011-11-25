@@ -7,6 +7,7 @@ Date.prototype.toArray = function(){
 	    this.getMinutes(),
 	    this.getSeconds()];
 };
+
 function doc_setup() {
 
     var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
@@ -17,6 +18,7 @@ function doc_setup() {
 	new (Backbone.Router.extend(
 		 {
 		     routes: {
+			 "":"reportLogin",
 			 
 			 "companyReport/":"companyReport",
 			 "companyReport/groups" :"companyReport_groupsTable",
@@ -34,7 +36,11 @@ function doc_setup() {
 			 "storeReport/terminals":"storeReport_terminalsTable"		 
 		     },
 		     
-		     
+		     reportLogin:function(){
+			 console.log("reportLogin");
+			 var html = ich.layerLogin_TMP();
+			 $("body").html(html);
+		     },
 		     companyReport:function(){
 			 console.log("companyReport  ");
 		     },
@@ -48,7 +54,6 @@ function doc_setup() {
 		     companyReport_terminalsTable:function(store_id) {
 	     		 console.log("companyReport : terminalsTable ");
 		     },
-		     
 		     
 		     groupReport:function() {
 	     		 console.log("groupReport ");
@@ -68,7 +73,21 @@ function doc_setup() {
 	     		 console.log("storeReport : terminalsTable ");
 		     }
 		 }));
-
+    
+    var reportLoginView = Backbone.View.extend(
+	{initialize:function(){
+	     var view = this;
+	     _.bindAll(view, 'renderLoginPage');
+	     appRouter.bind('route:reportLogin', function(){
+				  console.log('reportLoginView:route:reportLogin');
+				  view.el= _.first($("ids_form"));
+				  view.renderLoginPage();});
+	 },
+	 renderLoginPage:function(){
+	     var view = this;
+	     console.log("reportview renderLoginPage");
+	     return this;
+	 }});
     
     var companyReportView = Backbone.View.extend(
 	{initialize:function(){
@@ -97,22 +116,9 @@ function doc_setup() {
 	     var transactionsView = cdb.view('reporting','id_type_date');
 	     var transaction_db = cdb.db('transactions');
 	     var view = this;
-	     var company = ReportData.company;
-	     var groups = company.hierarchy.groups; 
-	     var stores = _(groups).chain().map(function(group) {return group.stores;}).flatten().value();
-	     
-	     var numGroups = _.size(groups);
-	     var numStores = _.reduce(groups, function(sum, group){ return sum + _.size(group.stores); }, 0);
-	     var numTerminals = _.reduce(stores, function(sum, store){ return sum + _.size(store.terminals); }, 0);
-	     var param =  {sales:{yesterdaysales:"100",mtdsales:"100",ytdsales:"100"},
-			   numberOfGroups:numGroups,
-			   numberOfStores:numStores,
-			   numberOfTerminals:numTerminals,
-			   company_id:company._id,
-			   startPage:'companyReport',
-			   breadCrumb:"company : " + company.operationalname
-			  };
+	     var param = getReportParam();
 	     var today = _.first(Date.today().toArray(),3);
+	     var tomorrow = _.first(Date.today().addDays(1).toArray(),3);
 	     var yesterday = _.first(Date.today().addDays(-1).toArray(),3);
 
 	     var startOfMonth = _.first(Date.today().moveToFirstDayOfMonth().toArray(),3);
@@ -151,14 +157,14 @@ function doc_setup() {
 		  companyRefundRangeQuery(yesterday,today)
 		  (function(refundData){
 		       param.sales.yesterdaysales = extractTotalSales(salesData,refundData);
-		       companySalesRangeQuery(startOfMonth,today)
+		       companySalesRangeQuery(startOfMonth,tomorrow)
 		       (function(salesData){
-			    companyRefundRangeQuery(startOfMonth,today)
+			    companyRefundRangeQuery(startOfMonth,tomorrow)
 			    (function(refundData){
 				 param.sales.mtdsales = extractTotalSales(salesData,refundData);
-				 companySalesRangeQuery(startOfYear,today)
+				 companySalesRangeQuery(startOfYear,tomorrow)
 				 (function(salesData){
-				      companyRefundRangeQuery(startOfYear,today)
+				      companyRefundRangeQuery(startOfYear,tomorrow)
 				      (function(refundData){
 					   param.sales.ytdsales = extractTotalSales(salesData,refundData);
 					   var html = ich.companyManagementPage_TMP(param);
@@ -174,25 +180,8 @@ function doc_setup() {
 	 },
 	 renderGroupsTable: function() {
 	     var view = this;
-	     var company = ReportData.company;
-	     var groups = company.hierarchy.groups; 
-	     
-	     var param = {list: _.map(groups, function(group) {
-					  var numberOfStores = _.size(group.stores);
-					  var numberOfTerminals = 
-					      _.reduce(group.stores,
-						       function(sum,store){return sum + _.size(store.terminals);},
-						       0);
-					  var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
-					  return {operationalname:company.operationalname,
-						  groupName:group.groupName,
-						  group_id:group.group_id,
-						  numberOfStores:numberOfStores,
-						  numberOfTerminals:numberOfTerminals,
-						  sales:sales,
-						  startPage:"companyReport"};
-				      })};
-	     _.extend(param, {breadCrumb:"Company : " + company.operationalname});
+	     var param = getGroupsTableParam();
+	     _.extend(param, {breadCrumb:"Company : " + ccompany.operationalname});
 	     var html = ich.groupsTabel_TMP(param);
 	     $("body").html(html);
 	     console.log("companyReportView renderGroupsTable");
@@ -200,35 +189,8 @@ function doc_setup() {
 	 },
 	 renderStoresTable: function(group_id) {
 	     var view = this;
-	     var company = ReportData.company;
-	     var groups;
-	     
-	     if(_.isEmpty(group_id)){
-		 groups = company.hierarchy.groups;
-	     } else {
-		 groups = _.filter(company.hierarchy.groups, function(group){ return group.group_id==group_id;});
-	     } 
-	     
-	     var stores = _(groups).chain().map(function(group) {
-						    return _.map(group.stores, function(store){
-								     return _.extend(_.clone(store), {groupName:group.groupName, group_id:group.group_id});
-								 }); 
-						}).flatten().value();
-	     
-	     var param = {list: _.map(stores, function(store) {
-					  var numberOfTerminals = _.size(store.terminals);
-					  var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
-					  return {operationalname:company.operationalname,
-						  group_id:store.group_id,
-						  groupName:store.groupName,
-						  store_id:store.store_id,
-						  storeName:store.storeName,
-						  storeNumber:store.number,
-						  numberOfTerminals:numberOfTerminals,
-						  sales:sales,
-						  startPage:"companyReport"};
-				      })};
-	     _.extend(param, {breadCrumb:"Company : " + company.operationalname});
+	     var param = getStoresTableParam(group_id);
+	     _.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname});
 	     var html = ich.storesTabel_TMP(param);
 	     $("body").html(html);
 	     console.log("companyReportView renderStoresTable");
@@ -237,48 +199,8 @@ function doc_setup() {
 	 },
 	 renderTerminalsTable : function(store_id) {
 	     var view = this;
-	     var company = ReportData.company;
-	     var groups;
-	     var stores;
-	     groups = company.hierarchy.groups;
-	     if(_.isEmpty(store_id)){
-		 stores = _(groups).chain().map(function(group) {
-						    return _.map(group.stores, function(store){
-								     return _.extend(_.clone(store), {groupName:group.groupName, group_id:group.group_id});
-								 }); 
-						}).flatten().value();
-	     } else {
-		 stores = _(groups).chain().map(function(group) {
-						    return _.map(group.stores, function(store){
-								     return _.extend(_.clone(store), {groupName:group.groupName, group_id:group.group_id});
-								 }); 
-						}).flatten().filter(function(store){return store.store_id==store_id;}).value();
-	     }
-	     var terminals = _(stores).chain()
-		 .map(function(store){
-			  return _.map(store.terminals, function(terminal){
-					   return _.extend(_.clone(terminal), 
-							   {groupName:store.groupName, 
-							    group_id:store.group_id, 
-							    storeName:store.storeName, 
-							    storeNumber:store.number, 
-							    store_id:store.store_id});
-				       });})
-		 .flatten()
-		 .value();
-	     var param = {list: _.map(terminals, function(terminal) {
-					  var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
-					  return {operationalname:company.operationalname,
-						  group_id:terminal.group_id,
-						  groupName:terminal.groupName,
-						  store_id:terminal.store_id,
-						  storeName:terminal.storeName,
-						  storeNumber:terminal.storeNumber,
-						  terminalName:terminal.terminal_label,
-						  sales:sales,
-						  startPage:"companyReport"};
-				      })};
-	     _.extend(param, {breadCrumb:"Company : " + company.operationalname});
+	     var param = getTerminalsTableParam(store_id);
+	     _.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname});
 	     var html = ich.terminalsTabel_TMP(param);
 	     $("body").html(html);
 	     console.log("companyReportView renderTerminalsTable");
@@ -308,17 +230,7 @@ function doc_setup() {
 	 },
 	 renderGroupReport: function() {
 	     var view = this;
-	     var group = ReportData.group; 
-	     var stores = group.stores;
-	     
-	     var numStores = _.size(stores);
-	     var numTerminals = _.reduce(stores, function(sum, store){ return sum + _.size(store.terminals); }, 0);
-	     var param =  {sales:{yesterdaysales:"100",mtdsales:"100",ytdsales:"100"},
-			   numberOfStores:numStores,
-			   numberOfTerminals:numTerminals,
-			   startPage:"groupReport",
-			   breadCrumb:"company : " + ReportData.companyName + " , group : " + group.groupName
-			  };
+	     var param = getReportParam();
 	     var html = ich.groupManagementPage_TMP(param);
 	     $("body").html(html);
 	     console.log("groupReportView renderGroupReport");
@@ -326,21 +238,7 @@ function doc_setup() {
 	 },
 	 renderStoresTable : function() {
 	     var view = this;
-	     var group = ReportData.group;
-	     var stores = group.stores;
-	     var param = {list: _.map(stores, function(store) {
-					  var numberOfTerminals = _.size(store.terminals);
-					  var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
-					  return {operationalname:ReportData.companyName,
-						  //group_id:store.group_id,
-						  groupName:group.groupName,
-						  store_id:store.store_id,
-						  storeName:store.storeName,
-						  storeNumber:store.number,
-						  numberOfTerminals:numberOfTerminals,
-						  sales:sales,
-						  startPage:"groupReport"};
-				      })};
+	     var param = getStoresTableParam();
 	     _.extend(param, {breadCrumb:"Company : " + ReportData.companyName});
 	     var html = ich.storesTabel_TMP(param);
 	     $("body").html(html);
@@ -349,37 +247,7 @@ function doc_setup() {
 	 },
 	 renderTerminalsTable:function(store_id) {
 	     var view = this;
-	     var group = ReportData.group;
-	     var stores;
-	     if(_.isEmpty(store_id)){
-		 stores = group.stores;
-	     } else {
-		 stores = _.filter(group.stores, function(store){return store.store_id ==store_id;});
-	     }
-	     var terminals = _(stores).chain()
-		 .map(function(store){
-			  return _.map(store.terminals, function(terminal){
-					   return _.extend(_.clone(terminal), 
-							   {groupName:group.groupName, 
-							    group_id:group.group_id, 
-							    storeName:store.storeName, 
-							    storeNumber:store.number, 
-							    store_id:store.store_id});});})
-		 .flatten()
-		 .value();
-
-	     var param = {list: _.map(terminals, function(terminal) {
-					  var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
-					  return {operationalname:ReportData.companyName,
-						  group_id:terminal.group_id,
-						  groupName:terminal.groupName,
-						  store_id:terminal.store_id,
-						  storeName:terminal.storeName,
-						  storeNumber:terminal.storeNumber,
-						  terminalName:terminal.terminal_label,
-						  sales:sales,
-						  startPage:"groupReport"};
-				      })};
+	     var param = getTerminalsTableParam(store_id);
 	     _.extend(param, {breadCrumb:"Company : " + ReportData.companyName});
 	     var html = ich.terminalsTabel_TMP(param);
 	     $("body").html(html);
@@ -407,16 +275,7 @@ function doc_setup() {
 	 renderStoreReport: function() {
 	     var view = this;
 	     
-	     var store = ReportData.store;
-	     var terminals = store.terminals;
-	     var numTerminals = _.size(terminals);
-	     var param =  {sales:{yesterdaysales:"100",mtdsales:"100",ytdsales:"100"},
-			   numberOfTerminals:numTerminals,
-			   startPage:"storeReport",
-			   breadCrumb:"company : " + ReportData.companyName + 
-			   " , group : " + ReportData.groupName +
-			   " , store : " + store.storeName
-			  };
+	     var param = getReportParam();
 	     var html = ich.storeManagementPage_TMP(param);
 	     $("body").html(html);
 	     console.log("storeReportView renderStoreReport");
@@ -424,20 +283,7 @@ function doc_setup() {
 	 },
 	 renderTerminalsTable: function() {
 	     var view = this;
-	     var store = ReportData.store;	
-	     
-	     var terminals = store.terminals;
-	     var param = {list: _.map(terminals, function(terminal) {
-					  var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
-					  return {operationalname:ReportData.companyName,
-						  groupName:ReportData.groupName,
-						  store_id:store.store_id,
-						  storeName:store.storeName,
-						  storeNumber:store.number,
-						  terminalName:terminal.terminal_label,
-						  sales:sales,
-						  startPage:"storeReport"};
-				      })};
+	     var param = getTerminalsTableParam();
 	     _.extend(param, {breadCrumb:"Company : " + ReportData.companyName});
 	     var html = ich.terminalsTabel_TMP(param);
 	     $("body").html(html);
@@ -501,4 +347,197 @@ function login() {
 	     alert("wrong login info.");
 	 }
      });
-}
+};
+
+function getReportParam() {
+    if(!_.isEmpty(ReportData.company)){
+	var company = ReportData.company;
+	var groups = company.hierarchy.groups; 
+	var stores = _(groups).chain().map(function(group) {return group.stores;}).flatten().value();
+	
+	var numGroups = _.size(groups);
+	var numStores = _.reduce(groups, function(sum, group){ return sum + _.size(group.stores); }, 0);
+	var numTerminals = _.reduce(stores, function(sum, store){ return sum + _.size(store.terminals); }, 0);
+	return {sales:{yesterdaysales:"100",mtdsales:"100",ytdsales:"100"},
+		numberOfGroups:numGroups,
+		numberOfStores:numStores,
+		numberOfTerminals:numTerminals,
+		company_id:company._id,
+		startPage:'companyReport',
+		breadCrumb:"company : " + company.operationalname
+	       };
+    } else if(!_.isEmpty(ReportData.group)) {
+	var group = ReportData.group; 
+	var stores = group.stores;
+	
+	var numStores = _.size(stores);
+	var numTerminals = _.reduce(stores, function(sum, store){ return sum + _.size(store.terminals); }, 0);
+	return  {sales:{yesterdaysales:"100",mtdsales:"100",ytdsales:"100"},
+		 numberOfStores:numStores,
+		 numberOfTerminals:numTerminals,
+		 startPage:"groupReport",
+		 breadCrumb:"company : " + ReportData.companyName + " , group : " + group.groupName
+		};
+    } else if(!_.isEmpty(ReportData.store)) {
+	var store = ReportData.store;
+	var terminals = store.terminals;
+	var numTerminals = _.size(terminals);
+	return  {sales:{yesterdaysales:"100",mtdsales:"100",ytdsales:"100"},
+		 numberOfTerminals:numTerminals,
+		 startPage:"storeReport",
+		 breadCrumb:"company : " + ReportData.companyName + 
+		 " , group : " + ReportData.groupName +
+		 " , store : " + store.storeName
+		};
+    }	
+};
+
+function getGroupsTableParam() {
+    var company = ReportData.company;
+    var groups = company.hierarchy.groups; 
+    
+    return {list: _.map(groups, function(group) {
+			    var numberOfStores = _.size(group.stores);
+			    var numberOfTerminals = _.reduce(group.stores, function(sum, store){ return sum + _.size(store.terminals); }, 0);;
+			    var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
+			    return {operationalname:company.operationalname,
+				    groupName:group.groupName,
+				    group_id:group.group_id,
+				    numberOfStores:numberOfStores,
+				    numberOfTerminals:numberOfTerminals,
+				    sales:sales,
+				    startPage:"companyReport"};
+			})};
+};
+
+function getStoresTableParam(group_id) {
+    if(!_.isEmpty(ReportData.company)) {
+	var company = ReportData.company;
+	var groups;
+	
+	if(_.isEmpty(group_id)){
+	    groups = company.hierarchy.groups;
+	} else {
+	    groups = _.filter(company.hierarchy.groups, function(group){ return group.group_id==group_id;});
+	} 
+	
+	var stores = _(groups).chain().map(function(group) {
+					       return _.map(group.stores, function(store){
+								return _.extend(_.clone(store), {groupName:group.groupName});
+							    }); 
+					   }).flatten().value();
+	
+	return {list: _.map(stores, function(store) {
+				var numberOfTerminals = _.size(store.terminals);
+				var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
+				return {operationalname:company.operationalname,
+					groupName:store.groupName,
+					store_id:store.store_id,
+					storeName:store.storeName,
+					storeNumber:store.number,
+					numberOfTerminals:numberOfTerminals,
+					sales:sales,
+					startPage:"companyReport"};
+			    })};
+    } else if(!_.isEmpty(ReportData.group)) {
+	var group = ReportData.group;
+	var stores = group.stores;
+	return {list: _.map(stores, function(store) {
+				var numberOfTerminals = _.size(store.terminals);
+				var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
+				return {operationalname:ReportData.companyName,
+					groupName:group.groupName,
+					store_id:store.store_id,
+					storeName:store.storeName,
+					storeNumber:store.number,
+					numberOfTerminals:numberOfTerminals,
+					sales:sales,
+					startPage:"groupReport"};
+			    })};
+    }
+};
+
+function getTerminalsTableParam(store_id) {
+    if(!_.isEmpty(ReportData.company)){
+	var company = ReportData.company;
+	var groups;
+	var stores;
+	groups = company.hierarchy.groups;
+	if(_.isEmpty(store_id)){
+	    stores = _(groups).chain().map(function(group) {
+					       return _.map(group.stores, function(store){
+								return _.extend(_.clone(store), {groupName:group.groupName});
+							    }); 
+					   }).flatten().value();
+	} else {
+	    stores = _(groups).chain().map(function(group) {
+					       return _.map(group.stores, function(store){
+								return _.extend(_.clone(store), {groupName:group.groupName});
+							    }); 
+					   }).flatten().filter(function(store){return store.store_id==store_id;}).value();
+	}
+	var terminals = _(stores).chain()
+	    .map(function(store){
+		     return _.map(store.terminals, function(terminal){
+				      return _.extend(_.clone(terminal), 
+						      {groupName:store.groupName, 
+						       storeName:store.storeName, 
+						       storeNumber:store.number 
+						      });
+				  });})
+	    .flatten()
+	    .value();
+	return {list: _.map(terminals, function(terminal) {
+				var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
+				return {operationalname:company.operationalname,
+					groupName:terminal.groupName,
+					storeName:terminal.storeName,
+					storeNumber:terminal.storeNumber,
+					terminalName:terminal.terminal_label,
+					sales:sales,
+					startPage:"companyReport"};
+			    })};
+    } else if(!_.isEmpty(ReportData.group)) {
+	var group = ReportData.group;
+	var stores;
+	if(_.isEmpty(store_id)){
+	    stores = group.stores;
+	} else {
+	    stores = _.filter(group.stores, function(store){return store.store_id ==store_id;});
+	}
+	var terminals = _(stores).chain()
+	    .map(function(store){
+		     return _.map(store.terminals, function(terminal){
+				      return _.extend(_.clone(terminal), 
+						      {groupName:group.groupName, 
+						       storeName:store.storeName, 
+						       storeNumber:store.number});});})
+	    .flatten()
+	    .value();
+
+	return {list: _.map(terminals, function(terminal) {
+				var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
+				return {operationalname:ReportData.companyName,
+					groupName:terminal.groupName,
+					storeName:terminal.storeName,
+					storeNumber:terminal.storeNumber,
+					terminalName:terminal.terminal_label,
+					sales:sales,
+					startPage:"groupReport"};
+			    })};
+    } else if(!_.isEmpty(ReportData.store)) {
+	var store = ReportData.store;	
+	
+	var terminals = store.terminals;
+	return {list: _.map(terminals, function(terminal) {
+				var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
+				return {operationalname:ReportData.companyName,
+					groupName:ReportData.groupName,
+					storeName:store.storeName,
+					storeNumber:store.number,
+					terminalName:terminal.terminal_label,
+					sales:sales,
+					startPage:"storeReport"};
+			    })};
+    }
+};
