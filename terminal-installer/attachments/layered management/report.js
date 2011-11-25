@@ -40,6 +40,7 @@ function doc_setup() {
     var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
     var db_install = 'install';
     var Company = couchDoc.extend({urlRoot:urlBase+db_install});
+<<<<<<< HEAD
 
 
     var AppRouter = 
@@ -375,6 +376,9 @@ function doc_setup() {
 	 }
 	});
     
+=======
+        
+>>>>>>> upstream/master
     var LoginDisplay = new reportLoginView();
     var CompanyReportDisplay = new companyReportView();
     var GroupReportDisplay = new groupReportView();
