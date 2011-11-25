@@ -52,9 +52,46 @@ var groupReportView =
 	 renderGroupReport: function() {
 	     var view = this;
 	     var param = getReportParam();
-	     var html = ich.groupManagementPage_TMP(param);
-	     $("body").html(html);
-	     console.log("groupReportView renderGroupReport");
+	     
+	     var today = _.first(Date.today().toArray(),3);
+	     var tomorrow = _.first(Date.today().addDays(1).toArray(),3);
+	     var yesterday = _.first(Date.today().addDays(-1).toArray(),3);
+	     var tommorrow = _.first(Date.today().addDays(1).toArray(),3);
+
+	     var startOfMonth = _.first(Date.today().moveToFirstDayOfMonth().toArray(),3);
+	     var startOfYear = _.first(Date.today().moveToMonth(0,-1).moveToFirstDayOfMonth().toArray(),3);
+	     
+	     var groupSalesBaseKey = [ReportData.group.group_id,'SALE'];
+	     var groupRefundBaseKey = [ReportData.group.group_id,'REFUND'];
+	     
+	     var groupSalesRangeQuery = typedTransactionRangeQuery(groupSalesBaseKey);
+	     var groupRefundRangeQuery = typedTransactionRangeQuery(groupRefundBaseKey);
+
+	     groupSalesRangeQuery(yesterday,today)
+	     (function(salesData){
+		  groupRefundRangeQuery(yesterday,today)
+		  (function(refundData){
+		       param.sales.yesterdaysales = extractTotalSales(salesData,refundData).toFixed(2);
+		       groupSalesRangeQuery(startOfMonth,tomorrow)
+		       (function(salesData){
+			    groupRefundRangeQuery(startOfMonth,tomorrow)
+			    (function(refundData){
+				 param.sales.mtdsales = extractTotalSales(salesData,refundData).toFixed(2);
+				 groupSalesRangeQuery(startOfYear,tomorrow)
+				 (function(salesData){
+				      groupRefundRangeQuery(startOfYear,tomorrow)
+				      (function(refundData){
+					   param.sales.ytdsales = extractTotalSales(salesData,refundData).toFixed(2);
+					   var html = ich.groupManagementPage_TMP(param);
+					     $("body").html(html);
+					     console.log("groupReportView renderGroupReport");
+				       });
+				  });
+			     });
+			});
+		   });
+	      });
+	     
 	     return this;
 	 },
 	 renderStoresTable : function() {
@@ -77,25 +114,3 @@ var groupReportView =
 	 }
 	 
 	});
-
-function getGroupsTableParam() {
-    var company = ReportData.company;
-    var groups = company.hierarchy.groups; 
-    return {list: _.map(groups, 
-			function(group) {
-			    var numberOfStores = _.size(group.stores);
-			    var numberOfTerminals = 
-				_.reduce(group.stores, 
-					 function(sum, store){ 
-					     return sum + _.size(store.terminals); }, 
-					 0);
-			    var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
-			    return {operationalname:company.operationalname,
-				    groupName:group.groupName,
-				    group_id:group.group_id,
-				    numberOfStores:numberOfStores,
-				    numberOfTerminals:numberOfTerminals,
-				    sales:sales,
-				    startPage:"companyReport"};
-			})};
-};
