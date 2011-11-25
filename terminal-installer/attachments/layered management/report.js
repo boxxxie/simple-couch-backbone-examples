@@ -120,7 +120,7 @@ function doc_setup() {
 	     var transactionsView = cdb.view('reporting','id_type_date');
 	     var transaction_db = cdb.db('transactions');
 	     var view = this;
-		 var company = ReportData.company;
+	     var company = ReportData.company;
 	     var groups = company.hierarchy.groups; 
 	     var stores = _(groups).chain().map(function(group) {return group.stores;}).flatten().value();
 	     
