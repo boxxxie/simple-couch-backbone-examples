@@ -17,7 +17,6 @@ function doc_setup() {
 	new (Backbone.Router.extend(
 		 {
 		     routes: {
-			 "":"reportLogin",
 			 
 			 "companyReport/":"companyReport",
 			 "companyReport/groups" :"companyReport_groupsTable",
@@ -33,11 +32,6 @@ function doc_setup() {
 			 
 			 "storeReport/":"storeReport",
 			 "storeReport/terminals":"storeReport_terminalsTable"		 
-		     },
-		     reportLogin:function(){
-			 console.log("reportLogin");
-			 var html = ich.layerLogin_TMP();
-			 $("body").html(html);
 		     },
 		     
 		     
@@ -76,23 +70,6 @@ function doc_setup() {
 		 }));
 
     
-    var reportLoginView = Backbone.View.extend(
-	{initialize:function(){
-	     var view = this;
-	     _.bindAll(view, 'renderLoginPage');
-	     AppRouter.bind('route:reportLogin', function(){
-				console.log('reportLoginView:route:reportLogin');
-				view.el= _.first($("ids_form"));
-				view.renderLoginPage();});
-	 },
-	 renderLoginPage:function(){
-	     var view = this;
-	     console.log("reportview renderLoginPage");
-	     return this;
-	 }
-	});
-
-
     var companyReportView = Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
@@ -202,7 +179,10 @@ function doc_setup() {
 	     
 	     var param = {list: _.map(groups, function(group) {
 					  var numberOfStores = _.size(group.stores);
-					  var numberOfTerminals = _.reduce(group.stores, function(sum, store){ return sum + _.size(store.terminals); }, 0);;
+					  var numberOfTerminals = 
+					      _.reduce(group.stores,
+						       function(sum,store){return sum + _.size(store.terminals);},
+						       0);
 					  var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
 					  return {operationalname:company.operationalname,
 						  groupName:group.groupName,
@@ -496,17 +476,21 @@ function login() {
 	 console.log(resp);
 	 var accountMatches = resp.rows;
 	 if(_.isNotEmpty(accountMatches)) {
-	     var account = {company_id:_.first(resp.rows).id,loginTo:_.first(resp.rows).value};
+	     var account = {company_id:_.first(resp.rows).id,
+			    loginTo:_.first(resp.rows).value};
 	     db_install.show(branch_show,
 			     account.company_id,
 			     {data : account.loginTo,
 			      success:function(data){
 				  if(_.isNotEmpty(account.loginTo.store)) {
-				      ReportData = {store:data, companyName:login_key.company, groupName:login_key.group};
+				      ReportData = {store:data, 
+						    companyName:login_key.company, 
+						    groupName:login_key.group};
 				      window.location.href = "#storeReport/";
 				  }
 				  else if(_.isNotEmpty(account.loginTo.group)) {
-				      ReportData = {group:data, companyName:login_key.company};
+				      ReportData = {group:data, 
+						    companyName:login_key.company};
 				      window.location.href = "#groupReport/";
 				  } 
 				  else if(_.isNotEmpty(account.loginTo.company)) {
