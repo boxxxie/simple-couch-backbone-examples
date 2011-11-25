@@ -1,13 +1,14 @@
 var loginRouter = 
-    new (Backbone.Router.extend(
-	     {
-		 routes: {			 
-		     "":"reportLogin",
+    new (Backbone.Router
+	 .extend({
+		     routes: {			 
+			 "":"reportLogin"
+		     },
 		     reportLogin:function(){
 			 console.log("reportLogin");
 			 var html = ich.layerLogin_TMP();
 			 $("body").html(html);
-		     }}}));    
+		     }}));    
 
 var reportLoginView = Backbone.View.extend(
     {initialize:function(){
