@@ -1,4 +1,8 @@
 var ReportData;
+var transactionsView = cdb.view('reporting','id_type_date');
+var transaction_db = cdb.db('transactions');
+var transactionQuery = queryF(transactionsView,transaction_db);
+
 Date.prototype.toArray = function(){
     return [this.getFullYear(),
 	    (this.getMonth()+1),
@@ -8,12 +12,36 @@ Date.prototype.toArray = function(){
 	    this.getSeconds()];
 };
 
+
+function extractTotalSales(salesData,refundData){
+		 var sales,refunds;
+		 _.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows).value.sum : sales = 0;
+		 _.isFirstNotEmpty(refundData.rows)? refunds = _.first(refundData.rows).value.sum : refunds = 0;
+		 return sales - refunds;
+};
+
+
+
+function typedTransactionRangeQuery(base){
+		 return function(startDate,endDate){
+		     var startKey = base.concat(startDate);
+		     var endKey = base.concat(endDate);
+		     var options = {
+			 group_level:_.size(endKey),
+			 startkey:startKey,
+			 endkey:endKey
+		     };
+		     return transactionQuery(options);
+		 };
+};
+     
 function doc_setup() {
 
     var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
     var db_install = 'install';
     var Company = couchDoc.extend({urlRoot:urlBase+db_install});
-    
+
+
     var AppRouter = 
 	new (Backbone.Router.extend(
 		 {
@@ -113,8 +141,6 @@ function doc_setup() {
 			    });
 	 },
 	 renderCompanyReport: function() {
-	     var transactionsView = cdb.view('reporting','id_type_date');
-	     var transaction_db = cdb.db('transactions');
 	     var view = this;
 	     var param = getReportParam();
 	     var today = _.first(Date.today().toArray(),3);
@@ -128,31 +154,10 @@ function doc_setup() {
 	     var companySalesBaseKey = [ReportData.company._id,'SALE'];
 	     var companyRefundBaseKey = [ReportData.company._id,'REFUND'];
 	     
-	     var transactionQuery = queryF(transactionsView,transaction_db);
-	     
-	     function typedTransactionRangeQuery(base){
-		 return function(startDate,endDate){
-		     var startKey = base.concat(startDate);
-		     var endKey = base.concat(endDate);
-		     var options = {
-			 group_level:_.size(endKey),
-			 startkey:startKey,
-			 endkey:endKey
-		     };
-		     return transactionQuery(options);
-		 };
-	     }
 
 	     var companySalesRangeQuery = typedTransactionRangeQuery(companySalesBaseKey);
 	     var companyRefundRangeQuery = typedTransactionRangeQuery(companyRefundBaseKey);
 
-	     function extractTotalSales(salesData,refundData){
-		 var sales,refunds;
-		 _.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows).value.sum : sales = 0;
-		 _.isFirstNotEmpty(refundData.rows)? refunds = _.first(refundData.rows).value.sum : refunds = 0;
-		 return sales - refunds;
-	     }
-	     
 	     companySalesRangeQuery(yesterday,today)
 	     (function(salesData){
 		  companyRefundRangeQuery(yesterday,today)
@@ -232,9 +237,46 @@ function doc_setup() {
 	 renderGroupReport: function() {
 	     var view = this;
 	     var param = getReportParam();
-	     var html = ich.groupManagementPage_TMP(param);
-	     $("body").html(html);
-	     console.log("groupReportView renderGroupReport");
+	     
+	     var today = _.first(Date.today().toArray(),3);
+	     var tomorrow = _.first(Date.today().addDays(1).toArray(),3);
+	     var yesterday = _.first(Date.today().addDays(-1).toArray(),3);
+	     var tommorrow = _.first(Date.today().addDays(1).toArray(),3);
+
+	     var startOfMonth = _.first(Date.today().moveToFirstDayOfMonth().toArray(),3);
+	     var startOfYear = _.first(Date.today().moveToMonth(0,-1).moveToFirstDayOfMonth().toArray(),3);
+	     
+	     var groupSalesBaseKey = [ReportData.group.group_id,'SALE'];
+	     var groupRefundBaseKey = [ReportData.group.group_id,'REFUND'];
+	     
+	     var groupSalesRangeQuery = typedTransactionRangeQuery(groupSalesBaseKey);
+	     var groupRefundRangeQuery = typedTransactionRangeQuery(groupRefundBaseKey);
+
+	     groupSalesRangeQuery(yesterday,today)
+	     (function(salesData){
+		  groupRefundRangeQuery(yesterday,today)
+		  (function(refundData){
+		       param.sales.yesterdaysales = extractTotalSales(salesData,refundData).toFixed(2);
+		       groupSalesRangeQuery(startOfMonth,tomorrow)
+		       (function(salesData){
+			    groupRefundRangeQuery(startOfMonth,tomorrow)
+			    (function(refundData){
+				 param.sales.mtdsales = extractTotalSales(salesData,refundData).toFixed(2);
+				 groupSalesRangeQuery(startOfYear,tomorrow)
+				 (function(salesData){
+				      groupRefundRangeQuery(startOfYear,tomorrow)
+				      (function(refundData){
+					   param.sales.ytdsales = extractTotalSales(salesData,refundData).toFixed(2);
+					   var html = ich.groupManagementPage_TMP(param);
+					     $("body").html(html);
+					     console.log("groupReportView renderGroupReport");
+				       });
+				  });
+			     });
+			});
+		   });
+	      });
+	     
 	     return this;
 	 },
 	 renderStoresTable : function() {
@@ -277,9 +319,49 @@ function doc_setup() {
 	     var view = this;
 	     
 	     var param = getReportParam();
-	     var html = ich.storeManagementPage_TMP(param);
-	     $("body").html(html);
-	     console.log("storeReportView renderStoreReport");
+	     
+	     
+	     var today = _.first(Date.today().toArray(),3);
+	     var tomorrow = _.first(Date.today().addDays(1).toArray(),3);
+	     var yesterday = _.first(Date.today().addDays(-1).toArray(),3);
+	     var tommorrow = _.first(Date.today().addDays(1).toArray(),3);
+
+	     var startOfMonth = _.first(Date.today().moveToFirstDayOfMonth().toArray(),3);
+	     var startOfYear = _.first(Date.today().moveToMonth(0,-1).moveToFirstDayOfMonth().toArray(),3);
+	     
+	     var storeSalesBaseKey = [ReportData.store.store_id,'SALE'];
+	     var storeRefundBaseKey = [ReportData.store.store_id,'REFUND'];
+	     
+	     var storeSalesRangeQuery = typedTransactionRangeQuery(storeSalesBaseKey);
+	     var storeRefundRangeQuery = typedTransactionRangeQuery(storeRefundBaseKey);
+
+	     
+	     storeSalesRangeQuery(yesterday,today)
+	     (function(salesData){
+		  storeRefundRangeQuery(yesterday,today)
+		  (function(refundData){
+		       param.sales.yesterdaysales = extractTotalSales(salesData,refundData).toFixed(2);
+		       storeSalesRangeQuery(startOfMonth,tomorrow)
+		       (function(salesData){
+			    storeRefundRangeQuery(startOfMonth,tomorrow)
+			    (function(refundData){
+				 param.sales.mtdsales = extractTotalSales(salesData,refundData).toFixed(2);
+				 storeSalesRangeQuery(startOfYear,tomorrow)
+				 (function(salesData){
+				      storeRefundRangeQuery(startOfYear,tomorrow)
+				      (function(refundData){
+					   param.sales.ytdsales = extractTotalSales(salesData,refundData).toFixed(2);
+					   var html = ich.storeManagementPage_TMP(param);
+				     $("body").html(html);
+				     console.log("storeReportView renderStoreReport");
+				       });
+				  });
+			     });
+			});
+		   });
+	      });
+	     
+	     
 	     return this;
 	 },
 	 renderTerminalsTable: function() {
