@@ -14,65 +14,66 @@ function doc_setup() {
     var Company = couchDoc.extend({urlRoot:urlBase+db_install});
     
     var AppRouter = 
-    new (Backbone.Router.extend(
-	 {
-	     routes: {
-		 "":"reportLogin",
-		 
-		 "companyReport/":"companyReport",
-		 "companyReport/groups" :"companyReport_groupsTable",
-		 "companyReport/group/:group_id/stores" :"companyReport_storesTable",
-		 "companyReport/store/:store_id/terminals" :"companyReport_terminalsTable",
-		 "companyReport/stores" :"companyReport_storesTable",
-		 "companyReport/terminals" :"companyReport_terminalsTable",
-		 
-		 "groupReport/":"groupReport",
-		 "groupReport/stores":"groupReport_storesTable",
-		 "groupReport/store/:store_id/terminals" :"groupReport_terminalsTable",
-		 "groupReport/terminals":"groupReport_terminalsTable",
-		 
-		 "storeReport/":"storeReport",
-		 "storeReport/terminals":"storeReport_terminalsTable"		 
-	     },
-	     reportLogin:function(){
-		 console.log("reportLogin");
-		 var html = ich.layerLogin_TMP();
-		 $("body").html(html);
-	     },
-	     
-	     
-	     companyReport:function(){
-		 console.log("companyReport  ");
-	     },
+	new (Backbone.Router.extend(
+		 {
+		     routes: {
+			 "":"reportLogin",
+			 
+			 "companyReport/":"companyReport",
+			 "companyReport/groups" :"companyReport_groupsTable",
+			 "companyReport/group/:group_id/stores" :"companyReport_storesTable",
+			 "companyReport/store/:store_id/terminals" :"companyReport_terminalsTable",
+			 "companyReport/stores" :"companyReport_storesTable",
+			 "companyReport/terminals" :"companyReport_terminalsTable",
+			 
+			 "groupReport/":"groupReport",
+			 "groupReport/stores":"groupReport_storesTable",
+			 "groupReport/store/:store_id/terminals" :"groupReport_terminalsTable",
+			 "groupReport/terminals":"groupReport_terminalsTable",
+			 
+			 "storeReport/":"storeReport",
+			 "storeReport/terminals":"storeReport_terminalsTable"		 
+		     },
+		     reportLogin:function(){
+			 console.log("reportLogin");
+			 var html = ich.layerLogin_TMP();
+			 $("body").html(html);
+		     },
+		     
+		     
+		     companyReport:function(){
+			 console.log("companyReport  ");
+		     },
 
-	     companyReport_groupsTable:function() {
-	     	 console.log("companyReport : groupsTable  ");
-	     },
-	     companyReport_storesTable:function(group_id) {
-	     	 console.log("companyReport : storesTable ");
-	     },
-	     companyReport_terminalsTable:function(store_id) {
-	     	 console.log("companyReport : terminalsTable ");
-	     },
-	     
-	     
-	     groupReport:function() {
-	     	 console.log("groupReport ");
-	     },
-	     groupReport_storesTable:function() {
-	     	 console.log("groupReport : storesTable ");
-	     },
-	     groupReport_terminalsTable:function(store_id) {
-	     	 console.log("groupReport : terminalsTable ");
-	     },
-	     
-	     storeReport:function() {
-	     	 console.log("storeReport ");
-	     },
-	     storeReport_terminalsTable:function() {
-	     	 console.log("storeReport : terminalsTable ");
-	     }
-	 }));
+		     companyReport_groupsTable:function() {
+	     		 console.log("companyReport : groupsTable  ");
+		     },
+		     companyReport_storesTable:function(group_id) {
+	     		 console.log("companyReport : storesTable ");
+		     },
+		     companyReport_terminalsTable:function(store_id) {
+	     		 console.log("companyReport : terminalsTable ");
+		     },
+		     
+		     
+		     groupReport:function() {
+	     		 console.log("groupReport ");
+		     },
+		     groupReport_storesTable:function() {
+	     		 console.log("groupReport : storesTable ");
+		     },
+		     groupReport_terminalsTable:function(store_id) {
+	     		 console.log("groupReport : terminalsTable ");
+		     },
+		     
+
+		     storeReport:function() {
+	     		 console.log("storeReport ");
+		     },
+		     storeReport_terminalsTable:function() {
+	     		 console.log("storeReport : terminalsTable ");
+		     }
+		 }));
 
     
     var reportLoginView = Backbone.View.extend(
@@ -106,34 +107,21 @@ function doc_setup() {
 				console.log("companyReportView, route:companyReport_groupsTable");
 				view.renderGroupsTable();						
 			    });
-	     AppRouter.bind('route:companyReport_storesTable', function(){
-				console.log("companyReportView, route:companyReport_storesTable");
-				view.renderStoresTable();						
-			    });
-	 },
-	 renderCompanyReport: function() {
-	     var transaction_db = cdb.db('transactions');
-	     var transactionsView = cdb.view('reporting','id_type_date');
-	     var view = this;
-	     var groups = ReportData.company.hierarchy.groups;
-	     var stores = _(groups).chain()
-		 .pluck('stores')
-		 .flatten()
-		 .value();
-
 	     AppRouter.bind('route:companyReport_storesTable', function(group_id){
 				console.log("companyReportView, route:companyReport_storesTable");
 				view.renderStoresTable(group_id);						
 			    });
-	     AppRouter.bind('route:companyReport_terminalsTable', function(store_id){
+	     AppRouter.bind('route:companyReport_termainalsTable', function(store_id){
 				console.log("companyReportView, route:companyReport_terminalsTable");
 				view.renderTerminalsTable(store_id);						
 			    });
 	 },
 	 renderCompanyReport: function() {
+	     var transactionsView = cdb.view('reporting','id_type_date');
+	     var transaction_db = cdb.db('transactions');
 	     var view = this;
 	     var company = view.model;
-	     var groups = company.hierarchy.groups; //_.filter(company.hierarchy.groups, function(group){ return !_.isEmpty(group.stores)});
+	     var groups = company.hierarchy.groups; 
 	     var stores = _(groups).chain().map(function(group) {return group.stores;}).flatten().value();
 	     
 	     var numGroups = _.size(groups);
@@ -143,7 +131,8 @@ function doc_setup() {
 			   numberOfGroups:numGroups,
 			   numberOfStores:numStores,
 			   numberOfTerminals:numTerminals,
-			   company_id:ReportData.company._id
+			   company_id:ReportData.company._id,
+			   startPage:'companyReport'
 			  };
 	     var today = _.first(Date.today().toArray(),3);
 	     var yesterday = _.first(Date.today().addDays(-1).toArray(),3);
@@ -208,7 +197,7 @@ function doc_setup() {
 	 renderGroupsTable: function() {
 	     var view = this;
 	     var company = ReportData.company;
-	     var groups = company.hierarchy.groups; //_.filter(company.hierarchy.groups, function(group){ return !_.isEmpty(group.stores)});
+	     var groups = company.hierarchy.groups; 
 	     
 	     var param = {list: _.map(groups, function(group) {
 					  var operationalname = company.operationalname;
@@ -267,7 +256,7 @@ function doc_setup() {
 	     $("body").html(html);
 	     console.log("companyReportView renderStoresTable");
 	     return this;								
-	 
+	     
 	 },
 	 renderTerminalsTable : function(store_id) {
 	     var view = this;
