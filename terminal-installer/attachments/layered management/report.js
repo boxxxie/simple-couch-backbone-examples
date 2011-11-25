@@ -78,7 +78,7 @@ function doc_setup() {
 	{initialize:function(){
 	     var view = this;
 	     _.bindAll(view, 'renderLoginPage');
-	     appRouter.bind('route:reportLogin', function(){
+	     AppRouter.bind('route:reportLogin', function(){
 				  console.log('reportLoginView:route:reportLogin');
 				  view.el= _.first($("ids_form"));
 				  view.renderLoginPage();});
@@ -147,8 +147,8 @@ function doc_setup() {
 
 	     function extractTotalSales(salesData,refundData){
 		 var sales,refunds;
-		 _.isFirstNotEmpty(salesData)? sales = _.first(salesData).value.sum : sales = 0;
-		 _.isFirstNotEmpty(refundData)? refunds = _.first(refundData).value.sum : refunds = 0;
+		 _.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows).value.sum : sales = 0;
+		 _.isFirstNotEmpty(refundData.rows)? refunds = _.first(refundData.rows).value.sum : refunds = 0;
 		 return sales - refunds;
 	     }
 	     
@@ -156,17 +156,17 @@ function doc_setup() {
 	     (function(salesData){
 		  companyRefundRangeQuery(yesterday,today)
 		  (function(refundData){
-		       param.sales.yesterdaysales = extractTotalSales(salesData,refundData);
+		       param.sales.yesterdaysales = extractTotalSales(salesData,refundData).toFixed(2);
 		       companySalesRangeQuery(startOfMonth,tomorrow)
 		       (function(salesData){
 			    companyRefundRangeQuery(startOfMonth,tomorrow)
 			    (function(refundData){
-				 param.sales.mtdsales = extractTotalSales(salesData,refundData);
+				 param.sales.mtdsales = extractTotalSales(salesData,refundData).toFixed(2);
 				 companySalesRangeQuery(startOfYear,tomorrow)
 				 (function(salesData){
 				      companyRefundRangeQuery(startOfYear,tomorrow)
 				      (function(refundData){
-					   param.sales.ytdsales = extractTotalSales(salesData,refundData);
+					   param.sales.ytdsales = extractTotalSales(salesData,refundData).toFixed(2);
 					   var html = ich.companyManagementPage_TMP(param);
 					   $("body").html(html);
 					   console.log("companyReportView renderCompanyReport");
