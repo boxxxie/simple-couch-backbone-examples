@@ -38,7 +38,6 @@
       ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only
     </script>
 
-<!--FIXME: in some reason, it doesn't work, when it's pressed, web page is refreshed.-->
     <script id="loginButton_P" class="partial" type="text/html">
       <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
 	      onClick="login()">
@@ -160,10 +159,8 @@
 	<dl>
 	  PASSWORD : <input type="password" var="password" class="{{>commonClasses_P}}" />
 	</dl>
-	<!--{{>loginButton_P}}-->
-	<input type="button" value="Login" onclick="login()" class="{{>commonButtonClasses_P}}"  />
-	
       </form>
+      {{>loginButton_P}}
     </script>
 
     <!------------------------------------  company management page TMP ------------------------------->
