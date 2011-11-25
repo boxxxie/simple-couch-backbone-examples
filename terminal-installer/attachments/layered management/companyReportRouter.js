@@ -162,8 +162,7 @@ function getReportParam() {
     if(!_.isEmpty(ReportData.company)){
 	var company = ReportData.company;
 	var groups = company.hierarchy.groups; 
-	var stores = _(groups).chain().map(function(group) {return group.stores;}).flatten().value();
-	
+	var stores = _(groups).chain().map(function(group) {return group.stores;}).flatten().value();	
 	var numGroups = _.size(groups);
 	var numStores = _.reduce(groups, function(sum, group){ return sum + _.size(group.stores); }, 0);
 	var numTerminals = _.reduce(stores, function(sum, store){ return sum + _.size(store.terminals); }, 0);
@@ -178,7 +177,6 @@ function getReportParam() {
     } else if(!_.isEmpty(ReportData.group)) {
 	var group = ReportData.group; 
 	var stores = group.stores;
-	
 	var numStores = _.size(stores);
 	var numTerminals = _.reduce(stores, function(sum, store){ return sum + _.size(store.terminals); }, 0);
 	return  {sales:{yesterdaysales:"100",mtdsales:"100",ytdsales:"100"},

@@ -89,13 +89,13 @@ function getGroupsTableParam() {
 					 function(sum, store){ 
 					     return sum + _.size(store.terminals); }, 
 					 0);
-			    var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
 			    return {operationalname:company.operationalname,
 				    groupName:group.groupName,
 				    group_id:group.group_id,
 				    numberOfStores:numberOfStores,
 				    numberOfTerminals:numberOfTerminals,
-				    sales:sales,
+				    //fixme:set from view
+				    sales:{yesterdaysales:"100",mtdsales:"100",ytdsales:"100"}, 
 				    startPage:"companyReport"};
 			})};
 };
