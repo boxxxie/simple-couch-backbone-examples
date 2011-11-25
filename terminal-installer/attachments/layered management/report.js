@@ -35,13 +35,12 @@ function doc_setup() {
 			 "storeReport/":"storeReport",
 			 "storeReport/terminals":"storeReport_terminalsTable"		 
 		     },
+		     
 		     reportLogin:function(){
 			 console.log("reportLogin");
 			 var html = ich.layerLogin_TMP();
 			 $("body").html(html);
 		     },
-		     
-		     
 		     companyReport:function(){
 			 console.log("companyReport  ");
 		     },
@@ -55,7 +54,6 @@ function doc_setup() {
 		     companyReport_terminalsTable:function(store_id) {
 	     		 console.log("companyReport : terminalsTable ");
 		     },
-		     
 		     
 		     groupReport:function() {
 	     		 console.log("groupReport ");
@@ -75,25 +73,22 @@ function doc_setup() {
 	     		 console.log("storeReport : terminalsTable ");
 		     }
 		 }));
-
     
     var reportLoginView = Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
 	     _.bindAll(view, 'renderLoginPage');
 	     AppRouter.bind('route:reportLogin', function(){
-				console.log('reportLoginView:route:reportLogin');
-				view.el= _.first($("ids_form"));
-				view.renderLoginPage();});
+				  console.log('reportLoginView:route:reportLogin');
+				  view.el= _.first($("ids_form"));
+				  view.renderLoginPage();});
 	 },
 	 renderLoginPage:function(){
 	     var view = this;
 	     console.log("reportview renderLoginPage");
 	     return this;
-	 }
-	});
-
-
+	 }});
+    
     var companyReportView = Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
@@ -123,6 +118,7 @@ function doc_setup() {
 	     var view = this;
 	     var param = getReportParam();
 	     var today = _.first(Date.today().toArray(),3);
+	     var tomorrow = _.first(Date.today().addDays(1).toArray(),3);
 	     var yesterday = _.first(Date.today().addDays(-1).toArray(),3);
 	     var tommorrow = _.first(Date.today().addDays(1).toArray(),3);
 
@@ -161,17 +157,17 @@ function doc_setup() {
 	     (function(salesData){
 		  companyRefundRangeQuery(yesterday,today)
 		  (function(refundData){
-		       param.sales.yesterdaysales = extractTotalSales(salesData,refundData);
-		       companySalesRangeQuery(startOfMonth,tommorrow)
+		       param.sales.yesterdaysales = extractTotalSales(salesData,refundData).toFixed(2);
+		       companySalesRangeQuery(startOfMonth,tomorrow)
 		       (function(salesData){
-			    companyRefundRangeQuery(startOfMonth,tommorrow)
+			    companyRefundRangeQuery(startOfMonth,tomorrow)
 			    (function(refundData){
-				 param.sales.mtdsales = extractTotalSales(salesData,refundData);
-				 companySalesRangeQuery(startOfYear,tommorrow)
+				 param.sales.mtdsales = extractTotalSales(salesData,refundData).toFixed(2);
+				 companySalesRangeQuery(startOfYear,tomorrow)
 				 (function(salesData){
-				      companyRefundRangeQuery(startOfYear,tommorrow)
+				      companyRefundRangeQuery(startOfYear,tomorrow)
 				      (function(refundData){
-					   param.sales.ytdsales = extractTotalSales(salesData,refundData);
+					   param.sales.ytdsales = extractTotalSales(salesData,refundData).toFixed(2);
 					   var html = ich.companyManagementPage_TMP(param);
 					   $("body").html(html);
 					   console.log("companyReportView renderCompanyReport");
@@ -327,17 +323,21 @@ function login() {
 	 console.log(resp);
 	 var accountMatches = resp.rows;
 	 if(_.isNotEmpty(accountMatches)) {
-	     var account = {company_id:_.first(resp.rows).id,loginTo:_.first(resp.rows).value};
+	     var account = {company_id:_.first(resp.rows).id,
+			    loginTo:_.first(resp.rows).value};
 	     db_install.show(branch_show,
 			     account.company_id,
 			     {data : account.loginTo,
 			      success:function(data){
 				  if(_.isNotEmpty(account.loginTo.store)) {
-				      ReportData = {store:data, companyName:login_key.company, groupName:login_key.group};
+				      ReportData = {store:data, 
+						    companyName:login_key.company, 
+						    groupName:login_key.group};
 				      window.location.href = "#storeReport/";
 				  }
 				  else if(_.isNotEmpty(account.loginTo.group)) {
-				      ReportData = {group:data, companyName:login_key.company};
+				      ReportData = {group:data, 
+						    companyName:login_key.company};
 				      window.location.href = "#groupReport/";
 				  } 
 				  else if(_.isNotEmpty(account.loginTo.company)) {
