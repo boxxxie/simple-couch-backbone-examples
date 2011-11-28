@@ -42,80 +42,49 @@ function getReportParam() {
     }	
 };
 
+
+
+
+function fetchGroupsTableSales(params) {
+	return _.map(params.list, function(param){
+    	  transactionsSalesFetcher(param.group_id,
+	      function(totalSales){
+		  _.extend(param.sales, totalSales);
+		  var html = ich.groupsTabel_TMP(params);
+	      $("body").html(html);
+	      });
+    });
+    
+};
+
 function getGroupsTableParam() {
     var company = ReportData.company;
     var groups = company.hierarchy.groups; 
-    
-    
-    
-    var today = _.first(Date.today().toArray(),3);
-	     var tomorrow = _.first(Date.today().addDays(1).toArray(),3);
-	     var yesterday = _.first(Date.today().addDays(-1).toArray(),3);
-	     var tommorrow = _.first(Date.today().addDays(1).toArray(),3);
-
-	     var startOfMonth = _.first(Date.today().moveToFirstDayOfMonth().toArray(),3);
-	     var startOfYear = _.first(Date.today().moveToMonth(0,-1).moveToFirstDayOfMonth().toArray(),3);
-	     
-	     
-		return _.extend({list: _.map(groups, function(group) {
+	return _.extend({list: _.map(groups, function(group) {
     	var numberOfStores = _.size(group.stores);
 	    var numberOfTerminals = _.reduce(group.stores, function(sum, store){ return sum + _.size(store.terminals); }, 0);;
 	    var sales={yesterdaysales:"$ 0.00",mtdsales:"$ 0.00",ytdsales:"$ -0.00"};
-	    
-	    
-    /*****************************************************************************************************/
-	     var companySalesBaseKey = [group.group_id,'SALE'];
-	     var companyRefundBaseKey = [group.group_id,'REFUND'];
-	     
+    
+		    return {operationalname:company.operationalname,
+			    groupName:group.groupName,
+			    group_id:group.group_id,
+			    numberOfStores:numberOfStores,
+			    numberOfTerminals:numberOfTerminals,
+			    sales:sales};
+		})}, {startPage:"companyReport"});
+};
 
-	     var companySalesRangeQuery = typedTransactionRangeQuery(companySalesBaseKey);
-	     var companyRefundRangeQuery = typedTransactionRangeQuery(companyRefundBaseKey);
-	     
-	     companySalesRangeQuery(yesterday,today)
-	     (function(salesData){
-		  companyRefundRangeQuery(yesterday,today)
-		  (function(refundData){
-		       sales.yesterdaysales = "$ "+extractTotalSales(salesData,refundData).toFixed(2);
-		       companySalesRangeQuery(startOfMonth,tomorrow)
-		       (function(salesData){
-			    companyRefundRangeQuery(startOfMonth,tomorrow)
-			    (function(refundData){
-				 sales.mtdsales = "$ "+extractTotalSales(salesData,refundData).toFixed(2);
-				 companySalesRangeQuery(startOfYear,tomorrow)
-				 (function(salesData){
-				      companyRefundRangeQuery(startOfYear,tomorrow)
-				      (function(refundData){
-					   sales.ytdsales = "$ "+ extractTotalSales(salesData,refundData).toFixed(2);
-					   
-				       });
-				  });
-			     });
-			});
-		   });
-	     });
-    	 
-    	 function returndata() {
-    	 	return {operationalname:company.operationalname,
-				    groupName:group.groupName,
-				    group_id:group.group_id,
-				    numberOfStores:numberOfStores,
-				    numberOfTerminals:numberOfTerminals,
-				    sales:sales
-				    /*,
-				   startPage:"companyReport"*/ };
-    	 };
-    	 
-    	 setTimeout(returndata(),1000);
-    /********************************************************************************************/	
-			   // return {operationalname:company.operationalname,
-			//	    groupName:group.groupName,
-			//	    group_id:group.group_id,
-			//	    numberOfStores:numberOfStores,
-			//	    numberOfTerminals:numberOfTerminals,
-			//	    sales:sales
-				    /*,
-				    startPage:"companyReport"*/ //};
-			})}, {startPage:"companyReport"});
+
+function fetchStoresTableSales(params) {
+	return _.map(params.list, function(param){
+    	  transactionsSalesFetcher(param.store_id,
+	      function(totalSales){
+		  _.extend(param.sales, totalSales);
+		  var html = ich.storesTabel_TMP(params);
+	      $("body").html(html);
+	      });
+    });
+    
 };
 
 function getStoresTableParam(group_id) {
@@ -165,6 +134,19 @@ function getStoresTableParam(group_id) {
     }
 };
 
+
+function fetchTerminalsTableSales(params) {
+	return _.map(params.list, function(param){
+    	  transactionsSalesFetcher(param.terminal_id,
+	      function(totalSales){
+		  _.extend(param.sales, totalSales);
+		  var html = ich.terminalsTabel_TMP(params);
+	      $("body").html(html);
+	      });
+    });
+    
+};
+
 function getTerminalsTableParam(store_id) {
     if(!_.isEmpty(ReportData.company)){
 	var company = ReportData.company;
@@ -190,7 +172,7 @@ function getTerminalsTableParam(store_id) {
 				      return _.extend(_.clone(terminal), 
 						      {groupName:store.groupName, 
 						       storeName:store.storeName, 
-						       storeNumber:store.number 
+						       storeNumber:store.number,
 						      });
 				  });})
 	    .flatten()
@@ -202,6 +184,7 @@ function getTerminalsTableParam(store_id) {
 					storeName:terminal.storeName,
 					storeNumber:terminal.storeNumber,
 					terminalName:terminal.terminal_label,
+					terminal_id:terminal.terminal_id,
 					sales:sales/*,
 					startPage:"companyReport"*/};
 			    })},{startPage:"companyReport"});
@@ -230,6 +213,7 @@ function getTerminalsTableParam(store_id) {
 					storeName:terminal.storeName,
 					storeNumber:terminal.storeNumber,
 					terminalName:terminal.terminal_label,
+					terminal_id:terminal.terminal_id,
 					sales:sales/*,
 					startPage:"groupReport"*/};
 			    })},{startPage:"groupReport"});
@@ -244,6 +228,7 @@ function getTerminalsTableParam(store_id) {
 					storeName:store.storeName,
 					storeNumber:store.number,
 					terminalName:terminal.terminal_label,
+					terminal_id:terminal.terminal_id,
 					sales:sales/*,
 					startPage:"storeReport"*/};
 			    })},{startPage:"storeReport"});

@@ -45,17 +45,25 @@ var storeReportView = Backbone.View.extend(
 	 var view = this;
 	 
 	 var param = getReportParam();
-	 var html = ich.storeManagementPage_TMP(param);
-	 $("body").html(html);
-	 console.log("storeReportView renderStoreReport");
+	 transactionsSalesFetcher(ReportData.store.store_id,
+				      function(totalSales){
+					  _.extend(param.sales,totalSales);
+					  var html = ich.storeManagementPage_TMP(param);
+					  $("body").html(html);
+					  console.log("storeReportView renderStoreReport");
+				      });
+	 //var html = ich.storeManagementPage_TMP(param);
+	 //$("body").html(html);
+	 //console.log("storeReportView renderStoreReport");
 	 return this;
      },
      renderTerminalsTable: function() {
 	 var view = this;
-	 var param = getTerminalsTableParam();
-	 _.extend(param, {breadCrumb:"Company : " + ReportData.companyName});
-	 var html = ich.terminalsTabel_TMP(param);
-	 $("body").html(html);
+	 var params = getTerminalsTableParam();
+	 _.extend(params, {breadCrumb:"Company : " + ReportData.companyName});
+	 fetchTerminalsTableSales(params);
+	 //var html = ich.terminalsTabel_TMP(param);
+	 //$("body").html(html);
 	 console.log("storeReportView renderTerminalsTable");
 	 return this;
      }

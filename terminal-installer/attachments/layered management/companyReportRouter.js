@@ -76,30 +76,35 @@ var companyReportView =
 	 },
 	 renderGroupsTable: function() {
 	     var view = this;
-	     var param = getGroupsTableParam();
-	     _.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname});
-	     var html = ich.groupsTabel_TMP(param);
-	     $("body").html(html);
+	     var params = getGroupsTableParam();
+	     _.extend(params, {breadCrumb:"Company : " + ReportData.company.operationalname});
+	     fetchGroupsTableSales(params);
+	     //var param = getGroupsTableParam();
+	     //_.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname});
+	     //var html = ich.groupsTabel_TMP(param);
+	     //$("body").html(html);
 	     console.log("companyReportView renderGroupsTable");
 	     return this;								
 	 },
 	 renderStoresTable: function(group_id) {
 	     var view = this;
-	     var param = getStoresTableParam(group_id);
-	     _.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname});
-	     var html = ich.storesTabel_TMP(param);
-	     $("body").html(html);
+	     var params = getStoresTableParam(group_id);
+	     _.extend(params, {breadCrumb:"Company : " + ReportData.company.operationalname});
+		fetchStoresTableSales(params);
+	     //var html = ich.storesTabel_TMP(param);
+	     //$("body").html(html);
 	     console.log("companyReportView renderStoresTable");
 	     return this;								
 	     
 	 },
 	 renderTerminalsTable : function(store_id) {
 	     var view = this;
-	     var param = getTerminalsTableParam(store_id);
-	     _.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname});
-	     var html = ich.terminalsTabel_TMP(param);
-	     $("body").html(html);
-	     console.log("companyReportView renderTerminalsTable");
+	     var params = getTerminalsTableParam(store_id);
+	     _.extend(params, {breadCrumb:"Company : " + ReportData.company.operationalname});
+	     fetchTerminalsTableSales(params);
+	     //var html = ich.terminalsTabel_TMP(param);
+	     //$("body").html(html);
+	     //console.log("companyReportView renderTerminalsTable");
 	     return this;
 	 }
 	});
