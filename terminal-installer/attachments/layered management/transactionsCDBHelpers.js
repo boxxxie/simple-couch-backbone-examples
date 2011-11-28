@@ -30,9 +30,9 @@ function generalSalesReportFetcher(view,db,id,runAfter){
 	function sum(total,cur){
 	    return total + cur.value.sum;
 	}
-	var sales,refunds;
+	var sales,refunds = 0;
 	_.isFirstNotEmpty(salesData.rows)? sales = _.reduce(salesData.rows,sum,0): sales = 0;
-	_.isFirstNotEmpty(refundData.rows)? refunds = _.reduce(refundData.rows,sum,0): refunds = 0;
+	//_.isFirstNotEmpty(refundData.rows)? refunds = _.reduce(refundData.rows,sum,0): refunds = 0;
 	return sales - refunds;
     }
     function returnQuery(callback){
@@ -45,11 +45,12 @@ function generalSalesReportFetcher(view,db,id,runAfter){
     async
 	.parallel(
 	    {yesterdaysSales:function(callback){companySalesRangeQuery(yesterday,today)(returnQuery(callback));},
-	     yesterdaysRefunds:function(callback){companyRefundRangeQuery(yesterday,today)(returnQuery(callback));},
+	    // yesterdaysRefunds:function(callback){companyRefundRangeQuery(yesterday,today)(returnQuery(callback));},
 	     monthsSales:function(callback){companySalesRangeQuery(startOfMonth,tomorrow)(returnQuery(callback));},
-	     monthsRefunds:function(callback){companyRefundRangeQuery(startOfMonth,tomorrow)(returnQuery(callback));},
-	     yearsSales:function(callback){companySalesRangeQuery(startOfYear,tomorrow)(returnQuery(callback));},
-	     yearsRefunds:function(callback){companyRefundRangeQuery(startOfYear,tomorrow)(returnQuery(callback));}},
+	    // monthsRefunds:function(callback){companyRefundRangeQuery(startOfMonth,tomorrow)(returnQuery(callback));},
+	     yearsSales:function(callback){companySalesRangeQuery(startOfYear,tomorrow)(returnQuery(callback));}
+	    // yearsRefunds:function(callback){companyRefundRangeQuery(startOfYear,tomorrow)(returnQuery(callback));}},
+	    },
 	    function(err,report){
 		var sales = {};
 		sales.yesterdaysales= extractTotalSales(report.yesterdaysSales,report.yesterdaysRefunds).toFixed(2);
@@ -71,8 +72,8 @@ function generalSalesReportArrayFetcher(view,db,ids,runAfter){
 	      runAfter);
 }
 function transactionsSalesFetcher(ids,callback){
-    var transactionsView = cdb.view('reporting','id_type_date');
-    var transaction_db = cdb.db('transactions');
+    var transactionsView = cdb.view('reporting','netsaleactivity');
+    var transaction_db = cdb.db('cashouts');
     if(!_.isArray(ids)){
 	return generalSalesReportFetcher(transactionsView,transaction_db,ids,callback);
     }
