@@ -1,10 +1,14 @@
 _.mixin({
-	    // Retrieve the keys and values of an object's properties.
+	    /* Retrieve the keys and values of an object's properties.
+	     {a:'a',b:'b'} -> [[a,'a'],[b,'b']]
+	    */
 	    kv:function (obj) {
 		return _.zip(_.keys(obj),_.values(obj));}});
 
 _.mixin({
-	    //converts an array of pairs into an objcet
+	    /*converts an array of pairs into an objcet
+	     * [[a,'a'],[b,'b']] ->  {a:'a',b:'b'}
+	     */
 	    toObject:function(pairs){
 		return pairs.reduce(function(total,cur){
 					var key = _.first(cur),

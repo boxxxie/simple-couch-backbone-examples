@@ -32,53 +32,28 @@ function generalSalesReportFetcher(view,db,id,runAfter){
 	_.isFirstNotEmpty(refundData.rows)? refunds = _.first(refundData.rows).value.sum : refunds = 0;
 	return sales - refunds;
     }
+    function returnQuery(callback){
+	return function(query){
+	    callback(null, query);
+	};
+    };
+
     var sales = {};
     async
-	.waterfall(
-	    [function(callback){
-		 companySalesRangeQuery(yesterday,today)
-		 (function(salesData){
-		      callback(null, salesData);
-		  });
-	     },
-	     function(salesData, callback){
-		 companyRefundRangeQuery(yesterday,today)
-		 (function(refundData){
-		      sales.yesterdaysales = extractTotalSales(salesData,refundData).toFixed(2);
-		      callback(null);
-		  });
-	     },
-	     function(callback){
-		 companySalesRangeQuery(startOfMonth,tomorrow)
-		 (function(salesData){
-		      callback(null, salesData);
-		  });
-	     },
-	     function(salesData, callback){
-		 companyRefundRangeQuery(startOfMonth,tomorrow)
-		 (function(refundData){
-		      sales.mtdsales = extractTotalSales(salesData,refundData).toFixed(2);
-		      callback(null);
-		  });
-	     },
-	     function(callback){
-		 companySalesRangeQuery(startOfYear,tomorrow)
-		 (function(salesData){
-		      callback(null, salesData);
-		  });
-	     },
-	     function(salesData, callback){
-		 companyRefundRangeQuery(startOfYear,tomorrow)
-		 (function(refundData){
-		      sales.ytdsales = extractTotalSales(salesData,refundData).toFixed(2);
-		      callback(null);
-		  });
-	     },
-	     function(callback){
-		 runAfter({sales:sales});
-		 callback(null, 'done');	  
-	     }
-	    ]);
+	.parallel(
+	    {yesterdaysSales:function(callback){companySalesRangeQuery(yesterday,today)(returnQuery(callback));},
+	     yesterdaysRefunds:function(callback){companyRefundRangeQuery(yesterday,today)(returnQuery(callback));},
+	     monthsSales:function(callback){companySalesRangeQuery(startOfMonth,tomorrow)(returnQuery(callback));},
+	     monthsRefunds:function(callback){companyRefundRangeQuery(startOfMonth,tomorrow)(returnQuery(callback));},
+	     yearsSales:function(callback){companySalesRangeQuery(startOfYear,tomorrow)(returnQuery(callback));},
+	     yearsRefunds:function(callback){companyRefundRangeQuery(startOfYear,tomorrow)(returnQuery(callback));}},
+	    function(err,report){
+		var sales = {};
+		sales.yesterdaysales= extractTotalSales(report.yesterdaysSales,report.yesterdaysRefunds).toFixed(2);
+		sales.mtdsales = extractTotalSales(report.monthsSales,report.monthsRefunds).toFixed(2);
+		sales.ytdsales = extractTotalSales(report.yearsSales,report.yearsRefunds).toFixed(2);
+		runAfter({sales:sales});	  
+	    });
 };
 
 function generalSalesReportArrayFetcher(view,db,ids,runAfter){
