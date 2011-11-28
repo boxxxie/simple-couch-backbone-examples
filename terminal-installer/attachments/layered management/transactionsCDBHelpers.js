@@ -20,11 +20,11 @@ function generalSalesReportFetcher(view,db,id,runAfter){
     var startOfMonth = _.first(Date.today().moveToFirstDayOfMonth().toArray(),3);
     var startOfYear = _.first(Date.today().moveToMonth(0,-1).moveToFirstDayOfMonth().toArray(),3);
 
-    var companySalesBaseKey = [id,'SALE'];
-    var companyRefundBaseKey = [id,'REFUND'];
+    var companySalesBaseKey = [id];
+    //var companyRefundBaseKey = [id,'REFUND'];
 
     var companySalesRangeQuery = typedTransactionRangeQuery(companySalesBaseKey);
-    var companyRefundRangeQuery = typedTransactionRangeQuery(companyRefundBaseKey);
+   // var companyRefundRangeQuery = typedTransactionRangeQuery(companyRefundBaseKey);
 
     function extractTotalSales(salesData,refundData){
 	function sum(total,cur){
