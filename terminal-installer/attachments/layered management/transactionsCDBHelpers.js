@@ -27,9 +27,12 @@ function generalSalesReportFetcher(view,db,id,runAfter){
     var companyRefundRangeQuery = typedTransactionRangeQuery(companyRefundBaseKey);
 
     function extractTotalSales(salesData,refundData){
+	function sum(total,cur){
+	    return total + cur.value.sum;
+	}
 	var sales,refunds;
-	_.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows).value.sum : sales = 0;
-	_.isFirstNotEmpty(refundData.rows)? refunds = _.first(refundData.rows).value.sum : refunds = 0;
+	_.isFirstNotEmpty(salesData.rows)? sales = _.reduce(salesData.rows,sum,0): sales = 0;
+	_.isFirstNotEmpty(refundData.rows)? refunds = _.reduce(refundData.rows,sum,0): refunds = 0;
 	return sales - refunds;
     }
     function returnQuery(callback){
