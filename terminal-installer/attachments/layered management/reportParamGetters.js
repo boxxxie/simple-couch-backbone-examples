@@ -46,17 +46,75 @@ function getGroupsTableParam() {
     var company = ReportData.company;
     var groups = company.hierarchy.groups; 
     
-    return _.extend({list: _.map(groups, function(group) {
-			    var numberOfStores = _.size(group.stores);
-			    var numberOfTerminals = _.reduce(group.stores, function(sum, store){ return sum + _.size(store.terminals); }, 0);;
-			    var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
-			    return {operationalname:company.operationalname,
+    
+    
+    var today = _.first(Date.today().toArray(),3);
+	     var tomorrow = _.first(Date.today().addDays(1).toArray(),3);
+	     var yesterday = _.first(Date.today().addDays(-1).toArray(),3);
+	     var tommorrow = _.first(Date.today().addDays(1).toArray(),3);
+
+	     var startOfMonth = _.first(Date.today().moveToFirstDayOfMonth().toArray(),3);
+	     var startOfYear = _.first(Date.today().moveToMonth(0,-1).moveToFirstDayOfMonth().toArray(),3);
+	     
+	     
+		return _.extend({list: _.map(groups, function(group) {
+    	var numberOfStores = _.size(group.stores);
+	    var numberOfTerminals = _.reduce(group.stores, function(sum, store){ return sum + _.size(store.terminals); }, 0);;
+	    var sales={yesterdaysales:"$ 0.00",mtdsales:"$ 0.00",ytdsales:"$ -0.00"};
+	    
+	    
+    /*****************************************************************************************************/
+	     var companySalesBaseKey = [group.group_id,'SALE'];
+	     var companyRefundBaseKey = [group.group_id,'REFUND'];
+	     
+
+	     var companySalesRangeQuery = typedTransactionRangeQuery(companySalesBaseKey);
+	     var companyRefundRangeQuery = typedTransactionRangeQuery(companyRefundBaseKey);
+	     
+	     companySalesRangeQuery(yesterday,today)
+	     (function(salesData){
+		  companyRefundRangeQuery(yesterday,today)
+		  (function(refundData){
+		       sales.yesterdaysales = "$ "+extractTotalSales(salesData,refundData).toFixed(2);
+		       companySalesRangeQuery(startOfMonth,tomorrow)
+		       (function(salesData){
+			    companyRefundRangeQuery(startOfMonth,tomorrow)
+			    (function(refundData){
+				 sales.mtdsales = "$ "+extractTotalSales(salesData,refundData).toFixed(2);
+				 companySalesRangeQuery(startOfYear,tomorrow)
+				 (function(salesData){
+				      companyRefundRangeQuery(startOfYear,tomorrow)
+				      (function(refundData){
+					   sales.ytdsales = "$ "+ extractTotalSales(salesData,refundData).toFixed(2);
+					   
+				       });
+				  });
+			     });
+			});
+		   });
+	     });
+    	 
+    	 function returndata() {
+    	 	return {operationalname:company.operationalname,
 				    groupName:group.groupName,
 				    group_id:group.group_id,
 				    numberOfStores:numberOfStores,
 				    numberOfTerminals:numberOfTerminals,
-				    sales:sales/*,
-				    startPage:"companyReport"*/};
+				    sales:sales
+				    /*,
+				   startPage:"companyReport"*/ };
+    	 };
+    	 
+    	 setTimeout(returndata(),1000);
+    /********************************************************************************************/	
+			   // return {operationalname:company.operationalname,
+			//	    groupName:group.groupName,
+			//	    group_id:group.group_id,
+			//	    numberOfStores:numberOfStores,
+			//	    numberOfTerminals:numberOfTerminals,
+			//	    sales:sales
+				    /*,
+				    startPage:"companyReport"*/ //};
 			})}, {startPage:"companyReport"});
 };
 
