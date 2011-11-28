@@ -23,5 +23,3 @@ function doc_setup() {
 };
 
 
-
-
