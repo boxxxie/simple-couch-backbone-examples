@@ -42,23 +42,48 @@ function getReportParam() {
     }	
 };
 
+
+
+
+function fetchGroupsTableSales(params) {
+	return _.map(params.list, function(param){
+    	  transactionsSalesFetcher(param.group_id,
+	      function(totalSales){
+		  _.extend(param.sales, totalSales);
+		  var html = ich.groupsTabel_TMP(params);
+	      $("body").html(html);
+	      });
+    });
+    
+};
+
 function getGroupsTableParam() {
     var company = ReportData.company;
     var groups = company.hierarchy.groups; 
+	return _.extend({list: _.map(groups, function(group) {
+    	var numberOfStores = _.size(group.stores);
+	    var numberOfTerminals = _.reduce(group.stores, function(sum, store){ return sum + _.size(store.terminals); }, 0);;
+	    var sales={yesterdaysales:"$ 0.00",mtdsales:"$ 0.00",ytdsales:"$ -0.00"};
     
-    return _.extend(
-	{list: _.map(groups, function(group) {
-			 var numberOfStores = _.size(group.stores);
-			 var numberOfTerminals = _.reduce(group.stores, function(sum, store){ return sum + _.size(store.terminals); }, 0);
-			 var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"}; //dummy data
-			 return {operationalname:company.operationalname,
-				 groupName:group.groupName,
-				 group_id:group.group_id,
-				 numberOfStores:numberOfStores,
-				 numberOfTerminals:numberOfTerminals,
-				 sales:sales};
-		     })}, 
-	{startPage:"companyReport"});
+		    return {operationalname:company.operationalname,
+			    groupName:group.groupName,
+			    group_id:group.group_id,
+			    numberOfStores:numberOfStores,
+			    numberOfTerminals:numberOfTerminals,
+			    sales:sales};
+		})}, {startPage:"companyReport"});
+};
+
+
+function fetchStoresTableSales(params) {
+	return _.map(params.list, function(param){
+    	  transactionsSalesFetcher(param.store_id,
+	      function(totalSales){
+		  _.extend(param.sales, totalSales);
+		  var html = ich.storesTabel_TMP(params);
+	      $("body").html(html);
+	      });
+    });
 };
 
 function getStoresTableParam(group_id) {
@@ -87,8 +112,7 @@ function getStoresTableParam(group_id) {
 					storeName:store.storeName,
 					storeNumber:store.number,
 					numberOfTerminals:numberOfTerminals,
-					sales:sales/*,
-					startPage:"companyReport"*/};
+					sales:sales};
 			    })}, {startPage:"companyReport"});
     } else if(!_.isEmpty(ReportData.group)) {
 	var group = ReportData.group;
@@ -102,10 +126,22 @@ function getStoresTableParam(group_id) {
 					storeName:store.storeName,
 					storeNumber:store.number,
 					numberOfTerminals:numberOfTerminals,
-					sales:sales/*,
-					startPage:"groupReport"*/};
+					sales:sales};
 			    })},{startPage:"groupReport"});
     }
+};
+
+
+function fetchTerminalsTableSales(params) {
+	return _.map(params.list, function(param){
+    	  transactionsSalesFetcher(param.terminal_id,
+	      function(totalSales){
+		  _.extend(param.sales, totalSales);
+		  var html = ich.terminalsTabel_TMP(params);
+	      $("body").html(html);
+	      });
+    });
+    
 };
 
 function getTerminalsTableParam(store_id) {
@@ -133,7 +169,7 @@ function getTerminalsTableParam(store_id) {
 				      return _.extend(_.clone(terminal), 
 						      {groupName:store.groupName, 
 						       storeName:store.storeName, 
-						       storeNumber:store.number 
+						       storeNumber:store.number,
 						      });
 				  });})
 	    .flatten()
@@ -145,8 +181,8 @@ function getTerminalsTableParam(store_id) {
 					storeName:terminal.storeName,
 					storeNumber:terminal.storeNumber,
 					terminalName:terminal.terminal_label,
-					sales:sales/*,
-					startPage:"companyReport"*/};
+					terminal_id:terminal.terminal_id,
+					sales:sales};
 			    })},{startPage:"companyReport"});
     } else if(!_.isEmpty(ReportData.group)) {
 	var group = ReportData.group;
@@ -173,8 +209,8 @@ function getTerminalsTableParam(store_id) {
 					storeName:terminal.storeName,
 					storeNumber:terminal.storeNumber,
 					terminalName:terminal.terminal_label,
-					sales:sales/*,
-					startPage:"groupReport"*/};
+					terminal_id:terminal.terminal_id,
+					sales:sales};
 			    })},{startPage:"groupReport"});
     } else if(!_.isEmpty(ReportData.store)) {
 	var store = ReportData.store;	
@@ -187,8 +223,26 @@ function getTerminalsTableParam(store_id) {
 					storeName:store.storeName,
 					storeNumber:store.number,
 					terminalName:terminal.terminal_label,
-					sales:sales/*,
-					startPage:"storeReport"*/};
+					terminal_id:terminal.terminal_id,
+					sales:sales};
 			    })},{startPage:"storeReport"});
     }
 };
+
+//general
+function extractSalesDataFromIds(items,idField,callback){
+ transactionsSalesFetcher(_(items).pluck(idField),
+			  function(err,totalSalesArr){
+			      var transformedList =
+				  _(items).chain()
+				  .zip(totalSalesArr)
+				  .map(function(item){
+					   var groupItem = _.first(item);
+					   var salesData = _.second(item);
+					   var group_w_salesReport = _.extend(_.clone(groupItem),salesData);
+					   return group_w_salesReport;
+				       })
+				  .value();
+			      callback(transformedList);
+			  });
+ };
