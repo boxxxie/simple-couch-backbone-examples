@@ -65,47 +65,14 @@ var companyReportView =
 	 renderCompanyReport: function() {
 	     var view = this;
 	     var param = getReportParam();
-	     var today = _.first(Date.today().toArray(),3);
-	     var tomorrow = _.first(Date.today().addDays(1).toArray(),3);
-	     var yesterday = _.first(Date.today().addDays(-1).toArray(),3);
-	     var tommorrow = _.first(Date.today().addDays(1).toArray(),3);
+	     transactionsSalesFetcher(ReportData.company._id,
+				      function(totalSales){
+					  _.extend(param.sales,totalSales);
+					  var html = ich.companyManagementPage_TMP(param);
+					  $("body").html(html);
+					  console.log("companyReportView renderCompanyReport");
+				      });
 
-	     var startOfMonth = _.first(Date.today().moveToFirstDayOfMonth().toArray(),3);
-	     var startOfYear = _.first(Date.today().moveToMonth(0,-1).moveToFirstDayOfMonth().toArray(),3);
-	     
-	     var companySalesBaseKey = [ReportData.company._id,'SALE'];
-	     var companyRefundBaseKey = [ReportData.company._id,'REFUND'];
-	     
-
-	     var companySalesRangeQuery = typedTransactionRangeQuery(companySalesBaseKey);
-	     var companyRefundRangeQuery = typedTransactionRangeQuery(companyRefundBaseKey);
-
-	     companySalesRangeQuery(yesterday,today)
-	     (function(salesData){
-		  companyRefundRangeQuery(yesterday,today)
-		  (function(refundData){
-		       param.sales.yesterdaysales = extractTotalSales(salesData,refundData).toFixed(2);
-		       companySalesRangeQuery(startOfMonth,tomorrow)
-		       (function(salesData){
-			    companyRefundRangeQuery(startOfMonth,tomorrow)
-			    (function(refundData){
-				 param.sales.mtdsales = extractTotalSales(salesData,refundData).toFixed(2);
-				 companySalesRangeQuery(startOfYear,tomorrow)
-				 (function(salesData){
-				      companyRefundRangeQuery(startOfYear,tomorrow)
-				      (function(refundData){
-					   param.sales.ytdsales = extractTotalSales(salesData,refundData).toFixed(2);
-					   var html = ich.companyManagementPage_TMP(param);
-					   $("body").html(html);
-					   console.log("companyReportView renderCompanyReport");
-				       });
-				  });
-			     });
-			});
-		   });
-	      });
-	      
-	     return this;
 	 },
 	 renderGroupsTable: function() {
 	     var view = this;

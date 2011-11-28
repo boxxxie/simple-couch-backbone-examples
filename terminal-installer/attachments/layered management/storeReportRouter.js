@@ -43,52 +43,12 @@ var storeReportView = Backbone.View.extend(
      },
      renderStoreReport: function() {
 	 var view = this;
-	     
-	     var param = getReportParam();
-	     
-	     
-	     var today = _.first(Date.today().toArray(),3);
-	     var tomorrow = _.first(Date.today().addDays(1).toArray(),3);
-	     var yesterday = _.first(Date.today().addDays(-1).toArray(),3);
-	     var tommorrow = _.first(Date.today().addDays(1).toArray(),3);
-
-	     var startOfMonth = _.first(Date.today().moveToFirstDayOfMonth().toArray(),3);
-	     var startOfYear = _.first(Date.today().moveToMonth(0,-1).moveToFirstDayOfMonth().toArray(),3);
-	     
-	     var storeSalesBaseKey = [ReportData.store.store_id,'SALE'];
-	     var storeRefundBaseKey = [ReportData.store.store_id,'REFUND'];
-	     
-	     var storeSalesRangeQuery = typedTransactionRangeQuery(storeSalesBaseKey);
-	     var storeRefundRangeQuery = typedTransactionRangeQuery(storeRefundBaseKey);
-
-	     
-	     storeSalesRangeQuery(yesterday,today)
-	     (function(salesData){
-		  storeRefundRangeQuery(yesterday,today)
-		  (function(refundData){
-		       param.sales.yesterdaysales = extractTotalSales(salesData,refundData).toFixed(2);
-		       storeSalesRangeQuery(startOfMonth,tomorrow)
-		       (function(salesData){
-			    storeRefundRangeQuery(startOfMonth,tomorrow)
-			    (function(refundData){
-				 param.sales.mtdsales = extractTotalSales(salesData,refundData).toFixed(2);
-				 storeSalesRangeQuery(startOfYear,tomorrow)
-				 (function(salesData){
-				      storeRefundRangeQuery(startOfYear,tomorrow)
-				      (function(refundData){
-					   param.sales.ytdsales = extractTotalSales(salesData,refundData).toFixed(2);
-					   var html = ich.storeManagementPage_TMP(param);
-				     $("body").html(html);
-				     console.log("storeReportView renderStoreReport");
-				       });
-				  });
-			     });
-			});
-		   });
-	      });
-	     
-	     
-	     return this;
+	 
+	 var param = getReportParam();
+	 var html = ich.storeManagementPage_TMP(param);
+	 $("body").html(html);
+	 console.log("storeReportView renderStoreReport");
+	 return this;
      },
      renderTerminalsTable: function() {
 	 var view = this;
