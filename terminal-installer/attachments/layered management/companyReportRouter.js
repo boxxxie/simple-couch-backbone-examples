@@ -101,32 +101,54 @@ var companyReportView =
 		 _.isFirstNotEmpty(refundData.rows)? refunds = _.first(refundData.rows).value.sum : refunds = 0;
 		 return sales - refunds;
 	     }
-	     
-	     companySalesRangeQuery(yesterday,today)
-	     (function(salesData){
-		  companyRefundRangeQuery(yesterday,today)
-		  (function(refundData){
-		       param.sales.yesterdaysales = extractTotalSales(salesData,refundData).toFixed(2);
-		       companySalesRangeQuery(startOfMonth,tomorrow)
-		       (function(salesData){
-			    companyRefundRangeQuery(startOfMonth,tomorrow)
-			    (function(refundData){
-				 param.sales.mtdsales = extractTotalSales(salesData,refundData).toFixed(2);
-				 companySalesRangeQuery(startOfYear,tomorrow)
-				 (function(salesData){
-				      companyRefundRangeQuery(startOfYear,tomorrow)
-				      (function(refundData){
-					   param.sales.ytdsales = extractTotalSales(salesData,refundData).toFixed(2);
-					   var html = ich.companyManagementPage_TMP(param);
-					   $("body").html(html);
-					   console.log("companyReportView renderCompanyReport");
-				       });
-				  });
-			     });
-			});
-		   });
-	      });
-	     return this;
+	     async
+		 .waterfall(
+		     [function(callback){
+			  companySalesRangeQuery(yesterday,today)
+			  (function(salesData){
+			       callback(null, salesData);
+			   });
+		      },
+		      function(salesData, callback){
+			  companyRefundRangeQuery(yesterday,today)
+			  (function(refundData){
+			       param.sales.yesterdaysales = extractTotalSales(salesData,refundData).toFixed(2);
+			       callback(null);
+			   });
+		      },
+		      function(callback){
+			  companySalesRangeQuery(startOfMonth,tomorrow)
+			  (function(salesData){
+			       callback(null, salesData);
+			   });
+		      },
+		      function(salesData, callback){
+			  companyRefundRangeQuery(startOfMonth,tomorrow)
+			  (function(refundData){
+			       param.sales.mtdsales = extractTotalSales(salesData,refundData).toFixed(2);
+			       callback(null);
+			   });
+		      },
+		      function(callback){
+			  companySalesRangeQuery(startOfYear,tomorrow)
+			  (function(salesData){
+			       callback(null, salesData);
+			   });
+		      },
+		      function(salesData, callback){
+			  companyRefundRangeQuery(startOfYear,tomorrow)
+			  (function(refundData){
+			       param.sales.ytdsales = extractTotalSales(salesData,refundData).toFixed(2);
+			       callback(null);
+			   });
+		      },
+		      function(callback){
+			  var html = ich.companyManagementPage_TMP(param);
+			  $("body").html(html);
+			  console.log("companyReportView renderCompanyReport");
+			  callback(null, 'done');	  
+		      }
+		     ]);
 	 },
 	 renderGroupsTable: function() {
 	     var view = this;
