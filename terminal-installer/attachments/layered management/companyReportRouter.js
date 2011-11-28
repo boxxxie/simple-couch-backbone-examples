@@ -65,9 +65,10 @@ var companyReportView =
 	 renderCompanyReport: function() {
 	     var view = this;
 	     var param = getReportParam();
+	     
 	     transactionsSalesFetcher(ReportData.company._id,
 				      function(totalSales){
-					  _.extend(param.sales,totalSales);
+					  _.extend(param,totalSales);
 					  var html = ich.companyManagementPage_TMP(param);
 					  $("body").html(html);
 					  console.log("companyReportView renderCompanyReport");
@@ -76,35 +77,38 @@ var companyReportView =
 	 },
 	 renderGroupsTable: function() {
 	     var view = this;
-	     var params = getGroupsTableParam();
-	     _.extend(params, {breadCrumb:"Company : " + ReportData.company.operationalname});
-	     fetchGroupsTableSales(params);
-	     //var param = getGroupsTableParam();
-	     //_.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname});
-	     //var html = ich.groupsTabel_TMP(param);
-	     //$("body").html(html);
-	     console.log("companyReportView renderGroupsTable");
-	     return this;								
+	     var param = getGroupsTableParam();
+	     
+	     extractSalesDataFromIds(param.list,'group_id',function(transformedGroups){
+					 param.list = transformedGroups;
+					 _.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname});
+					 var html = ich.groupsTabel_TMP(param);
+					 $("body").html(html);
+					 console.log("companyReportView renderGroupsTable");
+				     });
 	 },
 	 renderStoresTable: function(group_id) {
 	     var view = this;
-	     var params = getStoresTableParam(group_id);
-	     _.extend(params, {breadCrumb:"Company : " + ReportData.company.operationalname});
-		fetchStoresTableSales(params);
-	     //var html = ich.storesTabel_TMP(param);
-	     //$("body").html(html);
-	     console.log("companyReportView renderStoresTable");
-	     return this;								
+	     var param = getStoresTableParam(group_id);
 	     
+	     extractSalesDataFromIds(param.list,'store_id',function(transformedStores){
+					 param.list = transformedStores;
+					 _.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname});
+					 var html = ich.storesTabel_TMP(param);
+					 $("body").html(html);
+					 console.log("companyReportView renderStoresTable");
+				     });
 	 },
 	 renderTerminalsTable : function(store_id) {
 	     var view = this;
-	     var params = getTerminalsTableParam(store_id);
-	     _.extend(params, {breadCrumb:"Company : " + ReportData.company.operationalname});
-	     fetchTerminalsTableSales(params);
-	     //var html = ich.terminalsTabel_TMP(param);
-	     //$("body").html(html);
-	     //console.log("companyReportView renderTerminalsTable");
-	     return this;
+	     var param = getTerminalsTableParam(store_id);
+	     
+	     extractSalesDataFromIds(param.list,'terminal_id',function(transformedTerminals){
+					 param.list = transformedTerminals;
+					 _.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname});
+					 var html = ich.terminalsTabel_TMP(param);
+					 $("body").html(html);
+					 console.log("companyReportView renderTerminalsTable");
+				     });
 	 }
 	});

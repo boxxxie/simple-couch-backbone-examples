@@ -84,7 +84,6 @@ function fetchStoresTableSales(params) {
 	      $("body").html(html);
 	      });
     });
-    
 };
 
 function getStoresTableParam(group_id) {
@@ -113,8 +112,7 @@ function getStoresTableParam(group_id) {
 					storeName:store.storeName,
 					storeNumber:store.number,
 					numberOfTerminals:numberOfTerminals,
-					sales:sales/*,
-					startPage:"companyReport"*/};
+					sales:sales};
 			    })}, {startPage:"companyReport"});
     } else if(!_.isEmpty(ReportData.group)) {
 	var group = ReportData.group;
@@ -128,8 +126,7 @@ function getStoresTableParam(group_id) {
 					storeName:store.storeName,
 					storeNumber:store.number,
 					numberOfTerminals:numberOfTerminals,
-					sales:sales/*,
-					startPage:"groupReport"*/};
+					sales:sales};
 			    })},{startPage:"groupReport"});
     }
 };
@@ -185,8 +182,7 @@ function getTerminalsTableParam(store_id) {
 					storeNumber:terminal.storeNumber,
 					terminalName:terminal.terminal_label,
 					terminal_id:terminal.terminal_id,
-					sales:sales/*,
-					startPage:"companyReport"*/};
+					sales:sales};
 			    })},{startPage:"companyReport"});
     } else if(!_.isEmpty(ReportData.group)) {
 	var group = ReportData.group;
@@ -214,8 +210,7 @@ function getTerminalsTableParam(store_id) {
 					storeNumber:terminal.storeNumber,
 					terminalName:terminal.terminal_label,
 					terminal_id:terminal.terminal_id,
-					sales:sales/*,
-					startPage:"groupReport"*/};
+					sales:sales};
 			    })},{startPage:"groupReport"});
     } else if(!_.isEmpty(ReportData.store)) {
 	var store = ReportData.store;	
@@ -229,8 +224,25 @@ function getTerminalsTableParam(store_id) {
 					storeNumber:store.number,
 					terminalName:terminal.terminal_label,
 					terminal_id:terminal.terminal_id,
-					sales:sales/*,
-					startPage:"storeReport"*/};
+					sales:sales};
 			    })},{startPage:"storeReport"});
     }
 };
+
+//general
+function extractSalesDataFromIds(items,idField,callback){
+ transactionsSalesFetcher(_(items).pluck(idField),
+			  function(err,totalSalesArr){
+			      var transformedList =
+				  _(items).chain()
+				  .zip(totalSalesArr)
+				  .map(function(item){
+					   var groupItem = _.first(item);
+					   var salesData = _.second(item);
+					   var group_w_salesReport = _.extend(_.clone(groupItem),salesData);
+					   return group_w_salesReport;
+				       })
+				  .value();
+			      callback(transformedList);
+			  });
+ };

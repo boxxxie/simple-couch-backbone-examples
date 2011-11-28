@@ -47,24 +47,23 @@ var storeReportView = Backbone.View.extend(
 	 var param = getReportParam();
 	 transactionsSalesFetcher(ReportData.store.store_id,
 				      function(totalSales){
-					  _.extend(param.sales,totalSales);
+					  _.extend(param,totalSales);
 					  var html = ich.storeManagementPage_TMP(param);
 					  $("body").html(html);
 					  console.log("storeReportView renderStoreReport");
 				      });
-	 //var html = ich.storeManagementPage_TMP(param);
-	 //$("body").html(html);
-	 //console.log("storeReportView renderStoreReport");
 	 return this;
      },
      renderTerminalsTable: function() {
 	 var view = this;
-	 var params = getTerminalsTableParam();
-	 _.extend(params, {breadCrumb:"Company : " + ReportData.companyName});
-	 fetchTerminalsTableSales(params);
-	 //var html = ich.terminalsTabel_TMP(param);
-	 //$("body").html(html);
-	 console.log("storeReportView renderTerminalsTable");
-	 return this;
+	 var param = getTerminalsTableParam();
+	 
+	 extractSalesDataFromIds(param.list,'terminal_id',function(transformedTerminals){
+					 param.list = transformedTerminals;
+					 _.extend(param, {breadCrumb:"Company : " + ReportData.companyName});
+					 var html = ich.terminalsTabel_TMP(param);
+					 $("body").html(html);
+					 console.log("storeReportView renderTerminalsTable");
+				     });
      }
     });

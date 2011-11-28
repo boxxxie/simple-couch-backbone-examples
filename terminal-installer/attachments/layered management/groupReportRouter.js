@@ -55,7 +55,7 @@ var groupReportView =
 	     
 	     transactionsSalesFetcher(ReportData.group.group_id,
 				      function(totalSales){
-					  _.extend(param.sales,totalSales);
+					  _.extend(param,totalSales);
 					  var html = ich.groupManagementPage_TMP(param);
 					  $("body").html(html);
 					  console.log("groupReportView renderGroupReport");
@@ -64,23 +64,27 @@ var groupReportView =
 	 },
 	 renderStoresTable : function() {
 	     var view = this;
-	     var params = getStoresTableParam();
-	     _.extend(params, {breadCrumb:"Company : " + ReportData.companyName});
-		fetchStoresTableSales(params);
-	     //var html = ich.storesTabel_TMP(param);
-	     //$("body").html(html);
-	     console.log("groupReportView renderStoresTable");
-	     return this;
+	     var param = getStoresTableParam();
+	     
+	     extractSalesDataFromIds(param.list,'store_id',function(transformedStores){
+					 param.list = transformedStores;
+					 _.extend(param, {breadCrumb:"Company : " + ReportData});
+					 var html = ich.storesTabel_TMP(param);
+					 $("body").html(html);
+					 console.log("groupReportView renderStoresTable");
+				     });
 	 },
 	 renderTerminalsTable:function(store_id) {
 	     var view = this;
-	     var params = getTerminalsTableParam(store_id);
-	     _.extend(params, {breadCrumb:"Company : " + ReportData.companyName});
-	     fetchTerminalsTableSales(params);
-	     //var html = ich.terminalsTabel_TMP(param);
-	     //$("body").html(html);
-	     console.log("groupReportView renderTerminalsTable");
-	     return this;
+	     var param = getTerminalsTableParam(store_id);
+	     
+	     extractSalesDataFromIds(param.list,'terminal_id',function(transformedTerminals){
+					 param.list = transformedTerminals;
+					 _.extend(param, {breadCrumb:"Company : " + ReportData.companyName});
+					 var html = ich.terminalsTabel_TMP(param);
+					 $("body").html(html);
+					 console.log("groupReportView renderTerminalsTable");
+				     });
 	 }
 	 
 	});
