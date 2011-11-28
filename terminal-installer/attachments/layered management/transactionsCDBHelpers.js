@@ -75,13 +75,30 @@ function generalSalesReportFetcher(view,db,id,runAfter){
 		  });
 	     },
 	     function(callback){
-		 runAfter(sales);
+		 runAfter({sales:sales});
 		 callback(null, 'done');	  
 	     }
 	    ]);
 };
-function transactionsSalesFetcher(id,callback){
+
+function generalSalesReportArrayFetcher(view,db,ids,runAfter){
+    async.map(ids, 
+	      function(id,callback){
+		  generalSalesReportFetcher(view,db,
+					    id,
+					    function(salesData){
+						callback(null,salesData);
+					    });
+	      },
+	      runAfter);
+}
+function transactionsSalesFetcher(ids,callback){
     var transactionsView = cdb.view('reporting','id_type_date');
     var transaction_db = cdb.db('transactions');
-    return generalSalesReportFetcher(transactionsView,transaction_db,id,callback);
+    if(!_.isArray(ids)){
+	return generalSalesReportFetcher(transactionsView,transaction_db,ids,callback);
+    }
+    else if(_.isArray(ids)){
+	return generalSalesReportArrayFetcher(transactionsView,transaction_db,ids,callback);
+    }
 };

@@ -46,18 +46,19 @@ function getGroupsTableParam() {
     var company = ReportData.company;
     var groups = company.hierarchy.groups; 
     
-    return _.extend({list: _.map(groups, function(group) {
-			    var numberOfStores = _.size(group.stores);
-			    var numberOfTerminals = _.reduce(group.stores, function(sum, store){ return sum + _.size(store.terminals); }, 0);;
-			    var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
-			    return {operationalname:company.operationalname,
-				    groupName:group.groupName,
-				    group_id:group.group_id,
-				    numberOfStores:numberOfStores,
-				    numberOfTerminals:numberOfTerminals,
-				    sales:sales/*,
-				    startPage:"companyReport"*/};
-			})}, {startPage:"companyReport"});
+    return _.extend(
+	{list: _.map(groups, function(group) {
+			 var numberOfStores = _.size(group.stores);
+			 var numberOfTerminals = _.reduce(group.stores, function(sum, store){ return sum + _.size(store.terminals); }, 0);
+			 var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"}; //dummy data
+			 return {operationalname:company.operationalname,
+				 groupName:group.groupName,
+				 group_id:group.group_id,
+				 numberOfStores:numberOfStores,
+				 numberOfTerminals:numberOfTerminals,
+				 sales:sales};
+		     })}, 
+	{startPage:"companyReport"});
 };
 
 function getStoresTableParam(group_id) {

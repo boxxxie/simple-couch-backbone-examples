@@ -67,7 +67,7 @@ var companyReportView =
 	     var param = getReportParam();
 	     transactionsSalesFetcher(ReportData.company._id,
 				      function(totalSales){
-					  _.extend(param.sales,totalSales);
+					  _.extend(param,totalSales);
 					  var html = ich.companyManagementPage_TMP(param);
 					  $("body").html(html);
 					  console.log("companyReportView renderCompanyReport");
@@ -77,11 +77,24 @@ var companyReportView =
 	 renderGroupsTable: function() {
 	     var view = this;
 	     var param = getGroupsTableParam();
-	     _.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname});
-	     var html = ich.groupsTabel_TMP(param);
-	     $("body").html(html);
-	     console.log("companyReportView renderGroupsTable");
-	     return this;								
+	     var groupData = param.list;
+	     transactionsSalesFetcher(_(groupData).pluck('group_id'),
+				      function(err,totalSalesArr){
+					  _.extend(param.list,
+						   _(groupData).chain()
+						   .zip(totalSalesArr)
+						   .map(function(item){
+							    var groupItem = _.first(item);
+							    var salesData = _.second(item);
+							    var group_w_salesReport = _.extend(_.clone(item),salesData);
+							    return group_w_salesReport;
+							})
+						   .value());
+					  _.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname});
+					  var html = ich.groupsTabel_TMP(param);
+					  $("body").html(html);
+					  console.log("companyReportView renderGroupsTable");
+				      });								
 	 },
 	 renderStoresTable: function(group_id) {
 	     var view = this;
