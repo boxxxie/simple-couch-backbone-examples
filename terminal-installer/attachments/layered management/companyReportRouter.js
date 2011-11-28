@@ -77,24 +77,29 @@ var companyReportView =
 	 renderGroupsTable: function() {
 	     var view = this;
 	     var param = getGroupsTableParam();
-	     var groupData = param.list;
-	     transactionsSalesFetcher(_(groupData).pluck('group_id'),
-				      function(err,totalSalesArr){
-					  _.extend(param.list,
-						   _(groupData).chain()
-						   .zip(totalSalesArr)
-						   .map(function(item){
-							    var groupItem = _.first(item);
-							    var salesData = _.second(item);
-							    var group_w_salesReport = _.extend(_.clone(item),salesData);
-							    return group_w_salesReport;
-							})
-						   .value());
-					  _.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname});
-					  var html = ich.groupsTabel_TMP(param);
-					  $("body").html(html);
-					  console.log("companyReportView renderGroupsTable");
-				      });								
+	     function extractSalesDataFromIds(items,idField,callback){
+		 transactionsSalesFetcher(_(items).pluck(idField),
+					  function(err,totalSalesArr){
+					      var transformedList =
+						  _(items).chain()
+						  .zip(totalSalesArr)
+						  .map(function(item){
+							   var groupItem = _.first(item);
+							   var salesData = _.second(item);
+							   var group_w_salesReport = _.extend(_.clone(groupItem),salesData);
+							   return group_w_salesReport;
+						       })
+						  .value();
+					      callback(transformedList);
+					  });
+	     };
+	     extractSalesDataFromIds(param.list,'group_id',function(transformedGroups){
+					 param.list = transformedGroups;
+					 _.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname});
+					 var html = ich.groupsTabel_TMP(param);
+					 $("body").html(html);
+					 console.log("companyReportView renderGroupsTable");
+				     });
 	 },
 	 renderStoresTable: function(group_id) {
 	     var view = this;
