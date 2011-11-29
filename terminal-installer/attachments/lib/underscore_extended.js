@@ -18,7 +18,9 @@ _.mixin({
 				    },{});}});
 
 _.mixin({
-	    //create an object with only the keys in the selected keys array arg
+	    /*create an object with only the keys in the selected keys array arg
+	     * ({a:'a',b:'b'},['a']) -> {a:'a'}
+	     */
 	    selectKeys:function (obj,keys){
 		return  _(obj).chain()
 		    .kv()
@@ -28,7 +30,9 @@ _.mixin({
 	    }});
 
 _.mixin({
-	    //create an object without the keys in the selected keys array arg
+	    /*create an object without the keys in the selected keys array arg
+	     * ({a:'a',b:'b'},['a']) -> {b:'b'}
+	     */
 	    removeKeys:function (obj,keys){
 		return _(obj).chain()
 		    .kv()

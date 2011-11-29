@@ -40,11 +40,12 @@ function validateCompany(newCompany_w_options, previous) {
 	    results = results.concat({fieldname:"user", isInvalid:true, errMsg:"The Master User ID length should be 1~8 characters"});
 	}
 	//needs further abstraction
-	if((companyWithSameUserID && !previous) ||
+/*	if((companyWithSameUserID && !previous) ||
 	    companyWithSameUserID &&
 	   companyWithSameUserID.get('_id') != previous._id ){
 	       results = results.concat({fieldname:"user", isInvalid:true, errMsg:"The Master User ID is taken already, please select a different one"});
 	   }
+*/
 	return results;
     };
     function validatePassword(password){
