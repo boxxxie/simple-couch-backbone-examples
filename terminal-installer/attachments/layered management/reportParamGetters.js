@@ -44,19 +44,6 @@ function getReportParam() {
 
 
 
-
-function fetchGroupsTableSales(params) {
-	return _.map(params.list, function(param){
-    	  transactionsSalesFetcher(param.group_id,
-	      function(totalSales){
-		  _.extend(param.sales, totalSales);
-		  var html = ich.groupsTabel_TMP(params);
-	      $("body").html(html);
-	      });
-    });
-    
-};
-
 function getGroupsTableParam() {
     var company = ReportData.company;
     var groups = company.hierarchy.groups; 
@@ -74,17 +61,6 @@ function getGroupsTableParam() {
 		})}, {startPage:"companyReport"});
 };
 
-
-function fetchStoresTableSales(params) {
-	return _.map(params.list, function(param){
-    	  transactionsSalesFetcher(param.store_id,
-	      function(totalSales){
-		  _.extend(param.sales, totalSales);
-		  var html = ich.storesTabel_TMP(params);
-	      $("body").html(html);
-	      });
-    });
-};
 
 function getStoresTableParam(group_id) {
     if(!_.isEmpty(ReportData.company)) {
@@ -131,18 +107,6 @@ function getStoresTableParam(group_id) {
     }
 };
 
-
-function fetchTerminalsTableSales(params) {
-	return _.map(params.list, function(param){
-    	  transactionsSalesFetcher(param.terminal_id,
-	      function(totalSales){
-		  _.extend(param.sales, totalSales);
-		  var html = ich.terminalsTabel_TMP(params);
-	      $("body").html(html);
-	      });
-    });
-    
-};
 
 function getTerminalsTableParam(store_id) {
     if(!_.isEmpty(ReportData.company)){

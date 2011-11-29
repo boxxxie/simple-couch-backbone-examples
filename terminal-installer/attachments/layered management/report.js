@@ -1,6 +1,6 @@
 var ReportData;
 
-var globalReportTestData = {title:"report table", 
+var globalReportTestData = {
 	  				   yesterday: {NetSales:{netSales:"100.00", totalTax1:"1.00", totalTax3:"1.00", totalSales:"100.00"},
 	  				   			   NetRefunds:{netRefunds:"100.00", totalTax1:"1.00", totalTax3:"1.00", totalRefunds:"100.00"},
 	  				   			   NetSaleActivity : "200.00",

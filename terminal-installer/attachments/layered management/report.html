@@ -110,7 +110,7 @@
     </script>
     
     <script id="quickViewHook_P" class="partial" type="text/html">
-      <div id="dialog-quickView" title="QuickView"></div>
+      <div id="dialog-quickView" title="{{title}}"></div>
     </script>
     
     <script id="salesFields_P" class="partial" type="text/html">
@@ -121,6 +121,7 @@
 	    <label>Yesterday's Sales: $</label><text>{{yesterdaysales}} |</text>
 	    <label>MTD Sales: $</label><text>{{mtdsales}} |</text>
 	    <label>YTD Sales: $</label><text>{{ytdsales}}</text>
+	    {{>quickViewButton_P}}
 	  </dd>
 	</dl>
 	{{/sales}}
@@ -131,8 +132,7 @@
       <form>
 	<dl>
 	  <dd>
-	    <label># Of Groups</label>
-	    <a href="#{{startPage}}/groups">{{numberOfGroups}}</a>
+	    <a href="#{{startPage}}/groups"><label># Of Groups</label>{{numberOfGroups}}</a>
 	  </dd>
 	</dl>
       </form>
@@ -142,8 +142,7 @@
       <form>
 	<dl>
 	  <dd>
-	    <label># Of Stores</label>
-	    <a href="#{{startPage}}/stores">{{numberOfStores}}</a>		  
+	    <a href="#{{startPage}}/stores"><label># Of Stores</label>{{numberOfStores}}</a>
 	  </dd>
 	</dl>
       </form>
@@ -153,8 +152,7 @@
       <form>
 	<dl>
 	  <dd>
-	    <label># Of Terminals</label>
-	    <a href="#{{startPage}}/terminals">{{numberOfTerminals}}</a>		  
+	    <a href="#{{startPage}}/terminals"><label># Of Terminals</label>{{numberOfTerminals}}</a>
 	  </dd>
 	</dl>
       </form>
@@ -328,7 +326,6 @@
     </script>
     
     <script id="cashOutReportDialog_TMP" type="text/html">
-      <div id="dialog-form" title="{{title}}">
 	<table border="1">
 	<tr>
 	    <th>YESTERDAY</th>
@@ -348,7 +345,6 @@
 	    {{/ytd}}
 	    </tr>
 	</table>	
-      </div>
 	</script>      
       
       <!------------------------------------------------------- LAYER LOGIN------------------------------------------>
@@ -378,7 +374,7 @@
       <script id="companyManagementPage_TMP" type="text/html">
 	<h1>Company Management</h1>
 	<h2>{{breadCrumb}}</h2>
-	{{>salesFields_P}} {{>quickViewButton_P}}
+	{{>salesFields_P}} 
 	{{>numberOfGroupsFields_P}}
 	{{>numberOfStoresFields_P}}
 	{{>numberOfTerminalsFields_P}}
@@ -392,8 +388,7 @@
       <script id="groupManagementPage_TMP" type="text/html">
 	<h1>Group Management</h1>
 	<h2>{{breadCrumb}}</h2>
-	{{>salesFields_P}} {{>quickViewButton_P}}
-	{{>numberOfStoresFields_P}}
+	{{>salesFields_P}} 
 	{{>numberOfTerminalsFields_P}}
 	{{>AIR_Buttons_P}}
 	{{>logoutButton_P}}
@@ -404,7 +399,7 @@
       <script id="storeManagementPage_TMP" type="text/html">
 	<h1>Store Management</h1>
 	<h2>{{breadCrumb}}</h2>
-	{{>salesFields_P}} {{>quickViewButton_P}}
+	{{>salesFields_P}} 
 	{{>numberOfTerminalsFields_P}}
 	{{>AIR_Buttons_P}}
 	{{>logoutButton_P}}

@@ -24,9 +24,8 @@ function CashoutReportDialog (attachTo,options) {
 
 
 function quickViewDialog (html,options) {
-    var form = $("#dialog-form");;
     var d = $("#dialog-quickView");    	
-    d.html(form);
+    d.html(_.extend(html, {title:"report view"}));
     d.find('input').attr('disabled',true);
     var dialogOptions = _.extend(
 	{autoOpen: false,
@@ -49,5 +48,6 @@ function quickViewDialog (html,options) {
 
 function quickView(){
     var for_TMP = globalReportTestData;
-    quickViewDialog(ich[template](for_TMP));
+    var html = ich.cashOutReportDialog_TMP(for_TMP);
+    quickViewDialog(html);
 }
