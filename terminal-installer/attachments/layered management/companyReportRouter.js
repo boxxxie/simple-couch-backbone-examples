@@ -71,6 +71,12 @@ var companyReportView =
 					  _.extend(param,totalSales);
 					  var html = ich.companyManagementPage_TMP(param);
 					  $("body").html(html);
+      
+					  var TMP_param = globalReportTestData;
+					 
+					  $("#dialog-hook").html(ich.cashOutReportDialog_TMP(TMP_param));
+	    			 CashoutReportDialog("view-thing",null);
+	    			 
 					  console.log("companyReportView renderCompanyReport");
 				      });
 
