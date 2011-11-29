@@ -12,11 +12,11 @@ function validateUserName(user,itemWithSameUserID,previous,id_key){
 	results = results.concat({fieldname:"user", isInvalid:true, errMsg:"The Master User ID length should be 1~8 characters"});
     }
     //needs further abstraction
-    if((itemWithSameUserID && !previous) ||
+  /*  if((itemWithSameUserID && !previous) ||
 	itemWithSameUserID &&
        itemWithSameUserID[id_key] != previous[id_key]){
 	results = results.concat({fieldname:"user", isInvalid:true, errMsg:"The Master User ID is taken already, please select a different one"});
-    }
+    }*/
     return results;
 };
 function validateItemName(itemName,itemWithSameName,addingNewItem,previous,id_key,fieldname,errMsg){
