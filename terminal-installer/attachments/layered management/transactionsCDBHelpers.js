@@ -37,7 +37,7 @@ function generalSalesReportFetcher(view,db,id,runAfter){
 	    return total + cur.value.sum;
 	}
 	var sales,refunds = 0;
-	_.isFirstNotEmpty(salesData.rows)? sales = _.reduce(salesData.rows,sum,0): sales = 0;
+	_.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows,sum,0): sales = 0;
 	return sales - refunds;
     }
     var d = relative_dates();
@@ -62,12 +62,16 @@ function generalCashoutReportFetcher(view,db,id,runAfter){
     var d = relative_dates();
     async
 	.parallel(
-	    {yesterdaysSales:function(callback){companySalesRangeQuery(d.yesterday,d.today)(returnQuery(callback));},
-	     monthsSales:function(callback){companySalesRangeQuery(d.startOfMonth,d.tomorrow)(returnQuery(callback));},
-	     yearsSales:function(callback){companySalesRangeQuery(d.startOfYear,d.tomorrow)(returnQuery(callback));}
+	    {yesterday:function(callback){companySalesRangeQuery(d.yesterday,d.today)(returnQuery(callback));},
+	     month:function(callback){companySalesRangeQuery(d.startOfMonth,d.tomorrow)(returnQuery(callback));},
+	     years:function(callback){companySalesRangeQuery(d.startOfYear,d.tomorrow)(returnQuery(callback));}
 	    },
 	    function(err,report){
-		runAfter(_.first(report.rows));	  
+		var cashouts = {};
+		cashouts.yesterday = _.first(report.yesterday.rows);
+		cashouts.month = _.first(report.month.rows);
+		cashouts.year = _.first(report.year.rows);
+		runAfter(cashouts);	  
 	    });
 };
 
