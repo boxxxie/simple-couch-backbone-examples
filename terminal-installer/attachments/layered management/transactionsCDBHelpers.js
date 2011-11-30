@@ -1,3 +1,5 @@
+var ZEROED_FIELDS = {allDiscount: 0, netsales: 0, netsaletax1: 0, netsaletax3: 0, netsalestotal: 0, netrefund: 0, netrefundtax1: 0, netrefundtax3: 0, netrefundtotal: 0, netsaleactivity: 0, cashpayment: 0, creditpayment: 0, debitpayment: 0, mobilepayment: 0, otherpayment: 0, noofpayment: 0, avgpayment: 0, cashrefund: 0, creditrefund: 0, debitrefund: 0, mobilerefund: 0, otherrefund: 0, noofrefund: 0, avgrefund: 0, menusalesno: 0, menusalesamount: 0, scansalesno: 0, scansalesamount: 0, ecrsalesno: 0, ecrsalesamount: 0};
+
 function typedTransactionRangeQuery(view,db,base){
     return function(startDate,endDate){
 	var startKey = base.concat(startDate);
@@ -68,62 +70,24 @@ function generalCashoutReportFetcher(view,db,id,runAfter){
 	    },
 	    function(err,report){
 		var cashouts = {};
-//		var results = {yesterday:{}, mtd:{}, ytd:{}};
-		
-		cashouts.yesterday = (_.first(report.yesterday.rows)? _.first(report.yesterday.rows).value:CashoutFormatData);
-		cashouts.mtd = (_.first(report.month.rows)? _.first(report.month.rows).value:CashoutFormatData);
-		cashouts.ytd = (_.first(report.year.rows)? _.first(report.year.rows).value:CashoutFormatData);
+		cashouts.yesterday = (_.isFirstNotEmpty(report.yesterday.rows)? _.first(report.yesterday.rows).value:ZEROED_FIELDS);
+		cashouts.mtd = (_.isFirstNotEmpty(report.month.rows)? _.first(report.month.rows).value:ZEROED_FIELDS);
+		cashouts.ytd = (_.isFirstNotEmpty(report.year.rows)? _.first(report.year.rows).value:ZEROED_FIELDS);
+
+		function toFixed(mag){
+		    return function(num){
+			return num.toFixed(mag);
+		    };
+		}
+
+		cashouts.yesterday = _.applyToValues(cashouts.yesterday,toFixed(2));
+		cashouts.mtd = _.applyToValues(cashouts.mtd,toFixed(2));
+		cashouts.ytd = _.applyToValues(cashouts.ytd,toFixed(2));
 
 		var totalyesterday = cashouts.yesterday['menusalesamount'] + cashouts.yesterday['scansalesamount'] + cashouts.yesterday['ecrsalesamount'];
 		var totalmtd = cashouts.mtd['menusalesamount'] + cashouts.mtd['scansalesamount'] + cashouts.mtd['ecrsalesamount'];
 		var totalytd = cashouts.ytd['menusalesamount'] + cashouts.ytd['scansalesamount'] + cashouts.ytd['ecrsalesamount'];
-/*				
-		for(var prop in cashouts.yesterday){
-			var substr1 = prop.substring(0,2);
-			var substr2 = prop.substring(prop.length-2, prop.length);
-			var substr3 = prop.substring(prop.length-7, prop.length);
-			
-			if(substr3=="percent") {
-				if(totalyesterday!=0) results.yesterday[prop] = (cashouts.yesterday[prop.substring(prop.length-7, 0)+"amount"]/totalyesterday*100).toFixed(2);
-				else results.yesterday[prop] = 0.00;
-			} else {
-				results.yesterday[prop] = (substr1=="no" || substr2=="no")?cashouts.yesterday[prop]:cashouts.yesterday[prop].toFixed(2);
-			}
-		}
-		for(var prop in cashouts.mtd){
-			var substr1 = prop.substring(0,2);
-			var substr2 = prop.substring(prop.length-2, prop.length);
-			var substr3 = prop.substring(prop.length-7, prop.length);
-			
-			if(substr3=="percent") {
-				if(totalmtd!=0) results.mtd[prop] = (cashouts.mtd[prop.substring(prop.length-7, 0)+"amount"]/totalmtd*100).toFixed(2);
-				else results.mtd[prop] = 0.00;				 
-			} else {
-				results.mtd[prop] = (substr1=="no" || substr2=="no")?cashouts.mtd[prop]:cashouts.mtd[prop].toFixed(2);
-			}
-			
-		}
-		for(var prop in cashouts.ytd){
-			var substr1 = prop.substring(0,2);
-			var substr2 = prop.substring(prop.length-2, prop.length);
-			var substr3 = prop.substring(prop.length-7, prop.length);
-			
-			if("/percent$/.test(substr3)=="percent") {
-				if(totalytd!=0) results.ytd[prop] = (cashouts.ytd[prop.substring(prop.length-7, 0)+"amount"]/totalytd*100).toFixed(2);
-				else results.ytd[prop] = 0.00;				 
-			} else {
-				results.ytd[prop] = (substr1=="no" || substr2=="no")?cashouts.ytd[prop]:cashouts.ytd[prop].toFixed(2);
-			}
-		}
-*/
-		var yesterdaytotal = _(cashouts.yesterday).chain()
-												.selectKeys(['menusalesamount', 'scansalesamount', 'ecrsalesamount'])
-												.flatten()
-												.reduce(function (init, amount){
-													return init + amount;}, 0)
-												.value();
-												
-												
+		
 		cashouts.yesterday = appendCategorySalesPercent(totalyesterday, cashouts.yesterday);
 		cashouts.mtd = appendCategorySalesPercent(totalmtd, cashouts.mtd);
 		cashouts.ytd = appendCategorySalesPercent(totalytd, cashouts.ytd);
@@ -179,8 +143,8 @@ function cashoutFetcher(ids,callback){
     }
 };
 
-function appendCategorySalesPercent(total, obj) {
-	var cashout = _.clone(obj);
+function appendCategorySalesPercent(total, cashoutReport) {
+	var cashout = _.clone(cashoutReport);
 	if(total!=0) {
 		cashout.menusalespercent = (cashout.menusalesamount / total*100).toFixed(2);
 		cashout.ecrsalespercent = (cashout.ecrsalesamount / total*100).toFixed(2);
