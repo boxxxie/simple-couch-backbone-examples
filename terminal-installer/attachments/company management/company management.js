@@ -29,7 +29,10 @@ function validateCompany(newCompany_w_options, previous) {
 	return Companies.find(function(company){return company.get('user')==user;});
     };
     function companyNameExists(companyName){
-	return Companies.find(function(company){return company.get('companyName')==companyName;});
+	return Companies.find(function(company){return company.get('companyName').toLowerCase()==companyName.toLowerCase();});
+    };
+    function companyOpNameExists(companyName){
+	return Companies.find(function(company){return company.get('operationalname').toLowerCase()==companyName.toLowerCase();});
     };
     function validateUserName(user,companyWithSameUserID,previous){
 	var results = [];
@@ -39,13 +42,6 @@ function validateCompany(newCompany_w_options, previous) {
 	else if(!checkRegexp(user,/^\w{1,8}$/)){
 	    results = results.concat({fieldname:"user", isInvalid:true, errMsg:"The Master User ID length should be 1~8 characters"});
 	}
-	//needs further abstraction
-/*	if((companyWithSameUserID && !previous) ||
-	    companyWithSameUserID &&
-	   companyWithSameUserID.get('_id') != previous._id ){
-	       results = results.concat({fieldname:"user", isInvalid:true, errMsg:"The Master User ID is taken already, please select a different one"});
-	   }
-*/
 	return results;
     };
     function validatePassword(password){
@@ -58,23 +54,15 @@ function validateCompany(newCompany_w_options, previous) {
 	}
 	return results;
     };
-    function validateOperationalName(name){
-	var results = [];
-	//verify company operational name
-	if(_.isEmpty(name)){
-	    results = results.concat({fieldname:"operationalname", isInvalid:true});
-	}
-	return results;
-    };
-    function validateCompanyName(companyName,companyWithSameName,addingNewCompany,previous){
+    function validateCompanyName(companyName,companyWithSameName,addingNewCompany,previous,fieldName){
 	var results = [];
 	if(_.isEmpty(companyName)){
-	    results = results.concat({fieldname:"company-name", isInvalid:true});
+	    results = results.concat({fieldname:fieldName, isInvalid:true});
 	}
 	if((companyWithSameName && addingNewCompany) ||
 	    (companyWithSameName && !previous) ||
 	   companyWithSameName && companyWithSameName.get('_id') != previous._id) {
-	    results = results.concat({fieldname:"company-name", isInvalid:true, errMsg:"A Company with the same name already exists"});
+	    results = results.concat({fieldname:fieldName, isInvalid:true, errMsg:"A Company with the same name already exists"});
 	}
 	return results;
     };
@@ -85,6 +73,7 @@ function validateCompany(newCompany_w_options, previous) {
     var operationalname = newCompany_w_options.operationalname;
     var addingNewCompany = newCompany_w_options.isCreate;
     var companyWithSameName = companyNameExists(companyName);
+    var companyWithSameOpName = companyOpNameExists(operationalname);
     var companyWithSameUserID = userExists(user);
 
     //verify user ID
@@ -94,10 +83,10 @@ function validateCompany(newCompany_w_options, previous) {
     results = results.concat(validatePassword(password));
 
     //verify company operational name
-    results = results.concat(validateOperationalName(operationalname));
+    results = results.concat(validateCompanyName(operationalname,companyWithSameOpName,addingNewCompany,previous,'operationalname'));
 
     //verify company name
-    results = results.concat(validateCompanyName(companyName,companyWithSameName,addingNewCompany,previous));
+    results = results.concat(validateCompanyName(companyName,companyWithSameName,addingNewCompany,previous,'company-name'));
 
     return results;
 };
