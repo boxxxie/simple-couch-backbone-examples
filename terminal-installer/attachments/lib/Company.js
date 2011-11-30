@@ -1,3 +1,6 @@
+function sortStores(stores){
+    return _.sortBy(stores, function(store){return Number(_.first(store.number.match(/\d+/)));});
+};
 function randInt_maker(length){
     return function(){
 	return parseInt(Math.random()*Math.pow(10,length))+"";
@@ -11,12 +14,6 @@ function validateUserName(user,itemWithSameUserID,previous,id_key){
     else if(!checkRegexp(user,/^\w{1,8}$/)){
 	results = results.concat({fieldname:"user", isInvalid:true, errMsg:"The Master User ID length should be 1~8 characters"});
     }
-    //needs further abstraction
-  /*  if((itemWithSameUserID && !previous) ||
-	itemWithSameUserID &&
-       itemWithSameUserID[id_key] != previous[id_key]){
-	results = results.concat({fieldname:"user", isInvalid:true, errMsg:"The Master User ID is taken already, please select a different one"});
-    }*/
     return results;
 };
 function validateItemName(itemName,itemWithSameName,addingNewItem,previous,id_key,fieldname,errMsg){
@@ -119,7 +116,7 @@ var Company = couchDoc.extend(
 	 //this is supposed to check if we are adding a dup store number to this group of stores
 	 if(!_(stores).chain().pluck('number').contains(storeToAdd.number).value()) {
 	     var newStores = stores.concat(_.extend(storeToAdd,{store_id:guidGenerator()}));
-	     groupToAddTo.stores = newStores;
+	     groupToAddTo.stores = sortStores(newStores);
 	     this.save();
 	     this.trigger("add:store"); //triggers go last
 	 } else {
@@ -127,8 +124,10 @@ var Company = couchDoc.extend(
 	 }
      },
      editStore:function(groupID,storeID,store){
+	 var groupToAddTo = this.getGroup(groupID);
 	 var storeToMod = this.getStore(groupID,storeID);
 	 _.extend(storeToMod,store);
+	 groupToAddTo.stores = sortStores(groupToAddTo.stores);
 	 this.save();
      },
      validateStore : function (newStore,previous,stores) {
