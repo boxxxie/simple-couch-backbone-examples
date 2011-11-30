@@ -61,19 +61,21 @@ var storeReportView = Backbone.View.extend(
 	 extractSalesDataFromIds(param.list,'terminal_id',function(transformedTerminals){
 				     param.list = transformedTerminals;
 				     var sales = _.pluck(param.list,'sales');
-				     _.extend(param, {breadCrumb:"Company : " + ReportData.companyName},
-					 	{sales:{yesterdaysales:_(sales).chain()
-				 										.pluck(['yesterdaysales'])
-				 										.reduce(function(init, amt){return init+Number(amt)},0)
-				 										.value(),
-					 			mtdsales:_(sales).chain()
-			 										.pluck(['mtdsales'])
-			 										.reduce(function(init, amt){return init+Number(amt)},0)
-			 										.value(),
-					 			ytdsales:_(sales).chain()
-			 										.pluck(['ytdsales'])
-			 										.reduce(function(init, amt){return init+Number(amt)},0)
-			 										.value()}});
+				     _.extend(param, {breadCrumb:"company : " + ReportData.companyName + 
+						      " , group : " + ReportData.groupName +
+						      " , store : " + ReportData.store.storeName},
+					      {sales:{yesterdaysales:_(sales).chain()
+				 		      .pluck(['yesterdaysales'])
+				 		      .reduce(function(init, amt){return init+Number(amt)},0)
+				 		      .value(),
+					 	      mtdsales:_(sales).chain()
+			 			      .pluck(['mtdsales'])
+			 			      .reduce(function(init, amt){return init+Number(amt)},0)
+			 			      .value(),
+					 	      ytdsales:_(sales).chain()
+			 			      .pluck(['ytdsales'])
+			 			      .reduce(function(init, amt){return init+Number(amt)},0)
+			 			      .value()}});
 				     var html = ich.terminalsTabel_TMP(param);
 				     $("body").html(html);
 				     console.log("storeReportView renderTerminalsTable");

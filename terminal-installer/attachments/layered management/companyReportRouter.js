@@ -83,19 +83,19 @@ var companyReportView =
 					 param.list = transformedGroups;
 					 var sales = _.pluck(param.list,'sales');
 					 _.extend(param, 
-					 	{breadCrumb:"Company : " + ReportData.company.operationalname},
-					 	{sales:{yesterdaysales:_(sales).chain()
-				 										.pluck(['yesterdaysales'])
-				 										.reduce(function(init, amt){return init+Number(amt)},0)
-				 										.value(),
-					 			mtdsales:_(sales).chain()
-			 										.pluck(['mtdsales'])
-			 										.reduce(function(init, amt){return init+Number(amt)},0)
-			 										.value(),
-					 			ytdsales:_(sales).chain()
-			 										.pluck(['ytdsales'])
-			 										.reduce(function(init, amt){return init+Number(amt)},0)
-			 										.value()}});
+					 	  {breadCrumb:"Company : " + ReportData.company.operationalname},
+					 	  {sales:{yesterdaysales:_(sales).chain()
+				 			  .pluck(['yesterdaysales'])
+				 			  .reduce(function(init, amt){return init+Number(amt)},0)
+				 			  .value(),
+					 		  mtdsales:_(sales).chain()
+			 				  .pluck(['mtdsales'])
+			 				  .reduce(function(init, amt){return init+Number(amt)},0)
+			 				  .value(),
+					 		  ytdsales:_(sales).chain()
+			 				  .pluck(['ytdsales'])
+			 				  .reduce(function(init, amt){return init+Number(amt)},0)
+			 				  .value()}});
 					 var html = ich.groupsTabel_TMP(param);
 					 $("body").html(html);
 					 console.log("companyReportView renderGroupsTable");
@@ -109,18 +109,18 @@ var companyReportView =
 					 param.list = transformedStores;
 					 var sales = _.pluck(param.list,'sales');
 					 _.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname},
-					 	{sales:{yesterdaysales:_(sales).chain()
-				 										.pluck(['yesterdaysales'])
-				 										.reduce(function(init, amt){return init+Number(amt)},0)
-				 										.value(),
-					 			mtdsales:_(sales).chain()
-			 										.pluck(['mtdsales'])
-			 										.reduce(function(init, amt){return init+Number(amt)},0)
-			 										.value(),
-					 			ytdsales:_(sales).chain()
-			 										.pluck(['ytdsales'])
-			 										.reduce(function(init, amt){return init+Number(amt)},0)
-			 										.value()}});
+					 	  {sales:{yesterdaysales:_(sales).chain()
+				 			  .pluck(['yesterdaysales'])
+				 			  .reduce(function(init, amt){return init+Number(amt)},0)
+				 			  .value(),
+					 		  mtdsales:_(sales).chain()
+			 				  .pluck(['mtdsales'])
+			 				  .reduce(function(init, amt){return init+Number(amt)},0)
+			 				  .value(),
+					 		  ytdsales:_(sales).chain()
+			 				  .pluck(['ytdsales'])
+			 				  .reduce(function(init, amt){return init+Number(amt)},0)
+			 				  .value()}});
 					 var html = ich.storesTabel_TMP(param);
 					 $("body").html(html);
 					 console.log("companyReportView renderStoresTable");
@@ -134,18 +134,18 @@ var companyReportView =
 					 param.list = transformedTerminals;
 					 var sales = _.pluck(param.list,'sales');
 					 _.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname},
-					 	{sales:{yesterdaysales:_(sales).chain()
-				 										.pluck(['yesterdaysales'])
-				 										.reduce(function(init, amt){return init+Number(amt)},0)
-				 										.value(),
-					 			mtdsales:_(sales).chain()
-			 										.pluck(['mtdsales'])
-			 										.reduce(function(init, amt){return init+Number(amt)},0)
-			 										.value(),
-					 			ytdsales:_(sales).chain()
-			 										.pluck(['ytdsales'])
-			 										.reduce(function(init, amt){return init+Number(amt)},0)
-			 										.value()}});
+					 	  {sales:{yesterdaysales:_(sales).chain()
+				 			  .pluck(['yesterdaysales'])
+				 			  .reduce(function(init, amt){return init+Number(amt)},0)
+				 			  .value(),
+					 		  mtdsales:_(sales).chain()
+			 				  .pluck(['mtdsales'])
+			 				  .reduce(function(init, amt){return init+Number(amt)},0)
+			 				  .value(),
+					 		  ytdsales:_(sales).chain()
+			 				  .pluck(['ytdsales'])
+			 				  .reduce(function(init, amt){return init+Number(amt)},0)
+			 				  .value()}});
 					 var html = ich.terminalsTabel_TMP(param);
 					 $("body").html(html);
 					 console.log("companyReportView renderTerminalsTable");
