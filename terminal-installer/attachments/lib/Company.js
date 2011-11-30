@@ -22,7 +22,7 @@ function validateItemName(itemName,itemWithSameName,addingNewItem,previous,id_ke
     }
     else if((itemWithSameName && addingNewItem) ||
 	    (itemWithSameName && !previous) ||
-	    itemWithSameName && itemWithSameName[id_key] != previous[id_key]) {
+	    itemWithSameName && itemWithSameName[id_key].toLowerCase() != previous[id_key].toLowerCase()) {
 	return {fieldname:fieldname, isInvalid:true, errMsg:errMsg};
     }
     return [];

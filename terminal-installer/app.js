@@ -9,15 +9,29 @@ ddoc.views.user_pass = {
     map:function(doc){
 	var _ = require("views/lib/underscore");
 	require("views/lib/underscore_extended");
-	emit({company:doc.operationalname,user:doc.user,password:doc.password,company:doc.operationalname},{company:doc._id});
-	_.each(doc.hierarchy.groups,function(group){
-		   emit({company:doc.operationalname,group:group.groupName,user:group.user,password:group.password},{company:doc._id,group:group.group_id});
-		   _.each(group.stores,function(store){
-			      emit({company:doc.operationalname,group:group.groupName,store:store.storeName,user:store.user,password:store.password},{company:doc._id,group:group.group_id,store:store.store_id});
-			  });
-	       });
+	
+	const opName = doc.operationalname.toLowerCase();
+	const user = doc.user;
+	const pass = doc.password;
+	const compID = doc._id;
+
+	emit({company:opName,user:user,password:pass},{company:compID});
+	
+	doc.hierarchy.groups
+	    .forEach(function(group){
+			 const gpName = group.groupName.toLowerCase();
+			 const gpID = group.group_id;
+			 emit({company:opName,group:gpName,user:group.user,password:group.password},{company:compID,group:gpID});
+			 
+			 group.stores
+			     .forEach(function(store){
+					  const sName = store.storeName.toLowerCase();
+					  emit({company:opName,group:gpName,store:sName,user:store.user,password:store.password},{company:compID,group:gpID,store:store.store_id});
+				      });
+		     });
     }
 };
+
 
 ddoc.views.receipt_id = {
     map:function(doc){

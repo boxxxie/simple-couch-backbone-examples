@@ -32,9 +32,12 @@ function login() {
     console.log("form entries");
     console.log(formEntries);
     var login_key = _(formEntries).chain()
+	.selectKeys(['company','group','store'])
 	.kv()
 	.reject(_.isLastEmpty)
+	.map(function(pair){pair[1] = pair[1].toLowerCase();return pair;}) //all company/store/group names need to be lowercase for matching login information
 	.toObject()
+	.extend(_.selectKeys(formEntries,['user','password']))
 	.value();
     console.log("login_key");
     console.log(login_key);
