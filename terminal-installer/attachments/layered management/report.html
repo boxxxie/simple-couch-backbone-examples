@@ -55,7 +55,7 @@
     </script>
     
     <script id="adminButton_P" class="partial" type="text/html">
-   <a href="">Administration</a>
+      <a href="">Administration</a>
     </script>
     
     <script id="inventoryButton_P" class="partial" type="text/html">
@@ -63,16 +63,16 @@
     </script>
 
     <script id="reportsButton_P" class="partial" type="text/html">
-     <a href="">Reports</a>
+      <a href="">Reports</a>
     </script>
     
     <script id="AIR_Buttons_P" class="partial" type="text/html">
-    	<br>
-    	Menues<br><br>
-      <ol><li>{{>adminButton_P}}</li>
-      <li>{{>inventoryButton_P}}</li>
-      <li>{{>reportsButton_P}}</li>
-</ol>
+      <h3>Menus</h3>
+      <ol>
+	<li>{{>adminButton_P}}</li>
+	<li>{{>inventoryButton_P}}</li>
+	<li>{{>reportsButton_P}}</li>
+      </ol>
     </script>
 
     <script id="backButton_P" class="partial" type="text/html">
@@ -102,31 +102,29 @@
     </script>
     
     <script id="salesFields_P" class="partial" type="text/html">
-      <form>
       	<br/>
-	    {{#sales}}
-	    <label>Yesterday's Sales: $</label><text>{{yesterdaysales}} |</text>
-	    <label>MTD Sales: $</label><text>{{mtdsales}} |</text>
-	    <label>YTD Sales: $</label><text>{{ytdsales}}</text>
-	    {{/sales}}
-      </form>
-    </script>
+	{{#sales}}
+	<label>Yesterday's Sales: $</label><text>{{yesterdaysales}} |</text>
+	<label>MTD Sales: $</label><text>{{mtdsales}} |</text>
+	<label>YTD Sales: $</label><text>{{ytdsales}}</text>
+	{{/sales}}
+     </script>
 
     <script id="numberOfGroupsFields_P" class="partial" type="text/html">
       <form>
-	    <a href="#{{startPage}}/groups"># Of Groups {{numberOfGroups}}</a>
+	<a href="#{{startPage}}/groups"># Of Groups {{numberOfGroups}}</a>
       </form>
     </script>
 
     <script id="numberOfStoresFields_P" class="partial" type="text/html">
       <form>
-	    <a href="#{{startPage}}/stores"># Of Stores {{numberOfStores}}</a>
+	<a href="#{{startPage}}/stores"># Of Stores {{numberOfStores}}</a>
       </form>
     </script>
 
     <script id="numberOfTerminalsFields_P" class="partial" type="text/html">
       <form>
-	    <a href="#{{startPage}}/terminals"># Of Terminals {{numberOfTerminals}}</a>
+	<a href="#{{startPage}}/terminals"># Of Terminals {{numberOfTerminals}}</a>
       </form>
     </script>
 
