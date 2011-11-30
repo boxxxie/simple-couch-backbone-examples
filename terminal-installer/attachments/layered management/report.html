@@ -21,6 +21,7 @@
     <script language="javascript" type="text/javascript" src="../lib/forms.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/date.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/async.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/dialogs.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/transactionsCDBHelpers.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/loginRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/reportParamGetters.js"></script>
@@ -93,18 +94,30 @@
 	<span class="ui-button-text">Home</span>
       </button>
     </script>
-
+    
+    <script id="quickReportViewButton_P" class="partial" type="text/html">
+      <button onclick="quickReportView('{{quickViewArgs}}');" class="ui-state-default ui-corner-all">
+	<span class="ui-button-text">
+	  View
+	</span>
+      </button>
+    </script>
+    
+    <script id="quickReportViewHook_P" class="partial" type="text/html">
+      <div id="dialog-quickView" title="{{title}}"></div>
+    </script>
+    
     <script id="salesFields_P" class="partial" type="text/html">
       <form>
-	{{#sales}}
 	<dl>
 	  <dd>
+	    {{#sales}}
 	    <label>Yesterday's Sales: $</label><text>{{yesterdaysales}} |</text>
 	    <label>MTD Sales: $</label><text>{{mtdsales}} |</text>
 	    <label>YTD Sales: $</label><text>{{ytdsales}}</text>
+	    {{/sales}}
 	  </dd>
 	</dl>
-	{{/sales}}
       </form>
     </script>
 
@@ -112,8 +125,7 @@
       <form>
 	<dl>
 	  <dd>
-	    <label># Of Groups</label>
-	    <a href="#{{startPage}}/groups">{{numberOfGroups}}</a>
+	    <a href="#{{startPage}}/groups"># Of Groups {{numberOfGroups}}</a>
 	  </dd>
 	</dl>
       </form>
@@ -123,8 +135,7 @@
       <form>
 	<dl>
 	  <dd>
-	    <label># Of Stores</label>
-	    <a href="#{{startPage}}/stores">{{numberOfStores}}</a>		  
+	    <a href="#{{startPage}}/stores"># Of Stores {{numberOfStores}}</a>
 	  </dd>
 	</dl>
       </form>
@@ -134,13 +145,191 @@
       <form>
 	<dl>
 	  <dd>
-	    <label># Of Terminals</label>
-	    <a href="#{{startPage}}/terminals">{{numberOfTerminals}}</a>		  
+	    <a href="#{{startPage}}/terminals"># Of Terminals {{numberOfTerminals}}</a>
 	  </dd>
 	</dl>
       </form>
     </script>
 
+    <!-------------------------------------------------- CASHOUT PART ---------------------------------------->
+    <script id="netSales_P" class="partial" type="text/html">
+      <tr>
+	<th align="left">Net Sales</th>
+	<td align="right">{{netsales}}</td>
+      </tr>
+      <tr>
+	<th align="left">Total Tax 1</th>
+	<td align="right">{{netsaletax1}}</td>
+      </tr>
+      <tr>
+	<th align="left">Total Tax 3</th>
+	<td align="right">{{netsaletax3}}</td>
+      </tr>
+      <tr>
+	<th align="left">Total Sales</th>
+	<td align="right">{{netsalestotal}}</td>
+      </tr>
+    </script>
+    
+    <script id="netRefunds_P" class="partial" type="text/html">
+      <tr>
+	<th align="left">Net Refunds</th>
+	<td align="right">{{netrefund}}</td>
+      </tr>
+      <tr>
+	<th align="left">Total Tax 1</th>
+	<td align="right">{{netrefundtax1}}</td>
+      </tr>
+      <tr>
+	<th align="left">Total Tax 3</th>
+	<td align="right">{{netrefundtax3}}</td>
+      </tr>
+      <tr>
+	<th align="left">Total Refunds</th>
+	<td align="right">{{netrefundtotal}}</td>
+      </tr>
+    </script>
+    
+    <script id="netSaleActivity_P" class="partial" type="text/html">
+      <tr>
+	<th align="left">Net SALE ACTIVITY</th>
+	<td align="right">{{netsaleactivity}}</td>
+      </tr>
+    </script>
+    
+    <script id="paymentDetails_P" class="partial" type="text/html">
+      <tr>
+	<td colspan="2">PAYMENT/TENDER DETAILS</t>
+      </tr>
+      <tr>
+	<th align="left">CASH</th>
+	<td align="right">{{cashpayment}}</td>
+      </tr>
+      <tr>
+	<th align="left">CREDIT CARD</th>
+	<td align="right">{{creditpayment}}</td>
+      </tr>
+      <tr>
+	<th align="left">DEBIT CARD</th>
+	<td align="right">{{debitpayment}}</td>
+      </tr>
+      <tr>
+	<th align="left">MOBILE</th>
+	<td align="right">{{mobilepayment}}</td>
+      </tr>
+      <tr>
+	<th align="left">OTHER</th>
+	<td align="right">{{otherpayment}}</td>
+      </tr>
+      <tr>
+	<th align="left">No. of Trans</th>
+	<td align="right">{{noofpayment}}</td>
+      </tr>
+      <tr>
+	<th align="left">Avg Trans</th>
+	<td align="right">{{avgpayment}}</td>
+      </tr>
+    </script>
+    
+    <script id="refundDetails_P" class="partial" type="text/html">
+      <tr>
+	<td colspan="2">REFUND/TENDER DETAILS</td>
+      </tr>
+      <tr>
+	<th align="left">CASH</th>
+	<td align="right">{{cashrefund}}</td>
+      </tr>
+      <tr>
+	<th align="left">CREDIT CARD</th>
+	<td align="right">{{creditrefund}}</td>
+      </tr>
+      <tr>
+	<th align="left">DEBIT CARD</th>
+	<td align="right">{{debitrefund}}</td>
+      </tr>
+      <tr>
+	<th align="left">MOBILE</th>
+	<td align="right">{{mobilerefund}}</td>
+      </tr>
+      <tr>
+	<th align="left">OTHER</th>
+	<td align="right">{{otherrefund}}</td>
+      </tr>
+      <tr>
+	<th align="left">No. of Trans</th>
+	<td align="right">{{noofrefund}}</td>
+      </tr>
+      <tr>
+	<th align="left">Avg Trans</th>
+	<td align="right">{{avgrefund}}</td>
+      </tr>
+    </script>
+    
+    <script id="totalDiscount_P" class="partial" type="text/html">
+      <tr>
+	<th align="left">Total Discount</th>
+	<td align="right">{{allDiscount}}</td>
+      </tr>
+    </script>
+    
+    <script id="salesByCategory_P" class="partial" type="text/html">
+      <tr>
+	<th></th>
+	<td align="center">Amount</td>
+	<td align="center">%</td>
+      </tr>
+      <tr>
+	<th align="left">Menu Sales</th>
+	<td align="right">{{menusalesamount}}</td>
+	<td align="right">{{menusalespercent}}</td>
+      </tr>
+      <tr>
+	<th align="left">Scan Sales</th>
+	<td align="right">{{scansalesamount}}</td>
+	<td align="right">{{scansalespercent}}</td>
+      </tr>
+      <tr>
+	<th align="left">ECR Sales</th>
+	<td align="right">{{ecrsalesamount}}</td>
+	<td align="right">{{ecrsalespercent}}</td>
+      </tr>
+    </script>
+    
+    
+    <script id="cashOutTable_P" class="partial" type="text/html">
+      {{>netSales_P}}
+      {{>netRefunds_P}}
+      {{>netSaleActivity_P}}
+      {{>paymentDetails_P}}
+      {{>refundDetails_P}}
+      {{>totalDiscount_P}}
+      {{>salesByCategory_P}}
+    </script>
+    
+    <script id="cashOutReportDialog_TMP" type="text/html">
+      <form>
+	<table border="1">
+	  <tr>
+	    <th>YESTERDAY</th>
+	    <th>MTD</th>
+	    <th>YTD</th>
+	  </tr>
+	  <tr>
+	    {{#yesterday}}
+	    <td><table>{{>cashOutTable_P}}</table>
+	    </td>
+	    {{/yesterday}}
+	    {{#mtd}}
+	    <td><table>{{>cashOutTable_P}}</table></td>
+	    {{/mtd}}
+	    {{#ytd}}
+	    <td><table>{{>cashOutTable_P}}</table></td>
+	    {{/ytd}}
+	  </tr>
+	</table>
+      </form>
+    </script>      
+    
     <!------------------------------------------------------- LAYER LOGIN------------------------------------------>
     <script id="layerLogin_TMP" type="text/html">
       <form id="ids_form">
@@ -168,12 +357,13 @@
     <script id="companyManagementPage_TMP" type="text/html">
       <h1>Company Management</h1>
       <h2>{{breadCrumb}}</h2>
-      {{>salesFields_P}}
+      {{>salesFields_P}} {{>quickReportViewButton_P}}
       {{>numberOfGroupsFields_P}}
       {{>numberOfStoresFields_P}}
       {{>numberOfTerminalsFields_P}}
       {{>AIR_Buttons_P}}
       {{>logoutButton_P}}
+      {{>quickReportViewHook_P}}
     </script>
 
 
@@ -181,21 +371,22 @@
     <script id="groupManagementPage_TMP" type="text/html">
       <h1>Group Management</h1>
       <h2>{{breadCrumb}}</h2>
-      {{>salesFields_P}}
-      {{>numberOfStoresFields_P}}
+      {{>salesFields_P}}  {{>quickReportViewButton_P}}
       {{>numberOfTerminalsFields_P}}
       {{>AIR_Buttons_P}}
       {{>logoutButton_P}}
+      {{>quickReportViewHook_P}}
     </script>
 
     <!------------------------------------  store management page TMP ------------------------------->
     <script id="storeManagementPage_TMP" type="text/html">
       <h1>Store Management</h1>
       <h2>{{breadCrumb}}</h2>
-      {{>salesFields_P}}
+      {{>salesFields_P}} {{>quickReportViewButton_P}}
       {{>numberOfTerminalsFields_P}}
       {{>AIR_Buttons_P}}
       {{>logoutButton_P}}
+      {{>quickReportViewHook_P}}
     </script>
 
     <!------------------------------------- groups table TMP -------------------------------------------->
@@ -211,6 +402,7 @@
 	  <th>Yesterday Sales</th>
 	  <th>MTD Sales</th>
 	  <th>YTD Sales</th>
+	  <th>Details</th>
 	</tr>
 	{{#list}}
 	<tr>
@@ -223,9 +415,11 @@
 	  <td>{{mtdsales}}</td>
 	  <td>{{ytdsales}}</td>
 	  {{/sales}}
+	  <td>{{>quickReportViewButton_P}}</td>
 	</tr>
 	{{/list}}
       </table>
+      {{>quickReportViewHook_P}}
       {{>backButton_P}}
       {{>menuButton_P}}
     </script>
@@ -244,6 +438,7 @@
 	  <th>Yesterday Sales</th>
 	  <th>MTD Sales</th>
 	  <th>YTD Sales</th>
+	  <th>Details</th>
 	</tr>
 	{{#list}}
 	<tr>
@@ -257,9 +452,11 @@
 	  <td>{{mtdsales}}</td>
 	  <td>{{ytdsales}}</td>
 	  {{/sales}}
+	  <td>{{>quickReportViewButton_P}}</td>
 	</tr>
 	{{/list}}
       </table>
+      {{>quickReportViewHook_P}}
       {{>backButton_P}}
       {{>menuButton_P}}
     </script> 
@@ -278,6 +475,7 @@
 	  <th>Yesterday Sales</th>
 	  <th>MTD Sales</th>
 	  <th>YTD Sales</th>
+	  <th>Details</th>
 	</tr>
 	{{#list}}
 	<tr>
@@ -291,9 +489,11 @@
 	  <td>{{mtdsales}}</td>
 	  <td>{{ytdsales}}</td>
 	  {{/sales}}
+	  <td>{{>quickReportViewButton_P}}</td>
 	</tr>
 	{{/list}}
       </table>
+      {{>quickReportViewHook_P}}
       {{>backButton_P}}
       {{>menuButton_P}}
     </script> 

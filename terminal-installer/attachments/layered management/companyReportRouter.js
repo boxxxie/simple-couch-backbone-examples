@@ -71,9 +71,9 @@ var companyReportView =
 					  _.extend(param,totalSales);
 					  var html = ich.companyManagementPage_TMP(param);
 					  $("body").html(html);
+					  $("dialog-quickView").html();
 					  console.log("companyReportView renderCompanyReport");
 				      });
-
 	 },
 	 renderGroupsTable: function() {
 	     var view = this;

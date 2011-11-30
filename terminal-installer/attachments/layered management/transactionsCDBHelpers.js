@@ -37,7 +37,7 @@ function generalSalesReportFetcher(view,db,id,runAfter){
 	    return total + cur.value.sum;
 	}
 	var sales = 0;
-	_.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows): sales = 0;
+	_.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows).value.sum: sales = 0;
 	return sales;
     }
     var d = relative_dates();
@@ -64,13 +64,13 @@ function generalCashoutReportFetcher(view,db,id,runAfter){
 	.parallel(
 	    {yesterday:function(callback){companySalesRangeQuery(d.yesterday,d.today)(returnQuery(callback));},
 	     month:function(callback){companySalesRangeQuery(d.startOfMonth,d.tomorrow)(returnQuery(callback));},
-	     years:function(callback){companySalesRangeQuery(d.startOfYear,d.tomorrow)(returnQuery(callback));}
+	     year:function(callback){companySalesRangeQuery(d.startOfYear,d.tomorrow)(returnQuery(callback));}
 	    },
 	    function(err,report){
 		var cashouts = {};
-		cashouts.yesterday = _.first(report.yesterday.rows);
-		cashouts.month = _.first(report.month.rows);
-		cashouts.year = _.first(report.year.rows);
+		cashouts.yesterday = (_.first(report.yesterday.rows)? _.first(report.yesterday.rows).value:null);
+		cashouts.mtd = (_.first(report.month.rows)? _.first(report.month.rows).value:null);
+		cashouts.ytd = (_.first(report.year.rows)? _.first(report.year.rows).value:null);
 		runAfter(cashouts);	  
 	    });
 };
@@ -91,10 +91,10 @@ function generalCashoutReportArrayFetcher(view,db,ids,runAfter){
     async.map(ids, 
 	      function(id,callback){
 		  generalCashoutReportFetcher(view,db,
-					    id,
-					    function(salesData){
-						callback(null,salesData);
-					    });
+					      id,
+					      function(salesData){
+						  callback(null,salesData);
+					      });
 	      },
 	      runAfter);
 };
@@ -114,9 +114,9 @@ function cashoutFetcher(ids,callback){
     var transactionsView = cdb.view('reporting','cashouts_id_date');
     var transaction_db = cdb.db('cashouts');
     if(!_.isArray(ids)){
-	return generalSalesReportFetcher(transactionsView,transaction_db,ids,callback);
+	return generalCashoutReportFetcher(transactionsView,transaction_db,ids,callback);
     }
     else{
-	return generalSalesReportArrayFetcher(transactionsView,transaction_db,ids,callback);
+	return generalCashoutReportArrayFetcher(transactionsView,transaction_db,ids,callback);
     }
 };

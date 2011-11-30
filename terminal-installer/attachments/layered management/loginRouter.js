@@ -75,6 +75,6 @@ function login() {
 };
 
 function logout() {
-	ReportData=null;
-	window.location.href ='';
+    ReportData=null;
+    window.location.href ='';
 };
