@@ -84,6 +84,28 @@ function generalCashoutReportFetcher(view,db,id,runAfter){
 		cashouts.mtd = _.applyToValues(cashouts.mtd,toFixed(2));
 		cashouts.ytd = _.applyToValues(cashouts.ytd,toFixed(2));
 
+		function appendCategorySalesPercent(total, cashoutReport) {
+			var cashout = _.clone(cashoutReport);
+			if(total!=0) {
+				cashout.menusalespercent = cashout.menusalesamount / total*100;
+				cashout.ecrsalespercent = cashout.ecrsalesamount / total*100;
+				cashout.scansalespercent = cashout.scansalesamount / total*100;
+			} else {
+				cashout.menusalespercent = 0;
+				cashout.ecrsalespercent = 0;
+				cashout.scansalespercent = 0;
+			}
+			return cashout;
+		};
+		
+		function modifiedCashouts(input) {
+			var data = _.clone(input);
+			return _(data).chain()
+							.applyToValues(toFixed(2))
+							.extend(_.selectKeys(data, ['noofpayment','noofrefund']))
+							.value();
+		};
+		
 		var totalyesterday = cashouts.yesterday['menusalesamount'] + cashouts.yesterday['scansalesamount'] + cashouts.yesterday['ecrsalesamount'];
 		var totalmtd = cashouts.mtd['menusalesamount'] + cashouts.mtd['scansalesamount'] + cashouts.mtd['ecrsalesamount'];
 		var totalytd = cashouts.ytd['menusalesamount'] + cashouts.ytd['scansalesamount'] + cashouts.ytd['ecrsalesamount'];
@@ -91,6 +113,11 @@ function generalCashoutReportFetcher(view,db,id,runAfter){
 		cashouts.yesterday = appendCategorySalesPercent(totalyesterday, cashouts.yesterday);
 		cashouts.mtd = appendCategorySalesPercent(totalmtd, cashouts.mtd);
 		cashouts.ytd = appendCategorySalesPercent(totalytd, cashouts.ytd);
+
+		cashouts.yesterday = modifiedCashouts(cashouts.yesterday); 
+		cashouts.mtd = modifiedCashouts(cashouts.mtd);
+		cashouts.ytd = modifiedCashouts(cashouts.ytd);
+		
 		
 		runAfter(cashouts);	  
 	    });
@@ -141,17 +168,3 @@ function cashoutFetcher(ids,callback){
 	return generalCashoutReportArrayFetcher(transactionsView,transaction_db,ids,callback);
     }
 };
-
-function appendCategorySalesPercent(total, cashoutReport) {
-	var cashout = _.clone(cashoutReport);
-	if(total!=0) {
-		cashout.menusalespercent = (cashout.menusalesamount / total*100).toFixed(2);
-		cashout.ecrsalespercent = (cashout.ecrsalesamount / total*100).toFixed(2);
-		cashout.scansalespercent = (cashout.scansalesamount / total*100).toFixed(2);
-	} else {
-		cashout.menusalespercent = 0.00;
-		cashout.ecrsalespercent = 0.00;
-		cashout.scansalespercent = 0.00;
-	}
-	return cashout;
-}
