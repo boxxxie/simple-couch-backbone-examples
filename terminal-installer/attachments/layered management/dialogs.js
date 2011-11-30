@@ -10,7 +10,7 @@ function quickReportViewDialog (html,options) {
 	 width: 900,
 	 modal: true,
 	 buttons: {
-	     "Cancel": function() {
+	     "Close": function() {
 		 d.dialog('close');
 	     }
 	 }

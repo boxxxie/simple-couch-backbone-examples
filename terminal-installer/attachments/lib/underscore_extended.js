@@ -18,6 +18,12 @@ _.mixin({
 				    },{});}});
 
 _.mixin({
+	    /*applies a function over the values of an object*/
+	    applyToValues:function(obj,fn){
+		    return _(obj).chain().kv().map(function(pair){pair[1] = fn(pair[1]);return pair;}).toObject().value();
+		}});
+
+_.mixin({
 	    /*create an object with only the keys in the selected keys array arg
 	     * ({a:'a',b:'b'},['a']) -> {a:'a'}
 	     */
@@ -43,18 +49,8 @@ _.mixin({
 
 
 // unEscape a string for HTML interpolation.
-/*
- *   _.escape = function(string) {
- return (''+string)
- .replace(/&(?!\w+;|#\d+;|#x[\da-f]+;)/gi, '&amp;')
- .replace(/</g, '&lt;')
- .replace(/>/g, '&gt;')
- .replace(/"/g, '&quot;')
- .replace(/'/g, '&#x27;')
- .replace(/\//g,'&#x2F;');
- };
- * */
 _.mixin({
+	    //this function is in underscore.string
 	    unEscape : function(string) {
 		return (''+string)
 		    .replace(/&lt;/g,    '<')
@@ -76,9 +72,11 @@ _.mixin({isLastEmpty:function (array){
 _.mixin({isFirstEmpty:function (array){
 	     return _.isEmpty(_.first(array));
 	 }});
+
 _.mixin({isFirstNotEmpty:function (array){
 	     return !_.isEmpty(_.first(array));
 	 }});
+
 _.mixin({isLastNotEmpty:function (array){
 	     return !_.isEmpty(_.last(array));
 	 }});
