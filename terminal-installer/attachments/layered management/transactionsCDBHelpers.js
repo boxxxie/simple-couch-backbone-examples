@@ -81,25 +81,25 @@ function generalCashoutReportFetcher(view,db,id,runAfter){
 		}
 
 		function appendCategorySalesPercent(total, cashoutReport) {
-			var cashout = _.clone(cashoutReport);
-			if(total!=0) {
-				cashout.menusalespercent = cashout.menusalesamount / total*100;
-				cashout.ecrsalespercent = cashout.ecrsalesamount / total*100;
-				cashout.scansalespercent = cashout.scansalesamount / total*100;
-			} else {
-				cashout.menusalespercent = 0;
-				cashout.ecrsalespercent = 0;
-				cashout.scansalespercent = 0;
-			}
-			return cashout;
+		    var cashout = _.clone(cashoutReport);
+		    if(total!=0) {
+			cashout.menusalespercent = cashout.menusalesamount / total*100;
+			cashout.ecrsalespercent = cashout.ecrsalesamount / total*100;
+			cashout.scansalespercent = cashout.scansalesamount / total*100;
+		    } else {
+			cashout.menusalespercent = 0;
+			cashout.ecrsalespercent = 0;
+			cashout.scansalespercent = 0;
+		    }
+		    return cashout;
 		};
 		
 		function modifiedCashouts(input) {
-			var data = _.clone(input);
-			return _(data).chain()
-							.applyToValues(toFixed(2))
-							.extend(_.selectKeys(data, ['noofpayment','noofrefund']))
-							.value();
+		    var data = _.clone(input);
+		    return _(data).chain()
+			.applyToValues(toFixed(2))
+			.extend(_.selectKeys(data, ['noofpayment','noofrefund']))
+			.value();
 		};
 		
 		var totalyesterday = cashouts.yesterday['menusalesamount'] + cashouts.yesterday['scansalesamount'] + cashouts.yesterday['ecrsalesamount'];
