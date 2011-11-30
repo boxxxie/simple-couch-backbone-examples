@@ -95,36 +95,29 @@
       </button>
     </script>
     
-    <script id="viewButton_P" class="partial" type="text/html">
-      <button id="view-thing">
-	  View
-      </button>
-    </script>
-
-	<script id="quickViewButton_P" class="partial" type="text/html">
-      <button onclick=quickView() class="ui-state-default ui-corner-all">
+    <script id="quickReportViewButton_P" class="partial" type="text/html">
+      <button onclick="quickReportView('{{quickViewArgs}}');" class="ui-state-default ui-corner-all">
 	<span class="ui-button-text">
 	  View
 	</span>
       </button>
     </script>
     
-    <script id="quickViewHook_P" class="partial" type="text/html">
+    <script id="quickReportViewHook_P" class="partial" type="text/html">
       <div id="dialog-quickView" title="{{title}}"></div>
     </script>
     
     <script id="salesFields_P" class="partial" type="text/html">
       <form>
-	{{#sales}}
 	<dl>
 	  <dd>
+	    {{#sales}}
 	    <label>Yesterday's Sales: $</label><text>{{yesterdaysales}} |</text>
 	    <label>MTD Sales: $</label><text>{{mtdsales}} |</text>
 	    <label>YTD Sales: $</label><text>{{ytdsales}}</text>
-	    {{>quickViewButton_P}}
+	    {{/sales}}
 	  </dd>
 	</dl>
-	{{/sales}}
       </form>
     </script>
 
@@ -132,7 +125,7 @@
       <form>
 	<dl>
 	  <dd>
-	    <a href="#{{startPage}}/groups"><label># Of Groups</label>{{numberOfGroups}}</a>
+	    <a href="#{{startPage}}/groups"># Of Groups {{numberOfGroups}}</a>
 	  </dd>
 	</dl>
       </form>
@@ -142,7 +135,7 @@
       <form>
 	<dl>
 	  <dd>
-	    <a href="#{{startPage}}/stores"><label># Of Stores</label>{{numberOfStores}}</a>
+	    <a href="#{{startPage}}/stores"># Of Stores {{numberOfStores}}</a>
 	  </dd>
 	</dl>
       </form>
@@ -152,7 +145,7 @@
       <form>
 	<dl>
 	  <dd>
-	    <a href="#{{startPage}}/terminals"><label># Of Terminals</label>{{numberOfTerminals}}</a>
+	    <a href="#{{startPage}}/terminals"># Of Terminals {{numberOfTerminals}}</a>
 	  </dd>
 	</dl>
       </form>
@@ -160,87 +153,84 @@
 
     <!-------------------------------------------------- CASHOUT PART ---------------------------------------->
     <script id="netSales_P" class="partial" type="text/html">
-      {{#NetSales}}
       <tr>
-	<th>Net Sales</th>
-	<td>{{netSales}}</td>
+	<th align="left">Net Sales</th>
+	<td align="right">{{netsales}}</td>
       </tr>
       <tr>
-	<th>Total Tax 1</th>
-	<td>{{totalTax1}}</td>
+	<th align="left">Total Tax 1</th>
+	<td align="right">{{netsaletax1}}</td>
       </tr>
       <tr>
-	<th>Total Tax 3</th>
-	<td>{{totalTax3}}</td>
+	<th align="left">Total Tax 3</th>
+	<td align="right">{{netsaletax3}}</td>
       </tr>
       <tr>
-	<th>Total Sales</th>
-	<td>{{totalSales}}</td>
+	<th align="left">Total Sales</th>
+	<td align="right">{{netsalestotal}}</td>
       </tr>
-      {{/NetSales}}
     </script>
     
     <script id="netRefunds_P" class="partial" type="text/html">
       {{#NetRefunds}}
       <tr>
-	<th>Net Refunds</th>
-	<td>{{netRefunds}}</td>
+	<th align="left">Net Refunds</th>
+	<td align="right">{{netRefunds}}</td>
       </tr>
       <tr>
-	<th>Total Tax 1</th>
-	<td>{{totalTax1}}</td>
+	<th align="left">Total Tax 1</th>
+	<td align="right">{{totalTax1}}</td>
       </tr>
       <tr>
-	<th>Total Tax 3</th>
-	<td>{{totalTax3}}</td>
+	<th align="left">Total Tax 3</th>
+	<td align="right">{{totalTax3}}</td>
       </tr>
       <tr>
-	<th>Total Refunds</th>
-	<td>{{totalRefunds}}</td>
+	<th align="left">Total Refunds</th>
+	<td align="right">{{totalRefunds}}</td>
       </tr>
       {{/NetRefunds}}
     </script>
     
     <script id="netSaleActivity_P" class="partial" type="text/html">
       <tr>
-	<th>Net SALE ACTIVITY</th>
-	<td>{{NetSaleActivity}}</td>
+	<th align="left">Net SALE ACTIVITY</th>
+	<td align="right">{{NetSaleActivity}}</td>
       </tr>
     </script>
     
     <script id="paymentDetails_P" class="partial" type="text/html">
       {{#PaymentDetails}}
       <tr>
-	<th>PAYMENT/TENDER DETAILS</th>
-	<td></td>
+	<td colspan="2">PAYMENT/TENDER DETAILS</t>
       </tr>
       <tr>
-	<th>CASH</th>
-	<td>{{cash}}</td>
+	<th align="left">CASH</th>
+	<td align="right">{{cash}}</td>
       </tr>
       <tr>
-	<th>CREDIT CARD</th>
-	<td>{{creditcard}}</td>
+	<th align="left">CREDIT CARD</th>
+	<td align="right">{{creditcard}}</td>
       </tr>
       <tr>
-	<th>DEBIT CARD</th>
-	<td>{{debitcard}}</td>
+	<th align="left">DEBIT CARD</th>
+	<td align="right">{{debitcard}}</td>
       </tr>
       <tr>
-	<th>MOBILE</th>
-	<td>{{mobile}}</td>
+	<th align="left">MOBILE</th>
+	<td align="right">{{mobile}}</td>
       </tr>
       <tr>
-	<th>OTHER</th>
-	<td>{{other}}</td>
+	<th align="left">OTHER</th>
+	<td align="right">{{other}}</td>
       </tr>
       <tr>
-	<th>No. of Trans</th>
-	<td>{{numOfTrans}}</td>
+	<th align="left">No. of Trans</th>
+	<td align="right">{{numOfTrans}}</td>
       </tr>
       <tr>
-	<th>Avg Trans</th>
-	<td>{{avgTrans}}</td>
+	<th align="left">Avg Trans</th>
+	<td align="right">{{avgTrans}}</td>
       </tr>
       {{/PaymentDetails}}
     </script>
@@ -248,44 +238,43 @@
     <script id="refundDetails_P" class="partial" type="text/html">
       {{#RefundDetails}}
       <tr>
-	<th>REFUND/TENDER DETAILS</th>
-	<td></td>
+	<td colspan="2">REFUND/TENDER DETAILS</td>
       </tr>
       <tr>
-	<th>CASH</th>
-	<td>{{cash}}</td>
+	<th align="left">CASH</th>
+	<td align="right">{{cash}}</td>
       </tr>
       <tr>
-	<th>CREDIT CARD</th>
-	<td>{{creditcard}}</td>
+	<th align="left">CREDIT CARD</th>
+	<td align="right">{{creditcard}}</td>
       </tr>
       <tr>
-	<th>DEBIT CARD</th>
-	<td>{{debitcard}}</td>
+	<th align="left">DEBIT CARD</th>
+	<td align="right">{{debitcard}}</td>
       </tr>
       <tr>
-	<th>MOBILE</th>
-	<td>{{mobile}}</td>
+	<th align="left">MOBILE</th>
+	<td align="right">{{mobile}}</td>
       </tr>
       <tr>
-	<th>OTHER</th>
-	<td>{{other}}</td>
+	<th align="left">OTHER</th>
+	<td align="right">{{other}}</td>
       </tr>
       <tr>
-	<th>No. of Trans</th>
-	<td>{{noOfTrans}}</td>
+	<th align="left">No. of Trans</th>
+	<td align="right">{{noOfTrans}}</td>
       </tr>
       <tr>
-	<th>Avg Trans</th>
-	<td>{{avgTrans}}</td>
+	<th align="left">Avg Trans</th>
+	<td align="right">{{avgTrans}}</td>
       </tr>
       {{/RefundDetails}}
     </script>
     
     <script id="totalDiscount_P" class="partial" type="text/html">
       <tr>
-	<th>Total Discount</th>
-	<td>{{TotalDiscount}}</td>
+	<th align="left">Total Discount</th>
+	<td align="right">{{TotalDiscount}}</td>
       </tr>
     </script>
     
@@ -293,23 +282,23 @@
       {{#SalesByCategory}}
       <tr>
 	<th></th>
-	<td>Amount</td>
-	<td>%</td>
+	<td align="center">Amount</td>
+	<td align="center">%</td>
       </tr>
       <tr>
-	<th>Menu Sales</th>
-	<td>{{menuSalesAmt}}</td>
-	<td>{{menuSalesPct}}</td>
+	<th align="left">Menu Sales</th>
+	<td align="right">{{menuSalesAmt}}</td>
+	<td align="right">{{menuSalesPct}}</td>
       </tr>
       <tr>
-	<th>Scan Sales</th>
-	<td>{{scanSalesAmt}}</td>
-	<td>{{scanSalesPct}}</td>
+	<th align="left">Scan Sales</th>
+	<td align="right">{{scanSalesAmt}}</td>
+	<td align="right">{{scanSalesPct}}</td>
       </tr>
       <tr>
-	<th>ECR Sales</th>
-	<td>{{ecrSalesAmt}}</td>
-	<td>{{ecrSalesPct}}</td>
+	<th align="left">ECR Sales</th>
+	<td align="right">{{ecrSalesAmt}}</td>
+	<td align="right">{{ecrSalesPct}}</td>
       </tr>
       {{/SalesByCategory}}
     </script>
@@ -326,14 +315,15 @@
     </script>
     
     <script id="cashOutReportDialog_TMP" type="text/html">
+      <form>
 	<table border="1">
-	<tr>
+	  <tr>
 	    <th>YESTERDAY</th>
 	    <th>MTD</th>
 	    <th>YTD</th>
-	</tr>
-	<tr>
-		{{#yesterday}}
+	  </tr>
+	  <tr>
+	    {{#yesterday}}
 	    <td><table>{{>cashOutTable_P}}</table>
 	    </td>
 	    {{/yesterday}}
@@ -343,177 +333,178 @@
 	    {{#ytd}}
 	    <td><table>{{>cashOutTable_P}}</table></td>
 	    {{/ytd}}
-	    </tr>
-	</table>	
-	</script>      
-      
-      <!------------------------------------------------------- LAYER LOGIN------------------------------------------>
-      <script id="layerLogin_TMP" type="text/html">
-	<form id="ids_form">
-	  <h1>RT7 BACK OFFICE LOGIN</h1>
-	  <dl>
-	    COMPANY ID : <input type="text" var="company" class="{{>commonClasses_P}}" />
-	  </dl>
-	  <dl>
-	    GROUP ID : <input type="text" var="group" class="{{>commonClasses_P}}" />
-	  </dl>
-	  <dl>
-	    STORE ID : <input type="text" var="store" class="{{>commonClasses_P}}" />
-	  </dl>
-	  <dl>
-	    USER ID : <input type="text" var="user" class="{{>commonClasses_P}}" />
-	  </dl>
-	  <dl>
-	    PASSWORD : <input type="password" var="password" class="{{>commonClasses_P}}" />
-	  </dl>
-	</form>
-	{{>loginButton_P}}
-      </script>
-
-      <!------------------------------------  company management page TMP ------------------------------->
-      <script id="companyManagementPage_TMP" type="text/html">
-	<h1>Company Management</h1>
-	<h2>{{breadCrumb}}</h2>
-	{{>salesFields_P}} 
-	{{>numberOfGroupsFields_P}}
-	{{>numberOfStoresFields_P}}
-	{{>numberOfTerminalsFields_P}}
-	{{>AIR_Buttons_P}}
-	{{>logoutButton_P}}
-	{{>quickViewHook_P}}
-      </script>
-
-
-      <!------------------------------------  group management page TMP ------------------------------->
-      <script id="groupManagementPage_TMP" type="text/html">
-	<h1>Group Management</h1>
-	<h2>{{breadCrumb}}</h2>
-	{{>salesFields_P}} 
-	{{>numberOfTerminalsFields_P}}
-	{{>AIR_Buttons_P}}
-	{{>logoutButton_P}}
-	{{>quickViewHook_P}}
-      </script>
-
-      <!------------------------------------  store management page TMP ------------------------------->
-      <script id="storeManagementPage_TMP" type="text/html">
-	<h1>Store Management</h1>
-	<h2>{{breadCrumb}}</h2>
-	{{>salesFields_P}} 
-	{{>numberOfTerminalsFields_P}}
-	{{>AIR_Buttons_P}}
-	{{>logoutButton_P}}
-	{{>quickViewHook_P}}
-      </script>
-
-      <!------------------------------------- groups table TMP -------------------------------------------->
-      <script id="groupsTabel_TMP" type="text/html">
-	<h1>Groups Table</h1>
-	<h2>{{breadCrumb}}</h2>
-	<table border="1">
-	  <tr>
-	    <th>Company Name</th>
-	    <th>Group Name</th>
-	    <th># of Stores</th>
-	    <th># of Terminals</th>
-	    <th>Yesterday Sales</th>
-	    <th>MTD Sales</th>
-	    <th>YTD Sales</th>
-	    <th>Details</th>
 	  </tr>
-	  {{#list}}
-	  <tr>
-	    <td>{{operationalname}}</td>
-	    <td><a href="#{{startPage}}/group/{{group_id}}/stores">{{groupName}}</a></td>
-	    <td>{{numberOfStores}}</td>
-	    <td>{{numberOfTerminals}}</td>
-	    {{#sales}}
-	    <td>{{yesterdaysales}}</td>
-	    <td>{{mtdsales}}</td>
-	    <td>{{ytdsales}}</td>
-	    {{/sales}}
-	    <td>{{>quickViewButton_P}}</td>
-	  </tr>
-	  {{/list}}
 	</table>
-	{{>quickViewHook_P}}
-	{{>backButton_P}}
-	{{>menuButton_P}}
-      </script>
+      </form>
+    </script>      
+    
+    <!------------------------------------------------------- LAYER LOGIN------------------------------------------>
+    <script id="layerLogin_TMP" type="text/html">
+      <form id="ids_form">
+	<h1>RT7 BACK OFFICE LOGIN</h1>
+	<dl>
+	  COMPANY ID : <input type="text" var="company" class="{{>commonClasses_P}}" />
+	</dl>
+	<dl>
+	  GROUP ID : <input type="text" var="group" class="{{>commonClasses_P}}" />
+	</dl>
+	<dl>
+	  STORE ID : <input type="text" var="store" class="{{>commonClasses_P}}" />
+	</dl>
+	<dl>
+	  USER ID : <input type="text" var="user" class="{{>commonClasses_P}}" />
+	</dl>
+	<dl>
+	  PASSWORD : <input type="password" var="password" class="{{>commonClasses_P}}" />
+	</dl>
+      </form>
+      {{>loginButton_P}}
+    </script>
 
-      <!------------------------------------- stores table TMP -------------------------------------------->
-      <script id="storesTabel_TMP" type="text/html">
-	<h1>Stores Table</h1>
-	<h2>{{breadCrumb}}</h2>
-	<table border="1">
-	  <tr>
-	    <th>Company Name</th>
-	    <th>Group Name</th>
-	    <th>Store Name</th>
-	    <th>Store Number</th>
-	    <th># of Terminals</th>
-	    <th>Yesterday Sales</th>
-	    <th>MTD Sales</th>
-	    <th>YTD Sales</th>
-	    <th>Details</th>
-	  </tr>
-	  {{#list}}
-	  <tr>
-	    <td>{{operationalname}}</td>
-	    <td>{{groupName}}</td>
-	    <td><a href="#{{startPage}}/store/{{store_id}}/terminals">{{storeName}}</a></td>
-	    <td>{{storeNumber}}</td>
-	    <td>{{numberOfTerminals}}</td>
-	    {{#sales}}
-	    <td>{{yesterdaysales}}</td>
-	    <td>{{mtdsales}}</td>
-	    <td>{{ytdsales}}</td>
-	    <td>{{>quickViewButton_P}}</td>
-	    {{/sales}}
-	  </tr>
-	  {{/list}}
-	</table>
-	{{>quickViewHook_P}}
-	{{>backButton_P}}
-	{{>menuButton_P}}
-      </script> 
+    <!------------------------------------  company management page TMP ------------------------------->
+    <script id="companyManagementPage_TMP" type="text/html">
+      <h1>Company Management</h1>
+      <h2>{{breadCrumb}}</h2>
+      {{>salesFields_P}} {{>quickReportViewButton_P}}
+      {{>numberOfGroupsFields_P}}
+      {{>numberOfStoresFields_P}}
+      {{>numberOfTerminalsFields_P}}
+      {{>AIR_Buttons_P}}
+      {{>logoutButton_P}}
+      {{>quickReportViewHook_P}}
+    </script>
 
-      <!------------------------------------- terminals table TMP -------------------------------------------->
-      <script id="terminalsTabel_TMP" type="text/html">
-	<h1>Terminals Table</h1>
-	<h2>{{breadCrumb}}</h2>
-	<table border="1">
-	  <tr>
-	    <th>Company Name</th>
-	    <th>Group Name</th>
-	    <th>Store Name</th>
-	    <th>Store Number</th>
-	    <th>Terminal Name</th>
-	    <th>Yesterday Sales</th>
-	    <th>MTD Sales</th>
-	    <th>YTD Sales</th>
-	    <th>Details</th>
-	  </tr>
-	  {{#list}}
-	  <tr>
-	    <td>{{operationalname}}</td>
-	    <td>{{groupName}}</td>
-	    <td>{{storeName}}</td>
-	    <td>{{storeNumber}}</td>
-	    <td>{{terminalName}}</td>
-	    {{#sales}}
-	    <td>{{yesterdaysales}}</td>
-	    <td>{{mtdsales}}</td>
-	    <td>{{ytdsales}}</td>
-	    <td>{{>quickViewButton_P}}</td>
-	    {{/sales}}
-	  </tr>
-	  {{/list}}
-	</table>
-	{{>quickViewHook_P}}
-	{{>backButton_P}}
-	{{>menuButton_P}}
-      </script> 
+
+    <!------------------------------------  group management page TMP ------------------------------->
+    <script id="groupManagementPage_TMP" type="text/html">
+      <h1>Group Management</h1>
+      <h2>{{breadCrumb}}</h2>
+      {{>salesFields_P}}  {{>quickReportViewButton_P}}
+      {{>numberOfTerminalsFields_P}}
+      {{>AIR_Buttons_P}}
+      {{>logoutButton_P}}
+      {{>quickReportViewHook_P}}
+    </script>
+
+    <!------------------------------------  store management page TMP ------------------------------->
+    <script id="storeManagementPage_TMP" type="text/html">
+      <h1>Store Management</h1>
+      <h2>{{breadCrumb}}</h2>
+      {{>salesFields_P}} {{>quickReportViewButton_P}}
+      {{>numberOfTerminalsFields_P}}
+      {{>AIR_Buttons_P}}
+      {{>logoutButton_P}}
+      {{>quickReportViewHook_P}}
+    </script>
+
+    <!------------------------------------- groups table TMP -------------------------------------------->
+    <script id="groupsTabel_TMP" type="text/html">
+      <h1>Groups Table</h1>
+      <h2>{{breadCrumb}}</h2>
+      <table border="1">
+	<tr>
+	  <th>Company Name</th>
+	  <th>Group Name</th>
+	  <th># of Stores</th>
+	  <th># of Terminals</th>
+	  <th>Yesterday Sales</th>
+	  <th>MTD Sales</th>
+	  <th>YTD Sales</th>
+	  <th>Details</th>
+	</tr>
+	{{#list}}
+	<tr>
+	  <td>{{operationalname}}</td>
+	  <td><a href="#{{startPage}}/group/{{group_id}}/stores">{{groupName}}</a></td>
+	  <td>{{numberOfStores}}</td>
+	  <td>{{numberOfTerminals}}</td>
+	  {{#sales}}
+	  <td>{{yesterdaysales}}</td>
+	  <td>{{mtdsales}}</td>
+	  <td>{{ytdsales}}</td>
+	  {{/sales}}
+	  <td>{{>quickReportViewButton_P}}</td>
+	</tr>
+	{{/list}}
+      </table>
+      {{>quickReportViewHook_P}}
+      {{>backButton_P}}
+      {{>menuButton_P}}
+    </script>
+
+    <!------------------------------------- stores table TMP -------------------------------------------->
+    <script id="storesTabel_TMP" type="text/html">
+      <h1>Stores Table</h1>
+      <h2>{{breadCrumb}}</h2>
+      <table border="1">
+	<tr>
+	  <th>Company Name</th>
+	  <th>Group Name</th>
+	  <th>Store Name</th>
+	  <th>Store Number</th>
+	  <th># of Terminals</th>
+	  <th>Yesterday Sales</th>
+	  <th>MTD Sales</th>
+	  <th>YTD Sales</th>
+	  <th>Details</th>
+	</tr>
+	{{#list}}
+	<tr>
+	  <td>{{operationalname}}</td>
+	  <td>{{groupName}}</td>
+	  <td><a href="#{{startPage}}/store/{{store_id}}/terminals">{{storeName}}</a></td>
+	  <td>{{storeNumber}}</td>
+	  <td>{{numberOfTerminals}}</td>
+	  {{#sales}}
+	  <td>{{yesterdaysales}}</td>
+	  <td>{{mtdsales}}</td>
+	  <td>{{ytdsales}}</td>
+	  <td>{{>quickReportViewButton_P}}</td>
+	  {{/sales}}
+	</tr>
+	{{/list}}
+      </table>
+      {{>quickReportViewHook_P}}
+      {{>backButton_P}}
+      {{>menuButton_P}}
+    </script> 
+
+    <!------------------------------------- terminals table TMP -------------------------------------------->
+    <script id="terminalsTabel_TMP" type="text/html">
+      <h1>Terminals Table</h1>
+      <h2>{{breadCrumb}}</h2>
+      <table border="1">
+	<tr>
+	  <th>Company Name</th>
+	  <th>Group Name</th>
+	  <th>Store Name</th>
+	  <th>Store Number</th>
+	  <th>Terminal Name</th>
+	  <th>Yesterday Sales</th>
+	  <th>MTD Sales</th>
+	  <th>YTD Sales</th>
+	  <th>Details</th>
+	</tr>
+	{{#list}}
+	<tr>
+	  <td>{{operationalname}}</td>
+	  <td>{{groupName}}</td>
+	  <td>{{storeName}}</td>
+	  <td>{{storeNumber}}</td>
+	  <td>{{terminalName}}</td>
+	  {{#sales}}
+	  <td>{{yesterdaysales}}</td>
+	  <td>{{mtdsales}}</td>
+	  <td>{{ytdsales}}</td>
+	  <td>{{>quickReportViewButton_P}}</td>
+	  {{/sales}}
+	</tr>
+	{{/list}}
+      </table>
+      {{>quickReportViewHook_P}}
+      {{>backButton_P}}
+      {{>menuButton_P}}
+    </script> 
 
   </head>
   <body>
