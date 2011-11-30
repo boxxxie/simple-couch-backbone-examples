@@ -86,7 +86,7 @@ function getStoresTableParam(group_id) {
 	return _.extend({list: _.map(stores, function(store) {
 				var numberOfTerminals = _.size(store.terminals);
 				var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
-				return {operationalname:company.operationalname,
+				return {operationalname:company.companyName,
 					groupName:store.groupName,
 					store_id:store.store_id,
 					storeName:store.storeName,
@@ -101,7 +101,7 @@ function getStoresTableParam(group_id) {
 	return _.extend({list: _.map(stores, function(store) {
 				var numberOfTerminals = _.size(store.terminals);
 				var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
-				return {operationalname:ReportData.companyName,
+				return {operationalname:company.companyName,
 					groupName:group.groupName,
 					store_id:store.store_id,
 					storeName:store.storeName,

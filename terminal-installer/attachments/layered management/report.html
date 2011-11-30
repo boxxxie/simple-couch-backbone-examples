@@ -155,45 +155,45 @@
     <script id="netSales_P" class="partial" type="text/html">
       <tr>
 	<th align="left">Net Sales</th>
-	<td align="right">{{netsales}}</td>
+	<td colspan="2" align="right">{{netsales}}</td>
       </tr>
       <tr>
 	<th align="left">Total Tax 1</th>
-	<td align="right">{{netsaletax1}}</td>
+	<td colspan="2" align="right">{{netsaletax1}}</td>
       </tr>
       <tr>
 	<th align="left">Total Tax 3</th>
-	<td align="right">{{netsaletax3}}</td>
+	<td colspan="2" align="right">{{netsaletax3}}</td>
       </tr>
       <tr>
 	<th align="left">Total Sales</th>
-	<td align="right">{{netsalestotal}}</td>
+	<td colspan="2" align="right">{{netsalestotal}}</td>
       </tr>
     </script>
     
     <script id="netRefunds_P" class="partial" type="text/html">
       <tr>
 	<th align="left">Net Refunds</th>
-	<td align="right">{{netrefund}}</td>
+	<td colspan="2" align="right">{{netrefund}}</td>
       </tr>
       <tr>
 	<th align="left">Total Tax 1</th>
-	<td align="right">{{netrefundtax1}}</td>
+	<td colspan="2" align="right">{{netrefundtax1}}</td>
       </tr>
       <tr>
 	<th align="left">Total Tax 3</th>
-	<td align="right">{{netrefundtax3}}</td>
+	<td colspan="2" align="right">{{netrefundtax3}}</td>
       </tr>
       <tr>
 	<th align="left">Total Refunds</th>
-	<td align="right">{{netrefundtotal}}</td>
+	<td colspan="2" align="right">{{netrefundtotal}}</td>
       </tr>
     </script>
     
     <script id="netSaleActivity_P" class="partial" type="text/html">
       <tr>
 	<th align="left">Net SALE ACTIVITY</th>
-	<td align="right">{{netsaleactivity}}</td>
+	<td colspan="2" align="right">{{netsaleactivity}}</td>
       </tr>
     </script>
     
@@ -203,31 +203,31 @@
       </tr>
       <tr>
 	<th align="left">CASH</th>
-	<td align="right">{{cashpayment}}</td>
+	<td colspan="2" align="right">{{cashpayment}}</td>
       </tr>
       <tr>
 	<th align="left">CREDIT CARD</th>
-	<td align="right">{{creditpayment}}</td>
+	<td colspan="2" align="right">{{creditpayment}}</td>
       </tr>
       <tr>
 	<th align="left">DEBIT CARD</th>
-	<td align="right">{{debitpayment}}</td>
+	<td colspan="2" align="right">{{debitpayment}}</td>
       </tr>
       <tr>
 	<th align="left">MOBILE</th>
-	<td align="right">{{mobilepayment}}</td>
+	<td colspan="2" align="right">{{mobilepayment}}</td>
       </tr>
       <tr>
 	<th align="left">OTHER</th>
-	<td align="right">{{otherpayment}}</td>
+	<td colspan="2" align="right">{{otherpayment}}</td>
       </tr>
       <tr>
 	<th align="left">No. of Trans</th>
-	<td align="right">{{noofpayment}}</td>
+	<td colspan="2" align="right">{{noofpayment}}</td>
       </tr>
       <tr>
 	<th align="left">Avg Trans</th>
-	<td align="right">{{avgpayment}}</td>
+	<td colspan="2" align="right">{{avgpayment}}</td>
       </tr>
     </script>
     
@@ -237,46 +237,46 @@
       </tr>
       <tr>
 	<th align="left">CASH</th>
-	<td align="right">{{cashrefund}}</td>
+	<td colspan="2" align="right">{{cashrefund}}</td>
       </tr>
       <tr>
 	<th align="left">CREDIT CARD</th>
-	<td align="right">{{creditrefund}}</td>
+	<td colspan="2" align="right">{{creditrefund}}</td>
       </tr>
       <tr>
 	<th align="left">DEBIT CARD</th>
-	<td align="right">{{debitrefund}}</td>
+	<td colspan="2" align="right">{{debitrefund}}</td>
       </tr>
       <tr>
 	<th align="left">MOBILE</th>
-	<td align="right">{{mobilerefund}}</td>
+	<td colspan="2" align="right">{{mobilerefund}}</td>
       </tr>
       <tr>
 	<th align="left">OTHER</th>
-	<td align="right">{{otherrefund}}</td>
+	<td colspan="2" align="right">{{otherrefund}}</td>
       </tr>
       <tr>
 	<th align="left">No. of Trans</th>
-	<td align="right">{{noofrefund}}</td>
+	<td colspan="2" align="right">{{noofrefund}}</td>
       </tr>
       <tr>
 	<th align="left">Avg Trans</th>
-	<td align="right">{{avgrefund}}</td>
+	<td colspan="2" align="right">{{avgrefund}}</td>
       </tr>
     </script>
     
     <script id="totalDiscount_P" class="partial" type="text/html">
       <tr>
 	<th align="left">Total Discount</th>
-	<td align="right">{{allDiscount}}</td>
+	<td colspan="2" align="right">{{allDiscount}}</td>
       </tr>
     </script>
     
     <script id="salesByCategory_P" class="partial" type="text/html">
       <tr>
 	<th></th>
-	<td align="center">Amount</td>
-	<td align="center">%</td>
+	<td align="right">Amount</td>
+	<td align="right">%</td>
       </tr>
       <tr>
 	<th align="left">Menu Sales</th>
@@ -372,6 +372,7 @@
       <h1>Group Management</h1>
       <h2>{{breadCrumb}}</h2>
       {{>salesFields_P}}  {{>quickReportViewButton_P}}
+      {{>numberOfStoresFields_P}}
       {{>numberOfTerminalsFields_P}}
       {{>AIR_Buttons_P}}
       {{>logoutButton_P}}
@@ -393,6 +394,7 @@
     <script id="groupsTabel_TMP" type="text/html">
       <h1>Groups Table</h1>
       <h2>{{breadCrumb}}</h2>
+      {{>salesFields_P}}
       <table border="1">
 	<tr>
 	  <th>Company Name</th>
@@ -411,9 +413,9 @@
 	  <td>{{numberOfStores}}</td>
 	  <td>{{numberOfTerminals}}</td>
 	  {{#sales}}
-	  <td>{{yesterdaysales}}</td>
-	  <td>{{mtdsales}}</td>
-	  <td>{{ytdsales}}</td>
+	  <td align="right">{{yesterdaysales}}</td>
+	  <td align="right">{{mtdsales}}</td>
+	  <td align="right">{{ytdsales}}</td>
 	  {{/sales}}
 	  <td>{{>quickReportViewButton_P}}</td>
 	</tr>
@@ -428,6 +430,7 @@
     <script id="storesTabel_TMP" type="text/html">
       <h1>Stores Table</h1>
       <h2>{{breadCrumb}}</h2>
+      {{>salesFields_P}}
       <table border="1">
 	<tr>
 	  <th>Company Name</th>
@@ -448,9 +451,9 @@
 	  <td>{{storeNumber}}</td>
 	  <td>{{numberOfTerminals}}</td>
 	  {{#sales}}
-	  <td>{{yesterdaysales}}</td>
-	  <td>{{mtdsales}}</td>
-	  <td>{{ytdsales}}</td>
+	  <td align="right">{{yesterdaysales}}</td>
+	  <td align="right">{{mtdsales}}</td>
+	  <td align="right">{{ytdsales}}</td>
 	  {{/sales}}
 	  <td>{{>quickReportViewButton_P}}</td>
 	</tr>
@@ -465,6 +468,7 @@
     <script id="terminalsTabel_TMP" type="text/html">
       <h1>Terminals Table</h1>
       <h2>{{breadCrumb}}</h2>
+      {{>salesFields_P}}
       <table border="1">
 	<tr>
 	  <th>Company Name</th>
@@ -485,9 +489,9 @@
 	  <td>{{storeNumber}}</td>
 	  <td>{{terminalName}}</td>
 	  {{#sales}}
-	  <td>{{yesterdaysales}}</td>
-	  <td>{{mtdsales}}</td>
-	  <td>{{ytdsales}}</td>
+	  <td align="right">{{yesterdaysales}}</td>
+	  <td align="right">{{mtdsales}}</td>
+	  <td align="right">{{ytdsales}}</td>
 	  {{/sales}}
 	  <td>{{>quickReportViewButton_P}}</td>
 	</tr>

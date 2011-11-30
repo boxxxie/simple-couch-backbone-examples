@@ -68,9 +68,67 @@ function generalCashoutReportFetcher(view,db,id,runAfter){
 	    },
 	    function(err,report){
 		var cashouts = {};
-		cashouts.yesterday = (_.first(report.yesterday.rows)? _.first(report.yesterday.rows).value:null);
-		cashouts.mtd = (_.first(report.month.rows)? _.first(report.month.rows).value:null);
-		cashouts.ytd = (_.first(report.year.rows)? _.first(report.year.rows).value:null);
+//		var results = {yesterday:{}, mtd:{}, ytd:{}};
+		
+		cashouts.yesterday = (_.first(report.yesterday.rows)? _.first(report.yesterday.rows).value:CashoutFormatData);
+		cashouts.mtd = (_.first(report.month.rows)? _.first(report.month.rows).value:CashoutFormatData);
+		cashouts.ytd = (_.first(report.year.rows)? _.first(report.year.rows).value:CashoutFormatData);
+
+		var totalyesterday = cashouts.yesterday['menusalesamount'] + cashouts.yesterday['scansalesamount'] + cashouts.yesterday['ecrsalesamount'];
+		var totalmtd = cashouts.mtd['menusalesamount'] + cashouts.mtd['scansalesamount'] + cashouts.mtd['ecrsalesamount'];
+		var totalytd = cashouts.ytd['menusalesamount'] + cashouts.ytd['scansalesamount'] + cashouts.ytd['ecrsalesamount'];
+/*				
+		for(var prop in cashouts.yesterday){
+			var substr1 = prop.substring(0,2);
+			var substr2 = prop.substring(prop.length-2, prop.length);
+			var substr3 = prop.substring(prop.length-7, prop.length);
+			
+			if(substr3=="percent") {
+				if(totalyesterday!=0) results.yesterday[prop] = (cashouts.yesterday[prop.substring(prop.length-7, 0)+"amount"]/totalyesterday*100).toFixed(2);
+				else results.yesterday[prop] = 0.00;
+			} else {
+				results.yesterday[prop] = (substr1=="no" || substr2=="no")?cashouts.yesterday[prop]:cashouts.yesterday[prop].toFixed(2);
+			}
+		}
+		for(var prop in cashouts.mtd){
+			var substr1 = prop.substring(0,2);
+			var substr2 = prop.substring(prop.length-2, prop.length);
+			var substr3 = prop.substring(prop.length-7, prop.length);
+			
+			if(substr3=="percent") {
+				if(totalmtd!=0) results.mtd[prop] = (cashouts.mtd[prop.substring(prop.length-7, 0)+"amount"]/totalmtd*100).toFixed(2);
+				else results.mtd[prop] = 0.00;				 
+			} else {
+				results.mtd[prop] = (substr1=="no" || substr2=="no")?cashouts.mtd[prop]:cashouts.mtd[prop].toFixed(2);
+			}
+			
+		}
+		for(var prop in cashouts.ytd){
+			var substr1 = prop.substring(0,2);
+			var substr2 = prop.substring(prop.length-2, prop.length);
+			var substr3 = prop.substring(prop.length-7, prop.length);
+			
+			if("/percent$/.test(substr3)=="percent") {
+				if(totalytd!=0) results.ytd[prop] = (cashouts.ytd[prop.substring(prop.length-7, 0)+"amount"]/totalytd*100).toFixed(2);
+				else results.ytd[prop] = 0.00;				 
+			} else {
+				results.ytd[prop] = (substr1=="no" || substr2=="no")?cashouts.ytd[prop]:cashouts.ytd[prop].toFixed(2);
+			}
+		}
+*/
+		var yesterdaytotal = _(cashouts.yesterday).chain()
+												.selectKeys(['menusalesamount', 'scansalesamount', 'ecrsalesamount'])
+												.flatten()
+												.reduce(function (init, amount){
+													return init + amount;}, 0)
+												.value();
+												
+												
+		cashouts.yesterday = appendCategorySalesPercent(totalyesterday, cashouts.yesterday);
+		cashouts.mtd = appendCategorySalesPercent(totalmtd, cashouts.mtd);
+		cashouts.ytd = appendCategorySalesPercent(totalytd, cashouts.ytd);
+		//menu_sales_% = _.selectKeys(['menu_sales','scan','ecr']).reduce(fn,menu_sales)	
+		
 		runAfter(cashouts);	  
 	    });
 };
@@ -120,3 +178,17 @@ function cashoutFetcher(ids,callback){
 	return generalCashoutReportArrayFetcher(transactionsView,transaction_db,ids,callback);
     }
 };
+
+function appendCategorySalesPercent(total, obj) {
+	var cashout = _.clone(obj);
+	if(total!=0) {
+		cashout.menusalespercent = (cashout.menusalesamount / total*100).toFixed(2);
+		cashout.ecrsalespercent = (cashout.ecrsalesamount / total*100).toFixed(2);
+		cashout.scansalespercent = (cashout.scansalesamount / total*100).toFixed(2);
+	} else {
+		cashout.menusalespercent = 0.00;
+		cashout.ecrsalespercent = 0.00;
+		cashout.scansalespercent = 0.00;
+	}
+	return cashout;
+}

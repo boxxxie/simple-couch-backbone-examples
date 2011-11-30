@@ -81,7 +81,21 @@ var companyReportView =
 	     
 	     extractSalesDataFromIds(param.list,'group_id',function(transformedGroups){
 					 param.list = transformedGroups;
-					 _.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname});
+					 var sales = _.pluck(param.list,'sales');
+					 _.extend(param, 
+					 	{breadCrumb:"Company : " + ReportData.company.operationalname},
+					 	{sales:{yesterdaysales:_(sales).chain()
+				 										.pluck(['yesterdaysales'])
+				 										.reduce(function(init, amt){return init+Number(amt)},0)
+				 										.value(),
+					 			mtdsales:_(sales).chain()
+			 										.pluck(['mtdsales'])
+			 										.reduce(function(init, amt){return init+Number(amt)},0)
+			 										.value(),
+					 			ytdsales:_(sales).chain()
+			 										.pluck(['ytdsales'])
+			 										.reduce(function(init, amt){return init+Number(amt)},0)
+			 										.value()}});
 					 var html = ich.groupsTabel_TMP(param);
 					 $("body").html(html);
 					 console.log("companyReportView renderGroupsTable");
@@ -93,7 +107,20 @@ var companyReportView =
 	     
 	     extractSalesDataFromIds(param.list,'store_id',function(transformedStores){
 					 param.list = transformedStores;
-					 _.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname});
+					 var sales = _.pluck(param.list,'sales');
+					 _.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname},
+					 	{sales:{yesterdaysales:_(sales).chain()
+				 										.pluck(['yesterdaysales'])
+				 										.reduce(function(init, amt){return init+Number(amt)},0)
+				 										.value(),
+					 			mtdsales:_(sales).chain()
+			 										.pluck(['mtdsales'])
+			 										.reduce(function(init, amt){return init+Number(amt)},0)
+			 										.value(),
+					 			ytdsales:_(sales).chain()
+			 										.pluck(['ytdsales'])
+			 										.reduce(function(init, amt){return init+Number(amt)},0)
+			 										.value()}});
 					 var html = ich.storesTabel_TMP(param);
 					 $("body").html(html);
 					 console.log("companyReportView renderStoresTable");
@@ -105,7 +132,20 @@ var companyReportView =
 	     
 	     extractSalesDataFromIds(param.list,'terminal_id',function(transformedTerminals){
 					 param.list = transformedTerminals;
-					 _.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname});
+					 var sales = _.pluck(param.list,'sales');
+					 _.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname},
+					 	{sales:{yesterdaysales:_(sales).chain()
+				 										.pluck(['yesterdaysales'])
+				 										.reduce(function(init, amt){return init+Number(amt)},0)
+				 										.value(),
+					 			mtdsales:_(sales).chain()
+			 										.pluck(['mtdsales'])
+			 										.reduce(function(init, amt){return init+Number(amt)},0)
+			 										.value(),
+					 			ytdsales:_(sales).chain()
+			 										.pluck(['ytdsales'])
+			 										.reduce(function(init, amt){return init+Number(amt)},0)
+			 										.value()}});
 					 var html = ich.terminalsTabel_TMP(param);
 					 $("body").html(html);
 					 console.log("companyReportView renderTerminalsTable");

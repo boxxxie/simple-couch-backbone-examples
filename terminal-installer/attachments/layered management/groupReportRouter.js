@@ -68,7 +68,7 @@ var groupReportView =
 	     
 	     extractSalesDataFromIds(param.list,'store_id',function(transformedStores){
 					 param.list = transformedStores;
-					 _.extend(param, {breadCrumb:"Company : " + ReportData});
+					 _.extend(param, {breadCrumb:"Company : " + ReportData.companyName});
 					 var html = ich.storesTabel_TMP(param);
 					 $("body").html(html);
 					 console.log("groupReportView renderStoresTable");
