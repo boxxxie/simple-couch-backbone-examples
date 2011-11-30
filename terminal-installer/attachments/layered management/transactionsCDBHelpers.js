@@ -80,10 +80,6 @@ function generalCashoutReportFetcher(view,db,id,runAfter){
 		    };
 		}
 
-		cashouts.yesterday = _.applyToValues(cashouts.yesterday,toFixed(2));
-		cashouts.mtd = _.applyToValues(cashouts.mtd,toFixed(2));
-		cashouts.ytd = _.applyToValues(cashouts.ytd,toFixed(2));
-
 		function appendCategorySalesPercent(total, cashoutReport) {
 			var cashout = _.clone(cashoutReport);
 			if(total!=0) {
