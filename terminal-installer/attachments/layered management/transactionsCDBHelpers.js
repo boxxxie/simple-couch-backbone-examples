@@ -37,7 +37,7 @@ function generalSalesReportFetcher(view,db,id,runAfter){
 	    return total + cur.value.sum;
 	}
 	var sales = 0;
-	_.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows): sales = 0;
+	_.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows).value.sum: sales = 0;
 	return sales;
     }
     var d = relative_dates();
@@ -68,9 +68,9 @@ function generalCashoutReportFetcher(view,db,id,runAfter){
 	    },
 	    function(err,report){
 		var cashouts = {};
-		cashouts.yesterday = _.first(report.yesterday.rows);
-		cashouts.mtd = _.first(report.month.rows);
-		cashouts.ytd = _.first(report.year.rows);
+		cashouts.yesterday = (_.first(report.yesterday.rows)? _.first(report.yesterday.rows).value:null);
+		cashouts.mtd = (_.first(report.month.rows)? _.first(report.month.rows).value:null);
+		cashouts.ytd = (_.first(report.year.rows)? _.first(report.year.rows).value:null);
 		runAfter(cashouts);	  
 	    });
 };
