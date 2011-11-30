@@ -76,14 +76,15 @@ function generalCashoutReportFetcher(view,db,id,runAfter){
 		var totalyesterday = cashouts.yesterday['menusalesamount'] + cashouts.yesterday['scansalesamount'] + cashouts.yesterday['ecrsalesamount'];
 		var totalmtd = cashouts.mtd['menusalesamount'] + cashouts.mtd['scansalesamount'] + cashouts.mtd['ecrsalesamount'];
 		var totalytd = cashouts.ytd['menusalesamount'] + cashouts.ytd['scansalesamount'] + cashouts.ytd['ecrsalesamount'];
-		
+
+/*		
 		var yesterdaytotal = _(cashouts.yesterday).chain()
 		    .selectKeys(['menusalesamount', 'scansalesamount', 'ecrsalesamount'])
 		    .flatten()
 		    .reduce(function (init, amount){
 				return init + amount;}, 0)
 		    .value();
-		
+*/		
 		
 		cashouts.yesterday = appendCategorySalesPercent(totalyesterday, cashouts.yesterday);
 		cashouts.mtd = appendCategorySalesPercent(totalmtd, cashouts.mtd);

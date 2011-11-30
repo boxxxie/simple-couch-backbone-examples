@@ -55,30 +55,35 @@
     </script>
     
     <script id="adminButton_P" class="partial" type="text/html">
-      <button  class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
+   <!--   <button  class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
 	       onClick="">
 	<span class="ui-button-text">Administration</span>
-      </button>
+   </button> -->
+   <a href="">Administration</a>
     </script>
     
     <script id="inventoryButton_P" class="partial" type="text/html">
-      <button  class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
+      <!-- <button  class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
 	       onClick="">
 	<span class="ui-button-text">Inventory</span>
-      </button>
+      </button> -->
+      <a href="">Inventory</a>
     </script>
 
     <script id="reportsButton_P" class="partial" type="text/html">
-      <button  class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
+     <!--  <button  class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
 	       onClick="">
 	<span class="ui-button-text">Reports</span>
-      </button>
+     </button> -->
+     <a href="">Reports</a>
     </script>
     
     <script id="AIR_Buttons_P" class="partial" type="text/html">
-      {{>adminButton_P}}
-      {{>inventoryButton_P}}
-      {{>reportsButton_P}}
+    	<br>
+    	Menues<br><br>
+      1. {{>adminButton_P}}<br>
+      2. {{>inventoryButton_P}}<br>
+      3. {{>reportsButton_P}}<br>
     </script>
 
     <script id="backButton_P" class="partial" type="text/html">
@@ -109,45 +114,34 @@
     
     <script id="salesFields_P" class="partial" type="text/html">
       <form>
-	<dl>
-	  <dd>
+      	<br><br>
 	    {{#sales}}
 	    <label>Yesterday's Sales: $</label><text>{{yesterdaysales}} |</text>
 	    <label>MTD Sales: $</label><text>{{mtdsales}} |</text>
 	    <label>YTD Sales: $</label><text>{{ytdsales}}</text>
 	    {{/sales}}
-	  </dd>
-	</dl>
       </form>
     </script>
 
     <script id="numberOfGroupsFields_P" class="partial" type="text/html">
       <form>
-	<dl>
-	  <dd>
+      	<label>-----------------------------------------------------------------------</label>
+      	<br>
 	    <a href="#{{startPage}}/groups"># Of Groups {{numberOfGroups}}</a>
-	  </dd>
-	</dl>
       </form>
     </script>
 
     <script id="numberOfStoresFields_P" class="partial" type="text/html">
       <form>
-	<dl>
-	  <dd>
 	    <a href="#{{startPage}}/stores"># Of Stores {{numberOfStores}}</a>
-	  </dd>
-	</dl>
       </form>
     </script>
 
     <script id="numberOfTerminalsFields_P" class="partial" type="text/html">
       <form>
-	<dl>
-	  <dd>
 	    <a href="#{{startPage}}/terminals"># Of Terminals {{numberOfTerminals}}</a>
-	  </dd>
-	</dl>
+	    <br>
+	    <label>-----------------------------------------------------------------------</label>
       </form>
     </script>
 
@@ -362,6 +356,7 @@
   {{>numberOfStoresFields_P}}
   {{>numberOfTerminalsFields_P}}
   {{>AIR_Buttons_P}}
+  <br>
   {{>logoutButton_P}}
   {{>quickReportViewHook_P}}
 </script>
@@ -375,6 +370,7 @@
   {{>numberOfStoresFields_P}}
   {{>numberOfTerminalsFields_P}}
   {{>AIR_Buttons_P}}
+  <br>
   {{>logoutButton_P}}
   {{>quickReportViewHook_P}}
 </script>
@@ -386,6 +382,7 @@
   {{>salesFields_P}} {{>quickReportViewButton_P}}
   {{>numberOfTerminalsFields_P}}
   {{>AIR_Buttons_P}}
+  <br>
   {{>logoutButton_P}}
   {{>quickReportViewHook_P}}
 </script>
