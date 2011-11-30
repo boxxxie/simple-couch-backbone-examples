@@ -92,7 +92,7 @@
     <script id="quickReportViewButton_P" class="partial" type="text/html">
       <button onclick="quickReportView('{{quickViewArgs}}');" class="ui-state-default ui-corner-all">
 	<span class="ui-button-text">
-	  View
+	  Details
 	</span>
       </button>
     </script>
@@ -320,7 +320,10 @@
     <script id="companyManagementPage_TMP" type="text/html">
       <h1>Company Management</h1>
       <h2>{{breadCrumb}}</h2>
-      {{>salesFields_P}} {{>quickReportViewButton_P}}
+      <ul>
+	<li>{{>salesFields_P}}</li>
+	<li>{{>quickReportViewButton_P}}</li>
+      </ul>
       <label>-----------------------------------------------------------------------</label>
       <ul>
 	<li>{{>numberOfGroupsFields_P}}</li>
@@ -338,7 +341,10 @@
     <script id="groupManagementPage_TMP" type="text/html">
       <h1>Group Management</h1>
       <h2>{{breadCrumb}}</h2>
-      {{>salesFields_P}}  {{>quickReportViewButton_P}}
+      <ul>
+	<li>{{>salesFields_P}}</li>
+	<li>{{>quickReportViewButton_P}}</li>
+      </ul>
       <label>-----------------------------------------------------------------------</label>
       <ul>
 	<li>{{>numberOfStoresFields_P}}</li>
@@ -354,7 +360,10 @@
     <script id="storeManagementPage_TMP" type="text/html">
       <h1>Store Management</h1>
       <h2>{{breadCrumb}}</h2>
-      {{>salesFields_P}} {{>quickReportViewButton_P}}
+      <ul>
+	<li>{{>salesFields_P}}</li>
+	<li>{{>quickReportViewButton_P}}</li>
+      </ul>
       <label>-----------------------------------------------------------------------</label>
       <ul>
 	<li>{{>numberOfTerminalsFields_P}}</li>
@@ -476,7 +485,6 @@
       {{>backButton_P}}
       {{>menuButton_P}}
     </script> 
-
   </head>
   <body>
   </body>
