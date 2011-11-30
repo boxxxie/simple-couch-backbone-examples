@@ -36,9 +36,9 @@ function generalSalesReportFetcher(view,db,id,runAfter){
 	function sum(total,cur){
 	    return total + cur.value.sum;
 	}
-	var sales,refunds = 0;
-	_.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows,sum,0): sales = 0;
-	return sales - refunds;
+	var sales = 0;
+	_.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows): sales = 0;
+	return sales;
     }
     var d = relative_dates();
     async
