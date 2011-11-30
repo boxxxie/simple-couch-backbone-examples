@@ -67,15 +67,15 @@ var storeReportView = Backbone.View.extend(
 					 	{sales:{yesterdaysales:_(sales).chain()
 				 										.pluck(['yesterdaysales'])
 				 										.reduce(function(init, amt){return init+Number(amt)},0)
-				 										.value(),
+				 										.value().toFixed(2),
 					 			mtdsales:_(sales).chain()
 			 										.pluck(['mtdsales'])
 			 										.reduce(function(init, amt){return init+Number(amt)},0)
-			 										.value(),
+			 										.value().toFixed(2),
 					 			ytdsales:_(sales).chain()
 			 										.pluck(['ytdsales'])
 			 										.reduce(function(init, amt){return init+Number(amt)},0)
-			 										.value()}});
+			 										.value().toFixed(2)}});
 				     var html = ich.terminalsTabel_TMP(param);
 				     $("body").html(html);
 				     console.log("storeReportView renderTerminalsTable");
