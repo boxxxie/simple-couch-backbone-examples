@@ -6,7 +6,7 @@ function typedTransactionRangeQuery(view,db,base){
 	var endKey = base.concat(endDate);
 	var options = {
 	    reduce:true,
-	    group_level:_.size(endKey),
+	    //group_level:_.size(endKey),
 	    startkey:startKey,
 	    endkey:endKey
 	};
