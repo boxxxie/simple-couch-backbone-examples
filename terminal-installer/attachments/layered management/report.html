@@ -114,7 +114,7 @@
     
     <script id="salesFields_P" class="partial" type="text/html">
       <form>
-      	<br><br>
+      	<br>
 	    {{#sales}}
 	    <label>Yesterday's Sales: $</label><text>{{yesterdaysales}} |</text>
 	    <label>MTD Sales: $</label><text>{{mtdsales}} |</text>
@@ -125,8 +125,7 @@
 
     <script id="numberOfGroupsFields_P" class="partial" type="text/html">
       <form>
-      	<label>-----------------------------------------------------------------------</label>
-      	<br>
+      	
 	    <a href="#{{startPage}}/groups"># Of Groups {{numberOfGroups}}</a>
       </form>
     </script>
@@ -140,8 +139,6 @@
     <script id="numberOfTerminalsFields_P" class="partial" type="text/html">
       <form>
 	    <a href="#{{startPage}}/terminals"># Of Terminals {{numberOfTerminals}}</a>
-	    <br>
-	    <label>-----------------------------------------------------------------------</label>
       </form>
     </script>
 
@@ -352,9 +349,11 @@
   <h1>Company Management</h1>
   <h2>{{breadCrumb}}</h2>
   {{>salesFields_P}} {{>quickReportViewButton_P}}
+  <br><label>-----------------------------------------------------------------------</label><br>
   {{>numberOfGroupsFields_P}}
   {{>numberOfStoresFields_P}}
   {{>numberOfTerminalsFields_P}}
+  <label>-----------------------------------------------------------------------</label><br>
   {{>AIR_Buttons_P}}
   <br>
   {{>logoutButton_P}}
@@ -367,8 +366,10 @@
   <h1>Group Management</h1>
   <h2>{{breadCrumb}}</h2>
   {{>salesFields_P}}  {{>quickReportViewButton_P}}
+  <br><label>-----------------------------------------------------------------------</label><br>
   {{>numberOfStoresFields_P}}
   {{>numberOfTerminalsFields_P}}
+  <label>-----------------------------------------------------------------------</label><br>
   {{>AIR_Buttons_P}}
   <br>
   {{>logoutButton_P}}
@@ -380,7 +381,9 @@
   <h1>Store Management</h1>
   <h2>{{breadCrumb}}</h2>
   {{>salesFields_P}} {{>quickReportViewButton_P}}
+  <br><label>-----------------------------------------------------------------------</label><br>
   {{>numberOfTerminalsFields_P}}
+  <label>-----------------------------------------------------------------------</label>
   {{>AIR_Buttons_P}}
   <br>
   {{>logoutButton_P}}
