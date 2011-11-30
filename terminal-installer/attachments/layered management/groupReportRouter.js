@@ -69,7 +69,7 @@ var groupReportView =
 	     extractSalesDataFromIds(param.list,'store_id',function(transformedStores){
 					 param.list = transformedStores;
 					 var sales = _.pluck(param.list,'sales');
-					 _.extend(param, {breadCrumb:"Company : " + ReportData.companyName},
+					 _.extend(param, {breadCrumb:"Company : " + ReportData.companyName + ", Group : " + ReportData.group.groupName},
 					 	{sales:{yesterdaysales:_(sales).chain()
 				 										.pluck(['yesterdaysales'])
 				 										.reduce(function(init, amt){return init+Number(amt)},0)
@@ -94,7 +94,7 @@ var groupReportView =
 	     extractSalesDataFromIds(param.list,'terminal_id',function(transformedTerminals){
 					 param.list = transformedTerminals;
 					 var sales = _.pluck(param.list,'sales');
-					 _.extend(param, {breadCrumb:"Company : " + ReportData.companyName},
+					 _.extend(param, {breadCrumb:"Company : " + ReportData.companyName + ", Group : " + ReportData.group.groupName},
 					 	{sales:{yesterdaysales:_(sales).chain()
 				 										.pluck(['yesterdaysales'])
 				 										.reduce(function(init, amt){return init+Number(amt)},0)

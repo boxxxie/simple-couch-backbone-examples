@@ -91,7 +91,6 @@ function generalCashoutReportFetcher(view,db,id,runAfter){
 		cashouts.yesterday = appendCategorySalesPercent(totalyesterday, cashouts.yesterday);
 		cashouts.mtd = appendCategorySalesPercent(totalmtd, cashouts.mtd);
 		cashouts.ytd = appendCategorySalesPercent(totalytd, cashouts.ytd);
-		//menu_sales_% = _.selectKeys(['menu_sales','scan','ecr']).reduce(fn,menu_sales)	
 		
 		runAfter(cashouts);	  
 	    });
