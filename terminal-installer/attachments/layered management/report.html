@@ -90,7 +90,9 @@
     </script>
     
     <script id="quickReportViewButton_P" class="partial" type="text/html">
-      <button onclick="quickReportView('{{quickViewArgs}}');" class="ui-state-default ui-corner-all">
+    	{{#quickViewArgs}}
+      <button onclick="quickReportView('{{id}}','{{title}}');" class="ui-state-default ui-corner-all">
+      	{{/quickViewArgs}}
 	<span class="ui-button-text">
 	  View
 	</span>
@@ -306,6 +308,18 @@
 	</table>
       </form>
     </script>      
+
+
+	<!---------------------------------------------- Menu Reports --------------------------------------------->
+	<script id="dateChooser_P" class="partial" type="text/html">
+      <br/>
+      <label>Report Date : </label>
+      <br/>
+      <label>From : </label><text>{{mtdsales}} |</text>
+      <label>To: </label><text>{{ytdsales}}</text>
+    </script>
+
+
 
     <!------------------------------------------------------- LAYER LOGIN------------------------------------------>
     <script id="layerLogin_TMP" type="text/html">

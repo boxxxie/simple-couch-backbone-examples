@@ -13,18 +13,18 @@ function quickReportViewDialog (html,options) {
 	     "Close": function() {
 		 d.dialog('close');
 	     }
-	 }
+	 },
+	 title:options.title
 	},_.clone(options));
     
     d.dialog(dialogOptions);
     d.dialog("open");
 };
 
-
-function quickReportView(id){
+function quickReportView(id, title){
     cashoutFetcher(id,
     		      function(for_TMP){
     			    var html = ich.cashOutReportDialog_TMP(for_TMP);
-    			    quickReportViewDialog(html);
+    			    quickReportViewDialog(html,_.extend({title:title}));
     		      });
 }
