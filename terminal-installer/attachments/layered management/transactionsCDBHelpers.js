@@ -144,12 +144,8 @@ function generalCashoutReportArrayFetcher(view,db,ids,runAfter){
 function transactionsSalesFetcher(ids,callback){
     var transactionsView = cdb.view('reporting','netsaleactivity');
     var transaction_db = cdb.db('cashouts');
-    if(!_.isArray(ids)){
-	return generalSalesReportFetcher(transactionsView,transaction_db,ids,callback);
-    }
-    else{
-	return generalSalesReportArrayFetcher(transactionsView,transaction_db,ids,callback);
-    }
+    if(!_.isArray(ids)){ids = [ids];}
+    return generalSalesReportArrayFetcher(transactionsView,transaction_db,ids,callback);
 };
 
 function cashoutFetcher(ids,callback){

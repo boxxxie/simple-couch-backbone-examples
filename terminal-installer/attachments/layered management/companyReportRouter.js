@@ -101,19 +101,10 @@ var companyReportView =
 		       });
 	 },
 	 renderCompanyReport: function() {
-	    /* generalReportRenderer(this,getReportParam(),'companyManagementPage_TMP','_id')(function(){$("dialog-quickView").html();
-													console.log("companyReportView renderGroupsTable");});*/
-	     var view = this;
-	     var param = getReportParam();
-	     
-	     transactionsSalesFetcher(ReportData.company._id,
-				      function(totalSales){
-					  _.extend(param,totalSales);
-					  var html = ich.companyManagementPage_TMP(param);
-					  $(view.el).html(html);
-					  $("dialog-quickView").html();
-					  console.log("companyReportView renderCompanyReport");
-				      });
+	     generalReportRenderer(this,getReportParam(),'companyManagementPage_TMP','company_id')
+	     (function(){
+		  $("dialog-quickView").html();
+		  console.log("companyReportView renderGroupsTable");});
 	 },
 	 renderGroupsTable: function() {
 	     generalReportRenderer(this,getGroupsTableParam(),'groupsTabel_TMP','group_id')(log("companyReportView renderGroupsTable"));
