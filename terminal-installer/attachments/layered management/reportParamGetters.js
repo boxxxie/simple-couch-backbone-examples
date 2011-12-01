@@ -20,7 +20,7 @@ function getReportParam() {
 								+ " , Groups #: " + numGroups
 								+ " , Stores #: " + numStores
 								+ " , Terminals #: " + numTerminals
-								+ " , Date: " + (new Date()).toLocaleDateString()}
+								+ " , Date: " + (new Date()).toDateString()}
 	       };
     } else if(!_.isEmpty(ReportData.group)) {
 	var group = ReportData.group; 
@@ -38,7 +38,7 @@ function getReportParam() {
 								+ " , Group: " + group.groupName
 								+ " , Stores #: " + numStores
 								+ " , Terminals #: " + numTerminals
-								+ " , Date: " + (new Date()).toLocaleDateString()}
+								+ " , Date: " + (new Date()).toDateString()}
 		};
     } else if(!_.isEmpty(ReportData.store)) {
 	var store = ReportData.store;
@@ -55,7 +55,7 @@ function getReportParam() {
 								+ " , Group: " + ReportData.groupName
 								+ " , Store: " + store.storeName
 								+ " , Terminals #: " + numTerminals
-								+ " , Date: " + (new Date()).toLocaleDateString()}
+								+ " , Date: " + (new Date()).toDateString()}
 		};
     }	
 };
@@ -81,7 +81,7 @@ function getGroupsTableParam() {
 								+ " , Group: " + group.groupName
 								+ " , Stores #: " + numberOfStores
 								+ " , Terminals #: " + numberOfTerminals
-								+ " , Date: " + (new Date()).toLocaleDateString()}
+								+ " , Date: " + (new Date()).toDateString()}
 			    };
 		})}, {startPage:"companyReport"});
 };
@@ -119,7 +119,7 @@ function getStoresTableParam(group_id) {
 									+ " , Group: " + store.groupName
 									+ " , Store: " + store.storeName
 									+ " , Terminals #: " + numberOfTerminals
-									+ " , Date: " + (new Date()).toLocaleDateString()}
+									+ " , Date: " + (new Date()).toDateString()}
 					};
 			    })}, {startPage:"companyReport"});
     } else if(!_.isEmpty(ReportData.group)) {
@@ -140,7 +140,7 @@ function getStoresTableParam(group_id) {
 									+ " , Group: " + store.groupName
 									+ " , Store: " + store.storeName
 									+ " , Terminals #: " + numberOfTerminals
-									+ " , Date: " + (new Date()).toLocaleDateString()}
+									+ " , Date: " + (new Date()).toDateString()}
 					};
 			    })},{startPage:"groupReport"});
     }
@@ -191,7 +191,7 @@ function getTerminalsTableParam(store_id) {
 									+ " , Group: " + terminal.groupName
 									+ " , Store: " + terminal.storeName
 									+ " , Terminal: " + terminal.terminal_label
-									+ " , Date: " + (new Date()).toLocaleDateString()}
+									+ " , Date: " + (new Date()).toDateString()}
 					};
 			    })},{startPage:"companyReport"});
     } else if(!_.isEmpty(ReportData.group)) {
@@ -226,7 +226,7 @@ function getTerminalsTableParam(store_id) {
 									+ " , Group: " + terminal.groupName
 									+ " , Store: " + terminal.storeName
 									+ " , Terminal: " + terminal.terminal_label
-									+ " , Date: " + (new Date()).toLocaleDateString()}
+									+ " , Date: " + (new Date()).toDateString()}
 					};
 			    })},{startPage:"groupReport"});
     } else if(!_.isEmpty(ReportData.store)) {
@@ -247,7 +247,7 @@ function getTerminalsTableParam(store_id) {
 									+ " , Group: " + terminal.groupName
 									+ " , Store: " + terminal.storeName
 									+ " , Terminal: " + terminal.terminal_label
-									+ " , Date: " + (new Date()).toLocaleDateString()}
+									+ " , Date: " + (new Date()).toDateString()}
 					};
 			    })},{startPage:"storeReport"});
     }
