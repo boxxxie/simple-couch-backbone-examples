@@ -26,7 +26,8 @@ function generalReportRenderer(view,param,template,idField){
 	extractSalesDataFromIds(param.list,idField,function(listForTable){
 				    param.list =  listForTable;
 				    var formattedSales = generateFormattedSales(_.pluck(param.list,'sales'));
-				    _.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname},{sales:formattedSales});
+				    _.extend(param, {breadCrumb:"Company : " + 
+						     ReportData.company.operationalname},{sales:formattedSales});
 				    var html = ich[template](param);
 				    $(view.el).html(html);
 				    if(_.isFunction(callback)){callback(param);}

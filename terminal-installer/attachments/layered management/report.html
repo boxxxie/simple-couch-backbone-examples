@@ -67,12 +67,14 @@
     </script>
     
     <script id="AIR_Buttons_P" class="partial" type="text/html">
-      <h3>Menus</h3>
-      <ol>
-	<li>{{>adminButton_P}}</li>
-	<li>{{>inventoryButton_P}}</li>
-	<li>{{>reportsButton_P}}</li>
-      </ol>
+      <miscMenus>
+	<h3>Menus</h3>
+	<ol>
+	  <li>{{>adminButton_P}}</li>
+	  <li>{{>inventoryButton_P}}</li>
+	  <li>{{>reportsButton_P}}</li>
+	</ol>
+      </miscMenus>
     </script>
 
     <script id="backButton_P" class="partial" type="text/html">
@@ -128,45 +130,45 @@
     <!-------------------------------------------------- CASHOUT PART ---------------------------------------->
     <script id="netSales_P" class="partial" type="text/html">
       <tr>
-	<th align="left">Net Sales</th>
+	<td align="left">Net Sales</td>
 	<td colspan="2" align="right">{{netsales}}</td>
       </tr>
       <tr>
-	<th align="left">Total Tax 1</th>
+	<td align="left">Total Tax 1</td>
 	<td colspan="2" align="right">{{netsaletax1}}</td>
       </tr>
       <tr>
-	<th align="left">Total Tax 3</th>
+	<td align="left">Total Tax 3</td>
 	<td colspan="2" align="right">{{netsaletax3}}</td>
       </tr>
       <tr>
-	<th align="left">Total Sales</th>
+	<td align="left">Total Sales</td>
 	<td colspan="2" align="right">{{netsalestotal}}</td>
       </tr>
     </script>
     
     <script id="netRefunds_P" class="partial" type="text/html">
       <tr>
-	<th align="left">Net Refunds</th>
+	<td align="left">Net Refunds</td>
 	<td colspan="2" align="right">{{netrefund}}</td>
       </tr>
       <tr>
-	<th align="left">Total Tax 1</th>
+	<td align="left">Total Tax 1</td>
 	<td colspan="2" align="right">{{netrefundtax1}}</td>
       </tr>
       <tr>
-	<th align="left">Total Tax 3</th>
+	<td align="left">Total Tax 3</td>
 	<td colspan="2" align="right">{{netrefundtax3}}</td>
       </tr>
       <tr>
-	<th align="left">Total Refunds</th>
+	<td align="left">Total Refunds</td>
 	<td colspan="2" align="right">{{netrefundtotal}}</td>
       </tr>
     </script>
     
     <script id="netSaleActivity_P" class="partial" type="text/html">
       <tr>
-	<th align="left">Net SALE ACTIVITY</th>
+	<td align="left">Net SALE ACTIVITY</td>
 	<td colspan="2" align="right">{{netsaleactivity}}</td>
       </tr>
     </script>
@@ -176,31 +178,31 @@
 	<td colspan="2">PAYMENT/TENDER DETAILS</td>
       </tr>
       <tr>
-	<th align="left">CASH</th>
+	<td align="left">CASH</td>
 	<td colspan="2" align="right">{{cashpayment}}</td>
       </tr>
       <tr>
-	<th align="left">CREDIT CARD</th>
+	<td align="left">CREDIT CARD</td>
 	<td colspan="2" align="right">{{creditpayment}}</td>
       </tr>
       <tr>
-	<th align="left">DEBIT CARD</th>
+	<td align="left">DEBIT CARD</td>
 	<td colspan="2" align="right">{{debitpayment}}</td>
       </tr>
       <tr>
-	<th align="left">MOBILE</th>
+	<td align="left">MOBILE</td>
 	<td colspan="2" align="right">{{mobilepayment}}</td>
       </tr>
       <tr>
-	<th align="left">OTHER</th>
+	<td align="left">OTHER</td>
 	<td colspan="2" align="right">{{otherpayment}}</td>
       </tr>
       <tr>
-	<th align="left">No. of Trans</th>
+	<td align="left">No. of Trans</td>
 	<td colspan="2" align="right">{{noofpayment}}</td>
       </tr>
       <tr>
-	<th align="left">Avg Trans</th>
+	<td align="left">Avg Trans</td>
 	<td colspan="2" align="right">{{avgpayment}}</td>
       </tr>
     </script>
@@ -210,60 +212,59 @@
 	<td colspan="2">REFUND/TENDER DETAILS</td>
       </tr>
       <tr>
-	<th align="left">CASH</th>
+	<td align="left">CASH</td>
 	<td colspan="2" align="right">{{cashrefund}}</td>
       </tr>
       <tr>
-	<th align="left">CREDIT CARD</th>
+	<td align="left">CREDIT CARD</td>
 	<td colspan="2" align="right">{{creditrefund}}</td>
       </tr>
       <tr>
-	<th align="left">DEBIT CARD</th>
+	<td align="left">DEBIT CARD</td>
 	<td colspan="2" align="right">{{debitrefund}}</td>
       </tr>
       <tr>
-	<th align="left">MOBILE</th>
+	<td align="left">MOBILE</td>
 	<td colspan="2" align="right">{{mobilerefund}}</td>
       </tr>
       <tr>
-	<th align="left">OTHER</th>
+	<td align="left">OTHER</td>
 	<td colspan="2" align="right">{{otherrefund}}</td>
       </tr>
       <tr>
-	<th align="left">No. of Trans</th>
+	<td align="left">No. of Trans</td>
 	<td colspan="2" align="right">{{noofrefund}}</td>
       </tr>
       <tr>
-	<th align="left">Avg Trans</th>
+	<td align="left">Avg Trans</td>
 	<td colspan="2" align="right">{{avgrefund}}</td>
       </tr>
     </script>
 
     <script id="totalDiscount_P" class="partial" type="text/html">
       <tr>
-	<th align="left">Total Discount</th>
+	<td align="left">Total Discount</td>
 	<td colspan="2" align="right">{{allDiscount}}</td>
       </tr>
     </script>
 
     <script id="salesByCategory_P" class="partial" type="text/html">
       <tr>
-	<th></th>
 	<td align="right">Amount</td>
 	<td align="right">%</td>
       </tr>
       <tr>
-	<th align="left">Menu Sales</th>
+	<td align="left">Menu Sales</td>
 	<td align="right">{{menusalesamount}}</td>
 	<td align="right">{{menusalespercent}}</td>
       </tr>
       <tr>
-	<th align="left">Scan Sales</th>
+	<td align="left">Scan Sales</td>
 	<td align="right">{{scansalesamount}}</td>
 	<td align="right">{{scansalespercent}}</td>
       </tr>
       <tr>
-	<th align="left">ECR Sales</th>
+	<td align="left">ECR Sales</td>
 	<td align="right">{{ecrsalesamount}}</td>
 	<td align="right">{{ecrsalespercent}}</td>
       </tr>
@@ -322,19 +323,23 @@
     <script id="companyManagementPage_TMP" type="text/html">
       <h1>Company Management</h1>
       <h2>{{breadCrumb}}</h2>
-      <ul>
-	<li>{{>salesFields_P}}</li>
-	<li>{{>quickReportViewButton_P}}</li>
-      </ul>
-      <label>-----------------------------------------------------------------------</label>
-      <ul>
-	<li>{{>numberOfGroupsFields_P}}</li>
-	<li>{{>numberOfStoresFields_P}}</li>
-	<li>{{>numberOfTerminalsFields_P}}</li>
-      </ul>
-      <label>-----------------------------------------------------------------------</label>
+      <salesSummary>
+	<ul>
+	  <li>{{>salesFields_P}}</li>
+	  <li>{{>quickReportViewButton_P}}</li>
+	</ul>
+      </salesSummary>
+      <summaryTablesMenu>
+	<ul>
+	  <li>{{>numberOfGroupsFields_P}}</li>
+	  <li>{{>numberOfStoresFields_P}}</li>
+	  <li>{{>numberOfTerminalsFields_P}}</li>
+	</ul>
+      </summaryTablesMenu>
       {{>AIR_Buttons_P}}
-      {{>logoutButton_P}}
+      <footer>
+	{{>logoutButton_P}}
+      </footer>
       {{>quickReportViewHook_P}}
     </script>
 
