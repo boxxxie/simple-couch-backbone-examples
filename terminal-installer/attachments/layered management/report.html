@@ -95,7 +95,7 @@
       <button onclick="quickReportView('{{id}}','{{title}}');" class="ui-state-default ui-corner-all">
       	{{/quickViewArgs}}
 	<span class="ui-button-text">
-	  View
+	  Details
 	</span>
       </button>
     </script>
@@ -105,30 +105,25 @@
     </script>
     
     <script id="salesFields_P" class="partial" type="text/html">
-      <br/>
       {{#sales}}
-      <label>Yesterday's Sales: $</label><text>{{yesterdaysales}} |</text>
-      <label>MTD Sales: $</label><text>{{mtdsales}} |</text>
-      <label>YTD Sales: $</label><text>{{ytdsales}}</text>
+      <ul>
+	<li>Yesterday's Sales: ${{yesterdaysales}}</li>
+	<li>MTD Sales: ${{mtdsales}}</li>
+	<li>YTD Sales: ${{ytdsales}}</li>
+      </ul>
       {{/sales}}
     </script>
 
     <script id="numberOfGroupsFields_P" class="partial" type="text/html">
-      <form>
-	<a href="#{{startPage}}/groups"># Of Groups {{numberOfGroups}}</a>
-      </form>
+      <a href="#{{startPage}}/groups">Number Of Groups: </a> {{numberOfGroups}}
     </script>
 
     <script id="numberOfStoresFields_P" class="partial" type="text/html">
-      <form>
-	<a href="#{{startPage}}/stores"># Of Stores {{numberOfStores}}</a>
-      </form>
+      <a href="#{{startPage}}/stores">Number Of Stores: </a> {{numberOfStores}}
     </script>
 
     <script id="numberOfTerminalsFields_P" class="partial" type="text/html">
-      <form>
-	<a href="#{{startPage}}/terminals"># Of Terminals {{numberOfTerminals}}</a>
-      </form>
+      <a href="#{{startPage}}/terminals">Number Of Terminals: </a> {{numberOfTerminals}}
     </script>
 
     <!-------------------------------------------------- CASHOUT PART ---------------------------------------->
@@ -295,57 +290,31 @@
 	    <th>YTD</th>
 	  </tr>
 	  <tr>
-	    {{#yesterday}}
-	    <td><table>{{>cashOutTable_P}}</table>
+	    <td>
+	      {{#yesterday}}<table>{{>cashOutTable_P}}</table>{{/yesterday}}
 	    </td>
-	    {{/yesterday}}
-	    {{#mtd}}
-	    <td><table>{{>cashOutTable_P}}</table></td>
-	    {{/mtd}}
-	    {{#ytd}}
-	    <td><table>{{>cashOutTable_P}}</table></td>
-	    {{/ytd}}
+	    <td>
+	      {{#mtd}}<table>{{>cashOutTable_P}}</table>{{/mtd}}
+	    </td>
+	    <td>
+	      {{#ytd}}<table>{{>cashOutTable_P}}</table>{{/ytd}}
+	    </td>
 	  </tr>
 	</table>
       </form>
     </script>      
 
-
-	<!---------------------------------------------- Menu Reports --------------------------------------------->
-	<script id="datePicker_P" class="partial" type="text/html">
-		<div class="demo">
-		<label>Report Date</label><br />
-		<label for="from">From</label>
-		<input type="text" id="from" name="from" />
-		<label for="to">to</label>
-		<input type="text" id="to" name="to" />
-		</div>
-    </script>
-
-	<script id="menuRoports_TMP" type="text/html">
-		<h1>Sales Summary Report</h1>
-		{{>datePicker_P}}
-	</script>
-
     <!------------------------------------------------------- LAYER LOGIN------------------------------------------>
     <script id="layerLogin_TMP" type="text/html">
       <form id="ids_form">
-	<h1>RT7 OFFICE LOGIN</h1>
-	<dl>
-	  COMPANY ID : <input type="text" var="company" class="{{>commonClasses_P}}" />
-	</dl>
-	<dl>
-	  GROUP ID : <input type="text" var="group" class="{{>commonClasses_P}}" />
-	</dl>
-	<dl>
-	  STORE ID : <input type="text" var="store" class="{{>commonClasses_P}}" />
-	</dl>
-	<dl>
-	  USER ID : <input type="text" var="user" class="{{>commonClasses_P}}" />
-	</dl>
-	<dl>
-	  PASSWORD : <input type="password" var="password" class="{{>commonClasses_P}}" />
-	</dl>
+	<h1>RT7 BACK OFFICE LOGIN</h1>
+	<ul>
+	  <li> COMPANY ID : <input type="text" var="company" class="{{>commonClasses_P}}" /></li>
+	  <li> GROUP ID : <input type="text" var="group" class="{{>commonClasses_P}}" /></li>
+	  <li> STORE ID : <input type="text" var="store" class="{{>commonClasses_P}}" /></li>
+	  <li> USER ID : <input type="text" var="user" class="{{>commonClasses_P}}" /></li>
+	  <li> PASSWORD : <input type="password" var="password" class="{{>commonClasses_P}}" /></li>
+	</ul>
       </form>
       {{>loginButton_P}}
     </script>
@@ -354,14 +323,18 @@
     <script id="companyManagementPage_TMP" type="text/html">
       <h1>Company Management</h1>
       <h2>{{breadCrumb}}</h2>
-      {{>salesFields_P}} {{>quickReportViewButton_P}}
-      <br/><label>-----------------------------------------------------------------------</label><br/>
-      {{>numberOfGroupsFields_P}}
-      {{>numberOfStoresFields_P}}
-      {{>numberOfTerminalsFields_P}}
-      <label>-----------------------------------------------------------------------</label><br/>
+      <ul>
+	<li>{{>salesFields_P}}</li>
+	<li>{{>quickReportViewButton_P}}</li>
+      </ul>
+      <label>-----------------------------------------------------------------------</label>
+      <ul>
+	<li>{{>numberOfGroupsFields_P}}</li>
+	<li>{{>numberOfStoresFields_P}}</li>
+	<li>{{>numberOfTerminalsFields_P}}</li>
+      </ul>
+      <label>-----------------------------------------------------------------------</label>
       {{>AIR_Buttons_P}}
-      <br/>
       {{>logoutButton_P}}
       {{>quickReportViewHook_P}}
     </script>
@@ -371,13 +344,17 @@
     <script id="groupManagementPage_TMP" type="text/html">
       <h1>Group Management</h1>
       <h2>{{breadCrumb}}</h2>
-      {{>salesFields_P}}  {{>quickReportViewButton_P}}
-      <br><label>-----------------------------------------------------------------------</label><br>
-      {{>numberOfStoresFields_P}}
-      {{>numberOfTerminalsFields_P}}
-      <label>-----------------------------------------------------------------------</label><br>
+      <ul>
+	<li>{{>salesFields_P}}</li>
+	<li>{{>quickReportViewButton_P}}</li>
+      </ul>
+      <label>-----------------------------------------------------------------------</label>
+      <ul>
+	<li>{{>numberOfStoresFields_P}}</li>
+	<li>{{>numberOfTerminalsFields_P}}</li>
+      </ul>
+      <label>-----------------------------------------------------------------------</label>
       {{>AIR_Buttons_P}}
-      <br/>
       {{>logoutButton_P}}
       {{>quickReportViewHook_P}}
     </script>
@@ -386,12 +363,16 @@
     <script id="storeManagementPage_TMP" type="text/html">
       <h1>Store Management</h1>
       <h2>{{breadCrumb}}</h2>
-      {{>salesFields_P}} {{>quickReportViewButton_P}}
-      <br/><label>-----------------------------------------------------------------------</label><br/>
-      {{>numberOfTerminalsFields_P}}
+      <ul>
+	<li>{{>salesFields_P}}</li>
+	<li>{{>quickReportViewButton_P}}</li>
+      </ul>
+      <label>-----------------------------------------------------------------------</label>
+      <ul>
+	<li>{{>numberOfTerminalsFields_P}}</li>
+      </ul>
       <label>-----------------------------------------------------------------------</label>
       {{>AIR_Buttons_P}}
-      <br/>
       {{>logoutButton_P}}
       {{>quickReportViewHook_P}}
     </script>
@@ -507,7 +488,6 @@
       {{>backButton_P}}
       {{>menuButton_P}}
     </script> 
-
   </head>
   <body>
   </body>

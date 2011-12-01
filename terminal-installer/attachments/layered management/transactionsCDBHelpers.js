@@ -1,5 +1,11 @@
 var ZEROED_FIELDS = {allDiscount: 0, netsales: 0, netsaletax1: 0, netsaletax3: 0, netsalestotal: 0, netrefund: 0, netrefundtax1: 0, netrefundtax3: 0, netrefundtotal: 0, netsaleactivity: 0, cashpayment: 0, creditpayment: 0, debitpayment: 0, mobilepayment: 0, otherpayment: 0, noofpayment: 0, avgpayment: 0, cashrefund: 0, creditrefund: 0, debitrefund: 0, mobilerefund: 0, otherrefund: 0, noofrefund: 0, avgrefund: 0, menusalesno: 0, menusalesamount: 0, scansalesno: 0, scansalesamount: 0, ecrsalesno: 0, ecrsalesamount: 0};
 
+function toFixed(mag){
+    return function(num){
+	return num.toFixed(mag);
+    };
+}
+
 function typedTransactionRangeQuery(view,db,base){
     return function(startDate,endDate){
 	var startKey = base.concat(startDate);
@@ -74,12 +80,6 @@ function generalCashoutReportFetcher(view,db,id,runAfter){
 		cashouts.mtd = (_.isFirstNotEmpty(report.month.rows)? _.first(report.month.rows).value:ZEROED_FIELDS);
 		cashouts.ytd = (_.isFirstNotEmpty(report.year.rows)? _.first(report.year.rows).value:ZEROED_FIELDS);
 
-		function toFixed(mag){
-		    return function(num){
-			return num.toFixed(mag);
-		    };
-		}
-
 		function appendCategorySalesPercent(total, cashoutReport) {
 		    var cashout = _.clone(cashoutReport);
 		    if(total!=0) {
@@ -122,8 +122,7 @@ function generalCashoutReportFetcher(view,db,id,runAfter){
 function generalSalesReportArrayFetcher(view,db,ids,runAfter){
     async.map(ids, 
 	      function(id,callback){
-		  generalSalesReportFetcher(view,db,
-					    id,
+		  generalSalesReportFetcher(view,db,id,
 					    function(salesData){
 						callback(null,salesData);
 					    });
@@ -134,8 +133,7 @@ function generalSalesReportArrayFetcher(view,db,ids,runAfter){
 function generalCashoutReportArrayFetcher(view,db,ids,runAfter){
     async.map(ids, 
 	      function(id,callback){
-		  generalCashoutReportFetcher(view,db,
-					      id,
+		  generalCashoutReportFetcher(view,db,id,
 					      function(salesData){
 						  callback(null,salesData);
 					      });

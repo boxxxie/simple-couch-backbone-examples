@@ -255,18 +255,18 @@ function getTerminalsTableParam(store_id) {
 
 //general
 function extractSalesDataFromIds(items,idField,callback){
- transactionsSalesFetcher(_(items).pluck(idField),
-			  function(err,totalSalesArr){
-			      var transformedList =
-				  _(items).chain()
-				  .zip(totalSalesArr)
-				  .map(function(item){
-					   var groupItem = _.first(item);
-					   var salesData = _.second(item);
-					   var group_w_salesReport = _.extend(_.clone(groupItem),salesData);
-					   return group_w_salesReport;
-				       })
-				  .value();
-			      callback(transformedList);
-			  });
- };
+    transactionsSalesFetcher(_(items).pluck(idField),
+			     function(err,totalSalesArr){
+				 var transformedList =
+				     _(items).chain()
+				     .zip(totalSalesArr)
+				     .map(function(item){
+					      var groupItem = _.first(item);
+					      var salesData = _.second(item);
+					      var group_w_salesReport = _.extend(_.clone(groupItem),salesData);
+					      return group_w_salesReport;
+					  })
+				     .value();
+				 callback(transformedList);
+			     });
+};

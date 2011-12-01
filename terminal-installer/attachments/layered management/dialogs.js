@@ -25,6 +25,6 @@ function quickReportView(id, title){
     cashoutFetcher(id,
     		      function(for_TMP){
     			    var html = ich.cashOutReportDialog_TMP(for_TMP);
-    			    quickReportViewDialog(html,_.extend({title:title}));
+    			    quickReportViewDialog(html,{title:title});
     		      });
 }

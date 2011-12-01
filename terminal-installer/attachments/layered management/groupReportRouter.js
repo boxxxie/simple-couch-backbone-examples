@@ -70,18 +70,18 @@ var groupReportView =
 					 param.list = transformedStores;
 					 var sales = _.pluck(param.list,'sales');
 					 _.extend(param, {breadCrumb:"Company : " + ReportData.companyName + ", Group : " + ReportData.group.groupName},
-					 	  {sales:{yesterdaysales:_(sales).chain()
-				 			  .pluck(['yesterdaysales'])
-				 			  .reduce(function(init, amt){return init+Number(amt);},0)
-				 			  .value().toFixed(2),
-					 		  mtdsales:_(sales).chain()
-			 				  .pluck(['mtdsales'])
-			 				  .reduce(function(init, amt){return init+Number(amt);},0)
-			 				  .value().toFixed(2),
-					 		  ytdsales:_(sales).chain()
-			 				  .pluck(['ytdsales'])
-			 				  .reduce(function(init, amt){return init+Number(amt);},0)
-			 				  .value().toFixed(2)}});
+					 	{sales:{yesterdaysales:_(sales).chain()
+				 										.pluck(['yesterdaysales'])
+				 										.reduce(function(init, amt){return init+Number(amt);},0)
+				 										.value().toFixed(2),
+					 			mtdsales:_(sales).chain()
+			 										.pluck(['mtdsales'])
+			 										.reduce(function(init, amt){return init+Number(amt);},0)
+			 										.value().toFixed(2),
+					 			ytdsales:_(sales).chain()
+			 										.pluck(['ytdsales'])
+			 										.reduce(function(init, amt){return init+Number(amt);},0)
+			 										.value().toFixed(2)}});
 					 var html = ich.storesTabel_TMP(param);
 					 $("body").html(html);
 					 console.log("groupReportView renderStoresTable");
@@ -95,18 +95,18 @@ var groupReportView =
 					 param.list = transformedTerminals;
 					 var sales = _.pluck(param.list,'sales');
 					 _.extend(param, {breadCrumb:"Company : " + ReportData.companyName + ", Group : " + ReportData.group.groupName},
-					 	  {sales:{yesterdaysales:_(sales).chain()
-				 			  .pluck(['yesterdaysales'])
-				 			  .reduce(function(init, amt){return init+Number(amt);},0)
-				 			  .value().toFixed(2),
-					 		  mtdsales:_(sales).chain()
-			 				  .pluck(['mtdsales'])
-			 				  .reduce(function(init, amt){return init+Number(amt);},0)
-			 				  .value().toFixed(2),
-					 		  ytdsales:_(sales).chain()
-			 				  .pluck(['ytdsales'])
-			 				  .reduce(function(init, amt){return init+Number(amt);},0)
-			 				  .value().toFixed(2)}});
+					 	{sales:{yesterdaysales:_(sales).chain()
+				 										.pluck(['yesterdaysales'])
+				 										.reduce(function(init, amt){return init+Number(amt);},0)
+				 										.value().toFixed(2),
+					 			mtdsales:_(sales).chain()
+			 										.pluck(['mtdsales'])
+			 										.reduce(function(init, amt){return init+Number(amt);},0)
+			 										.value().toFixed(2),
+					 			ytdsales:_(sales).chain()
+			 										.pluck(['ytdsales'])
+			 										.reduce(function(init, amt){return init+Number(amt);},0)
+			 										.value().toFixed(2)}});
 					 var html = ich.terminalsTabel_TMP(param);
 					 $("body").html(html);
 					 console.log("groupReportView renderTerminalsTable");
