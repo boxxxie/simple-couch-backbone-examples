@@ -29,6 +29,7 @@
     <script language="javascript" type="text/javascript" src="../layered management/groupReportRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/storeReportRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/report.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/menuReports.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/docRdy.js"></script>
     
     <!-------------------------------------------- GENERAL --------------------------------------------------->
@@ -311,20 +312,25 @@
 
 
 	<!---------------------------------------------- Menu Reports --------------------------------------------->
-	<script id="dateChooser_P" class="partial" type="text/html">
-      <br/>
-      <label>Report Date : </label>
-      <br/>
-      <label>From : </label><text>{{mtdsales}} |</text>
-      <label>To: </label><text>{{ytdsales}}</text>
+	<script id="datePicker_P" class="partial" type="text/html">
+		<div class="demo">
+		<label>Report Date</label><br />
+		<label for="from">From</label>
+		<input type="text" id="from" name="from" />
+		<label for="to">to</label>
+		<input type="text" id="to" name="to" />
+		</div>
     </script>
 
-
+	<script id="menuRoports_TMP" type="text/html">
+		<h1>Sales Summary Report</h1>
+		{{>datePicker_P}}
+	</script>
 
     <!------------------------------------------------------- LAYER LOGIN------------------------------------------>
     <script id="layerLogin_TMP" type="text/html">
       <form id="ids_form">
-	<h1>RT7 BACK OFFICE LOGIN</h1>
+	<h1>RT7 OFFICE LOGIN</h1>
 	<dl>
 	  COMPANY ID : <input type="text" var="company" class="{{>commonClasses_P}}" />
 	</dl>

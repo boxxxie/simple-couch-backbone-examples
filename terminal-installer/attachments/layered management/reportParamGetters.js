@@ -190,7 +190,7 @@ function getTerminalsTableParam(store_id) {
 									title:"Company: " + company.operationalname 
 									+ " , Group: " + terminal.groupName
 									+ " , Store: " + terminal.storeName
-									+ " , Terminal: " + terminal.terminalName
+									+ " , Terminal: " + terminal.terminal_label
 									+ " , Date: " + (new Date()).toLocaleDateString()}
 					};
 			    })},{startPage:"companyReport"});
@@ -225,7 +225,7 @@ function getTerminalsTableParam(store_id) {
 									title:"Company: " + company.operationalname 
 									+ " , Group: " + terminal.groupName
 									+ " , Store: " + terminal.storeName
-									+ " , Terminal: " + terminal.terminalName
+									+ " , Terminal: " + terminal.terminal_label
 									+ " , Date: " + (new Date()).toLocaleDateString()}
 					};
 			    })},{startPage:"groupReport"});
@@ -246,7 +246,7 @@ function getTerminalsTableParam(store_id) {
 									title:"Company: " + company.operationalname 
 									+ " , Group: " + terminal.groupName
 									+ " , Store: " + terminal.storeName
-									+ " , Terminal: " + terminal.terminalName
+									+ " , Terminal: " + terminal.terminal_label
 									+ " , Date: " + (new Date()).toLocaleDateString()}
 					};
 			    })},{startPage:"storeReport"});
