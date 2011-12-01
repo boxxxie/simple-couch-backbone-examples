@@ -90,7 +90,9 @@
     </script>
     
     <script id="quickReportViewButton_P" class="partial" type="text/html">
-      <button onclick="quickReportView('{{quickViewArgs}}');" class="ui-state-default ui-corner-all">
+    	{{#quickViewArgs}}
+      <button onclick="quickReportView('{{id}}','{{title}}');" class="ui-state-default ui-corner-all">
+      	{{/quickViewArgs}}
 	<span class="ui-button-text">
 	  Details
 	</span>

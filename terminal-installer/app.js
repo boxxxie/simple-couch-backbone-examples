@@ -50,7 +50,7 @@ ddoc.views.receipt_id = {
     }
 };
 
-ddoc.views.shows = {
+ddoc.shows = {
     branch:function(doc,req){
 	const args = req.query;
 	var _ = require("views/lib/underscore");

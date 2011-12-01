@@ -1,3 +1,39 @@
+function log(text){return function(){console.log(text);};};
+function generalReportRenderer(view,param,template,idField){ 
+    function generateFormattedSales(sales){
+	function toFixed(mag){
+	    return function(num){
+		return num.toFixed(mag);
+	    };
+	};
+	function safeSum(total,cur){
+	    return total + Number(cur);
+	};
+	function sumSalesType(sales,type){
+	    return _(sales)
+		.chain()
+		.pluck(type)
+		.reduce(safeSum,0)
+		.value();
+	};
+	return _.applyToValues({yesterdaysales:sumSalesType(sales,'yesterdaysales'),
+				mtdsales:sumSalesType(sales,'mtdsales'),
+				ytdsales:sumSalesType(sales,'ytdsales')},
+			       toFixed(2));
+    };
+
+    return function(callback){
+	extractSalesDataFromIds(param.list,idField,function(listForTable){
+				    param.list =  listForTable;
+				    var formattedSales = generateFormattedSales(_.pluck(param.list,'sales'));
+				    _.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname},{sales:formattedSales});
+				    var html = ich[template](param);
+				    $(view.el).html(html);
+				    if(_.isFunction(callback)){callback(param);}
+				});
+    };
+};
+
 var companyReportRouter = 
     new (Backbone.Router.extend(
 	     {routes: {
@@ -26,6 +62,7 @@ var companyReportView =
     Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
+	     view.el = $("body");
 	     
 	     _.bindAll(view, 
 		       'renderCompanyReport' , 
@@ -37,7 +74,7 @@ var companyReportView =
 		 .bind('route:companyReport', 
 		       function(){
 			   console.log("companyReportView, route:companyReport");
-			   view.model = ReportData.company; 
+			   view.model = ReportData.company;
 			   view.renderCompanyReport();
 		       });
 
@@ -63,6 +100,8 @@ var companyReportView =
 		       });
 	 },
 	 renderCompanyReport: function() {
+	    /* generalReportRenderer(this,getReportParam(),'companyManagementPage_TMP','_id')(function(){$("dialog-quickView").html();
+													console.log("companyReportView renderGroupsTable");});*/
 	     var view = this;
 	     var param = getReportParam();
 	     
@@ -70,85 +109,18 @@ var companyReportView =
 				      function(totalSales){
 					  _.extend(param,totalSales);
 					  var html = ich.companyManagementPage_TMP(param);
-					  $("body").html(html);
+					  $(view.el).html(html);
 					  $("dialog-quickView").html();
 					  console.log("companyReportView renderCompanyReport");
 				      });
 	 },
 	 renderGroupsTable: function() {
-	     var view = this;
-	     var param = getGroupsTableParam();
-	     
-	     extractSalesDataFromIds(param.list,'group_id',function(transformedGroups){
-					 param.list = transformedGroups;
-					 var sales = _.pluck(param.list,'sales');
-					 _.extend(param, 
-					 	{breadCrumb:"Company : " + ReportData.company.operationalname},
-					 	{sales:{yesterdaysales:_(sales).chain()
-				 										.pluck(['yesterdaysales'])
-				 										.reduce(function(init, amt){return init+Number(amt)},0)
-				 										.value().toFixed(2),
-					 			mtdsales:_(sales).chain()
-			 										.pluck(['mtdsales'])
-			 										.reduce(function(init, amt){return init+Number(amt)},0)
-			 										.value().toFixed(2),
-					 			ytdsales:_(sales).chain()
-			 										.pluck(['ytdsales'])
-			 										.reduce(function(init, amt){return init+Number(amt)},0)
-			 										.value().toFixed(2)}});
-					 var html = ich.groupsTabel_TMP(param);
-					 $("body").html(html);
-					 console.log("companyReportView renderGroupsTable");
-				     });
+	     generalReportRenderer(this,getGroupsTableParam(),'groupsTabel_TMP','group_id')(log("companyReportView renderGroupsTable"));
 	 },
-	 renderStoresTable: function(group_id) {
-	     var view = this;
-	     var param = getStoresTableParam(group_id);
-	     
-	     extractSalesDataFromIds(param.list,'store_id',function(transformedStores){
-					 param.list = transformedStores;
-					 var sales = _.pluck(param.list,'sales');
-					 _.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname},
-					 	{sales:{yesterdaysales:_(sales).chain()
-				 										.pluck(['yesterdaysales'])
-				 										.reduce(function(init, amt){return init+Number(amt)},0)
-				 										.value().toFixed(2),
-					 			mtdsales:_(sales).chain()
-			 										.pluck(['mtdsales'])
-			 										.reduce(function(init, amt){return init+Number(amt)},0)
-			 										.value().toFixed(2),
-					 			ytdsales:_(sales).chain()
-			 										.pluck(['ytdsales'])
-			 										.reduce(function(init, amt){return init+Number(amt)},0)
-			 										.value().toFixed(2)}});
-					 var html = ich.storesTabel_TMP(param);
-					 $("body").html(html);
-					 console.log("companyReportView renderStoresTable");
-				     });
+	 renderStoresTable: function(id) {
+	     generalReportRenderer(this,getStoresTableParam(id),'storesTabel_TMP','store_id')(log("companyReportView renderStoresTable"));
 	 },
-	 renderTerminalsTable : function(store_id) {
-	     var view = this;
-	     var param = getTerminalsTableParam(store_id);
-	     
-	     extractSalesDataFromIds(param.list,'terminal_id',function(transformedTerminals){
-					 param.list = transformedTerminals;
-					 var sales = _.pluck(param.list,'sales');
-					 _.extend(param, {breadCrumb:"Company : " + ReportData.company.operationalname},
-					 	{sales:{yesterdaysales:_(sales).chain()
-				 										.pluck(['yesterdaysales'])
-				 										.reduce(function(init, amt){return init+Number(amt)},0)
-				 										.value().toFixed(2),
-					 			mtdsales:_(sales).chain()
-			 										.pluck(['mtdsales'])
-			 										.reduce(function(init, amt){return init+Number(amt)},0)
-			 										.value().toFixed(2),
-					 			ytdsales:_(sales).chain()
-			 										.pluck(['ytdsales'])
-			 										.reduce(function(init, amt){return init+Number(amt)},0)
-			 										.value().toFixed(2)}});
-					 var html = ich.terminalsTabel_TMP(param);
-					 $("body").html(html);
-					 console.log("companyReportView renderTerminalsTable");
-				     });
+	 renderTerminalsTable : function(id) {
+	     generalReportRenderer(this,getTerminalsTableParam(id),'terminalsTabel_TMP','terminal_id')(log("companyReportView renderTerminalsTable"));
 	 }
 	});
