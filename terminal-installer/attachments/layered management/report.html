@@ -28,11 +28,12 @@
     <script language="javascript" type="text/javascript" src="../layered management/companyReportRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/groupReportRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/storeReportRouter.js"></script>
-    <script language="javascript" type="text/javascript" src="../layered management/report.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/menuReportsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReports.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/report.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/docRdy.js"></script>
-    
-    <!-------------------------------------------- GENERAL --------------------------------------------------->
+
+<!-------------------------------------------- GENERAL --------------------------------------------------->
     <script id="commonClasses_P" class="partial" type="text/html">
       text ui-widget-content ui-corner-all
     </script>
@@ -64,7 +65,7 @@
     </script>
 
     <script id="reportsButton_P" class="partial" type="text/html">
-      <a href="">Reports</a>
+      <a href="#menuReports/{{startPage}}">Reports</a>
     </script>
     
     <script id="AIR_Buttons_P" class="partial" type="text/html">
@@ -96,6 +97,14 @@
       	{{/quickViewArgs}}
 	<span class="ui-button-text">
 	  Details
+	</span>
+      </button>
+    </script>
+    
+    <script id="menuReportGoButton_P" class="partial" type="text/html">
+      <button onclick="renderSalesSummaryReportTable();" class="ui-state-default ui-corner-all">
+	<span class="ui-button-text">
+	  Go
 	</span>
       </button>
     </script>
@@ -303,6 +312,97 @@
 	</table>
       </form>
     </script>      
+
+	<!-------------------------------------------- MENU REPORTS ------------------------------------------------>
+	<script id="menuReports_TMP" type="text/html">
+		<h1>Reports Menus</h1>
+		<h2>{{breadCrumb}}</h2>
+		<ol>
+		<li><a href='#menuReports/{{startPage}}SalesSummary'> Sales Summary</a> <br/></li>
+		<li><a href=''> How Are We Doing Today</a> <br/></li>
+		<li><a href=''> Hourly Activity</a> <br/></li>
+		<li><a href=''> Electronic Payment Processing Summary</a> <br/></li>
+		<li><a href=''> Tax Collected</a> <br/></li>
+		<li><a href=''> Cash Outs</a> <br/></li>
+		<li><a href=''> Cancelled Transactions</a> <br/></li>
+		<li><a href=''> Refunds</a> <br/></li>
+		<li><a href=''> Discounts</a> <br/></li>
+		<li><a href=''> Category Sales</a> <br/></li>
+		</ol>
+		{{>backButton_P}}
+		{{>menuButton_P}}
+	</script>
+	
+	<!----------------------------------------------- SALES SUMMARY REPORTS -------------------------------------------->
+	<script id="datePicker_P" class="partial" type="text/html">
+		<label>Report Date</label> <br/>
+		<label for="from">From</label>
+		<input type="text" id="dateFrom" name="from" />
+		<label for="to">to</label>
+		<input type="text" id="dateTo" name="to" />
+	</script>
+	
+	<script id="groupDropdownbox_P" class="partial" type="text/html">
+		GROUP : <select id="groupsdown" onchange="updateStoreDropdown();" class="{{>commonClasses_P}}">
+			<option value = "ALL" selected>ALL</option>
+		</select>
+		STORE : <select id="storesdown" class="{{>commonClasses_P}}">
+			<option value = "ALL" selected>ALL</option>
+		</select>	
+	</script>
+	
+	<script id="salesSummaryTabel_TMP" type="text/html">
+      <table border="1">
+	<tr>
+	  <th>Group Name</th>
+	  <th>Store Name</th>
+	  <th>Store Number</th>
+	  <th># of Transactions</th>
+	  <th>Sales</th>
+	  <th>Tax 1</th>
+	  <th>Tax 3</th>
+	  <th>Total Sales</th>
+	  <th>Cash</th>
+	  <th>Credit</th>
+	  <th>Debit</th>
+	  <th>Mobile</th>
+	  <th>Other</th>
+	</tr>
+	{{#list}}
+	<tr>
+	  <td>{{groupName}}</td>
+	  <td>{{storeName}}</td>
+	  <td>{{storeNumber}}</td>
+	  {{#summary}}
+	  <td align="right">{{numberoftransactions}}</td>
+	  <td align="right">{{sales}}</td>
+	  <td align="right">{{tax1}}</td>
+	  <td align="right">{{tax3}}</td>
+	  <td align="right">{{totalsales}}</td>
+	  <td align="right">{{cash}}</td>
+	  <td align="right">{{credit}}</td>
+	  <td align="right">{{debit}}</td>
+	  <td align="right">{{mobile}}</td>
+	  <td align="right">{{other}}</td>
+	  {{/summary}}
+	</tr>
+	{{/list}}
+      </table>
+      Total Sales : {{totalsales}} <br/>
+	  # of Transactions : {{totaltransactions}} <br/>
+    </script> 
+	
+	<script id="salesSummaryReports_TMP" type="text/html">
+		<h1>Sales Summary Report</h1>
+		<h2>{{breadCrumb}}</h2>
+		{{>groupDropdownbox_P}} <br/>
+		{{>datePicker_P}}
+		{{>menuReportGoButton_P}}			
+		<br/><br/>
+		<summarytable></summarytable>		
+		{{>backButton_P}}
+        {{>menuButton_P}}
+	</script>	
 
     <!------------------------------------------------------- LAYER LOGIN------------------------------------------>
     <script id="layerLogin_TMP" type="text/html">

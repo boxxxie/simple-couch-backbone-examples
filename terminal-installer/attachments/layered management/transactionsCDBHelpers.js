@@ -119,8 +119,59 @@ function generalCashoutReportFetcher(view,db,id,runAfter){
 	    });
 };
 
+function generalCashoutFetcher_Period(view,db,id,startDate,endDate,runAfter){
+    var companySalesBaseKey = [id];
+    var companySalesRangeQuery = typedTransactionRangeQuery(view,db,companySalesBaseKey);
+    //var d = relative_dates();
+    
+    var dateStart = _.first(startDate.toArray(),3);
+    var dateEnd = _.first(endDate.toArray(),3);
+    
+    async
+	.parallel(
+	    {period:function(callback){companySalesRangeQuery(dateStart,dateEnd)(returnQuery(callback));},
+	    },
+	    function(err,report){
+		var cashouts = {};
+		cashouts.period = (_.isFirstNotEmpty(report.period.rows)? _.first(report.period.rows).value:ZEROED_FIELDS);
+
+		function appendCategorySalesPercent(total, cashoutReport) {
+		    var cashout = _.clone(cashoutReport);
+		    if(total!=0) {
+			cashout.menusalespercent = cashout.menusalesamount / total*100;
+			cashout.ecrsalespercent = cashout.ecrsalesamount / total*100;
+			cashout.scansalespercent = cashout.scansalesamount / total*100;
+		    } else {
+			cashout.menusalespercent = 0;
+			cashout.ecrsalespercent = 0;
+			cashout.scansalespercent = 0;
+		    }
+		    return cashout;
+		};
+		
+		function modifiedCashouts(input) {
+		    var data = _.clone(input);
+		    return _(data).chain()
+			.applyToValues(toFixed(2))
+			.extend(_.selectKeys(data, ['noofpayment','noofrefund']))
+			.value();
+		};
+		
+		var totalperiod = cashouts.period['menusalesamount'] + cashouts.period['scansalesamount'] + cashouts.period['ecrsalesamount'];
+		
+		cashouts.period = appendCategorySalesPercent(totalperiod, cashouts.period);
+
+		cashouts.period = modifiedCashouts(cashouts.period); 
+		
+		// add
+		cashouts.id = id;
+		
+		runAfter(cashouts);	  
+	    });
+};
+
 function generalSalesReportArrayFetcher(view,db,ids,runAfter){
-    async.map(ids, 
+     async.map(ids, 
 	      function(id,callback){
 		  generalSalesReportFetcher(view,db,id,
 					    function(salesData){
@@ -134,6 +185,17 @@ function generalCashoutReportArrayFetcher(view,db,ids,runAfter){
     async.map(ids, 
 	      function(id,callback){
 		  generalCashoutReportFetcher(view,db,id,
+					      function(salesData){
+						  callback(null,salesData);
+					      });
+	      },
+	      runAfter);
+};
+
+function generalCashoutArrayFetcher_Period(view,db,ids,startDate,endDate,runAfter) {
+	async.map(ids, 
+	      function(id,callback){
+		  generalCashoutFetcher_Period(view,db,id,startDate,endDate,
 					      function(salesData){
 						  callback(null,salesData);
 					      });
@@ -160,5 +222,16 @@ function cashoutFetcher(ids,callback){
     }
     else{
 	return generalCashoutReportArrayFetcher(transactionsView,transaction_db,ids,callback);
+    }
+};
+
+function cashoutFetcher_Period(ids,startDate,endDate,callback){
+    var transactionsView = cdb.view('reporting','cashouts_id_date');
+    var transaction_db = cdb.db('cashouts');
+    if(!_.isArray(ids)){
+	return generalCashoutFetcher_Period(transactionsView,transaction_db,ids,startDate,endDate,callback);
+    }
+    else{
+	return generalCashoutArrayFetcher_Period(transactionsView,transaction_db,ids,startDate,endDate,callback);
     }
 };

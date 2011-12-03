@@ -222,7 +222,7 @@ function getTerminalsTableParam(store_id) {
 					terminal_id:terminal.terminal_id,
 					sales:sales,
 					quickViewArgs:{id:terminal.terminal_id, 
-									title:"Company: " + company.operationalname 
+									title:"Company: " + ReportData.companyName 
 									+ " , Group: " + terminal.groupName
 									+ " , Store: " + terminal.storeName
 									+ " , Terminal: " + terminal.terminal_label
@@ -252,6 +252,84 @@ function getTerminalsTableParam(store_id) {
 			    })},{startPage:"storeReport"});
     }
 };
+
+
+
+
+/************************************* MENU REPORT TABLE *****************************************/
+function getStoresTableParam(group_id, store_id) {
+    if(!_.isEmpty(ReportData.company)) {
+	var company = ReportData.company;
+	var groups;
+	
+	if(_.isEmpty(group_id)){
+	    groups = company.hierarchy.groups;
+	} else {
+	    groups = _.filter(company.hierarchy.groups, function(group){ return group.group_id==group_id;});
+	} 
+	
+	var stores = _(groups).chain().map(function(group) {
+					       return _.map(group.stores, function(store){
+								return _.extend(_.clone(store), {groupName:group.groupName});
+							    }); 
+					   }).flatten().value();
+	
+	return _.extend({list: _.map(stores, function(store) {
+				var numberOfTerminals = _.size(store.terminals);
+				var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
+				return {operationalname:company.companyName,
+					groupName:store.groupName,
+					store_id:store.store_id,
+					storeName:store.storeName,
+					storeNumber:store.number,
+					numberOfTerminals:numberOfTerminals,
+					sales:sales,
+					quickViewArgs:{id:store.store_id, 
+									title:"Company: " + company.operationalname 
+									+ " , Group: " + store.groupName
+									+ " , Store: " + store.storeName
+									+ " , Terminals #: " + numberOfTerminals
+									+ " , Date: " + (new Date()).toDateString()}
+					};
+			    })}, {startPage:"companyReport"});
+    } else if(!_.isEmpty(ReportData.group)) {
+	var group = ReportData.group;
+	var stores = group.stores;
+	return _.extend({list: _.map(stores, function(store) {
+				var numberOfTerminals = _.size(store.terminals);
+				var sales={yesterdaysales:"100",mtdsales:"100",ytdsales:"100"};
+				return {operationalname:ReportData.companyName,
+					groupName:group.groupName,
+					store_id:store.store_id,
+					storeName:store.storeName,
+					storeNumber:store.number,
+					numberOfTerminals:numberOfTerminals,
+					sales:sales,
+					quickViewArgs:{id:store.store_id, 
+									title:"Company: " + ReportData.companyName 
+									+ " , Group: " + store.groupName
+									+ " , Store: " + store.storeName
+									+ " , Terminals #: " + numberOfTerminals
+									+ " , Date: " + (new Date()).toDateString()}
+					};
+			    })},{startPage:"groupReport"});
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //general
 function extractSalesDataFromIds(items,idField,callback){

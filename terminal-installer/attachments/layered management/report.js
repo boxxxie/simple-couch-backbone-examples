@@ -19,6 +19,7 @@ function doc_setup() {
     var CompanyReportDisplay = new companyReportView();
     var GroupReportDisplay = new groupReportView();
     var StoreReportDisplay = new storeReportView();
+    var MenuReportsDisplay = new menuReportsView();
     Backbone.history.start();
 
 };
