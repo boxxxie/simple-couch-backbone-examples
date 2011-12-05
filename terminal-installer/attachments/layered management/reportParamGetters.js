@@ -207,21 +207,49 @@ function getTerminalsTableParam() {
     }
     function mergeStoreStatsWithTerminals(tree){
 	return	traverse(tree).
-	    //remove the hierarchy stupid thing	
-	    map(function (o){
-		    if(o.terminals){
-			this.update(_(o.terminals).
-				    map(extendFromParentToChild({number:'storeNumber',
-								 storeName:'storeName'})(o)));
+	    map(function (node){
+		    if(node.terminals){
+			var mergedWithTerminals = _(node.terminals).
+			    map(extendFromParentToChild({number:'storeNumber', storeName:'storeName'})(node));
+			//console.log(mergedWithTerminals);
+			this.update(_.extend(node,{terminals:mergedWithTerminals}));
 		    }
+		    //if(this.key == 'stores'){this.update(_.flatten(node));};
 		});
     }
-
+    function shiftUpTerminals(tree){
+	return traverse(tree).
+	    map(function (node){
+		    if(this.parent && this.parent.parent.key == 'stores' && !node.terminals){
+			this.remove();
+		    }
+		}
+	       );
+    }
+/*    
+    function mergeGroupStatsWithTerminals(tree){
+	return	traverse(tree).
+	    map(function (node){
+		    if(node.stores){
+			var mergedWithTerminals = _(node.terminals).
+			    map(extendFromParentToChild({groupName:'groupName'})(node));
+			//console.log(mergedWithTerminals);
+			this.update(mergedWithTerminals,true);
+		    }
+		    if(this.key == 'groups'){this.update(_.flatten(node));};
+		});
+    }
+*/
     
     console.log("removeHeirachy");
 
     
-    var terminalData = _.compose(mergeStoreStatsWithTerminals,removeHeirachy)(ReportData);
+    var terminalData = _.compose(
+//	mergeGroupStatsWithTerminals,
+	shiftUpTerminals,
+	mergeStoreStatsWithTerminals,
+	removeHeirachy)
+	(ReportData);
     console.log(terminalData);
     
     console.log("terminal data");
