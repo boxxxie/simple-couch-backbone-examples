@@ -106,7 +106,6 @@ var menuReportsView =
 	 		var html = ich.salesSummaryReports_TMP({startPage:"companyReport", breadCrumb:"Company : " + ReportData.company.operationalname});
 			 $(this.el).html(html);
 			 
-			 //FIXME : doesn't work properly (go back and salessummary)
 			var selectedDates = $( "#dateFrom, #dateTo" ).datepicker({
 				defaultDate: "+1w",
 				changeMonth: true,
@@ -146,7 +145,6 @@ var menuReportsView =
 	 														+ " , Group : " + ReportData.group.groupName});
 			 $(this.el).html(html);
 			 
-			 //FIXME : doesn't work properly (go back and salessummary)
 			var selectedDates = $( "#dateFrom, #dateTo" ).datepicker({
 				defaultDate: "+1w",
 				changeMonth: true,
@@ -183,7 +181,6 @@ var menuReportsView =
 	 														+ " , Store : " + ReportData.store.storeName});
 			 $(this.el).html(html);
 			 
-			 //FIXME : doesn't work properly (go back and salessummary)
 			var selectedDates = $( "#dateFrom, #dateTo" ).datepicker({
 				defaultDate: "+1w",
 				changeMonth: true,

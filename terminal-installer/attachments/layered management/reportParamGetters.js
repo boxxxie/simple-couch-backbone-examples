@@ -318,19 +318,6 @@ function getStoresTableParam(group_id, store_id) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 //general
 function extractSalesDataFromIds(items,idField,callback){
     transactionsSalesFetcher(_(items).pluck(idField),

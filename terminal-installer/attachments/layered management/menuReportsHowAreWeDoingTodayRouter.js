@@ -71,7 +71,9 @@ var testTerminalTableHowAreWeToday = {
 	totalscan:200.00,
 	totalecr:200.00,
 	totaltotal:600.00,
-	totalavgsale:3.00
+	totalavgsale:3.00,
+	cancelledtransactions:10,
+	refundtransactions:10
 };
 
 /*************************************** company level : How Are We Doing Today ******************************/
