@@ -37,24 +37,6 @@ function returnQuery(callback){
 };
 
 function originTodaysSalesFetcher(view,db,id,runAfter){
-//return
-/*var testStoreTableHowAreWeToday = 
-    {
-	items:[{name:"test store",
-		id:"...", 
-		transactions:10,
-		menu:100.00,
-		scan:100.00,
-		ecr:100.00,
-		total:300.00,
-		avgsale:3.00}],
-	total:{
-		transactions:10,
-		menu:100.00,
-		scan:100.00,
-		ecr:100.00,
-		total:300.00,
-		avgsale:3.00}};*/
     var d = relative_dates();
     var menuSales = typedTransactionRangeQuery(view,db,[id,'SALE','MENU'])(d.today,d.tomorrow);
     var menuRefunds = typedTransactionRangeQuery(view,db,[id,'REFUND','MENU'])(d.today,d.tomorrow);
@@ -91,24 +73,6 @@ function originTodaysSalesFetcher(view,db,id,runAfter){
 	    });
 };
 function todaysSalesFetcher(view,db,id,runAfter){
-//return
-/*var testStoreTableHowAreWeToday = 
-    {
-	items:[{name:"test store",
-		id:"...", 
-		transactions:10,
-		menu:100.00,
-		scan:100.00,
-		ecr:100.00,
-		total:300.00,
-		avgsale:3.00}],
-	total:{
-		transactions:10,
-		menu:100.00,
-		scan:100.00,
-		ecr:100.00,
-		total:300.00,
-		avgsale:3.00}};*/
     var d = relative_dates();
     var sales = typedTransactionRangeQuery(view,db,[id,'SALE'])(d.today,d.tomorrow);
     var refunds = typedTransactionRangeQuery(view,db,[id,'REFUND'])(d.today,d.tomorrow);
@@ -364,8 +328,8 @@ function cashoutFetcher_Period(ids,startDate,endDate,callback){
 };
 
 function howAreWeDoingTodayReportFetcher(childrenObjs,parentObj,runAfter){
-    childrenObjs = [{id:"3d563af3-4b07-5780-01ab-2a579b6d6b0c",name:"boib"}];
-    parentObj = {id:"3d563af3-4b07-5780-01ab-2a579b6d6b0c"};
+//    childrenObjs = [{id:"3d563af3-4b07-5780-01ab-2a579b6d6b0c",name:"boib"}];
+//    parentObj = {id:"3d563af3-4b07-5780-01ab-2a579b6d6b0c"};
 
     var childrenIDs = _.pluck(childrenObjs,'id');
     var parentID = parentObj.id;
