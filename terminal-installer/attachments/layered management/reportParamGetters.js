@@ -349,6 +349,7 @@ function getTerminalsTableParam(store_id) {
 	var groupName = _.first(terminals).groupName;
     } 
 
+<<<<<<< HEAD
     if(!_.isEmpty(company)){
 	return _.extend({list: _.map(terminals, 
 				     function(terminal) {
@@ -383,24 +384,6 @@ function getTerminalsTableParam(store_id) {
 								+ " , Date: " + (new Date()).toLocaleDateString()}
 						};
 				     })},{startPage:"groupReport"});
-	
-    } else if(!_.isEmpty(store)) {
-	return _.extend({list: _.map(terminals, function(terminal) {
-					 return {operationalname:ReportData.operationalname,
-						 groupName:ReportData.groupName,
-						 storeName:store.storeName,
-						 storeNumber:store.storeNumber,
-						 terminalName:terminal.terminal_label,
-						 terminal_id:terminal.terminal_id,
-						 quickViewArgs:{id:terminal.terminal_id, 
-								title:"Company: " + company.operationalname 
-								+ " , Group: " + terminal.groupName
-								+ " , Store: " + terminal.storeName
-								+ " , Terminal: " + terminal.terminalName
-								+ " , Date: " + (new Date()).toLocaleDateString()}
-						};
-				     })},{startPage:"storeReport"});
-    }
 
 };
 */

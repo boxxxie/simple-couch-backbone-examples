@@ -457,25 +457,27 @@
 	  <th>Total</th>
 	  <th>AVG Sale</th>
 	</tr>
-	{{#list}}
+	{{#items}}
 	<tr>
-	  <td><a href="#menuReports/{{startPage}}HowAreWe/group/{{group_id}}/stores">{{groupName}}</a></td>
-	  <td align="right">{{numberoftransactions}}</td>
+	  <td><a href="#menuReports/{{startPage}}HowAreWe/group/{{id}}/stores">{{name}}</a></td>
+	  <td align="right">{{transactions}}</td>
 	  <td align="right">{{menu}}</td>
 	  <td align="right">{{scan}}</td>
 	  <td align="right">{{ecr}}</td>
 	  <td align="right">{{total}}</td>
 	  <td align="right">{{avgsale}}</td>
 	</tr>
-	{{/list}}
+	{{/items}}
 	<tr>
 		<td>Totals</td>
-		<td align="right">{{totalnumberoftransactions}}</td>	
-		<td align="right">{{totalmenu}}</td>
-		<td align="right">{{totalscan}}</td>
-		<td align="right">{{totalecr}}</td>
-		<td align="right">{{totaltotal}}</td>
-		<td align="right">{{totalavgsale}}</td>
+		{{#total}}
+		<td align="right">{{transactions}}</td>	
+		<td align="right">{{menu}}</td>
+		<td align="right">{{scan}}</td>
+		<td align="right">{{ecr}}</td>
+		<td align="right">{{total}}</td>
+		<td align="right">{{avgsale}}</td>
+		{{/total}}
 	</tr>
       </table>
       {{>backButton_P}}
@@ -498,25 +500,27 @@
 	  <th>Total</th>
 	  <th>AVG Sale</th>
 	</tr>
-	{{#list}}
+	{{#items}}
 	<tr>
-	  <td><a href="#menuReports/{{startPage}}HowAreWe/store/{{store_id}}/terminals">{{storeName}}({{storeNumber}})</a></td>
-	  <td align="right">{{numberoftransactions}}</td>
+	  <td><a href="#menuReports/{{startPage}}HowAreWe/store/{{id}}/terminals">{{name}}({{number}})</a></td>
+	  <td align="right">{{transactions}}</td>
 	  <td align="right">{{menu}}</td>
 	  <td align="right">{{scan}}</td>
 	  <td align="right">{{ecr}}</td>
 	  <td align="right">{{total}}</td>
 	  <td align="right">{{avgsale}}</td>
 	</tr>
-	{{/list}}
+	{{/items}}
 	<tr>
 		<td>Totals</td>
-		<td align="right">{{totalnumberoftransactions}}</td>	
-		<td align="right">{{totalmenu}}</td>
-		<td align="right">{{totalscan}}</td>
-		<td align="right">{{totalecr}}</td>
-		<td align="right">{{totaltotal}}</td>
-		<td align="right">{{totalavgsale}}</td>
+		{{#total}}
+		<td align="right">{{transactions}}</td>	
+		<td align="right">{{menu}}</td>
+		<td align="right">{{scan}}</td>
+		<td align="right">{{ecr}}</td>
+		<td align="right">{{total}}</td>
+		<td align="right">{{avgsale}}</td>
+		{{/total}}
 	</tr>
       </table>
       {{>backButton_P}}
@@ -540,25 +544,27 @@
 	  <th>Total</th>
 	  <th>AVG Sale</th>
 	</tr>
-	{{#list}}
+	{{#items}}
 	<tr>
-	  <td>{{terminalName}}</td>
-	  <td align="right">{{numberoftransactions}}</td>
+	  <td>{{name}}</td>
+	  <td align="right">{{transactions}}</td>
 	  <td align="right">{{menu}}</td>
 	  <td align="right">{{scan}}</td>
 	  <td align="right">{{ecr}}</td>
 	  <td align="right">{{total}}</td>
 	  <td align="right">{{avgsale}}</td>
 	</tr>
-	{{/list}}
+	{{/items}}
 	<tr>
 		<td>Totals</td>
-		<td align="right">{{totalnumberoftransactions}}</td>	
-		<td align="right">{{totalmenu}}</td>
-		<td align="right">{{totalscan}}</td>
-		<td align="right">{{totalecr}}</td>
-		<td align="right">{{totaltotal}}</td>
-		<td align="right">{{totalavgsale}}</td>
+		{{#total}}
+		<td align="right">{{transactions}}</td>	
+		<td align="right">{{menu}}</td>
+		<td align="right">{{scan}}</td>
+		<td align="right">{{ecr}}</td>
+		<td align="right">{{total}}</td>
+		<td align="right">{{avgsale}}</td>
+		{{/total}}
 	</tr>
       </table>
       <label>Number of Cancelled Transactions : {{cancelledtransactions}}</label><br/>
