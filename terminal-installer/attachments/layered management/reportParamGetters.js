@@ -196,30 +196,34 @@ function getTerminalsTableParam() {
 		   return acc;
 	       }, {});
 
-    var removeHeirachy= traverse(ReportData).
-	//remove the hierarchy stupid thing	
-	map(function (o){
-		if(this.key == 'hierarchy'){this.remove();};
-		if(this.key == 'company'){
-		    this.update(_.extend(o,{groups:o.hierarchy.groups}));
-		}}).
-	//apply stores stats to the terminals
-	map(function(o){
-		if(o.terminals){
-		    console.log(_(o.terminals).map(extendFromParentToChild({number:'storeNumber',storeName:'storeName'})(o)));
-		}
-	    });
- 
+    function removeHeirachy(tree){
+	return	traverse(tree).
+	    //remove the hierarchy stupid thing	
+	    map(function (o){
+		    if(this.key == 'hierarchy'){this.remove();};
+		    if(this.key == 'company'){
+			this.update(_.extend(o,{groups:o.hierarchy.groups}));
+		    }});
+    }
+    function mergeStoreStatsWithTerminals(tree){
+	return	traverse(tree).
+	    //remove the hierarchy stupid thing	
+	    map(function (o){
+		    if(o.terminals){
+			this.update(_(o.terminals).
+				    map(extendFromParentToChild({number:'storeNumber',
+								 storeName:'storeName'})(o)));
+		    }
+		});
+    }
+
     
     console.log("removeHeirachy");
-    console.log(removeHeirachy);
-    
-    var terminalData = _(leaves).
-	chain().
-	selectKeys(['number','storeName','store_id','group_id','groupName','_id','company_id','operationalname','terminalName','terminal_id','terminal_label']).
-	renameKeys({number:'storeNumber',_id:'id',terminal_label:'terminalName'}).
-	value();
 
+    
+    var terminalData = _.compose(mergeStoreStatsWithTerminals,removeHeirachy)(ReportData);
+    console.log(terminalData);
+    
     console.log("terminal data");
     console.log(terminalData);
     return {list:[terminalData]}; //should be an array, just for testing

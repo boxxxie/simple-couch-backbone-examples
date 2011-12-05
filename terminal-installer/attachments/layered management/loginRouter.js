@@ -52,21 +52,10 @@ function login() {
     var user_passwordView = appView("user_pass");
     var branch_show = appShow("branch");
 
-//    keyQuery(user_passwordView, db_install, login_key)
-/*    queryF(user_passwordView, db_install)
-    ({key:login_key,
-      success:function(resp){
-	  console.log("success");
-      },
-      error:function(resp){
-	  console.log("error");
-      }})
-    ();*/
-    basicQuery(user_passwordView, db_install);
-   // ();
-/*    (function (resp){
+    keyQuery(user_passwordView, db_install, login_key)
+    (function (resp){
 	 console.log(resp);
-/*	 var accountMatches = resp.rows;
+	 var accountMatches = resp.rows;
 	 if(_.isNotEmpty(accountMatches)) {
 	     var account = {company_id:_.first(resp.rows).id,loginTo:_.first(resp.rows).value};
 	     db_install.show(branch_show,
@@ -75,23 +64,23 @@ function login() {
 			      success:function(data){
 				  if(_.isNotEmpty(account.loginTo.store)) {
 				      ReportData = {store:data, companyName:login_key.company, groupName:login_key.group};
-//				      window.location.href = "#storeReport/";
+				      window.location.href = "#storeReport/";
 				  }
 				  else if(_.isNotEmpty(account.loginTo.group)) {
 				      ReportData = {group:data, companyName:login_key.company};
-//				      window.location.href = "#groupReport/";
+				      window.location.href = "#groupReport/";
 				  } 
 				  else if(_.isNotEmpty(account.loginTo.company)) {
 				      ReportData = {company:data};
-//				      window.location.href = "#companyReport/";
+				      window.location.href = "#companyReport/";
 				  }}});}
 	 else {
 	     alert("wrong login info.");
-	 }*/
-//     });
+	 }
+     });
 };
 
 function logout() {
     ReportData=null;
-   // window.location.href ='';
+    window.location.href ='';
 };
