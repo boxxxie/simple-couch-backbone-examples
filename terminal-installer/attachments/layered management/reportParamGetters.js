@@ -257,6 +257,7 @@ function getTerminalsTableParam(store_id) {
 
 
 /************************************* MENU REPORT TABLE *****************************************/
+/*
 function getStoresTableParam(group_id, store_id) {
     if(!_.isEmpty(ReportData.company)) {
 	var company = ReportData.company;
@@ -315,7 +316,7 @@ function getStoresTableParam(group_id, store_id) {
 			    })},{startPage:"groupReport"});
     }
 };
-
+*/
 
 
 //general
