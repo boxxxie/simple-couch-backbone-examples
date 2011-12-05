@@ -31,7 +31,7 @@ function basicQuery(view,database){
     return query({},view,database);
 };
 
-function keyQuery(key, view, database) {
+function keyQuery(view, database, key) {
 	return query({key:key}, view, database);
 };
 

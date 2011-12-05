@@ -84,3 +84,31 @@ _.mixin({isLastNotEmpty:function (array){
 _.mixin({second:function (array){
 	     return _.first(_.rest(array));
 	 }});
+
+_.mixin({renameKeys:function (toEdit,fieldMap){
+	     //usage _.renameKeys({a:'b',c:'d'},{a:'ba'})  -> {ba:'b',c:'d'}
+	     function applyToValue(fn){return function(pair){return fn(_.second(pair));};};
+	     function reMapValue(ojbToRemap){
+		 return function(remapPair){
+		     var valueToRemap = ojbToRemap[_.first(remapPair)];
+		     if(_.isUndefined(valueToRemap)){return {};}
+		     var reMapKey = _.second(remapPair);
+		     var remapped = {}; 
+		     remapped[reMapKey] = valueToRemap;
+		     return remapped;
+		 };
+	     };
+	     var remap = _(fieldMap).
+		 chain().
+		 kv().
+		 filter(applyToValue(_.isString)).
+		 reject(applyToValue(_.isEmpty)).
+		 map(reMapValue(toEdit)).
+		 reduce(function(sum,cur){sum = _.extend(sum,cur);return sum;},{}).
+		 value();
+	     return  _(toEdit)
+		 .chain()
+		 .removeKeys(_.keys(fieldMap))
+		 .extend(remap)
+		 .value();
+	 }});

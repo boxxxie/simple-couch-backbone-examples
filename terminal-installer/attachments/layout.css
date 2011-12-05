@@ -1,0 +1,104 @@
+/* 
+Title:		Reset default browser styles
+Author: 	mmuralla@gmail.com
+*/
+	
+body {
+	margin: 0;
+	padding: 0;
+	color: #000;
+	font-family: Verdana;
+	font-size: 12px;
+	line-height: 1.4;
+	background-color: #434950;
+	background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0, rgb(39,32,41)),
+    color-stop(0.83, rgb(76,84,94)));
+	background-image: -moz-linear-gradient(
+    center bottom,
+    rgb(39,32,41) 0%,
+    rgb(76,84,94) 83%);
+	background-repeat: repeat;
+	background-position: center top;
+	background-attachment: fixed;
+}
+.header {
+	width:800px;
+	padding:20px;
+	font-size: 12px;
+	height: 170px;
+	text-align:center;
+	margin-top: 20px;
+	margin-right: auto;
+	margin-bottom: 20px;
+	margin-left: auto;
+}
+.footer {
+	width:100%;
+	text-align:center;
+	padding:0px;
+	height: 130px;
+	position:absolute;
+	bottom:0;
+	background-image: url(images/footer.png);
+	background-repeat: repeat-x;
+	background-position: center 0px;
+	color: #c0ac98;
+}
+.footerin {
+	padding-top:90px;
+	width:640px;
+	text-align:left;
+	color: #c0ac98;
+	margin:0 auto;
+}
+.wrapper {
+	width:800px;
+	margin:20px auto;
+	padding:160px;
+	border-radius:60px;
+	font-size: 12px;
+	background-image: url(images/cloud-login.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+h1 {
+	font-size: 24px;
+	margin-bototm: 10px;
+	padding-bottom: 0px;
+	text-align: center;
+	font-weight: bold;
+	color: #4b545e;
+	border-bottom-width: 0px;
+	border-bottom-style: solid;
+	border-bottom-color: #ccc;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+input {
+	font-size: 14px;
+	margin: 0px;
+	padding: 10px;
+	text-align: left;
+	color: #666;
+	border: 1px solid #ccc;
+	width:300px;
+	outline:none;
+	border-radius:10px;
+	background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0, rgb(198,198,198)),
+    color-stop(0.83, rgb(255,255,255)));
+	background-image: -moz-linear-gradient(
+    center bottom,
+    rgb(198,198,198) 0%,
+    rgb(255,255,255) 83%);
+	background-repeat: repeat;
+	background-position: center top;
+	background-attachment: fixed;
+}
