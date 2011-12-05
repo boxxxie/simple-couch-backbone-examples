@@ -7,7 +7,7 @@ var loginRouter =
 		     reportLogin:function(){
 			 console.log("reportLogin");
 			 var html = ich.layerLogin_TMP();
-			 $("body").html(html);
+			 $("main").html(html);
 		     }}));    
 
 var reportLoginView = Backbone.View.extend(

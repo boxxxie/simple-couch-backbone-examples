@@ -1,140 +1,3 @@
-var testMenuReportsParam = {
-	list : [{groupName : "test1",
-			 storeName : "test1",
-			 storeNumber : "1",
-			 summary : {numberoftransactions : "100",
-			 			sales:"100",
-			 			tax1:"100",
-			 			tax3:"100",
-			 			totalsales:"100",
-			 			cash:"100",
-			 			credit:"100",
-			 			debit:"100",
-			 			mobile:"100",
-			 			other:"100"}
-			},
-			{groupName : "test2",
-			 storeName : "test2",
-			 storeNumber : "2",
-			 summary : {numberoftransactions : "200",
-			 			sales:"200",
-			 			tax1:"200",
-			 			tax3:"200",
-			 			totalsales:"200",
-			 			cash:"200",
-			 			credit:"200",
-			 			debit:"200",
-			 			mobile:"200",
-			 			other:"200"}
-			}],
-	companyName : "test com",
-	totalsales : "300",
-	totaltransactions : "300",
-	startPage:"companyReport"
-};
-
-
-var testMenuReportsParam2 = {
-	list : [{groupName : "test3",
-			 storeName : "test3",
-			 storeNumber : "3",
-			 summary : {numberoftransactions : "100",
-			 			sales:"100",
-			 			tax1:"100",
-			 			tax3:"100",
-			 			totalsales:"100",
-			 			cash:"100",
-			 			credit:"100",
-			 			debit:"100",
-			 			mobile:"100",
-			 			other:"100"}
-			},
-			{groupName : "test4",
-			 storeName : "test4",
-			 storeNumber : "4",
-			 summary : {numberoftransactions : "200",
-			 			sales:"200",
-			 			tax1:"200",
-			 			tax3:"200",
-			 			totalsales:"200",
-			 			cash:"200",
-			 			credit:"200",
-			 			debit:"200",
-			 			mobile:"200",
-			 			other:"200"}
-			}],
-	companyName : "test com",
-	totalsales : "300",
-	totaltransactions : "300",
-	startPage:"companyReport"
-};
-
-
-var testSummaryTable1 = {
-	list : [{groupName : "test3",
-			 storeName : "test3",
-			 storeNumber : "3",
-			 summary : {numberoftransactions : "100",
-			 			sales:"100",
-			 			tax1:"100",
-			 			tax3:"100",
-			 			totalsales:"100",
-			 			cash:"100",
-			 			credit:"100",
-			 			debit:"100",
-			 			mobile:"100",
-			 			other:"100"}
-			},
-			{groupName : "test4",
-			 storeName : "test4",
-			 storeNumber : "4",
-			 summary : {numberoftransactions : "200",
-			 			sales:"200",
-			 			tax1:"200",
-			 			tax3:"200",
-			 			totalsales:"200",
-			 			cash:"200",
-			 			credit:"200",
-			 			debit:"200",
-			 			mobile:"200",
-			 			other:"200"}
-			}],
-	totalsales : "300",
-	totaltransactions : "300"
-};
-
-var testSummaryTable2 = {
-	list : [{groupName : "test3",
-			 storeName : "test3",
-			 storeNumber : "3",
-			 summary : {numberoftransactions : "100",
-			 			sales:"100",
-			 			tax1:"100",
-			 			tax3:"100",
-			 			totalsales:"100",
-			 			cash:"100",
-			 			credit:"100",
-			 			debit:"100",
-			 			mobile:"100",
-			 			other:"100"}
-			},
-			{groupName : "test4",
-			 storeName : "test4",
-			 storeNumber : "4",
-			 summary : {numberoftransactions : "200",
-			 			sales:"200",
-			 			tax1:"200",
-			 			tax3:"200",
-			 			totalsales:"200",
-			 			cash:"200",
-			 			credit:"200",
-			 			debit:"200",
-			 			mobile:"200",
-			 			other:"200"}
-			}],
-	totalsales : "300",
-	totaltransactions : "300"
-};
 
 var menuReportsRouter = 
     new (Backbone.Router.extend(
@@ -170,7 +33,8 @@ var menuReportsRouter =
 var menuReportsView = 
     Backbone.View.extend(
 	{initialize:function(){
-	     var view = this;
+		var view = this;
+	     view.el = $("main");
 	     
 	     _.bindAll(view, 
 		       'renderMenuReportsCompany' , 
@@ -219,14 +83,14 @@ var menuReportsView =
 	 },
 	 renderMenuReportsCompany: function() {
 	 	var html = ich.menuReports_TMP({startPage:"companyReport", breadCrumb:"Company : " + ReportData.company.operationalname});
-			 $("body").html(html);
+			 $(this.el).html(html);
 	 	console.log("renderMenuReportsCompany");	
 	 },
 	 renderMenuReportsGroup: function() {
 	     var html = ich.menuReports_TMP({startPage:"groupReport", 
 	     								breadCrumb:"Company : " + ReportData.companyName
 	     										+ " , Group : " + ReportData.group.groupName});
-			 $("body").html(html);
+			 $(this.el).html(html);
 	 	console.log("renderMenuReportsGroup");
 	 },
 	 renderMenuReportsStore: function() {
@@ -234,22 +98,20 @@ var menuReportsView =
 	     								breadCrumb:"Company : " + ReportData.companyName
 	     										+ " , Group : " + ReportData.groupName
 	     										+ " , Store : " + ReportData.store.storeName});
-			 $("body").html(html);
+			 $(this.el).html(html);
 	 	console.log("renderMenuReportsStore");
 	 },
 	 renderMenuReportsCompanySales: function() {
 			 
 	 		var html = ich.salesSummaryReports_TMP({startPage:"companyReport", breadCrumb:"Company : " + ReportData.company.operationalname});
-			 $("body").html(html);
+			 $(this.el).html(html);
 			 
-			$( "#dateFrom, #dateTo" ).datepicker("destroy");			 
 			 //FIXME : doesn't work properly (go back and salessummary)
 			var selectedDates = $( "#dateFrom, #dateTo" ).datepicker({
 				defaultDate: "+1w",
 				changeMonth: true,
 				numberOfMonths: 3,
 				onSelect: function( selectedDate ) {
-					console.log("onSelect");
 					var option = this.id == "dateFrom" ? "minDate" : "maxDate",
 						instance = $( this ).data( "datepicker" ),
 						date = $.datepicker.parseDate(
@@ -257,13 +119,6 @@ var menuReportsView =
 							$.datepicker._defaults.dateFormat,
 							selectedDate, instance.settings );
 					selectedDates.not( this ).datepicker( "option", option, date );
-				}, 
-				onClose : function() {
-					if(this.id=="dateFrom") {
-						console.log("close dateFrom");
-					} else {
-						console.log("close dateTo");
-					}
 				}
 			});
 			
@@ -289,16 +144,14 @@ var menuReportsView =
 	 		var html = ich.salesSummaryReports_TMP({startPage:"groupReport", 
 	 												breadCrumb:"Company : " + ReportData.companyName
 	 														+ " , Group : " + ReportData.group.groupName});
-			 $("body").html(html);
+			 $(this.el).html(html);
 			 
-			$( "#dateFrom, #dateTo" ).datepicker("destroy");			 
 			 //FIXME : doesn't work properly (go back and salessummary)
 			var selectedDates = $( "#dateFrom, #dateTo" ).datepicker({
 				defaultDate: "+1w",
 				changeMonth: true,
 				numberOfMonths: 3,
 				onSelect: function( selectedDate ) {
-					console.log("onSelect");
 					var option = this.id == "dateFrom" ? "minDate" : "maxDate",
 						instance = $( this ).data( "datepicker" ),
 						date = $.datepicker.parseDate(
@@ -306,13 +159,6 @@ var menuReportsView =
 							$.datepicker._defaults.dateFormat,
 							selectedDate, instance.settings );
 					selectedDates.not( this ).datepicker( "option", option, date );
-				}, 
-				onClose : function() {
-					if(this.id=="dateFrom") {
-						console.log("close dateFrom");
-					} else {
-						console.log("close dateTo");
-					}
 				}
 			});
 			
@@ -335,16 +181,14 @@ var menuReportsView =
 	 												breadCrumb:"Company : " + ReportData.companyName
 	 														+ " , Group : " + ReportData.groupName
 	 														+ " , Store : " + ReportData.store.storeName});
-			 $("body").html(html);
+			 $(this.el).html(html);
 			 
-			$( "#dateFrom, #dateTo" ).datepicker("destroy");			 
 			 //FIXME : doesn't work properly (go back and salessummary)
 			var selectedDates = $( "#dateFrom, #dateTo" ).datepicker({
 				defaultDate: "+1w",
 				changeMonth: true,
 				numberOfMonths: 3,
 				onSelect: function( selectedDate ) {
-					console.log("onSelect");
 					var option = this.id == "dateFrom" ? "minDate" : "maxDate",
 						instance = $( this ).data( "datepicker" ),
 						date = $.datepicker.parseDate(
@@ -352,13 +196,6 @@ var menuReportsView =
 							$.datepicker._defaults.dateFormat,
 							selectedDate, instance.settings );
 					selectedDates.not( this ).datepicker( "option", option, date );
-				}, 
-				onClose : function() {
-					if(this.id=="dateFrom") {
-						console.log("close dateFrom");
-					} else {
-						console.log("close dateTo");
-					}
 				}
 			});
 			

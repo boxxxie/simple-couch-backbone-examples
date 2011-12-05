@@ -29,6 +29,7 @@
     <script language="javascript" type="text/javascript" src="../layered management/groupReportRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/storeReportRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsRouter.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/menuReportsHowAreWeDoingTodayRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReports.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/report.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/docRdy.js"></script>
@@ -319,7 +320,7 @@
 		<h2>{{breadCrumb}}</h2>
 		<ol>
 		<li><a href='#menuReports/{{startPage}}SalesSummary'> Sales Summary</a> <br/></li>
-		<li><a href=''> How Are We Doing Today</a> <br/></li>
+		<li><a href='#menuReports/{{startPage}}HowAreWe'> How Are We Doing Today</a> <br/></li>
 		<li><a href=''> Hourly Activity</a> <br/></li>
 		<li><a href=''> Electronic Payment Processing Summary</a> <br/></li>
 		<li><a href=''> Tax Collected</a> <br/></li>
@@ -387,9 +388,22 @@
 	  {{/summary}}
 	</tr>
 	{{/list}}
+	<tr>
+		{{#total}}
+		<td colspan="3" align="center">TOTAL</td>
+		<td align="right">{{totaltransactions}}</td>
+		<td align="right">{{totalsales}}</td>
+		<td align="right">{{totaltax1}}</td>
+		<td align="right">{{totaltax3}}</td>
+		<td align="right">{{totaltotalsales}}</td>
+		<td align="right">{{totalcash}}</td>
+		<td align="right">{{totalcredit}}</td>
+		<td align="right">{{totaldebit}}</td>
+		<td align="right">{{totalmobile}}</td>
+		<td align="right">{{totalother}}</td>
+		{{/total}}
+	</tr>
       </table>
-      Total Sales : {{totalsales}} <br/>
-	  # of Transactions : {{totaltransactions}} <br/>
     </script> 
 	
 	<script id="salesSummaryReports_TMP" type="text/html">
@@ -404,6 +418,130 @@
         {{>menuButton_P}}
 	</script>	
 
+	<!------------------------------------- HowAreWeToday GroupTable TMP -------------------------------------------->
+    <script id="groupsTabel_HowAreWeToday_TMP" type="text/html">
+    
+      <h1>How Are We Doing Today</h1>
+      <h2>{{breadCrumb}}</h2>
+      <table border="1">
+	<tr>
+	  <th>Group Name</th>
+	  <th># of Transactions</th>
+	  <th>Menu</th>
+	  <th>Scan</th>
+	  <th>ECR</th>
+	  <th>Total</th>
+	  <th>AVG Sale</th>
+	</tr>
+	{{#list}}
+	<tr>
+	  <td><a href="#menuReports/{{startPage}}HowAreWe/group/{{group_id}}/stores">{{groupName}}</a></td>
+	  <td align="right">{{numberoftransactions}}</td>
+	  <td align="right">{{menu}}</td>
+	  <td align="right">{{scan}}</td>
+	  <td align="right">{{ecr}}</td>
+	  <td align="right">{{total}}</td>
+	  <td align="right">{{avgsale}}</td>
+	</tr>
+	{{/list}}
+	<tr>
+		<td>Totals</td>
+		<td align="right">{{totalnumberoftransactions}}</td>	
+		<td align="right">{{totalmenu}}</td>
+		<td align="right">{{totalscan}}</td>
+		<td align="right">{{totalecr}}</td>
+		<td align="right">{{totaltotal}}</td>
+		<td align="right">{{totalavgsale}}</td>
+	</tr>
+      </table>
+      {{>backButton_P}}
+      {{>menuButton_P}}
+    </script>
+
+
+	<!------------------------------------- HowAreWeToday StoreTable TMP -------------------------------------------->
+    <script id="storesTabel_HowAreWeToday_TMP" type="text/html">
+    <storestable_howarewetoday>
+      <h1>How Are We Doing Today</h1>
+      <h2>{{breadCrumb}}</h2>
+      <table border="1">
+	<tr>
+	  <th>Store</th>
+	  <th># of Transactions</th>
+	  <th>Menu</th>
+	  <th>Scan</th>
+	  <th>ECR</th>
+	  <th>Total</th>
+	  <th>AVG Sale</th>
+	</tr>
+	{{#list}}
+	<tr>
+	  <td><a href="#menuReports/{{startPage}}HowAreWe/store/{{store_id}}/terminals">{{storeName}}({{storeNumber}})</a></td>
+	  <td align="right">{{numberoftransactions}}</td>
+	  <td align="right">{{menu}}</td>
+	  <td align="right">{{scan}}</td>
+	  <td align="right">{{ecr}}</td>
+	  <td align="right">{{total}}</td>
+	  <td align="right">{{avgsale}}</td>
+	</tr>
+	{{/list}}
+	<tr>
+		<td>Totals</td>
+		<td align="right">{{totalnumberoftransactions}}</td>	
+		<td align="right">{{totalmenu}}</td>
+		<td align="right">{{totalscan}}</td>
+		<td align="right">{{totalecr}}</td>
+		<td align="right">{{totaltotal}}</td>
+		<td align="right">{{totalavgsale}}</td>
+	</tr>
+      </table>
+      {{>backButton_P}}
+      {{>menuButton_P}}
+    </storestable_howarewetoday>
+    </script>
+
+
+	<!------------------------------------- HowAreWeToday TerminalTable TMP -------------------------------------------->
+    <script id="terminalsTabel_HowAreWeToday_TMP" type="text/html">
+    <terminalstable_howarewetoday>
+      <h1>How Are We Doing Today</h1>
+      <h2>{{breadCrumb}}</h2>
+      <table border="1">
+	<tr>
+	  <th>Terminal</th>
+	  <th># of Transactions</th>
+	  <th>Menu</th>
+	  <th>Scan</th>
+	  <th>ECR</th>
+	  <th>Total</th>
+	  <th>AVG Sale</th>
+	</tr>
+	{{#list}}
+	<tr>
+	  <td>{{terminalName}}</td>
+	  <td align="right">{{numberoftransactions}}</td>
+	  <td align="right">{{menu}}</td>
+	  <td align="right">{{scan}}</td>
+	  <td align="right">{{ecr}}</td>
+	  <td align="right">{{total}}</td>
+	  <td align="right">{{avgsale}}</td>
+	</tr>
+	{{/list}}
+	<tr>
+		<td>Totals</td>
+		<td align="right">{{totalnumberoftransactions}}</td>	
+		<td align="right">{{totalmenu}}</td>
+		<td align="right">{{totalscan}}</td>
+		<td align="right">{{totalecr}}</td>
+		<td align="right">{{totaltotal}}</td>
+		<td align="right">{{totalavgsale}}</td>
+	</tr>
+      </table>
+      {{>backButton_P}}
+      {{>menuButton_P}}
+    </terminalstable_howarewetoday>
+    </script>
+    
     <!------------------------------------------------------- LAYER LOGIN------------------------------------------>
     <script id="layerLogin_TMP" type="text/html">
       <form id="ids_form">
@@ -590,5 +728,6 @@
     </script> 
   </head>
   <body>
+  	<main></main>  		
   </body>
 </html>

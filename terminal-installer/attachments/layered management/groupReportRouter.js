@@ -20,6 +20,8 @@ var groupReportView =
     Backbone.View.extend(
     	{initialize:function(){
 	     var view = this;
+	     view.el= $("main");
+	     
 	     _.bindAll(view, 
 		       'renderGroupReport', 
 		       'renderStoresTable', 
@@ -57,7 +59,7 @@ var groupReportView =
 				      function(totalSales){
 					  _.extend(param,totalSales);
 					  var html = ich.groupManagementPage_TMP(param);
-					  $("body").html(html);
+					  $(view.el).html(html);
 					  console.log("groupReportView renderGroupReport");
 				      });
 	     return this;
@@ -83,7 +85,7 @@ var groupReportView =
 			 										.reduce(function(init, amt){return init+Number(amt);},0)
 			 										.value().toFixed(2)}});
 					 var html = ich.storesTabel_TMP(param);
-					 $("body").html(html);
+					 $(view.el).html(html);
 					 console.log("groupReportView renderStoresTable");
 				     });
 	 },
@@ -108,7 +110,7 @@ var groupReportView =
 			 										.reduce(function(init, amt){return init+Number(amt);},0)
 			 										.value().toFixed(2)}});
 					 var html = ich.terminalsTabel_TMP(param);
-					 $("body").html(html);
+					 $(view.el).html(html);
 					 console.log("groupReportView renderTerminalsTable");
 				     });
 	 }

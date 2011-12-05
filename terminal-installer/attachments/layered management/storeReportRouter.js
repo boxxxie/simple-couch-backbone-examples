@@ -17,6 +17,7 @@ var storeReportRouter =
 var storeReportView = Backbone.View.extend(
     {initialize:function(){
 	 var view = this;
+	 view.el = $("main");
 	 _.bindAll(view, 
 		   'renderStoreReport', 
 		   'renderTerminalsTable');
@@ -49,7 +50,7 @@ var storeReportView = Backbone.View.extend(
 				  function(totalSales){
 				      _.extend(param,totalSales);
 				      var html = ich.storeManagementPage_TMP(param);
-				      $("body").html(html);
+				      $(view.el).html(html);
 				      console.log("storeReportView renderStoreReport");
 				  });
 	 return this;
@@ -77,7 +78,7 @@ var storeReportView = Backbone.View.extend(
 			 										.reduce(function(init, amt){return init+Number(amt);},0)
 			 										.value().toFixed(2)}});
 				     var html = ich.terminalsTabel_TMP(param);
-				     $("body").html(html);
+				     $(view.el).html(html);
 				     console.log("storeReportView renderTerminalsTable");
 				 });
      }

@@ -29,10 +29,16 @@ function renderSalesSummaryReportTable() {
 		var groupdown = $("#groupsdown");
 		var storedown = $("#storesdown");
 
-		//alert("group : " + groupdown.val() + " , store : " + storedown.val());
+	if(!_.isEmpty($("#dateFrom").val()) && !_.isEmpty($("#dateTo").val())) {
+		var startDate = new Date($("#dateFrom").val());
+		var endDate = new Date($("#dateTo").val());
 		
-		var tomorrow = Date.today();
-		var startOfYear = Date.today().moveToMonth(0,-1).moveToFirstDayOfMonth();
+		if(startDate.equals(endDate)) {
+			endDate.setHours(23);
+			endDate.setMinutes(59);
+			endDate.setSeconds(59);
+		}
+		
 		var ids = [];
 		
 		if(storedown.val()=="ALL") {
@@ -41,15 +47,17 @@ function renderSalesSummaryReportTable() {
 			ids = ids.concat(_.isEmpty(storedown.val())?ReportData.store.store_id:storedown.val());
 		}
 		
-		cashoutFetcher_Period(ids,startOfYear,tomorrow,
+		cashoutFetcher_Period(ids,startDate,endDate,
     		      function(a,for_TMP){
-    		      	console.log("GO");
     		      	console.log(for_TMP);
     		      	var data_TMP = extractSalesSummaryTableInfo(for_TMP);
     		      	
     		      	var html = ich.salesSummaryTabel_TMP(data_TMP);
 					$("summarytable").html(html);
     		      });
+   } else {
+   	alert("Input Date");
+   }
 };
 
 
@@ -78,6 +86,64 @@ function extractSalesSummaryTableInfo(list) {
 		return namenum;
 	};
 	
+	function appendTotals(inputs) {
+		var input = _.clone(inputs);
+		var total={};
+		
+		total.totalsales = _(input.list).chain()
+								  .pluck('summary')
+								  .reduce(function(init,item){ return Number(item.sales)+init},0)
+								  .value()
+								  .toFixed(2);
+
+		total.totaltransactions=_(input.list).chain()
+									  .pluck('summary')
+									  .reduce(function(init,item){ return Number(item.numberoftransactions)+init},0)
+									  .value();
+		total.totaltax1 = _(input.list).chain()
+								  .pluck('summary')
+								  .reduce(function(init,item){ return Number(item.tax1)+init},0)
+								  .value()
+								  .toFixed(2);
+		total.totaltax3 = _(input.list).chain()
+								  .pluck('summary')
+								  .reduce(function(init,item){ return Number(item.tax3)+init},0)
+								  .value()
+								  .toFixed(2);
+		total.totaltotalsales = _(input.list).chain()
+								  .pluck('summary')
+								  .reduce(function(init,item){ return Number(item.totalsales)+init},0)
+								  .value()
+								  .toFixed(2);
+		total.totalcash = _(input.list).chain()
+								  .pluck('summary')
+								  .reduce(function(init,item){ return Number(item.cash)+init},0)
+								  .value()
+								  .toFixed(2);
+		total.totalcredit = _(input.list).chain()
+								  .pluck('summary')
+								  .reduce(function(init,item){ return Number(item.credit)+init},0)
+								  .value()
+								  .toFixed(2);
+		total.totaldebit = _(input.list).chain()
+								  .pluck('summary')
+								  .reduce(function(init,item){ return Number(item.debit)+init},0)
+								  .value()
+								  .toFixed(2);
+		total.totalmobile = _(input.list).chain()
+								  .pluck('summary')
+								  .reduce(function(init,item){ return Number(item.mobile)+init},0)
+								  .value()
+								  .toFixed(2);
+		total.totalother = _(input.list).chain()
+								  .pluck('summary')
+								  .reduce(function(init,item){ return Number(item.other)+init},0)
+								  .value()
+								  .toFixed(2);
+		input.total = total;
+		return input;
+	};
+	
 	var result = {};
 	
 	if(!_.isEmpty(ReportData.company)) {
@@ -101,15 +167,62 @@ function extractSalesSummaryTableInfo(list) {
 						other:(peroid.otherpayment-peroid.otherrefund).toFixed(2)
 					}};
 		});
-		result.totalsales = 100;
-		result.totaltransactions=100;
 		
+		
+		result = appendTotals(result);
 		return result;
 		
 	} else if(!_.isEmpty(ReportData.group)) {
+		var groups = [ReportData.group];
+		result.list = _.map(list, function(item){
+			var peroid = item.period;
+			var namenum = getStoreNameNum(groups,item.id);
+			return {groupName:getGroupName(groups,item.id),
+					storeName:namenum.name,
+					storeNumber:namenum.num,
+					summary:{
+						numberoftransactions:peroid.noofpayment+peroid.noofrefund,
+						sales:(peroid.netsales-peroid.netrefund).toFixed(2),
+						tax1:(peroid.netsaletax1-peroid.netrefundtax1).toFixed(2),
+						tax3:(peroid.netsaletax3-peroid.netrefundtax3).toFixed(2),
+						totalsales:(Number(peroid.netsalestotal)).toFixed(2),
+						cash:(peroid.cashpayment-peroid.cashrefund).toFixed(2),
+						credit:(peroid.creditpayment-peroid.creditrefund).toFixed(2),
+						debit:(peroid.debitpayment-peroid.debitrefund).toFixed(2),
+						mobile:(peroid.mobilepayment-peroid.mobilerefund).toFixed(2),
+						other:(peroid.otherpayment-peroid.otherrefund).toFixed(2)
+					}};
+		});
+		
+		
+		result = appendTotals(result);
+		return result;
 		
 	} else if(!_.isEmpty(ReportData.store)) {
+		//var groups = [ReportData.group];
+		result.list = _.map(list, function(item){
+			var peroid = item.period;
+			//var namenum = getStoreNameNum(groups,item.id);
+			return {groupName:ReportData.groupName,//getGroupName(groups,item.id),
+					storeName:ReportData.store.storeName,//namenum.name,
+					storeNumber:ReportData.store.number,
+					summary:{
+						numberoftransactions:peroid.noofpayment+peroid.noofrefund,
+						sales:(peroid.netsales-peroid.netrefund).toFixed(2),
+						tax1:(peroid.netsaletax1-peroid.netrefundtax1).toFixed(2),
+						tax3:(peroid.netsaletax3-peroid.netrefundtax3).toFixed(2),
+						totalsales:(Number(peroid.netsalestotal)).toFixed(2),
+						cash:(peroid.cashpayment-peroid.cashrefund).toFixed(2),
+						credit:(peroid.creditpayment-peroid.creditrefund).toFixed(2),
+						debit:(peroid.debitpayment-peroid.debitrefund).toFixed(2),
+						mobile:(peroid.mobilepayment-peroid.mobilerefund).toFixed(2),
+						other:(peroid.otherpayment-peroid.otherrefund).toFixed(2)
+					}};
+		});
 		
+		
+		result = appendTotals(result);
+		return result;
 	}
 };
 
