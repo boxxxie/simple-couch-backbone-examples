@@ -1,80 +1,23 @@
-var testGroupTableHowAreWeToday = {
-	breadCrumb:"Company : test Company",
-	list:[{groupName:"test gr1",
-			group_id:"test-group-id1",
-			numberoftransactions:10,
-			menu:100.00,
-			scan:100.00,
-			ecr:100.00,
-			total:300.00,
-			avgsale:3.00},
-			{groupName:"test gr2",
-			group_id:"test-group-id2",
-			numberoftransactions:10,
-			menu:100.00,
-			scan:100.00,
-			ecr:100.00,
-			total:300.00,
-			avgsale:3.00}],
-	totalnumberoftransactions:20,
-	totalmenu:200.00,
-	totalscan:200.00,
-	totalecr:200.00,
-	totaltotal:600.00,
-	totalavgsale:3.00
-};
-
-var testStoreTableHowAreWeToday = {
-	breadCrumb:"Company : test Company, Group : test Group",
-	list:[{storeName:"test store", storeNumber:1,
-			store_id:"test-store-id1",
-			numberoftransactions:10,
-			menu:100.00,
-			scan:100.00,
-			ecr:100.00,
-			total:300.00,
-			avgsale:3.00},
-			{storeName:"test store", storeNumber:2,
-			store_id:"test-store-id1",
-			numberoftransactions:10,
-			menu:100.00,
-			scan:100.00,
-			ecr:100.00,
-			total:300.00,
-			avgsale:3.00}],
-	totalnumberoftransactions:20,
-	totalmenu:200.00,
-	totalscan:200.00,
-	totalecr:200.00,
-	totaltotal:600.00,
-	totalavgsale:3.00
-};
-
-var testTerminalTableHowAreWeToday = {
-	breadCrumb:"Company : test Company, Group : test Group, Store : test Store",
-	list:[{terminalName:"test terminal1",
-			numberoftransactions:10,
-			menu:100.00,
-			scan:100.00,
-			ecr:100.00,
-			total:300.00,
-			avgsale:3.00},
-			{terminalName:"test terminal2",
-			numberoftransactions:10,
-			menu:100.00,
-			scan:100.00,
-			ecr:100.00,
-			total:300.00,
-			avgsale:3.00}],
-	totalnumberoftransactions:20,
-	totalmenu:200.00,
-	totalscan:200.00,
-	totalecr:200.00,
-	totaltotal:600.00,
-	totalavgsale:3.00,
-	cancelledtransactions:10,
-	refundtransactions:10
-};
+//getstuff([children],parent,{start:,end:}) -> 
+//children ~ {id:,name:}
+//_.renameKeys(obj,{oldKey:'newkey'});
+var testStoreTableHowAreWeToday = 
+    {
+	items:[{name:"test store",
+		id:"...", 
+		transactions:10,
+		menu:100.00,
+		scan:100.00,
+		ecr:100.00,
+		total:300.00,
+		avgsale:3.00}],
+	total:{
+		transactions:10,
+		menu:100.00,
+		scan:100.00,
+		ecr:100.00,
+		total:300.00,
+		avgsale:3.00}};
 
 /*************************************** company level : How Are We Doing Today ******************************/
 var menuReportsHowAreWeDoingTodayCompanyRouter = 
@@ -96,8 +39,8 @@ var menuReportsHowAreWeDoingTodayCompanyRouter =
 	      HowAreWeCompany_terminalsTable:function(store_id) {
 	     	  console.log("HowAreWeCompany_terminalsTable");
 	      }}));
-	      
-	    
+
+
 var companyReportHowAreWeTodayView = 
     Backbone.View.extend(
 	{initialize:function(){
@@ -131,22 +74,22 @@ var companyReportHowAreWeTodayView =
 		       });
 	 },
 	 renderGroupsTable_HowAreWeToday: function() {
-	 	var html = ich.groupsTabel_HowAreWeToday_TMP(_.extend(testGroupTableHowAreWeToday,{startPage:"companyReport"}));
-		$(this.el).html(html);
+	     var html = ich.groupsTabel_HowAreWeToday_TMP(_.extend(testGroupTableHowAreWeToday,{startPage:"companyReport"}));
+	     $(this.el).html(html);
 	     //generalReportRenderer(this,getGroupsTableParam(),'groupsTabel_TMP','group_id')(log("companyReportView renderGroupsTable"));
 	 },
 	 renderStoresTable_HowAreWeToday: function(id) {
-	 	var html = ich.storesTabel_HowAreWeToday_TMP(_.extend(testStoreTableHowAreWeToday,{startPage:"companyReport"}));
-		$(this.el).html(html);	     
-		//generalReportRenderer(this,getStoresTableParam(id),'storesTabel_TMP','store_id')(log("companyReportView renderStoresTable"));
+	     var html = ich.storesTabel_HowAreWeToday_TMP(_.extend(testStoreTableHowAreWeToday,{startPage:"companyReport"}));
+	     $(this.el).html(html);	     
+	     //generalReportRenderer(this,getStoresTableParam(id),'storesTabel_TMP','store_id')(log("companyReportView renderStoresTable"));
 	 },
 	 renderTerminalsTable_HowAreWeToday : function(id) {
-	 	var html = ich.terminalsTabel_HowAreWeToday_TMP(_.extend(testTerminalTableHowAreWeToday,{startPage:"companyReport"}));
-	 	$(this.el).html(html);
+	     var html = ich.terminalsTabel_HowAreWeToday_TMP(_.extend(testTerminalTableHowAreWeToday,{startPage:"companyReport"}));
+	     $(this.el).html(html);
 	     //generalReportRenderer(this,getTerminalsTableParam(id),'terminalsTabel_TMP','terminal_id')(log("companyReportView renderTerminalsTable"));
 	 }
 	});
-	    
+
 
 
 /*************************************** group level : How Are We Doing Today ******************************/
@@ -163,7 +106,7 @@ var menuReportsHowAreWeDoingTodayGroupRouter =
 	      HowAreWeGroup_terminalsTable:function(store_id) {
 	     	  console.log("HowAreWeGroup_terminalsTable");
 	      }}));
-	      
+
 var groupReportHowAreWeTodayView = 
     Backbone.View.extend(
 	{initialize:function(){
@@ -189,17 +132,17 @@ var groupReportHowAreWeTodayView =
 		       });
 	 },
 	 renderStoresTable_HowAreWeToday: function(id) {
-	 	var html = ich.storesTabel_HowAreWeToday_TMP(_.extend(testStoreTableHowAreWeToday,{startPage:"groupReport"}));
-		$(this.el).html(html);	     
-		//generalReportRenderer(this,getStoresTableParam(id),'storesTabel_TMP','store_id')(log("companyReportView renderStoresTable"));
+	     var html = ich.storesTabel_HowAreWeToday_TMP(_.extend(testStoreTableHowAreWeToday,{startPage:"groupReport"}));
+	     $(this.el).html(html);	     
+	     //generalReportRenderer(this,getStoresTableParam(id),'storesTabel_TMP','store_id')(log("companyReportView renderStoresTable"));
 	 },
 	 renderTerminalsTable_HowAreWeToday : function(id) {
-	 	var html = ich.terminalsTabel_HowAreWeToday_TMP(_.extend(testTerminalTableHowAreWeToday,{startPage:"groupReport"}));
-	 	$(this.el).html(html);
+	     var html = ich.terminalsTabel_HowAreWeToday_TMP(_.extend(testTerminalTableHowAreWeToday,{startPage:"groupReport"}));
+	     $(this.el).html(html);
 	     //generalReportRenderer(this,getTerminalsTableParam(id),'terminalsTabel_TMP','terminal_id')(log("companyReportView renderTerminalsTable"));
 	 }
 	});
-	      
+
 
 /*************************************** store level : How Are We Doing Today ******************************/
 var menuReportsHowAreWeDoingTodayStoreRouter = 
@@ -212,7 +155,7 @@ var menuReportsHowAreWeDoingTodayStoreRouter =
 	     	     console.log("HowAreWeStore_terminalsTable");
 		 }
 	     }));
-	     
+
 var storeReportHowAreWeTodayView = 
     Backbone.View.extend(
 	{initialize:function(){
@@ -230,8 +173,8 @@ var storeReportHowAreWeTodayView =
 		       });
 	 },
 	 renderTerminalsTable_HowAreWeToday : function(id) {
-	 	var html = ich.terminalsTabel_HowAreWeToday_TMP(_.extend(testTerminalTableHowAreWeToday,{startPage:"storeReport"}));
-	 	$(this.el).html(html);
+	     var html = ich.terminalsTabel_HowAreWeToday_TMP(_.extend(testTerminalTableHowAreWeToday,{startPage:"storeReport"}));
+	     $(this.el).html(html);
 	     //generalReportRenderer(this,getTerminalsTableParam(id),'terminalsTabel_TMP','terminal_id')(log("companyReportView renderTerminalsTable"));
 	 }
 	});

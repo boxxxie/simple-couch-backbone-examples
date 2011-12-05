@@ -112,3 +112,7 @@ _.mixin({renameKeys:function (toEdit,fieldMap){
 		 .extend(remap)
 		 .value();
 	 }});
+
+_.mixin({merge:function (objArray){
+	    return _.reduce(objArray,function(sum,cur){return _.extend(sum,cur);},{});
+	 }});

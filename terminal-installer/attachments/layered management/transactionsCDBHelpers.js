@@ -36,6 +36,116 @@ function returnQuery(callback){
     };
 };
 
+function originTodaysSalesFetcher(view,db,id,runAfter){
+//return
+/*var testStoreTableHowAreWeToday = 
+    {
+	items:[{name:"test store",
+		id:"...", 
+		transactions:10,
+		menu:100.00,
+		scan:100.00,
+		ecr:100.00,
+		total:300.00,
+		avgsale:3.00}],
+	total:{
+		transactions:10,
+		menu:100.00,
+		scan:100.00,
+		ecr:100.00,
+		total:300.00,
+		avgsale:3.00}};*/
+    var d = relative_dates();
+    var menuSales = typedTransactionRangeQuery(view,db,[id,'SALE','MENU'])(d.today,d.tomorrow);
+    var menuRefunds = typedTransactionRangeQuery(view,db,[id,'REFUND','MENU'])(d.today,d.tomorrow);
+    var scanSales = typedTransactionRangeQuery(view,db,[id,'SALE','SCAN'])(d.today,d.tomorrow);
+    var scanRefunds = typedTransactionRangeQuery(view,db,[id,'REFUND','SCAN'])(d.today,d.tomorrow);
+    var ecrSales = typedTransactionRangeQuery(view,db,[id,'SALE','ECR'])(d.today,d.tomorrow);
+    var ecrRefunds = typedTransactionRangeQuery(view,db,[id,'REFUND','ECR'])(d.today,d.tomorrow);
+
+    function extractTotalSales(salesData,refundsData){
+	function sum(total,cur){
+	    return total + cur.value.sum;
+	}
+	var sales = 0, refunds = 0;
+	_.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows).value.sum: sales = 0;
+	_.isFirstNotEmpty(refundsData.rows)? refunds = _.first(refundsData.rows).value.sum: refunds = 0;
+	return sales - refunds;
+    }
+
+    async
+	.parallel(
+	    {menuSales:function(callback){menuSales(returnQuery(callback));},
+	     menuRefunds:function(callback){menuRefunds(returnQuery(callback));},
+	     scanSales:function(callback){scanSales(returnQuery(callback));},
+	     scanRefunds:function(callback){scanRefunds(returnQuery(callback));},
+	     ecrSales:function(callback){ecrSales(returnQuery(callback));},
+	     ecrRefunds:function(callback){ecrRefunds(returnQuery(callback));}
+	    },
+	    function(err,report){
+		var sales = {};
+		sales.menu = extractTotalSales(report.menuSales,report.menuRefunds);
+		sales.scan = extractTotalSales(report.scanSales,report.scanRefunds);
+		sales.ecr = extractTotalSales(report.ecrSales,report.ecrRefunds);
+		runAfter(sales);	  
+	    });
+};
+function todaysSalesFetcher(view,db,id,runAfter){
+//return
+/*var testStoreTableHowAreWeToday = 
+    {
+	items:[{name:"test store",
+		id:"...", 
+		transactions:10,
+		menu:100.00,
+		scan:100.00,
+		ecr:100.00,
+		total:300.00,
+		avgsale:3.00}],
+	total:{
+		transactions:10,
+		menu:100.00,
+		scan:100.00,
+		ecr:100.00,
+		total:300.00,
+		avgsale:3.00}};*/
+    var d = relative_dates();
+    var sales = typedTransactionRangeQuery(view,db,[id,'SALE'])(d.today,d.tomorrow);
+    var refunds = typedTransactionRangeQuery(view,db,[id,'REFUND'])(d.today,d.tomorrow);
+
+    function extractTotalSales(salesData,refundsData){
+	function sum(total,cur){
+	    return total + cur.value.sum;
+	}
+	var sales = 0, refunds = 0;
+	_.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows).value.sum: sales = 0;
+	_.isFirstNotEmpty(refundsData.rows)? refunds = _.first(refundsData.rows).value.sum: refunds = 0;
+	return sales - refunds;
+    }
+
+    function extractTotalTransactions(salesData,refundsData){
+	function sum(total,cur){
+	    return total + cur.value.count;
+	}
+	var sales = 0, refunds = 0;
+	_.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows).value.sum: sales = 0;
+	_.isFirstNotEmpty(refundsData.rows)? refunds = _.first(refundsData.rows).value.sum: refunds = 0;
+	return sales + refunds;
+    }
+
+    async
+	.parallel(
+	    {sales:function(callback){sales(returnQuery(callback));},
+	     refunds:function(callback){refunds(returnQuery(callback));}
+	    },
+	    function(err,report){
+		var sales = {};
+		sales.total = extractTotalSales(report.sales,report.refunds);
+		sales.transactions = extractTotalTransactions(report.sales,report.refunds);
+		sales.avgsale = sales.total / sales.transactions;
+		runAfter(sales);	  
+	    });
+};
 function generalSalesReportFetcher(view,db,id,runAfter){
     var companySalesBaseKey = [id];
     var companySalesRangeQuery = typedTransactionRangeQuery(view,db,companySalesBaseKey);
@@ -60,7 +170,7 @@ function generalSalesReportFetcher(view,db,id,runAfter){
 		sales.yesterdaysales= extractTotalSales(report.yesterdaysSales,report.yesterdaysRefunds).toFixed(2);
 		sales.mtdsales = extractTotalSales(report.monthsSales,report.monthsRefunds).toFixed(2);
 		sales.ytdsales = extractTotalSales(report.yearsSales,report.yearsRefunds).toFixed(2);
-		runAfter({sales:sales});	  
+		runAfter(sales);	  
 	    });
 };
 
@@ -129,8 +239,7 @@ function generalCashoutFetcher_Period(view,db,id,startDate,endDate,runAfter){
     
     async
 	.parallel(
-	    {period:function(callback){companySalesRangeQuery(dateStart,dateEnd)(returnQuery(callback));},
-	    },
+	    {period:function(callback){companySalesRangeQuery(dateStart,dateEnd)(returnQuery(callback));}},
 	    function(err,report){
 		var cashouts = {};
 		cashouts.period = (_.isFirstNotEmpty(report.period.rows)? _.first(report.period.rows).value:ZEROED_FIELDS);
@@ -181,6 +290,28 @@ function generalSalesReportArrayFetcher(view,db,ids,runAfter){
 	      runAfter);
 };
 
+function originTodaysSalesArrayFetcher(view,db,ids,runAfter){
+    async.map(ids, 
+	      function(id,callback){
+		  originTodaysSalesFetcher(view,db,id,
+					    function(salesData){
+						callback(null,salesData);
+					    });
+	      },
+	      runAfter);
+};
+
+function todaysSalesArrayFetcher(view,db,ids,runAfter){
+    async.map(ids, 
+	      function(id,callback){
+		  todaysSalesFetcher(view,db,id,
+					    function(salesData){
+						callback(null,salesData);
+					    });
+	      },
+	      runAfter);
+};
+
 function generalCashoutReportArrayFetcher(view,db,ids,runAfter){
     async.map(ids, 
 	      function(id,callback){
@@ -193,12 +324,12 @@ function generalCashoutReportArrayFetcher(view,db,ids,runAfter){
 };
 
 function generalCashoutArrayFetcher_Period(view,db,ids,startDate,endDate,runAfter) {
-	async.map(ids, 
+    async.map(ids, 
 	      function(id,callback){
 		  generalCashoutFetcher_Period(view,db,id,startDate,endDate,
-					      function(salesData){
-						  callback(null,salesData);
-					      });
+					       function(salesData){
+						   callback(null,salesData);
+					       });
 	      },
 	      runAfter);
 };
@@ -230,4 +361,31 @@ function cashoutFetcher_Period(ids,startDate,endDate,callback){
     else{
 	return generalCashoutArrayFetcher_Period(transactionsView,transaction_db,ids,startDate,endDate,callback);
     }
+};
+
+function howAreWeDoingTodayReportFetcher(childrenObjs,parentObj,runAfter){
+    childrenObjs = [{id:"3d563af3-4b07-5780-01ab-2a579b6d6b0c",name:"boib"}];
+    parentObj = {id:"3d563af3-4b07-5780-01ab-2a579b6d6b0c"};
+
+    var childrenIDs = _.pluck(childrenObjs,'id');
+    var parentID = parentObj.id;
+
+    var transactionsView = cdb.view('reporting','id_type_origin_date');
+    var transactionsTotalView = cdb.view('reporting','id_type_date');
+    var transaction_db = cdb.db('transactions');
+    if(!_.isArray(childrenIDs)){childrenIDs = [childrenIDs];} 
+    if(!_.isArray(parentID)){parentID = [parentID];}
+
+    async
+	.parallel(
+	    {originSales:function(callback){originTodaysSalesArrayFetcher(transactionsView,transaction_db,childrenIDs,function(err,data){callback(null, data);});},
+	     totalSales:function(callback){todaysSalesArrayFetcher(transactionsTotalView,transaction_db,childrenIDs,function(err,data){callback(null, data);});},
+	     parentOriginSales:function(callback){originTodaysSalesArrayFetcher(transactionsView,transaction_db,parentID,function(err,data){callback(null, data);});},
+	     parentTotalSales:function(callback){todaysSalesArrayFetcher(transactionsTotalView,transaction_db,parentID,function(err,data){callback(null, data);});}
+	    },
+	    function(err,report){
+		var salesActivityList = {items:_(report.originSales).chain().zip(report.totalSales,childrenObjs).map(function(group){return _.merge(group);}).value(),
+					total:_.extend({},_.first(report.parentOriginSales),_.first(report.parentTotalSales))};
+		runAfter(salesActivityList);	  
+	    });
 };
