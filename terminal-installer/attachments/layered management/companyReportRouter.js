@@ -63,7 +63,7 @@ var companyReportView =
     Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
-	     view.el = $("body");
+	     view.el = $("main");
 	     
 	     _.bindAll(view, 
 		       'renderCompanyReport' , 
