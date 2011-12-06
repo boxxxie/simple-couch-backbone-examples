@@ -20,7 +20,11 @@ _.mixin({
 _.mixin({
 	    /*applies a function over the values of an object*/
 	    applyToValues:function(obj,fn){
-		    return _(_.clone(obj)).chain().kv().map(function(pair){pair[1] = fn(pair[1]);return pair;}).toObject().value();
+		    return _(_.clone(obj)).chain()
+		    .kv()
+		    .map(function(pair){pair[1] = fn(pair[1]);return pair;})
+		    .toObject()
+		    .value();
 		}});
 
 _.mixin({
