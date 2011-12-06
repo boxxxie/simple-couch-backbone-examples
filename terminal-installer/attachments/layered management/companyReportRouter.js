@@ -23,11 +23,11 @@ function generalReportRenderer(view,param,template,idField){
     };
 
     return function(callback){
-	extractSalesDataFromIds(param.list,idField,function(listForTable){
+	extractSalesDataFromIds(param.list,idField, function(listForTable){
 				    param.list =  listForTable;
 				    var formattedSales = generateFormattedSales(param.list);
 				    _.extend(param, {breadCrumb:"Company : " + 
-						     ReportData.company.operationalname},{sales:formattedSales});
+						     ReportData.company.operationalname, sales:formattedSales});
 				    var html = ich[template](param);
 				    $(view.el).html(html);
 				    if(_.isFunction(callback)){callback(param);}

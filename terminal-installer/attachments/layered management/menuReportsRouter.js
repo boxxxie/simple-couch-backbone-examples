@@ -110,7 +110,7 @@ var menuReportsView =
 		 .datepicker({
 				 defaultDate: "+1w",
 				 changeMonth: true,
-				 numberOfMonths: 3,
+				 numberOfMonths: 2,
 				 onSelect: function( selectedDate ) {
 				     var option = this.id == "dateFrom" ? "minDate" : "maxDate",
 				     instance = $( this ).data( "datepicker" ),
@@ -150,7 +150,7 @@ var menuReportsView =
 		 .datepicker({
 				 defaultDate: "+1w",
 				 changeMonth: true,
-				 numberOfMonths: 3,
+				 numberOfMonths: 2,
 				 onSelect: function( selectedDate ) {
 				     var option = this.id == "dateFrom" ? "minDate" : "maxDate",
 				     instance = $( this ).data( "datepicker" ),
@@ -187,7 +187,7 @@ var menuReportsView =
 		 .datepicker({
 				 defaultDate: "+1w",
 				 changeMonth: true,
-				 numberOfMonths: 3,
+				 numberOfMonths: 2,
 				 onSelect: function( selectedDate ) {
 				     var option = this.id == "dateFrom" ? "minDate" : "maxDate",
 				     instance = $( this ).data( "datepicker" ),

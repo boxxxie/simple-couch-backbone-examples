@@ -92,7 +92,7 @@ function getGroupsTableParam() {
 							+ " , Date: " + (new Date()).toLocaleDateString()}
 				     };
 				 })}, {startPage:"companyReport",
-				       breadcrumb:breadCrumb(company.operationalname)});
+				       breadCrumb:breadCrumb(company.operationalname)});
 };
 
 
@@ -121,7 +121,7 @@ function getStoresTableParam(group_id) {
 	
 	return _.extend({list: _.map(stores, function(store) {
 					 var numberOfTerminals = _.size(store.terminals);
-					 return {operationalname:company.companyName,
+					 return {operationalname:company.operationalname,
 						 groupName:store.groupName,
 						 store_id:store.store_id,
 						 storeName:store.storeName,
@@ -135,7 +135,7 @@ function getStoresTableParam(group_id) {
 								+ " , Date: " + (new Date()).toLocaleDateString()}
 						};
 				     })}, {startPage:"companyReport",
-					   breadcrumb:breadCrumb(company.operationalname,groupName)});
+					   breadCrumb:breadCrumb(company.operationalname,groupName)});
     } 
     else if(!_.isEmpty(ReportData.group)) {
 	var group = ReportData.group;
@@ -148,15 +148,15 @@ function getStoresTableParam(group_id) {
 						 storeName:store.storeName,
 						 storeNumber:store.number,
 						 numberOfTerminals:numberOfTerminals,
-						 quickViewArgs:{id:store.store_id, 
-								title:"Company: " + company.operationalname 
+						 quickViewArgs:{id:group.store_id, 
+								title:"Company: " + ReportData.companyName 
 								+ " , Group: " + store.groupName
 								+ " , Store: " + store.storeName
 								+ " , Terminals #: " + numberOfTerminals
 								+ " , Date: " + (new Date()).toLocaleDateString()}
 						};
 				     })},{startPage:"groupReport",
-					  breadcrumb:breadCrumb(company.operationalname,group.groupName)});
+					  breadCrumb:breadCrumb(ReportData.companyName,group.groupName)});
     }
 };
 
@@ -217,39 +217,35 @@ function getTerminalsTableParam() {
 		    //if(this.key == 'stores'){this.update(_.flatten(node));};
 		});
     }
+    
     function shiftUpTerminals(tree){
 	return traverse(tree).
 	    map(function (node){
-		    if(this.parent && this.parent.parent.key == 'stores' && !node.terminals){
+		    if(this.parent && this.parent.parent && this.parent.parent.key == 'stores' && !node.terminals){
 			this.remove();
-		    }
-		}
-	       );
+		    }});
     }
-/*    
-    function mergeGroupStatsWithTerminals(tree){
-	return	traverse(tree).
-	    map(function (node){
-		    if(node.stores){
-			var mergedWithTerminals = _(node.terminals).
-			    map(extendFromParentToChild({groupName:'groupName'})(node));
-			//console.log(mergedWithTerminals);
-			this.update(mergedWithTerminals,true);
-		    }
-		    if(this.key == 'groups'){this.update(_.flatten(node));};
-		});
-    }
-*/
-    
-    console.log("removeHeirachy");
+    /*    
+     function mergeGroupStatsWithTerminals(tree){
+     return	traverse(tree).
+     map(function (node){
+     if(node.stores){
+     var mergedWithTerminals = _(node.terminals).
+     map(extendFromParentToChild({groupName:'groupName'})(node));
+     //console.log(mergedWithTerminals);
+     this.update(mergedWithTerminals,true);
+     }
+     if(this.key == 'groups'){this.update(_.flatten(node));};
+     });
+     }
+     */
 
-    
     var terminalData = _.compose(
-//	mergeGroupStatsWithTerminals,
+	//	mergeGroupStatsWithTerminals,
 	shiftUpTerminals,
 	mergeStoreStatsWithTerminals,
 	removeHeirachy)
-	(ReportData);
+    (ReportData);
     console.log(terminalData);
     
     console.log("terminal data");
@@ -257,136 +253,137 @@ function getTerminalsTableParam() {
     return {list:[terminalData]}; //should be an array, just for testing
 };
 /*
-function getTerminalsTableParam(store_id) {
-    var misc = ReportData;
-    function getTerminals(){
-	function extendFromParentToChild(keyRemappings){
-	    return function(parent){
-		var example ={
-		    company_id:'_id',
-		    companyName:'operationalname'
-		};
-		if(_.isEmpty(keyRemappings)){
-		    return function(child){
-			return _.extend(child,parent);
-		    };
-		}
-		else{
-		    return function(child){
-			var remappedSelectedParentKeys = 
-			    _(parent).
-			    chain().
-			    selectKeys(_.keys(keyRemappings)).
-			    renameKeys(keyRemappings).
-			    value();
-			return _.extend(child,remappedSelectedParentKeys);
-		    };
-		}
-	    };
-	};
+ function getTerminalsTableParam(store_id) {
+ var misc = ReportData;
+ function getTerminals(){
+ function extendFromParentToChild(keyRemappings){
+ return function(parent){
+ var example ={
+ company_id:'_id',
+ companyName:'operationalname'
+ };
+ if(_.isEmpty(keyRemappings)){
+ return function(child){
+ return _.extend(child,parent);
+ };
+ }
+ else{
+ return function(child){
+ var remappedSelectedParentKeys = 
+ _(parent).
+ chain().
+ selectKeys(_.keys(keyRemappings)).
+ renameKeys(keyRemappings).
+ value();
+ return _.extend(child,remappedSelectedParentKeys);
+ };
+ }
+ };
+ };
 
-	function merge(fieldName,transform){
-	    return function(o){
-		if(o[fieldName]){
-		    return _(o[fieldName])
-			.chain()
-			.flatten()
-			.map(transform(o))
-			.value();
-		}   
-		else{return o;}
-	    };
-	}
+ function merge(fieldName,transform){
+ return function(o){
+ if(o[fieldName]){
+ return _(o[fieldName])
+ .chain()
+ .flatten()
+ .map(transform(o))
+ .value();
+ }   
+ else{return o;}
+ };
+ }
 
-	function hierarchyToGroups(o){
-	    if(o.groups){
-		return o.groups;
-	    } 
-	    else{return o;}
-	}
+ function hierarchyToGroups(o){
+ if(o.groups){
+ return o.groups;
+ } 
+ else{return o;}
+ }
 
-	return _.compose(_.flatten,
-			/* walkF(merge('groups',extendFromParentToChild(
-					 {_id:'company_id',
-					  operationalname:'companyName'}))),
-			 walkF(merge('stores',extendFromParentToChild(
-					 {group_id:'group_id',
-					  groupName:'groupName'}))),
-			 walkF(merge('terminals',extendFromParentToChild(
-					 {store_id:'store_id',
-					  storeName:'storeName',
-					  number:'storeNumber'}))),
-			 function(obj){return _.renameKeys(obj,{hierarchy:'groups'});},
-			 walkF(hierarchyToGroups)
-			)
-	(misc);
-    }
+ return _.compose(_.flatten,
+ /* walkF(merge('groups',extendFromParentToChild(
+ {_id:'company_id',
+ operationalname:'companyName'}))),
+ walkF(merge('stores',extendFromParentToChild(
+ {group_id:'group_id',
+ groupName:'groupName'}))),
+ walkF(merge('terminals',extendFromParentToChild(
+ {store_id:'store_id',
+ storeName:'storeName',
+ number:'storeNumber'}))),
+ function(obj){return _.renameKeys(obj,{hierarchy:'groups'});},
+ walkF(hierarchyToGroups)
+ )
+ (misc);
+ }
 
-    var terminals = _.map(getTerminals(),function(terminal){
-			      return _.extend(terminal,{id:terminal.terminal_id});});
-								       title:"Company: " + company.operationalname 
-								       + " , Group: " + terminal.groupName
-								       + " , Store: " + terminal.storeName
-								       + " , Terminal: " + terminal.terminalName
-								       + " , Date: " + (new Date()).toLocaleDateString()}});});
-    var traverse = require('traverse');
+ var terminals = _.map(getTerminals(),function(terminal){
+ return _.extend(terminal,{id:terminal.terminal_id});});
+ title:"Company: " + company.operationalname 
+ + " , Group: " + terminal.groupName
+ + " , Store: " + terminal.storeName
+ + " , Terminal: " + terminal.terminalName
+ + " , Date: " + (new Date()).toLocaleDateString()}});});
+ var traverse = require('traverse');
 
-    var leaves = traverse(misc).reduce(function (acc, x) {
-					   if (this.isLeaf){
-					       var ret = {};
-					       ret[this.key] = x;
-					       acc(ret);
-					   }
-					   return acc;
-				       }, {});
+ var leaves = traverse(misc).reduce(function (acc, x) {
+ if (this.isLeaf){
+ var ret = {};
+ ret[this.key] = x;
+ acc(ret);
+ }
+ return acc;
+ }, {});
 
-    console.dir(leaves);
-    return terminals;
-	/*					
-    //dealing with one or many stores? need same with group.... fixme:
-    if(!_.isEmpty(store_id)){
-	var storeName = _.first(terminals).storeName;
-	var groupName = _.first(terminals).groupName;
-    } 
+ console.dir(leaves);
+ return terminals;
+ /*					
+ //dealing with one or many stores? need same with group.... fixme:
+ if(!_.isEmpty(store_id)){
+ var storeName = _.first(terminals).storeName;
+ var groupName = _.first(terminals).groupName;
+ } 
 
-<<<<<<< HEAD
-    if(!_.isEmpty(company)){
-	return _.extend({list: _.map(terminals, 
-				     function(terminal) {
-					 return {operationalname:company.operationalname,
-						 groupName:terminal.groupName,
-						 storeName:terminal.storeName,
-						 storeNumber:terminal.storeNumber,
-						 terminalName:terminal.terminal_label,
-						 terminal_id:terminal.terminal_id,
-						 quickViewArgs:{id:terminal.terminal_id, 
-								title:"Company: " + company.operationalname 
-								+ " , Group: " + terminal.groupName
-								+ " , Store: " + terminal.storeName
-								+ " , Terminal: " + terminal.terminalName
-								+ " , Date: " + (new Date()).toLocaleDateString()}
-						};
-				     })},{startPage:"companyReport",
-					  breadcrumb:breadCrumb(company.operationalname,groupName,storeName)});
-    } else if(!_.isEmpty(group)) {
-	return _.extend({list: _.map(terminals, function(terminal) {
-					 return {operationalname:ReportData.operationalname,
-						 groupName:terminal.groupName,
-						 storeName:terminal.storeName,
-						 storeNumber:terminal.storeNumber,
-						 terminalName:terminal.terminal_label,
-						 terminal_id:terminal.terminal_id,
-						 quickViewArgs:{id:terminal.terminal_id, 
-								title:"Company: " + company.operationalname 
-								+ " , Group: " + terminal.groupName
-								+ " , Store: " + terminal.storeName
-								+ " , Terminal: " + terminal.terminalName
-								+ " , Date: " + (new Date()).toLocaleDateString()}
-						};
-				     })},{startPage:"groupReport"});
+ <<<<<<< HEAD
+ if(!_.isEmpty(company)){
+ return _.extend({list: _.map(terminals, 
+ function(terminal) {
+ return {operationalname:company.operationalname,
+ groupName:terminal.groupName,
+ storeName:terminal.storeName,
+ storeNumber:terminal.storeNumber,
+ terminalName:terminal.terminal_label,
+ terminal_id:terminal.terminal_id,
+ quickViewArgs:{id:terminal.terminal_id, 
+ title:"Company: " + company.operationalname 
+ + " , Group: " + terminal.groupName
+ + " , Store: " + terminal.storeName
+ + " , Terminal: " + terminal.terminalName
+ + " , Date: " + (new Date()).toLocaleDateString()}
+ };
+ })},{startPage:"companyReport",
+ breadcrumb:breadCrumb(company.operationalname,groupName,storeName)});
+ } else if(!_.isEmpty(group)) {
+ return _.extend({list: _.map(terminals, function(terminal) {
+ return {operationalname:ReportData.operationalname,
+ groupName:terminal.groupName,
+ storeName:terminal.storeName,
+ storeNumber:terminal.storeNumber,
+ terminalName:terminal.terminal_label,
+ terminal_id:terminal.terminal_id,
+ quickViewArgs:{id:terminal.terminal_id, 
+ title:"Company: " + company.operationalname 
+ + " , Group: " + terminal.groupName
+ + " , Store: " + terminal.storeName
+ + " , Terminal: " + terminal.terminalName
+ + " , Date: " + (new Date()).toLocaleDateString()}
+ };
+ })},{startPage:"groupReport"});
 
-};
-*/
+ };
+ */
+
 //general
 function extractSalesDataFromIds(items,idField,callback){
     transactionsSalesFetcher(_(items).pluck(idField),
@@ -404,5 +401,3 @@ function extractSalesDataFromIds(items,idField,callback){
 				 callback(transformedList);
 			     });
 };
-
-
