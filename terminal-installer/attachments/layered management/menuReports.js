@@ -34,9 +34,7 @@ function renderSalesSummaryReportTable() {
 		var endDate = new Date($("#dateTo").val());
 		
 		if(startDate.equals(endDate)) {
-			endDate.setHours(23);
-			endDate.setMinutes(59);
-			endDate.setSeconds(59);
+			endDate.addDays(1);
 		}
 		
 		var ids = [];
