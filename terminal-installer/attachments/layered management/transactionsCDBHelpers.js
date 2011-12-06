@@ -2,7 +2,10 @@ var ZEROED_FIELDS = {allDiscount: 0, netsales: 0, netsaletax1: 0, netsaletax3: 0
 
 function toFixed(mag){
     return function(num){
-	return num.toFixed(mag);
+	if(_.isNumber(num)){
+	    return num.toFixed(mag);
+	}
+	return num;
     };
 }
 
@@ -34,43 +37,6 @@ function returnQuery(callback){
     return function(query){
 	callback(null, query);
     };
-};
-
-function originTodaysSalesFetcher(view,db,id,runAfter){
-    var d = relative_dates();
-    var menuSales = typedTransactionRangeQuery(view,db,[id,'SALE','MENU'])(d.today,d.tomorrow);
-    var menuRefunds = typedTransactionRangeQuery(view,db,[id,'REFUND','MENU'])(d.today,d.tomorrow);
-    var scanSales = typedTransactionRangeQuery(view,db,[id,'SALE','SCAN'])(d.today,d.tomorrow);
-    var scanRefunds = typedTransactionRangeQuery(view,db,[id,'REFUND','SCAN'])(d.today,d.tomorrow);
-    var ecrSales = typedTransactionRangeQuery(view,db,[id,'SALE','ECR'])(d.today,d.tomorrow);
-    var ecrRefunds = typedTransactionRangeQuery(view,db,[id,'REFUND','ECR'])(d.today,d.tomorrow);
-
-    function extractTotalSales(salesData,refundsData){
-	function sum(total,cur){
-	    return total + cur.value.sum;
-	}
-	var sales = 0, refunds = 0;
-	_.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows).value.sum: sales = 0;
-	_.isFirstNotEmpty(refundsData.rows)? refunds = _.first(refundsData.rows).value.sum: refunds = 0;
-	return sales - refunds;
-    }
-
-    async
-	.parallel(
-	    {menuSales:function(callback){menuSales(returnQuery(callback));},
-	     menuRefunds:function(callback){menuRefunds(returnQuery(callback));},
-	     scanSales:function(callback){scanSales(returnQuery(callback));},
-	     scanRefunds:function(callback){scanRefunds(returnQuery(callback));},
-	     ecrSales:function(callback){ecrSales(returnQuery(callback));},
-	     ecrRefunds:function(callback){ecrRefunds(returnQuery(callback));}
-	    },
-	    function(err,report){
-		var sales = {};
-		sales.menu = extractTotalSales(report.menuSales,report.menuRefunds);
-		sales.scan = extractTotalSales(report.scanSales,report.scanRefunds);
-		sales.ecr = extractTotalSales(report.ecrSales,report.ecrRefunds);
-		runAfter(sales);	  
-	    });
 };
 function todaysSalesFetcher(view,db,id,runAfter){
     var d = relative_dates();
@@ -107,7 +73,131 @@ function todaysSalesFetcher(view,db,id,runAfter){
 		sales.total = extractTotalSales(report.sales,report.refunds);
 		sales.transactions = extractTotalTransactions(report.sales,report.refunds);
 		sales.avgsale = sales.total / sales.transactions;
+		if(_.isNaN(sales.avgsale)){sales.avgsale = 0;}
 		runAfter(sales);	  
+	    });
+};
+function originTodaysSalesFetcher(view,db,id,runAfter){
+    var d = relative_dates();
+    var menuSales = typedTransactionRangeQuery(view,db,[id,'SALE','MENU'])(d.today,d.tomorrow);
+    var menuRefunds = typedTransactionRangeQuery(view,db,[id,'REFUND','MENU'])(d.today,d.tomorrow);
+    var scanSales = typedTransactionRangeQuery(view,db,[id,'SALE','SCAN'])(d.today,d.tomorrow);
+    var scanRefunds = typedTransactionRangeQuery(view,db,[id,'REFUND','SCAN'])(d.today,d.tomorrow);
+    var ecrSales = typedTransactionRangeQuery(view,db,[id,'SALE','ECR'])(d.today,d.tomorrow);
+    var ecrRefunds = typedTransactionRangeQuery(view,db,[id,'REFUND','ECR'])(d.today,d.tomorrow);
+
+    function extractTotalSales(salesData,refundsData){
+	function sum(total,cur){
+	    return total + cur.value.sum;
+	}
+	var sales = 0, refunds = 0;
+	_.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows).value.sum: sales = 0;
+	_.isFirstNotEmpty(refundsData.rows)? refunds = _.first(refundsData.rows).value.sum: refunds = 0;
+	return sales - refunds;
+    }
+
+    async
+	.parallel(
+	    {menuSales:function(callback){menuSales(returnQuery(callback));},
+	     menuRefunds:function(callback){menuRefunds(returnQuery(callback));},
+	     scanSales:function(callback){scanSales(returnQuery(callback));},
+	     scanRefunds:function(callback){scanRefunds(returnQuery(callback));},
+	     ecrSales:function(callback){ecrSales(returnQuery(callback));},
+	     ecrRefunds:function(callback){ecrRefunds(returnQuery(callback));}
+	    },
+	    function(err,report){
+		var sales = {};
+		sales.menu = extractTotalSales(report.menuSales,report.menuRefunds);
+		sales.scan = extractTotalSales(report.scanSales,report.scanRefunds);
+		sales.ecr = extractTotalSales(report.ecrSales,report.ecrRefunds);
+		runAfter(sales);	  
+	    });
+};
+function originTodaysSalesFetcher(view,db,id,runAfter){
+    var d = relative_dates();
+    var menuSales = typedTransactionRangeQuery(view,db,[id,'SALE','MENU'])(d.today,d.tomorrow);
+    var menuRefunds = typedTransactionRangeQuery(view,db,[id,'REFUND','MENU'])(d.today,d.tomorrow);
+    var scanSales = typedTransactionRangeQuery(view,db,[id,'SALE','SCAN'])(d.today,d.tomorrow);
+    var scanRefunds = typedTransactionRangeQuery(view,db,[id,'REFUND','SCAN'])(d.today,d.tomorrow);
+    var ecrSales = typedTransactionRangeQuery(view,db,[id,'SALE','ECR'])(d.today,d.tomorrow);
+    var ecrRefunds = typedTransactionRangeQuery(view,db,[id,'REFUND','ECR'])(d.today,d.tomorrow);
+
+    function extractTotalSales(salesData,refundsData){
+	function sum(total,cur){
+	    return total + cur.value.sum;
+	}
+	var sales = 0, refunds = 0;
+	_.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows).value.sum: sales = 0;
+	_.isFirstNotEmpty(refundsData.rows)? refunds = _.first(refundsData.rows).value.sum: refunds = 0;
+	return sales - refunds;
+    }
+
+    async
+	.parallel(
+	    {menuSales:function(callback){menuSales(returnQuery(callback));},
+	     menuRefunds:function(callback){menuRefunds(returnQuery(callback));},
+	     scanSales:function(callback){scanSales(returnQuery(callback));},
+	     scanRefunds:function(callback){scanRefunds(returnQuery(callback));},
+	     ecrSales:function(callback){ecrSales(returnQuery(callback));},
+	     ecrRefunds:function(callback){ecrRefunds(returnQuery(callback));}
+	    },
+	    function(err,report){
+		var sales = {};
+		sales.menu = extractTotalSales(report.menuSales,report.menuRefunds);
+		sales.scan = extractTotalSales(report.scanSales,report.scanRefunds);
+		sales.ecr = extractTotalSales(report.ecrSales,report.ecrRefunds);
+		runAfter(sales);	  
+	    });
+};
+
+function todaysRefundsFetcher(view,db,id,runAfter){
+    var d = relative_dates();
+    var refunds = typedTransactionRangeQuery(view,db,[id,'REFUND'])(d.today,d.tomorrow);
+
+    function extractTotalRefunds(refundsData){
+	function sum(total,cur){
+	    return total + cur.value.count;
+	}
+	var refunds = 0;
+	_.isFirstNotEmpty(refundsData.rows)? refunds = _.first(refundsData.rows).value.cound: refunds = 0;
+	return refunds;
+    }
+
+    async
+	.parallel(
+	    {
+		refunds:function(callback){refunds(returnQuery(callback));}
+	    },
+	    function(err,report){
+		var refunds = extractTotalRefunds(report.refunds);
+		runAfter(refunds);	  
+	    });
+};
+function todaysVoidsFetcher(view,db,id,runAfter){
+    var d = relative_dates();
+    var refunds = typedTransactionRangeQuery(view,db,[id,'VOIDREFUND'])(d.today,d.tomorrow);
+    var voids = typedTransactionRangeQuery(view,db,[id,'VOID'])(d.today,d.tomorrow);
+
+    function extractTotal(refundsData){
+	function sum(total,cur){
+	    return total + cur.value.count;
+	}
+	var refunds = 0;
+	_.isFirstNotEmpty(refundsData.rows)? refunds = _.first(refundsData.rows).value.count: refunds = 0;
+	return refunds;
+    }
+
+    async
+	.parallel(
+	    {
+		refunds:function(callback){refunds(returnQuery(callback));},
+		voids:function(callback){voids(returnQuery(callback));}
+	    },
+	    function(err,report){
+		var refunds = extractTotal(report.refunds);
+		var voids = extractTotal(report.voids);
+		var total = refunds + voids;
+		runAfter(total);	  
 	    });
 };
 function generalSalesReportFetcher(view,db,id,runAfter){
@@ -134,7 +224,7 @@ function generalSalesReportFetcher(view,db,id,runAfter){
 		sales.yesterdaysales= extractTotalSales(report.yesterdaysSales,report.yesterdaysRefunds).toFixed(2);
 		sales.mtdsales = extractTotalSales(report.monthsSales,report.monthsRefunds).toFixed(2);
 		sales.ytdsales = extractTotalSales(report.yearsSales,report.yearsRefunds).toFixed(2);
-		runAfter(sales);	  
+		runAfter(null,sales);	  
 	    });
 };
 
@@ -348,8 +438,38 @@ function howAreWeDoingTodayReportFetcher(childrenObjs,parentObj,runAfter){
 	     parentTotalSales:function(callback){todaysSalesArrayFetcher(transactionsTotalView,transaction_db,parentID,function(err,data){callback(null, data);});}
 	    },
 	    function(err,report){
-		var salesActivityList = {items:_(report.originSales).chain().zip(report.totalSales,childrenObjs).map(function(group){return _.merge(group);}).value(),
-					total:_.extend({},_.first(report.parentOriginSales),_.first(report.parentTotalSales))};
+		var salesActivityList = {items:_(report.originSales)
+					 .chain()
+					 .zip(report.totalSales,childrenObjs)
+					 .map(function(group){return _.applyToValues(_.merge(group),toFixed(2));})
+					 .value(),
+					 total:_.applyToValues(_.extend({},
+									_.first(report.parentOriginSales),
+									_.first(report.parentTotalSales)),
+							       toFixed(2))
+					};
 		runAfter(salesActivityList);	  
 	    });
+};
+
+function howAreWeDoingTodayTerminalReportFetcher(childrenObjs,parentObj,runAfter){
+    childrenObjs = [{id:"3d563af3-4b07-5780-01ab-2a579b6d6b0c",name:"boib"}];
+    parentObj = {id:"3d563af3-4b07-5780-01ab-2a579b6d6b0c"};
+    var childrenIDs = _.pluck(childrenObjs,'id');
+    var parentID = parentObj.id;
+
+    var transactionsTotalView = cdb.view('reporting','id_type_date');
+    var transaction_db = cdb.db('transactions');
+
+    async
+	.parallel({
+		      hwdt: function(callback){howAreWeDoingTodayReportFetcher(childrenObjs,parentObj, function(data){callback(null,data);});},
+		      refunds:function(callback){todaysRefundsFetcher(transactionsTotalView,transaction_db,parentID,function(data){callback(null,data);});},
+		      voids:function(callback){todaysVoidsFetcher(transactionsTotalView,transaction_db, parentID,function(data){callback(null,data);});}
+		  },
+		  function(err,report){
+		      var templateObj = _.applyToValues(_.merge([report.hwdt,{refundtransactions:report.refunds},{cancelledtransactions:report.voids}]),
+							toFixed(2));
+		      runAfter(templateObj);
+		  });
 };

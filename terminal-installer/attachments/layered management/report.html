@@ -23,7 +23,6 @@
     <script language="javascript" type="text/javascript" src="../lib/forms.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/date.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/async.js"></script>
-    <script language="javascript" type="text/javascript" src="../lib/walk.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/traverse.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/dialogs.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/transactionsCDBHelpers.js"></script>
@@ -413,19 +412,19 @@
 	</tr>
 	{{/list}}
 	<tr>
-		{{#total}}
-		<td colspan="3" align="center">TOTAL</td>
-		<td align="right">{{totaltransactions}}</td>
-		<td align="right">{{totalsales}}</td>
-		<td align="right">{{totaltax1}}</td>
-		<td align="right">{{totaltax3}}</td>
-		<td align="right">{{totaltotalsales}}</td>
-		<td align="right">{{totalcash}}</td>
-		<td align="right">{{totalcredit}}</td>
-		<td align="right">{{totaldebit}}</td>
-		<td align="right">{{totalmobile}}</td>
-		<td align="right">{{totalother}}</td>
-		{{/total}}
+	  {{#total}}
+	  <td colspan="3" align="center">TOTAL</td>
+	  <td align="right">{{totaltransactions}}</td>
+	  <td align="right">{{totalsales}}</td>
+	  <td align="right">{{totaltax1}}</td>
+	  <td align="right">{{totaltax3}}</td>
+	  <td align="right">{{totaltotalsales}}</td>
+	  <td align="right">{{totalcash}}</td>
+	  <td align="right">{{totalcredit}}</td>
+	  <td align="right">{{totaldebit}}</td>
+	  <td align="right">{{totalmobile}}</td>
+	  <td align="right">{{totalother}}</td>
+	  {{/total}}
 	</tr>
       </table>
     </script> 
@@ -469,15 +468,15 @@
 	</tr>
 	{{/items}}
 	<tr>
-		<td>Totals</td>
-		{{#total}}
-		<td align="right">{{transactions}}</td>	
-		<td align="right">{{menu}}</td>
-		<td align="right">{{scan}}</td>
-		<td align="right">{{ecr}}</td>
-		<td align="right">{{total}}</td>
-		<td align="right">{{avgsale}}</td>
-		{{/total}}
+	  <td>Totals</td>
+	  {{#total}}
+	  <td align="right">{{transactions}}</td>	
+	  <td align="right">{{menu}}</td>
+	  <td align="right">{{scan}}</td>
+	  <td align="right">{{ecr}}</td>
+	  <td align="right">{{total}}</td>
+	  <td align="right">{{avgsale}}</td>
+	  {{/total}}
 	</tr>
       </table>
       {{>backButton_P}}
@@ -485,7 +484,7 @@
     </script>
 
 
-	<!------------------------------------- HowAreWeToday StoreTable TMP -------------------------------------------->
+    <!------------------------------------- HowAreWeToday StoreTable TMP -------------------------------------------->
     <script id="storesTabel_HowAreWeToday_TMP" type="text/html">
       <h1>How Are We Doing Today</h1>
       <h2>{{breadCrumb}}</h2>
@@ -511,15 +510,15 @@
 	</tr>
 	{{/items}}
 	<tr>
-		<td>Totals</td>
-		{{#total}}
-		<td align="right">{{transactions}}</td>	
-		<td align="right">{{menu}}</td>
-		<td align="right">{{scan}}</td>
-		<td align="right">{{ecr}}</td>
-		<td align="right">{{total}}</td>
-		<td align="right">{{avgsale}}</td>
-		{{/total}}
+	  <td>Totals</td>
+	  {{#total}}
+	  <td align="right">{{transactions}}</td>	
+	  <td align="right">{{menu}}</td>
+	  <td align="right">{{scan}}</td>
+	  <td align="right">{{ecr}}</td>
+	  <td align="right">{{total}}</td>
+	  <td align="right">{{avgsale}}</td>
+	  {{/total}}
 	</tr>
       </table>
       {{>backButton_P}}
@@ -527,7 +526,7 @@
     </script>
 
 
-	<!------------------------------------- HowAreWeToday TerminalTable TMP -------------------------------------------->
+    <!------------------------------------- HowAreWeToday TerminalTable TMP -------------------------------------------->
     <script id="terminalsTabel_HowAreWeToday_TMP" type="text/html">
       <h1>How Are We Doing Today</h1>
       <h2>{{breadCrumb}}</h2>
@@ -553,15 +552,15 @@
 	</tr>
 	{{/items}}
 	<tr>
-		<td>Totals</td>
-		{{#total}}
-		<td align="right">{{transactions}}</td>	
-		<td align="right">{{menu}}</td>
-		<td align="right">{{scan}}</td>
-		<td align="right">{{ecr}}</td>
-		<td align="right">{{total}}</td>
-		<td align="right">{{avgsale}}</td>
-		{{/total}}
+	  <td>Totals</td>
+	  {{#total}}
+	  <td align="right">{{transactions}}</td>	
+	  <td align="right">{{menu}}</td>
+	  <td align="right">{{scan}}</td>
+	  <td align="right">{{ecr}}</td>
+	  <td align="right">{{total}}</td>
+	  <td align="right">{{avgsale}}</td>
+	  {{/total}}
 	</tr>
       </table>
       <label>Number of Cancelled Transactions : {{cancelledtransactions}}</label><br/>
@@ -784,6 +783,6 @@
     </script> 
   </head>
   <body>
-  	<main></main>  		
+    <main></main>  		
   </body>
 </html>
