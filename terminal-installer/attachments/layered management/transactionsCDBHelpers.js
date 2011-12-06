@@ -418,6 +418,6 @@ function howAreWeDoingTodayTerminalReportFetcher(childrenObjs,parentObj,runAfter
 		      voids:function(callback){todaysVoidsFetcher(transactionsTotalView,transaction_db, parentID,function(err, report){callback(null,data);});}
 		  },
 		  function(err,report){
-		      runAfter(_.merge([hwdt,refunds,voids]));
+		      runAfter(_.merge([hwdt,{refundtransactions:refunds},{cancelledtransactions:voids}]));
 		  });
 };
