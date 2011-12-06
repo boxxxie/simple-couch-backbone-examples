@@ -219,11 +219,23 @@ function getTerminalsTableParam() {
     }
     
     function shiftUpTerminals(tree){
-	return traverse(tree).
+
+		var transedFormat=traverse(tree).
 	    map(function (node){
-		    if(this.parent && this.parent.parent && this.parent.parent.key == 'stores' && !node.terminals){
+		    if(this.parent && this.parent.parent && this.parent.parent.key == 'stores' && this.key!='terminals'){
 			this.remove();
 		    }});
+
+		_(transedFormat.company.groups).each(function(group){
+			var terminals =[];
+		    terminals = 
+		    _.reduce(group.stores, function(init, store){
+		        return _.union(init,store.terminals)
+		    },terminals)
+		    group.terminals = terminals;
+		});
+		
+		return transedFormat;
     }
     /*    
      function mergeGroupStatsWithTerminals(tree){

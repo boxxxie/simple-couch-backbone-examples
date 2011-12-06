@@ -6,8 +6,8 @@ function quickReportViewDialog (html,options) {
     d.find('input').attr('disabled',true);
     var dialogOptions = _.extend(
 	{autoOpen: false,
-	 height: 580,
-	 width: 900,
+	 height: 550,
+	 width: 750,
 	 modal: true,
 	 buttons: {
 	     "Close": function() {
