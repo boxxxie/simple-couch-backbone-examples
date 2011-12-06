@@ -47,8 +47,8 @@ var storeReportView = Backbone.View.extend(
 	 
 	 var param = getReportParam();
 	 transactionsSalesFetcher(ReportData.store.store_id,
-				  function(totalSales){
-				      _.extend(param,totalSales);
+				  function(a, totalSales){
+				      _.extend(param,{sales:_.first(totalSales)});
 				      var html = ich.storeManagementPage_TMP(param);
 				      $(view.el).html(html);
 				      console.log("storeReportView renderStoreReport");
@@ -61,19 +61,19 @@ var storeReportView = Backbone.View.extend(
 	 
 	 extractSalesDataFromIds(param.list,'terminal_id',function(transformedTerminals){
 				     param.list = transformedTerminals;
-				     var sales = _.pluck(param.list,'sales');
-				     _.extend(param, {breadCrumb:"company : " + ReportData.companyName + 
-						      " , group : " + ReportData.groupName +
-						      " , store : " + ReportData.store.storeName},
-					 	{sales:{yesterdaysales:_(sales).chain()
+				     //var sales = _.pluck(param.list,'sales');
+				     _.extend(param, {breadCrumb:breadCrumb(ReportData.companyName, 
+											      ReportData.groupName,
+											      ReportData.store.storeName)},
+					 	{sales:{yesterdaysales:_(param.list).chain()
 				 										.pluck(['yesterdaysales'])
 				 										.reduce(function(init, amt){return init+Number(amt);},0)
 				 										.value().toFixed(2),
-					 			mtdsales:_(sales).chain()
+					 			mtdsales:_(param.list).chain()
 			 										.pluck(['mtdsales'])
 			 										.reduce(function(init, amt){return init+Number(amt);},0)
 			 										.value().toFixed(2),
-					 			ytdsales:_(sales).chain()
+					 			ytdsales:_(param.list).chain()
 			 										.pluck(['ytdsales'])
 			 										.reduce(function(init, amt){return init+Number(amt);},0)
 			 										.value().toFixed(2)}});

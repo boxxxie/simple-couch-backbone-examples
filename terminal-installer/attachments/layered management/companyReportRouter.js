@@ -103,7 +103,7 @@ var companyReportView =
 	     generalReportRenderer(this,getReportParam(),'companyManagementPage_TMP','company_id')
 	     (function(){
 		  $("dialog-quickView").html();
-		  console.log("companyReportView renderGroupsTable");});
+		  console.log("companyReportView rendercompanymanagement");});
 	 },
 	 renderGroupsTable: function() {
 	     generalReportRenderer(this,getGroupsTableParam(),'groupsTabel_TMP','group_id')(log("companyReportView renderGroupsTable"));

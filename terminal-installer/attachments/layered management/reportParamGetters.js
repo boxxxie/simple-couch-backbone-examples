@@ -55,7 +55,7 @@ function getReportParam() {
 	    //breadCrumb:"company : " + ReportData.companyName + 
 		//" , group : " + ReportData.groupName +
 		//" , store : " + store.storeName,
-	    breadCrumb:breadCrumb(ReportData.companyName,group.groupName,store.storeName),
+	    breadCrumb:breadCrumb(ReportData.companyName,ReportData.groupName,store.storeName),
 	    quickViewArgs:{id:ReportData.store.store_id, 
 			   title:"Company: " + ReportData.companyName 
 			   + " , Group: " + ReportData.groupName
@@ -148,7 +148,7 @@ function getStoresTableParam(group_id) {
 						 storeName:store.storeName,
 						 storeNumber:store.number,
 						 numberOfTerminals:numberOfTerminals,
-						 quickViewArgs:{id:group.store_id, 
+						 quickViewArgs:{id:store.store_id, 
 								title:"Company: " + ReportData.companyName 
 								+ " , Group: " + store.groupName
 								+ " , Store: " + store.storeName
@@ -491,7 +491,7 @@ function getTerminalsTableParam(store_id) {
 						 terminalName:terminal.terminal_label,
 						 terminal_id:terminal.terminal_id,
 						 quickViewArgs:{id:terminal.terminal_id,
-								title:"Company: " + company.operationalname
+								title:"Company: " + ReportData.companyName
 								+ " , Group: " + terminal.groupName
 								+ " , Store: " + terminal.storeName
 								+ " , Terminal: " + terminal.terminal_label

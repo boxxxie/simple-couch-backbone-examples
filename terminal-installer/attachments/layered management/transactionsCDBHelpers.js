@@ -60,7 +60,7 @@ function todaysSalesFetcher(view,db,id,runAfter){
 	var sales = 0, refunds = 0;
 	_.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows).value.count: sales = 0;
 	_.isFirstNotEmpty(refundsData.rows)? refunds = _.first(refundsData.rows).value.count: refunds = 0;
-	return sales + refunds;
+	return {transactions:sales+"" , refunds:refunds+""};
     }
 
     async
@@ -71,45 +71,9 @@ function todaysSalesFetcher(view,db,id,runAfter){
 	    function(err,report){
 		var sales = {};
 		sales.total = extractTotalSales(report.sales,report.refunds);
-		sales.transactions = extractTotalTransactions(report.sales,report.refunds)+"";
-		sales.avgsale = sales.total / extractTotalTransactions(report.sales,{rows:[]});
+		_.extend(sales,extractTotalTransactions(report.sales,report.refunds));
+		sales.avgsale = sales.total / sales.transactions;
 		if(_.isNaN(sales.avgsale)){sales.avgsale = 0;}
-		runAfter(sales);	  
-	    });
-};
-function originTodaysSalesFetcher(view,db,id,runAfter){
-    var d = relative_dates();
-    var menuSales = typedTransactionRangeQuery(view,db,[id,'SALE','MENU'])(d.today,d.tomorrow);
-    var menuRefunds = typedTransactionRangeQuery(view,db,[id,'REFUND','MENU'])(d.today,d.tomorrow);
-    var scanSales = typedTransactionRangeQuery(view,db,[id,'SALE','SCAN'])(d.today,d.tomorrow);
-    var scanRefunds = typedTransactionRangeQuery(view,db,[id,'REFUND','SCAN'])(d.today,d.tomorrow);
-    var ecrSales = typedTransactionRangeQuery(view,db,[id,'SALE','ECR'])(d.today,d.tomorrow);
-    var ecrRefunds = typedTransactionRangeQuery(view,db,[id,'REFUND','ECR'])(d.today,d.tomorrow);
-
-    function extractTotalSales(salesData,refundsData){
-	function sum(total,cur){
-	    return total + cur.value.sum;
-	}
-	var sales = 0, refunds = 0;
-	_.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows).value.sum: sales = 0;
-	_.isFirstNotEmpty(refundsData.rows)? refunds = _.first(refundsData.rows).value.sum: refunds = 0;
-	return sales - refunds;
-    }
-
-    async
-	.parallel(
-	    {menuSales:function(callback){menuSales(returnQuery(callback));},
-	     menuRefunds:function(callback){menuRefunds(returnQuery(callback));},
-	     scanSales:function(callback){scanSales(returnQuery(callback));},
-	     scanRefunds:function(callback){scanRefunds(returnQuery(callback));},
-	     ecrSales:function(callback){ecrSales(returnQuery(callback));},
-	     ecrRefunds:function(callback){ecrRefunds(returnQuery(callback));}
-	    },
-	    function(err,report){
-		var sales = {};
-		sales.menu = extractTotalSales(report.menuSales,report.menuRefunds);
-		sales.scan = extractTotalSales(report.scanSales,report.scanRefunds);
-		sales.ecr = extractTotalSales(report.ecrSales,report.ecrRefunds);
 		runAfter(sales);	  
 	    });
 };
@@ -462,11 +426,11 @@ function howAreWeDoingTodayTerminalReportFetcher(childrenObjs,parentObj,runAfter
     async
 	.parallel({
 		      hwdt: function(callback){howAreWeDoingTodayReportFetcher(childrenObjs,parentObj, function(data){callback(null,data);});},
-		      refunds:function(callback){todaysRefundsFetcher(transactionsTotalView,transaction_db,parentID,function(data){callback(null,data);});},
+		      //refunds:function(callback){todaysRefundsFetcher(transactionsTotalView,transaction_db,parentID,function(data){callback(null,data);});},
 		      voids:function(callback){todaysVoidsFetcher(transactionsTotalView,transaction_db, parentID,function(data){callback(null,data);});}
 		  },
 		  function(err,report){
-		      var templateObj = _.merge([report.hwdt,{refundtransactions:report.refunds},{cancelledtransactions:report.voids}]);
+		      var templateObj = _.merge([report.hwdt,{cancelledtransactions:report.voids}]);
 		      runAfter(templateObj);
 		  });
 };

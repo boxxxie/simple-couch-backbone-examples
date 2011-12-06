@@ -449,7 +449,8 @@
       <table border="1">
 	<tr>
 	  <th>Group Name</th>
-	  <th># of Transactions</th>
+	  <th># of Sales Trans</th>
+	  <th># of Refunds Trans</th>
 	  <th>Menu</th>
 	  <th>Scan</th>
 	  <th>ECR</th>
@@ -460,6 +461,7 @@
 	<tr>
 	  <td><a href="#menuReports/{{startPage}}HowAreWe/group/{{id}}/stores">{{name}}</a></td>
 	  <td align="right">{{transactions}}</td>
+	  <td align="right">{{refunds}}</td>
 	  <td align="right">{{menu}}</td>
 	  <td align="right">{{scan}}</td>
 	  <td align="right">{{ecr}}</td>
@@ -470,7 +472,8 @@
 	<tr>
 	  <td>Totals</td>
 	  {{#total}}
-	  <td align="right">{{transactions}}</td>	
+	  <td align="right">{{transactions}}</td>
+	  <td align="right">{{refunds}}</td>
 	  <td align="right">{{menu}}</td>
 	  <td align="right">{{scan}}</td>
 	  <td align="right">{{ecr}}</td>
@@ -491,7 +494,8 @@
       <table border="1">
 	<tr>
 	  <th>Store</th>
-	  <th># of Transactions</th>
+	  <th># of Sales Trans</th>
+	  <th># of Refunds Trans</th>
 	  <th>Menu</th>
 	  <th>Scan</th>
 	  <th>ECR</th>
@@ -502,6 +506,7 @@
 	<tr>
 	  <td><a href="#menuReports/{{startPage}}HowAreWe/store/{{id}}/terminals">{{name}}</a></td>
 	  <td align="right">{{transactions}}</td>
+	  <td align="right">{{refunds}}</td>
 	  <td align="right">{{menu}}</td>
 	  <td align="right">{{scan}}</td>
 	  <td align="right">{{ecr}}</td>
@@ -512,7 +517,8 @@
 	<tr>
 	  <td>Totals</td>
 	  {{#total}}
-	  <td align="right">{{transactions}}</td>	
+	  <td align="right">{{transactions}}</td>
+	  <td align="right">{{refunds}}</td>
 	  <td align="right">{{menu}}</td>
 	  <td align="right">{{scan}}</td>
 	  <td align="right">{{ecr}}</td>
@@ -533,7 +539,8 @@
       <table border="1">
 	<tr>
 	  <th>Terminal</th>
-	  <th># of Transactions</th>
+	  <th># of Sales Trans</th>
+	  <th># of Refunds Trans</th>
 	  <th>Menu</th>
 	  <th>Scan</th>
 	  <th>ECR</th>
@@ -544,6 +551,7 @@
 	<tr>
 	  <td>{{name}}</td>
 	  <td align="right">{{transactions}}</td>
+	  <td align="right">{{refunds}}</td>
 	  <td align="right">{{menu}}</td>
 	  <td align="right">{{scan}}</td>
 	  <td align="right">{{ecr}}</td>
@@ -554,7 +562,8 @@
 	<tr>
 	  <td>Totals</td>
 	  {{#total}}
-	  <td align="right">{{transactions}}</td>	
+	  <td align="right">{{transactions}}</td>
+	  <td align="right">{{refunds}}</td>
 	  <td align="right">{{menu}}</td>
 	  <td align="right">{{scan}}</td>
 	  <td align="right">{{ecr}}</td>
@@ -564,7 +573,6 @@
 	</tr>
       </table>
       <label>Number of Cancelled Transactions : {{cancelledtransactions}}</label><br/>
-      <label>Number of Refund Transactions : {{refundtransactions}}</label><br/><br/>
       {{>backButton_P}}
       {{>menuButton_P}}
     </script>

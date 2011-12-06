@@ -56,13 +56,17 @@ var groupReportView =
 	     var param = getReportParam();
 	     
 	     transactionsSalesFetcher(ReportData.group.group_id,
-				      function(totalSales){
-					  _.extend(param,totalSales);
+				      function(a, totalSales){
+					  _.extend(param,{sales:_.first(totalSales)});
 					  var html = ich.groupManagementPage_TMP(param);
 					  $(view.el).html(html);
 					  console.log("groupReportView renderGroupReport");
 				      });
 	     return this;
+	  //  generalReportRenderer(this,getReportParam(),'groupManagementPage_TMP','group_id')
+	  //   (function(){
+	 //	  $("dialog-quickView").html();
+		//  console.log("groupReportView renderGroupManagement");});
 	 },
 	 renderStoresTable : function() {
 	     var view = this;
@@ -70,17 +74,17 @@ var groupReportView =
 	     
 	     extractSalesDataFromIds(param.list,'store_id',function(transformedStores){
 					 param.list = transformedStores;
-					 var sales = _.pluck(param.list,'sales');
-					 _.extend(param, {breadCrumb:"Company : " + ReportData.companyName + ", Group : " + ReportData.group.groupName},
-					 	{sales:{yesterdaysales:_(sales).chain()
+					 //var sales = _.pluck(param.list,'sales');
+					 _.extend(param, {breadCrumb:breadCrumb(ReportData.companyName,ReportData.group.groupName)},
+					 	{sales:{yesterdaysales:_(param.list).chain()
 				 										.pluck(['yesterdaysales'])
 				 										.reduce(function(init, amt){return init+Number(amt);},0)
 				 										.value().toFixed(2),
-					 			mtdsales:_(sales).chain()
+					 			mtdsales:_(param.list).chain()
 			 										.pluck(['mtdsales'])
 			 										.reduce(function(init, amt){return init+Number(amt);},0)
 			 										.value().toFixed(2),
-					 			ytdsales:_(sales).chain()
+					 			ytdsales:_(param.list).chain()
 			 										.pluck(['ytdsales'])
 			 										.reduce(function(init, amt){return init+Number(amt);},0)
 			 										.value().toFixed(2)}});
@@ -95,17 +99,17 @@ var groupReportView =
 	     
 	     extractSalesDataFromIds(param.list,'terminal_id',function(transformedTerminals){
 					 param.list = transformedTerminals;
-					 var sales = _.pluck(param.list,'sales');
-					 _.extend(param, {breadCrumb:"Company : " + ReportData.companyName + ", Group : " + ReportData.group.groupName},
-					 	{sales:{yesterdaysales:_(sales).chain()
+					 //var sales = _.pluck(param.list,'sales');
+					 _.extend(param, {breadCrumb:breadCrumb(ReportData.companyName,ReportData.group.groupName)},
+					 	{sales:{yesterdaysales:_(param.list).chain()
 				 										.pluck(['yesterdaysales'])
 				 										.reduce(function(init, amt){return init+Number(amt);},0)
 				 										.value().toFixed(2),
-					 			mtdsales:_(sales).chain()
+					 			mtdsales:_(param.list).chain()
 			 										.pluck(['mtdsales'])
 			 										.reduce(function(init, amt){return init+Number(amt);},0)
 			 										.value().toFixed(2),
-					 			ytdsales:_(sales).chain()
+					 			ytdsales:_(param.list).chain()
 			 										.pluck(['ytdsales'])
 			 										.reduce(function(init, amt){return init+Number(amt);},0)
 			 										.value().toFixed(2)}});
