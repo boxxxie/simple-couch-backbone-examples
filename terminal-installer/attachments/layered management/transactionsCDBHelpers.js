@@ -72,7 +72,7 @@ function todaysSalesFetcher(view,db,id,runAfter){
 		var sales = {};
 		sales.total = extractTotalSales(report.sales,report.refunds);
 		sales.transactions = extractTotalTransactions(report.sales,report.refunds)+"";
-		sales.avgsale = sales.total / sales.transactions;
+		sales.avgsale = sales.total / extractTotalTransactions(report.sales,{rows:[]});
 		if(_.isNaN(sales.avgsale)){sales.avgsale = 0;}
 		runAfter(sales);	  
 	    });

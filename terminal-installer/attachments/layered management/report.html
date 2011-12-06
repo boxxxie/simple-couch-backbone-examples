@@ -40,7 +40,7 @@
     <!-------------------------------------------- GENERAL --------------------------------------------------->
 
     <script id="breadcrumb_P" class="partial" type="text/html">
-      {{#breadcrumb}}
+      {{#breadCrumb}}
       <h2>{{#companyName}}
 	<i>Company</i> {{companyName}}
 	{{#groupName}}
@@ -54,7 +54,7 @@
 	{{/groupName}}
 	{{/companyName}}
       </h2>
-      {{/breadcrumb}}
+      {{/breadCrumb}}
     </script>
 
     <script id="commonClasses_P" class="partial" type="text/html">
@@ -749,7 +749,7 @@
     <!------------------------------------- terminals table TMP -------------------------------------------->
     <script id="terminalsTabel_TMP" type="text/html">
       <h1>Terminals Table</h1>
-      <h2>{{breadCrumb}}</h2>
+      {{>breadcrumb_P}}
       {{>salesFields_P}}
       <table border="1">
 	<tr>
