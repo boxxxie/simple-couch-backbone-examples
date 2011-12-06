@@ -256,7 +256,7 @@ function renderHowAreWeTerminalsTable(view, startPage, store_id) {
 	
 	var newTerminals = _(_.clone(terminals)).map(function(terminal){ return {id:terminal.terminal_id, name:terminal.terminal_label}});
 	
-	howAreWeDoingTodayReportFetcher(newTerminals,parent_id,function(for_TMP){
+	howAreWeDoingTodayTerminalReportFetcher(newTerminals,parent_id,function(for_TMP){
 		var param = _.extend(for_TMP, {
 			startPage:startPage,
 			breadCrumb : breadCrumb

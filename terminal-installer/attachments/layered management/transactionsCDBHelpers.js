@@ -58,8 +58,8 @@ function todaysSalesFetcher(view,db,id,runAfter){
 	    return total + cur.value.count;
 	}
 	var sales = 0, refunds = 0;
-	_.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows).value.sum: sales = 0;
-	_.isFirstNotEmpty(refundsData.rows)? refunds = _.first(refundsData.rows).value.sum: refunds = 0;
+	_.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows).value.count: sales = 0;
+	_.isFirstNotEmpty(refundsData.rows)? refunds = _.first(refundsData.rows).value.count: refunds = 0;
 	return sales + refunds;
     }
 
@@ -159,7 +159,7 @@ function todaysRefundsFetcher(view,db,id,runAfter){
 	    return total + cur.value.count;
 	}
 	var refunds = 0;
-	_.isFirstNotEmpty(refundsData.rows)? refunds = _.first(refundsData.rows).value.cound: refunds = 0;
+	_.isFirstNotEmpty(refundsData.rows)? refunds = _.first(refundsData.rows).value.count: refunds = 0;
 	return refunds;
     }
 
@@ -224,7 +224,7 @@ function generalSalesReportFetcher(view,db,id,runAfter){
 		sales.yesterdaysales= extractTotalSales(report.yesterdaysSales,report.yesterdaysRefunds).toFixed(2);
 		sales.mtdsales = extractTotalSales(report.monthsSales,report.monthsRefunds).toFixed(2);
 		sales.ytdsales = extractTotalSales(report.yearsSales,report.yearsRefunds).toFixed(2);
-		runAfter(null,sales);	  
+		runAfter(sales);	  
 	    });
 };
 
@@ -453,8 +453,6 @@ function howAreWeDoingTodayReportFetcher(childrenObjs,parentObj,runAfter){
 };
 
 function howAreWeDoingTodayTerminalReportFetcher(childrenObjs,parentObj,runAfter){
-    childrenObjs = [{id:"3d563af3-4b07-5780-01ab-2a579b6d6b0c",name:"boib"}];
-    parentObj = {id:"3d563af3-4b07-5780-01ab-2a579b6d6b0c"};
     var childrenIDs = _.pluck(childrenObjs,'id');
     var parentID = parentObj.id;
 
@@ -468,8 +466,7 @@ function howAreWeDoingTodayTerminalReportFetcher(childrenObjs,parentObj,runAfter
 		      voids:function(callback){todaysVoidsFetcher(transactionsTotalView,transaction_db, parentID,function(data){callback(null,data);});}
 		  },
 		  function(err,report){
-		      var templateObj = _.applyToValues(_.merge([report.hwdt,{refundtransactions:report.refunds},{cancelledtransactions:report.voids}]),
-							toFixed(2));
+		      var templateObj = _.merge([report.hwdt,{refundtransactions:report.refunds},{cancelledtransactions:report.voids}]);
 		      runAfter(templateObj);
 		  });
 };

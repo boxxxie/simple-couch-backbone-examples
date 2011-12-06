@@ -16,7 +16,7 @@ function getReportParam() {
 	    numberOfStores:numStores,
 	    numberOfTerminals:numTerminals,
 	    startPage:'companyReport',
-	    breadcrumb:breadCrumb(company.operationalname),
+	    breadCrumb:breadCrumb(company.operationalname),
 	    //instead of using this as a title, we could put it at the top of the dialogHTML and have a generic title
 	    quickViewArgs:{id:ReportData.company._id, 
 			   title:"Company: " + company.operationalname 
@@ -37,7 +37,7 @@ function getReportParam() {
 	    numberOfTerminals:numTerminals,
 	    startPage:"groupReport",
 	    breadCrumb:"company : " + ReportData.companyName + " , group : " + group.groupName,
-	    breadcrumb:breadCrumb(ReportData.companyName,group.groupName),
+	    breadCrumb:breadCrumb(ReportData.companyName,group.groupName),
 	    quickViewArgs:{id:ReportData.group.group_id, 
 			   title:"Company: " + ReportData.companyName 
 			   + " , Group: " + group.groupName
@@ -55,7 +55,7 @@ function getReportParam() {
 	    breadCrumb:"company : " + ReportData.companyName + 
 		" , group : " + ReportData.groupName +
 		" , store : " + store.storeName,
-	    breadcrumb:breadCrumb(ReportData.companyName,group.groupName,store.storeName),
+	    breadCrumb:breadCrumb(ReportData.companyName,group.groupName,store.storeName),
 	    quickViewArgs:{id:ReportData.store.store_id, 
 			   title:"Company: " + ReportData.companyName 
 			   + " , Group: " + ReportData.groupName
