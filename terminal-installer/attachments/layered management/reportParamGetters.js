@@ -1,6 +1,20 @@
 function breadCrumb(companyName,groupName,storeName,terminalName){
     return {companyName:companyName,groupName:groupName,storeName:storeName,terminalName:terminalName};
-}
+};
+
+function dialogTitle(companyName, groupName, numGroups, storeName, numStores, terminalName, numTerminals){
+	//return {companyName:companyName, groupName:groupName, numGroups:numGroups, storeName:storeName, numStores:numStores, numTerminals:numTerminals, today:(new Date()).toLocaleDateString};
+	var title = "Company: " + companyName;
+	if(groupName) title = title.concat(" , Group: " + groupName);
+	if(numGroups) title = title.concat(" , Groups #: " + numGroups);
+	if(storeName) title = title.concat(" , Store: " + storeName);
+	if(numStores) title = title.concat(" , Stores #: " + numStores);
+	if(terminalName) title = title.concat(" , Terminal: " + terminalName);
+	if(numTerminals) title = title.concat(" , Terminals #: " + numTerminals);
+	title = title.concat(", Date: " + (new Date()).toDateString());
+	
+	return title;
+};
 
 function getReportParam() {
     if(!_.isEmpty(ReportData.company)){
@@ -19,11 +33,8 @@ function getReportParam() {
 	    breadCrumb:breadCrumb(company.operationalname),
 	    //instead of using this as a title, we could put it at the top of the dialogHTML and have a generic title
 	    quickViewArgs:{id:ReportData.company._id, 
-			   title:"Company: " + company.operationalname 
-			   + " , Groups #: " + numGroups
-			   + " , Stores #: " + numStores
-			   + " , Terminals #: " + numTerminals
-			   + " , Date: " + (new Date()).toLocaleDateString()},
+			   title:dialogTitle(company.operationalname,null,numGroups,null,numStores,null,numTerminals)
+			   },
 	    list:[{company_id:company._id}]};
     } 
     else if(!_.isEmpty(ReportData.group)) {
@@ -36,14 +47,10 @@ function getReportParam() {
 	    numberOfStores:numStores,
 	    numberOfTerminals:numTerminals,
 	    startPage:"groupReport",
-	    //breadCrumb:"company : " + ReportData.companyName + " , group : " + group.groupName,
 	    breadCrumb:breadCrumb(ReportData.companyName,group.groupName),
 	    quickViewArgs:{id:ReportData.group.group_id, 
-			   title:"Company: " + ReportData.companyName 
-			   + " , Group: " + group.groupName
-			   + " , Stores #: " + numStores
-			   + " , Terminals #: " + numTerminals
-			   + " , Date: " + (new Date()).toLocaleDateString()}
+			   title:dialogTitle(ReportData.companyName,group.groupName,null,null,numStores,null,numTerminals)
+			   }
 	};
     } else if(!_.isEmpty(ReportData.store)) {
 	var store = ReportData.store;
@@ -52,16 +59,10 @@ function getReportParam() {
 	return  {
 	    numberOfTerminals:numTerminals,
 	    startPage:"storeReport",
-	    //breadCrumb:"company : " + ReportData.companyName + 
-	    //" , group : " + ReportData.groupName +
-	    //" , store : " + store.storeName,
 	    breadCrumb:breadCrumb(ReportData.companyName,ReportData.groupName,store.storeName),
 	    quickViewArgs:{id:ReportData.store.store_id, 
-			   title:"Company: " + ReportData.companyName 
-			   + " , Group: " + ReportData.groupName
-			   + " , Store: " + store.storeName
-			   + " , Terminals #: " + numTerminals
-			   + " , Date: " + (new Date()).toLocaleDateString()}
+			   title:dialogTitle(ReportData.companyName,ReportData.groupName,null,store.storeName,null,null,numTerminals)
+			   }
 	};
     }	
 };
@@ -85,11 +86,8 @@ function getGroupsTableParam() {
 					 numberOfStores:numberOfStores,
 					 numberOfTerminals:numberOfTerminals,
 					 quickViewArgs:{id:group.group_id, 
-							title:"Company: " + company.operationalname 
-							+ " , Group: " + group.groupName
-							+ " , Stores #: " + numberOfStores
-							+ " , Terminals #: " + numberOfTerminals
-							+ " , Date: " + (new Date()).toLocaleDateString()}
+							title:dialogTitle(company.operationalname,group.groupName,null,null,numberOfStores,null,numberOfTerminals)
+							}
 				     };
 				 })}, {startPage:"companyReport",
 				       breadCrumb:breadCrumb(company.operationalname)});
@@ -128,11 +126,8 @@ function getStoresTableParam(group_id) {
 						 storeNumber:store.number,
 						 numberOfTerminals:numberOfTerminals,
 						 quickViewArgs:{id:store.store_id, 
-								title:"Company: " + company.operationalname 
-								+ " , Group: " + store.groupName
-								+ " , Store: " + store.storeName
-								+ " , Terminals #: " + numberOfTerminals
-								+ " , Date: " + (new Date()).toLocaleDateString()}
+								title:dialogTitle(company.operationalname,store.groupName,null,store.storeName,null,null,numberOfTerminals)
+								}
 						};
 				     })}, {startPage:"companyReport",
 					   breadCrumb:breadCrumb(company.operationalname,groupName)});
@@ -149,11 +144,8 @@ function getStoresTableParam(group_id) {
 						 storeNumber:store.number,
 						 numberOfTerminals:numberOfTerminals,
 						 quickViewArgs:{id:store.store_id, 
-								title:"Company: " + ReportData.companyName 
-								+ " , Group: " + store.groupName
-								+ " , Store: " + store.storeName
-								+ " , Terminals #: " + numberOfTerminals
-								+ " , Date: " + (new Date()).toLocaleDateString()}
+								title:dialogTitle(ReportData.companyNamee,store.groupName,null,store.storeName,null,null,numberOfTerminals)
+								}
 						};
 				     })},{startPage:"groupReport",
 					  breadCrumb:breadCrumb(ReportData.companyName,group.groupName)});
@@ -266,138 +258,6 @@ function getStoresTableParam(group_id) {
 //    return {list:[terminalData]}; //should be an array, just for testing
 //};
 
-/*
- function getTerminalsTableParam(store_id) {
- var misc = ReportData;
- function getTerminals(){
- function extendFromParentToChild(keyRemappings){
- return function(parent){
- var example ={
- company_id:'_id',
- companyName:'operationalname'
- };
- if(_.isEmpty(keyRemappings)){
- return function(child){
- return _.extend(child,parent);
- };
- }
- else{
- return function(child){
- var remappedSelectedParentKeys = 
- _(parent).
- chain().
- selectKeys(_.keys(keyRemappings)).
- renameKeys(keyRemappings).
- value();
- return _.extend(child,remappedSelectedParentKeys);
- };
- }
- };
- };
-
- function merge(fieldName,transform){
- return function(o){
- if(o[fieldName]){
- return _(o[fieldName])
- .chain()
- .flatten()
- .map(transform(o))
- .value();
- }   
- else{return o;}
- };
- }
-
- function hierarchyToGroups(o){
- if(o.groups){
- return o.groups;
- } 
- else{return o;}
- }
-
- return _.compose(_.flatten,
- /* walkF(merge('groups',extendFromParentToChild(
- {_id:'company_id',
- operationalname:'companyName'}))),
- walkF(merge('stores',extendFromParentToChild(
- {group_id:'group_id',
- groupName:'groupName'}))),
- walkF(merge('terminals',extendFromParentToChild(
- {store_id:'store_id',
- storeName:'storeName',
- number:'storeNumber'}))),
- function(obj){return _.renameKeys(obj,{hierarchy:'groups'});},
- walkF(hierarchyToGroups)
- )
- (misc);
- }
-
- var terminals = _.map(getTerminals(),function(terminal){
- return _.extend(terminal,{id:terminal.terminal_id});});
- title:"Company: " + company.operationalname 
- + " , Group: " + terminal.groupName
- + " , Store: " + terminal.storeName
- + " , Terminal: " + terminal.terminalName
- + " , Date: " + (new Date()).toLocaleDateString()}});});
- var traverse = require('traverse');
-
- var leaves = traverse(misc).reduce(function (acc, x) {
- if (this.isLeaf){
- var ret = {};
- ret[this.key] = x;
- acc(ret);
- }
- return acc;
- }, {});
-
- console.dir(leaves);
- return terminals;
- /*					
- //dealing with one or many stores? need same with group.... fixme:
- if(!_.isEmpty(store_id)){
- var storeName = _.first(terminals).storeName;
- var groupName = _.first(terminals).groupName;
- } 
-
- <<<<<<< HEAD
- if(!_.isEmpty(company)){
- return _.extend({list: _.map(terminals, 
- function(terminal) {
- return {operationalname:company.operationalname,
- groupName:terminal.groupName,
- storeName:terminal.storeName,
- storeNumber:terminal.storeNumber,
- terminalName:terminal.terminal_label,
- terminal_id:terminal.terminal_id,
- quickViewArgs:{id:terminal.terminal_id, 
- title:"Company: " + company.operationalname 
- + " , Group: " + terminal.groupName
- + " , Store: " + terminal.storeName
- + " , Terminal: " + terminal.terminalName
- + " , Date: " + (new Date()).toLocaleDateString()}
- };
- })},{startPage:"companyReport",
- breadcrumb:breadCrumb(company.operationalname,groupName,storeName)});
- } else if(!_.isEmpty(group)) {
- return _.extend({list: _.map(terminals, function(terminal) {
- return {operationalname:ReportData.operationalname,
- groupName:terminal.groupName,
- storeName:terminal.storeName,
- storeNumber:terminal.storeNumber,
- terminalName:terminal.terminal_label,
- terminal_id:terminal.terminal_id,
- quickViewArgs:{id:terminal.terminal_id, 
- title:"Company: " + company.operationalname 
- + " , Group: " + terminal.groupName
- + " , Store: " + terminal.storeName
- + " , Terminal: " + terminal.terminalName
- + " , Date: " + (new Date()).toLocaleDateString()}
- };
- })},{startPage:"groupReport"});
-
- };
- */
-
 
 function getTerminalsTableParam(store_id) {
     if(!_.isEmpty(ReportData.company)){
@@ -437,11 +297,8 @@ function getTerminalsTableParam(store_id) {
 						 terminalName:terminal.terminal_label,
 						 terminal_id:terminal.terminal_id,
 						 quickViewArgs:{id:terminal.terminal_id,
-								title:"Company: " + company.operationalname
-								+ " , Group: " + terminal.groupName
-								+ " , Store: " + terminal.storeName
-								+ " , Terminal: " + terminal.terminal_label
-								+ " , Date: " + (new Date()).toDateString()}
+								title:dialogTitle(company.operationalname,terminal.groupName,null,terminal.storeName,null,terminal.terminal_label,null)
+								}
 						};
 				     })},{startPage:"companyReport",
 				     	  breadCrumb:breadCrumb(ReportData.company.operationalname)});
@@ -471,11 +328,8 @@ function getTerminalsTableParam(store_id) {
 						 terminalName:terminal.terminal_label,
 						 terminal_id:terminal.terminal_id,
 						 quickViewArgs:{id:terminal.terminal_id,
-								title:"Company: " + ReportData.companyName
-								+ " , Group: " + terminal.groupName
-								+ " , Store: " + terminal.storeName
-								+ " , Terminal: " + terminal.terminal_label
-								+ " , Date: " + (new Date()).toDateString()}
+								title:dialogTitle(ReportData.companyName,terminal.groupName,null,terminal.storeName,null,terminal.terminal_label,null)
+								}
 						};
 				     })},{startPage:"groupReport",
 				     	  breadCrumb:breadCrumb(ReportData.companyName,ReportData.group.groupName)});
@@ -491,17 +345,13 @@ function getTerminalsTableParam(store_id) {
 						 terminalName:terminal.terminal_label,
 						 terminal_id:terminal.terminal_id,
 						 quickViewArgs:{id:terminal.terminal_id,
-								title:"Company: " + ReportData.companyName
-								+ " , Group: " + terminal.groupName
-								+ " , Store: " + terminal.storeName
-								+ " , Terminal: " + terminal.terminal_label
-								+ " , Date: " + (new Date()).toDateString()}
+								title:dialogTitle(ReportData.companyName,terminal.groupName,null,terminal.storeName,null,terminal.terminal_label,null)
+								}
 						};
 				     })},{startPage:"storeReport",
 				     	  breadCrumb:breadCrumb(ReportData.companyName,ReportData.groupName,ReportData.store.storeName)});
     }
 };
-
 
 //general
 function extractSalesDataFromIds(items,idField,callback){
