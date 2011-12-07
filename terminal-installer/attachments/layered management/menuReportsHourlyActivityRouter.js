@@ -49,7 +49,7 @@ var menuReportsHourlyActivityView =
 	 renderMenuReportsCompanyHourly: function() {
 	     
 	     var html = ich.hourlyActivityReports_TMP({startPage:"companyReport", 
-	     									breadCrumb:breadCrumb(ReportData.company.operationalname)});
+	     					       breadCrumb:breadCrumb(ReportData.company.operationalname)});
 	     $(this.el).html(html);
 	     
 	     var dropdownGroup = $("#groupsdown");
@@ -67,11 +67,11 @@ var menuReportsHourlyActivityView =
 	     _.each(stores, function(store) {
 	 		dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
 	 	    });
-	 	 
-	 	 var terminals = _(stores).chain().map(function(store) {
-										 return store.terminals; 
-									     }).flatten().value();
-		_.each(terminals, function(terminal) {
+	     
+	     var terminals = _(stores).chain().map(function(store) {
+						       return store.terminals; 
+						   }).flatten().value();
+	     _.each(terminals, function(terminal) {
 	 		dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
 	 	    });
 	     
@@ -80,7 +80,7 @@ var menuReportsHourlyActivityView =
 	 renderMenuReportsGroupHourly: function() {
 	     
 	     var html = ich.hourlyActivityReports_TMP({startPage:"groupReport", 
-	 					     breadCrumb:breadCrumb(ReportData.companyName,ReportData.group.groupName)});
+	 					       breadCrumb:breadCrumb(ReportData.companyName,ReportData.group.groupName)});
 	     $(this.el).html(html);
 	     
 	     var dropdownGroup = $("#groupsdown");
@@ -94,11 +94,11 @@ var menuReportsHourlyActivityView =
 	     _.each(ReportData.group.stores, function(store) {
  			dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
 	 	    });
-	 	 
-	 	 var terminals = _(ReportData.group.stores).chain().map(function(store) {
-										 return store.terminals; 
-									     }).flatten().value();
-		_.each(terminals, function(terminal) {
+	     
+	     var terminals = _(ReportData.group.stores).chain().map(function(store) {
+									return store.terminals; 
+								    }).flatten().value();
+	     _.each(terminals, function(terminal) {
 	 		dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
 	 	    });
 	     
@@ -107,9 +107,9 @@ var menuReportsHourlyActivityView =
 	 renderMenuReportsStoreHourly: function() {
 	     
 	     var html = ich.hourlyActivityReports_TMP({startPage:"storeReport", 
-	 					     breadCrumb:breadCrumb(ReportData.companyName,
-	 					     						ReportData.groupName,
-	 					     						ReportData.store.storeName)});
+	 					       breadCrumb:breadCrumb(ReportData.companyName,
+	 					     			     ReportData.groupName,
+	 					     			     ReportData.store.storeName)});
 	     $(this.el).html(html);
 	     
 	     var dropdownGroup = $("#groupsdown");
@@ -127,97 +127,99 @@ var menuReportsHourlyActivityView =
 	     _.each(ReportData.store.terminals, function(terminal) {
 	 		dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
 	 	    });
-	 	    
+	     
 	     console.log("rendered general report");
 	 }
 	});
-	
+
 
 /************************************ helper functions **********************************************/
 function renderHourlyActivityTable() {
-	var dropdownGroup = $("#groupsdown");
-	var dropdownStore = $("#storesdown");
-	var dropdownTerminal = $("#terminalsdown");
-	
-	//TODO
-	if(dropdownTerminal.val()!="ALL") {
-		alert("terminal id : "+dropdownTerminal.val());
-	} else if(dropdownStore.val()!="ALL") {
-		alert("store id : "+dropdownStore.val());
-	} else if(dropdownGroup.val()!="ALL" && dropdownGroup.val()!="") {
-		alert("group id : "+dropdownGroup.val());
-	} else {
-		if(dropdownGroup.val()=="ALL") {
-			alert("company id : "+ReportData.company._id);
-		} else if(dropdownGroup.val()=="") {
-			alert("store id : "+ ReportData.store.store_id);
-		}
+    var dropdownGroup = $("#groupsdown");
+    var dropdownStore = $("#storesdown");
+    var dropdownTerminal = $("#terminalsdown");
+    
+    if(dropdownTerminal.val()!="ALL") {
+	alert("terminal id : "+dropdownTerminal.val());
+    } else if(dropdownStore.val()!="ALL") {
+	alert("store id : "+dropdownStore.val());
+    } else if(dropdownGroup.val()!="ALL" && dropdownGroup.val()!="") {
+	alert("group id : "+dropdownGroup.val());
+    } else {
+	if(dropdownGroup.val()=="ALL") {
+	    alert("company id : "+ReportData.company._id);
+	} else if(dropdownGroup.val()=="") {
+	    alert("store id : "+ ReportData.store.store_id);
 	}
+    }
+    
+    var html = ich.hourlyActivityTabel_TMP({});
+    $("hourlytable").html(html);
 };
 
 function updateStoreDropdown() {
-	var groups = ReportData.company.hierarchy.groups;
-	var dropdownGroup = $("#groupsdown");
-	var dropdownStore = $("#storesdown");
-	$('option', dropdownStore).remove();
-	dropdownStore.append('<option value="ALL">ALL</option>');
-	
-	if(dropdownGroup.val()=="ALL") {
-		var stores = _(groups).chain().map(function(group) {
+    var groups = ReportData.company.hierarchy.groups;
+    var dropdownGroup = $("#groupsdown");
+    var dropdownStore = $("#storesdown");
+    $('option', dropdownStore).remove();
+    dropdownStore.append('<option value="ALL">ALL</option>');
+    
+    if(dropdownGroup.val()=="ALL") {
+	var stores = _(groups).chain().map(function(group) {
 					       return group.stores; 
 					   }).flatten().value();
-					   
-		_.each(stores, function(store) {
-	 		dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
-	 		});		
-	} else {
-		var group = _.filter(groups, function(group){ return group.group_id==dropdownGroup.val();});
-		var stores = group[0].stores;
-		_.each(stores, function(store) {
-	 		dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
-	 		}); 
-	}
+	
+	_.each(stores, function(store) {
+	 	   dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
+	       });		
+    } else {
+	var group = _.filter(groups, function(group){ return group.group_id==dropdownGroup.val();});
+	var stores = group[0].stores;
+	_.each(stores, function(store) {
+	 	   dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
+	       }); 
+    }
 };
 
 function updateTerminalDropdown() {
-	var dropdownStore = $("#storesdown");
-	var dropdownTerminal = $("#terminalsdown");
-	
-	var terminals, allStores;
-	var ids;
-	
-	$('option', dropdownTerminal).remove();
-	dropdownTerminal.append('<option value="ALL">ALL</option>');
-	
-	if(dropdownStore.val()=="ALL") {
-		 ids = _($('option', dropdownStore)).chain()
-											.map(function(option){return option.value})
-											.reject(function(item){return item=="ALL"})
-											.value();
-	} else {
-		ids = [dropdownStore.val()];
-	}
-	
-	if(!_.isEmpty(ReportData.company)) {
-		var groups = ReportData.company.hierarchy.groups;
-		allStores = _(groups).chain().map(function(group) {
-					       return group.stores; 
-					   }).flatten().value();
-	} else if(!_.isEmpty(ReportData.group)) {
-		allStores = ReportData.group.stores;			
-	} else if(!_.isEmpty(ReportData.store)) {
-		allStores = [ReportData.store];
-	}
-	
-	var stores = _(ids).chain()
-						.map(function(id){
-							return _.filter(allStores, function(store){ return store.store_id==id}) 
-						}).flatten().value();
-	terminals = _(stores).chain().map(function(store) {
-				       return store.terminals; 
-				   }).flatten().value();
-				   
-	_.each(terminals, function(terminal) {
- 		dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
- 		});	
+    var dropdownStore = $("#storesdown");
+    var dropdownTerminal = $("#terminalsdown");
+    
+    var terminals, allStores;
+    var ids;
+    
+    $('option', dropdownTerminal).remove();
+    dropdownTerminal.append('<option value="ALL">ALL</option>');
+    
+    if(dropdownStore.val()=="ALL") {
+	ids = _($('option', dropdownStore)).chain()
+	    .map(function(option){return option.value})
+	    .reject(function(item){return item=="ALL"})
+	    .value();
+    } else {
+	ids = [dropdownStore.val()];
+    }
+    
+    if(!_.isEmpty(ReportData.company)) {
+	var groups = ReportData.company.hierarchy.groups;
+	allStores = _(groups).chain().map(function(group) {
+					      return group.stores; 
+					  }).flatten().value();
+    } else if(!_.isEmpty(ReportData.group)) {
+	allStores = ReportData.group.stores;			
+    } else if(!_.isEmpty(ReportData.store)) {
+	allStores = [ReportData.store];
+    }
+    
+    var stores = _(ids).chain()
+	.map(function(id){
+		 return _.filter(allStores, function(store){ return store.store_id==id}) 
+	     }).flatten().value();
+    terminals = _(stores).chain().map(function(store) {
+					  return store.terminals; 
+				      }).flatten().value();
+    
+    _.each(terminals, function(terminal) {
+ 	       dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+ 	   });	
 };

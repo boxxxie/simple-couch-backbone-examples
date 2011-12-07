@@ -312,9 +312,9 @@ function originTodaysSalesArrayFetcher(view,db,ids,runAfter){
     async.map(ids, 
 	      function(id,callback){
 		  originTodaysSalesFetcher(view,db,id,
-					    function(salesData){
-						callback(null,salesData);
-					    });
+					   function(salesData){
+					       callback(null,salesData);
+					   });
 	      },
 	      runAfter);
 };
@@ -323,9 +323,9 @@ function todaysSalesArrayFetcher(view,db,ids,runAfter){
     async.map(ids, 
 	      function(id,callback){
 		  todaysSalesFetcher(view,db,id,
-					    function(salesData){
-						callback(null,salesData);
-					    });
+				     function(salesData){
+					 callback(null,salesData);
+				     });
 	      },
 	      runAfter);
 };
@@ -382,8 +382,8 @@ function cashoutFetcher_Period(ids,startDate,endDate,callback){
 };
 
 function howAreWeDoingTodayReportFetcher(childrenObjs,parentObj,runAfter){
-//    childrenObjs = [{id:"3d563af3-4b07-5780-01ab-2a579b6d6b0c",name:"boib"}];
-//    parentObj = {id:"3d563af3-4b07-5780-01ab-2a579b6d6b0c"};
+    //    childrenObjs = [{id:"3d563af3-4b07-5780-01ab-2a579b6d6b0c",name:"boib"}];
+    //    parentObj = {id:"3d563af3-4b07-5780-01ab-2a579b6d6b0c"};
 
     var childrenIDs = _.pluck(childrenObjs,'id');
     var parentID = parentObj.id;

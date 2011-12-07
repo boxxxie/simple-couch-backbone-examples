@@ -53,8 +53,8 @@ function getReportParam() {
 	    numberOfTerminals:numTerminals,
 	    startPage:"storeReport",
 	    //breadCrumb:"company : " + ReportData.companyName + 
-		//" , group : " + ReportData.groupName +
-		//" , store : " + store.storeName,
+	    //" , group : " + ReportData.groupName +
+	    //" , store : " + store.storeName,
 	    breadCrumb:breadCrumb(ReportData.companyName,ReportData.groupName,store.storeName),
 	    quickViewArgs:{id:ReportData.store.store_id, 
 			   title:"Company: " + ReportData.companyName 
@@ -444,7 +444,7 @@ function getTerminalsTableParam(store_id) {
 								+ " , Date: " + (new Date()).toDateString()}
 						};
 				     })},{startPage:"companyReport",
-				     	breadCrumb:breadCrumb(ReportData.company.operationalname)});
+				     	  breadCrumb:breadCrumb(ReportData.company.operationalname)});
     } else if(!_.isEmpty(ReportData.group)) {
 	var group = ReportData.group;
 	var stores;
@@ -498,7 +498,7 @@ function getTerminalsTableParam(store_id) {
 								+ " , Date: " + (new Date()).toDateString()}
 						};
 				     })},{startPage:"storeReport",
-				     	breadCrumb:breadCrumb(ReportData.companyName,ReportData.groupName,ReportData.store.storeName)});
+				     	  breadCrumb:breadCrumb(ReportData.companyName,ReportData.groupName,ReportData.store.storeName)});
     }
 };
 
