@@ -213,14 +213,16 @@ function renderSalesSummaryReportTable() {
 	    ids = ids.concat(_.isEmpty(storedown.val())?ReportData.store.store_id:storedown.val());
 	}
 	
+	//TODO : args need to be changed ; children ids, parent id, startData, endData, callback
+	//		 so that this function will give back list items and total info
 	cashoutFetcher_Period(ids,startDate,endDate,
-    			      function(a,for_TMP){
-    		      		  console.log(for_TMP);
-    		      		  var data_TMP = extractSalesSummaryTableInfo(for_TMP);
-    		      		  
-    		      		  var html = ich.salesSummaryTabel_TMP(data_TMP);
+		      function(a,for_TMP){
+	      		  console.log(for_TMP);
+	      		  var data_TMP = extractSalesSummaryTableInfo(for_TMP);
+	      		  
+	      		  var html = ich.salesSummaryTabel_TMP(data_TMP);
 				  $("summarytable").html(html);
-    			      });
+		      });
     } else {
    	alert("Input Date");
     }

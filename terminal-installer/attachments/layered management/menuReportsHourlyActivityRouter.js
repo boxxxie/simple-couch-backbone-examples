@@ -160,6 +160,8 @@ function renderHourlyActivityTable() {
     $("hourlytable").html(html);
 };
 
+/*
+// there's a same function in menuReportsSalesSummaryRouter.js
 function updateStoreDropdown() {
     var groups = ReportData.company.hierarchy.groups;
     var dropdownGroup = $("#groupsdown");
@@ -183,6 +185,7 @@ function updateStoreDropdown() {
 	       }); 
     }
 };
+*/
 
 function updateTerminalDropdown() {
     var dropdownStore = $("#storesdown");
