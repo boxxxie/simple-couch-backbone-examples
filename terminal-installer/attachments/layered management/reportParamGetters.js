@@ -361,10 +361,10 @@ function extractSalesDataFromIds(items,idField,callback){
 				     _(items).chain()
 				     .zip(totalSalesArr)
 				     .map(function(item){
-					      var groupItem = _.first(item);
+					      var Item = _.first(item);
 					      var salesData = _.second(item);
-					      var group_w_salesReport = _.extend(_.clone(groupItem),salesData);
-					      return group_w_salesReport;
+					      var Item_w_salesReport = _.extend(_.clone(Item),salesData);
+					      return Item_w_salesReport;
 					  })
 				     .value();
 				 callback(transformedList);
