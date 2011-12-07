@@ -160,33 +160,6 @@ function renderHourlyActivityTable() {
     $("hourlytable").html(html);
 };
 
-/*
-// there's a same function in menuReportsSalesSummaryRouter.js
-function updateStoreDropdown() {
-    var groups = ReportData.company.hierarchy.groups;
-    var dropdownGroup = $("#groupsdown");
-    var dropdownStore = $("#storesdown");
-    $('option', dropdownStore).remove();
-    dropdownStore.append('<option value="ALL">ALL</option>');
-    
-    if(dropdownGroup.val()=="ALL") {
-	var stores = _(groups).chain().map(function(group) {
-					       return group.stores; 
-					   }).flatten().value();
-	
-	_.each(stores, function(store) {
-	 	   dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
-	       });		
-    } else {
-	var group = _.filter(groups, function(group){ return group.group_id==dropdownGroup.val();});
-	var stores = group[0].stores;
-	_.each(stores, function(store) {
-	 	   dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
-	       }); 
-    }
-};
-*/
-
 function updateTerminalDropdown() {
     var dropdownStore = $("#storesdown");
     var dropdownTerminal = $("#terminalsdown");
