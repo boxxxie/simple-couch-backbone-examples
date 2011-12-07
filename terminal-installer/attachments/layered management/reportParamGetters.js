@@ -163,10 +163,6 @@ function getStoresTableParam(group_id) {
 function getTerminalsTableParam() {
     function extendFromParentToChild(keyRemappings){
 	return function(parent){
-	    var example ={
-		company_id:'_id',
-		companyName:'operationalname'
-	    };
 	    if(_.isEmpty(keyRemappings)){
 		return function(child){
 		    return _.extend(child,parent);
@@ -220,38 +216,42 @@ function getTerminalsTableParam() {
     }
     
     function shiftUpTerminals(tree){
-
+	//if the parent's children have terminals, move them to the parent, delete the children
+	//can't do this because the parents have named children
 	var transedFormat=traverse(tree).
 	    map(function (node){
-		    if(this.parent && this.parent.parent && this.parent.parent.key == 'stores' && this.key!='terminals'){
-			this.remove();
+		    if(this.parent && this.parent.parent && this.key=='terminals'){
+			//this.remove();
+			var addTerminalsTo = this.parent.parent;
+			this.parent.parent.update(node);
 		    }});
 
-	_(transedFormat.company.groups).each(function(group){
-						 var terminals =[];
-						 terminals = 
-						     _.reduce(group.stores, function(init, store){
-								  return _.union(init,store.terminals);
-							      },terminals);
-						 group.terminals = terminals;
-					     });
+/*	_(transedFormat.company.groups)
+	    .each(function(group){
+		      var terminals =[];
+		      terminals = 
+			  _.reduce(group.stores, function(init, store){
+				       return _.union(init,store.terminals); //not sure we can use union here
+				   },terminals);
+		      group.terminals = terminals;
+		  });*/
 	
 	return transedFormat;
     }
-    /*    
-     function mergeGroupStatsWithTerminals(tree){
-     return	traverse(tree).
-     map(function (node){
-     if(node.stores){
-     var mergedWithTerminals = _(node.terminals).
-     map(extendFromParentToChild({groupName:'groupName'})(node));
-     //console.log(mergedWithTerminals);
-     this.update(mergedWithTerminals,true);
-     }
-     if(this.key == 'groups'){this.update(_.flatten(node));};
-     });
-     }
-     */
+    
+/*
+    function mergeGroupStatsWithTerminals(tree){
+	return	traverse(tree).
+	    map(function (node){
+		    if(node.stores){
+			var mergedWithTerminals = _(node.terminals).
+			    map(extendFromParentToChild({groupName:'groupName'})(node));
+			this.update(mergedWithTerminals,true);
+		    }
+		    if(this.key == 'groups'){this.update(_.flatten(node));};
+		});
+    }
+   */  
 
     var terminalData = _.compose(
 	//	mergeGroupStatsWithTerminals,

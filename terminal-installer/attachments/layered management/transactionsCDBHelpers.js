@@ -224,7 +224,7 @@ function generalSalesReportFetcher(view,db,id,runAfter){
 		sales.yesterdaysales= extractTotalSales(report.yesterdaysSales,report.yesterdaysRefunds).toFixed(2);
 		sales.mtdsales = extractTotalSales(report.monthsSales,report.monthsRefunds).toFixed(2);
 		sales.ytdsales = extractTotalSales(report.yearsSales,report.yearsRefunds).toFixed(2);
-		runAfter(null,sales);	  
+		runAfter(sales);	  
 	    });
 };
 
