@@ -22,7 +22,9 @@ function doc_setup() {
     var MenuReportsDisplay = new menuReportsView();
     var CompanyHowAreWeDisplay = new companyReportHowAreWeTodayView();
     var GroupHowAreWeDisplay = new groupReportHowAreWeTodayView();
-    var StroeHowAreWeDisplay = new storeReportHowAreWeTodayView()
+    var StroeHowAreWeDisplay = new storeReportHowAreWeTodayView();
+    var MenuReportsSalesSummaryDisplay = new menuReportsSalesSummaryView();
+    var MenuReportsHourlyActivityDisplay = new menuReportsHourlyActivityView();
     Backbone.history.start();
 
 };

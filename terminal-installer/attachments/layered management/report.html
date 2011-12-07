@@ -33,6 +33,8 @@
     <script language="javascript" type="text/javascript" src="../layered management/storeReportRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsHowAreWeDoingTodayRouter.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/menuReportsSalesSummaryRouter.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/menuReportsHourlyActivityRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReports.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/report.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/docRdy.js"></script>
@@ -128,6 +130,14 @@
     
     <script id="menuReportGoButton_P" class="partial" type="text/html">
       <button onclick="renderSalesSummaryReportTable();" class="ui-state-default ui-corner-all">
+	<span class="ui-button-text">
+	  Go
+	</span>
+      </button>
+    </script>
+    
+    <script id="menuHourlyGoButton_P" class="partial" type="text/html">
+      <button onclick="renderHourlyActivityTable();" class="ui-state-default ui-corner-all">
 	<span class="ui-button-text">
 	  Go
 	</span>
@@ -340,11 +350,11 @@
 	<!-------------------------------------------- MENU REPORTS ------------------------------------------------>
 	<script id="menuReports_TMP" type="text/html">
 		<h1>Reports Menus</h1>
-		<h2>{{breadCrumb}}</h2>
+		<h2>{{>breadcrumb_P}}</h2>
 		<ol>
 		<li><a href='#menuReports/{{startPage}}SalesSummary'> Sales Summary</a> <br/></li>
 		<li><a href='#menuReports/{{startPage}}HowAreWe'> How Are We Doing Today</a> <br/></li>
-		<li><a href=''> Hourly Activity</a> <br/></li>
+		<li><a href='#menuReports/{{startPage}}HourlyActivity'> Hourly Activity</a> <br/></li>
 		<li><a href=''> Electronic Payment Processing Summary</a> <br/></li>
 		<li><a href=''> Tax Collected</a> <br/></li>
 		<li><a href=''> Cash Outs</a> <br/></li>
@@ -431,7 +441,7 @@
 	
 	<script id="salesSummaryReports_TMP" type="text/html">
 		<h1>Sales Summary Report</h1>
-		<h2>{{breadCrumb}}</h2>
+		<h2>{{>breadcrumb_P}}</h2>
 		{{>groupDropdownbox_P}} <br/>
 		{{>datePicker_P}}
 		{{>menuReportGoButton_P}}			
@@ -445,7 +455,7 @@
     <script id="groupsTabel_HowAreWeToday_TMP" type="text/html">
     
       <h1>How Are We Doing Today</h1>
-      <h2>{{breadCrumb}}</h2>
+      <h2>{{>breadcrumb_P}}</h2>
       <table border="1">
 	<tr>
 	  <th>Group Name</th>
@@ -490,7 +500,7 @@
     <!------------------------------------- HowAreWeToday StoreTable TMP -------------------------------------------->
     <script id="storesTabel_HowAreWeToday_TMP" type="text/html">
       <h1>How Are We Doing Today</h1>
-      <h2>{{breadCrumb}}</h2>
+      <h2>{{>breadcrumb_P}}</h2>
       <table border="1">
 	<tr>
 	  <th>Store</th>
@@ -531,11 +541,10 @@
       {{>menuButton_P}}
     </script>
 
-
     <!------------------------------------- HowAreWeToday TerminalTable TMP -------------------------------------------->
     <script id="terminalsTabel_HowAreWeToday_TMP" type="text/html">
       <h1>How Are We Doing Today</h1>
-      <h2>{{breadCrumb}}</h2>
+      <h2>{{>breadcrumb_P}}</h2>
       <table border="1">
 	<tr>
 	  <th>Terminal</th>
@@ -576,6 +585,59 @@
       {{>backButton_P}}
       {{>menuButton_P}}
     </script>
+    
+    <!----------------------------------------------- HOURLY ACTIVITY REPORTS -------------------------------------------->
+	
+	<script id="dropdownHourlyActiviy_P" class="partial" type="text/html">
+		GROUP : <select id="groupsdown" onchange="updateStoreDropdown();" class="{{>commonClasses_P}}">
+			<option value = "ALL" selected>ALL</option>
+		</select>
+		STORE : <select id="storesdown" class="{{>commonClasses_P}}">
+			<option value = "ALL" selected>ALL</option>
+		</select>
+		TERMINAL : <select id="terminalsdown" class="{{>commonClasses_P}}">
+			<option value = "ALL" selected>ALL</option>
+		</select>
+	</script>
+	
+	<script id="hourlyActivityTabel_TMP" type="text/html">
+      <table border="1">
+	<tr>
+		<th>Time</th>
+	  <th># of Sales Trans</th>
+	  <th># of Refunds Trans</th>
+	  <th>Menu</th>
+	  <th>Scan</th>
+	  <th>ECR</th>
+	  <th>Total</th>
+	  <th>AVG Sale</th>
+	</tr>
+	{{#items}}
+	<tr>
+		<td>{{timerange}}</td>
+	  <td align="right">{{transactions}}</td>
+	  <td align="right">{{refunds}}</td>
+	  <td align="right">{{menu}}</td>
+	  <td align="right">{{scan}}</td>
+	  <td align="right">{{ecr}}</td>
+	  <td align="right">{{total}}</td>
+	  <td align="right">{{avgsale}}</td>
+	</tr>
+	{{/items}}
+      </table>
+    </script> 
+	
+	<script id="hourlyActivityReports_TMP" type="text/html">
+		<h1>Hourly Activity Report</h1>
+		<h2>{{>breadcrumb_P}}</h2>
+		{{>dropdownHourlyActiviy_P}} 
+		{{>menuHourlyGoButton_P}}<br/>
+		<br/><br/>
+		<hourlytable></hourlytable>		
+		{{>backButton_P}}
+        {{>menuButton_P}}
+	</script>	
+    
     
     <!------------------------------------------------------- LAYER LOGIN------------------------------------------>
     <script id="layerLogin_TMP" type="text/html">
