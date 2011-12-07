@@ -600,9 +600,9 @@ function originTodaysSalesArrayFetcher(view,db,ids,runAfter){
     async.map(ids, 
 	      function(id,callback){
 		  originTodaysSalesFetcher(view,db,id,
-					    function(salesData){
-						callback(null,salesData);
-					    });
+					   function(salesData){
+					       callback(null,salesData);
+					   });
 	      },
 	      runAfter);
 };
@@ -611,9 +611,9 @@ function todaysSalesArrayFetcher(view,db,ids,runAfter){
     async.map(ids, 
 	      function(id,callback){
 		  todaysSalesFetcher(view,db,id,
-					    function(salesData){
-						callback(null,salesData);
-					    });
+				     function(salesData){
+					 callback(null,salesData);
+				     });
 	      },
 	      runAfter);
 };
@@ -724,7 +724,6 @@ function hourlyReportFetcher(id,runAfter){
     var transactionsView = cdb.view('reporting','id_type_origin_date');
     var transactionsTotalView = cdb.view('reporting','id_type_date');
     var transaction_db = cdb.db('transactions');
-    id = "47bba181-fab9-3457-d500-6e66c4872d6a";
     async
 	.parallel(
 	    {originSales:function(callback){originTodaysHourlySalesFetcher(transactionsView,transaction_db,id,function(err,data){callback(null, data);});},

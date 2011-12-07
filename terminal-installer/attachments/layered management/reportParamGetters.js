@@ -1,6 +1,20 @@
 function breadCrumb(companyName,groupName,storeName,terminalName){
     return {companyName:companyName,groupName:groupName,storeName:storeName,terminalName:terminalName};
-}
+};
+
+function dialogTitle(companyName, groupName, numGroups, storeName, numStores, terminalName, numTerminals){
+    //return {companyName:companyName, groupName:groupName, numGroups:numGroups, storeName:storeName, numStores:numStores, numTerminals:numTerminals, today:(new Date()).toLocaleDateString};
+    var title = "Company: " + companyName;
+    if(groupName) title = title.concat(" , Group: " + groupName);
+    if(numGroups) title = title.concat(" , Groups #: " + numGroups);
+    if(storeName) title = title.concat(" , Store: " + storeName);
+    if(numStores) title = title.concat(" , Stores #: " + numStores);
+    if(terminalName) title = title.concat(" , Terminal: " + terminalName);
+    if(numTerminals) title = title.concat(" , Terminals #: " + numTerminals);
+    title = title.concat(", Date: " + (new Date()).toDateString());
+    
+    return title;
+};
 
 function getReportParam() {
     if(!_.isEmpty(ReportData.company)){
@@ -19,11 +33,8 @@ function getReportParam() {
 	    breadCrumb:breadCrumb(company.operationalname),
 	    //instead of using this as a title, we could put it at the top of the dialogHTML and have a generic title
 	    quickViewArgs:{id:ReportData.company._id, 
-			   title:"Company: " + company.operationalname 
-			   + " , Groups #: " + numGroups
-			   + " , Stores #: " + numStores
-			   + " , Terminals #: " + numTerminals
-			   + " , Date: " + (new Date()).toLocaleDateString()},
+			   title:dialogTitle(company.operationalname,null,numGroups,null,numStores,null,numTerminals)
+			  },
 	    list:[{company_id:company._id}]};
     } 
     else if(!_.isEmpty(ReportData.group)) {
@@ -38,12 +49,9 @@ function getReportParam() {
 	    startPage:"groupReport",
 	    breadCrumb:breadCrumb(ReportData.companyName,group.groupName),
 	    quickViewArgs:{id:ReportData.group.group_id, 
-			   title:"Company: " + ReportData.companyName 
-			   + " , Group: " + group.groupName
-			   + " , Stores #: " + numStores
-			   + " , Terminals #: " + numTerminals
-			   + " , Date: " + (new Date()).toLocaleDateString()}
-	};
+			   title:dialogTitle(ReportData.companyName,group.groupName,null,null,numStores,null,numTerminals)
+			  },
+	    list:[{group_id:ReportData.group.group_id}]};
     } else if(!_.isEmpty(ReportData.store)) {
 	var store = ReportData.store;
 	var terminals = store.terminals;
@@ -53,12 +61,9 @@ function getReportParam() {
 	    startPage:"storeReport",
 	    breadCrumb:breadCrumb(ReportData.companyName,ReportData.groupName,store.storeName),
 	    quickViewArgs:{id:ReportData.store.store_id, 
-			   title:"Company: " + ReportData.companyName 
-			   + " , Group: " + ReportData.groupName
-			   + " , Store: " + store.storeName
-			   + " , Terminals #: " + numTerminals
-			   + " , Date: " + (new Date()).toLocaleDateString()}
-	};
+			   title:dialogTitle(ReportData.companyName,ReportData.groupName,null,store.storeName,null,null,numTerminals)
+			  },
+	    list:[{store_id:ReportData.store.store_id}]};
     }	
 };
 
@@ -81,11 +86,8 @@ function getGroupsTableParam() {
 					 numberOfStores:numberOfStores,
 					 numberOfTerminals:numberOfTerminals,
 					 quickViewArgs:{id:group.group_id, 
-							title:"Company: " + company.operationalname 
-							+ " , Group: " + group.groupName
-							+ " , Stores #: " + numberOfStores
-							+ " , Terminals #: " + numberOfTerminals
-							+ " , Date: " + (new Date()).toLocaleDateString()}
+							title:dialogTitle(company.operationalname,group.groupName,null,null,numberOfStores,null,numberOfTerminals)
+						       }
 				     };
 				 })}, {startPage:"companyReport",
 				       breadCrumb:breadCrumb(company.operationalname)});
@@ -124,11 +126,8 @@ function getStoresTableParam(group_id) {
 						 storeNumber:store.number,
 						 numberOfTerminals:numberOfTerminals,
 						 quickViewArgs:{id:store.store_id, 
-								title:"Company: " + company.operationalname 
-								+ " , Group: " + store.groupName
-								+ " , Store: " + store.storeName
-								+ " , Terminals #: " + numberOfTerminals
-								+ " , Date: " + (new Date()).toLocaleDateString()}
+								title:dialogTitle(company.operationalname,store.groupName,null,store.storeName,null,null,numberOfTerminals)
+							       }
 						};
 				     })}, {startPage:"companyReport",
 					   breadCrumb:breadCrumb(company.operationalname,groupName)});
@@ -145,11 +144,8 @@ function getStoresTableParam(group_id) {
 						 storeNumber:store.number,
 						 numberOfTerminals:numberOfTerminals,
 						 quickViewArgs:{id:store.store_id, 
-								title:"Company: " + ReportData.companyName 
-								+ " , Group: " + store.groupName
-								+ " , Store: " + store.storeName
-								+ " , Terminals #: " + numberOfTerminals
-								+ " , Date: " + (new Date()).toLocaleDateString()}
+								title:dialogTitle(ReportData.companyName,store.groupName,null,store.storeName,null,null,numberOfTerminals)
+							       }
 						};
 				     })},{startPage:"groupReport",
 					  breadCrumb:breadCrumb(ReportData.companyName,group.groupName)});
@@ -193,14 +189,11 @@ function getTerminalsTableParam(store_id) {
 						 terminalName:terminal.terminal_label,
 						 terminal_id:terminal.terminal_id,
 						 quickViewArgs:{id:terminal.terminal_id,
-								title:"Company: " + company.operationalname
-								+ " , Group: " + terminal.groupName
-								+ " , Store: " + terminal.storeName
-								+ " , Terminal: " + terminal.terminal_label
-								+ " , Date: " + (new Date()).toDateString()}
+								title:dialogTitle(company.operationalname,terminal.groupName,null,terminal.storeName,null,terminal.terminal_label,null)
+							       }
 						};
 				     })},{startPage:"companyReport",
-				     	breadCrumb:breadCrumb(ReportData.company.operationalname)});
+				     	  breadCrumb:breadCrumb(ReportData.company.operationalname)});
     } else if(!_.isEmpty(ReportData.group)) {
 	var group = ReportData.group;
 	var stores;
@@ -227,11 +220,8 @@ function getTerminalsTableParam(store_id) {
 						 terminalName:terminal.terminal_label,
 						 terminal_id:terminal.terminal_id,
 						 quickViewArgs:{id:terminal.terminal_id,
-								title:"Company: " + ReportData.companyName
-								+ " , Group: " + terminal.groupName
-								+ " , Store: " + terminal.storeName
-								+ " , Terminal: " + terminal.terminal_label
-								+ " , Date: " + (new Date()).toDateString()}
+								title:dialogTitle(ReportData.companyName,terminal.groupName,null,terminal.storeName,null,terminal.terminal_label,null)
+							       }
 						};
 				     })},{startPage:"groupReport",
 				     	  breadCrumb:breadCrumb(ReportData.companyName,ReportData.group.groupName)});
@@ -247,17 +237,13 @@ function getTerminalsTableParam(store_id) {
 						 terminalName:terminal.terminal_label,
 						 terminal_id:terminal.terminal_id,
 						 quickViewArgs:{id:terminal.terminal_id,
-								title:"Company: " + ReportData.companyName
-								+ " , Group: " + terminal.groupName
-								+ " , Store: " + terminal.storeName
-								+ " , Terminal: " + terminal.terminal_label
-								+ " , Date: " + (new Date()).toDateString()}
+								title:dialogTitle(ReportData.companyName,ReportData.groupName,null,store.storeName,null,terminal.terminal_label,null)
+							       }
 						};
 				     })},{startPage:"storeReport",
-				     	breadCrumb:breadCrumb(ReportData.companyName,ReportData.groupName,ReportData.store.storeName)});
+				     	  breadCrumb:breadCrumb(ReportData.companyName,ReportData.groupName,ReportData.store.storeName)});
     }
 };
-
 
 //general
 function extractSalesDataFromIds(items,idField,callback){
@@ -267,10 +253,10 @@ function extractSalesDataFromIds(items,idField,callback){
 				     _(items).chain()
 				     .zip(totalSalesArr)
 				     .map(function(item){
-					      var groupItem = _.first(item);
+					      var Item = _.first(item);
 					      var salesData = _.second(item);
-					      var group_w_salesReport = _.extend(_.clone(groupItem),salesData);
-					      return group_w_salesReport;
+					      var Item_w_salesReport = _.extend(_.clone(Item),salesData);
+					      return Item_w_salesReport;
 					  })
 				     .value();
 				 callback(transformedList);

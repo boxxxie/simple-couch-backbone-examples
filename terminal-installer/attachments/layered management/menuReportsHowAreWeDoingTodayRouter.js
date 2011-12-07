@@ -54,22 +54,13 @@ var companyReportHowAreWeTodayView =
 		       });
 	 },
 	 renderGroupsTable_HowAreWeToday: function() {
-	     //var html = ich.groupsTabel_HowAreWeToday_TMP(_.extend(testGroupTableHowAreWeToday,{startPage:"companyReport"}));
-	     //$(this.el).html(html);
 	     renderHowAreWeGroupsTable(this, "companyReport");
-	     //generalReportRenderer(this,getGroupsTableParam(),'groupsTabel_TMP','group_id')(log("companyReportView renderGroupsTable"));
 	 },
 	 renderStoresTable_HowAreWeToday: function(id) {
-	     //var html = ich.storesTabel_HowAreWeToday_TMP(_.extend(testStoreTableHowAreWeToday,{startPage:"companyReport"}));
-	     //$(this.el).html(html);
 	     renderHowAreWeStoresTable(this, "companyReport", id);	     
-	     //generalReportRenderer(this,getStoresTableParam(id),'storesTabel_TMP','store_id')(log("companyReportView renderStoresTable"));
 	 },
 	 renderTerminalsTable_HowAreWeToday : function(id) {
-	     //var html = ich.terminalsTabel_HowAreWeToday_TMP(_.extend(testTerminalTableHowAreWeToday,{startPage:"companyReport"}));
-	     //$(this.el).html(html);
 	     renderHowAreWeTerminalsTable(this,"companyReport",id);
-	     //generalReportRenderer(this,getTerminalsTableParam(id),'terminalsTabel_TMP','terminal_id')(log("companyReportView renderTerminalsTable"));
 	 }
 	});
 
@@ -115,16 +106,10 @@ var groupReportHowAreWeTodayView =
 		       });
 	 },
 	 renderStoresTable_HowAreWeToday: function(id) {
-	     //var html = ich.storesTabel_HowAreWeToday_TMP(_.extend(testStoreTableHowAreWeToday,{startPage:"groupReport"}));
-	     //$(this.el).html(html);
 	     renderHowAreWeStoresTable(this, "groupReport", id);	     
-	     //generalReportRenderer(this,getStoresTableParam(id),'storesTabel_TMP','store_id')(log("companyReportView renderStoresTable"));
 	 },
 	 renderTerminalsTable_HowAreWeToday : function(id) {
-	     //var html = ich.terminalsTabel_HowAreWeToday_TMP(_.extend(testTerminalTableHowAreWeToday,{startPage:"groupReport"}));
-	     //$(this.el).html(html);
 	     renderHowAreWeTerminalsTable(this,"groupReport",id);
-	     //generalReportRenderer(this,getTerminalsTableParam(id),'terminalsTabel_TMP','terminal_id')(log("companyReportView renderTerminalsTable"));
 	 }
 	});
 
@@ -158,10 +143,7 @@ var storeReportHowAreWeTodayView =
 		       });
 	 },
 	 renderTerminalsTable_HowAreWeToday : function(id) {
-	     //var html = ich.terminalsTabel_HowAreWeToday_TMP(_.extend(testTerminalTableHowAreWeToday,{startPage:"storeReport"}));
-	     //$(this.el).html(html);
 	     renderHowAreWeTerminalsTable(this,"storeReport",id);
-	     //generalReportRenderer(this,getTerminalsTableParam(id),'terminalsTabel_TMP','terminal_id')(log("companyReportView renderTerminalsTable"));
 	 }
 	});
 	
@@ -176,7 +158,7 @@ function renderHowAreWeGroupsTable(view, startPage) {
 	howAreWeDoingTodayReportFetcher(newGroups,parent_id,function(for_TMP){
 		var param = _.extend(for_TMP, {
 			startPage:startPage,
-			breadCrumb : "Company : " + ReportData.company.operationalname
+			breadCrumb : breadCrumb(ReportData.company.operationalname) 
 		});
 		var html = ich.groupsTabel_HowAreWeToday_TMP(param);
 	    $(view.el).html(html);
@@ -186,17 +168,17 @@ function renderHowAreWeGroupsTable(view, startPage) {
 function renderHowAreWeStoresTable(view, startPage, group_id) {
 	var stores;
 	var parent_id;
-	var breadCrumb;
+	var breadcrumb;
 	
 	if(_.isEmpty(group_id)) {
 		parent_id = {id:ReportData.group.group_id, name:ReportData.group.groupName};
 		stores = ReportData.group.stores;
-		breadCrumb = "Company : " + ReportData.companyName + " , Group : "+ ReportData.group.groupName;
+		breadcrumb = breadCrumb(ReportData.companyName,ReportData.group.groupName); 
 	} else {
 		var group = _.find(ReportData.company.hierarchy.groups, function(group){return group.group_id==group_id});
 		parent_id = {id:group.group_id, name:group.groupName};
 		stores = group.stores;
-		breadCrumb = "Company : " + ReportData.company.operationalname + " , Group : "+ group.groupName; 
+		breadcrumb = breadCrumb(ReportData.company.operationalname,group.groupName); 
 	}
 	
 	var newStores = _(_.clone(stores)).map(function(store){ return {id:store.store_id, 
@@ -206,28 +188,22 @@ function renderHowAreWeStoresTable(view, startPage, group_id) {
 	howAreWeDoingTodayReportFetcher(newStores,parent_id,function(for_TMP){
 		var param = _.extend(for_TMP, {
 			startPage:startPage,
-			breadCrumb : breadCrumb
+			breadCrumb : breadcrumb
 		});
 		var html = ich.storesTabel_HowAreWeToday_TMP(param);
 	    $(view.el).html(html);
 	});
-	//var result = _.first(getstuff(newStores,parent_id));
-	//result.breadCrumb = breadCrumb;
-	
-	//return result;
 };
 
 function renderHowAreWeTerminalsTable(view, startPage, store_id) {
 	var terminals;
 	var parent_id;
-	var breadCrumb;
+	var breadcrumb;
 	
 	if(_.isEmpty(store_id)) {
 		parent_id = {id:ReportData.store.store_id, name:ReportData.store.storeName};
 		terminals = ReportData.store.terminals;
-		breadCrumb = "Company : " + ReportData.companyName 
-				+ " , Group : " + ReportData.groupName
-				+ " , Store : " + ReportData.store.storeName;
+		breadcrumb = breadCrumb(ReportData.companyName,ReportData.groupName,ReportData.store.storeName); 
 	} else {
 		if(!_.isEmpty(ReportData.company)) {
 			var groups = ReportData.company.hierarchy.groups;
@@ -240,17 +216,13 @@ function renderHowAreWeTerminalsTable(view, startPage, store_id) {
 			var store = _.find(stores, function(store){return store.store_id==store_id});
 			parent_id = {id:store.store_id, name:store.storeName};
 			terminals = store.terminals;
-			breadCrumb = "Company : " + ReportData.company.operationalname 
-						+ " , Group : " + group.groupName
-						+ " , Store : " + store.storeName;
+			breadcrumb = breadCrumb(ReportData.company.operationalname,group.groupName,store.storeName); 
 		} else if(!_.isEmpty(ReportData.group)) {
 			var stores = ReportData.group.stores;
 			var store = _.find(stores, function(store){return store.store_id==store_id});
 			parent_id = {id:store.store_id, name:store.storeName};
 			terminals = store.terminals;
-			breadCrumb = "Company : " + ReportData.companyName 
-						+ " , Group : " + ReportData.group.groupName
-						+ " , Store : " + store.storeName;
+			breadcrumb = breadCrumb(ReportData.companyName,ReportData.group.groupName,store.storeName); 
 		}
 	}
 	
@@ -259,7 +231,7 @@ function renderHowAreWeTerminalsTable(view, startPage, store_id) {
 	howAreWeDoingTodayTerminalReportFetcher(newTerminals,parent_id,function(for_TMP){
 		var param = _.extend(for_TMP, {
 			startPage:startPage,
-			breadCrumb : breadCrumb
+			breadCrumb : breadcrumb
 		});
 		var html = ich.terminalsTabel_HowAreWeToday_TMP(param);
 	    $(view.el).html(html);
