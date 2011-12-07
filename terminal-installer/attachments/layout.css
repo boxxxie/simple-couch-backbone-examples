@@ -38,6 +38,7 @@ body {
 }
 .footer {
 	width:100%;
+	visibility:hidden;
 	text-align:center;
 	padding:0px;
 	height: 130px;

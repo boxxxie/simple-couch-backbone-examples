@@ -3,7 +3,6 @@ function breadCrumb(companyName,groupName,storeName,terminalName){
 };
 
 function dialogTitle(companyName, groupName, numGroups, storeName, numStores, terminalName, numTerminals){
-    //return {companyName:companyName, groupName:groupName, numGroups:numGroups, storeName:storeName, numStores:numStores, numTerminals:numTerminals, today:(new Date()).toLocaleDateString};
     var title = "Company: " + companyName;
     if(groupName) title = title.concat(" , Group: " + groupName);
     if(numGroups) title = title.concat(" , Groups #: " + numGroups);

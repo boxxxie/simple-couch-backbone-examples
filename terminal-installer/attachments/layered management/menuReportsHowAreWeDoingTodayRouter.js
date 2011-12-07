@@ -148,8 +148,6 @@ var storeReportHowAreWeTodayView =
 	});
 	
 
-
-
 	
 function renderHowAreWeGroupsTable(view, startPage) {
 	var groups = ReportData.company.hierarchy.groups;
