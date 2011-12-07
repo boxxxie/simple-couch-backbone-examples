@@ -44,11 +44,11 @@ var storeReportView = Backbone.View.extend(
      },
      renderStoreReport: function() {
 	 generalReportRenderer(this,getReportParam(),'storeManagementPage_TMP','store_id')
-	        (function(){
-	     	  $("dialog-quickView").html();
-	       console.log("storeReportView renderStoreManagement");});
+	 (function(){
+	      $("dialog-quickView").html();
+	      console.log("storeReportView renderStoreManagement");});
      },
      renderTerminalsTable: function() {
-	generalReportRenderer(this,getTerminalsTableParam(),'terminalsTabel_TMP','terminal_id')(log("storeReportView renderTerminalsTable"));
+	 generalReportRenderer(this,getTerminalsTableParam(),'terminalsTabel_TMP','terminal_id')(log("storeReportView renderTerminalsTable"));
      }
     });
