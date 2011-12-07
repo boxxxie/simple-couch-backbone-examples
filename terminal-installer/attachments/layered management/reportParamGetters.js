@@ -50,8 +50,8 @@ function getReportParam() {
 	    breadCrumb:breadCrumb(ReportData.companyName,group.groupName),
 	    quickViewArgs:{id:ReportData.group.group_id, 
 			   title:dialogTitle(ReportData.companyName,group.groupName,null,null,numStores,null,numTerminals)
-			   }
-	};
+			   },
+	    list:[{group_id:ReportData.group.group_id}]};
     } else if(!_.isEmpty(ReportData.store)) {
 	var store = ReportData.store;
 	var terminals = store.terminals;
@@ -62,8 +62,8 @@ function getReportParam() {
 	    breadCrumb:breadCrumb(ReportData.companyName,ReportData.groupName,store.storeName),
 	    quickViewArgs:{id:ReportData.store.store_id, 
 			   title:dialogTitle(ReportData.companyName,ReportData.groupName,null,store.storeName,null,null,numTerminals)
-			   }
-	};
+			   },
+	    list:[{store_id:ReportData.store.store_id}]};
     }	
 };
 
@@ -144,7 +144,7 @@ function getStoresTableParam(group_id) {
 						 storeNumber:store.number,
 						 numberOfTerminals:numberOfTerminals,
 						 quickViewArgs:{id:store.store_id, 
-								title:dialogTitle(ReportData.companyNamee,store.groupName,null,store.storeName,null,null,numberOfTerminals)
+								title:dialogTitle(ReportData.companyName,store.groupName,null,store.storeName,null,null,numberOfTerminals)
 								}
 						};
 				     })},{startPage:"groupReport",
@@ -345,7 +345,7 @@ function getTerminalsTableParam(store_id) {
 						 terminalName:terminal.terminal_label,
 						 terminal_id:terminal.terminal_id,
 						 quickViewArgs:{id:terminal.terminal_id,
-								title:dialogTitle(ReportData.companyName,terminal.groupName,null,terminal.storeName,null,terminal.terminal_label,null)
+								title:dialogTitle(ReportData.companyName,ReportData.groupName,null,store.storeName,null,terminal.terminal_label,null)
 								}
 						};
 				     })},{startPage:"storeReport",
