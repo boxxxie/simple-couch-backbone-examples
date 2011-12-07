@@ -26,8 +26,7 @@ function generalReportRenderer(view,param,template,idField){
 	extractSalesDataFromIds(param.list,idField, function(listForTable){
 				    param.list =  listForTable;
 				    var formattedSales = generateFormattedSales(param.list);
-				    _.extend(param, {breadCrumb:"Company : " + 
-						     ReportData.company.operationalname, sales:formattedSales});
+				    _.extend(param, {sales:formattedSales});
 				    var html = ich[template](param);
 				    $(view.el).html(html);
 				    if(_.isFunction(callback)){callback(param);}
@@ -104,7 +103,7 @@ var companyReportView =
 	     generalReportRenderer(this,getReportParam(),'companyManagementPage_TMP','company_id')
 	     (function(){
 		  $("dialog-quickView").html();
-		  console.log("companyReportView renderGroupsTable");});
+		  console.log("companyReportView rendercompanymanagement");});
 	 },
 	 renderGroupsTable: function() {
 	     generalReportRenderer(this,getGroupsTableParam(),'groupsTabel_TMP','group_id')(log("companyReportView renderGroupsTable"));
