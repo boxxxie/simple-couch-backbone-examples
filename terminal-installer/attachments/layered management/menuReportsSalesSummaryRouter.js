@@ -252,6 +252,22 @@ function extractSalesSummaryTableInfo(list) {
 	return namenum;
     };
     
+    function getSummarySales(peroid) {
+    	return {
+				    numberoftransactions:peroid.noofpayment+peroid.noofrefund,
+				    sales:(peroid.netsales-peroid.netrefund).toFixed(2),
+				    tax1:(peroid.netsaletax1-peroid.netrefundtax1).toFixed(2),
+				    tax3:(peroid.netsaletax3-peroid.netrefundtax3).toFixed(2),
+				    totalsales:(Number(peroid.netsalestotal)).toFixed(2),
+				    cash:(peroid.cashpayment-peroid.cashrefund).toFixed(2),
+				    credit:(peroid.creditpayment-peroid.creditrefund).toFixed(2),
+				    debit:(peroid.debitpayment-peroid.debitrefund).toFixed(2),
+				    mobile:(peroid.mobilepayment-peroid.mobilerefund).toFixed(2),
+				    other:(peroid.otherpayment-peroid.otherrefund).toFixed(2)
+				};
+    };
+    
+    //TODO : don't calculate here, ask server
     function appendTotals(inputs) {
 	var input = _.clone(inputs);
 	var total={};
@@ -315,23 +331,13 @@ function extractSalesSummaryTableInfo(list) {
     if(!_.isEmpty(ReportData.company)) {
 	var groups = ReportData.company.hierarchy.groups;
 	result.list = _.map(list, function(item){
-				var peroid = item.period;
+				var period = item.period;
 				var namenum = getStoreNameNum(groups,item.id);
 				return {groupName:getGroupName(groups,item.id),
 					storeName:namenum.name,
 					storeNumber:namenum.num,
-					summary:{
-					    numberoftransactions:peroid.noofpayment+peroid.noofrefund,
-					    sales:(peroid.netsales-peroid.netrefund).toFixed(2),
-					    tax1:(peroid.netsaletax1-peroid.netrefundtax1).toFixed(2),
-					    tax3:(peroid.netsaletax3-peroid.netrefundtax3).toFixed(2),
-					    totalsales:(Number(peroid.netsalestotal)).toFixed(2),
-					    cash:(peroid.cashpayment-peroid.cashrefund).toFixed(2),
-					    credit:(peroid.creditpayment-peroid.creditrefund).toFixed(2),
-					    debit:(peroid.debitpayment-peroid.debitrefund).toFixed(2),
-					    mobile:(peroid.mobilepayment-peroid.mobilerefund).toFixed(2),
-					    other:(peroid.otherpayment-peroid.otherrefund).toFixed(2)
-					}};
+					summary:getSummarySales(period)
+					};
 			    });
 	
 	
@@ -346,18 +352,8 @@ function extractSalesSummaryTableInfo(list) {
 				return {groupName:getGroupName(groups,item.id),
 					storeName:namenum.name,
 					storeNumber:namenum.num,
-					summary:{
-					    numberoftransactions:peroid.noofpayment+peroid.noofrefund,
-					    sales:(peroid.netsales-peroid.netrefund).toFixed(2),
-					    tax1:(peroid.netsaletax1-peroid.netrefundtax1).toFixed(2),
-					    tax3:(peroid.netsaletax3-peroid.netrefundtax3).toFixed(2),
-					    totalsales:(Number(peroid.netsalestotal)).toFixed(2),
-					    cash:(peroid.cashpayment-peroid.cashrefund).toFixed(2),
-					    credit:(peroid.creditpayment-peroid.creditrefund).toFixed(2),
-					    debit:(peroid.debitpayment-peroid.debitrefund).toFixed(2),
-					    mobile:(peroid.mobilepayment-peroid.mobilerefund).toFixed(2),
-					    other:(peroid.otherpayment-peroid.otherrefund).toFixed(2)
-					}};
+					summary:getSummarySales(period)
+					};
 			    });
 	
 	
@@ -370,18 +366,8 @@ function extractSalesSummaryTableInfo(list) {
 				return {groupName:ReportData.groupName,
 					storeName:ReportData.store.storeName,
 					storeNumber:ReportData.store.number,
-					summary:{
-					    numberoftransactions:peroid.noofpayment+peroid.noofrefund,
-					    sales:(peroid.netsales-peroid.netrefund).toFixed(2),
-					    tax1:(peroid.netsaletax1-peroid.netrefundtax1).toFixed(2),
-					    tax3:(peroid.netsaletax3-peroid.netrefundtax3).toFixed(2),
-					    totalsales:(Number(peroid.netsalestotal)).toFixed(2),
-					    cash:(peroid.cashpayment-peroid.cashrefund).toFixed(2),
-					    credit:(peroid.creditpayment-peroid.creditrefund).toFixed(2),
-					    debit:(peroid.debitpayment-peroid.debitrefund).toFixed(2),
-					    mobile:(peroid.mobilepayment-peroid.mobilerefund).toFixed(2),
-					    other:(peroid.otherpayment-peroid.otherrefund).toFixed(2)
-					}};
+					summary:getSummarySales(period)
+					};
 			    });
 	
 	

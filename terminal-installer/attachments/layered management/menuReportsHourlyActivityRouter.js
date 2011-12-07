@@ -153,7 +153,10 @@ function renderHourlyActivityTable() {
 	}
     }
     
-    var html = ich.hourlyActivityTabel_TMP({});
+    //TODO : hourly activity talble data 
+    var data_param={};
+    
+    var html = ich.hourlyActivityTabel_TMP(data_param);
     $("hourlytable").html(html);
 };
 
