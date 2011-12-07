@@ -589,10 +589,10 @@
     <!----------------------------------------------- HOURLY ACTIVITY REPORTS -------------------------------------------->
 	
 	<script id="dropdownHourlyActiviy_P" class="partial" type="text/html">
-		GROUP : <select id="groupsdown" onchange="updateStoreDropdown();" class="{{>commonClasses_P}}">
+		GROUP : <select id="groupsdown" onchange="updateStoreDropdown();updateTerminalDropdown();" class="{{>commonClasses_P}}">
 			<option value = "ALL" selected>ALL</option>
 		</select>
-		STORE : <select id="storesdown" class="{{>commonClasses_P}}">
+		STORE : <select id="storesdown" onChange="updateTerminalDropdown();" class="{{>commonClasses_P}}">
 			<option value = "ALL" selected>ALL</option>
 		</select>
 		TERMINAL : <select id="terminalsdown" class="{{>commonClasses_P}}">

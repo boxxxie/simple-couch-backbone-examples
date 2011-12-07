@@ -135,7 +135,24 @@ var menuReportsHourlyActivityView =
 
 /************************************ helper functions **********************************************/
 function renderHourlyActivityTable() {
+	var dropdownGroup = $("#groupsdown");
+	var dropdownStore = $("#storesdown");
+	var dropdownTerminal = $("#terminalsdown");
 	
+	//TODO
+	if(dropdownTerminal.val()!="ALL") {
+		alert("terminal id : "+dropdownTerminal.val());
+	} else if(dropdownStore.val()!="ALL") {
+		alert("store id : "+dropdownStore.val());
+	} else if(dropdownGroup.val()!="ALL" && dropdownGroup.val()!="") {
+		alert("group id : "+dropdownGroup.val());
+	} else {
+		if(dropdownGroup.val()=="ALL") {
+			alert("company id : "+ReportData.company._id);
+		} else if(dropdownGroup.val()=="") {
+			alert("store id : "+ ReportData.store.store_id);
+		}
+	}
 };
 
 function updateStoreDropdown() {
@@ -164,33 +181,43 @@ function updateStoreDropdown() {
 
 function updateTerminalDropdown() {
 	var dropdownStore = $("#storesdown");
-	var dropdownTerminal = $("#terminalssdown");
+	var dropdownTerminal = $("#terminalsdown");
+	
+	var terminals, allStores;
+	var ids;
 	
 	$('option', dropdownTerminal).remove();
 	dropdownTerminal.append('<option value="ALL">ALL</option>');
 	
 	if(dropdownStore.val()=="ALL") {
-		var terminals;// = _(groups).chain().map(function(group) {
-					  //     return group.stores; 
-					  // }).flatten().value();
-		var ids = _($('option', dropdownStore)).chain()
-												.map(function(option){return option.value})
-												.reject(function(item){return item=="ALL"})
-												.value();
-		if(!_.isEmpty(ReportData.company)) {
-			
-		} else if(!_.isEmpty(ReportData.group)) {
-			
-		}
-					   
-		_.each(terminals, function(terminal) {
-	 		dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-	 		});		
+		 ids = _($('option', dropdownStore)).chain()
+											.map(function(option){return option.value})
+											.reject(function(item){return item=="ALL"})
+											.value();
 	} else {
-		var group = _.filter(groups, function(group){ return group.group_id==dropdownGroup.val();});
-		var stores = group[0].stores;
-		_.each(stores, function(store) {
-	 		dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
-	 		}); 
+		ids = [dropdownStore.val()];
 	}
+	
+	if(!_.isEmpty(ReportData.company)) {
+		var groups = ReportData.company.hierarchy.groups;
+		allStores = _(groups).chain().map(function(group) {
+					       return group.stores; 
+					   }).flatten().value();
+	} else if(!_.isEmpty(ReportData.group)) {
+		allStores = ReportData.group.stores;			
+	} else if(!_.isEmpty(ReportData.store)) {
+		allStores = [ReportData.store];
+	}
+	
+	var stores = _(ids).chain()
+						.map(function(id){
+							return _.filter(allStores, function(store){ return store.store_id==id}) 
+						}).flatten().value();
+	terminals = _(stores).chain().map(function(store) {
+				       return store.terminals; 
+				   }).flatten().value();
+				   
+	_.each(terminals, function(terminal) {
+ 		dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+ 		});	
 };
