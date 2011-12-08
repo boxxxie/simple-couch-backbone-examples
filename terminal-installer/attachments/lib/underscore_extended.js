@@ -118,5 +118,7 @@ _.mixin({renameKeys:function (toEdit,fieldMap){
 	 }});
 
 _.mixin({merge:function (objArray){
-	    return _.reduce(objArray,function(sum,cur){return _.extend(sum,cur);},{});
+	     //merges all of the objects in an array into one object
+	     //probably can be done via apply.extend([...])
+	     return _.reduce(objArray,function(sum,cur){return _.extend(sum,cur);},{});
 	 }});

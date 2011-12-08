@@ -38,6 +38,19 @@ function toFixed(mag){
     };
 }
 
+function addPropertiesTogether(addTo,addFrom){
+    for (var prop in addFrom) {
+	(addTo[prop] !== undefined && _.isNumber(addFrom[prop])) ? addTo[prop] += addFrom[prop]: addTo[prop] = addFrom[prop];
+    }
+    return addTo;
+};
+
+function isValidDate(d){
+    if ( Object.prototype.toString.call(d) !== "[object Date]" )
+	return false;
+    return !isNaN(d.getTime());
+}
+
 function formatTime(time){
     return time+":00-"+(Number(time)+1)+":00";
 };
@@ -65,6 +78,20 @@ function typedTransactionRangeGroupedQuery(view,db,base){
 	    startkey:startKey,
 	    endkey:endKey,
 	    inclusive_end: false
+	};
+	return queryF(view,db)(options);
+    };
+};
+
+
+function transactionRangeQuery(start,end){
+    return function(view,db,base){
+	var startKey = base.concat(start);
+	var endKey = base.concat(end);
+	var options = {
+	    startkey:startKey,
+	    endkey:endKey,
+	    include_docs: true
 	};
 	return queryF(view,db)(options);
     };
@@ -104,6 +131,17 @@ function returnQuery(callback){
 	callback(null, query);
     };
 };
+
+function generalTransactionsIndexRangeFetcher(view,db,id,startIndex,endIndex,continuation){
+    var transactionsQuery = transactionRangeQuery(startIndex,endIndex)(view,db,[id]);
+    transactionsQuery(function(response){
+			  function isVoid(transaction){return transaction == "VOID" || transaction == "VOIDREFUND";}
+			  function docs(resp_data){return resp_data.doc;};
+			  var transactions = _(response.rows).chain().map(docs).reject(isVoid).value();
+			  continuation(transactions);
+		      });
+}
+
 function todaysSalesFetcher(view,db,id,runAfter){
     var d = relative_dates();
     var sales = typedTransactionRangeQuery(view,db,[id,'SALE'])(d.today,d.tomorrow);
@@ -750,11 +788,18 @@ function taxReportFetcher(terminals,startDate,endDate,callback){
 		    var tax1 = (Number(cashout.netsaletax1) -  Number(cashout.netrefundtax1)).toFixed(2);
 		    var tax3 = (Number(cashout.netsaletax3) -  Number(cashout.netrefundtax3)).toFixed(2);
 		    return {sales : cashout.netsales, totalsales : cashout.netsalestotal, tax1 :tax1, tax3:tax3};
-		};
+		}
+		var lastCashoutDate = new Date(extendedCashoutData.period.cashouttime);
+		if(lastCashoutDate.before(endDate)){
+		    var realEndDate = lastCashoutDate.toString();
+		}
+		else{
+		    var realEndDate = endDate.toString();
+		}
 		return _.extend({},
 				extractTaxTotals(extendedCashoutData.period),
 				_.selectKeys(extendedCashoutData,['id','name']),
-				{startDate:startDate.toString(), endDate:extendedCashoutData.period.cashouttime});
+				{startDate:startDate.toString(), endDate:realEndDate});
 	    }
 	    var forTMP = _(terminals)
 		.chain()
@@ -776,4 +821,43 @@ function taxReportFetcher(terminals,startDate,endDate,callback){
 	var ids = _.pluck([terminals],'id');
 	return generalCashoutArrayFetcher_Period(transactionsView,transaction_db,ids,startDate,endDate,resultFetcher([terminals],callback));
     }
+};
+
+function taxReportTransactionsFetcher(terminal,startIndex,endIndex,callback){
+    var view = cdb.view('reporting','terminalID_index');
+    var db = cdb.db('transactions');
+
+    function resultFetcher(terminal,callback){
+    	return function(transactions){
+	    function extractTemplateData(transaction){
+		function isRefund(transaction){return transaction.type == "REFUND";}
+		function switchSign(number){return 0 - number;};
+
+		function extractTaxTotals(transaction){
+		    var tax1 = transaction.tax1and2;
+		    var tax3 = transaction.tax3;
+		    return {sales : transaction.subTotal, totalsales : transaction.total, tax1 :tax1, tax3:tax3};
+		};
+
+		var moneyFields = extractTaxTotals(transaction);
+		if(isRefund(transaction)){
+		    moneyFields = _.applyToValues(moneyFields,switchSign);
+		}
+		return _.extend({},
+				moneyFields,
+			       {date: transaction.time.end});
+	    }
+	    var transactionsTaxData = _(transactions).map(extractTemplateData);
+	    var totalsTaxData = 
+		_(transactionsTaxData)
+		.chain()
+		.reduce(addPropertiesTogether,{})
+		.applyToValues(toFixed(2))
+		.value();
+	    callback({items:_.map(transactionsTaxData,function(t){return _.applyToValues(t,toFixed(2));}),
+		      totals:totalsTaxData});
+	};
+    }
+
+    return generalTransactionsIndexRangeFetcher(view,db,terminal,startIndex,endIndex,resultFetcher(terminal,callback));
 };
