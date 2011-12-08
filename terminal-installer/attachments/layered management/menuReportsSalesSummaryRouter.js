@@ -254,18 +254,18 @@ function extractSalesSummaryTableInfo(list) {
 	return namenum;
     };
     
-    function getSummarySales(peroid) {
+    function getSummarySales(item) {
     	return {
-				    numberoftransactions:peroid.noofpayment+peroid.noofrefund,
-				    sales:(peroid.netsales-peroid.netrefund).toFixed(2),
-				    tax1:(peroid.netsaletax1-peroid.netrefundtax1).toFixed(2),
-				    tax3:(peroid.netsaletax3-peroid.netrefundtax3).toFixed(2),
-				    totalsales:(Number(peroid.netsalestotal)).toFixed(2),
-				    cash:(peroid.cashpayment-peroid.cashrefund).toFixed(2),
-				    credit:(peroid.creditpayment-peroid.creditrefund).toFixed(2),
-				    debit:(peroid.debitpayment-peroid.debitrefund).toFixed(2),
-				    mobile:(peroid.mobilepayment-peroid.mobilerefund).toFixed(2),
-				    other:(peroid.otherpayment-peroid.otherrefund).toFixed(2)
+				    numberoftransactions:item.noofpayment+item.noofrefund,
+				    sales:(item.netsales-item.netrefund).toFixed(2),
+				    tax1:(item.netsaletax1-item.netrefundtax1).toFixed(2),
+				    tax3:(item.netsaletax3-item.netrefundtax3).toFixed(2),
+				    totalsales:(Number(item.netsalestotal)).toFixed(2),
+				    cash:(item.cashpayment-item.cashrefund).toFixed(2),
+				    credit:(item.creditpayment-item.creditrefund).toFixed(2),
+				    debit:(item.debitpayment-item.debitrefund).toFixed(2),
+				    mobile:(item.mobilepayment-item.mobilerefund).toFixed(2),
+				    other:(item.otherpayment-item.otherrefund).toFixed(2)
 				};
     };
     
@@ -349,7 +349,7 @@ function extractSalesSummaryTableInfo(list) {
     } else if(!_.isEmpty(ReportData.group)) {
 	var groups = [ReportData.group];
 	result.list = _.map(list, function(item){
-				var peroid = item.period;
+				var period = item.period;
 				var namenum = getStoreNameNum(groups,item.id);
 				return {groupName:getGroupName(groups,item.id),
 					storeName:namenum.name,
