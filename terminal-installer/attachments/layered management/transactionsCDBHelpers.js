@@ -534,7 +534,6 @@ function generalCashoutReportFetcher(view,db,id,runAfter){
 		runAfter(cashouts);	  
 	    });
 };
-
 function generalCashoutFetcher_Period(view,db,id,startDate,endDate,runAfter){
     var companySalesBaseKey = [id];
     var companySalesRangeQuery = typedTransactionRangeQuery(view,db,companySalesBaseKey);
@@ -575,49 +574,13 @@ function generalCashoutFetcher_Period(view,db,id,startDate,endDate,runAfter){
 		var totalperiod = cashouts.period['menusalesamount'] + cashouts.period['scansalesamount'] + cashouts.period['ecrsalesamount'];
 		
 		cashouts.period = appendCategorySalesPercent(totalperiod, cashouts.period);
-
 		cashouts.period = modifiedCashouts(cashouts.period); 
-		
 		// add
 		cashouts.id = id;
 		
 		runAfter(cashouts);	  
 	    });
 };
-
-function generalSalesReportArrayFetcher(view,db,ids,runAfter){
-    async.map(ids, 
-	      function(id,callback){
-		  generalSalesReportFetcher(view,db,id,
-					    function(salesData){
-						callback(null,salesData);
-					    });
-	      },
-	      runAfter);
-};
-
-function originTodaysSalesArrayFetcher(view,db,ids,runAfter){
-    async.map(ids, 
-	      function(id,callback){
-		  originTodaysSalesFetcher(view,db,id,
-					   function(salesData){
-					       callback(null,salesData);
-					   });
-	      },
-	      runAfter);
-};
-
-function todaysSalesArrayFetcher(view,db,ids,runAfter){
-    async.map(ids, 
-	      function(id,callback){
-		  todaysSalesFetcher(view,db,id,
-				     function(salesData){
-					 callback(null,salesData);
-				     });
-	      },
-	      runAfter);
-};
-
 function generalCashoutReportArrayFetcher(view,db,ids,runAfter){
     async.map(ids, 
 	      function(id,callback){
@@ -636,6 +599,37 @@ function generalCashoutArrayFetcher_Period(view,db,ids,startDate,endDate,runAfte
 					       function(salesData){
 						   callback(null,salesData);
 					       });
+	      },
+	      runAfter);
+};
+
+function generalSalesReportArrayFetcher(view,db,ids,runAfter){
+    async.map(ids, 
+	      function(id,callback){
+		  generalSalesReportFetcher(view,db,id,
+					    function(salesData){
+						callback(null,salesData);
+					    });
+	      },
+	      runAfter);
+};
+function originTodaysSalesArrayFetcher(view,db,ids,runAfter){
+    async.map(ids, 
+	      function(id,callback){
+		  originTodaysSalesFetcher(view,db,id,
+					   function(salesData){
+					       callback(null,salesData);
+					   });
+	      },
+	      runAfter);
+};
+function todaysSalesArrayFetcher(view,db,ids,runAfter){
+    async.map(ids, 
+	      function(id,callback){
+		  todaysSalesFetcher(view,db,id,
+				     function(salesData){
+					 callback(null,salesData);
+				     });
 	      },
 	      runAfter);
 };
@@ -711,7 +705,6 @@ function howAreWeDoingTodayTerminalReportFetcher(childrenObjs,parentObj,runAfter
     async
 	.parallel({
 		      hwdt: function(callback){howAreWeDoingTodayReportFetcher(childrenObjs,parentObj, function(data){callback(null,data);});},
-		      //refunds:function(callback){todaysRefundsFetcher(transactionsTotalView,transaction_db,parentID,function(data){callback(null,data);});},
 		      voids:function(callback){todaysVoidsFetcher(transactionsTotalView,transaction_db, parentID,function(data){callback(null,data);});}
 		  },
 		  function(err,report){
@@ -744,4 +737,43 @@ function hourlyReportFetcher(id,runAfter){
 
 		runAfter(templateData);	  
 	    });
+};
+
+function taxReportFetcher(terminals,startDate,endDate,callback){
+    var transactionsView = cdb.view('reporting','cashouts_id_date');
+    var transaction_db = cdb.db('cashouts');
+
+    function resultFetcher(terminals,callback){
+    	return function(err,cashoutData){
+	    function extractTemplateData(extendedCashoutData){
+		function extractTaxTotals(cashout){
+		    var tax1 = (Number(cashout.netsaletax1) -  Number(cashout.netrefundtax1)).toFixed(2);
+		    var tax3 = (Number(cashout.netsaletax3) -  Number(cashout.netrefundtax3)).toFixed(2);
+		    return {sales : cashout.netsales, totalsales : cashout.netsalestotal, tax1 :tax1, tax3:tax3};
+		};
+		return _.extend({},
+				extractTaxTotals(extendedCashoutData.period),
+				_.selectKeys(extendedCashoutData,['id','name']),
+				{startDate:startDate.toString(), endDate:extendedCashoutData.period.cashouttime});
+	    }
+	    var forTMP = _(terminals)
+		.chain()
+		.zip(cashoutData)
+		.map(function(pair){
+			 return _.extend(_.first(pair),_.second(pair));
+		     })
+		.map(extractTemplateData)
+		.value();
+	    callback(forTMP);
+	};
+    }
+
+    if(_.isArray(terminals)){
+	var ids = _.pluck(terminals,'id');
+	return generalCashoutArrayFetcher_Period(transactionsView,transaction_db,ids,startDate,endDate,resultFetcher(terminals,callback));
+    }
+    else{
+	var ids = _.pluck([terminals],'id');
+	return generalCashoutArrayFetcher_Period(transactionsView,transaction_db,ids,startDate,endDate,resultFetcher([terminals],callback));
+    }
 };
