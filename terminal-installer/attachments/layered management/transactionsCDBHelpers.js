@@ -183,7 +183,7 @@ function originTodaysSalesFetcher(view,db,id,runAfter){
 function originTodaysHourlySalesFetcher(view,db,id,runAfter){
     var d = relative_dates();
     //fixme:use todays date not yesterdays
-    var todaysQuery = typedTransactionDateRangeGroupedQuery(d.yesterday_h,d.tomorrow_h)(view,db);
+    var todaysQuery = typedTransactionDateRangeGroupedQuery(d.today_h,d.tomorrow_h)(view,db);
     var menuSales = todaysQuery([id,'SALE','MENU']);
     var menuRefunds = todaysQuery([id,'REFUND','MENU']);
     var scanSales = todaysQuery([id,'SALE','INVENTORY']);
@@ -240,7 +240,7 @@ function originTodaysHourlySalesFetcher(view,db,id,runAfter){
 		}
 
 		function template(){
-		    return {menu:0,scan:0,ecr:0};
+		    return {menu:0,inventory:0,ecr:0};
 		}
 
 		var stuff = _([]).
@@ -299,7 +299,7 @@ function originTodaysHourlySalesFetcher(view,db,id,runAfter){
 function todaysHourlySalesFetcher(view,db,id,runAfter){
     var d = relative_dates();
     //fixme:use todays date not yesterdays
-    var todaysQuery = typedTransactionDateRangeGroupedQuery(d.yesterday_h,d.tomorrow_h)(view,db);
+    var todaysQuery = typedTransactionDateRangeGroupedQuery(d.today_h,d.tomorrow_h)(view,db);
     var sales = todaysQuery([id,'SALE']);
     var refunds = todaysQuery([id,'REFUND']);
 

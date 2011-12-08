@@ -40,7 +40,7 @@ var menuReportsSalesSummaryView =
 			   view.renderMenuReportsGroupSales();
 		       });
 	     menuReportsSalesSummaryRouter
-		 .bind('route:menuReportsStoreSales', 
+		 .bind('route:menuReportsStoreSales',
 		       function(){
 			   console.log("menuReportsView, route:menuReportsStoreSales");
 			   view.renderMenuReportsStoreSales();

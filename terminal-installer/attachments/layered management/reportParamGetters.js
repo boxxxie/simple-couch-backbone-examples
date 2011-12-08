@@ -10,7 +10,7 @@ function dialogTitle(companyName, groupName, numGroups, storeName, numStores, te
     if(numStores) title = title.concat(" , Stores #: " + numStores);
     if(terminalName) title = title.concat(" , Terminal: " + terminalName);
     if(numTerminals) title = title.concat(" , Terminals #: " + numTerminals);
-    title = title.concat(", Date: " + (new Date()).toDateString());
+    title = title.concat(", Date: " + (new Date()).toString("yyyy/MM/dd"));
     
     return title;
 };

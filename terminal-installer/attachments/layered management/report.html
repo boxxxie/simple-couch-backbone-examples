@@ -35,6 +35,7 @@
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsHowAreWeDoingTodayRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsSalesSummaryRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsHourlyActivityRouter.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/menuReportsTaxCollectedRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReports.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/report.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/docRdy.js"></script>
@@ -128,6 +129,14 @@
       </button>
     </script>
     
+    <script id="quickTaxViewButton_P" class="partial" type="text/html">
+      <button onclick="quickTaxView('{{id}}','{{dialogtitle}}','{{startdate}}','{{enddate}}');" class="ui-state-default ui-corner-all">
+	<span class="ui-button-text">
+	  Details
+	</span>
+      </button>
+    </script>
+    
     <script id="menuReportGoButton_P" class="partial" type="text/html">
       <button onclick="renderSalesSummaryReportTable();" class="ui-state-default ui-corner-all">
 	<span class="ui-button-text">
@@ -138,6 +147,14 @@
     
     <script id="menuHourlyGoButton_P" class="partial" type="text/html">
       <button onclick="renderHourlyActivityTable();" class="ui-state-default ui-corner-all">
+	<span class="ui-button-text">
+	  Go
+	</span>
+      </button>
+    </script>
+    
+    <script id="menuTaxGoButton_P" class="partial" type="text/html">
+      <button onclick="renderTaxCollectedTable();" class="ui-state-default ui-corner-all">
 	<span class="ui-button-text">
 	  Go
 	</span>
@@ -169,8 +186,16 @@
     <script id="numberOfTerminalsFields_P" class="partial" type="text/html">
       <a href="#{{startPage}}/terminals">Number Of Terminals: {{numberOfTerminals}}</a>
     </script>
+    
+    <script id="dateRangePicker_P" class="partial" type="text/html">
+      <label>Date Range</label><br/>
+      <label for="from">From</label>
+      <input type="text" id="dateFrom" name="from" />
+      <label for="to">to</label>
+      <input type="text" id="dateTo" name="to" />
+    </script>
 
-    <!-------------------------------------------------- DIALOG QUICKVIEW ---------------------------------------->
+    <!--------------------------- DIALOG QUICKVIEW(yesterday/mtd/ytd) ---------------------------------------->
     <script id="netSales_P" class="partial" type="text/html">
       <tr>
 	<td align="left">Net Sales</td>
@@ -325,7 +350,7 @@
     </script>
 
     <script id="cashOutReportDialog_TMP" type="text/html">
-      <form>
+      <cashoutdialog>
 	<table border="1">
 	  <tr>
 	    <th>YESTERDAY</th>
@@ -344,9 +369,45 @@
 	    </td>
 	  </tr>
 	</table>
-      </form>
-    </script>  
-
+      </cashoutdialog>
+    </script>
+    
+    
+    <!----------------------------------- TaxCollected quickviewDialog -------------------------------->
+    <script id="taxCollectedQuickViewDialog_TMP" type="text/html">
+      <taxcollecteddialog>
+	<table border="1">
+	  <tr>
+	    <th>Transaction #</th>
+	    <th>Date</th>
+	    <th>Sale</th>
+	    <th>Tax 1</th>
+	    <th>Tax 3</th>
+	    <th>Total Sale</th>
+	  </tr>
+	  {{#list}}
+	  <tr>
+	    <td>{{transaction}}</td>
+	    <td>{{date}}</td>
+	    <td align="right">{{sale}}</td>
+	    <td align="right">{{tax1}}</td>
+	    <td align="right">{{tax3}}</td>
+	    <td align="right">{{totalsale}}</td>
+	  </tr>
+	  {{/list}}
+	  {{#total}}
+	  <tr>
+	    <td colspan="2">Total</td>
+	    <td align="right">{{sale}}</td>
+	    <td align="right">{{tax1}}</td>
+	    <td align="right">{{tax3}}</td>
+	    <td align="right">{{totalsale}}</td>
+	  </tr>
+	  {{/total}}
+	</table>
+      </taxcollecteddialog>
+    </script>
+     
     <!-------------------------------------------- MENU REPORTS ------------------------------------------------>
     <script id="menuReports_TMP" type="text/html">
       <h1>Reports Menus</h1>
@@ -355,27 +416,22 @@
 	<li><a href='#menuReports/{{startPage}}SalesSummary'> Sales Summary</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}HowAreWe'> How Are We Doing Today</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}HourlyActivity'> Hourly Activity</a> <br/></li>
+	{{#breadCrumb}}
+	{{#storeName}}
 	<li><a href=''> Electronic Payment Processing Summary</a> <br/></li>
-	<li><a href=''> Tax Collected</a> <br/></li>
+	<li><a href='#menuReports/{{startPage}}TaxCollected'> Tax Collected</a> <br/></li>
 	<li><a href=''> Cash Outs</a> <br/></li>
 	<li><a href=''> Cancelled Transactions</a> <br/></li>
 	<li><a href=''> Refunds</a> <br/></li>
 	<li><a href=''> Discounts</a> <br/></li>
-	<li><a href=''> Category Sales</a> <br/></li>
+	{{/storeName}}
+	{{/breadCrumb}}
       </ol>
       {{>backButton_P}}
       {{>menuButton_P}}
     </script>
     
     <!----------------------------------------------- SALES SUMMARY REPORTS -------------------------------------------->
-    <script id="datePicker_P" class="partial" type="text/html">
-      <label>Report Date</label> <br/>
-      <label for="from">From</label>
-      <input type="text" id="dateFrom" name="from" />
-      <label for="to">to</label>
-      <input type="text" id="dateTo" name="to" />
-    </script>
-    
     <script id="groupDropdownbox_P" class="partial" type="text/html">
       GROUP : <select id="groupsdown" onchange="updateStoreDropdown();" class="{{>commonClasses_P}}">
 	<option value = "ALL" selected>ALL</option>
@@ -443,7 +499,7 @@
       <h1>Sales Summary Report</h1>
       <h2>{{>breadcrumb_P}}</h2>
       {{>groupDropdownbox_P}} <br/>
-      {{>datePicker_P}}
+      {{>dateRangePicker_P}}
       {{>menuReportGoButton_P}}			
       <br/><br/>
       <summarytable></summarytable>		
@@ -451,14 +507,13 @@
       {{>menuButton_P}}
     </script>	
 
-    <!------------------------------------- HowAreWeToday GroupTable TMP -------------------------------------------->
-    <script id="groupsTabel_HowAreWeToday_TMP" type="text/html">
-      
+     <!------------------------------------- HowAreWeTodayTable TMP -------------------------------------------->
+    <script id="generalTabel_HowAreWeToday_TMP" type="text/html">
       <h1>How Are We Doing Today</h1>
       <h2>{{>breadcrumb_P}}</h2>
       <table border="1">
 	<tr>
-	  <th>Group Name</th>
+	  <th>{{namefield}}</th>
 	  <th># of Sales Trans</th>
 	  <th># of Refunds Trans</th>
 	  <th>Menu</th>
@@ -469,7 +524,15 @@
 	</tr>
 	{{#items}}
 	<tr>
-	  <td><a href="#menuReports/{{startPage}}HowAreWe/group/{{id}}/stores">{{name}}</a></td>
+	  <td>
+	  	{{#linkaddress}}
+	  	<a href="{{linkaddress}}">
+	  	{{/linkaddress}}
+	  		{{name}}
+	  	{{#linkaddress}}
+	  	</a>
+	  	{{/linkaddress}}
+	  </td>
 	  <td align="right">{{transactions}}</td>
 	  <td align="right">{{refunds}}</td>
 	  <td align="right">{{menu}}</td>
@@ -492,96 +555,9 @@
 	  {{/total}}
 	</tr>
       </table>
-      {{>backButton_P}}
-      {{>menuButton_P}}
-    </script>
-
-
-    <!------------------------------------- HowAreWeToday StoreTable TMP -------------------------------------------->
-    <script id="storesTabel_HowAreWeToday_TMP" type="text/html">
-      <h1>How Are We Doing Today</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      <table border="1">
-	<tr>
-	  <th>Store</th>
-	  <th># of Sales Trans</th>
-	  <th># of Refunds Trans</th>
-	  <th>Menu</th>
-	  <th>Scan</th>
-	  <th>ECR</th>
-	  <th>Total</th>
-	  <th>AVG Sale</th>
-	</tr>
-	{{#items}}
-	<tr>
-	  <td><a href="#menuReports/{{startPage}}HowAreWe/store/{{id}}/terminals">{{name}}</a></td>
-	  <td align="right">{{transactions}}</td>
-	  <td align="right">{{refunds}}</td>
-	  <td align="right">{{menu}}</td>
-	  <td align="right">{{scan}}</td>
-	  <td align="right">{{ecr}}</td>
-	  <td align="right">{{total}}</td>
-	  <td align="right">{{avgsale}}</td>
-	</tr>
-	{{/items}}
-	<tr>
-	  <td>Totals</td>
-	  {{#total}}
-	  <td align="right">{{transactions}}</td>
-	  <td align="right">{{refunds}}</td>
-	  <td align="right">{{menu}}</td>
-	  <td align="right">{{scan}}</td>
-	  <td align="right">{{ecr}}</td>
-	  <td align="right">{{total}}</td>
-	  <td align="right">{{avgsale}}</td>
-	  {{/total}}
-	</tr>
-      </table>
-      {{>backButton_P}}
-      {{>menuButton_P}}
-    </script>
-
-    <!------------------------------------- HowAreWeToday TerminalTable TMP -------------------------------------------->
-    <script id="terminalsTabel_HowAreWeToday_TMP" type="text/html">
-      <h1>How Are We Doing Today</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      <table border="1">
-	<tr>
-	  <th>Terminal</th>
-	  <th># of Sales Trans</th>
-	  <th># of Refunds Trans</th>
-	  <th>Menu</th>
-	  <th>Scan</th>
-	  <th>ECR</th>
-	  <th>Total</th>
-	  <th>AVG Sale</th>
-	</tr>
-	{{#items}}
-	<tr>
-	  <td>{{name}}</td>
-	  <td align="right">{{transactions}}</td>
-	  <td align="right">{{refunds}}</td>
-	  <td align="right">{{menu}}</td>
-	  <td align="right">{{scan}}</td>
-	  <td align="right">{{ecr}}</td>
-	  <td align="right">{{total}}</td>
-	  <td align="right">{{avgsale}}</td>
-	</tr>
-	{{/items}}
-	<tr>
-	  <td>Totals</td>
-	  {{#total}}
-	  <td align="right">{{transactions}}</td>
-	  <td align="right">{{refunds}}</td>
-	  <td align="right">{{menu}}</td>
-	  <td align="right">{{scan}}</td>
-	  <td align="right">{{ecr}}</td>
-	  <td align="right">{{total}}</td>
-	  <td align="right">{{avgsale}}</td>
-	  {{/total}}
-	</tr>
-      </table>
+      {{#cancelledtransactions}}
       <label>Number of Cancelled Transactions : {{cancelledtransactions}}</label><br/>
+      {{/cancelledtransactions}}
       {{>backButton_P}}
       {{>menuButton_P}}
     </script>
@@ -618,7 +594,7 @@
 	  <td align="right">{{transactions}}</td>
 	  <td align="right">{{refunds}}</td>
 	  <td align="right">{{menu}}</td>
-	  <td align="right">{{scan}}</td>
+	  <td align="right">{{inventory}}</td>
 	  <td align="right">{{ecr}}</td>
 	  <td align="right">{{total}}</td>
 	  <td align="right">{{avgsale}}</td>
@@ -638,6 +614,42 @@
       {{>menuButton_P}}
     </script>	
     
+    
+  	<!----------------------------------------------- TAX COLLECTED REPORTS -------------------------------------------->
+    
+    <script id="taxCollectedTabel_TMP" type="text/html">
+      <table border="1">
+	<tr>
+	  <th>Terminal</th>
+	  <th>Sales</th>
+	  <th>Tax 1</th>
+	  <th>Tax 3</th>
+	  <th>Total Sales</th>
+	  <th>Details</th>
+	</tr>
+	{{#items}}
+	<tr>
+	  <td>{{name}}</td>
+	  <td align="right">{{sales}}</td>
+	  <td align="right">{{tax1}}</td>
+	  <td align="right">{{tax3}}</td>
+	  <td align="right">{{totalsales}}</td>
+	  <td>{{>quickTaxViewButton_P}}</td>
+	</tr>
+	{{/items}}
+      </table>
+    </script> 
+    
+    <script id="taxCollectedReports_TMP" type="text/html">
+      <h1>Tax Collected</h1>
+      <h2>{{>breadcrumb_P}}</h2>
+      {{>dateRangePicker_P}}
+      {{>menuTaxGoButton_P}}			
+      <br/><br/>
+      <taxcollectedtable></taxcollectedtable>		
+      {{>backButton_P}}
+      {{>menuButton_P}}
+    </script>
     
     <!------------------------------------------------------- LAYER LOGIN------------------------------------------>
     <script id="layerLogin_TMP" type="text/html">

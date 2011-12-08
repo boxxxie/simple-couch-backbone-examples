@@ -1,6 +1,7 @@
 
+/********************* management page and groups/stores/terminals table quickview dialog ************/
 function quickReportViewDialog (html,options) {
-	var form = $(html).filter('form');
+	var form = $(html).filter('cashoutdialog');
     var d = $("#dialog-quickView");    	
     d.html(form);
     d.find('input').attr('disabled',true);
@@ -28,3 +29,36 @@ function quickReportView(id, title){
     			    quickReportViewDialog(html,{title:title});
     		      });
 }
+
+
+
+
+/******************************* menuReports - tax collected quick view dialog ************************/
+function quickTaxViewDialog (html,options) {
+	var form = $(html).filter('taxcollecteddialog');
+    var d = $("#dialog-quickView");    	
+    d.html(form);
+    d.find('input').attr('disabled',true);
+    var dialogOptions = _.extend(
+	{autoOpen: false,
+	 height: 550,
+	 width: 750,
+	 modal: true,
+	 buttons: {
+	     "Close": function() {
+		 d.dialog('close');
+	     }
+	 },
+	 title:options.title
+	},_.clone(options));
+    
+    d.dialog(dialogOptions);
+    d.dialog("open");
+};
+
+function quickTaxView(id, title, startdate, enddate) {
+	var for_TMP = {};
+	var html = ich.taxCollectedQuickViewDialog_TMP(for_TMP);
+    quickTaxViewDialog(html,{title:title});
+	
+};

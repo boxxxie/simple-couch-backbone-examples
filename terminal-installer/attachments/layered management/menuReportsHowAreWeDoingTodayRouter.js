@@ -156,9 +156,16 @@ function renderHowAreWeGroupsTable(view, startPage) {
 	howAreWeDoingTodayReportFetcher(newGroups,parent_id,function(for_TMP){
 		var param = _.extend(for_TMP, {
 			startPage:startPage,
-			breadCrumb : breadCrumb(ReportData.company.operationalname) 
+			breadCrumb : breadCrumb(ReportData.company.operationalname),
 		});
-		var html = ich.groupsTabel_HowAreWeToday_TMP(param);
+		_.map(param.items, function(item) {
+			return _.extend(item,{linkaddress:"#menuReports/".concat(startPage)
+															.concat("HowAreWe/group/")
+															.concat(item.id)
+															.concat("/stores")
+												});
+		});
+	    var html = ich.generalTabel_HowAreWeToday_TMP(_.extend(param,{namefield:"Group"}));
 	    $(view.el).html(html);
 	});
 };
@@ -188,7 +195,16 @@ function renderHowAreWeStoresTable(view, startPage, group_id) {
 			startPage:startPage,
 			breadCrumb : breadcrumb
 		});
-		var html = ich.storesTabel_HowAreWeToday_TMP(param);
+		
+		_.map(param.items, function(item) {
+			return _.extend(item,{linkaddress:"#menuReports/".concat(startPage)
+															.concat("HowAreWe/store/")
+															.concat(item.id)
+															.concat("/terminals")
+												});
+		});
+		
+	    var html = ich.generalTabel_HowAreWeToday_TMP(_.extend(param,{namefield:"Store"}));
 	    $(view.el).html(html);
 	});
 };
@@ -231,7 +247,8 @@ function renderHowAreWeTerminalsTable(view, startPage, store_id) {
 			startPage:startPage,
 			breadCrumb : breadcrumb
 		});
-		var html = ich.terminalsTabel_HowAreWeToday_TMP(param);
+		param.cancelledtransactions = param.cancelledtransactions.toString();
+	    var html = ich.generalTabel_HowAreWeToday_TMP(_.extend(param,{namefield:"Terminal"}));
 	    $(view.el).html(html);
 	});
 };
