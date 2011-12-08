@@ -364,7 +364,7 @@ function extractSalesSummaryTableInfo(list) {
 	
     } else if(!_.isEmpty(ReportData.store)) {
 	result.list = _.map(list, function(item){
-				var peroid = item.period;
+				var period = item.period;
 				return {groupName:ReportData.groupName,
 					storeName:ReportData.store.storeName,
 					storeNumber:ReportData.store.number,
