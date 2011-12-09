@@ -841,14 +841,17 @@ function taxReportTransactionsFetcher(terminal,startIndex,endIndex,callback){
 			       {date: transaction.time.end});
 	    }
 	    var transactionsTaxData = _(transactions).map(extractTemplateData);
+	    
+	    var defaultTotalsData = {sales : 0, totalsales : 0, tax1 :0, tax3:0};
 	    var totalsTaxData = 
 		_(transactionsTaxData)
 		.chain()
 		.reduce(addPropertiesTogether,{})
-		.applyToValues(toFixed(2))
 		.value();
+	    var safeTotalsTaxData = _(defaultTotalsData).chain().extend(totalsTaxData).applyToValues(toFixed(2)).value();
+
 	    callback({items:_.map(transactionsTaxData,function(t){return _.applyToValues(t,toFixed(2));}),
-		      totals:totalsTaxData});
+		      totals:safeTotalsTaxData});
 	};
     }
 
