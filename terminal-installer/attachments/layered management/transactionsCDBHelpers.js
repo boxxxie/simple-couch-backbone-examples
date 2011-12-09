@@ -857,3 +857,20 @@ function taxReportTransactionsFetcher(terminal,startIndex,endIndex,callback){
 
     return generalTransactionsIndexRangeFetcher(view,db,terminal,startIndex,endIndex,resultFetcher(terminal,callback));
 };
+
+function cashoutReportFetcher(terminals,startDate,endDate,callback){
+    var ids = _.pluck(terminals,'id');
+    function processCashouts(terminals,callback){
+	return function(err,cashouts){
+	    var templateData = _(cashouts).chain()
+		.zipMerge(terminals)
+		.map(function(cashout){
+			 var formattedDate = (new Date(cashout.cashouttime)).toString("yyyy/MM/dd-HH:mm:ss");
+			 return _.extend(cashout,{cashouttime:formattedDate},{cashoutString:JSON.stringify(cashout)});
+			 ;})
+		.value();
+	    callback(templateData);
+	};
+    }
+    cashoutFetcher_Period(ids,startDate,endDat,processCashouts(terminals,callback));
+}
