@@ -58,19 +58,20 @@ function renderTaxCollectedTable() {
     if(!_.isEmpty($("#dateFrom").val()) && !_.isEmpty($("#dateTo").val())) {
 	var startDate = new Date($("#dateFrom").val());
 	var endDate = new Date($("#dateTo").val());
+	var endDateForQuery = new Date($("#dateTo").val());
 	
 	if(startDate.equals(endDate)) {
-	    endDate.addDays(1);
+	    endDateForQuery.addDays(1);
 	}
 	
 	//TODO
-	var ids = {ids:_.map(ReportData.store.terminals, function(terminal){
+	var ids = _.map(ReportData.store.terminals, function(terminal){
 		return {id:terminal.terminal_id, name:terminal.terminal_label};
-	})};
+	});
 	console.log(ids);
 	
-	var data_TMP={};
-	_.map(data_TMP.items, function(item){
+	taxReportFetcher(ids,startDate,endDateForQuery,function(data_TMP){
+		data_TMP=_.map(data_TMP, function(item){
 		var dialogtitle="".concat("Company : ")
 						.concat(ReportData.companyName)
 						.concat(" , Group : ")
@@ -83,11 +84,12 @@ function renderTaxCollectedTable() {
 						.concat(startDate.toString("yyyy/MM/dd"))
 						.concat(" ~ ")
 						.concat(endDate.toString("yyyy/MM/dd"));
-		return _.extend(item, {dialogtitle:dialogtitle});
+			return _.extend(item, {dialogtitle:dialogtitle});
+		});
+		
+		var html = ich.taxCollectedTabel_TMP({items:data_TMP});
+		$("taxcollectedtable").html(html);
 	});
-	
-	var html = ich.taxCollectedTabel_TMP(data_TMP);
-	$("taxcollectedtable").html(html);
 		
     } else {
    	alert("Input Date");

@@ -130,7 +130,7 @@
     </script>
     
     <script id="quickTaxViewButton_P" class="partial" type="text/html">
-      <button onclick="quickTaxView('{{id}}','{{dialogtitle}}','{{startdate}}','{{enddate}}');" class="ui-state-default ui-corner-all">
+      <button onclick="quickTaxView('{{id}}','{{dialogtitle}}','{{startDate}}','{{endDate}}');" class="ui-state-default ui-corner-all">
 	<span class="ui-button-text">
 	  Details
 	</span>
@@ -638,6 +638,7 @@
 	</tr>
 	{{/items}}
       </table>
+      {{>quickReportViewHook_P}}
     </script> 
     
     <script id="taxCollectedReports_TMP" type="text/html">
@@ -646,7 +647,7 @@
       {{>dateRangePicker_P}}
       {{>menuTaxGoButton_P}}			
       <br/><br/>
-      <taxcollectedtable></taxcollectedtable>		
+      <taxcollectedtable></taxcollectedtable>	
       {{>backButton_P}}
       {{>menuButton_P}}
     </script>

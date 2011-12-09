@@ -41,8 +41,8 @@ function quickTaxViewDialog (html,options) {
     d.find('input').attr('disabled',true);
     var dialogOptions = _.extend(
 	{autoOpen: false,
-	 height: 550,
-	 width: 750,
+	 height: 450,
+	 width: 424,
 	 modal: true,
 	 buttons: {
 	     "Close": function() {
