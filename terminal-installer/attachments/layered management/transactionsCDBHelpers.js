@@ -68,7 +68,6 @@ function typedTransactionRangeQuery(view,db,base){
 	return queryF(view,db)(options);
     };
 };
-
 function typedTransactionRangeGroupedQuery(view,db,base){
     return function(startDate,endDate){
 	var startKey = base.concat(startDate);
@@ -82,8 +81,6 @@ function typedTransactionRangeGroupedQuery(view,db,base){
 	return queryF(view,db)(options);
     };
 };
-
-
 function transactionRangeQuery(start,end){
     return function(view,db,base){
 	var startKey = base.concat(start);
@@ -96,7 +93,6 @@ function transactionRangeQuery(start,end){
 	return queryF(view,db)(options);
     };
 };
-
 function typedTransactionDateRangeGroupedQuery(startDate,endDate){
     return function(view,db){
 	return function (base){
@@ -619,6 +615,16 @@ function generalCashoutFetcher_Period(view,db,id,startDate,endDate,runAfter){
 		runAfter(cashouts);	  
 	    });
 };
+function generalCashoutListFetcher_Period(view,db,id,startDate,endDate,runAfter){
+    var baseKey = [id];
+    var dateStart = _.first(startDate.toArray(),3);
+    var dateEnd = _.first(endDate.toArray(),3);
+
+    var cashoutQuery = transactionRangeQuery(dateStart,dateEnd)(view,db,baseKey)
+    (function(response){
+	 runAfter(_.pluck(response.rows,'doc'));	 
+     });
+};
 function generalCashoutReportArrayFetcher(view,db,ids,runAfter){
     async.map(ids, 
 	      function(id,callback){
@@ -634,6 +640,17 @@ function generalCashoutArrayFetcher_Period(view,db,ids,startDate,endDate,runAfte
     async.map(ids, 
 	      function(id,callback){
 		  generalCashoutFetcher_Period(view,db,id,startDate,endDate,
+					       function(salesData){
+						   callback(null,salesData);
+					       });
+	      },
+	      runAfter);
+};
+
+function generalCashoutArrayFetcher_Period(view,db,ids,startDate,endDate,runAfter) {
+    async.map(ids, 
+	      function(id,callback){
+		  generalCashoutListFetcher_Period(view,db,id,startDate,endDate,
 					       function(salesData){
 						   callback(null,salesData);
 					       });
@@ -699,6 +716,12 @@ function cashoutFetcher_Period(ids,startDate,endDate,callback){
     else{
 	return generalCashoutArrayFetcher_Period(transactionsView,transaction_db,ids,startDate,endDate,callback);
     }
+};
+
+function cashoutListFetcher_Period(ids,startDate,endDate,callback){
+    var transactionsView = cdb.view('reporting','cashouts_id_date');
+    var transaction_db = cdb.db('cashouts');
+    return generalCashoutListArrayFetcher_Period(transactionsView,transaction_db,ids,startDate,endDate,callback);
 };
 
 function howAreWeDoingTodayReportFetcher(childrenObjs,parentObj,runAfter){
@@ -875,5 +898,5 @@ function cashoutReportFetcher(terminals,startDate,endDate,callback){
 	    callback(templateData);
 	};
     }
-    cashoutFetcher_Period(ids,startDate,endDate,processCashouts(terminals,callback));
+    cashoutListFetcher_Period(ids,startDate,endDat,processCashouts(terminals,callback));
 }
