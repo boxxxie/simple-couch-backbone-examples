@@ -122,3 +122,9 @@ _.mixin({merge:function (objArray){
 	     //probably can be done via apply.extend([...])
 	     return _.reduce(objArray,function(sum,cur){return _.extend(sum,cur);},{});
 	 }});
+
+_.mixin({zipMerge:function (){
+	     console.log('zipmerge')   ;
+	     return _.map(_.zip.apply(null,arguments),
+                          function(zipped){return _.merge(zipped);});
+	 }});
