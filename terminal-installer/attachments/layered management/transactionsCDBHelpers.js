@@ -875,5 +875,5 @@ function cashoutReportFetcher(terminals,startDate,endDate,callback){
 	    callback(templateData);
 	};
     }
-    cashoutFetcher_Period(ids,startDate,endDat,processCashouts(terminals,callback));
+    cashoutFetcher_Period(ids,startDate,endDate,processCashouts(terminals,callback));
 }

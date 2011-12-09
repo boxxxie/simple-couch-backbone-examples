@@ -70,22 +70,21 @@ function rendermenuReportsCashOutsTable() {
 	});
 	console.log(ids);
 	
-	//taxReportFetcher(ids,startDate,endDateForQuery,function(data_TMP){
-	//	data_TMP=_.map(data_TMP, function(item){
-	//	var dialogtitle="".concat("Company : ")
-	//					.concat(ReportData.companyName)
-	//					.concat(" , Group : ")
-	//					.concat(ReportData.groupName)
-	//					.concat(" , Store : ")
-	//					.concat(ReportData.store.storeName)
-	//					.concat(" , Terminal : ")
-	//					.concat(item.name);
-	//		return _.extend(item, {dialogtitle:dialogtitle});
-	//	});
-		var data_TMP = {};	
+	cashoutReportFetcher(ids,startDate,endDateForQuery,function(data_TMP){
+		data_TMP=_.map(data_TMP, function(item){
+		var dialogtitle="".concat("Company : ")
+						.concat(ReportData.companyName)
+						.concat(" , Group : ")
+						.concat(ReportData.groupName)
+						.concat(" , Store : ")
+						.concat(ReportData.store.storeName)
+						.concat(" , Terminal : ")
+						.concat(item.name);
+			return _.extend(item, {dialogtitle:dialogtitle});
+		});
 		var html = ich.menuReportsCashOutsTabel_TMP({items:data_TMP});
 		$("cashoutstable").html(html);
-	//});
+	});
 		
     } else {
    	alert("Input Date");
