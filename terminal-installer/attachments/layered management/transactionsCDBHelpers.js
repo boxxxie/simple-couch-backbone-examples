@@ -605,7 +605,7 @@ function generalCashoutFetcher_Period(view,db,id,startDate,endDate,runAfter){
 		    var data = _.clone(input);
 		    return _(data).chain()
 			.applyToValues(toFixed(2))
-			.extend(_.selectKeys(data, ['noofpayment','noofrefund']))
+			.extend(_.selectKeys(data, ['noofpayment','noofrefund','firstindex','lastindex']))
 			.value();
 		};
 		
