@@ -36,6 +36,7 @@
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsSalesSummaryRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsHourlyActivityRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsTaxCollectedRouter.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/menuReportsCashOutsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReports.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/report.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/docRdy.js"></script>
@@ -137,6 +138,14 @@
       </button>
     </script>
     
+    <script id="quickCashoutsViewButton_P" class="partial" type="text/html">
+      <button onclick="quickCashoutsView('{{dialogtitle}}','{{cashoutsdata}}');" class="ui-state-default ui-corner-all">
+	<span class="ui-button-text">
+	  Details
+	</span>
+      </button>
+    </script>
+    
     <script id="menuReportGoButton_P" class="partial" type="text/html">
       <button onclick="renderSalesSummaryReportTable();" class="ui-state-default ui-corner-all">
 	<span class="ui-button-text">
@@ -160,6 +169,15 @@
 	</span>
       </button>
     </script>
+    
+    <script id="menuCashoutsGoButton_P" class="partial" type="text/html">
+      <button onclick="rendermenuReportsCashOutsTable();" class="ui-state-default ui-corner-all">
+	<span class="ui-button-text">
+	  Go
+	</span>
+      </button>
+    </script>
+    
     
     <script id="quickReportViewHook_P" class="partial" type="text/html">
       <div id="dialog-quickView" title="{{title}}"></div>
@@ -379,6 +397,7 @@
 	<table border="1">
 	  <tr>
 	    <th>Transaction #</th>
+	    <th>Type</th>
 	    <th>Date</th>
 	    <th>Sale</th>
 	    <th>Tax 1</th>
@@ -388,6 +407,7 @@
 	  {{#items}}
 	  <tr>
 	    <td>{{transaction}}</td>
+	    <td>{{type}}</td>
 	    <td>{{date}}</td>
 	    <td align="right">{{sales}}</td>
 	    <td align="right">{{tax1}}</td>
@@ -397,7 +417,7 @@
 	  {{/items}}
 	  {{#totals}}
 	  <tr>
-	    <td colspan="2">Total</td>
+	    <td colspan="3">Total</td>
 	    <td align="right">{{sales}}</td>
 	    <td align="right">{{tax1}}</td>
 	    <td align="right">{{tax3}}</td>
@@ -420,7 +440,7 @@
 	{{#storeName}}
 	<li><a href=''> Electronic Payment Processing Summary</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}TaxCollected'> Tax Collected</a> <br/></li>
-	<li><a href=''> Cash Outs</a> <br/></li>
+	<li><a href='#menuReports/{{startPage}}CashOuts'> Cash Outs</a> <br/></li>
 	<li><a href=''> Cancelled Transactions</a> <br/></li>
 	<li><a href=''> Refunds</a> <br/></li>
 	<li><a href=''> Discounts</a> <br/></li>
@@ -616,7 +636,6 @@
     
     
   	<!----------------------------------------------- TAX COLLECTED REPORTS -------------------------------------------->
-    
     <script id="taxCollectedTabel_TMP" type="text/html">
       <table border="1">
 	<tr>
@@ -651,6 +670,39 @@
       {{>backButton_P}}
       {{>menuButton_P}}
     </script>
+    
+    <!----------------------------------------------- CASHOUTS REPORTS -------------------------------------------->
+    <script id="menuReportsCashOutsTabel_TMP" type="text/html">
+      <table border="1">
+	<tr>
+	  <th>Terminal</th>
+	  <th>Date</th>
+	  <th>Cashout #</th>
+	  <th>Details</th>
+	</tr>
+	{{#items}}
+	<tr>
+	  <td>{{name}}</td>
+	  <td>{{cashoutdate}}</td>
+	  <td>{{cashoutnumber}}</td>
+	  <td>{{>quickCashoutsViewButton_P}}</td>
+	</tr>
+	{{/items}}
+      </table>
+      {{>quickReportViewHook_P}}
+    </script> 
+    
+    <script id="menuReportsCashOutsReports_TMP" type="text/html">
+      <h1>CashOuts</h1>
+      <h2>{{>breadcrumb_P}}</h2>
+      {{>dateRangePicker_P}}
+      {{>menuCashoutsGoButton_P}}			
+      <br/><br/>
+      <cashoutstable></cashoutstable>	
+      {{>backButton_P}}
+      {{>menuButton_P}}
+    </script>
+    
     
     <!------------------------------------------------------- LAYER LOGIN------------------------------------------>
     <script id="layerLogin_TMP" type="text/html">

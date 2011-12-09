@@ -135,7 +135,7 @@ function returnQuery(callback){
 function generalTransactionsIndexRangeFetcher(view,db,id,startIndex,endIndex,continuation){
     var transactionsQuery = transactionRangeQuery(startIndex,endIndex)(view,db,[id]);
     transactionsQuery(function(response){
-			  function isVoid(transaction){return transaction == "VOID" || transaction == "VOIDREFUND";}
+			  function isVoid(transaction){return transaction.type == "VOID" || transaction.type == "VOIDREFUND";}
 			  function docs(resp_data){return resp_data.doc;};
 			  var transactions = _(response.rows).chain().map(docs).reject(isVoid).value();
 			  continuation(transactions);
@@ -838,7 +838,10 @@ function taxReportTransactionsFetcher(terminal,startIndex,endIndex,callback){
 		}
 		return _.extend({},
 				moneyFields,
-			       {date: transaction.time.end});
+			       {date: (new Date(transaction.time.end)).toString("yyyy/MM/dd-HH:mm:ss")},
+			       {transaction:transaction.transactionNumber.toString()},
+			       {type:transaction.type}
+			       );
 	    }
 	    var transactionsTaxData = _(transactions).map(extractTemplateData);
 	    
@@ -855,5 +858,5 @@ function taxReportTransactionsFetcher(terminal,startIndex,endIndex,callback){
 	};
     }
 
-    return generalTransactionsIndexRangeFetcher(view,db,terminal,startIndex,endIndex,resultFetcher(terminal,callback));
+    return generalTransactionsIndexRangeFetcher(view,db,terminal,Number(startIndex),Number(endIndex),resultFetcher(terminal,callback));
 };
