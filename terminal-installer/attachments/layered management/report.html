@@ -139,7 +139,7 @@
     </script>
     
     <script id="quickCashoutsViewButton_P" class="partial" type="text/html">
-      <button onclick="quickCashoutsView('{{dialogtitle}}','{{cashoutsdata}}');" class="ui-state-default ui-corner-all">
+      <button onclick="quickCashoutsView('{{dialogtitle}}','{{cashoutString}}');" class="ui-state-default ui-corner-all">
 	<span class="ui-button-text">
 	  Details
 	</span>
@@ -683,7 +683,7 @@
 	{{#items}}
 	<tr>
 	  <td>{{name}}</td>
-	  <td>{{cashoutdate}}</td>
+	  <td>{{cashouttime}}</td>
 	  <td>{{cashoutnumber}}</td>
 	  <td>{{>quickCashoutsViewButton_P}}</td>
 	</tr>

@@ -86,9 +86,10 @@ function transactionRangeQuery(start,end){
 	var startKey = base.concat(start);
 	var endKey = base.concat(end);
 	var options = {
+		reduce:false,
+		include_docs: true,
 	    startkey:startKey,
-	    endkey:endKey,
-	    include_docs: true
+	    endkey:endKey
 	};
 	return queryF(view,db)(options);
     };
@@ -647,7 +648,7 @@ function generalCashoutArrayFetcher_Period(view,db,ids,startDate,endDate,runAfte
 	      runAfter);
 };
 
-function generalCashoutArrayFetcher_Period(view,db,ids,startDate,endDate,runAfter) {
+function generalCashoutListArrayFetcher_Period(view,db,ids,startDate,endDate,runAfter) {
     async.map(ids, 
 	      function(id,callback){
 		  generalCashoutListFetcher_Period(view,db,id,startDate,endDate,
@@ -884,19 +885,24 @@ function taxReportTransactionsFetcher(terminal,startIndex,endIndex,callback){
     return generalTransactionsIndexRangeFetcher(view,db,terminal,Number(startIndex),Number(endIndex),resultFetcher(terminal,callback));
 };
 
+//FIXME
 function cashoutReportFetcher(terminals,startDate,endDate,callback){
     var ids = _.pluck(terminals,'id');
     function processCashouts(terminals,callback){
 	return function(err,cashouts){
 	    var templateData = _(cashouts).chain()
 		.zipMerge(terminals)
-		.map(function(cashout){
-			 var formattedDate = (new Date(cashout.cashouttime)).toString("yyyy/MM/dd-HH:mm:ss");
-			 return _.extend(cashout,{cashouttime:formattedDate},{cashoutString:JSON.stringify(cashout)});
+		.map(function(terminal){
+				return {terminal :_(terminal).map(function(cashout){
+					var formattedDate = (new Date(cashout.cashouttime)).toString("yyyy/MM/dd-HH:mm:ss");
+			 		return {cashout: _.extend(cashout,
+			 			{cashouttime:formattedDate},
+			 			{cashoutString:JSON.stringify(cashout)})};
+				})};
 			 ;})
 		.value();
 	    callback(templateData);
 	};
     }
-    cashoutListFetcher_Period(ids,startDate,endDat,processCashouts(terminals,callback));
+    cashoutListFetcher_Period(ids,startDate,endDate,processCashouts(terminals,callback));
 }
