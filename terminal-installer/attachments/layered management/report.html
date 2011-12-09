@@ -130,7 +130,7 @@
     </script>
     
     <script id="quickTaxViewButton_P" class="partial" type="text/html">
-      <button onclick="quickTaxView('{{id}}','{{dialogtitle}}','{{startDate}}','{{endDate}}');" class="ui-state-default ui-corner-all">
+      <button onclick="quickTaxView('{{id}}','{{dialogtitle}}','{{firstindex}}','{{lastindex}}');" class="ui-state-default ui-corner-all">
 	<span class="ui-button-text">
 	  Details
 	</span>
@@ -385,25 +385,25 @@
 	    <th>Tax 3</th>
 	    <th>Total Sale</th>
 	  </tr>
-	  {{#list}}
+	  {{#items}}
 	  <tr>
 	    <td>{{transaction}}</td>
 	    <td>{{date}}</td>
-	    <td align="right">{{sale}}</td>
+	    <td align="right">{{sales}}</td>
 	    <td align="right">{{tax1}}</td>
 	    <td align="right">{{tax3}}</td>
-	    <td align="right">{{totalsale}}</td>
+	    <td align="right">{{totalsales}}</td>
 	  </tr>
-	  {{/list}}
-	  {{#total}}
+	  {{/items}}
+	  {{#totals}}
 	  <tr>
 	    <td colspan="2">Total</td>
-	    <td align="right">{{sale}}</td>
+	    <td align="right">{{sales}}</td>
 	    <td align="right">{{tax1}}</td>
 	    <td align="right">{{tax3}}</td>
-	    <td align="right">{{totalsale}}</td>
+	    <td align="right">{{totalsales}}</td>
 	  </tr>
-	  {{/total}}
+	  {{/totals}}
 	</table>
       </taxcollecteddialog>
     </script>
