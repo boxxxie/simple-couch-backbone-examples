@@ -787,19 +787,12 @@ function taxReportFetcher(terminals,startDate,endDate,callback){
 		function extractTaxTotals(cashout){
 		    var tax1 = (Number(cashout.netsaletax1) -  Number(cashout.netrefundtax1)).toFixed(2);
 		    var tax3 = (Number(cashout.netsaletax3) -  Number(cashout.netrefundtax3)).toFixed(2);
-		    return {sales : cashout.netsales, totalsales : cashout.netsalestotal, tax1 :tax1, tax3:tax3};
-		}
-		var lastCashoutDate = new Date(extendedCashoutData.period.cashouttime);
-		if(lastCashoutDate.before(endDate)){
-		    var realEndDate = lastCashoutDate.toString();
-		}
-		else{
-		    var realEndDate = endDate.toString();
+		    return {sales : cashout.netsales, totalsales : cashout.netsalestotal, tax1 :tax1, tax3:tax3, firstindex:cashout.firstindex, lastindex:cashout.lastindex};
 		}
 		return _.extend({},
 				extractTaxTotals(extendedCashoutData.period),
-				_.selectKeys(extendedCashoutData,['id','name']),
-				{startDate:startDate.toString(), endDate:realEndDate});
+				_.selectKeys(extendedCashoutData,['id','name'])
+			       );
 	    }
 	    var forTMP = _(terminals)
 		.chain()
