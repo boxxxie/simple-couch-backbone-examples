@@ -56,9 +56,9 @@ function quickTaxViewDialog (html,options) {
     d.dialog("open");
 };
 
-function quickTaxView(id, title, startdate, enddate) {
-	var for_TMP = {};
-	var html = ich.taxCollectedQuickViewDialog_TMP(for_TMP);
-    quickTaxViewDialog(html,{title:title});
-	
+function quickTaxView(id, title, firstindex, lastindex) {
+	taxReportTransactionsFetcher(id,firstindex,lastindex,function(for_TMP){
+		var html = ich.taxCollectedQuickViewDialog_TMP(for_TMP);
+    	quickTaxViewDialog(html,{title:title});
+	});
 };
