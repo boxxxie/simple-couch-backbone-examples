@@ -890,17 +890,18 @@ function cashoutReportFetcher(terminals,startDate,endDate,callback){
     var ids = _.pluck(terminals,'id');
     function processCashouts(terminals,callback){
 	return function(err,cashouts){
-	    var templateData = _(cashouts).chain()
-		.zipMerge(terminals)
-		.map(function(terminal){
-				return {terminal :_(terminal).map(function(cashout){
-					var formattedDate = (new Date(cashout.cashouttime)).toString("yyyy/MM/dd-HH:mm:ss");
-			 		return {cashout: _.extend(cashout,
-			 			{cashouttime:formattedDate},
-			 			{cashoutString:JSON.stringify(cashout)})};
-				})};
-			 ;})
-		.value();
+	    var templateData =
+	    _(cashouts).chain()
+	    			.flatten()
+		    	    .map(function(cashout){
+			            return  {id:cashout.terminal_id, 
+			            		name:cashout.terminalname,
+			            		cashouttime:(new Date(cashout.cashouttime)).toString("yyyy/MM/dd-HH:mm:ss"),
+			            		cashoutnumber:cashout.cashoutnumber.toString(),
+			            		cashoutstring : JSON.stringify(cashout) }
+		            })
+        			.value();
+        			
 	    callback(templateData);
 	};
     }
