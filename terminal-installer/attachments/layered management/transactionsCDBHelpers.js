@@ -84,10 +84,10 @@ function typedTransactionRangeGroupedQuery(view,db,base){
 function transactionRangeQuery(start,end){
     return function(view,db,base){
 	var startKey = base.concat(start);
-	var endKey = base.concat(end);
+	var endKey = base.concat(end,{});
 	var options = {
-		reduce:false,
-		include_docs: true,
+	    reduce:false,
+	    include_docs: true,
 	    startkey:startKey,
 	    endkey:endKey
 	};
@@ -626,6 +626,22 @@ function generalCashoutListFetcher_Period(view,db,id,startDate,endDate,runAfter)
 	 runAfter(_.pluck(response.rows,'doc'));	 
      });
 };
+function generalCashoutListFetcher_Period_F(view,db,startDate,endDate){
+    //changed this function to return a function of id, this is so that it's easily used with async functions (should follow this standard)
+    //changed the runAfter to be of a fn(err,response) form, and to be returned as a function (this is a standard to follow)
+    return function(id){
+	return function(callback){
+	    var baseKey = [id];
+	    var dateStart = _.first(startDate.toArray(),3);
+	    var dateEnd = _.first(endDate.toArray(),3);
+
+	    var cashoutQuery = transactionRangeQuery(dateStart,dateEnd)(view,db,baseKey)
+	    (function(response){ //i not sure this is right
+		 callback(null,_.pluck(response.rows,'doc'));
+	     });
+	};
+    };
+};
 function generalCashoutReportArrayFetcher(view,db,ids,runAfter){
     async.map(ids, 
 	      function(id,callback){
@@ -650,12 +666,16 @@ function generalCashoutArrayFetcher_Period(view,db,ids,startDate,endDate,runAfte
 
 function generalCashoutListArrayFetcher_Period(view,db,ids,startDate,endDate,runAfter) {
     async.map(ids, 
-	      function(id,callback){
-		  generalCashoutListFetcher_Period(view,db,id,startDate,endDate,
-					       function(salesData){
-						   callback(null,salesData);
-					       });
-	      },
+	      function(id,callback){generalCashoutListFetcher_Period(view,db,id,startDate,endDate,returnQuery(callback));},
+	      runAfter);
+};
+
+function generalArrayFetcher(array,fn,runAfter) {
+    /*
+     * fn() must return a function of the form fn(err,response)
+     */
+    async.map(array, 
+	      function(array_item,callback){fn(array_item)(callback);},
 	      runAfter);
 };
 
@@ -723,6 +743,14 @@ function cashoutListFetcher_Period(ids,startDate,endDate,callback){
     var transactionsView = cdb.view('reporting','cashouts_id_date');
     var transaction_db = cdb.db('cashouts');
     return generalCashoutListArrayFetcher_Period(transactionsView,transaction_db,ids,startDate,endDate,callback);
+};
+
+function cashoutListFetcher_Period2(ids,startDate,endDate,callback){
+    var _view = cdb.view('reporting','cashouts_id_date');
+    var _db = cdb.db('cashouts');
+    return generalArrayFetcher(ids,
+			       generalCashoutListFetcher_Period_F(_view,_db,startDate,endDate),
+			       callback);
 };
 
 function howAreWeDoingTodayReportFetcher(childrenObjs,parentObj,runAfter){
@@ -862,9 +890,9 @@ function taxReportTransactionsFetcher(terminal,startIndex,endIndex,callback){
 		}
 		return _.extend({},
 				moneyFields,
-			       {date: (new Date(transaction.time.end)).toString("yyyy/MM/dd-HH:mm:ss")},
-			       {transaction:transaction.transactionNumber.toString()},
-			       {type:transaction.type}
+				{date: (new Date(transaction.time.end)).toString("yyyy/MM/dd-HH:mm:ss")},
+				{transaction:transaction.transactionNumber.toString()},
+				{type:transaction.type}
 			       );
 	    }
 	    var transactionsTaxData = _(transactions).map(extractTemplateData);
@@ -885,26 +913,25 @@ function taxReportTransactionsFetcher(terminal,startIndex,endIndex,callback){
     return generalTransactionsIndexRangeFetcher(view,db,terminal,Number(startIndex),Number(endIndex),resultFetcher(terminal,callback));
 };
 
-//FIXME
 function cashoutReportFetcher(terminals,startDate,endDate,callback){
     var ids = _.pluck(terminals,'id');
     function processCashouts(terminals,callback){
 	return function(err,cashouts){
 	    var templateData =
-	    _(cashouts).chain()
-	    			.flatten()
-		    	    .map(function(cashout){
-			            return  {cashout : cashout,
-			            		id:cashout._id,
-			            		name:cashout.terminalname,
-			            		cashouttime:(new Date(cashout.cashouttime)).toString("yyyy/MM/dd-HH:mm:ss"),
-			            		cashoutnumber:cashout.cashoutnumber.toString(),
-			            		 }
-		            })
-        			.value();
-        			
+		_(cashouts).chain()
+	    	.flatten()
+		.map(function(cashout){
+			 return  {cashout : cashout,
+			          id:cashout._id,
+			          name:cashout.terminalname,
+			          cashouttime:(new Date(cashout.cashouttime)).toString("yyyy/MM/dd-HH:mm:ss"),
+			          cashoutnumber:cashout.cashoutnumber.toString()
+			         };
+		     })
+        	.value();
+            
 	    callback(templateData);
 	};
     }
-    cashoutListFetcher_Period(ids,startDate,endDate,processCashouts(terminals,callback));
+    cashoutListFetcher_Period2(ids,startDate,endDate,processCashouts(terminals,callback));
 }
