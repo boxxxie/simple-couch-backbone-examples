@@ -70,7 +70,7 @@ function renderRefundsTable() {
 	});
 	console.log(ids);
 	
-	canceledTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)(function(err,data_TMP){
+	refundTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)(function(err,data_TMP){
 		var tableData =_.clone(data_TMP);
 		tableData=_.map(tableData, function(item){
 		var dialogtitle="".concat("Company : ")
