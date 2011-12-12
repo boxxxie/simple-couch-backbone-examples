@@ -68,10 +68,12 @@ function refundTransactionsIndexRangeFetcher_F(id){
     var db = cdb.db('transactions');
     return function(startIndex,endIndex){
 	var refunds = _async.transactionRangeQuery(startIndex,endIndex)(view,db,[id,"REFUND"]);
-	refunds
-	(function(err,responses){
-	     callback(err,response.rows);	  
-	 });
+	return function(callback){
+	    refunds
+	    (function(err,responses){
+		 callback(err,response.rows);	  
+	     });
+	};
     };
 };
 
