@@ -86,9 +86,10 @@ function transactionRangeQuery(start,end){
 	var startKey = base.concat(start);
 	var endKey = base.concat(end,{});
 	var options = {
+		reduce:false,
+		include_docs: true,
 	    startkey:startKey,
-	    endkey:endKey,
-	    include_docs: true
+	    endkey:endKey
 	};
 	return queryF(view,db)(options);
     };
@@ -131,7 +132,7 @@ function returnQuery(callback){
 function generalTransactionsIndexRangeFetcher(view,db,id,startIndex,endIndex,continuation){
     var transactionsQuery = transactionRangeQuery(startIndex,endIndex)(view,db,[id]);
     transactionsQuery(function(response){
-			  function isVoid(transaction){return transaction == "VOID" || transaction == "VOIDREFUND";}
+			  function isVoid(transaction){return transaction.type == "VOID" || transaction.type == "VOIDREFUND";}
 			  function docs(resp_data){return resp_data.doc;};
 			  var transactions = _(response.rows).chain().map(docs).reject(isVoid).value();
 			  continuation(transactions);
@@ -217,7 +218,7 @@ function originTodaysSalesFetcher(view,db,id,runAfter){
 function originTodaysHourlySalesFetcher(view,db,id,runAfter){
     var d = relative_dates();
     //fixme:use todays date not yesterdays
-    var todaysQuery = typedTransactionDateRangeGroupedQuery(d.yesterday_h,d.tomorrow_h)(view,db);
+    var todaysQuery = typedTransactionDateRangeGroupedQuery(d.today_h,d.tomorrow_h)(view,db);
     var menuSales = todaysQuery([id,'SALE','MENU']);
     var menuRefunds = todaysQuery([id,'REFUND','MENU']);
     var scanSales = todaysQuery([id,'SALE','INVENTORY']);
@@ -274,7 +275,7 @@ function originTodaysHourlySalesFetcher(view,db,id,runAfter){
 		}
 
 		function template(){
-		    return {menu:0,scan:0,ecr:0};
+		    return {menu:0,inventory:0,ecr:0};
 		}
 
 		var stuff = _([]).
@@ -333,7 +334,7 @@ function originTodaysHourlySalesFetcher(view,db,id,runAfter){
 function todaysHourlySalesFetcher(view,db,id,runAfter){
     var d = relative_dates();
     //fixme:use todays date not yesterdays
-    var todaysQuery = typedTransactionDateRangeGroupedQuery(d.yesterday_h,d.tomorrow_h)(view,db);
+    var todaysQuery = typedTransactionDateRangeGroupedQuery(d.today_h,d.tomorrow_h)(view,db);
     var sales = todaysQuery([id,'SALE']);
     var refunds = todaysQuery([id,'REFUND']);
 
@@ -663,7 +664,7 @@ function generalCashoutArrayFetcher_Period(view,db,ids,startDate,endDate,runAfte
 	      runAfter);
 };
 
-function generalCashoutArrayFetcher_Period(view,db,ids,startDate,endDate,runAfter) {
+function generalCashoutListArrayFetcher_Period(view,db,ids,startDate,endDate,runAfter) {
     async.map(ids, 
 	      function(id,callback){generalCashoutListFetcher_Period(view,db,id,startDate,endDate,returnQuery(callback));},
 	      runAfter);
@@ -889,7 +890,10 @@ function taxReportTransactionsFetcher(terminal,startIndex,endIndex,callback){
 		}
 		return _.extend({},
 				moneyFields,
-			       {date: transaction.time.end});
+			       {date: (new Date(transaction.time.end)).toString("yyyy/MM/dd-HH:mm:ss")},
+			       {transaction:transaction.transactionNumber.toString()},
+			       {type:transaction.type}
+			       );
 	    }
 	    var transactionsTaxData = _(transactions).map(extractTemplateData);
 	    
@@ -906,20 +910,26 @@ function taxReportTransactionsFetcher(terminal,startIndex,endIndex,callback){
 	};
     }
 
-    return generalTransactionsIndexRangeFetcher(view,db,terminal,startIndex,endIndex,resultFetcher(terminal,callback));
+    return generalTransactionsIndexRangeFetcher(view,db,terminal,Number(startIndex),Number(endIndex),resultFetcher(terminal,callback));
 };
 
 function cashoutReportFetcher(terminals,startDate,endDate,callback){
     var ids = _.pluck(terminals,'id');
     function processCashouts(terminals,callback){
 	return function(err,cashouts){
-	    var templateData = _(cashouts).chain()
-		.zipMerge(terminals)
-		.map(function(cashout){
-			 var formattedDate = (new Date(cashout.cashouttime)).toString("yyyy/MM/dd-HH:mm:ss");
-			 return _.extend(cashout,{cashouttime:formattedDate},{cashoutString:JSON.stringify(cashout)});
-			 ;})
-		.value();
+	    var templateData =
+	    _(cashouts).chain()
+	    			.flatten()
+		    	    .map(function(cashout){
+			            return  {cashout : cashout,
+			            		id:cashout._id,
+			            		name:cashout.terminalname,
+			            		cashouttime:(new Date(cashout.cashouttime)).toString("yyyy/MM/dd-HH:mm:ss"),
+			            		cashoutnumber:cashout.cashoutnumber.toString(),
+			            		 }
+		            })
+        			.value();
+        			
 	    callback(templateData);
 	};
     }

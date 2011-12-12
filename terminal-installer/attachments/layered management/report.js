@@ -25,6 +25,8 @@ function doc_setup() {
     var StroeHowAreWeDisplay = new storeReportHowAreWeTodayView();
     var MenuReportsSalesSummaryDisplay = new menuReportsSalesSummaryView();
     var MenuReportsHourlyActivityDisplay = new menuReportsHourlyActivityView();
+    var MenuReportsTaxCollcetedDisplay = new menuReportsTaxCollectedView();
+    var MenuReportsCashOutsDisplay = new menuReportsCashOutsView();
     Backbone.history.start();
 
 };

@@ -138,26 +138,33 @@ function renderHourlyActivityTable() {
     var dropdownGroup = $("#groupsdown");
     var dropdownStore = $("#storesdown");
     var dropdownTerminal = $("#terminalsdown");
+    var id;
     
     if(dropdownTerminal.val()!="ALL") {
-	alert("terminal id : "+dropdownTerminal.val());
+	//alert("terminal id : "+dropdownTerminal.val());
+	id=dropdownTerminal.val();
     } else if(dropdownStore.val()!="ALL") {
-	alert("store id : "+dropdownStore.val());
+	//alert("store id : "+dropdownStore.val());
+	id=dropdownStore.val();
     } else if(dropdownGroup.val()!="ALL" && dropdownGroup.val()!="") {
-	alert("group id : "+dropdownGroup.val());
+	//alert("group id : "+dropdownGroup.val());
+	id = dropdownGroup.val();
     } else {
 	if(dropdownGroup.val()=="ALL") {
-	    alert("company id : "+ReportData.company._id);
+	  //  alert("company id : "+ReportData.company._id);
+	  id=ReportData.company._id;
 	} else if(dropdownGroup.val()=="") {
-	    alert("store id : "+ ReportData.store.store_id);
+	    //alert("store id : "+ ReportData.store.store_id);
+	    id=ReportData.store.store_id;
 	}
     }
     
     //TODO : hourly activity talble data 
-    var data_param={};
-    
-    var html = ich.hourlyActivityTabel_TMP(data_param);
-    $("hourlytable").html(html);
+    hourlyReportFetcher(id, function(data_param){
+    		var data = {items:data_param};
+		    var html = ich.hourlyActivityTabel_TMP(data);
+    		$("hourlytable").html(html);    	
+    });
 };
 
 function updateTerminalDropdown() {
