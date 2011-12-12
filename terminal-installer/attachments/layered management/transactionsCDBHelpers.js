@@ -740,12 +740,6 @@ function cashoutFetcher_Period(ids,startDate,endDate,callback){
 };
 
 function cashoutListFetcher_Period(ids,startDate,endDate,callback){
-    var transactionsView = cdb.view('reporting','cashouts_id_date');
-    var transaction_db = cdb.db('cashouts');
-    return generalCashoutListArrayFetcher_Period(transactionsView,transaction_db,ids,startDate,endDate,callback);
-};
-
-function cashoutListFetcher_Period2(ids,startDate,endDate,callback){
     var _view = cdb.view('reporting','cashouts_id_date');
     var _db = cdb.db('cashouts');
     return generalArrayFetcher(ids,
@@ -933,5 +927,5 @@ function cashoutReportFetcher(terminals,startDate,endDate,callback){
 	    callback(templateData);
 	};
     }
-    cashoutListFetcher_Period2(ids,startDate,endDate,processCashouts(terminals,callback));
+    cashoutListFetcher_Period(ids,startDate,endDate,processCashouts(terminals,callback));
 }
