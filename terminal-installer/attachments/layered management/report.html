@@ -139,10 +139,8 @@
     </script>
     
     <script id="quickCashoutsViewButton_P" class="partial" type="text/html">
-      <button onclick="quickCashoutsView('{{dialogtitle}}','{{cashoutstring}}');" class="ui-state-default ui-corner-all">
-	<span class="ui-button-text">
+      <button id='{{id}}'>
 	  Details
-	</span>
       </button>
     </script>
     
@@ -214,6 +212,29 @@
     </script>
 
     <!--------------------------- DIALOG QUICKVIEW(yesterday/mtd/ytd) ---------------------------------------->
+    <script id="cashoutheader_P" class="partial" type="text/html">
+    	<tr>
+			<td>Store ID</td>
+			<td colspan="2" align="right">{{storename}}</td>    		
+    	</tr>
+    	<tr>
+			<td>Terminal ID</td>
+			<td colspan="2" align="right">{{terminalname}}</td>    		
+    	</tr>
+    	<tr>
+			<td>Process Date</td>
+			<td colspan="2" align="right">{{processdate}}</td>    		
+    	</tr>
+    	<tr>
+			<td>Process Time</td>
+			<td colspan="2" align="right">{{processtime}}</td>    		
+    	</tr>
+    	<tr>
+    		<td>User Name</td>
+    		<td colspan="2" align="right">{{username}}</td>
+    	</tr>
+    </script>
+    
     <script id="netSales_P" class="partial" type="text/html">
       <tr>
 	<td align="left">Net Sales</td>
@@ -261,7 +282,7 @@
     
     <script id="paymentDetails_P" class="partial" type="text/html">
       <tr>
-	<td colspan="2">PAYMENT/TENDER DETAILS</td>
+	<td colspan="3">PAYMENT/TENDER DETAILS</td>
       </tr>
       <tr>
 	<td align="left">CASH</td>
@@ -295,7 +316,7 @@
 
     <script id="refundDetails_P" class="partial" type="text/html">
       <tr>
-	<td colspan="2">REFUND/TENDER DETAILS</td>
+	<td colspan="3">REFUND/TENDER DETAILS</td>
       </tr>
       <tr>
 	<td align="left">CASH</td>
@@ -334,8 +355,43 @@
       </tr>
     </script>
 
+    <script id="transactionDetails_P" class="partial" type="text/html">
+    	<tr>
+	<td colspan="2">Transaction Details</td>
+      </tr>
+      <tr>
+	<td align="left">No. of Canelled Trans</td>
+	<td colspan="2" align="right">{{noofcancelled}}</td>
+      </tr>
+      <tr>
+	<td align="left">Cancelled Trans Totals</td>
+	<td colspan="2" align="right">{{cancelledtotal}}</td>
+      </tr>
+      <tr>
+	<td align="left">Avg. Transaction</td>
+	<td colspan="2" align="right">{{avgcancelled}}</td>
+      </tr>
+      <tr>
+	<td align="left">1st Transaction Time</td>
+	<td colspan="2" align="right">{{firsttanstime}}</td>
+      </tr>
+      <tr>
+	<td align="left">1st Transaction Type</td>
+	<td colspan="2" align="right">{{firsttranstype}}</td>
+      </tr>
+      <tr>
+	<td align="left">Last Transaction Time</td>
+	<td colspan="2" align="right">{{lasttranstime}}</td>
+      </tr>
+      <tr>
+	<td align="left">Last Transaction Type</td>
+	<td colspan="2" align="right">{{lasttranstype}}</td>
+      </tr>
+    </script>
+
     <script id="salesByCategory_P" class="partial" type="text/html">
       <tr>
+      	<td></td>
 	<td align="right">Amount</td>
 	<td align="right">%</td>
       </tr>
@@ -359,11 +415,17 @@
 
     <script id="cashOutTable_P" class="partial" type="text/html">
       {{>netSales_P}}
+      <tr><td colspan="3">===========================</td></tr>
       {{>netRefunds_P}}
+      <tr><td colspan="3">===========================</td></tr>
       {{>netSaleActivity_P}}
+      <tr><td colspan="3">===========================</td></tr>
       {{>paymentDetails_P}}
+      <tr><td colspan="3">===========================</td></tr>
       {{>refundDetails_P}}
+      <tr><td colspan="3">===========================</td></tr>
       {{>totalDiscount_P}}
+      <tr><td colspan="3">===========================</td></tr>
       {{>salesByCategory_P}}
     </script>
 
@@ -431,7 +493,25 @@
     <!-------------------------------------- menureports cashout quickview dialog tmp -------------------->
      <script id="menuReportsCashoutQuickViewDialog_TMP" type="text/html">
       <menucashoutdialog>
-		<lable> this is cash out, menuReports</lable>
+      	<table>
+  		  {{>cashoutheader_P}}
+  	  <tr><td colspan="3">----------------------------------------------------------------------</td></tr>
+      {{>netSales_P}}
+      <tr><td colspan="3">===================================</td></tr>
+      {{>netRefunds_P}}
+      <tr><td colspan="3">===================================</td></tr>
+      {{>netSaleActivity_P}}
+      <tr><td colspan="3">===================================</td></tr>
+      {{>paymentDetails_P}}
+      <tr><td colspan="3">===================================</td></tr>
+      {{>refundDetails_P}}
+      <tr><td colspan="3">===================================</td></tr>
+      {{>totalDiscount_P}}
+      <tr><td colspan="3">===================================</td></tr>
+      {{>transactionDetails_P}}
+      <tr><td colspan="3">===================================</td></tr>
+      {{>salesByCategory_P}}
+      	</table>
       </menucashoutdialog>
     </script>
      

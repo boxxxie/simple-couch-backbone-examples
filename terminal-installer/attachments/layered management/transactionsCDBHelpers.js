@@ -894,11 +894,12 @@ function cashoutReportFetcher(terminals,startDate,endDate,callback){
 	    _(cashouts).chain()
 	    			.flatten()
 		    	    .map(function(cashout){
-			            return  {id:cashout.terminal_id, 
+			            return  {cashout : cashout,
+			            		id:cashout._id,
 			            		name:cashout.terminalname,
 			            		cashouttime:(new Date(cashout.cashouttime)).toString("yyyy/MM/dd-HH:mm:ss"),
 			            		cashoutnumber:cashout.cashoutnumber.toString(),
-			            		cashoutstring : JSON.stringify(cashout) }
+			            		 }
 		            })
         			.value();
         			

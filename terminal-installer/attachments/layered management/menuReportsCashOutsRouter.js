@@ -84,6 +84,16 @@ function rendermenuReportsCashOutsTable() {
 		});
 		var html = ich.menuReportsCashOutsTabel_TMP({items:data_TMP});
 		$("cashoutstable").html(html);
+		
+		_.each(data_TMP, function(item){	
+			var btn = $('#'+item.id).button().click(function(){
+				var data = item.cashout;
+				var html = ich.menuReportsCashoutQuickViewDialog_TMP(data);
+				quickmenuReportsCashoutViewDialog(html, {title:item.dialogtitle});
+			});
+			
+		
+		});		
 	});
 		
     } else {

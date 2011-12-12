@@ -86,8 +86,10 @@ function quickmenuReportsCashoutViewDialog (html,options) {
     d.dialog("open");
 };
 
+/*
 function quickCashoutsView(title,cashoutstr) {
 	var data = JSON.parse(cashoutstr);
 	var html = ich.menuReportsCashoutQuickViewDialog_TMP(data);
-	quickmenuReportsCashoutViewDialog(htlm, {title:title});
+	quickmenuReportsCashoutViewDialog(html, {title:title});
 };
+*/
