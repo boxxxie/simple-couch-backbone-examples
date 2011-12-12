@@ -71,7 +71,8 @@ function renderCancelledTransactionsTable() {
 	console.log(ids);
 	
 	canceledTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)(function(err,data_TMP){
-		data_TMP=_.map(data_TMP, function(item){
+		var tableData =_.clone(data_TMP);
+		_.map(tableData, function(item){
 		var dialogtitle="".concat("Company : ")
 						.concat(ReportData.companyName)
 						.concat(" , Group : ")
@@ -80,16 +81,28 @@ function renderCancelledTransactionsTable() {
 						.concat(ReportData.store.storeName)
 						.concat(" , Terminal : ")
 						.concat(item.name);
+			item.time.start=(new Date(item.time.start)).toString("yyyy/MM/dd-HH:mm:ss");
+			item.subTotal = item.subTotal.toFixed(2);
+			item.tax1and2 = item.tax1and2.toFixed(2);
+			item.tax3 = item.tax3.toFixed(2);
+			item.total = item.total.toFixed(2);
 			return _.extend(item, {dialogtitle:dialogtitle});
 		});
 		
-		var html = ich.menuReportsCancelledTabel_TMP({items:data_TMP});
+		var html = ich.menuReportsCancelledTabel_TMP({items:tableData});
 		$("cancelledtable").html(html);
 		
-		_.each(data_TMP, function(item){	
+		var dialogData =_.clone(data_TMP); 
+		_.each(dialogData, function(item){	
 			var btn = $('#'+item._id).button().click(function(){
-				var data = item;
-				var html = ich.menuReportsCancelledQuickViewDialog_TMP(data);
+				var btnData = item;
+				//btnData.time.start=(new Date(btnData.time.start)).toString("yyyy/MM/dd-HH:mm:ss");
+				//btnData.subTotal = btnData.subTotal.toFixed(2);
+				//btnData.tax1and2 = btnData.tax1and2.toFixed(2);
+				//btnData.tax3 = btnData.tax3.toFixed(2);
+				//btnData.total = btnData.total.toFixed(2);
+				btnData.storename = ReportData.store.storeName;
+				var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
 				quickmenuReportsCancelledViewDialog(html, {title:item.dialogtitle});
 			});
 		});	
