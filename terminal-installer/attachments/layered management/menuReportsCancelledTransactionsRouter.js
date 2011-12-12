@@ -60,9 +60,9 @@ function renderCancelledTransactionsTable() {
 	var endDate = new Date($("#dateTo").val());
 	var endDateForQuery = new Date($("#dateTo").val());
 	
-	if(startDate.equals(endDate)) {
+	//if(startDate.equals(endDate)) {
 	    endDateForQuery.addDays(1);
-	}
+	//}
 	
 	//TODO
 	var ids = _.map(ReportData.store.terminals, function(terminal){
@@ -70,7 +70,7 @@ function renderCancelledTransactionsTable() {
 	});
 	console.log(ids);
 	
-	taxReportFetcher(ids,startDate,endDateForQuery,function(data_TMP){
+	canceledTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)(function(err,data_TMP){
 		data_TMP=_.map(data_TMP, function(item){
 		var dialogtitle="".concat("Company : ")
 						.concat(ReportData.companyName)
@@ -85,6 +85,14 @@ function renderCancelledTransactionsTable() {
 		
 		var html = ich.menuReportsCancelledTabel_TMP({items:data_TMP});
 		$("cancelledtable").html(html);
+		
+		_.each(data_TMP, function(item){	
+			var btn = $('#'+item._id).button().click(function(){
+				var data = item;
+				var html = ich.menuReportsCancelledQuickViewDialog_TMP(data);
+				quickmenuReportsCancelledViewDialog(html, {title:item.dialogtitle});
+			});
+		});	
 	});
 		
     } else {

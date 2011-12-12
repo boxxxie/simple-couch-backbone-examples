@@ -178,7 +178,7 @@ function canceledTransactionsIndexRangeFetcher_F(startIndex,endIndex){
 			//_.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
 			function startTime(transaction){return (new Date(transaction.time.start)).getTime();};
 			var concatedSortedVoids = _([]).chain()
-			    .concat(reponses.voids.rows,
+			    .concat(responses.voids.rows,
 				    responses.voidRefunds.rows)
 			    .pluck('doc')
 			    .sortBy(startTime)
@@ -670,7 +670,7 @@ function generalCashoutFetcher_Period_F(startDate,endDate){
     var _view = cdb.view('reporting','cashouts_id_date');
     var _db = cdb.db('cashouts');
     return function(id){
-	function(callback){
+	return function(callback){
 	    var companySalesBaseKey = [id];
 	    var companySalesRangeQuery = typedTransactionRangeQuery(_view,_db,companySalesBaseKey);
 	    //var d = relative_dates();
@@ -1076,33 +1076,37 @@ function cancelledTransactionsFetcher(terminal,startIndex,endIndex,callback){
     return generalTransactionsIndexRangeFetcher(view,db,terminal,Number(startIndex),Number(endIndex),resultFetcher(terminal,callback));
 };
 
-function canceledTransactionsFromCashoutsFetcher(terminals,startDate,endDate,runAfter){
+function canceledTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
     var transactionsView = cdb.view('reporting','cashouts_id_date');
     var transaction_db = cdb.db('cashouts');
-
+	
     function processTransactions(terminals,callback){
-    	return function(err,cashoutData){
-	    var terminals_merged_with_reduced_cashouts = _(terminals) //.zipMerge(cashoutData);
-		.chain()
-		.zip(cashoutData)
-		.map(function(pair){
-			 return _.extend(_.first(pair),_.second(pair));
-		     })
-		.value();
-	    callback(terminals_merged_with_reduced_cashouts);
+    	return function(err,transactions){
+	    var terminals_merged_with_reduced_transactions = 
+			_(transactions)
+			.chain()
+			.flatten()
+			.map(function(tran){
+			    var transaction = _.clone(tran);
+			    var ter = _.find(terminals, function(ter){return transaction.terminal_id==ter.id;});
+			    return _.extend({},tran,ter);
+			})
+			.value(); 
+	    callback(err,terminals_merged_with_reduced_transactions);
 	};
     }
-
+	return function(callback) {
     if(!_.isArray(terminals)){terminals = [terminals];}
     var ids = _.pluck(terminals,'id');
-    return generalArrayFetcher(ids,function(terminal_id){async
+    generalArrayFetcher(ids,function(terminal_id){return function(continuation) {async
 						.waterfall([generalCashoutFetcher_Period_F(startDate,endDate)(terminal_id),
 							    function(cashout,callback){
-								canceledTransactionsIndexRangeFetcher_F(cashout.firstindex,cashout.lastindex)
+								canceledTransactionsIndexRangeFetcher_F(cashout.period.firstindex,cashout.period.lastindex)
 								(terminal_id)
 								(callback);
 							    },
-							    processTransactions
-							   ]);},runAfter);
+							    function(terminals){continuation(null,terminals);}
+							   ]);}},processTransactions(terminals,callback));
+							 };
     //return generalCashoutArrayFetcher_Period(transactionsView,transaction_db,ids,startDate,endDate,resultFetcher([terminals],callback));
 };

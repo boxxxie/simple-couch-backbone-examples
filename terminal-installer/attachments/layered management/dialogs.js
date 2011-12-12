@@ -86,10 +86,25 @@ function quickmenuReportsCashoutViewDialog (html,options) {
     d.dialog("open");
 };
 
-/*
-function quickCashoutsView(title,cashoutstr) {
-	var data = JSON.parse(cashoutstr);
-	var html = ich.menuReportsCashoutQuickViewDialog_TMP(data);
-	quickmenuReportsCashoutViewDialog(html, {title:title});
+/********************************** menuReports - cancelled trans quick view dialog *****************************/
+function quickmenuReportsCancelledViewDialog (html,options) {
+	var form = $(html).filter('menucancelleddialog');
+    var d = $("#dialog-quickView");    	
+    d.html(form);
+    d.find('input').attr('disabled',true);
+    var dialogOptions = _.extend(
+	{autoOpen: false,
+	 height: 450,
+	 width: 424,
+	 modal: true,
+	 buttons: {
+	     "Close": function() {
+		 d.dialog('close');
+	     }
+	 },
+	 title:options.title
+	},_.clone(options));
+    
+    d.dialog(dialogOptions);
+    d.dialog("open");
 };
-*/

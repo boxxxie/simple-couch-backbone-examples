@@ -147,7 +147,7 @@
     </script>
     
      <script id="quickCancelledViewButton_P" class="partial" type="text/html">
-      <button id='{{id}}'>
+      <button id='{{_id}}'>
 	  Details
       </button>
     </script>
@@ -838,12 +838,12 @@
 	{{#items}}
 	<tr>
 	  <td>{{name}}</td>
-	  <td>{{transactiontime}}</td>
-	  <td>{{transactionnumber}}</td>
-	  <td>{{sale}}</td>
-	  <td>{{tax1}}</td>
+	  <td>{{time.start}}</td>
+	  <td>{{transactionNumber}}</td>
+	  <td>{{subTotal}}</td>
+	  <td>{{tax1and2}}</td>
 	  <td>{{tax3}}</td>
-	  <td>{{totalsale}}</td>
+	  <td>{{total}}</td>
 	  <td>{{>quickCancelledViewButton_P}}</td>
 	</tr>
 	{{/items}}
