@@ -59,10 +59,7 @@ function rendermenuReportsCashOutsTable() {
 	var startDate = new Date($("#dateFrom").val());
 	var endDate = new Date($("#dateTo").val());
 	var endDateForQuery = new Date($("#dateTo").val());
-	
-	if(startDate.equals(endDate)) {
-	    endDateForQuery.addDays(1);
-	}
+    endDateForQuery.addDays(1);
 	
 	//TODO
 	var ids = _.map(ReportData.store.terminals, function(terminal){

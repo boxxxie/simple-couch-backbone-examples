@@ -26,6 +26,7 @@
     <script language="javascript" type="text/javascript" src="../lib/json2.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/dialogs.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/transactionsCDBHelpers.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/transactionsCDBHelpers_refactored.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/loginRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/reportParamGetters.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/companyReportRouter.js"></script>
@@ -153,7 +154,7 @@
     </script>
     
     <script id="quickRefundsViewButton_P" class="partial" type="text/html">
-      <button id='{{id}}'>
+      <button id='{{_id}}'>
 	  Details
       </button>
     </script>
@@ -899,7 +900,7 @@
 	<tr>
 	  <th>Terminal</th>
 	  <th>Date</th>
-	  <th>Cancelled Trans #</th>
+	  <th>Cancelled Tran #</th>
 	  <th>Sales</th>
 	  <th>Tax 1</th>
 	  <th>Tax 3</th>
@@ -950,14 +951,16 @@
 	</tr>
 	{{#items}}
 	<tr>
-	  <td>{{name}}</td>
-	  <td>{{transactiontime}}</td>
-	  <td>{{transactionnumber}}</td>
-	  <td>{{sale}}</td>
-	  <td>{{tax1}}</td>
-	  <td>{{tax3}}</td>
-	  <td>{{totalsale}}</td>
-	  <td>{{>quickRefundsViewButton_P}}</td>
+	  <td align="center">{{name}}</td>
+	  {{#time}}
+	  <td align="center">{{start}}</td>
+	  {{/time}}
+	  <td align="right">{{transactionNumber}}</td>
+	  <td align="right">{{subTotal}}</td>
+	  <td align="right">{{tax1and2}}</td>
+	  <td align="right">{{tax3}}</td>
+	  <td align="right">{{total}}</td>
+	  <td align="right">{{>quickRefundsViewButton_P}}</td>
 	</tr>
 	{{/items}}
       </table>

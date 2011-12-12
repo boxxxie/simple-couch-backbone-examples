@@ -87,7 +87,7 @@ function quickmenuReportsCashoutViewDialog (html,options) {
 };
 
 /********************************** menuReports - cancelled trans quick view dialog *****************************/
-function quickmenuReportsCancelledViewDialog (html,options) {
+function quickmenuReportsTransactionViewDialog (html,options) {
 	var form = $(html).filter('transactiondialog');
     var d = $("#dialog-quickView");    	
     d.html(form);
