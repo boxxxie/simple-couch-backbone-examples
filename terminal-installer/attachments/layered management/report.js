@@ -27,6 +27,8 @@ function doc_setup() {
     var MenuReportsHourlyActivityDisplay = new menuReportsHourlyActivityView();
     var MenuReportsTaxCollcetedDisplay = new menuReportsTaxCollectedView();
     var MenuReportsCashOutsDisplay = new menuReportsCashOutsView();
+    var MenuReportsCancelledDisplay = new menuReportsCancelledTransactionsView();
+    var MenuReportsRefundsDisplay = new menuReportsRefundsView();
     Backbone.history.start();
 
 };

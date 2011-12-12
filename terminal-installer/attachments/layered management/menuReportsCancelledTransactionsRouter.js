@@ -1,31 +1,31 @@
-var menuReportsCashOutsRouter = 
+var menuReportsCancelledTransactionsRouter = 
     new (Backbone.Router.extend(
 	     {routes: {
-		  "menuReports/storeReportCashOuts":"menuReportsStoreCashouts"
+		  "menuReports/storeReportCancelled":"menuReportsStoreCancelled"
 	      },
-	      menuReportsStoreCashouts:function() {
-		  console.log("menuReportsStoreCashouts  ");
+	      menuReportsStoreCancelled:function() {
+		  console.log("menuReportsStoreCancelled  ");
 	      }
 	     }));
 	     
-var menuReportsCashOutsView = 
+var menuReportsCancelledTransactionsView = 
     Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
 	     view.el = $("main");
 	     
 	     _.bindAll(view, 
-		       'renderMenuReportsStoreCashouts');
-	     menuReportsCashOutsRouter
-		 .bind('route:menuReportsStoreCashouts', 
+		       'renderMenuReportsStoreCancelled');
+	     menuReportsCancelledTransactionsRouter
+		 .bind('route:menuReportsStoreCancelled', 
 		       function(){
-			   console.log("menuReportsView, route:menuReportsStoreCashouts");
-			   view.renderMenuReportsStoreCashouts();
+			   console.log("menuReportsView, route:menuReportsStoreCancelled");
+			   view.renderMenuReportsStoreCancelled();
 		       });
 	 },
-	 renderMenuReportsStoreCashouts: function() {
+	 renderMenuReportsStoreCancelled: function() {
 	     
-	     var html = ich.menuReportsCashOutsReports_TMP({startPage:"storeReport", 
+	     var html = ich.menuReportsCancelledReports_TMP({startPage:"storeReport", 
 	     					     breadCrumb:breadCrumb(ReportData.companyName, ReportData.groupName, ReportData.store.storeName)});
 	     $(this.el).html(html);
 	     
@@ -52,8 +52,8 @@ var menuReportsCashOutsView =
 	});
 	
 /******************************************** helper functions ************************************/
-function rendermenuReportsCashOutsTable() {
-	console.log("renderCashOutsTable");
+function renderCancelledTransactionsTable() {
+	console.log("renderCancelledTransactionsTable");
 
     if(!_.isEmpty($("#dateFrom").val()) && !_.isEmpty($("#dateTo").val())) {
 	var startDate = new Date($("#dateFrom").val());
@@ -70,7 +70,7 @@ function rendermenuReportsCashOutsTable() {
 	});
 	console.log(ids);
 	
-	cashoutReportFetcher(ids,startDate,endDateForQuery,function(data_TMP){
+	taxReportFetcher(ids,startDate,endDateForQuery,function(data_TMP){
 		data_TMP=_.map(data_TMP, function(item){
 		var dialogtitle="".concat("Company : ")
 						.concat(ReportData.companyName)
@@ -82,16 +82,9 @@ function rendermenuReportsCashOutsTable() {
 						.concat(item.name);
 			return _.extend(item, {dialogtitle:dialogtitle});
 		});
-		var html = ich.menuReportsCashOutsTabel_TMP({items:data_TMP});
-		$("cashoutstable").html(html);
 		
-		_.each(data_TMP, function(item){	
-			var btn = $('#'+item.id).button().click(function(){
-				var data = item.cashout;
-				var html = ich.menuReportsCashoutQuickViewDialog_TMP(data);
-				quickmenuReportsCashoutViewDialog(html, {title:item.dialogtitle});
-			});
-		});		
+		var html = ich.menuReportsCancelledTabel_TMP({items:data_TMP});
+		$("cancelledtable").html(html);
 	});
 		
     } else {

@@ -37,6 +37,8 @@
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsHourlyActivityRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsTaxCollectedRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsCashOutsRouter.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/menuReportsCancelledTransactionsRouter.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/menuReportsRefundsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReports.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/report.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/docRdy.js"></script>
@@ -144,6 +146,18 @@
       </button>
     </script>
     
+     <script id="quickCancelledViewButton_P" class="partial" type="text/html">
+      <button id='{{id}}'>
+	  Details
+      </button>
+    </script>
+    
+    <script id="quickRefundsViewButton_P" class="partial" type="text/html">
+      <button id='{{id}}'>
+	  Details
+      </button>
+    </script>
+    
     <script id="menuReportGoButton_P" class="partial" type="text/html">
       <button onclick="renderSalesSummaryReportTable();" class="ui-state-default ui-corner-all">
 	<span class="ui-button-text">
@@ -176,6 +190,21 @@
       </button>
     </script>
     
+    <script id="menuCancelledGoButton_P" class="partial" type="text/html">
+      <button onclick="renderCancelledTransactionsTable();" class="ui-state-default ui-corner-all">
+	<span class="ui-button-text">
+	  Go
+	</span>
+      </button>
+    </script>
+    
+    <script id="menuRefundsGoButton_P" class="partial" type="text/html">
+      <button onclick="renderRefundsTable();" class="ui-state-default ui-corner-all">
+	<span class="ui-button-text">
+	  Go
+	</span>
+      </button>
+    </script>
     
     <script id="quickReportViewHook_P" class="partial" type="text/html">
       <div id="dialog-quickView" title="{{title}}"></div>
@@ -531,8 +560,8 @@
 	<li><a href=''> Electronic Payment Processing Summary</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}TaxCollected'> Tax Collected</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}CashOuts'> Cash Outs</a> <br/></li>
-	<li><a href=''> Cancelled Transactions</a> <br/></li>
-	<li><a href=''> Refunds</a> <br/></li>
+	<li><a href='#menuReports/{{startPage}}Cancelled'> Cancelled Transactions</a> <br/></li>
+	<li><a href='#menuReports/{{startPage}}Refunds'> Refunds</a> <br/></li>
 	<li><a href=''> Discounts</a> <br/></li>
 	{{/storeName}}
 	{{/breadCrumb}}
@@ -793,6 +822,85 @@
       {{>menuButton_P}}
     </script>
     
+    <!--------------------------- CANCELLED TRANSACTIONS REPORTS ---------------------------------->
+    <script id="menuReportsCancelledTabel_TMP" type="text/html">
+      <table border="1">
+	<tr>
+	  <th>Terminal</th>
+	  <th>Date</th>
+	  <th>Cancelled Trans #</th>
+	  <th>Sales</th>
+	  <th>Tax 1</th>
+	  <th>Tax 3</th>
+	  <th>Total Sales</th>
+	  <th>Details</th>
+	</tr>
+	{{#items}}
+	<tr>
+	  <td>{{name}}</td>
+	  <td>{{transactiontime}}</td>
+	  <td>{{transactionnumber}}</td>
+	  <td>{{sale}}</td>
+	  <td>{{tax1}}</td>
+	  <td>{{tax3}}</td>
+	  <td>{{totalsale}}</td>
+	  <td>{{>quickCancelledViewButton_P}}</td>
+	</tr>
+	{{/items}}
+      </table>
+      {{>quickReportViewHook_P}}
+    </script> 
+    
+    <script id="menuReportsCancelledReports_TMP" type="text/html">
+      <h1>Cancelled Transactions</h1>
+      <h2>{{>breadcrumb_P}}</h2>
+      {{>dateRangePicker_P}}
+      {{>menuCancelledGoButton_P}}			
+      <br/><br/>
+      <cancelledtable></cancelledtable>	
+      {{>backButton_P}}
+      {{>menuButton_P}}
+    </script>
+    
+    <!--------------------------- REFUNDS REPORTS ---------------------------------->
+    <script id="menuReportsRefundsTabel_TMP" type="text/html">
+      <table border="1">
+	<tr>
+	  <th>Terminal</th>
+	  <th>Date</th>
+	  <th>Refund Trans #</th>
+	  <th>Sales</th>
+	  <th>Tax 1</th>
+	  <th>Tax 3</th>
+	  <th>Total Sales</th>
+	  <th>Details</th>
+	</tr>
+	{{#items}}
+	<tr>
+	  <td>{{name}}</td>
+	  <td>{{transactiontime}}</td>
+	  <td>{{transactionnumber}}</td>
+	  <td>{{sale}}</td>
+	  <td>{{tax1}}</td>
+	  <td>{{tax3}}</td>
+	  <td>{{totalsale}}</td>
+	  <td>{{>quickRefundsViewButton_P}}</td>
+	</tr>
+	{{/items}}
+      </table>
+      {{>quickReportViewHook_P}}
+    </script> 
+    
+    <script id="menuReportsRefundsReports_TMP" type="text/html">
+      <h1>Refunds Transactions</h1>
+      <h2>{{>breadcrumb_P}}</h2>
+      {{>dateRangePicker_P}}
+      {{>menuRefundsGoButton_P}}			
+      <br/><br/>
+      <refundstable></refundstable>	
+      {{>backButton_P}}
+      {{>menuButton_P}}
+    </script>
     
     <!------------------------------------------------------- LAYER LOGIN------------------------------------------>
     <script id="layerLogin_TMP" type="text/html">
