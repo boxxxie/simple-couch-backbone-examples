@@ -178,7 +178,7 @@ function canceledTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
 		.flatten()
 		.map(function(transaction){
 			 var terminalForTransaction = _.find(terminals, function(ter){return transaction.terminal_id==ter.id;});
-			 return _.extend({},transaction,terminalForTransaction);
+			 return _.extend({},transaction,terminalForTransaction,{date:(new Date(transaction.time.start)).toString("yyyy-MM-dd HH:mm:ss")});
 		     })
 		.sortBy(startTime)
 		.value(); 
