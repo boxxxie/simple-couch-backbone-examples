@@ -86,8 +86,8 @@ function transactionRangeQuery(start,end){
 	var startKey = base.concat(start);
 	var endKey = base.concat(end,{});
 	var options = {
-		reduce:false,
-		include_docs: true,
+	    reduce:false,
+	    include_docs: true,
 	    startkey:startKey,
 	    endkey:endKey
 	};
@@ -890,9 +890,9 @@ function taxReportTransactionsFetcher(terminal,startIndex,endIndex,callback){
 		}
 		return _.extend({},
 				moneyFields,
-			       {date: (new Date(transaction.time.end)).toString("yyyy/MM/dd-HH:mm:ss")},
-			       {transaction:transaction.transactionNumber.toString()},
-			       {type:transaction.type}
+				{date: (new Date(transaction.time.end)).toString("yyyy/MM/dd-HH:mm:ss")},
+				{transaction:transaction.transactionNumber.toString()},
+				{type:transaction.type}
 			       );
 	    }
 	    var transactionsTaxData = _(transactions).map(extractTemplateData);
@@ -918,20 +918,20 @@ function cashoutReportFetcher(terminals,startDate,endDate,callback){
     function processCashouts(terminals,callback){
 	return function(err,cashouts){
 	    var templateData =
-	    _(cashouts).chain()
-	    			.flatten()
-		    	    .map(function(cashout){
-			            return  {cashout : cashout,
-			            		id:cashout._id,
-			            		name:cashout.terminalname,
-			            		cashouttime:(new Date(cashout.cashouttime)).toString("yyyy/MM/dd-HH:mm:ss"),
-			            		cashoutnumber:cashout.cashoutnumber.toString(),
-			            		 }
-		            })
-        			.value();
-        			
+		_(cashouts).chain()
+	    	.flatten()
+		.map(function(cashout){
+			 return  {cashout : cashout,
+			          id:cashout._id,
+			          name:cashout.terminalname,
+			          cashouttime:(new Date(cashout.cashouttime)).toString("yyyy/MM/dd-HH:mm:ss"),
+			          cashoutnumber:cashout.cashoutnumber.toString()
+			         };
+		     })
+        	.value();
+            
 	    callback(templateData);
 	};
     }
-    cashoutListFetcher_Period2(ids,startDate,endDat,processCashouts(terminals,callback));
+    cashoutListFetcher_Period2(ids,startDate,endDate,processCashouts(terminals,callback));
 }
