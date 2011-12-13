@@ -80,6 +80,7 @@ function renderRefundsTable() {
 					obj.discount=null;
 				}
 				if(obj && obj.quantity){
+					obj.amount = (obj.price * obj.quantity).toFixed(2);
 					obj.quantity+="";
 				}
 				return toFixed(2)(obj);
