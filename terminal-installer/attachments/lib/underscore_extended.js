@@ -17,15 +17,7 @@ _.mixin({
 					return total;
 				    },{});}});
 
-_.mixin({
-	    /*applies a function over the values of an object*/
-	    applyToValues:function(obj,fn){
-		    return _(_.clone(obj)).chain()
-		    .kv()
-		    .map(function(pair){pair[1] = fn(pair[1]);return pair;})
-		    .toObject()
-		    .value();
-		}});
+
 
 _.mixin({
 	    /*create an object with only the keys in the selected keys array arg
@@ -128,3 +120,48 @@ _.mixin({zipMerge:function (){
 	     return _.map(_.zip.apply(null,arguments),
                           function(zipped){return _.merge(zipped);});
 	 }});
+
+
+_.mixin({
+	    /*applies a function over the values of an object*/
+	    applyToValues:function(obj,fn,recursive){
+		function identity(o){
+		    return o;
+		};
+
+		//the transformer needs to take in 1 args
+		//it needs to return the transformed obj. noop = return first arg;
+		//refer to tests
+		function walk(o,pretran,posttran){
+		    //transforms data in a js object via a walk function
+		    o = pretran(o);
+		    var ret = o;
+		    if(typeof o == 'object'){
+			for(var prop in o){
+			    if(o.hasOwnProperty(prop)){
+				var val = o[prop];
+				var transformedVal = posttran(walk(val,pretran,posttran));
+				var walked = {};
+				walked[prop] = transformedVal;
+				_.extend(ret,walked);
+			    }
+			} 
+		    }  
+		    return ret;
+		};
+
+		var pre_walk = function(o,trans){
+		    return walk(o,trans,identity);
+		};
+
+		if(recursive){
+		    return walk.pre_walk(obj,fn);
+		}
+		else{
+		    return _(obj).chain()
+			.kv()
+			.map(function(pair){pair[1] = fn(pair[1]);return pair;})
+			.toObject()
+			.value();
+		}
+	    }});
