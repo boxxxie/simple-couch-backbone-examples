@@ -292,7 +292,7 @@ function discountTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
 					 terminalForTransaction,
 					 {date:(new Date(transaction.time.start)).toString("yyyy-MM-dd HH:mm:ss")},
 					 {sales:sales},
-					 {percentdiscount:sales/transaction.total});
+					 {percentdiscount:sales/transaction.total*100});
 		     })
 		.sortBy(startTime)
 		.value(); 
