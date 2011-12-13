@@ -10,8 +10,8 @@ body {
 	font-family: Verdana;
 	font-size: 12px;
 	line-height: 1.4;
-	background-color: #434950;
-	background-image: -webkit-gradient(
+	background-color: #fff; /*#434950;*/
+	/*background-image: -webkit-gradient(
     linear,
     left bottom,
     left top,
@@ -20,7 +20,7 @@ body {
 	background-image: -moz-linear-gradient(
     center bottom,
     rgb(39,32,41) 0%,
-    rgb(76,84,94) 83%);
+    rgb(76,84,94) 83%);*/
 	background-repeat: repeat;
 	background-position: center top;
 	background-attachment: fixed;
@@ -72,7 +72,7 @@ h1 {
 	padding-bottom: 0px;
 	text-align: center;
 	font-weight: bold;
-	color: #fff; /*#4b545e*/
+	color: #000; /*#fff;*/ /*#4b545e;*/
 	border-bottom-width: 0px;
 	border-bottom-style: solid;
 	border-bottom-color: #ccc;

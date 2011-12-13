@@ -40,6 +40,7 @@
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsCashOutsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsCancelledTransactionsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsRefundsRouter.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/menuReportsDiscountsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReports.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/report.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/docRdy.js"></script>
@@ -154,7 +155,13 @@
     </script>
     
     <script id="quickRefundsViewButton_P" class="partial" type="text/html">
-      <button id='{{id}}'>
+      <button id='{{_id}}'>
+	  Details
+      </button>
+    </script>
+    
+    <script id="quickDiscountsViewButton_P" class="partial" type="text/html">
+      <button id='{{_id}}'>
 	  Details
       </button>
     </script>
@@ -201,6 +208,14 @@
     
     <script id="menuRefundsGoButton_P" class="partial" type="text/html">
       <button onclick="renderRefundsTable();" class="ui-state-default ui-corner-all">
+	<span class="ui-button-text">
+	  Go
+	</span>
+      </button>
+    </script>
+    
+    <script id="menuDiscountsGoButton_P" class="partial" type="text/html">
+      <button onclick="renderDiscountsTable();" class="ui-state-default ui-corner-all">
 	<span class="ui-button-text">
 	  Go
 	</span>
@@ -547,6 +562,77 @@
       	</table>
       </menucashoutdialog>
     </script>
+    
+     <!-------------------------------------- general transaction quickview dialog tmp -------------------->
+     <script id="generalTransactionQuickViewDialog_TMP" type="text/html">
+      <transactiondialog>
+      	<table>
+  		  <tr>
+  		  	<td colspan="3">Store ID:</td>
+  		  	<td align="right">{{storename}}</td>
+  		  </tr>
+  		  <tr>
+  		  	<td colspan="3">Terminal ID:</td>
+  		  	<td align="right">{{name}}</td>
+  		  </tr>
+  		  <tr>
+  		  	<td colspan="3">Transaction Number:</td>
+  		  	<td align="right">{{transactionNumber}}</td>
+  		  </tr>
+  		  <tr>
+  		  	<td colspan="3">Transaction Time</td>
+  		  	{{#time}}<td>{{start}}</td>{{/time}}
+  		  </tr>
+  		  <tr>
+  		  	<td colspan="3">Transaction Type</td>
+  		  	<td align="right">{{type}}</td>
+  		  </tr>
+  		  <tr>
+  		  	<td>ITEM</td>
+  		  	<td align="right">QTY</td>
+  		  	<td align="right">PRICE</td>
+  		  	<td align="right">AMOUNT</td>
+  		  </tr>
+  		  {{#order}}
+  		  <tr>
+  		  	<td>{{description}}</td>
+  		  	<td align="right">{{quantity}}</td>
+  		  	<td align="right">{{price}}</td>
+  		  	<td align="right">{{amount}}</td>
+  		  </tr>
+  		  {{#discount}}
+  		  <tr>
+  		  	<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Discount</td>
+  		  	<td align="right">-{{discount}}</td>
+  		  </tr>
+  		  {{/discount}}
+		  	{{#modifiers}}
+		  	<tr>
+		  		<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{description}}</td>
+		  		<td align="right">{{price}}</td>
+		  	</tr>
+		  	{{/modifiers}}
+  		  {{/order}}
+  		  <tr><td colspan="4" align="center">----------------------------------------------------------------</td></tr>
+  		  <tr>
+  		  	<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sub Total</td>
+  		  	<td align="right">{{subTotal}}</td>
+  		  </tr>
+  		  <tr>
+  		  	<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tax 1</td>
+  		  	<td align="right">{{tax1and2}}</td>
+  		  </tr>
+  		  <tr>
+  		  	<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tax 3</td>
+  		  	<td align="right">{{tax3}}</td>
+  		  </tr>
+  		  <tr>
+  		  	<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total</td>
+  		  	<td align="right">{{total}}</td>
+  		  </tr>
+      	</table>
+      </transactiondialog>
+    </script>
      
     <!-------------------------------------------- MENU REPORTS ------------------------------------------------>
     <script id="menuReports_TMP" type="text/html">
@@ -563,7 +649,7 @@
 	<li><a href='#menuReports/{{startPage}}CashOuts'> Cash Outs</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}Cancelled'> Cancelled Transactions</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}Refunds'> Refunds</a> <br/></li>
-	<li><a href=''> Discounts</a> <br/></li>
+	<li><a href='#menuReports/{{startPage}}Discounts'> Discounts</a> <br/></li>
 	{{/storeName}}
 	{{/breadCrumb}}
       </ol>
@@ -829,7 +915,7 @@
 	<tr>
 	  <th>Terminal</th>
 	  <th>Date</th>
-	  <th>Cancelled Trans #</th>
+	  <th>Cancelled Tran #</th>
 	  <th>Sales</th>
 	  <th>Tax 1</th>
 	  <th>Tax 3</th>
@@ -838,14 +924,16 @@
 	</tr>
 	{{#items}}
 	<tr>
-	  <td>{{name}}</td>
-	  <td>{{date}}</td>
-	  <td>{{transactionNumber}}</td>
-	  <td>{{subTotal}}</td>
-	  <td>{{tax1and2}}</td>
-	  <td>{{tax3}}</td>
-	  <td>{{total}}</td>
-	  <td>{{>quickCancelledViewButton_P}}</td>
+	  <td align="center">{{name}}</td>
+	  {{#time}}
+	  <td align="center">{{start}}</td>
+	  {{/time}}
+	  <td align="right">{{transactionNumber}}</td>
+	  <td align="right">{{subTotal}}</td>
+	  <td align="right">{{tax1and2}}</td>
+	  <td align="right">{{tax3}}</td>
+	  <td align="right">{{total}}</td>
+	  <td align="right">{{>quickCancelledViewButton_P}}</td>
 	</tr>
 	{{/items}}
       </table>
@@ -878,14 +966,16 @@
 	</tr>
 	{{#items}}
 	<tr>
-	  <td>{{name}}</td>
-	  <td>{{transactiontime}}</td>
-	  <td>{{transactionnumber}}</td>
-	  <td>{{sale}}</td>
-	  <td>{{tax1}}</td>
-	  <td>{{tax3}}</td>
-	  <td>{{totalsale}}</td>
-	  <td>{{>quickRefundsViewButton_P}}</td>
+	  <td align="center">{{name}}</td>
+	  {{#time}}
+	  <td align="center">{{start}}</td>
+	  {{/time}}
+	  <td align="right">{{transactionNumber}}</td>
+	  <td align="right">{{subTotal}}</td>
+	  <td align="right">{{tax1and2}}</td>
+	  <td align="right">{{tax3}}</td>
+	  <td align="right">{{total}}</td>
+	  <td align="right">{{>quickRefundsViewButton_P}}</td>
 	</tr>
 	{{/items}}
       </table>
@@ -899,6 +989,53 @@
       {{>menuRefundsGoButton_P}}			
       <br/><br/>
       <refundstable></refundstable>	
+      {{>backButton_P}}
+      {{>menuButton_P}}
+    </script>
+    
+    
+    <!--------------------------- DISCOUNTS REPORTS ---------------------------------->
+    <script id="menuReportsDiscountsTabel_TMP" type="text/html">
+      <table border="1">
+	<tr>
+	  <th>Terminal</th>
+	  <th>Date</th>
+	  <th>Trans #</th>
+	  <th>Sales</th>
+	  <th>Tax 1</th>
+	  <th>Tax 3</th>
+	  <th>Discount</th>
+	  <th>Total Sales</th>
+	  <th>% of Discount</th>
+	  <th>Details</th>
+	</tr>
+	{{#items}}
+	<tr>
+	  <td align="center">{{name}}</td>
+	  {{#time}}
+	  <td align="center">{{start}}</td>
+	  {{/time}}
+	  <td align="right">{{transactionNumber}}</td>
+	  <td align="right">{{sales}}</td>
+	  <td align="right">{{tax1and2}}</td>
+	  <td align="right">{{tax3}}</td>
+	  <td align="right">-{{totaldiscount}}</td>
+	  <td align="right">{{total}}</td>
+	  <td align="right">{{percentdiscount}}</td>
+	  <td align="right">{{>quickDiscountsViewButton_P}}</td>
+	</tr>
+	{{/items}}
+      </table>
+      {{>quickReportViewHook_P}}
+    </script> 
+    
+    <script id="menuReportsDiscountsReports_TMP" type="text/html">
+      <h1>Discounts Transactions</h1>
+      <h2>{{>breadcrumb_P}}</h2>
+      {{>dateRangePicker_P}}
+      {{>menuDiscountsGoButton_P}}			
+      <br/><br/>
+      <discountstable></discountstable>	
       {{>backButton_P}}
       {{>menuButton_P}}
     </script>

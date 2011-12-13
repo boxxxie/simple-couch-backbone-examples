@@ -3,7 +3,7 @@ var _async = {
     transactionRangeQuery:function(start,end){
 	return function(view,db,base){
 	    var startKey = base.concat(start);
-	    var endKey = base.concat(end,{});
+	    var endKey = base.concat(end);
 	    var options = {
 		reduce:false,
 		include_docs: true,
@@ -51,7 +51,6 @@ function extractDocs(parallelFunctionsArray){
 		       });
     };
 }
-
 function canceledTransactionsIndexRangeFetcher_F(id){
     var view = cdb.view('reporting','terminalID_type_index');
     var db = cdb.db('transactions');
@@ -61,7 +60,6 @@ function canceledTransactionsIndexRangeFetcher_F(id){
 	return extractDocs([voids,voidRefunds]);
     };
 }
-
 function discountTransactionsIndexRangeFetcher_F(id){
     var view = cdb.view('reporting','Discounts_terminalID_type_index');
     var db = cdb.db('transactions');
@@ -70,7 +68,6 @@ function discountTransactionsIndexRangeFetcher_F(id){
 	return extractDocs([sales]);
     };
 }
-
 function refundTransactionsIndexRangeFetcher_F(id){
     var view = cdb.view('reporting','terminalID_type_index');
     var db = cdb.db('transactions');
@@ -79,8 +76,6 @@ function refundTransactionsIndexRangeFetcher_F(id){
 	return extractDocs([refunds]);
     };
 };
-
-
 function generalCashoutListFetcher_Period_F(startDate,endDate){
     var view = cdb.view('reporting','cashouts_id_date');
     var db = cdb.db('cashouts');
@@ -91,7 +86,6 @@ function generalCashoutListFetcher_Period_F(startDate,endDate){
 	return extractDocs([cashouts]);
     };
 };
-
 function generalCashoutFetcher_Period_F(startDate,endDate){
     var view = cdb.view('reporting','cashouts_id_date');
     var db = cdb.db('cashouts');
@@ -141,7 +135,6 @@ function generalCashoutFetcher_Period_F(startDate,endDate){
 	};
     };
 };
-
 function cashoutReportFetcher(terminals,startDate,endDate){
 
     var ids = _.pluck(terminals,'id');
@@ -169,18 +162,20 @@ function cashoutReportFetcher(terminals,startDate,endDate){
     };
 }
 
-//untested... swap out canceledTransactions with this
 function transactionsFromIndexRange(indexFn,transactionFn){
-    return function(continuation){
-	async
-	    .waterfall([indexFn,
-			function(indexObj,callback){
-			    transactionFn(indexObj.firstindex,indexObj.lastindex)
-			    (continuation);
-			}]);};}
+    return function(terminal_id){
+	return function(continuation){
+	    async
+		.waterfall([indexFn(terminal_id),
+			    function(indexObj,callback){
+				transactionFn(terminal_id)(indexObj.firstindex,indexObj.lastindex)
+				(continuation);
+			    }]);
+	};
+    };
+}
 
 function canceledTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
-
     function processTransactions(terminals,callback){
     	return function(err,transactions){
 	    function startTime(transaction){return (new Date(transaction.time.start)).getTime();};
@@ -201,15 +196,12 @@ function canceledTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
     return function(callback) {
 	if(!_.isArray(terminals)){terminals = [terminals];}
 	var ids = _.pluck(terminals,'id');
-	async.map(ids,
-		  function(terminal_id,callback){
-		      transactionsFromIndexRange(generalCashoutFetcher_Period_F(startDate,endDate)(terminal_id),
-						 canceledTransactionsIndexRangeFetcher_F(terminal_id))
-		      (callback);},
-		  processTransactions(terminals,callback));
+	_async.map(ids,
+		   transactionsFromIndexRange(generalCashoutFetcher_Period_F(startDate,endDate),
+					      canceledTransactionsIndexRangeFetcher_F),
+		   processTransactions(terminals,callback));
     };
 };
-
 function refundTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
 
     function processTransactions(terminals,callback){
@@ -235,16 +227,12 @@ function refundTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
     return function(callback) {
 	if(!_.isArray(terminals)){terminals = [terminals];}
 	var ids = _.pluck(terminals,'id');
-	async.map(ids,
-		  function(terminal_id,callback){
-		      transactionsFromIndexRange(generalCashoutFetcher_Period_F(startDate,endDate)(terminal_id),
-						 refundTransactionsIndexRangeFetcher_F(terminal_id))
-		      (callback);},
-		  processTransactions(terminals,callback));
+	_async.map(ids,
+		   transactionsFromIndexRange(generalCashoutFetcher_Period_F(startDate,endDate),
+					      refundTransactionsIndexRangeFetcher_F),
+		   processTransactions(terminals,callback));
     };
 };
-
-
 function discountTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
 
     function processTransactions(terminals,callback){
@@ -273,12 +261,9 @@ function discountTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
     return function(callback) {
 	if(!_.isArray(terminals)){terminals = [terminals];}
 	var ids = _.pluck(terminals,'id');
-	async.map(ids,
-		  function(terminal_id,callback){
-		      transactionsFromIndexRange(generalCashoutFetcher_Period_F(startDate,endDate)(terminal_id),
-						 discountTransactionsIndexRangeFetcher_F(terminal_id))
-		      (callback);},
+	_async.map(ids,
+		   transactionsFromIndexRange(generalCashoutFetcher_Period_F(startDate,endDate),
+					      discountTransactionsIndexRangeFetcher_F),
 		  processTransactions(terminals,callback));
     };
-
 };
