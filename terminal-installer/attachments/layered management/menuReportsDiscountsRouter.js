@@ -67,8 +67,8 @@ function renderDiscountsTable() {
 	});
 	console.log(ids);
 	
-	saleTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)(function(err,data_TMP){
-		data_TMP = _.reject(data_TMP, function(item){return item.discount<=0});
+	discountTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)(function(err,data_TMP){
+		//data_TMP = _.reject(data_TMP, function(item){return item.discount<=0});
 		
 		data_TMP=_.map(data_TMP, function(item){
 			var item = _.clone(item);
