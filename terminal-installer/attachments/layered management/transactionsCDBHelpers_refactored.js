@@ -1,3 +1,4 @@
+var date = { toArray : { until : { day : function(date){return _.first(date.toArray(),3);}}}};
 var _async = {
     transactionRangeQuery:function(start,end){
 	return function(view,db,base){
@@ -23,19 +24,33 @@ var _async = {
 	    };
 	    return function(callback){queryF(view,db)(options)(returnQuery(callback));};
 	};
-    }
-};
-
-function generalArrayFetcher_F(array,fn){
-    return function(runAfter) {
+    },
+    map:function(array,fn,runAfter){
 	/*
 	 * fn() must return a function of the form fn(err,response)
 	 */
 	async.map(array, 
 		  function(array_item,callback){fn(array_item)(callback);},
 		  runAfter);
-    };
+    }
 };
+
+
+function extractDocs(parallelFunctionsArray){
+    return function(callback){
+	async.parallel(parallelFunctionsArray,
+		       function(err,responses){  
+			   var extractedData = 
+			       _(responses)
+			       .chain()
+			       .pluck('rows')
+			       .flatten()
+			       .pluck('doc')
+			       .value();
+			   callback(err,extractedData);	  
+		       });
+    };
+}
 
 function canceledTransactionsIndexRangeFetcher_F(id){
     var view = cdb.view('reporting','terminalID_type_index');
@@ -43,23 +58,7 @@ function canceledTransactionsIndexRangeFetcher_F(id){
     return function(startIndex,endIndex){
 	var voids = _async.transactionRangeQuery(startIndex,endIndex)(view,db,[id,"VOID"]);
 	var voidRefunds = _async.transactionRangeQuery(startIndex,endIndex)(view,db,[id,"VOIDREFUND"]);
-
-	return function(callback){
-	    async
-		.parallel(
-		    {voids:voids,
-		     voidRefunds:voidRefunds
-		    },
-		    function(err,responses){
-
-			var concatedSortedVoids = _([]).chain()
-			    .concat(responses.voids.rows,
-				    responses.voidRefunds.rows)
-			    .pluck('doc')
-			    .value();
-			callback(err,concatedSortedVoids);	  
-		    });
-	};
+	return extractDocs([voids,voidRefunds]);
     };
 }
 
@@ -68,19 +67,7 @@ function discountTransactionsIndexRangeFetcher_F(id){
     var db = cdb.db('transactions');
     return function(startIndex,endIndex){
 	var sales = _async.transactionRangeQuery(startIndex,endIndex)(view,db,[id,"SALE"]);
-
-	return function(callback){
-	    async
-		.parallel(
-		    {sales:sales},
-		    function(err,responses){
-			var extractedData = _([]).chain()
-			    .concat(responses.sales.rows)
-			    .pluck('doc')
-			    .value();
-			callback(err,extractedData);	  
-		    });
-	};
+	return extractDocs([sales]);
     };
 }
 
@@ -89,36 +76,19 @@ function refundTransactionsIndexRangeFetcher_F(id){
     var db = cdb.db('transactions');
     return function(startIndex,endIndex){
 	var refunds = _async.transactionRangeQuery(startIndex,endIndex)(view,db,[id,"REFUND"]);
-	return function(callback){
-	    async
-		.parallel(
-		    {refunds:refunds},
-		    function(err,responses){
-			var extractedData = _([]).chain()
-			    .concat(responses.refunds.rows)
-			    .pluck('doc')
-			    .value();
-			callback(err,extractedData);	  
-		    });
-	};
+	return extractDocs([refunds]);
     };
 };
 
 
-function generalCashoutListFetcher_Period_F(view,db,startDate,endDate){
-    //changed this function to return a function of id, this is so that it's easily used with async functions (should follow this standard)
-    //changed the runAfter to be of a fn(err,response) form, and to be returned as a function (this is a standard to follow)
+function generalCashoutListFetcher_Period_F(startDate,endDate){
+    var view = cdb.view('reporting','cashouts_id_date');
+    var db = cdb.db('cashouts');
     return function(id){
-	return function(callback){
-	    var baseKey = [id];
-	    var dateStart = _.first(startDate.toArray(),3);
-	    var dateEnd = _.first(endDate.toArray(),3);
-
-	    var cashoutQuery = transactionRangeQuery(dateStart,dateEnd)(view,db,baseKey)
-	    (function(response){
-		 callback(null,_.pluck(response.rows,'doc'));
-	     });
-	};
+	var dateStart = date.toArray.until.day(startDate);
+	var dateEnd = date.toArray.until.day(endDate);
+	var cashouts = _async.transactionRangeQuery(dateStart,dateEnd)(view,db,[id]);
+	return extractDocs([cashouts]);
     };
 };
 
@@ -127,9 +97,10 @@ function generalCashoutFetcher_Period_F(startDate,endDate){
     var db = cdb.db('cashouts');
     return function(id){
 	return function(callback){
+	    
             var baseKey = [id];
-            var dateStart = _.first(startDate.toArray(),3);
-            var dateEnd = _.first(endDate.toArray(),3);
+	    var dateStart = date.toArray.until.day(startDate);
+	    var dateEnd = date.toArray.until.day(endDate);
 
             var cashoutQuery = _async.typedTransactionQuery(dateStart,dateEnd)(view,db,baseKey);
  
@@ -171,15 +142,8 @@ function generalCashoutFetcher_Period_F(startDate,endDate){
     };
 };
 
-function cashoutListFetcher_Period(ids,startDate,endDate,callback){
-    var view = cdb.view('reporting','cashouts_id_date');
-    var db = cdb.db('cashouts');
-    return generalArrayFetcher(ids,
-			       generalCashoutListFetcher_Period_F(view,db,startDate,endDate),
-			       callback);
-};
+function cashoutReportFetcher(terminals,startDate,endDate){
 
-function cashoutReportFetcher(terminals,startDate,endDate,callback){
     var ids = _.pluck(terminals,'id');
     function processCashouts(terminals,callback){
 	return function(err,cashouts){
@@ -191,15 +155,18 @@ function cashoutReportFetcher(terminals,startDate,endDate,callback){
 			          id:cashout._id,
 			          name:cashout.terminalname,
 			          cashouttime:(new Date(cashout.cashouttime)).toString("yyyy/MM/dd-HH:mm:ss"),
-			          cashoutnumber:cashout.cashoutnumber.toString()
-			         };
+			          cashoutnumber:cashout.cashoutnumber.toString()};
 		     })
-        	.value();
-            
+        	.value();	    
 	    callback(templateData);
 	};
     }
-    cashoutListFetcher_Period(ids,startDate,endDate,processCashouts(terminals,callback));
+
+    return function(callback){
+	_async.map(ids,
+		  generalCashoutListFetcher_Period_F(startDate,endDate),
+		  processCashouts(terminals,callback));
+    };
 }
 
 //untested... swap out canceledTransactions with this
@@ -254,7 +221,10 @@ function refundTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
 		.flatten()
 		.map(function(transaction){
 			 var terminalForTransaction = _.find(terminals, function(ter){return transaction.terminal_id==ter.id;});
-			 return _.extend({},transaction,terminalForTransaction,{date:(new Date(transaction.time.start)).toString("yyyy-MM-dd HH:mm:ss")});
+			 return _.extend({},
+					 transaction,
+					 terminalForTransaction,
+					 {date:(new Date(transaction.time.start)).toString("yyyy-MM-dd HH:mm:ss")});
 		     })
 		.sortBy(startTime)
 		.value(); 
@@ -310,4 +280,5 @@ function discountTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
 		      (callback);},
 		  processTransactions(terminals,callback));
     };
+
 };

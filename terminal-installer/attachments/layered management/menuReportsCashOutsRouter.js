@@ -7,7 +7,7 @@ var menuReportsCashOutsRouter =
 		  console.log("menuReportsStoreCashouts  ");
 	      }
 	     }));
-	     
+
 var menuReportsCashOutsView = 
     Backbone.View.extend(
 	{initialize:function(){
@@ -26,7 +26,7 @@ var menuReportsCashOutsView =
 	 renderMenuReportsStoreCashouts: function() {
 	     
 	     var html = ich.menuReportsCashOutsReports_TMP({startPage:"storeReport", 
-	     					     breadCrumb:breadCrumb(ReportData.companyName, ReportData.groupName, ReportData.store.storeName)});
+	     						    breadCrumb:breadCrumb(ReportData.companyName, ReportData.groupName, ReportData.store.storeName)});
 	     $(this.el).html(html);
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )
@@ -50,10 +50,10 @@ var menuReportsCashOutsView =
 	     console.log("rendered general report");
 	 }
 	});
-	
+
 /******************************************** helper functions ************************************/
 function rendermenuReportsCashOutsTable() {
-	console.log("renderCashOutsTable");
+    console.log("renderCashOutsTable");
 
     if(!_.isEmpty($("#dateFrom").val()) && !_.isEmpty($("#dateTo").val())) {
 	var startDate = new Date($("#dateFrom").val());
@@ -66,34 +66,38 @@ function rendermenuReportsCashOutsTable() {
 	
 	//TODO
 	var ids = _.map(ReportData.store.terminals, function(terminal){
-		return {id:terminal.terminal_id, name:terminal.terminal_label};
-	});
+			    return {id:terminal.terminal_id, name:terminal.terminal_label};
+			});
 	console.log(ids);
 	
-	cashoutReportFetcher(ids,startDate,endDateForQuery,function(data_TMP){
-		data_TMP=_.map(data_TMP, function(item){
-		var dialogtitle="".concat("Company : ")
-						.concat(ReportData.companyName)
-						.concat(" , Group : ")
-						.concat(ReportData.groupName)
-						.concat(" , Store : ")
-						.concat(ReportData.store.storeName)
-						.concat(" , Terminal : ")
-						.concat(item.name);
-			return _.extend(item, {dialogtitle:dialogtitle});
-		});
-		var html = ich.menuReportsCashOutsTabel_TMP({items:data_TMP});
-		$("cashoutstable").html(html);
-		
-		_.each(data_TMP, function(item){	
-			var btn = $('#'+item.id).button().click(function(){
-				var data = item.cashout;
-				var html = ich.menuReportsCashoutQuickViewDialog_TMP(data);
-				quickmenuReportsCashoutViewDialog(html, {title:item.dialogtitle});
-			});
-		});		
-	});
-		
+	cashoutReportFetcher(ids,startDate,endDateForQuery)
+	(function(data_TMP){
+	     data_TMP = _.map(data_TMP, function(item){
+				var dialogtitle="".concat("Company : ")
+				    .concat(ReportData.companyName)
+				    .concat(" , Group : ")
+				    .concat(ReportData.groupName)
+				    .concat(" , Store : ")
+				    .concat(ReportData.store.storeName)
+				    .concat(" , Terminal : ")
+				    .concat(item.name);
+				return _.extend(item, {dialogtitle:dialogtitle});
+			    });
+
+	     var html = ich.menuReportsCashOutsTabel_TMP({items:data_TMP});
+	     $("cashoutstable").html(html);
+	     
+	     _.each(data_TMP, function(item){	
+			var btn = $('#'+item.id)
+			    .button()
+			    .click(function(){
+				       var data = item.cashout;
+				       var html = ich.menuReportsCashoutQuickViewDialog_TMP(data);
+				       quickmenuReportsCashoutViewDialog(html, {title:item.dialogtitle});
+				   });
+		    });		
+	 });
+	
     } else {
    	alert("Input Date");
     }

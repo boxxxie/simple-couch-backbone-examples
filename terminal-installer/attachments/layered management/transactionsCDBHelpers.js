@@ -656,15 +656,6 @@ function generalCashoutListArrayFetcher_Period(view,db,ids,startDate,endDate,run
 	      runAfter);
 };
 
-function generalArrayFetcher(array,fn,runAfter) {
-    /*
-     * fn() must return a function of the form fn(err,response)
-     */
-    async.map(array, 
-	      function(array_item,callback){fn(array_item)(callback);},
-	      runAfter);
-};
-
 function generalSalesReportArrayFetcher(view,db,ids,runAfter){
     async.map(ids, 
 	      function(id,callback){
