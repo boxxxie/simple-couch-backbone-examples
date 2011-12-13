@@ -70,8 +70,8 @@ function refundTransactionsIndexRangeFetcher_F(id){
 	var refunds = _async.transactionRangeQuery(startIndex,endIndex)(view,db,[id,"REFUND"]);
 	return function(callback){
 	    refunds
-	    (function(err,responses){
-		 callback(err,response.rows);	  
+	    (function(err,response){
+		 callback(err,_(response.rows).pluck('doc'));	  
 	     });
 	};
     };
