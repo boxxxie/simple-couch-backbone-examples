@@ -63,16 +63,43 @@ function canceledTransactionsIndexRangeFetcher_F(id){
     };
 }
 
+function discountTransactionsIndexRangeFetcher_F(id){
+    var view = cdb.view('reporting','Discounts_terminalID_type_index');
+    var db = cdb.db('transactions');
+    return function(startIndex,endIndex){
+	var sales = _async.transactionRangeQuery(startIndex,endIndex)(view,db,[id,"SALE"]);
+
+	return function(callback){
+	    async
+		.parallel(
+		    {sales:sales},
+		    function(err,responses){
+			var extractedData = _([]).chain()
+			    .concat(responses.sales.rows)
+			    .pluck('doc')
+			    .value();
+			callback(err,extractedData);	  
+		    });
+	};
+    };
+}
+
 function refundTransactionsIndexRangeFetcher_F(id){
     var view = cdb.view('reporting','terminalID_type_index');
     var db = cdb.db('transactions');
     return function(startIndex,endIndex){
 	var refunds = _async.transactionRangeQuery(startIndex,endIndex)(view,db,[id,"REFUND"]);
 	return function(callback){
-	    refunds
-	    (function(err,response){
-		 callback(err,_(response.rows).pluck('doc'));	  
-	     });
+	    async
+		.parallel(
+		    {refunds:refunds},
+		    function(err,responses){
+			var extractedData = _([]).chain()
+			    .concat(responses.refunds.rows)
+			    .pluck('doc')
+			    .value();
+			callback(err,extractedData);	  
+		    });
 	};
     };
 };
@@ -246,3 +273,37 @@ function refundTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
     };
 };
 
+
+function discountTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
+
+    function processTransactions(terminals,callback){
+    	return function(err,transactions){
+	    function startTime(transaction){return (new Date(transaction.time.start)).getTime();};
+	    var terminals_merged_with_reduced_transactions = 
+		_(transactions)
+		.chain()
+		.flatten()
+		.map(function(transaction){
+			 var terminalForTransaction = _.find(terminals, function(ter){return transaction.terminal_id==ter.id;});
+			 return _.extend({},
+					 transaction,
+					 terminalForTransaction,
+					 {date:(new Date(transaction.time.start)).toString("yyyy-MM-dd HH:mm:ss")});
+		     })
+		.sortBy(startTime)
+		.value(); 
+	    callback(err,terminals_merged_with_reduced_transactions);
+	};
+    }
+
+    return function(callback) {
+	if(!_.isArray(terminals)){terminals = [terminals];}
+	var ids = _.pluck(terminals,'id');
+	async.map(ids,
+		  function(terminal_id,callback){
+		      transactionsFromIndexRange(generalCashoutFetcher_Period_F(startDate,endDate)(terminal_id),
+						 discountTransactionsIndexRangeFetcher_F(terminal_id))
+		      (callback);},
+		  processTransactions(terminals,callback));
+    };
+};
