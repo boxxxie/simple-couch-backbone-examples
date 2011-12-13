@@ -285,10 +285,13 @@ function discountTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
 		.flatten()
 		.map(function(transaction){
 			 var terminalForTransaction = _.find(terminals, function(ter){return transaction.terminal_id==ter.id;});
+			 var sales = transaction.discount+transaction.subTotal;
 			 return _.extend({},
 					 transaction,
 					 terminalForTransaction,
-					 {date:(new Date(transaction.time.start)).toString("yyyy-MM-dd HH:mm:ss")});
+					 {date:(new Date(transaction.time.start)).toString("yyyy-MM-dd HH:mm:ss")},
+					 {sales:sales},
+					 {percentdiscount:transaction.discount/sales*100});
 		     })
 		.sortBy(startTime)
 		.value(); 
