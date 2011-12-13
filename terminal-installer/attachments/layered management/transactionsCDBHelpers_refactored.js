@@ -245,3 +245,4 @@ function refundTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
 		  processTransactions(terminals,callback));
     };
 };
+

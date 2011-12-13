@@ -155,7 +155,7 @@ _.mixin({
 		};
 
 		if(recursive){
-		    return walk.pre_walk(obj,fn);
+		    return pre_walk(obj,fn);
 		}
 		else{
 		    return _(obj).chain()

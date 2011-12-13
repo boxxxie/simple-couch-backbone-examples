@@ -29,6 +29,7 @@ function doc_setup() {
     var MenuReportsCashOutsDisplay = new menuReportsCashOutsView();
     var MenuReportsCancelledDisplay = new menuReportsCancelledTransactionsView();
     var MenuReportsRefundsDisplay = new menuReportsRefundsView();
+    var MenuPeportsDiscountsDisplay = new menuReportsDiscountsView();
     Backbone.history.start();
 
 };

@@ -1,31 +1,31 @@
-var menuReportsRefundsRouter = 
+var menuReportsDiscountsRouter = 
     new (Backbone.Router.extend(
 	     {routes: {
-		  "menuReports/storeReportRefunds":"menuReportsStoreRefunds"
+		  "menuReports/storeReportDiscounts":"menuReportsStoreDiscounts"
 	      },
-	      menuReportsStoreRefunds:function() {
-		  console.log("menuReportsStoreRefunds  ");
+	      menuReportsStoreDiscounts:function() {
+		  console.log("menuReportsStoreDiscounts  ");
 	      }
 	     }));
 	     
-var menuReportsRefundsView = 
+var menuReportsDiscountsView = 
     Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
 	     view.el = $("main");
 	     
 	     _.bindAll(view, 
-		       'renderMenuReportsStoreRefunds');
-	     menuReportsRefundsRouter
-		 .bind('route:menuReportsStoreRefunds', 
+		       'renderMenuReportsStoreDiscounts');
+	     menuReportsDiscountsRouter
+		 .bind('route:menuReportsStoreDiscounts', 
 		       function(){
-			   console.log("menuReportsView, route:menuReportsStoreRefunds");
-			   view.renderMenuReportsStoreRefunds();
+			   console.log("menuReportsView, route:menuReportsStoreDiscounts");
+			   view.renderMenuReportsStoreDiscounts();
 		       });
 	 },
-	 renderMenuReportsStoreRefunds: function() {
+	 renderMenuReportsStoreDiscounts: function() {
 	     
-	     var html = ich.menuReportsRefundsReports_TMP({startPage:"storeReport", 
+	     var html = ich.menuReportsDiscountsReports_TMP({startPage:"storeReport", 
 	     					     breadCrumb:breadCrumb(ReportData.companyName, ReportData.groupName, ReportData.store.storeName)});
 	     $(this.el).html(html);
 	     
@@ -52,8 +52,8 @@ var menuReportsRefundsView =
 	});
 	
 /******************************************** helper functions ************************************/
-function renderRefundsTable() {
-	console.log("renderRefundsTable");
+function renderDiscountsTable() {
+	console.log("renderDiscountsTable");
 
     if(!_.isEmpty($("#dateFrom").val()) && !_.isEmpty($("#dateTo").val())) {
 	var startDate = new Date($("#dateFrom").val());
@@ -67,11 +67,14 @@ function renderRefundsTable() {
 	});
 	console.log(ids);
 	
-	refundTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)(function(err,data_TMP){
+	saleTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)(function(err,data_TMP){
+		data_TMP = _.reject(data_TMP, function(item){return item.discount<=0});
+		
 		data_TMP=_.map(data_TMP, function(item){
 			var item = _.clone(item);
 			item.time.start=(new Date(item.time.start)).toString("yyyy/MM/dd-HH:mm:ss");
 			item.transactionNumber += "";
+			item.totaldiscount = item.discount;
 			return item;
 		});
 		
@@ -86,8 +89,8 @@ function renderRefundsTable() {
 			}, true);
 			
 		
-		var html = ich.menuReportsRefundsTabel_TMP({items:data_TMP});
-		$("refundstable").html(html);
+		var html = ich.menuReportsDiscountsTabel_TMP({items:data_TMP});
+		$("discountstable").html(html);
 		
 		_.each(data_TMP, function(item){	
 			var item = _.clone(item);

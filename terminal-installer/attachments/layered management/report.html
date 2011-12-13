@@ -40,6 +40,7 @@
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsCashOutsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsCancelledTransactionsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsRefundsRouter.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/menuReportsDiscountsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReports.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/report.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/docRdy.js"></script>
@@ -159,6 +160,12 @@
       </button>
     </script>
     
+    <script id="quickDiscountsViewButton_P" class="partial" type="text/html">
+      <button id='{{_id}}'>
+	  Details
+      </button>
+    </script>
+    
     <script id="menuReportGoButton_P" class="partial" type="text/html">
       <button onclick="renderSalesSummaryReportTable();" class="ui-state-default ui-corner-all">
 	<span class="ui-button-text">
@@ -201,6 +208,14 @@
     
     <script id="menuRefundsGoButton_P" class="partial" type="text/html">
       <button onclick="renderRefundsTable();" class="ui-state-default ui-corner-all">
+	<span class="ui-button-text">
+	  Go
+	</span>
+      </button>
+    </script>
+    
+    <script id="menuDiscountsGoButton_P" class="partial" type="text/html">
+      <button onclick="renderDiscountsTable();" class="ui-state-default ui-corner-all">
 	<span class="ui-button-text">
 	  Go
 	</span>
@@ -587,8 +602,8 @@
   		  </tr>
   		  {{#discount}}
   		  <tr>
-  		  	<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;Discount</td>
-  		  	<td>-{{discount}}</td>
+  		  	<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Discount</td>
+  		  	<td align="right">-{{discount}}</td>
   		  </tr>
   		  {{/discount}}
 		  	{{#modifiers}}
@@ -634,7 +649,7 @@
 	<li><a href='#menuReports/{{startPage}}CashOuts'> Cash Outs</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}Cancelled'> Cancelled Transactions</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}Refunds'> Refunds</a> <br/></li>
-	<li><a href=''> Discounts</a> <br/></li>
+	<li><a href='#menuReports/{{startPage}}Discounts'> Discounts</a> <br/></li>
 	{{/storeName}}
 	{{/breadCrumb}}
       </ol>
@@ -974,6 +989,53 @@
       {{>menuRefundsGoButton_P}}			
       <br/><br/>
       <refundstable></refundstable>	
+      {{>backButton_P}}
+      {{>menuButton_P}}
+    </script>
+    
+    
+    <!--------------------------- DISCOUNTS REPORTS ---------------------------------->
+    <script id="menuReportsDiscountsTabel_TMP" type="text/html">
+      <table border="1">
+	<tr>
+	  <th>Terminal</th>
+	  <th>Date</th>
+	  <th>Trans #</th>
+	  <th>Sales</th>
+	  <th>Tax 1</th>
+	  <th>Tax 3</th>
+	  <th>Discount</th>
+	  <th>Total Sales</th>
+	  <th>% of Discount</th>
+	  <th>Details</th>
+	</tr>
+	{{#items}}
+	<tr>
+	  <td align="center">{{name}}</td>
+	  {{#time}}
+	  <td align="center">{{start}}</td>
+	  {{/time}}
+	  <td align="right">{{transactionNumber}}</td>
+	  <td align="right">{{subTotal}}</td>
+	  <td align="right">{{tax1and2}}</td>
+	  <td align="right">{{tax3}}</td>
+	  <td align="right">-{{totaldiscount}}</td>
+	  <td align="right">{{total}}</td>
+	  <td align="right">{{percentdiscount}}</td>
+	  <td align="right">{{>quickDiscountsViewButton_P}}</td>
+	</tr>
+	{{/items}}
+      </table>
+      {{>quickReportViewHook_P}}
+    </script> 
+    
+    <script id="menuReportsDiscountsReports_TMP" type="text/html">
+      <h1>Discounts Transactions</h1>
+      <h2>{{>breadcrumb_P}}</h2>
+      {{>dateRangePicker_P}}
+      {{>menuDiscountsGoButton_P}}			
+      <br/><br/>
+      <discountstable></discountstable>	
       {{>backButton_P}}
       {{>menuButton_P}}
     </script>

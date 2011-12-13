@@ -103,7 +103,7 @@ function typedTransactionRangeGroupedQuery(view,db,base){
 function transactionRangeQuery(start,end){
     return function(view,db,base){
 	var startKey = base.concat(start);
-	var endKey = base.concat(end,{});
+	var endKey = base.concat(end);
 	var options = {
 	    reduce:false,
 	    include_docs: true,

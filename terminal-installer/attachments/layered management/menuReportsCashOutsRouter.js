@@ -59,6 +59,8 @@ function rendermenuReportsCashOutsTable() {
 	var startDate = new Date($("#dateFrom").val());
 	var endDate = new Date($("#dateTo").val());
 	var endDateForQuery = new Date($("#dateTo").val());
+	var today = (new Date()).toString("MM/dd/yyyy");
+	
     endDateForQuery.addDays(1);
 	
 	//TODO
