@@ -4058,7 +4058,7 @@ var sample_terminal ={
    "creditPayment": true,
    "debitPayment": true,
    "mobilePayment": false,
-   "serverport": 5984,
+   "serverport": 80,
    "serverhost": "http://192.168.1.254",
    "mobqredits": {
        "bonus_codes": [
