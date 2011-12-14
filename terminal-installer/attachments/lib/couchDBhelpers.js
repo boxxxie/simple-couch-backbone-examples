@@ -64,7 +64,8 @@ function extractKeys(data){
 };
 
 function extractKeysArr(data){
-    return _(data.rows).chain()
+    return _(data.rows)
+	.chain()
 	.pluck('key')
 	.flatten()
 	.value();

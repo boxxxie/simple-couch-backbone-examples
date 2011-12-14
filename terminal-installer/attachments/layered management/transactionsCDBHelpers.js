@@ -853,7 +853,7 @@ function taxReportTransactionsFetcher(terminal,startIndex,endIndex,callback){
 		}
 		return _.extend({},
 				moneyFields,
-				{date: (new Date(transaction.time.end)).toString("yyyy/MM/dd-HH:mm:ss")},
+				{date: (new Date(transaction.time.start)).toString("yyyy/MM/dd-HH:mm:ss")},
 				{transaction:transaction.transactionNumber.toString()},
 				{type:transaction.type}
 			       );
