@@ -92,7 +92,7 @@ var sample_terminal ={
            "applyTax1": false,
            "applyTax2": false,
            "applyTax3": false,
-           "price": 0,
+           "price" : 0,
            "enabled": false
        },
        {
@@ -105,7 +105,7 @@ var sample_terminal ={
            "applyTax1": false,
            "applyTax2": false,
            "applyTax3": false,
-           "price": 0,
+           "price" : 0,
            "enabled": false
        },
        {
@@ -118,7 +118,7 @@ var sample_terminal ={
            "applyTax1": false,
            "applyTax2": false,
            "applyTax3": false,
-           "price": 0,
+           "price" : 0,
            "enabled": false
        }
    ],
@@ -168,19 +168,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 0,
-               "description": [
-                   "HERO",
-                   "BURGER 4oz",
-                   "COMBO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 7.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": true,
@@ -194,19 +190,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 12,
-               "description": [
-                   "SIGNATURE",
-                   "6oz",
-                   "COMBO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 9.98,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -220,19 +212,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 2,
                "position": 29,
-               "description": [
-                   "PINEAPPLE",
-                   "",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0.75,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -246,19 +234,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 2,
                "position": 33,
-               "description": [
-                   "FRIED",
-                   "EGG",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -272,19 +256,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 2,
                "position": 28,
-               "description": [
-                   "FIOR DI",
-                   "LATTE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 1.29,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -298,19 +278,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 26,
-               "description": [
-                   "TURKEY",
-                   "FIESTA",
-                   "SOLO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 7.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -324,19 +300,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 29,
-               "description": [
-                   "GARDEN",
-                   "DRESSING",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -350,19 +322,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 0,
-               "description": [
-                   "FRESH",
-                   "CUT FIRES",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 2.49,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -376,19 +344,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 4,
-               "description": [
-                   "ONION",
-                   "RINGS",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 2.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -402,19 +366,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 8,
-               "description": [
-                   "POUTINE",
-                   "",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 4.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -428,19 +388,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 12,
-               "description": [
-                   "SWEET",
-                   "POTATO",
-                   "FRIES"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 3.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -454,19 +410,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 16,
-               "description": [
-                   "CLOESLAW",
-                   "",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 1.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -480,19 +432,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 16,
-               "description": [
-                   "HOT",
-                   "DOG",
-                   "COMBO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 7.29,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -506,19 +454,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 20,
-               "description": [
-                   "DILL",
-                   "PICKLE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -532,19 +476,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 24,
-               "description": [
-                   "GRAVY",
-                   "",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0.79,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -558,19 +498,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 1,
-               "description": [
-                   "20oz",
-                   "SODA",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 1.89,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -584,19 +520,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 28,
-               "description": [
-                   "EXTRA",
-                   "GRAVY",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0.4,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -610,19 +542,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 5,
-               "description": [
-                   "BOTTLE",
-                   "JUICE OR",
-                   "POP"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 2.29,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -637,19 +565,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 9,
-               "description": [
-                   "DASANI",
-                   "WATER",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 1.86,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -663,19 +587,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 13,
-               "description": [
-                   "CHOCOLATE",
-                   "SHAKE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 3.49,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -689,19 +609,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 17,
-               "description": [
-                   "VANILLA",
-                   "SHAKE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 3.49,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -715,19 +631,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 21,
-               "description": [
-                   "STRAWBERRY",
-                   "SHAKE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 3.49,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -741,19 +653,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 25,
-               "description": [
-                   "CREAMY",
-                   "CARMEL",
-                   "SHAKE"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 4.5,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -768,19 +676,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 20,
-               "description": [
-                   "SALMON",
-                   "COMBO",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 9.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -794,19 +698,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 29,
-               "description": [
-                   "STRAWBERRY",
-                   "SHORTCAKE",
-                   "SHAKE"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 4.5,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -820,19 +720,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 33,
-               "description": [
-                   "MINT",
-                   "CHOCOLATE",
-                   "CHIP SHAKE"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 4.5,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -846,19 +742,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 14,
-               "description": [
-                   "SUB",
-                   "CHOCOLATE",
-                   "SHAKE"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 1.95,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -872,19 +764,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 18,
-               "description": [
-                   "SUB",
-                   "VANILLA",
-                   "SHAKE"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 1.95,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -898,19 +786,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 22,
-               "description": [
-                   "SUB",
-                   "STRAWBERRY",
-                   "SHAKE"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 1.95,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -924,19 +808,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 26,
-               "description": [
-                   "SUB",
-                   "CARAMEL",
-                   "SHAKE"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 2.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -950,19 +830,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 30,
-               "description": [
-                   "SUB",
-                   "SHORTCAKE",
-                   "SHAKE"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 2.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -976,19 +852,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 34,
-               "description": [
-                   "SUB MINT",
-                   "CHOCOLATE",
-                   "SHAKE"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 2.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1002,19 +874,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 6,
-               "description": [
-                   "SUB",
-                   "JUICE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 1,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1028,19 +896,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 10,
-               "description": [
-                   "SUB",
-                   "WATER",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1055,19 +919,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 24,
-               "description": [
-                   "SOUL",
-                   "BURGER",
-                   "COMBO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 8.39,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1081,19 +941,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 35,
-               "description": [
-                   "CASE OF",
-                   "BURGERS",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 65,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1107,19 +963,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 3,
-               "description": [
-                   "SUB",
-                   "POUTINE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 2.5,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1133,19 +985,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 7,
-               "description": [
-                   "SUB",
-                   "ONION ",
-                   "RINS"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0.5,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1159,19 +1007,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 11,
-               "description": [
-                   "SUB",
-                   "CLOESLAW",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1185,19 +1029,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 15,
-               "description": [
-                   "SUB",
-                   "SWEET",
-                   "POTATO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 1.5,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1211,19 +1051,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 19,
-               "description": [
-                   "SUB",
-                   "DILL",
-                   "PICKLE"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1237,19 +1073,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 23,
-               "description": [
-                   "SUB",
-                   "SALAD",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 2,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1263,19 +1095,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 4,
                "position": 0,
-               "description": [
-                   "4oz EGG",
-                   "SOLO",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 6.29,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1289,19 +1117,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 4,
                "position": 8,
-               "description": [
-                   "8oz EGG",
-                   "SOLO",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 8.29,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1315,19 +1139,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 28,
-               "description": [
-                   "GRILL",
-                   "CHICKEN",
-                   "COMBO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 9.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1341,19 +1161,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 4,
                "position": 1,
-               "description": [
-                   "4oz EGG",
-                   "COMBO",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 9.29,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1367,19 +1183,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 4,
                "position": 5,
-               "description": [
-                   "6oz EGG",
-                   "COMBO",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 10.29,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1393,19 +1205,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 4,
                "position": 9,
-               "description": [
-                   "8oz EGG",
-                   "COMBO",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 11.29,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1419,19 +1227,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 34,
-               "description": [
-                   "NO",
-                   "PEAMEAL",
-                   "BACON"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1445,19 +1249,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 4,
                "position": 2,
-               "description": [
-                   "POUTINE",
-                   "SPECIAL",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 4.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1471,19 +1271,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 4,
                "position": 3,
-               "description": [
-                   "6oz ",
-                   "MULT SPORT",
-                   "COMBO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 5.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1497,19 +1293,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 4,
                "position": 7,
-               "description": [
-                   "WAGJAG 4oz",
-                   "SIGNATURE",
-                   "COMBO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0.01,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1523,19 +1315,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 4,
                "position": 11,
-               "description": [
-                   "6oz FREE",
-                   "SOLO",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1549,19 +1337,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 4,
                "position": 15,
-               "description": [
-                   "RELAY",
-                   "FOR LIFE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 4.78,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1575,19 +1359,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 2,
-               "description": [
-                   "DIPPING",
-                   "SAUCE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0.59,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1602,19 +1382,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 32,
-               "description": [
-                   "CAJUN",
-                   "CHICKEN",
-                   "COMBO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 9.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1628,19 +1404,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 32,
-               "description": [
-                   "VEGGIE",
-                   "GRAVY",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0.79,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": false,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1654,19 +1426,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 31,
-               "description": [
-                   "WELL",
-                   "DONE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1680,19 +1448,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 4,
                "position": 16,
-               "description": [
-                   "ICE CREAM",
-                   "CONE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 1.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1706,19 +1470,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 4,
                "position": 20,
-               "description": [
-                   "COKE",
-                   "FLOAT",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 2.49,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1732,19 +1492,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 4,
                "position": 24,
-               "description": [
-                   "CHOCOLATE",
-                   "SUNDAY",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 2.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1758,19 +1514,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 4,
                "position": 28,
-               "description": [
-                   "CARAMEL",
-                   "SUNDAY",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 2.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1784,19 +1536,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 3,
                "position": 27,
-               "description": [
-                   "ADD",
-                   "BURGER",
-                   "PATTIE"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 3.5,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1810,19 +1558,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 1,
-               "description": [
-                   "SALMON",
-                   "SUPREME",
-                   "COMBO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 10.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1836,19 +1580,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 5,
-               "description": [
-                   "CHICKEN",
-                   "DELUXE",
-                   "COMBO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 11.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1862,19 +1602,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 9,
-               "description": [
-                   "TURKEY",
-                   "FIESTA",
-                   "COMBO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 10.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1888,19 +1624,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 13,
-               "description": [
-                   "STEAK",
-                   "SANDWICH",
-                   "COMBO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 12.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1914,19 +1646,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 15,
-               "description": [
-                   "SALMON",
-                   "BURGER",
-                   "SOLO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 6.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1940,19 +1668,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 21,
-               "description": [
-                   "TURKEY",
-                   "BURGER",
-                   "COMBO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 9.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1966,19 +1690,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 2,
-               "description": [
-                   "Hero ",
-                   "BURGER 4oz",
-                   "SOLO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 4.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -1992,19 +1712,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 3,
-               "description": [
-                   "HERO",
-                   "HOT DOG",
-                   "SOLO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 4.29,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2018,19 +1734,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 10,
-               "description": [
-                   "HERO",
-                   "BURGER 8oz",
-                   "SOLO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 6.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2044,19 +1756,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 7,
-               "description": [
-                   "GRILLED",
-                   "CHICKEN",
-                   "SOLO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 6.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2070,19 +1778,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 11,
-               "description": [
-                   "CAJUN",
-                   "CHICKEN",
-                   "SOLO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 6.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2096,19 +1800,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 14,
-               "description": [
-                   "SIGNATURE",
-                   "6oz",
-                   "SOLO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 6.98,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2122,19 +1822,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 18,
-               "description": [
-                   "SOUL",
-                   "BURGER",
-                   "SOLO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 5.39,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2148,19 +1844,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 19,
-               "description": [
-                   "TURKEY",
-                   "BURGER",
-                   "SOLO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 6.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2174,19 +1866,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 25,
-               "description": [
-                   "STEAK",
-                   "SANDWICH",
-                   "COMBO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 11.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2200,19 +1888,15 @@ var sample_terminal ={
                "color": "153,255,153",
                "screen": 0,
                "position": 0,
-               "description": [
-                   "KETCHUP",
-                   "",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": true,
@@ -2226,19 +1910,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 23,
-               "description": [
-                   "SALMON",
-                   "SUPREME",
-                   "SOLO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2252,19 +1932,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 27,
-               "description": [
-                   "CHICKEN",
-                   "DELUXE",
-                   "SOLO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 8.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2278,19 +1954,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 31,
-               "description": [
-                   "SALMON",
-                   "SALAD",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 7.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": true,
@@ -2304,19 +1976,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 22,
-               "description": [
-                   "STEAK",
-                   "SADWICH",
-                   "SOLO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 9.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2330,19 +1998,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 2,
                "position": 0,
-               "description": [
-                   "SMOKED",
-                   "PROVOLONE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 1.29,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2356,19 +2020,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 2,
                "position": 1,
-               "description": [
-                   "PEAMEAL",
-                   "BACON",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2382,19 +2042,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 2,
                "position": 4,
-               "description": [
-                   "SWISS",
-                   "EMMENTHAL",
-                   "CHEESE"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 1.29,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": false,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2408,19 +2064,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 2,
                "position": 8,
-               "description": [
-                   "GOAT",
-                   "CHEESE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 1.29,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2434,19 +2086,15 @@ var sample_terminal ={
                "color": "153,255,153",
                "screen": 0,
                "position": 0,
-               "description": [
-                   "KETCHUP",
-                   "",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": true,
@@ -2460,19 +2108,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 2,
                "position": 12,
-               "description": [
-                   "CHEDDAR",
-                   "CHEESE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2486,19 +2130,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 2,
                "position": 5,
-               "description": [
-                   "PORTO",
-                   "BELLA",
-                   "MUSHROOMS"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2512,19 +2152,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 2,
                "position": 9,
-               "description": [
-                   "GUACOMOLE",
-                   "",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2538,19 +2174,15 @@ var sample_terminal ={
                "color": "153,255,153",
                "screen": 0,
                "position": 6,
-               "description": [
-                   "HOT",
-                   "SAUCE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2564,19 +2196,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 33,
-               "description": [
-                   "GREEN",
-                   "SALAD",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 4.29,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2590,19 +2218,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 34,
-               "description": [
-                   "CHICKEN",
-                   "SALAD",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 8.79,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2616,19 +2240,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 35,
-               "description": [
-                   "SAME AS",
-                   "ABOV",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 2.9,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2642,19 +2262,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 4,
-               "description": [
-                   "MUSTARD",
-                   "",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2668,19 +2284,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 4,
-               "description": [
-                   "MUSTARD",
-                   "",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2694,19 +2306,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 8,
-               "description": [
-                   "MAYO",
-                   "",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2720,19 +2328,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 12,
-               "description": [
-                   "RELISH",
-                   "",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2746,19 +2350,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 12,
-               "description": [
-                   "RELISH",
-                   "",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2772,19 +2372,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 6,
-               "description": [
-                   "HERO",
-                   "BURGER 6oz",
-                   "SOLO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 5.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2798,19 +2394,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 16,
-               "description": [
-                   "ZUCCHINI",
-                   "RELISH",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2824,19 +2416,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 20,
-               "description": [
-                   "RED",
-                   "ONION",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2850,19 +2438,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 24,
-               "description": [
-                   "TOMATOES",
-                   "",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2876,19 +2460,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 28,
-               "description": [
-                   "JALAPENOS",
-                   "",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2902,19 +2482,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 1,
-               "description": [
-                   "LETTUCE",
-                   "",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2928,19 +2504,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 5,
-               "description": [
-                   "SLICED",
-                   "PICKELS",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": true,
@@ -2954,19 +2526,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 9,
-               "description": [
-                   "NO ",
-                   "RELISH",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -2980,19 +2548,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 13,
-               "description": [
-                   "NO",
-                   "ONION",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3006,19 +2570,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 17,
-               "description": [
-                   "NO",
-                   "TOMATO",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3032,19 +2592,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 21,
-               "description": [
-                   "NO",
-                   "MAYO",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3058,19 +2614,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 17,
-               "description": [
-                   "CHICKEN",
-                   "DELUXE",
-                   "COMBO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 11.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3084,19 +2636,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 25,
-               "description": [
-                   "NO WHIP",
-                   "CREAM",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3110,19 +2658,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 32,
-               "description": [
-                   "WELL",
-                   "DONE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3136,19 +2680,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 33,
-               "description": [
-                   "WELL DONE",
-                   "FRIES",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3162,19 +2702,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 29,
-               "description": [
-                   "NO HERO",
-                   "SAUCE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3188,19 +2724,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 2,
-               "description": [
-                   "MAPLE",
-                   "CHIPTOLE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3214,19 +2746,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 10,
-               "description": [
-                   "ANCHO",
-                   "CHIPTOLE",
-                   "SAUCE"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3240,19 +2768,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 14,
-               "description": [
-                   "HORSE",
-                   "RADISH",
-                   "DIJON"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3266,19 +2790,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 18,
-               "description": [
-                   "CREAMY",
-                   "HONEY",
-                   "DIJON"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3292,19 +2812,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 22,
-               "description": [
-                   "ON THE TOP",
-                   "COLESLAW",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0.79,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3318,19 +2834,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 3,
-               "description": [
-                   "TO",
-                   "STAY",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3344,19 +2856,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 4,
-               "description": [
-                   "HERO",
-                   "BURGER 6oz",
-                   "COMBO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 8.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3370,19 +2878,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 7,
-               "description": [
-                   "TO GO",
-                   "",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3396,19 +2900,15 @@ var sample_terminal ={
                "color": "102,102,0",
                "screen": 0,
                "position": 11,
-               "description": [
-                   "IN 10",
-                   "MINUTES",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3422,19 +2922,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 15,
-               "description": [
-                   "WHOLE",
-                   "WHEAT BUN",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3449,19 +2945,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 19,
-               "description": [
-                   "GLUTEN",
-                   "FREE",
-                   "BUN"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0.79,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3475,19 +2967,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 23,
-               "description": [
-                   "CIABATTA",
-                   "BUN",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0.49,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3501,19 +2989,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 27,
-               "description": [
-                   "FLAT",
-                   "BREAD",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": true,
@@ -3527,19 +3011,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 31,
-               "description": [
-                   "NO",
-                   "BUN",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3553,19 +3033,15 @@ var sample_terminal ={
                "color": "0,153,51",
                "screen": 0,
                "position": 35,
-               "description": [
-                   "CUT IN",
-                   "HALF",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3579,19 +3055,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 30,
-               "description": [
-                   "BALSAMIC",
-                   "DRESSING",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3605,19 +3077,15 @@ var sample_terminal ={
                "color": "",
                "screen": 0,
                "position": 26,
-               "description": [
-                   "ON THE",
-                   "SIDE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3632,19 +3100,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 8,
-               "description": [
-                   "HERO",
-                   "BURGER 8oz",
-                   "COMBO"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 9.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3658,19 +3122,15 @@ var sample_terminal ={
                "color": "",
                "screen": 0,
                "position": 30,
-               "description": [
-                   "EASY",
-                   "PLEASE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": false,
-                   "tax2": false,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3684,19 +3144,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 2,
                "position": 16,
-               "description": [
-                   "BRIE",
-                   "CHEESE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 1.29,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3710,19 +3166,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 2,
                "position": 20,
-               "description": [
-                   "BLUE",
-                   "CHEESE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 1.29,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3736,19 +3188,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 2,
                "position": 24,
-               "description": [
-                   "GORGONSOLA",
-                   "CHEESE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 1.29,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3762,19 +3210,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 2,
                "position": 13,
-               "description": [
-                   "FIRE",
-                   "ROASTED",
-                   "PEPPERS"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3788,19 +3232,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 2,
                "position": 17,
-               "description": [
-                   "CRISPY",
-                   "ONINOS",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0.79,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3814,19 +3254,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 2,
                "position": 21,
-               "description": [
-                   "CRANBERRY",
-                   "SAUCE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0.79,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3840,19 +3276,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 2,
                "position": 25,
-               "description": [
-                   "MANGO",
-                   "SAUCE",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 0.79,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3867,19 +3299,15 @@ var sample_terminal ={
                "color": "153,255,0",
                "screen": 4,
                "position": 35,
-               "description": [
-                   "COMBO",
-                   "FRY",
-                   "CHICKEN"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 9.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3894,19 +3322,15 @@ var sample_terminal ={
                "color": "153,153,0",
                "screen": 4,
                "position": 34,
-               "description": [
-                   "WORKING",
-                   "PEACE",
-                   "NOW"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 9.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3921,19 +3345,15 @@ var sample_terminal ={
                "color": "102,204,0",
                "screen": 4,
                "position": 33,
-               "description": [
-                   "WORKING",
-                   "LIVING",
-                   "PEACE"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 4.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3948,19 +3368,15 @@ var sample_terminal ={
                "color": "102,204,0",
                "screen": 4,
                "position": 33,
-               "description": [
-                   "WORKING",
-                   "LIVING",
-                   "PEACE"
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 4.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -3975,19 +3391,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 4,
                "position": 21,
-               "description": [
-                   "Rootbeer",
-                   "Float",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 2.49,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -4002,19 +3414,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 4,
                "position": 25,
-               "description": [
-                   "Add",
-                   "Ice Cream",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 1.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": true,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -4029,19 +3437,15 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 4,
                "position": 31,
-               "description": [
-                   "Double",
-                   "Sunday",
-                   ""
-               ]
+               "description" : [" ", " ", " "]
            },
            "foodItem": {
-               "price": 4.99,
+               "price" : 0,
                "apply_taxes": {
                    "exemption": false,
-                   "tax1": true,
-                   "tax2": true,
-                   "tax3": false
+                   "tax1" : true,
+                   "tax2" : true,
+                   "tax3" : false
                },
                "use_scale": false,
                "print_to_kitchen": false,
@@ -4065,4 +3469,4 @@ var sample_terminal ={
        ],
        "convert_percentage": 0
    }
-}
+};
