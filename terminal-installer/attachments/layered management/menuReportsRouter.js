@@ -51,7 +51,7 @@ var menuReportsView =
 	 },
 	 renderMenuReportsCompany: function() {
 	     var html = ich.menuReports_TMP({startPage:"companyReport", 
-	     							breadCrumb:breadCrumb(ReportData.company.operationalname)});
+	     							breadCrumb:breadCrumb(ReportData.company.companyName)});
 	     $(this.el).html(html);
 	     console.log("renderMenuReportsCompany");	
 	 },

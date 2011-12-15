@@ -28,7 +28,7 @@ ddoc.views.user_pass = {
 	var _ = require("views/lib/underscore");
 	require("views/lib/underscore_extended");
 	
-	var opName = doc.operationalname.toLowerCase();
+	var opName = doc.companyName.toLowerCase();
 	var user = doc.user;
 	var pass = doc.password;
 	var compID = doc._id;

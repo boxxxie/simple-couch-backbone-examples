@@ -49,7 +49,7 @@ var menuReportsSalesSummaryView =
 	 renderMenuReportsCompanySales: function() {
 	     
 	     var html = ich.salesSummaryReports_TMP({startPage:"companyReport", 
-	     					     breadCrumb:breadCrumb(ReportData.company.operationalname)});
+	     					     breadCrumb:breadCrumb(ReportData.company.companyName)});
 	     $(this.el).html(html);
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )

@@ -153,11 +153,11 @@ var storeReportHowAreWeTodayView =
 function renderHowAreWeGroupsTable(view, startPage) {
 	var groups = ReportData.company.hierarchy.groups;
 	var newGroups = _(_.clone(groups)).map(function(group){ return {id:group.group_id, name:group.groupName}});
-	var parent_id = {id:ReportData.company._id, name:ReportData.company.operationalname};
+	var parent_id = {id:ReportData.company._id, name:ReportData.company.companyName};
 	howAreWeDoingTodayReportFetcher(newGroups,parent_id,function(for_TMP){
 		var param = _.extend(for_TMP, {
 			startPage:startPage,
-			breadCrumb : breadCrumb(ReportData.company.operationalname),
+			breadCrumb : breadCrumb(ReportData.company.companyName),
 		});
 		_.map(param.items, function(item) {
 			return _.extend(item,{linkaddress:"#menuReports/".concat(startPage)
@@ -184,7 +184,7 @@ function renderHowAreWeStoresTable(view, startPage, group_id) {
 		var group = _.find(ReportData.company.hierarchy.groups, function(group){return group.group_id==group_id});
 		parent_id = {id:group.group_id, name:group.groupName};
 		stores = group.stores;
-		breadcrumb = breadCrumb(ReportData.company.operationalname,group.groupName); 
+		breadcrumb = breadCrumb(ReportData.company.companyName,group.groupName); 
 	}
 	
 	var newStores = _(_.clone(stores)).map(function(store){ return {id:store.store_id, 
@@ -231,7 +231,7 @@ function renderHowAreWeTerminalsTable(view, startPage, store_id) {
 			var store = _.find(stores, function(store){return store.store_id==store_id});
 			parent_id = {id:store.store_id, name:store.storeName};
 			terminals = store.terminals;
-			breadcrumb = breadCrumb(ReportData.company.operationalname,group.groupName,store.storeName); 
+			breadcrumb = breadCrumb(ReportData.company.companyName,group.groupName,store.storeName); 
 		} else if(!_.isEmpty(ReportData.group)) {
 			var stores = ReportData.group.stores;
 			var store = _.find(stores, function(store){return store.store_id==store_id});
