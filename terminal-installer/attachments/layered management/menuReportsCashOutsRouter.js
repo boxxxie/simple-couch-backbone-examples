@@ -47,6 +47,8 @@ var menuReportsCashOutsView =
 				 }
 			     });
 	     
+	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
+		$("#dateTo").datepicker("setDate", new Date());
 	     console.log("rendered general report");
 	 }
 	});
