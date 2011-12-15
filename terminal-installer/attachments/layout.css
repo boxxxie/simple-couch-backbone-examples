@@ -103,3 +103,12 @@ input {
 	background-position: center top;
 	background-attachment: fixed;
 }
+
+.installListItem
+{
+  border: solid 1px gray;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  padding: 5px;
+  margin: 5px;
+}

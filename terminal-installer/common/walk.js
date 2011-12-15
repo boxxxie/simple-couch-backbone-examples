@@ -1,6 +1,6 @@
 
 //relies on underscore lib
-const _ = require("views/lib/underscore");
+var _ = require("views/lib/underscore");
 
 function walkDemo(o){
     console.log(o);

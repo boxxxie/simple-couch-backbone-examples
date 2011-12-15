@@ -3,6 +3,24 @@ path = require('path');
 
 ddoc = { _id:'_design/app'};
 
+ddoc.rewrites = [
+    {"from": "downloads", "to": "posdownload\/downloads.html"},
+    {"from": "admin", "to": "login.html"},
+    {"from": "login", "to": "layered management/report.html"},
+    {"from": "terminals_rt7", "to": "../../../terminals_rt7"},
+    {"from": "terminals_corp", "to": "../../../terminals_corp"},
+    {"from": "cashouts/*", "to": "../../../cashouts/*"},
+    {"from": "transactions/*", "to": "../../../transactions/*"},
+    {from:"/", to:'index.html'},
+    {from:"/api", to:'../../'},
+    {from:"/api/*", to:'../../*'},
+    {from:"/*", to:'*'}
+
+];
+
+
+
+
 ddoc.views = {};
 
 ddoc.views.user_pass = {
@@ -10,22 +28,22 @@ ddoc.views.user_pass = {
 	var _ = require("views/lib/underscore");
 	require("views/lib/underscore_extended");
 	
-	const opName = doc.operationalname.toLowerCase();
-	const user = doc.user;
-	const pass = doc.password;
-	const compID = doc._id;
+	var opName = doc.operationalname.toLowerCase();
+	var user = doc.user;
+	var pass = doc.password;
+	var compID = doc._id;
 
 	emit({company:opName,user:user,password:pass},{company:compID});
 	
 	doc.hierarchy.groups
 	    .forEach(function(group){
-			 const gpName = group.groupName.toLowerCase();
-			 const gpID = group.group_id;
+			 var gpName = group.groupName.toLowerCase();
+			 var gpID = group.group_id;
 			 emit({company:opName,group:gpName,user:group.user,password:group.password},{company:compID,group:gpID});
 			 
 			 group.stores
 			     .forEach(function(store){
-					  const sName = store.storeName.toLowerCase();
+					  var sName = store.storeName.toLowerCase();
 					  emit({company:opName,group:gpName,store:sName,user:store.user,password:store.password},{company:compID,group:gpID,store:store.store_id});
 				      });
 		     });
@@ -37,7 +55,7 @@ ddoc.views.receipt_id = {
     map:function(doc){
 
 	var _ = require("views/lib/underscore");
-	const walk = require("views/lib/walk").walk;
+	var walk = require("views/lib/walk").walk;
 	function emit_receipt_id(item){
 	    if(!_.isEmpty(item.receipt_id)){
 		emit(item.receipt_id,1);
@@ -52,7 +70,7 @@ ddoc.views.receipt_id = {
 
 ddoc.shows = {
     branch:function(doc,req){
-	const args = req.query;
+	var args = req.query;
 	var _ = require("views/lib/underscore");
 	function getGroups(){return doc.hierarchy.groups;};
 	function getGroup(groupID){return _.find(getGroups(),function(group){ return group.group_id == groupID;});};
@@ -61,16 +79,16 @@ ddoc.shows = {
 
 	if(_.isEmpty(args.group)&&_.isEmpty(args.store)){return JSON.stringify(doc);}
 	
-	const groupID = args.group;
+	var groupID = args.group;
 	if(_.isEmpty(groupID)){throw (['error', 'no_group_id', "The group ID wasn't given"]);}
 
-	const group = getGroup(groupID);
+	var group = getGroup(groupID);
 	if(_.isEmpty(group)){throw (['error', 'no_group', "The group wasn't found in this company"]);}
 
-	const storeID = args.store;
+	var storeID = args.store;
 	if(_.isEmpty(storeID)){	return JSON.stringify(group);}
 	
-	const store = getStore(groupID,storeID);
+	var store = getStore(groupID,storeID);
 	if(_.isEmpty(store)){throw (['error', 'no_store', "The store wasn't found in this company/group"]);}
 
 	

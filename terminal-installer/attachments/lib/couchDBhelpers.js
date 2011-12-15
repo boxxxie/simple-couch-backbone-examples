@@ -1,5 +1,5 @@
 var cdb = {
-    db:function(name){return $.couch.db(name);},
+    db:function(name,ops,dont_encode){return $.couch.db("_rewrite\/"+name,ops,dont_encode);},
 
     view:function(designDoc,name){return designDoc + "/" + name;}
  
@@ -8,8 +8,8 @@ var cdb = {
 function db(name){return $.couch.db(name);};
 
 function view(designDoc,name){return designDoc + "/" + name;};
-function appView(name){return view('app',name);};
-function appShow(name){return view('app',name);};
+function appView(name){return cdb.view('app',name);};
+function appShow(name){return cdb.view('app',name);};
 
 function query(options, view, database){
     return function(callback){
@@ -64,7 +64,8 @@ function extractKeys(data){
 };
 
 function extractKeysArr(data){
-    return _(data.rows).chain()
+    return _(data.rows)
+	.chain()
 	.pluck('key')
 	.flatten()
 	.value();
