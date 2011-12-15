@@ -3,6 +3,23 @@ path = require('path');
 
 ddoc = { _id:'_design/app'};
 
+ddoc.rewrites = [
+    {"from": "downloads", "to": "posdownload\/downloads.html"},
+    {"from": "login", "to": "login.html"},
+    {"from": "terminals_rt7", "to": "../../../terminals_rt7"},
+    {"from": "terminals_corp", "to": "../../../terminals_corp"},
+    {"from": "cashouts/*", "to": "../../../cashouts/*"},
+    {"from": "transactions/*", "to": "../../../transactions/*"},
+    {from:"/", to:'index.html'},
+    {from:"/api", to:'../../'},
+    {from:"/api/*", to:'../../*'},
+    {from:"/*", to:'*'}
+
+];
+
+
+
+
 ddoc.views = {};
 
 ddoc.views.user_pass = {

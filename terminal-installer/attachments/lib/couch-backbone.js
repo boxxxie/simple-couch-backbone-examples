@@ -33,7 +33,7 @@ var couchCollection = function(couch,options){
     var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
     return Backbone.Collection.extend(
 	_.extend(options,
-		 {url:urlBase + couch.db,
+		 {url:urlBase + "/_rewrite/api/",// + couch.db,
 		  parse: function(response) {
 		      return _(response.rows)
 			  .chain()
@@ -43,7 +43,7 @@ var couchCollection = function(couch,options){
 		  },
 		  fetch:function(options){
 		      options || (options = {});
-		      var fetch_options = _.extend(options,{url:this.url+"/_all_docs", data:{include_docs:true}});
+		      var fetch_options = _.extend(options,{url:this.url +"_all_docs", data:{include_docs:true}});
 		      Backbone.Collection.prototype.fetch.call(this,fetch_options);
 		  }
 		 }));

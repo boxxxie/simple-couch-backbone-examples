@@ -409,7 +409,7 @@ function TerminalInputDialog (attachTo,options) {
 	 modal: true,
 	 close: function() {
 	     if(options.clearOnExit) {
-		 allFields.val("").removeClass(genericClassError);
+		 allFields.val("").removeClass(genericErrorClass);
 		 allFields.filter("input:checked").attr("checked",false);
 	     }
 	 },

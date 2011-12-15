@@ -280,7 +280,7 @@
 		   *});
 		   * </code></pre>
 		   */
-		  db: function(name, db_opts) {
+		  db: function(name, db_opts,dont_encode) {
 		      db_opts = db_opts || {};
 		      var rawDocs = {};
 		      function maybeApplyVersion(doc) {
@@ -301,9 +301,15 @@
 			      }
 			  }
 		      };
+		      if(dont_encode){
+			  var uri = this.urlPrefix + "/" + name + "/";
+		      }
+		      else{
+			  var uri = this.urlPrefix + "/" + encodeURIComponent(name) + "/";
+		      }
 		      return /** @lends $.couch.db */{
 			  name: name,
-			  uri: this.urlPrefix + "/" + encodeURIComponent(name) + "/",
+			  uri: uri,
 
 			  /**
 			   * Request compaction of the specified database.
@@ -554,32 +560,32 @@
 			      options = options || {};
 			      var self = this;
 			      if (options.eachApp) {
-				  this.allDesignDocs({
-							 success: function(resp) {
-							     $.each(resp.rows, function() {
-									self.openDoc(this.id, {
-											 success: function(ddoc) {
-											     var index, appPath, appName = ddoc._id.split('/');
-											     appName.shift();
-											     appName = appName.join('/');
-											     index = ddoc.couchapp && ddoc.couchapp.index;
-											     if (index) {
-												 appPath = ['', name, ddoc._id, index].join('/');
-											     } else if (ddoc._attachments &&
-													ddoc._attachments["index.html"]) {
-												 appPath = ['', name, ddoc._id, "index.html"].join('/');
-											     }
-											     if (appPath) options.eachApp(appName, appPath, ddoc);
-											 }
-										     });
-								    });
-							 }
-						     });
+				  this.allDesignDocs(
+				      {success: function(resp) {
+					   $.each(resp.rows, function() {
+						      self.openDoc(this.id, 
+								   {success: function(ddoc) {
+									var index, appPath, appName = ddoc._id.split('/');
+									appName.shift();
+									appName = appName.join('/');
+									index = ddoc.couchapp && ddoc.couchapp.index;
+									if (index) {
+									    appPath = ['', name, ddoc._id, index].join('/');
+									} else if (ddoc._attachments &&
+										   ddoc._attachments["index.html"]) {
+									    appPath = ['', name, ddoc._id, "index.html"].join('/');
+									}
+									if (appPath) options.eachApp(appName, appPath, ddoc);
+								    }
+								   });
+						  });
+				       }
+				      });
 			      } else {
 				  alert("Please provide an eachApp function for allApps()");
 			      }
 			  },
-
+			  
 			  /**
 			   * Returns the specified doc from the specified db.
 			   * @see <a href="http://techzone.couchbase.com/sites/default/files/

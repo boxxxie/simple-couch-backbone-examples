@@ -200,10 +200,8 @@ function renderSalesSummaryReportTable() {
     if(!_.isEmpty($("#dateFrom").val()) && !_.isEmpty($("#dateTo").val())) {
 	var startDate = new Date($("#dateFrom").val());
 	var endDate = new Date($("#dateTo").val());
-	
-	if(startDate.equals(endDate)) {
-	    endDate.addDays(1);
-	}
+	var endDateForQuery = new Date($("#dateTo").val());
+    endDateForQuery.addDays(1);
 	
 	var ids = [];
 	
@@ -215,7 +213,7 @@ function renderSalesSummaryReportTable() {
 	
 	//TODO : args need to be changed ; children ids, parent id, startData, endData, callback
 	//		 so that this function will give back list items and total info
-	cashoutFetcher_Period(ids,startDate,endDate,
+	cashoutFetcher_Period(ids,startDate,endDateForQuery,
 		      function(a,for_TMP){
 	      		  console.log(for_TMP);
 	      		  var data_TMP = extractSalesSummaryTableInfo(for_TMP);

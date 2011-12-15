@@ -48,7 +48,7 @@ function login() {
     console.log("login_key");
     console.log(login_key);
     
-    var db_install = db("install");
+    var db_install = cdb.db("api",{},true);
     var user_passwordView = appView("user_pass");
     var branch_show = appShow("branch");
 

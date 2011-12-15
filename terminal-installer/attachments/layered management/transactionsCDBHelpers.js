@@ -689,14 +689,14 @@ function todaysSalesArrayFetcher(view,db,ids,runAfter){
 
 function transactionsSalesFetcher(ids,callback){
     var transactionsView = cdb.view('reporting','netsaleactivity');
-    var transaction_db = cdb.db('cashouts');
+    var transaction_db = cdb.db('cashouts',{},true);
     if(!_.isArray(ids)){ids = [ids];}
     return generalSalesReportArrayFetcher(transactionsView,transaction_db,ids,callback);
 };
 
 function cashoutFetcher(ids,callback){
     var transactionsView = cdb.view('reporting','cashouts_id_date');
-    var transaction_db = cdb.db('cashouts');
+    var transaction_db = cdb.db('cashouts',{},true);
     if(!_.isArray(ids)){
 	return generalCashoutReportFetcher(transactionsView,transaction_db,ids,callback);
     }
@@ -707,7 +707,7 @@ function cashoutFetcher(ids,callback){
 
 function cashoutFetcher_Period(ids,startDate,endDate,callback){
     var transactionsView = cdb.view('reporting','cashouts_id_date');
-    var transaction_db = cdb.db('cashouts');
+    var transaction_db = cdb.db('cashouts',{},true);
     if(!_.isArray(ids)){
 	return generalCashoutFetcher_Period(transactionsView,transaction_db,ids,startDate,endDate,callback);
     }
@@ -722,7 +722,7 @@ function howAreWeDoingTodayReportFetcher(childrenObjs,parentObj,runAfter){
 
     var transactionsView = cdb.view('reporting','id_type_origin_date');
     var transactionsTotalView = cdb.view('reporting','id_type_date');
-    var transaction_db = cdb.db('transactions');
+    var transaction_db = cdb.db('transactions',{},true);
     if(!_.isArray(childrenIDs)){childrenIDs = [childrenIDs];} 
     if(!_.isArray(parentID)){parentID = [parentID];}
 
@@ -753,7 +753,7 @@ function howAreWeDoingTodayTerminalReportFetcher(childrenObjs,parentObj,runAfter
     var parentID = parentObj.id;
 
     var transactionsTotalView = cdb.view('reporting','id_type_date');
-    var transaction_db = cdb.db('transactions');
+    var transaction_db = cdb.db('transactions',{},true);
 
     async
 	.parallel({
@@ -769,7 +769,7 @@ function howAreWeDoingTodayTerminalReportFetcher(childrenObjs,parentObj,runAfter
 function hourlyReportFetcher(id,runAfter){
     var transactionsView = cdb.view('reporting','id_type_origin_date');
     var transactionsTotalView = cdb.view('reporting','id_type_date');
-    var transaction_db = cdb.db('transactions');
+    var transaction_db = cdb.db('transactions',{},true);
     async
 	.parallel(
 	    {originSales:function(callback){originTodaysHourlySalesFetcher(transactionsView,transaction_db,id,function(err,data){callback(null, data);});},
@@ -794,7 +794,7 @@ function hourlyReportFetcher(id,runAfter){
 
 function taxReportFetcher(terminals,startDate,endDate,callback){
     var transactionsView = cdb.view('reporting','cashouts_id_date');
-    var transaction_db = cdb.db('cashouts');
+    var transaction_db = cdb.db('cashouts',{},true);
 
     function resultFetcher(terminals,callback){
     	return function(err,cashoutData){
@@ -833,7 +833,7 @@ function taxReportFetcher(terminals,startDate,endDate,callback){
 
 function taxReportTransactionsFetcher(terminal,startIndex,endIndex,callback){
     var view = cdb.view('reporting','terminalID_index');
-    var db = cdb.db('transactions');
+    var db = cdb.db('transactions',{},true);
 
     function resultFetcher(terminal,callback){
     	return function(transactions){

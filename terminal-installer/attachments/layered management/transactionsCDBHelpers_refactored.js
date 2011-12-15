@@ -53,7 +53,7 @@ function extractDocs(parallelFunctionsArray){
 
 function canceledTransactionsIndexRangeFetcher_F(id){
     var view = cdb.view('reporting','terminalID_type_index');
-    var db = cdb.db('transactions');
+    var db = cdb.db('transactions',{},true);
     return function(startIndex,endIndex){
 	var voids = _async.transactionRangeQuery(startIndex,endIndex)(view,db,[id,"VOID"]);
 	var voidRefunds = _async.transactionRangeQuery(startIndex,endIndex)(view,db,[id,"VOIDREFUND"]);
@@ -62,7 +62,7 @@ function canceledTransactionsIndexRangeFetcher_F(id){
 }
 function discountTransactionsIndexRangeFetcher_F(id){
     var view = cdb.view('reporting','Discounts_terminalID_type_index');
-    var db = cdb.db('transactions');
+    var db = cdb.db('transactions',{},true);
     return function(startIndex,endIndex){
 	var sales = _async.transactionRangeQuery(startIndex,endIndex)(view,db,[id,"SALE"]);
 	return extractDocs([sales]);
@@ -71,7 +71,7 @@ function discountTransactionsIndexRangeFetcher_F(id){
 
 function refundTransactionsIndexRangeFetcher_F(id){
     var view = cdb.view('reporting','terminalID_type_index');
-    var db = cdb.db('transactions');
+    var db = cdb.db('transactions',{},true);
     return function(startIndex,endIndex){
 	var refunds = _async.transactionRangeQuery(startIndex,endIndex)(view,db,[id,"REFUND"]);
 	return extractDocs([refunds]);
@@ -79,7 +79,7 @@ function refundTransactionsIndexRangeFetcher_F(id){
 };
 function generalCashoutListFetcher_Period_F(startDate,endDate){
     var view = cdb.view('reporting','cashouts_id_date');
-    var db = cdb.db('cashouts');
+    var db = cdb.db('cashouts',{},true);
     return function(id){
 	var dateStart = date.toArray.until.day(startDate);
 	var dateEnd = date.toArray.until.day(endDate);
@@ -89,7 +89,7 @@ function generalCashoutListFetcher_Period_F(startDate,endDate){
 };
 function generalCashoutFetcher_Period_F(startDate,endDate){
     var view = cdb.view('reporting','cashouts_id_date');
-    var db = cdb.db('cashouts');
+    var db = cdb.db('cashouts',{},true);
     return function(id){
 	return function(callback){
 	    
