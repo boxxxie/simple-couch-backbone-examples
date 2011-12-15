@@ -72,8 +72,15 @@ function renderDiscountsTable() {
 		
 		data_TMP=_.map(data_TMP, function(item){
 			var item = _.clone(item);
-			item.time.start=(new Date(item.time.start)).toString("yyyy/MM/dd-HH:mm:ss");
-			item.transactionNumber += "";
+			//item.time.start=(new Date(item.time.start)).toString("yyyy/MM/dd-HH:mm:ss");
+			var t = new Date(item.time.start);
+			item.processday = _(t.toDateString().split(' ')).chain().rest().join(' ').value();
+			item.processtime = t.toString("h:mm").concat(t.getHours()>=12?" PM":" AM");
+			item.transactionNumber = item.receipt_id+"-"+item.transactionNumber;
+			if(item.type=="SALE") {item.type="SALE RECEIPT"}
+			else if(item.type=="REFUND") {item.type="REFUND RECEIPT"}
+			else if(item.type=="VOID") {item.type="SALE RECEIPT - VOIDED"}
+			else if(item.type=="VOIDREFUND") {item.type="REFUND RECEIPT - VOIDED"}
 			item.totaldiscount = item.discount;
 			return item;
 		});
@@ -83,7 +90,7 @@ function renderDiscountsTable() {
 					obj.discount=null;
 				}
 				if(obj && obj.quantity){
-					obj.amount = (obj.price * obj.quantity).toFixed(2);
+					obj.orderamount = (obj.price * obj.quantity).toFixed(2);
 					obj.quantity+="";
 				}
 				return toFixed(2)(obj);

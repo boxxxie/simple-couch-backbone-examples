@@ -234,7 +234,7 @@ function refundTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
     };
 };
 function discountTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
-
+	
     function processTransactions(terminals,callback){
     	return function(err,transactions){
 	    function startTime(transaction){return (new Date(transaction.time.start)).getTime();};

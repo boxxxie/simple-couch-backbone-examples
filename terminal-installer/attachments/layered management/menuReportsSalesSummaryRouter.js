@@ -111,6 +111,7 @@ var menuReportsSalesSummaryView =
 				     selectedDates.not( this ).datepicker( "option", option, date );
 				 }
 			     });
+		
 	     
 	     var dropdownGroup = $("#groupsdown");
 	     var dropdownStore = $("#storesdown");

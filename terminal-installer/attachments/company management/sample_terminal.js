@@ -169,13 +169,13 @@ var sample_terminal ={
                "screen": 1,
                "position": 0,
                "description": [
-                   "HERO",
-                   "BURGER 4oz",
-                   "COMBO"
+                   " ",
+                   " ",
+                   " "
                ]
            },
            "foodItem": {
-               "price": 7.99,
+               "price": 0,
                "apply_taxes": {
                    "exemption": false,
                    "tax1": true,
