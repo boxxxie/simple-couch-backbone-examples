@@ -254,7 +254,7 @@ function extractSalesSummaryTableInfo(list) {
     
     function getSummarySales(item) {
     	return {
-				    numberoftransactions:item.noofpayment+item.noofrefund,
+				    numberoftransactions:Number(item.menusalesno)+Number(item.scansalesno)+Number(item.ecrsalesno),
 				    sales:(item.netsales-item.netrefund).toFixed(2),
 				    tax1:(item.netsaletax1-item.netrefundtax1).toFixed(2),
 				    tax3:(item.netsaletax3-item.netrefundtax3).toFixed(2),
