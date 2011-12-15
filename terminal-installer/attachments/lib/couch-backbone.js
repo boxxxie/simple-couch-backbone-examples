@@ -4,7 +4,7 @@ var couchDoc = Backbone.Model.extend(
 	save:function(attrs,options){
 	    function updateRev(model,resp,status){
 		model.set({_rev:status.rev,_id:status.id},{silent: true});
-		return _.removeKeys(resp,['id','rev','ok']); //clean resp so that it doesn't pollute out object
+		return _.removeKeys(resp,['id','rev','ok']); //clean resp so that it doesn't pollute our object
 	    };
 	    options || (options = {});
 	    var model = this;
