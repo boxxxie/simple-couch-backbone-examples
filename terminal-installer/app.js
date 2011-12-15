@@ -5,7 +5,8 @@ ddoc = { _id:'_design/app'};
 
 ddoc.rewrites = [
     {"from": "downloads", "to": "posdownload\/downloads.html"},
-    {"from": "login", "to": "login.html"},
+    {"from": "admin", "to": "login.html"},
+    {"from": "login", "to": "layered management/report.html"},
     {"from": "terminals_rt7", "to": "../../../terminals_rt7"},
     {"from": "terminals_corp", "to": "../../../terminals_corp"},
     {"from": "cashouts/*", "to": "../../../cashouts/*"},
