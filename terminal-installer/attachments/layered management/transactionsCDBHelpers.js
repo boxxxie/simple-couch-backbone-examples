@@ -32,6 +32,10 @@ var ZEROED_FIELDS = {allDiscount: 0,
 		     lastindex:0};
 
 function toFixed(mag){
+function roundNumber(number, decimals) { // Arguments: number to round, number of decimal places
+	var newnumber = new Number(number+'').toFixed(parseInt(decimals));
+	document.roundform.roundedfield.value =  parseFloat(newnumber); // Output the result to the form field (change for your purposes)
+}
     return function(num){
 	if(_.isNumber(num)){
 	    return num.toFixed(mag);
@@ -522,9 +526,9 @@ function generalSalesReportFetcher(view,db,id,runAfter){
 	    },
 	    function(err,report){
 		var sales = {};
-		sales.yesterdaysales= extractTotalSales(report.yesterdaysSales,report.yesterdaysRefunds).toFixed(2);
-		sales.mtdsales = extractTotalSales(report.monthsSales,report.monthsRefunds).toFixed(2);
-		sales.ytdsales = extractTotalSales(report.yearsSales,report.yearsRefunds).toFixed(2);
+		sales.yesterdaysales= toFixed(2)(extractTotalSales(report.yesterdaysSales,report.yesterdaysRefunds));
+		sales.mtdsales = toFixed(2)(extractTotalSales(report.monthsSales,report.monthsRefunds));
+		sales.ytdsales = toFixed(2)(extractTotalSales(report.yearsSales,report.yearsRefunds));
 		runAfter(sales);	  
 	    });
 };
@@ -813,8 +817,8 @@ function taxReportFetcher(terminals,startDate,endDate,callback){
     	return function(err,cashoutData){
 	    function extractTemplateData(extendedCashoutData){
 		function extractTaxTotals(cashout){
-		    var tax1 = (Number(cashout.netsaletax1) -  Number(cashout.netrefundtax1)).toFixed(2);
-		    var tax3 = (Number(cashout.netsaletax3) -  Number(cashout.netrefundtax3)).toFixed(2);
+		    var tax1 = toFixed(2)((Number(cashout.netsaletax1) -  Number(cashout.netrefundtax1)));
+		    var tax3 = toFixed(2)((Number(cashout.netsaletax3) -  Number(cashout.netrefundtax3)));
 		    return {sales : cashout.netsales - cashout.netrefund, totalsales : cashout.netsaleactivity, tax1 :tax1, tax3:tax3, firstindex:cashout.firstindex, lastindex:cashout.lastindex};
 		}
 		return _.extend({},

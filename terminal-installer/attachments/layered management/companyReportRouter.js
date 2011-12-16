@@ -1,11 +1,6 @@
 function log(text){return function(){console.log(text);};};
 function generalReportRenderer(view,param,template,idField){ 
     function generateFormattedSales(sales){
-	function toFixed(mag){
-	    return function(num){
-		return num.toFixed(mag);
-	    };
-	};
 	function safeSum(total,cur){
 	    return total + Number(cur);
 	};

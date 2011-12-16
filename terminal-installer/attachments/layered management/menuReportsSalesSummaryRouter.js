@@ -264,15 +264,15 @@ function extractSalesSummaryTableInfo(list) {
     function getSummarySales(item) {
     	return {
 				    numberoftransactions:Number(item.noofsale),
-				    sales:(item.netsales-item.netrefund).toFixed(2),
-				    tax1:(item.netsaletax1-item.netrefundtax1).toFixed(2),
-				    tax3:(item.netsaletax3-item.netrefundtax3).toFixed(2),
-				    totalsales:(Number(item.netsaleactivity)).toFixed(2),
-				    cash:(item.cashpayment-item.cashrefund).toFixed(2),
-				    credit:(item.creditpayment-item.creditrefund).toFixed(2),
-				    debit:(item.debitpayment-item.debitrefund).toFixed(2),
-				    mobile:(item.mobilepayment-item.mobilerefund).toFixed(2),
-				    other:(item.otherpayment-item.otherrefund).toFixed(2)
+				    sales:toFixed(2)(item.netsales-item.netrefund),
+				    tax1:toFixed(2)(item.netsaletax1-item.netrefundtax1),
+				    tax3:toFixed(2)(item.netsaletax3-item.netrefundtax3),
+				    totalsales:toFixed(2)(Number(item.netsaleactivity)),
+				    cash:toFixed(2)(item.cashpayment-item.cashrefund),
+				    credit:toFixed(2)(item.creditpayment-item.creditrefund),
+				    debit:toFixed(2)(item.debitpayment-item.debitrefund),
+				    mobile:toFixed(2)(item.mobilepayment-item.mobilerefund),
+				    other:toFixed(2)(item.otherpayment-item.otherrefund)
 				};
     };
     
@@ -281,56 +281,56 @@ function extractSalesSummaryTableInfo(list) {
 	var input = _.clone(inputs);
 	var total={};
 	
-	total.totalsales = _(input.list).chain()
+	total.totalsales = toFixed(2)(_(input.list).chain()
 	    .pluck('summary')
 	    .reduce(function(init,item){ return Number(item.sales)+init;},0)
-	    .value()
-	    .toFixed(2);
+	    .value())
+	    ;
 
 	total.totaltransactions=_(input.list).chain()
 	    .pluck('summary')
 	    .reduce(function(init,item){ return Number(item.numberoftransactions)+init;},0)
 	    .value();
-	total.totaltax1 = _(input.list).chain()
+	total.totaltax1 = toFixed(2)(_(input.list).chain()
 	    .pluck('summary')
 	    .reduce(function(init,item){ return Number(item.tax1)+init;},0)
-	    .value()
-	    .toFixed(2);
-	total.totaltax3 = _(input.list).chain()
+	    .value())
+	    ;
+	total.totaltax3 = toFixed(2)(_(input.list).chain()
 	    .pluck('summary')
 	    .reduce(function(init,item){ return Number(item.tax3)+init;},0)
-	    .value()
-	    .toFixed(2);
-	total.totaltotalsales = _(input.list).chain()
+	    .value())
+	    ;
+	total.totaltotalsales = toFixed(2)(_(input.list).chain()
 	    .pluck('summary')
 	    .reduce(function(init,item){ return Number(item.totalsales)+init;},0)
-	    .value()
-	    .toFixed(2);
-	total.totalcash = _(input.list).chain()
+	    .value())
+	    ;
+	total.totalcash = toFixed(2)(_(input.list).chain()
 	    .pluck('summary')
 	    .reduce(function(init,item){ return Number(item.cash)+init;},0)
-	    .value()
-	    .toFixed(2);
-	total.totalcredit = _(input.list).chain()
+	    .value())
+	    ;
+	total.totalcredit = toFixed(2)(_(input.list).chain()
 	    .pluck('summary')
 	    .reduce(function(init,item){ return Number(item.credit)+init;},0)
-	    .value()
-	    .toFixed(2);
-	total.totaldebit = _(input.list).chain()
+	    .value())
+	    ;
+	total.totaldebit = toFixed(2)(_(input.list).chain()
 	    .pluck('summary')
 	    .reduce(function(init,item){ return Number(item.debit)+init;},0)
-	    .value()
-	    .toFixed(2);
-	total.totalmobile = _(input.list).chain()
+	    .value())
+	    ;
+	total.totalmobile = toFixed(2)(_(input.list).chain()
 	    .pluck('summary')
 	    .reduce(function(init,item){ return Number(item.mobile)+init;},0)
-	    .value()
-	    .toFixed(2);
-	total.totalother = _(input.list).chain()
+	    .value())
+	    ;
+	total.totalother = toFixed(2)(_(input.list).chain()
 	    .pluck('summary')
 	    .reduce(function(init,item){ return Number(item.other)+init;},0)
-	    .value()
-	    .toFixed(2);
+	    .value())
+	    ;
 	input.total = total;
 	return input;
     };

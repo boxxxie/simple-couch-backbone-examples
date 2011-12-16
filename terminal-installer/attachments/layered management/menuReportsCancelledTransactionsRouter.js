@@ -260,7 +260,7 @@ function renderCancelledTransactionsTable() {
 					 obj.discount=null;
 				     }
 				     if(obj && obj.quantity){
-					 obj.orderamount = (obj.price * obj.quantity).toFixed(2);
+					 obj.orderamount = toFixed(2)(obj.price * obj.quantity);
 					 obj.quantity+="";
 				     }
 				     return toFixed(2)(obj);
