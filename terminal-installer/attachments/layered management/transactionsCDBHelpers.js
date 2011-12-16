@@ -27,7 +27,9 @@ var ZEROED_FIELDS = {allDiscount: 0,
 		     scansalesno: 0, 
 		     scansalesamount: 0, 
 		     ecrsalesno: 0, 
-		     ecrsalesamount: 0};
+		     ecrsalesamount: 0,
+		     firstindex:0,
+		     lastindex:0};
 
 function toFixed(mag){
     return function(num){

@@ -115,10 +115,9 @@ var menuReportsTaxCollectedView =
 	 },
 	 renderMenuReportsGroupTaxes: function() {
 	     
-	     var html = ich.taxCollectedReports_TMP({startPage:"storeReport", 
+	     var html = ich.taxCollectedReports_TMP({startPage:"groupReport", 
 	     					     breadCrumb:breadCrumb(ReportData.companyName, 
-									   ReportData.groupName, 
-									   ReportData.store.storeName)});
+									   ReportData.group.groupName)});
 	     $(this.el).html(html);
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )
@@ -304,7 +303,7 @@ function getDialogTitle(ReportData, name, startDate, endDate) {
 	
 	var title = "".concat("Company : ").concat(companyName);
 	if(groupName) title = title.concat(" , Group : ").concat(groupName);
-	if(storeName) title = title.concat(" , Store : ").concat(StoreName);
+	if(storeName) title = title.concat(" , Store : ").concat(storeName);
 	title = title.concat(" , Terminal : ")
 				.concat(terminalName);
 	if(startDate) {
