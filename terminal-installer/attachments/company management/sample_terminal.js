@@ -168,21 +168,12 @@ var sample_terminal ={
                "color": "255,255,255",
                "screen": 1,
                "position": 0,
-<<<<<<< HEAD
-               "description": [
-                   " ",
-                   " ",
-                   " "
-               ]
-           },
-           "foodItem": {
-               "price": 0,
-=======
+
                "description" : [" ", " ", " "]
            },
            "foodItem": {
                "price" : 0,
->>>>>>> upstream/master
+
                "apply_taxes": {
                    "exemption": false,
                    "tax1" : true,

@@ -21,8 +21,8 @@
     <script language="javascript" type="text/javascript" src="../site.js"></script>
   
     <script language="javascript" type="text/javascript" src="../lib/couch-backbone.js"></script>
-    <!--<script language="javascript" type="text/javascript" src="../company management/sample_terminal.js"></script>-->
-    <script language="javascript" type="text/javascript" src="../company management/heroburger_terminal.js"></script>
+    <script language="javascript" type="text/javascript" src="../company management/sample_terminal.js"></script>
+    <!--<script language="javascript" type="text/javascript" src="../company management/heroburger_terminal.js"></script>-->
     <script language="javascript" type="text/javascript" src="../lib/Company.js"></script>
     <script language="javascript" type="text/javascript" src="../company management/company management.js"></script>
     <script language="javascript" type="text/javascript" src="../company management/docRdy.js"></script> <!-- needs to go last -->
@@ -204,10 +204,11 @@
   
     <script id="company_management_page_TMP" type="text/html">
       <h1>Company Management</h1>
-      {{>managementTableHook_P}}
       {{>createButton_P}}
       {{>menuButton_P}}
       {{>createDialogHook_P}}
+      {{>managementTableHook_P}}
+      
     </script>	   
     
     <script id="companyForm_P" class="partial" type="text/html">
@@ -237,15 +238,18 @@
       <table border="1">
 	<h1>Modify Company</h1>
 	{{>breadcrumb_P}}
-	{{>companyForm_P}}
-	
-	{{>editButton_P}}
-	{{>backButton_P}}
-	{{>menuButton_P}}
 	<button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all"
 		onClick="javascript:window.location.href ='#/company/{{company_id}}/groups';">
 	  <span class="ui-button-text">Group Manager</span>
 	</button>
+	{{>editButton_P}}
+	{{>backButton_P}}
+	{{>menuButton_P}}
+	
+	{{>companyForm_P}}
+	
+	
+	
       </table>
       <div id="dialog-hook"></div>
     </script>   
@@ -279,10 +283,11 @@
     <script id="group_management_page_TMP" type="text/html">
       <h1>Group Management</h1>
       {{>breadcrumb_P}}
-      {{>managementTableHook_P}}
       {{>createButton_P}}
       {{>backButton_P}}
       {{>menuButton_P}}
+      {{>managementTableHook_P}}
+      
       {{>createDialogHook_P}}
     </script>
   
@@ -311,14 +316,16 @@
       <table border="1">
 	<h1>Modify Group</h1>
 	{{>breadcrumb_P}}
-	{{>groupForm_P}}
-	{{>editButton_P}}
-	{{>backButton_P}}
-	{{>menuButton_P}}
 	<button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all"
 		onClick="javascript:window.location.href ='#/company/{{company_id}}/groups/{{group_id}}/stores';">
 	  <span class="ui-button-text">Store Manager</span>
 	</button>
+	{{>editButton_P}}
+	{{>backButton_P}}
+	{{>menuButton_P}}
+	{{>groupForm_P}}
+	
+	
       </table>
       <div id="dialog-hook"></div>
     </script>   
@@ -375,10 +382,11 @@
     <script id="store_management_page_TMP" type="text/html">
       <h1>Stores Management</h1>
       {{>breadcrumb_P}}
-      {{>managementTableHook_P}}
       {{>createButton_P}}
       {{>backButton_P}}
       {{>menuButton_P}}
+      {{>managementTableHook_P}}
+      
       {{>createDialogHook_P}}
     </script>
   
@@ -386,14 +394,16 @@
       <table border="1">
 	<h1>Modify Store</h1>
 	{{>breadcrumb_P}}
-	{{>storeForm_P}}
-	{{>editButton_P}}
-	{{>backButton_P}}
-	{{>menuButton_P}}
 	<button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all"
 		onClick="javascript:window.location.href ='#/company/{{company_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals';">
 	  <span class="ui-button-text">Terminal Manager</span>
 	</button>
+	{{>editButton_P}}
+	{{>backButton_P}}
+	{{>menuButton_P}}
+	{{>storeForm_P}}
+	
+	
       </table>
       <div id="dialog-hook"></div>
     </script>   
@@ -460,10 +470,11 @@
     <script id="terminal_management_page_TMP" type="text/html">
       <h1>Terminals Management</h1>
       {{>breadcrumb_P}}
-      {{>managementTableHook_P}}
       {{>createButton_P}}
       {{>backButton_P}}
       {{>menuButton_P}}
+      {{>managementTableHook_P}}
+      
       {{>createDialogHook_P}}
     </script>
   
@@ -471,14 +482,16 @@
       <table border="1">
 	<h1>Modify Terminal</h1>
 	{{>breadcrumb_P}}
-	{{>terminalFrom_P}}
-	{{>editButton_P}}
-	{{>backButton_P}}
-	{{>menuButton_P}}
 	<button id="install_terminal" class="{{>commonButtonClasses_P}}"
 		onClick="javascript:installTerminal('{{company_id}}','{{group_id}}','{{store_id}}','{{terminal_id}}');">
 	  <span class="ui-button-text">Install</span>
 	</button>
+	{{>editButton_P}}
+	{{>backButton_P}}
+	{{>menuButton_P}}
+	{{>terminalFrom_P}}
+	
+	
       </table>
       <div id="dialog-hook"></div>
     </script> 

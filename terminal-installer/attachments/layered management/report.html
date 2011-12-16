@@ -755,17 +755,22 @@
       <h2>{{>breadcrumb_P}}</h2>
       <table border="1">
 	<tr>
-	  <th>{{namefield}}</th>
-	  <th># of Sales Trans</th>
-	  <th>Menu Sales</th>
-	  <th>Scan Sales</th>
-	  <th>ECR Sales</th>
-	  <th># of Refunds Trans</th>
-	  <th>Menu Refunds</th>
-	  <th>Scan Refunds</th>
-	  <th>ECR Refunds</th>
-	  <th>Total</th>
-	  <th>AVG Sale</th>
+	  <th rowspan="2">{{namefield}}</th>
+	  <th colspan="4">Sales</th>
+	  <th colspan="4">Refunds</th>
+	  <th rowspan="2">Total</th>
+	  <th rowspan="2">AVG Sale</th>
+	 </tr>
+	  <tr>
+	  <th># of Trans</th>
+	  <th>Menu</th>
+	  <th>Scan</th>
+	  <th>ECR</th>
+	  <th># of Trans</th>
+	  <th>Menu</th>
+	  <th>Scan</th>
+	  <th>ECR</th>
+	  
 	</tr>
 	{{#items}}
 	<tr>
