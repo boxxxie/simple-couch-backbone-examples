@@ -276,16 +276,27 @@ function renderDiscountsTable() {
 			var item = _.clone(item);
 			
 			var dialogtitle=getDialogTitle(ReportData,item.name);
-						
-			var btn = $('#'+item._id).button().click(function(){
-				var btnData = item;
-				btnData.discount=null;
-				btnData.storename = ReportData.store.storeName;
-				var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
-				quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
-			});
-		});
-	});
+
+
+			   
+			   var btn = $('#'+item._id)
+			       .button()
+			       .click(function(){
+					  var btnData = item;
+					  _.applyToValues(ReportData,
+							  function(o){
+							      if(o.store_id==btnData.store_id){
+								  btnData.storename = o.storeName;
+							      }
+							      return o;
+							  }
+							  ,true);
+					  btnData.discount=null;
+					  var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
+					  quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
+				      });
+		       });
+									       });
 		
     } else {
    	alert("Input Date");
