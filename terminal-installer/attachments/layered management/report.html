@@ -755,7 +755,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       <table border="1">
 	<tr>
-	  <th>{{namefield}}</th>
+	  <th rowspan="2">{{namefield}}</th>
 	  <th># of Sales Trans</th>
 	  <th>Menu Sales</th>
 	  <th>Scan Sales</th>
@@ -790,7 +790,7 @@
 	  <td align="right">{{scan}}</td>
 	  <td align="right">{{ecr}}</td>
 	  {{/origin_refunds}}
-	  <td align="right">{{total}}</td>
+	  <td align="right">{{sales_total}}</td>
 	  <td align="right">{{avgsale}}</td>
 	</tr>
 	{{/items}}
@@ -809,7 +809,7 @@
 	  <td align="right">{{scan}}</td>
 	  <td align="right">{{ecr}}</td>
 	  {{/origin_refunds}}
-	  <td align="right">{{total}}</td>
+	  <td align="right">{{sales_total}}</td>
 	  <td align="right">{{avgsale}}</td>
 	  {{/total}}
 	</tr>
