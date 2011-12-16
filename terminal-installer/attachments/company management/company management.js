@@ -225,7 +225,7 @@ function installTerminal(companyID,groupID,storeID,terminalID){
 		       group_id:group.group_id,
 		       group_label:group.groupName,
 		       company_id:company.get('_id'),
-		       company_label:company.get('operationalname'),
+		       company_label:company.get('companyName'),
 		       location:_.selectKeys(terminal,["postalCode","areaCode","storeCode","companyCode","cityCode","countryCode"]),
 		       creationDate:terminal.creationdate,
 		       receipt_id:terminal.receipt_id,
@@ -306,7 +306,7 @@ function doc_setup(){
 	var company;
 	if(companyID){
 	    company = Companies.getModelById(companyID);
-	    companyName =  company.get('operationalname');
+	    companyName =  company.get('companyName');
 	}
 	if(groupID){
 	    groupName = company.getGroup(groupID).groupName;
