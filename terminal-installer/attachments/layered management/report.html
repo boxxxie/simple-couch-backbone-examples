@@ -662,16 +662,12 @@
 	<li><a href='#menuReports/{{startPage}}SalesSummary'> Sales Summary</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}HowAreWe'> How Are We Doing Today</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}HourlyActivity'> Hourly Activity</a> <br/></li>
-	{{#breadCrumb}}
-	{{#storeName}}
 	<li><a href=''> Electronic Payment Processing Summary</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}TaxCollected'> Tax Collected</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}CashOuts'> Cash Outs</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}Cancelled'> Cancelled Transactions</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}Refunds'> Refunds</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}Discounts'> Discounts</a> <br/></li>
-	{{/storeName}}
-	{{/breadCrumb}}
       </ol>
       {{>backButton_P}}
       {{>menuButton_P}}
@@ -889,6 +885,7 @@
     <script id="taxCollectedReports_TMP" type="text/html">
       <h1>Tax Collected</h1>
       <h2>{{>breadcrumb_P}}</h2>
+      {{>dropdownHourlyActiviy_P}} <br/>
       {{>dateRangePicker_P}}
       {{>menuTaxGoButton_P}}			
       <br/><br/>
@@ -921,6 +918,7 @@
     <script id="menuReportsCashOutsReports_TMP" type="text/html">
       <h1>CashOuts</h1>
       <h2>{{>breadcrumb_P}}</h2>
+      {{>dropdownHourlyActiviy_P}} <br/>
       {{>dateRangePicker_P}}
       {{>menuCashoutsGoButton_P}}			
       <br/><br/>
@@ -963,6 +961,7 @@
     <script id="menuReportsCancelledReports_TMP" type="text/html">
       <h1>Cancelled Transactions</h1>
       <h2>{{>breadcrumb_P}}</h2>
+      {{>dropdownHourlyActiviy_P}} <br/>
       {{>dateRangePicker_P}}
       {{>menuCancelledGoButton_P}}			
       <br/><br/>
@@ -1005,6 +1004,7 @@
     <script id="menuReportsRefundsReports_TMP" type="text/html">
       <h1>Refunds Transactions</h1>
       <h2>{{>breadcrumb_P}}</h2>
+      {{>dropdownHourlyActiviy_P}} <br/>
       {{>dateRangePicker_P}}
       {{>menuRefundsGoButton_P}}			
       <br/><br/>
@@ -1052,6 +1052,7 @@
     <script id="menuReportsDiscountsReports_TMP" type="text/html">
       <h1>Discounts Transactions</h1>
       <h2>{{>breadcrumb_P}}</h2>
+      {{>dropdownHourlyActiviy_P}} <br/>
       {{>dateRangePicker_P}}
       {{>menuDiscountsGoButton_P}}			
       <br/><br/>
