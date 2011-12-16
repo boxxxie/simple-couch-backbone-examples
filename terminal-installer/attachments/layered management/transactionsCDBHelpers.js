@@ -177,12 +177,12 @@ function todaysSalesFetcher(view,db,id,runAfter){
 	    function(err,report){
 		var sales = {};
 
-		_.isFirstNotEmpty(report.sales.rows)? sales.sales_total = _.first(report.sales.rows).value.count: sales.sales_total = 0;
-		_.isFirstNotEmpty(report.refunds.rows)? sales.refunds_total = _.first(report.refunds.rows).value.count: sales.refunds_total = 0;
+		_.isFirstNotEmpty(report.sales.rows)? sales.sales_total = _.first(report.sales.rows).value.sum: sales.sales_total = 0;
+		_.isFirstNotEmpty(report.refunds.rows)? sales.refunds_total = _.first(report.refunds.rows).value.sum: sales.refunds_total = 0;
 
 		_.extend(sales,extractTotalTransactions(report.sales,report.refunds));
 
-		sales.avgsale = Number(sales.total) / Number(sales.transactions);
+		sales.avgsale = Number(sales.sales_total) / Number(sales.transactions);
 		if(_.isNaN(sales.avgsale)){sales.avgsale = 0;}
 
 		sales.sales_minus_refunds = extractTotalSales(report.sales,report.refunds);
