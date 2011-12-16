@@ -69,11 +69,16 @@ var menuReportsHourlyActivityView =
 	 	    });
 	     
 	     var terminals = _(stores).chain().map(function(store) {
-						       return store.terminals; 
+						       return store.terminals?store.terminals:[]; 
 						   }).flatten().value();
-	     _.each(terminals, function(terminal) {
-	 		dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-	 	    });
+	     if(terminals.length>0) {
+	    	_.each(terminals, function(terminal) {
+		 			dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+		 	   });	
+	 	} else {
+	 		$('option', dropdownTerminal).remove();
+	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+	 	}
 	     
 	     console.log("rendered general report");
 	 },
@@ -96,11 +101,16 @@ var menuReportsHourlyActivityView =
 	 	    });
 	     
 	     var terminals = _(ReportData.group.stores).chain().map(function(store) {
-									return store.terminals; 
+									return store.terminals?store.terminals:[]; 
 								    }).flatten().value();
-	     _.each(terminals, function(terminal) {
-	 		dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-	 	    });
+	     if(terminals.length>0) {
+		    _.each(terminals, function(terminal) {
+		 			dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+		 	   });	
+	 	} else {
+	 		$('option', dropdownTerminal).remove();
+	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+	 	}
 	     
 	     console.log("rendered general report");
 	 },
@@ -124,9 +134,16 @@ var menuReportsHourlyActivityView =
 	     dropdownStore.append('<option value='+ReportData.store.store_id+'>'+ReportData.store.storeName+ '</option>');
 	     dropdownStore.attr('disabled','disabled');
 	     
-	     _.each(ReportData.store.terminals, function(terminal) {
-	 		dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-	 	    });
+	     var terminals =  ReportData.store.terminals?ReportData.store.terminals:[];
+	     
+	     if(terminals.length>0) {
+		    _.each(terminals, function(terminal) {
+		 			dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+		 	   });	
+	 	} else {
+	 		$('option', dropdownTerminal).remove();
+	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+	 	}
 	     
 	     console.log("rendered general report");
 	 }
@@ -202,10 +219,15 @@ function updateTerminalDropdown() {
 		 return _.filter(allStores, function(store){ return store.store_id==id}) 
 	     }).flatten().value();
     terminals = _(stores).chain().map(function(store) {
-					  return store.terminals; 
+					  return store.terminals?store.terminals:[]; 
 				      }).flatten().value();
     
-    _.each(terminals, function(terminal) {
- 	       dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
- 	   });	
+    if(terminals.length>0) {
+	    _.each(terminals, function(terminal) {
+	 			dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+	 	   });	
+ 	} else {
+ 		$('option', dropdownTerminal).remove();
+    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+ 	}
 };

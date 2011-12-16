@@ -69,6 +69,9 @@ var menuReportsSalesSummaryView =
 				     selectedDates.not( this ).datepicker( "option", option, date );
 				 }
 			     });
+		
+		$("#dateFrom").datepicker("setDate", new Date().addDays(-1));
+		$("#dateTo").datepicker("setDate", new Date());
 	     
 	     var dropdownGroup = $("#groupsdown");
 	     var dropdownStore = $("#storesdown");
@@ -111,7 +114,10 @@ var menuReportsSalesSummaryView =
 				     selectedDates.not( this ).datepicker( "option", option, date );
 				 }
 			     });
-	     
+		
+	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
+		$("#dateTo").datepicker("setDate", new Date());
+		
 	     var dropdownGroup = $("#groupsdown");
 	     var dropdownStore = $("#storesdown");
 	     
@@ -151,6 +157,9 @@ var menuReportsSalesSummaryView =
 				 }
 			     });
 	     
+	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
+		$("#dateTo").datepicker("setDate", new Date());
+		
 	     var dropdownGroup = $("#groupsdown");
 	     var dropdownStore = $("#storesdown");
 	     

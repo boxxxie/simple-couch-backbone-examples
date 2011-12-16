@@ -198,6 +198,25 @@ function refundTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
     return processedTransactionsFromCashouts(terminals,startDate,endDate)(refundTransactionsIndexRangeFetcher_F,refundMap(terminals));
 };
 function discountTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
+//<<<<<<< HEAD
+	
+   // function processTransactions(terminals,callback){
+   // 	return function(err,transactions){
+//	    function startTime(transaction){return (new Date(transaction.time.start)).getTime();};
+//	    var terminals_merged_with_reduced_transactions = 
+//		_(transactions)
+//		.chain()
+//		.flatten()
+//		.map(function(transaction){
+//			 var terminalForTransaction = _.find(terminals, function(ter){return transaction.terminal_id==ter.id;});
+//			 var sales = transaction.discount+transaction.subTotal;
+//			 return _.extend({},
+//					 transaction,
+//					 terminalForTransaction,
+//					 {date:(new Date(transaction.time.start)).toString("yyyy-MM-dd HH:mm:ss")},
+//					 {sales:sales},
+//					 {percentdiscount:transaction.discount/sales*100});
+//=======
     function discountMap(terminals){
 	return function(transaction){
 	    var terminalForTransaction = _.find(terminals, function(ter){return transaction.terminal_id==ter.id;});
@@ -225,6 +244,7 @@ function cashoutReportFetcher(terminals,startDate,endDate){
 			          name:cashout.terminalname,
 			          cashouttime:(new Date(cashout.cashouttime)).toString("yyyy/MM/dd-HH:mm:ss"),
 			          cashoutnumber:cashout.cashoutnumber.toString()};
+//>>>>>>> upstream/master
 		     })
         	.value();	    
 	    callback(templateData);
