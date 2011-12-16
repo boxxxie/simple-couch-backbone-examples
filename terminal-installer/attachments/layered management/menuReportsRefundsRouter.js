@@ -1,7 +1,15 @@
 var menuReportsRefundsRouter = 
     new (Backbone.Router.extend(
 	     {routes: {
+		  "menuReports/companyReportRefunds":"menuReportsCompanyRefunds",
+		  "menuReports/groupReportRefunds":"menuReportsGroupRefunds",
 		  "menuReports/storeReportRefunds":"menuReportsStoreRefunds"
+	      },
+	      menuReportsCompanyRefunds:function() {
+		  console.log("menuReportsCompanyRefunds  ");
+	      },
+	      menuReportsGroupRefunds:function() {
+		  console.log("menuReportsGroupRefunds  ");
 	      },
 	      menuReportsStoreRefunds:function() {
 		  console.log("menuReportsStoreRefunds  ");
@@ -15,13 +23,139 @@ var menuReportsRefundsView =
 	     view.el = $("main");
 	     
 	     _.bindAll(view, 
+		       'renderMenuReportsCompanyRefunds',
+		       'renderMenuReportsGroupRefunds',
 		       'renderMenuReportsStoreRefunds');
 	     menuReportsRefundsRouter
+		 .bind('route:menuReportsCompanyRefunds', 
+		       function(){
+			   console.log("menuReportsView, route:menuReportsCompanyRefunds");
+			   view.renderMenuReportsCompanyRefunds();
+		       });
+		 
+		 menuReportsRefundsRouter
+		 .bind('route:menuReportsGroupRefunds', 
+		       function(){
+			   console.log("menuReportsView, route:menuReportsGroupRefunds");
+			   view.renderMenuReportsGroupRefunds();
+		       });
+		 
+		 menuReportsRefundsRouter
 		 .bind('route:menuReportsStoreRefunds', 
 		       function(){
 			   console.log("menuReportsView, route:menuReportsStoreRefunds");
 			   view.renderMenuReportsStoreRefunds();
 		       });
+	 },
+	 renderMenuReportsCompanyRefunds: function() {
+	     
+	     var html = ich.menuReportsRefundsReports_TMP({startPage:"companyReport", 
+	     					     breadCrumb:breadCrumb(ReportData.company.companyName)});
+	     $(this.el).html(html);
+	     
+	     var selectedDates = $( "#dateFrom, #dateTo" )
+		 .datepicker({
+				 defaultDate: "+1w",
+				 changeMonth: true,
+				 numberOfMonths: 2,
+				 minDate:"-1y",
+				 maxDate:new Date(),
+				 onSelect: function( selectedDate ) {
+				     var option = this.id == "dateFrom" ? "minDate" : "maxDate",
+				     instance = $( this ).data( "datepicker" ),
+				     date = $.datepicker.parseDate(
+					 instance.settings.dateFormat ||
+					     $.datepicker._defaults.dateFormat,
+					 selectedDate, instance.settings );
+				     selectedDates.not( this ).datepicker( "option", option, date );
+				 }
+			     });
+	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
+		$("#dateTo").datepicker("setDate", new Date());
+		
+		var dropdownGroup = $("#groupsdown");
+	     var dropdownStore = $("#storesdown");
+	     var dropdownTerminal = $("#terminalsdown");
+	     
+	     _.each(ReportData.company.hierarchy.groups, function(group) {
+			dropdownGroup.append('<option value=' + group.group_id + '>' + group.groupName + '</option>');
+		    });
+	     
+	     var stores = _(ReportData.company.hierarchy.groups).chain().map(function(group) {
+										 return group.stores; 
+									     }).flatten().value();
+	     
+	     _.each(stores, function(store) {
+	 		dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
+	 	    });
+	     
+	     var terminals = _(stores).chain().map(function(store) {
+						       return store.terminals?store.terminals:[]; 
+						   }).flatten().value();
+	     if(terminals.length>0) {
+		    _.each(terminals, function(terminal) {
+		 			dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+		 	   });	
+	 	} else {
+	 		$('option', dropdownTerminal).remove();
+	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+	 	}
+	 	
+		
+	     console.log("rendered general report");
+	 },
+	 renderMenuReportsGroupRefunds: function() {
+	     
+	     var html = ich.menuReportsRefundsReports_TMP({startPage:"groupReport", 
+	     					     breadCrumb:breadCrumb(ReportData.companyName, ReportData.group.groupName)});
+	     $(this.el).html(html);
+	     
+	     var selectedDates = $( "#dateFrom, #dateTo" )
+		 .datepicker({
+				 defaultDate: "+1w",
+				 changeMonth: true,
+				 numberOfMonths: 2,
+				 minDate:"-1y",
+				 maxDate:new Date(),
+				 onSelect: function( selectedDate ) {
+				     var option = this.id == "dateFrom" ? "minDate" : "maxDate",
+				     instance = $( this ).data( "datepicker" ),
+				     date = $.datepicker.parseDate(
+					 instance.settings.dateFormat ||
+					     $.datepicker._defaults.dateFormat,
+					 selectedDate, instance.settings );
+				     selectedDates.not( this ).datepicker( "option", option, date );
+				 }
+			     });
+	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
+		$("#dateTo").datepicker("setDate", new Date());
+		
+		
+		var dropdownGroup = $("#groupsdown");
+	     var dropdownStore = $("#storesdown");
+	     var dropdownTerminal = $("#terminalsdown");
+	     
+	     $('option', dropdownGroup).remove();
+	     dropdownGroup.append('<option value ='+ReportData.group.group_id+'>'+ReportData.group.groupName+ '</option>');
+	     dropdownGroup.attr('disabled','disabled');
+	     
+	     _.each(ReportData.group.stores, function(store) {
+ 			dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
+	 	    });
+	     
+	     var terminals = _(ReportData.group.stores).chain().map(function(store) {
+									return store.terminals?store.terminals:[]; 
+								    }).flatten().value();
+	     if(terminals.length>0) {
+		    _.each(terminals, function(terminal) {
+		 			dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+		 	   });	
+	 	} else {
+	 		$('option', dropdownTerminal).remove();
+	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+	 	}
+	 	
+	     console.log("rendered general report");
 	 },
 	 renderMenuReportsStoreRefunds: function() {
 	     
@@ -49,6 +183,29 @@ var menuReportsRefundsView =
 	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
 		$("#dateTo").datepicker("setDate", new Date());
 		
+		var dropdownGroup = $("#groupsdown");
+	     var dropdownStore = $("#storesdown");
+	     var dropdownTerminal = $("#terminalsdown");
+	     
+	     $('option', dropdownGroup).remove();
+	     $('option', dropdownStore).remove();
+	     
+	     dropdownGroup.append('<option value=="">'+ReportData.groupName+ '</option>');
+	     dropdownGroup.attr('disabled','disabled');
+	     dropdownStore.append('<option value='+ReportData.store.store_id+'>'+ReportData.store.storeName+ '</option>');
+	     dropdownStore.attr('disabled','disabled');
+	     
+	     var terminals = ReportData.store.terminals?ReportData.store.terminals:[];
+	     
+	     if(terminals.length>0) {
+		    _.each(terminals, function(terminal) {
+		 			dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+		 	   });	
+	 	} else {
+	 		$('option', dropdownTerminal).remove();
+	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+	 	}
+		
 	     console.log("rendered general report");
 	 }
 	});
@@ -57,6 +214,10 @@ var menuReportsRefundsView =
 function renderRefundsTable() {
 	console.log("renderRefundsTable");
 
+	var dropdownGroup = $("#groupsdown");
+    var dropdownStore = $("#storesdown");
+    var dropdownTerminal = $("#terminalsdown");
+	
     if(!_.isEmpty($("#dateFrom").val()) && !_.isEmpty($("#dateTo").val())) {
 	var startDate = new Date($("#dateFrom").val());
 	var endDate = new Date($("#dateTo").val());
@@ -64,9 +225,17 @@ function renderRefundsTable() {
     endDateForQuery.addDays(1);
 	
 	//TODO
-	var ids = _.map(ReportData.store.terminals, function(terminal){
-		return {id:terminal.terminal_id, name:terminal.terminal_label};
-	});
+	if(dropdownTerminal.val()=="ALL") {
+	    ids = _($('option', dropdownTerminal)).chain()
+	    									.filter(function(item){ return item.value!=="ALL";})
+	    									.map(function(item){
+	    										return {id:item.value, name:item.text};
+	    									})
+	    									.value();
+	} else {
+	    var sd = $("#terminalsdown option:selected");
+	    ids =[{id:sd.val(), name:sd.text()}];
+	}
 	console.log(ids);
 	
 	refundTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)(function(err,data_TMP){
@@ -102,19 +271,13 @@ function renderRefundsTable() {
 		_.each(data_TMP, function(item){	
 			var item = _.clone(item);
 			
-			var dialogtitle="".concat("Company : ")
-						.concat(ReportData.companyName)
-						.concat(" , Group : ")
-						.concat(ReportData.groupName)
-						.concat(" , Store : ")
-						.concat(ReportData.store.storeName)
-						.concat(" , Terminal : ")
-						.concat(item.name);
+			var dialogtitle=getDialogTitle(ReportData,item.name);
 						
 			var btn = $('#'+item._id).button().click(function(){
 				var btnData = item;
 				btnData.discount=null;
-				btnData.storename = ReportData.store.storeName;
+				//TODO
+				//btnData.storename = ReportData.store.storeName;
 				var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
 				quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
 			});
