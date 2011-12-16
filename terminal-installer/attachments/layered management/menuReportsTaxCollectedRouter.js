@@ -277,11 +277,13 @@ function getDialogTitle(ReportData, name, startDate, endDate) {
 	if(groupName) title = title.concat(" , Group : ").concat(groupName);
 	if(storeName) title = title.concat(" , Store : ").concat(StoreName);
 	title = title.concat(" , Terminal : ")
-				.concat(terminalName)
-				.concat(" , Date : ")
+				.concat(terminalName);
+	if(startDate) {
+		title= title.concat(" , Date : ")
 						.concat(startDate.toString("yyyy/MM/dd"))
 						.concat(" ~ ")
 						.concat(endDate.toString("yyyy/MM/dd"));
+	}
 						
 	return title;
 };
