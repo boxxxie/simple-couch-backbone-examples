@@ -154,7 +154,7 @@ function todaysSalesFetcher(view,db,id,runAfter){
 	var sales = 0, refunds = 0;
 	_.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows).value.sum: sales = 0;
 	_.isFirstNotEmpty(refundsData.rows)? refunds = _.first(refundsData.rows).value.sum: refunds = 0;
-	return sales - refunds;
+	return sales;// - refunds;
     }
 
     function extractTotalTransactions(salesData,refundsData){
@@ -174,10 +174,11 @@ function todaysSalesFetcher(view,db,id,runAfter){
 	    },
 	    function(err,report){
 		var sales = {};
-		sales.total = extractTotalSales(report.sales,report.refunds);
+		sales.sales_total = extractTotalSales(report.sales,report.refunds);
 		_.extend(sales,extractTotalTransactions(report.sales,report.refunds));
 		sales.avgsale = Number(sales.total) / Number(sales.transactions);
 		if(_.isNaN(sales.avgsale)){sales.avgsale = 0;}
+		sales.refunds_total = extractTotalSales(report.refunds,report.refunds);
 		runAfter(sales);	  
 	    });
 };
@@ -224,7 +225,6 @@ function originTodaysSalesFetcher(view,db,id,runAfter){
 
 function originTodaysHourlySalesFetcher(view,db,id,runAfter){
     var d = relative_dates();
-    //fixme:use todays date not yesterdays
     var todaysQuery = typedTransactionDateRangeGroupedQuery(d.today_h,d.tomorrow_h)(view,db);
     var menuSales = todaysQuery([id,'SALE','MENU']);
     var menuRefunds = todaysQuery([id,'REFUND','MENU']);
