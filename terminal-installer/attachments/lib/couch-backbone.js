@@ -36,7 +36,7 @@ var couchCollection = function(couch,options){
     var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
     return Backbone.Collection.extend(
 	_.extend(options,
-		 {url:urlBase + "/_rewrite/api/",// + couch.db,
+		 {url:urlBase + "/_rewrite/api/",// + couch.db, //FIXME: this has got to change
 		  parse: function(response) {
 		      return _(response.rows)
 			  .chain()
