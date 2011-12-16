@@ -289,28 +289,30 @@ function renderTaxCollectedTable() {
 };
 
 function getDialogTitle(ReportData, name, startDate, endDate) {
-    var companyName, groupName, storeName, terminalName;
-    if(!_.isEmpty(ReportData.company)){
-	companyName = ReportData.company.companyName;
-    } else if(!_.isEmpty(ReportData.group)){
-	companyName = ReportData.companyName;
-	groupName = ReportData.group.groupName;
-    } else if(!_.isEmpty(ReportData.store)){
-	companyName = ReportData.companyName;
-	groupName = ReportData.groupName;
-	storeName = ReportData.store.storeName; 		
-    }
-    terminalName = name;
-    
-    var title = "".concat("Company : ").concat(companyName);
-    if(groupName) title = title.concat(" , Group : ").concat(groupName);
-    if(storeName) title = title.concat(" , Store : ").concat(StoreName);
-    title = title.concat(" , Terminal : ")
-	.concat(terminalName)
-	.concat(" , Date : ")
-	.concat(startDate.toString("yyyy/MM/dd"))
-	.concat(" ~ ")
-	.concat(endDate.toString("yyyy/MM/dd"));
-    
-    return title;
+	var companyName, groupName, storeName, terminalName;
+	if(!_.isEmpty(ReportData.company)){
+		companyName = ReportData.company.companyName;
+	} else if(!_.isEmpty(ReportData.group)){
+		companyName = ReportData.companyName;
+		groupName = ReportData.group.groupName;
+	} else if(!_.isEmpty(ReportData.store)){
+		companyName = ReportData.companyName;
+		groupName = ReportData.groupName;
+		storeName = ReportData.store.storeName; 		
+	}
+	terminalName = name;
+	
+	var title = "".concat("Company : ").concat(companyName);
+	if(groupName) title = title.concat(" , Group : ").concat(groupName);
+	if(storeName) title = title.concat(" , Store : ").concat(StoreName);
+	title = title.concat(" , Terminal : ")
+				.concat(terminalName);
+	if(startDate) {
+		title= title.concat(" , Date : ")
+						.concat(startDate.toString("yyyy/MM/dd"))
+						.concat(" ~ ")
+						.concat(endDate.toString("yyyy/MM/dd"));
+	}
+						
+	return title;
 };
