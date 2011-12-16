@@ -1,8 +1,8 @@
 var menuReportsCancelledTransactionsRouter = 
     new (Backbone.Router.extend(
 	     {routes: {
-	     	"menuReports/companyReportCancelled":"menuReportsCompanyCancelled",
-	     	"menuReports/groupReportCancelled":"menuReportsGroupCancelled",
+	     	  "menuReports/companyReportCancelled":"menuReportsCompanyCancelled",
+	     	  "menuReports/groupReportCancelled":"menuReportsGroupCancelled",
 		  "menuReports/storeReportCancelled":"menuReportsStoreCancelled"
 	      },
 	      menuReportsCompanyCancelled:function() {
@@ -15,7 +15,7 @@ var menuReportsCancelledTransactionsRouter =
 		  console.log("menuReportsStoreCancelled  ");
 	      }
 	     }));
-	     
+
 var menuReportsCancelledTransactionsView = 
     Backbone.View.extend(
 	{initialize:function(){
@@ -24,21 +24,21 @@ var menuReportsCancelledTransactionsView =
 	     
 	     _.bindAll(view, 
 		       'renderMenuReportsCompanyCancelled',
-		        'renderMenuReportsGroupCancelled',
-		         'renderMenuReportsStoreCancelled');
+		       'renderMenuReportsGroupCancelled',
+		       'renderMenuReportsStoreCancelled');
 	     menuReportsCancelledTransactionsRouter
 		 .bind('route:menuReportsCompanyCancelled', 
 		       function(){
 			   console.log("menuReportsView, route:menuReportsCompanyCancelled");
 			   view.renderMenuReportsCompanyCancelled();
 		       });
-		 menuReportsCancelledTransactionsRouter
+	     menuReportsCancelledTransactionsRouter
 		 .bind('route:menuReportsGroupCancelled', 
 		       function(){
 			   console.log("menuReportsView, route:menuReportsGroupCancelled");
 			   view.renderMenuReportsGroupCancelled();
 		       });
-		 menuReportsCancelledTransactionsRouter
+	     menuReportsCancelledTransactionsRouter
 		 .bind('route:menuReportsStoreCancelled', 
 		       function(){
 			   console.log("menuReportsView, route:menuReportsStoreCancelled");
@@ -48,7 +48,7 @@ var menuReportsCancelledTransactionsView =
 	 renderMenuReportsCompanyCancelled: function() {
 	     
 	     var html = ich.menuReportsCancelledReports_TMP({startPage:"companyReport", 
-	     					     breadCrumb:breadCrumb(ReportData.company.companyName)});
+	     						     breadCrumb:breadCrumb(ReportData.company.companyName)});
 	     $(this.el).html(html);
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )
@@ -70,9 +70,9 @@ var menuReportsCancelledTransactionsView =
 			     });
 	     
 	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
-		$("#dateTo").datepicker("setDate", new Date());
-		
-		var dropdownGroup = $("#groupsdown");
+	     $("#dateTo").datepicker("setDate", new Date());
+	     
+	     var dropdownGroup = $("#groupsdown");
 	     var dropdownStore = $("#storesdown");
 	     var dropdownTerminal = $("#terminalsdown");
 	     
@@ -92,20 +92,20 @@ var menuReportsCancelledTransactionsView =
 						       return store.terminals?store.terminals:[]; 
 						   }).flatten().value();
 	     if(terminals.length>0) {
-		    _.each(terminals, function(terminal) {
-		 			dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	   });	
-	 	} else {
-	 		$('option', dropdownTerminal).remove();
-	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-	 	}
-	 	
+		 _.each(terminals, function(terminal) {
+		 	    dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+		 	});	
+	     } else {
+	 	 $('option', dropdownTerminal).remove();
+	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+	     }
+	     
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsGroupCancelled: function() {
 	     
 	     var html = ich.menuReportsCancelledReports_TMP({startPage:"groupReport", 
-	     					     breadCrumb:breadCrumb(ReportData.companyName, ReportData.group.groupName)});
+	     						     breadCrumb:breadCrumb(ReportData.companyName, ReportData.group.groupName)});
 	     $(this.el).html(html);
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )
@@ -127,9 +127,9 @@ var menuReportsCancelledTransactionsView =
 			     });
 	     
 	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
-		$("#dateTo").datepicker("setDate", new Date());
-		
-		var dropdownGroup = $("#groupsdown");
+	     $("#dateTo").datepicker("setDate", new Date());
+	     
+	     var dropdownGroup = $("#groupsdown");
 	     var dropdownStore = $("#storesdown");
 	     var dropdownTerminal = $("#terminalsdown");
 	     
@@ -145,20 +145,20 @@ var menuReportsCancelledTransactionsView =
 									return store.terminals?store.terminals:[]; 
 								    }).flatten().value();
 	     if(terminals.length>0) {
-		    _.each(terminals, function(terminal) {
-		 			dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	   });	
-	 	} else {
-	 		$('option', dropdownTerminal).remove();
-	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-	 	}
-	 	
+		 _.each(terminals, function(terminal) {
+		 	    dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+		 	});	
+	     } else {
+	 	 $('option', dropdownTerminal).remove();
+	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+	     }
+	     
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsStoreCancelled: function() {
 	     
 	     var html = ich.menuReportsCancelledReports_TMP({startPage:"storeReport", 
-	     					     breadCrumb:breadCrumb(ReportData.companyName, ReportData.groupName, ReportData.store.storeName)});
+	     						     breadCrumb:breadCrumb(ReportData.companyName, ReportData.groupName, ReportData.store.storeName)});
 	     $(this.el).html(html);
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )
@@ -180,9 +180,9 @@ var menuReportsCancelledTransactionsView =
 			     });
 	     
 	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
-		$("#dateTo").datepicker("setDate", new Date());
-		
-		var dropdownGroup = $("#groupsdown");
+	     $("#dateTo").datepicker("setDate", new Date());
+	     
+	     var dropdownGroup = $("#groupsdown");
 	     var dropdownStore = $("#storesdown");
 	     var dropdownTerminal = $("#terminalsdown");
 	     
@@ -197,23 +197,23 @@ var menuReportsCancelledTransactionsView =
 	     var terminals = ReportData.store.terminals?ReportData.store.terminals:[];
 	     
 	     if(terminals.length>0) {
-		    _.each(terminals, function(terminal) {
-		 			dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	   });	
-	 	} else {
-	 		$('option', dropdownTerminal).remove();
-	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-	 	}
-	 	
+		 _.each(terminals, function(terminal) {
+		 	    dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+		 	});	
+	     } else {
+	 	 $('option', dropdownTerminal).remove();
+	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+	     }
+	     
 	     console.log("rendered general report");
 	 }
 	});
-	
+
 /******************************************** helper functions ************************************/
 function renderCancelledTransactionsTable() {
-	console.log("renderCancelledTransactionsTable");
+    console.log("renderCancelledTransactionsTable");
 
-	var dropdownGroup = $("#groupsdown");
+    var dropdownGroup = $("#groupsdown");
     var dropdownStore = $("#storesdown");
     var dropdownTerminal = $("#terminalsdown");
     
@@ -221,68 +221,81 @@ function renderCancelledTransactionsTable() {
 	var startDate = new Date($("#dateFrom").val());
 	var endDate = new Date($("#dateTo").val());
 	var endDateForQuery = new Date($("#dateTo").val());
-    endDateForQuery.addDays(1);
+	endDateForQuery.addDays(1);
 	
 	//TODO
 	if(dropdownTerminal.val()=="ALL") {
 	    ids = _($('option', dropdownTerminal)).chain()
-	    									.filter(function(item){ return item.value!=="ALL";})
-	    									.map(function(item){
-	    										return {id:item.value, name:item.text};
-	    									})
-	    									.value();
+	    	.filter(function(item){ return item.value!=="ALL";})
+	    	.map(function(item){
+	    		 return {id:item.value, name:item.text};
+	    	     })
+	    	.value();
 	} else {
 	    var sd = $("#terminalsdown option:selected");
 	    ids =[{id:sd.val(), name:sd.text()}];
 	}
 	console.log(ids);
 	
-	canceledTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)(function(err,data_TMP){
-		data_TMP=_.map(data_TMP, function(item){
-			var item = _.clone(item);
-			//item.time.start=(new Date(item.time.start)).toString("yyyy/MM/dd-HH:mm:ss");
-			var t = new Date(item.time.start);
-			item.processday = _(t.toDateString().split(' ')).chain().rest().join(' ').value();
-			item.processtime = t.toString("h:mm").concat(t.getHours()>=12?" PM":" AM");
-			item.transactionNumber = item.receipt_id+"-"+item.transactionNumber;
-			if(item.type=="SALE") {item.type="SALE RECEIPT"}
-			else if(item.type=="REFUND") {item.type="REFUND RECEIPT"}
-			else if(item.type=="VOID") {item.type="SALE RECEIPT - VOIDED"}
-			else if(item.type=="VOIDREFUND") {item.type="REFUND RECEIPT - VOIDED"}
-			//item.electricdata = [{resp:"aaaa\naaaa\n"},{resp:"bbbb\nbbb\n"}];
-			return item;
-		});
-		
-		data_TMP = _.applyToValues(data_TMP, function(obj){
-				if(obj && obj.discount==0){
-					obj.discount=null;
-				}
-				if(obj && obj.quantity){
-					obj.orderamount = (obj.price * obj.quantity).toFixed(2);
-					obj.quantity+="";
-				}
-				return toFixed(2)(obj);
-			}, true);
-		
-		var html = ich.menuReportsCancelledTabel_TMP({items:data_TMP});
-		$("cancelledtable").html(html);
-		
-		_.each(data_TMP, function(item){
+	canceledTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)
+	(function(err,data_TMP){
+	     data_TMP=_.map(data_TMP, function(item){
+				var item = _.clone(item);
+				//item.time.start=(new Date(item.time.start)).toString("yyyy/MM/dd-HH:mm:ss");
+				var t = new Date(item.time.start);
+				item.processday = _(t.toDateString().split(' ')).chain().rest().join(' ').value();
+				item.processtime = t.toString("h:mm").concat(t.getHours()>=12?" PM":" AM");
+				item.transactionNumber = item.receipt_id+"-"+item.transactionNumber;
+				if(item.type=="SALE") {item.type="SALE RECEIPT"}
+				else if(item.type=="REFUND") {item.type="REFUND RECEIPT"}
+				else if(item.type=="VOID") {item.type="SALE RECEIPT - VOIDED"}
+				else if(item.type=="VOIDREFUND") {item.type="REFUND RECEIPT - VOIDED"}
+				//item.electricdata = [{resp:"aaaa\naaaa\n"},{resp:"bbbb\nbbb\n"}];
+				return item;
+			    });
+	     
+	     data_TMP = 
+		 _.applyToValues(data_TMP, function(obj){
+				     if(obj && obj.discount==0){
+					 obj.discount=null;
+				     }
+				     if(obj && obj.quantity){
+					 obj.orderamount = (obj.price * obj.quantity).toFixed(2);
+					 obj.quantity+="";
+				     }
+				     return toFixed(2)(obj);
+				 }, true);
+	     
+	     var html = ich.menuReportsCancelledTabel_TMP({items:data_TMP});
+	     $("cancelledtable").html(html);
+	     
+	     _.each(data_TMP, function(item){
 			var item = _.clone(item);
 			
 			var dialogtitle=getDialogTitle(ReportData,item.name);
-							
-			var btn = $('#'+item._id).button().click(function(){
-				var btnData = item;
-				btnData.discount=null;
-				//TODO:
-				//btnData.storename = ReportData.store.storeName;
-				var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
-				quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
-			});
-		});	
-	});
-		
+			
+			var btn = $('#'+item._id)
+			    .button()
+			    .click(function(){
+				       var btnData = item;
+				       btnData.discount=null;
+				       //TODO:
+				       //btnData.storename = ReportData.store.storeName;
+				       //FIXME: use walk,
+				       _.applyToValues(ReportData,
+						       function(o){
+							   if(o.store_id==btnData.store_id){
+							       btnData.storename = o.storeName;
+							   }
+							   return o;
+						       }
+						       ,true);
+				       var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
+				       quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
+				   });
+		    });	
+	 });
+	
     } else {
    	alert("Input Date");
     }
