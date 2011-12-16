@@ -32,13 +32,13 @@ var ZEROED_FIELDS = {allDiscount: 0,
 		     lastindex:0};
 
 function toFixed(mag){
-function roundNumber(number, decimals) { // Arguments: number to round, number of decimal places
-	var newnumber = new Number(number+'').toFixed(parseInt(decimals));
-	document.roundform.roundedfield.value =  parseFloat(newnumber); // Output the result to the form field (change for your purposes)
-}
+    function roundNumber(rnum, rlength) { // Arguments: number to round, number of decimal places
+	var newnumber = Math.round(rnum*Math.pow(10,rlength))/Math.pow(10,rlength);
+	document.roundform.numberfield.value = parseFloat(newnumber); // Output the result to the form field (change for your purposes)
+    }
     return function(num){
 	if(_.isNumber(num)){
-	    return num.toFixed(mag);
+	    return roundNumber(num,mag);
 	}
 	return num;
     };
