@@ -797,11 +797,18 @@
 	<tr>
 	  <td>Totals</td>
 	  {{#total}}
-	  <td align="right">{{transactions}}</td>
-	  <td align="right">{{refunds}}</td>
+	   <td align="right">{{transactions}}</td>
+	  {{#origin_sales}}
 	  <td align="right">{{menu}}</td>
 	  <td align="right">{{scan}}</td>
 	  <td align="right">{{ecr}}</td>
+	  {{/origin_sales}}
+	  <td align="right">{{refunds}}</td>
+	  {{#origin_refunds}}
+	  <td align="right">{{menu}}</td>
+	  <td align="right">{{scan}}</td>
+	  <td align="right">{{ecr}}</td>
+	  {{/origin_refunds}}
 	  <td align="right">{{total}}</td>
 	  <td align="right">{{avgsale}}</td>
 	  {{/total}}
