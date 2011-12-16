@@ -210,11 +210,15 @@ function originTodaysSalesFetcher(view,db,id,runAfter){
 	     ecrRefunds:function(callback){ecrRefunds(returnQuery(callback));}
 	    },
 	    function(err,report){
-		var sales = {};
+		var sales = {}, refunds = {};
 		sales.menu = extractTotalSales(report.menuSales,report.menuRefunds);
 		sales.scan = extractTotalSales(report.scanSales,report.scanRefunds);
 		sales.ecr = extractTotalSales(report.ecrSales,report.ecrRefunds);
-		runAfter(sales);	  
+
+		refunds.menu = extractTotalSales(report.menuRefunds);
+		refunds.scan = extractTotalSales(report.scanRefunds);
+		refunds.ecr = extractTotalSales(report.ecrRefunds);
+		runAfter({sales:sales,refunds:refunds});	  
 	    });
 };
 
