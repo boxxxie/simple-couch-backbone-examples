@@ -152,7 +152,7 @@ var storeReportHowAreWeTodayView =
 	
 function renderHowAreWeGroupsTable(view, startPage) {
 	var groups = ReportData.company.hierarchy.groups;
-    var newGroups = _(_.clone(groups)).map(function(group){ return {id:group.group_id, name:group.groupName}});
+    var newGroups = _(_.clone(groups)).map(function(group){ return {id:group.group_id, name:group.groupName};});
     var parent_id = {id:ReportData.company._id, name:ReportData.company.companyName};
     howAreWeDoingTodayReportFetcher(newGroups,parent_id,function(for_TMP){
 					for_TMP = _.applyToValues(for_TMP,toFixed(2),true);
@@ -182,7 +182,7 @@ function renderHowAreWeStoresTable(view, startPage, group_id) {
 	stores = ReportData.group.stores;
 	breadcrumb = breadCrumb(ReportData.companyName,ReportData.group.groupName); 
     } else {
-	var group = _.find(ReportData.company.hierarchy.groups, function(group){return group.group_id==group_id});
+	var group = _.find(ReportData.company.hierarchy.groups, function(group){return group.group_id==group_id;});
 	parent_id = {id:group.group_id, name:group.groupName};
 	stores = group.stores;
 	breadcrumb = breadCrumb(ReportData.company.companyName,group.groupName); 
@@ -245,12 +245,12 @@ function renderHowAreWeTerminalsTable(view, startPage, store_id) {
     var newTerminals = _(_.clone(terminals)).map(function(terminal){ return {id:terminal.terminal_id, name:terminal.terminal_label};});
     
     howAreWeDoingTodayTerminalReportFetcher(newTerminals,parent_id,function(for_TMP){
-						for_TMP = _.applyToValues(for_TMP,toFixed(2),true);
 						var param = _.extend(for_TMP, {
 									 startPage:startPage,
 									 breadCrumb : breadcrumb
 								     });
-						param.cancelledtransactions = param.cancelledtransactions.toString();
+						param.cancelledtransactions = param.cancelledtransactions+"";
+						for_TMP = _.applyToValues(for_TMP,toFixed(2),true);
 						var html = ich.generalTabel_HowAreWeToday_TMP(_.extend(param,{namefield:"Terminal"}));
 						$(view.el).html(html);
 					    });

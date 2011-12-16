@@ -182,10 +182,10 @@ function todaysSalesFetcher(view,db,id,runAfter){
 
 		_.extend(sales,extractTotalTransactions(report.sales,report.refunds));
 
-		sales.avgsale = Number(sales.sales_total) / Number(sales.transactions);
-		if(_.isNaN(sales.avgsale)){sales.avgsale = 0;}
-
 		sales.sales_minus_refunds = extractTotalSales(report.sales,report.refunds);
+
+		sales.avgsale = Number(sales.sales_minus_refunds) / Number(sales.transactions);
+		if(_.isNaN(sales.avgsale)){sales.avgsale = 0;}
 		runAfter(sales);	  
 	    });
 };
@@ -347,7 +347,6 @@ function originTodaysHourlySalesFetcher(view,db,id,runAfter){
 };
 function todaysHourlySalesFetcher(view,db,id,runAfter){
     var d = relative_dates();
-    //fixme:use todays date not yesterdays
     var todaysQuery = typedTransactionDateRangeGroupedQuery(d.today_h,d.tomorrow_h)(view,db);
     var sales = todaysQuery([id,'SALE']);
     var refunds = todaysQuery([id,'REFUND']);
@@ -396,7 +395,7 @@ function todaysHourlySalesFetcher(view,db,id,runAfter){
 		}
 
 		function transactionSummary(salesData,refundsData){
-		    var sales = 0, refunds = 0, saleCount = 0, refundCount = 0, avgsale = 0;
+		    var sales = 0, refunds = 0, saleCount = 0, refundCount = 0, avgsale = 0, net_sales = 0;
 		    if(_.isNotEmpty(salesData)){
 			sales = salesData.value;
 			saleCount = salesData.count;
@@ -405,8 +404,9 @@ function todaysHourlySalesFetcher(view,db,id,runAfter){
 			refunds = refundsData.value;
 			refundCount = refundsData.count;
 		    };
-		    if(saleCount){avgsale = sales / saleCount;}
-		    return {total:sales - refunds,refunds:refundCount+"",transactions:saleCount+"",avgsale:avgsale};
+		    net_sales = sales - refunds;
+		    if(saleCount){avgsale = net_sales / saleCount;}
+		    return {total:net_sales,refunds:refundCount+"",transactions:saleCount+"",avgsale:avgsale};
 		}
 
 		var stuff = _([]).
@@ -815,7 +815,7 @@ function taxReportFetcher(terminals,startDate,endDate,callback){
 		function extractTaxTotals(cashout){
 		    var tax1 = (Number(cashout.netsaletax1) -  Number(cashout.netrefundtax1)).toFixed(2);
 		    var tax3 = (Number(cashout.netsaletax3) -  Number(cashout.netrefundtax3)).toFixed(2);
-		    return {sales : cashout.netsales, totalsales : cashout.netsalestotal, tax1 :tax1, tax3:tax3, firstindex:cashout.firstindex, lastindex:cashout.lastindex};
+		    return {sales : cashout.netsales - cashout.netrefund, totalsales : cashout.netsalestotal, tax1 :tax1, tax3:tax3, firstindex:cashout.firstindex, lastindex:cashout.lastindex};
 		}
 		return _.extend({},
 				extractTaxTotals(extendedCashoutData.period),

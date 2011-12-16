@@ -176,7 +176,7 @@ _.mixin({
 	    }});
 
 
-/*
+/* FOR MENU ITEM 
 var num_of_menu_screens = 5;
 var num_of_menu_buttons = 180;
 var num_of_menu_buttons_per_screen = 35;
