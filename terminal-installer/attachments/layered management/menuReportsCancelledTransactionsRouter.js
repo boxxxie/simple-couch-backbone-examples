@@ -241,7 +241,7 @@ function renderCancelledTransactionsTable() {
 	(function(err,data_TMP){
 	     data_TMP=_.map(data_TMP, function(item){
 				var item = _.clone(item);
-				//item.time.start=(new Date(item.time.start)).toString("yyyy/MM/dd-HH:mm:ss");
+				item.time.start=(new Date(item.time.start)).toString("yyyy/MM/dd-HH:mm:ss");
 				var t = new Date(item.time.start);
 				item.processday = _(t.toDateString().split(' ')).chain().rest().join(' ').value();
 				item.processtime = t.toString("h:mm").concat(t.getHours()>=12?" PM":" AM");
