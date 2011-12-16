@@ -49,7 +49,7 @@ var menuReportsHourlyActivityView =
 	 renderMenuReportsCompanyHourly: function() {
 	     
 	     var html = ich.hourlyActivityReports_TMP({startPage:"companyReport", 
-	     					       breadCrumb:breadCrumb(ReportData.company.operationalname)});
+	     					       breadCrumb:breadCrumb(ReportData.company.companyName)});
 	     $(this.el).html(html);
 	     
 	     var dropdownGroup = $("#groupsdown");

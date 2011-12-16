@@ -29,10 +29,10 @@ function getReportParam() {
 	    numberOfStores:numStores,
 	    numberOfTerminals:numTerminals,
 	    startPage:'companyReport',
-	    breadCrumb:breadCrumb(company.operationalname),
+	    breadCrumb:breadCrumb(company.companyName),
 	    //instead of using this as a title, we could put it at the top of the dialogHTML and have a generic title
 	    quickViewArgs:{id:ReportData.company._id, 
-			   title:dialogTitle(company.operationalname,null,numGroups,null,numStores,null,numTerminals)
+			   title:dialogTitle(company.companyName,null,numGroups,null,numStores,null,numTerminals)
 			  },
 	    list:[{company_id:company._id}]};
     } 
@@ -79,17 +79,17 @@ function getGroupsTableParam() {
 								      0);
 				     
 				     return {
-					 operationalname:company.operationalname,
+					 companyName:company.companyName,
 					 groupName:group.groupName,
 					 group_id:group.group_id,
 					 numberOfStores:numberOfStores,
 					 numberOfTerminals:numberOfTerminals,
 					 quickViewArgs:{id:group.group_id, 
-							title:dialogTitle(company.operationalname,group.groupName,null,null,numberOfStores,null,numberOfTerminals)
+							title:dialogTitle(company.companyName,group.groupName,null,null,numberOfStores,null,numberOfTerminals)
 						       }
 				     };
 				 })}, {startPage:"companyReport",
-				       breadCrumb:breadCrumb(company.operationalname)});
+				       breadCrumb:breadCrumb(company.companyName)});
 };
 
 
@@ -118,25 +118,25 @@ function getStoresTableParam(group_id) {
 	
 	return _.extend({list: _.map(stores, function(store) {
 					 var numberOfTerminals = _.size(store.terminals);
-					 return {operationalname:company.operationalname,
+					 return {companyName:company.companyName,
 						 groupName:store.groupName,
 						 store_id:store.store_id,
 						 storeName:store.storeName,
 						 storeNumber:store.number,
 						 numberOfTerminals:numberOfTerminals,
 						 quickViewArgs:{id:store.store_id, 
-								title:dialogTitle(company.operationalname,store.groupName,null,store.storeName,null,null,numberOfTerminals)
+								title:dialogTitle(company.companyName,store.groupName,null,store.storeName,null,null,numberOfTerminals)
 							       }
 						};
 				     })}, {startPage:"companyReport",
-					   breadCrumb:breadCrumb(company.operationalname,groupName)});
+					   breadCrumb:breadCrumb(company.companyName,groupName)});
     } 
     else if(!_.isEmpty(ReportData.group)) {
 	var group = ReportData.group;
 	var stores = group.stores;
 	return _.extend({list: _.map(stores, function(store) {
 					 var numberOfTerminals = _.size(store.terminals);
-					 return {operationalname:ReportData.companyName,
+					 return {companyName:ReportData.companyName,
 						 groupName:group.groupName,
 						 store_id:store.store_id,
 						 storeName:store.storeName,
@@ -181,18 +181,18 @@ function getTerminalsTableParam(store_id) {
 	    .flatten()
 	    .value();
 	return _.extend({list: _.map(terminals, function(terminal) {
-					 return {operationalname:company.operationalname,
+					 return {companyName:company.companyName,
 						 groupName:terminal.groupName,
 						 storeName:terminal.storeName,
 						 storeNumber:terminal.storeNumber,
 						 terminalName:terminal.terminal_label,
 						 terminal_id:terminal.terminal_id,
 						 quickViewArgs:{id:terminal.terminal_id,
-								title:dialogTitle(company.operationalname,terminal.groupName,null,terminal.storeName,null,terminal.terminal_label,null)
+								title:dialogTitle(company.companyName,terminal.groupName,null,terminal.storeName,null,terminal.terminal_label,null)
 							       }
 						};
 				     })},{startPage:"companyReport",
-				     	  breadCrumb:breadCrumb(ReportData.company.operationalname)});
+				     	  breadCrumb:breadCrumb(ReportData.company.companyName)});
     } else if(!_.isEmpty(ReportData.group)) {
 	var group = ReportData.group;
 	var stores;
@@ -212,7 +212,7 @@ function getTerminalsTableParam(store_id) {
 	    .value();
 
 	return _.extend({list: _.map(terminals, function(terminal) {
-					 return {operationalname:ReportData.companyName,
+					 return {companyName:ReportData.companyName,
 						 groupName:terminal.groupName,
 						 storeName:terminal.storeName,
 						 storeNumber:terminal.storeNumber,
@@ -229,7 +229,7 @@ function getTerminalsTableParam(store_id) {
 
 	var terminals = store.terminals;
 	return _.extend({list: _.map(terminals, function(terminal) {
-					 return {operationalname:ReportData.companyName,
+					 return {companyName:ReportData.companyName,
 						 groupName:ReportData.groupName,
 						 storeName:store.storeName,
 						 storeNumber:store.number,

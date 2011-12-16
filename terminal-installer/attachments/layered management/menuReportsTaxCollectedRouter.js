@@ -1,8 +1,8 @@
 var menuReportsTaxCollectedRouter = 
     new (Backbone.Router.extend(
 	     {routes: {
-	     	"menuReports/companyReportTaxCollected":"menuReportsCompanyTaxes",
-	     	"menuReports/groupReportTaxCollected":"menuReportsGroupTaxes",
+	     	  "menuReports/companyReportTaxCollected":"menuReportsCompanyTaxes",
+	     	  "menuReports/groupReportTaxCollected":"menuReportsGroupTaxes",
 		  "menuReports/storeReportTaxCollected":"menuReportsStoreTaxes"
 	      },
 	      menuReportsCompanyTaxes:function() {
@@ -15,7 +15,7 @@ var menuReportsTaxCollectedRouter =
 		  console.log("menuReportsStoreTaxes  ");
 	      }	      
 	     }));
-	     
+
 var menuReportsTaxCollectedView = 
     Backbone.View.extend(
 	{initialize:function(){
@@ -32,15 +32,15 @@ var menuReportsTaxCollectedView =
 			   console.log("menuReportsView, route:menuReportsCompanyTaxes");
 			   view.renderMenuReportsCompanyTaxes();
 		       });
-		       
-		menuReportsTaxCollectedRouter
+	     
+	     menuReportsTaxCollectedRouter
 		 .bind('route:menuReportsGroupTaxes', 
 		       function(){
 			   console.log("menuReportsView, route:menuReportsGroupTaxes");
 			   view.renderMenuReportsGroupTaxes();
 		       });
-		
-		menuReportsTaxCollectedRouter
+	     
+	     menuReportsTaxCollectedRouter
 		 .bind('route:menuReportsStoreTaxes', 
 		       function(){
 			   console.log("menuReportsView, route:menuReportsStoreTaxes");
@@ -70,43 +70,54 @@ var menuReportsTaxCollectedView =
 				     selectedDates.not( this ).datepicker( "option", option, date );
 				 }
 			     });
-		$("#dateFrom").datepicker("setDate", new Date().addDays(-1));
-		$("#dateTo").datepicker("setDate", new Date());
+	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
+	     $("#dateTo").datepicker("setDate", new Date());
 	     
 	     var dropdownGroup = $("#groupsdown");
 	     var dropdownStore = $("#storesdown");
 	     var dropdownTerminal = $("#terminalsdown");
 	     
 	     _.each(ReportData.company.hierarchy.groups, function(group) {
-			dropdownGroup.append('<option value=' + group.group_id + '>' + group.groupName + '</option>');
+			dropdownGroup.append('<option value=' 
+					     + group.group_id + '>' + 
+					     group.groupName + 
+					     '</option>');
 		    });
 	     
-	     var stores = _(ReportData.company.hierarchy.groups).chain().map(function(group) {
-										 return group.stores; 
-									     }).flatten().value();
+	     var stores = _(ReportData.company.hierarchy.groups)
+		 .chain().map(function(group) {
+				  return group.stores; 
+			      }).flatten().value();
 	     
 	     _.each(stores, function(store) {
-	 		dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
+	 		dropdownStore.append('<option value=' + 
+					     store.store_id + '>' + 
+					     store.storeName + 
+					     '</option>');
 	 	    });
 	     
 	     var terminals = _(stores).chain().map(function(store) {
 						       return store.terminals?store.terminals:[]; 
 						   }).flatten().value();
-	     if(terminals.length>0) {
-		    _.each(terminals, function(terminal) {
-		 			dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	   });	
-	 	} else {
-	 		$('option', dropdownTerminal).remove();
-	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-	 	}
-	 	    
+	     if(_.isNotEmpty(terminals)) {
+		 _.each(terminals, function(terminal) {
+		 	    dropdownTerminal.append('<option value=' + 
+						    terminal.terminal_id + '>' + 
+						    terminal.terminal_label + 
+						    '</option>');
+		 	});	
+	     } else {
+	 	 $('option', dropdownTerminal).remove();
+	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+	     }
+	     
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsGroupTaxes: function() {
 	     
-	     var html = ich.taxCollectedReports_TMP({startPage:"storeReport", 
-	     					     breadCrumb:breadCrumb(ReportData.companyName, ReportData.group.groupName)});
+	     var html = ich.taxCollectedReports_TMP({startPage:"groupReport", 
+	     					     breadCrumb:breadCrumb(ReportData.companyName, 
+									   ReportData.group.groupName)});
 	     $(this.el).html(html);
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )
@@ -126,39 +137,51 @@ var menuReportsTaxCollectedView =
 				     selectedDates.not( this ).datepicker( "option", option, date );
 				 }
 			     });
-		$("#dateFrom").datepicker("setDate", new Date().addDays(-1));
-		$("#dateTo").datepicker("setDate", new Date());
+	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
+	     $("#dateTo").datepicker("setDate", new Date());
 	     
 	     var dropdownGroup = $("#groupsdown");
 	     var dropdownStore = $("#storesdown");
 	     var dropdownTerminal = $("#terminalsdown");
 	     
 	     $('option', dropdownGroup).remove();
-	     dropdownGroup.append('<option value ='+ReportData.group.group_id+'>'+ReportData.group.groupName+ '</option>');
+	     dropdownGroup.append('<option value ='+
+				  ReportData.group.group_id + '>' +
+				  ReportData.group.groupName+ 
+				  '</option>');
 	     dropdownGroup.attr('disabled','disabled');
 	     
 	     _.each(ReportData.group.stores, function(store) {
- 			dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
+ 			dropdownStore.append('<option value=' + 
+					     store.store_id + '>' + 
+					     store.storeName + 
+					     '</option>');
 	 	    });
 	     
-	     var terminals = _(ReportData.group.stores).chain().map(function(store) {
-									return store.terminals?store.terminals:[]; 
-								    }).flatten().value();
+	     var terminals = _(ReportData.group.stores)
+		 .chain().map(function(store) {
+				  return store.terminals?store.terminals:[]; 
+			      }).flatten().value();
 	     if(terminals.length>0) {
-		    _.each(terminals, function(terminal) {
-		 			dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	   });	
-	 	} else {
-	 		$('option', dropdownTerminal).remove();
-	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-	 	}
-	 	    
+		 _.each(terminals, function(terminal) {
+		 	    dropdownTerminal.append('<option value=' + 
+						    terminal.terminal_id + '>' + 
+						    terminal.terminal_label + 
+						    '</option>');
+		 	});	
+	     } else {
+	 	 $('option', dropdownTerminal).remove();
+	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+	     }
+	     
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsStoreTaxes: function() {
 	     
 	     var html = ich.taxCollectedReports_TMP({startPage:"storeReport", 
-	     					     breadCrumb:breadCrumb(ReportData.companyName, ReportData.groupName, ReportData.store.storeName)});
+	     					     breadCrumb:breadCrumb(ReportData.companyName, 
+									   ReportData.groupName, 
+									   ReportData.store.storeName)});
 	     $(this.el).html(html);
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )
@@ -178,10 +201,10 @@ var menuReportsTaxCollectedView =
 				     selectedDates.not( this ).datepicker( "option", option, date );
 				 }
 			     });
-		$("#dateFrom").datepicker("setDate", new Date().addDays(-1));
-		$("#dateTo").datepicker("setDate", new Date());
+	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
+	     $("#dateTo").datepicker("setDate", new Date());
 	     
-	    var dropdownGroup = $("#groupsdown");
+	     var dropdownGroup = $("#groupsdown");
 	     var dropdownStore = $("#storesdown");
 	     var dropdownTerminal = $("#terminalsdown");
 	     
@@ -190,29 +213,36 @@ var menuReportsTaxCollectedView =
 	     
 	     dropdownGroup.append('<option value=="">'+ReportData.groupName+ '</option>');
 	     dropdownGroup.attr('disabled','disabled');
-	     dropdownStore.append('<option value='+ReportData.store.store_id+'>'+ReportData.store.storeName+ '</option>');
+	     dropdownStore.append('<option value='
+				  +ReportData.store.store_id+'>'+
+				  ReportData.store.storeName+ 
+				  '</option>');
+
 	     dropdownStore.attr('disabled','disabled');
 	     
 	     var terminals = ReportData.store.terminals?ReportData.store.terminals:[];
 	     
 	     if(terminals.length>0) {
-		    _.each(terminals, function(terminal) {
-		 			dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	   });	
-	 	} else {
-	 		$('option', dropdownTerminal).remove();
-	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-	 	}
+		 _.each(terminals, function(terminal) {
+		 	    dropdownTerminal.append('<option value=' + 
+						    terminal.terminal_id + '>' + 
+						    terminal.terminal_label + 
+						    '</option>');
+		 	});	
+	     } else {
+	 	 $('option', dropdownTerminal).remove();
+	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+	     }
 	     
 	     console.log("rendered general report");
 	 }
 	});
-	
+
 /******************************************** helper functions ************************************/
 function renderTaxCollectedTable() {
-	console.log("renderTaxCollectedTable");
-	
-	var dropdownGroup = $("#groupsdown");
+    console.log("renderTaxCollectedTable");
+    
+    var dropdownGroup = $("#groupsdown");
     var dropdownStore = $("#storesdown");
     var dropdownTerminal = $("#terminalsdown");
     
@@ -220,40 +250,38 @@ function renderTaxCollectedTable() {
 	var startDate = new Date($("#dateFrom").val());
 	var endDate = new Date($("#dateTo").val());
 	var endDateForQuery = new Date($("#dateTo").val());
-    endDateForQuery.addDays(1);
+	endDateForQuery.addDays(1);
 	
-	//TODO
 	var ids;
-    
+	
 	if(dropdownTerminal.val()=="ALL") {
 	    ids = _($('option', dropdownTerminal)).chain()
-	    									.filter(function(item){ return item.value!=="ALL";})
-	    									.map(function(item){
-	    										return {id:item.value, name:item.text};
-	    									})
-	    									.value();
+	    	.filter(function(item){ return item.value!=="ALL";})
+	    	.map(function(item){
+	    		 return {id:item.value, name:item.text};
+	    	     })
+	    	.value();
 	} else {
 	    var sd = $("#terminalsdown option:selected");
 	    ids =[{id:sd.val(), name:sd.text()}];
 	}
-	
-	//var ids = _.map(ReportData.store.terminals, function(terminal){
-	//	return {id:terminal.terminal_id, name:terminal.terminal_label};
-	//});
+
 	console.log(ids);
-	
-	
-	
+
 	taxReportFetcher(ids,startDate,endDateForQuery,function(data_TMP){
-		data_TMP=_.map(data_TMP, function(item){
-		var dialogtitle= getDialogTitle(ReportData,item.name,startDate,endDateForQuery);
-			return _.extend(item, {dialogtitle:dialogtitle});
-		});
-		
-		var html = ich.taxCollectedTabel_TMP({items:data_TMP});
-		$("taxcollectedtable").html(html);
-	});
-		
+			     data_TMP=
+				 _.map(data_TMP, function(item){
+					   var dialogtitle= getDialogTitle(ReportData,
+									   item.name,
+									   startDate,
+									   endDateForQuery);
+						return _.extend(item, {dialogtitle:dialogtitle});
+				       });
+			     
+			     var html = ich.taxCollectedTabel_TMP({items:data_TMP});
+			     $("taxcollectedtable").html(html);
+			 });
+	
     } else {
    	alert("Input Date");
     }

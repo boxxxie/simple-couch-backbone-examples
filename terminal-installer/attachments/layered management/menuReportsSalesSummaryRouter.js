@@ -49,7 +49,7 @@ var menuReportsSalesSummaryView =
 	 renderMenuReportsCompanySales: function() {
 	     
 	     var html = ich.salesSummaryReports_TMP({startPage:"companyReport", 
-	     					     breadCrumb:breadCrumb(ReportData.company.operationalname)});
+	     					     breadCrumb:breadCrumb(ReportData.company.companyName)});
 	     $(this.el).html(html);
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )
@@ -215,7 +215,7 @@ function renderSalesSummaryReportTable() {
 	var ids = [];
 	
 	if(storedown.val()=="ALL") {
-	    _.each($('option', storedown), function(option){ if(option.value!=="ALL"){ids=ids.concat(option.value)}});
+	    _.each($('option', storedown), function(option){ if(option.value!=="ALL"){ids=ids.concat(option.value);}});
 	} else {
 	    ids = ids.concat(_.isEmpty(storedown.val())?ReportData.store.store_id:storedown.val());
 	}
@@ -243,7 +243,7 @@ function extractSalesSummaryTableInfo(list) {
 	_.each(groups, function(group){
 		   name = !_(group.stores).chain()
 		       .pluck("store_id")
-		       .filter(function(id){return id==store_id})
+		       .filter(function(id){return id==store_id;})
 		       .isEmpty()
 		       .value()? group.groupName:name;
 	       });
