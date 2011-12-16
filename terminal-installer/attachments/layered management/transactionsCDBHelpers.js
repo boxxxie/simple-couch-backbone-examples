@@ -195,7 +195,7 @@ function originTodaysSalesFetcher(view,db,id,runAfter){
 	var sales = 0, refunds = 0;
 	_.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows).value.sum: sales = 0;
 	_.isFirstNotEmpty(refundsData.rows)? refunds = _.first(refundsData.rows).value.sum: refunds = 0;
-	return sales - refunds;
+	return sales;// - refunds;
     }
 
     async

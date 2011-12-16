@@ -1,12 +1,12 @@
 var menuReportsRefundsRouter = 
     new (Backbone.Router.extend(
 	     {routes: {
-		  "menuReports/storeReportRefunds":"menuReportsStoreRefunds",
+		  "menuReports/companyReportRefunds":"menuReportsCompanyRefunds",
 		  "menuReports/groupReportRefunds":"menuReportsGroupRefunds",
 		  "menuReports/storeReportRefunds":"menuReportsStoreRefunds"
 	      },
-	      menuReportsStoreRefunds:function() {
-		  console.log("menuReportsStoreRefunds  ");
+	      menuReportsCompanyRefunds:function() {
+		  console.log("menuReportsCompanyRefunds  ");
 	      },
 	      menuReportsGroupRefunds:function() {
 		  console.log("menuReportsGroupRefunds  ");
@@ -23,7 +23,7 @@ var menuReportsRefundsView =
 	     view.el = $("main");
 	     
 	     _.bindAll(view, 
-		       'renderMenuReportsStoreRefunds',
+		       'renderMenuReportsCompanyRefunds',
 		       'renderMenuReportsGroupRefunds',
 		       'renderMenuReportsStoreRefunds');
 	     menuReportsRefundsRouter
