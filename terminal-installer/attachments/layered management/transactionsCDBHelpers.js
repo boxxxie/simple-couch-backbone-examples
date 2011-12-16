@@ -815,7 +815,7 @@ function taxReportFetcher(terminals,startDate,endDate,callback){
 		function extractTaxTotals(cashout){
 		    var tax1 = (Number(cashout.netsaletax1) -  Number(cashout.netrefundtax1)).toFixed(2);
 		    var tax3 = (Number(cashout.netsaletax3) -  Number(cashout.netrefundtax3)).toFixed(2);
-		    return {sales : cashout.netsales - cashout.netrefund, totalsales : cashout.netsalestotal, tax1 :tax1, tax3:tax3, firstindex:cashout.firstindex, lastindex:cashout.lastindex};
+		    return {sales : cashout.netsales - cashout.netrefund, totalsales : cashout.netsaleactivity, tax1 :tax1, tax3:tax3, firstindex:cashout.firstindex, lastindex:cashout.lastindex};
 		}
 		return _.extend({},
 				extractTaxTotals(extendedCashoutData.period),
