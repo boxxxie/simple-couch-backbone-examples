@@ -146,7 +146,9 @@ function todaysSalesFetcher(view,db,id,runAfter){
     var d = relative_dates();
     var sales = typedTransactionRangeQuery(view,db,[id,'SALE'])(d.today,d.tomorrow);
     var refunds = typedTransactionRangeQuery(view,db,[id,'REFUND'])(d.today,d.tomorrow);
-
+    function sum(total,cur){
+	return total + cur.value.sum;
+    }
     function extractTotalSales(salesData,refundsData){
 	function sum(total,cur){
 	    return total + cur.value.sum;
@@ -154,7 +156,7 @@ function todaysSalesFetcher(view,db,id,runAfter){
 	var sales = 0, refunds = 0;
 	_.isFirstNotEmpty(salesData.rows)? sales = _.first(salesData.rows).value.sum: sales = 0;
 	_.isFirstNotEmpty(refundsData.rows)? refunds = _.first(refundsData.rows).value.sum: refunds = 0;
-	return sales;// - refunds;
+	return sales - refunds;
     }
 
     function extractTotalTransactions(salesData,refundsData){
@@ -174,11 +176,16 @@ function todaysSalesFetcher(view,db,id,runAfter){
 	    },
 	    function(err,report){
 		var sales = {};
-		sales.sales_total = extractTotalSales(report.sales,report.refunds);
+
+		_.isFirstNotEmpty(report.sales.rows)? sales.sales_total = _.first(report.sales.rows).value.count: sales.sales_total = 0;
+		_.isFirstNotEmpty(report.refunds.rows)? sales.refunds_total = _.first(report.refunds.rows).value.count: sales.refunds_total = 0;
+
 		_.extend(sales,extractTotalTransactions(report.sales,report.refunds));
+
 		sales.avgsale = Number(sales.total) / Number(sales.transactions);
 		if(_.isNaN(sales.avgsale)){sales.avgsale = 0;}
-		sales.refunds_total = extractTotalSales(report.refunds,report.refunds);
+
+		sales.sales_minus_refunds = extractTotalSales(report.sales,report.refunds);
 		runAfter(sales);	  
 	    });
 };
