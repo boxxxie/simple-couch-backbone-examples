@@ -106,7 +106,7 @@ var menuReportsTaxCollectedView =
 	 renderMenuReportsGroupTaxes: function() {
 	     
 	     var html = ich.taxCollectedReports_TMP({startPage:"storeReport", 
-	     					     breadCrumb:breadCrumb(ReportData.companyName, ReportData.groupName, ReportData.store.storeName)});
+	     					     breadCrumb:breadCrumb(ReportData.companyName, ReportData.group.groupName)});
 	     $(this.el).html(html);
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )
