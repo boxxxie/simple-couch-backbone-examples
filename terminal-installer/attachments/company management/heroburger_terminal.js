@@ -1,4 +1,27 @@
-var sample_terminal ={
+var default_menu_item =        {
+    "display": {
+        "is_enabled": false,
+        "image": "",
+        "color": "255,255,255",
+        "screen": 1,
+        "position": 0,
+        "description": [" ", " ", " "]
+    },
+    "foodItem": {
+        "price": 0,
+        "apply_taxes": {
+            "exemption": false,
+            "tax1": true,
+            "tax2": true,
+            "tax3": false
+        },
+        "use_scale": false,
+        "print_to_kitchen": false,
+        "duplicate": false,
+        "has_modifier": false
+    }
+};
+var sample_terminal = {
    "_id": "RT7-RT7-35",
    "_rev": "10-1d175e2c88877124c04f39e59b8b79d2",
    "offlinedays": [

@@ -152,104 +152,106 @@ var storeReportHowAreWeTodayView =
 	
 function renderHowAreWeGroupsTable(view, startPage) {
 	var groups = ReportData.company.hierarchy.groups;
-	var newGroups = _(_.clone(groups)).map(function(group){ return {id:group.group_id, name:group.groupName}});
-	var parent_id = {id:ReportData.company._id, name:ReportData.company.companyName};
-	howAreWeDoingTodayReportFetcher(newGroups,parent_id,function(for_TMP){
-		var param = _.extend(for_TMP, {
-			startPage:startPage,
-			breadCrumb : breadCrumb(ReportData.company.companyName),
-		});
-		_.map(param.items, function(item) {
-			return _.extend(item,{linkaddress:"#menuReports/".concat(startPage)
-															.concat("HowAreWe/group/")
-															.concat(item.id)
-															.concat("/stores")
-												});
-		});
-	    var html = ich.generalTabel_HowAreWeToday_TMP(_.extend(param,{namefield:"Group"}));
-	    $(view.el).html(html);
-	});
+    var newGroups = _(_.clone(groups)).map(function(group){ return {id:group.group_id, name:group.groupName}});
+    var parent_id = {id:ReportData.company._id, name:ReportData.company.companyName};
+    howAreWeDoingTodayReportFetcher(newGroups,parent_id,function(for_TMP){
+					for_TMP = _.applyToValues(for_TMP,toFixed(2),true);
+					var param = _.extend(for_TMP, {
+								 startPage:startPage,
+								 breadCrumb : breadCrumb(ReportData.company.companyName)
+							     });
+					_.map(param.items, function(item) {
+						  return _.extend(item,{linkaddress:"#menuReports/".concat(startPage)
+									.concat("HowAreWe/group/")
+									.concat(item.id)
+									.concat("/stores")
+								       });
+					      });
+					var html = ich.generalTabel_HowAreWeToday_TMP(_.extend(param,{namefield:"Group"}));
+					$(view.el).html(html);
+				    });
 };
 
 function renderHowAreWeStoresTable(view, startPage, group_id) {
-	var stores;
-	var parent_id;
-	var breadcrumb;
-	
-	if(_.isEmpty(group_id)) {
-		parent_id = {id:ReportData.group.group_id, name:ReportData.group.groupName};
-		stores = ReportData.group.stores;
-		breadcrumb = breadCrumb(ReportData.companyName,ReportData.group.groupName); 
-	} else {
-		var group = _.find(ReportData.company.hierarchy.groups, function(group){return group.group_id==group_id});
-		parent_id = {id:group.group_id, name:group.groupName};
-		stores = group.stores;
-		breadcrumb = breadCrumb(ReportData.company.companyName,group.groupName); 
-	}
-	
-	var newStores = _(_.clone(stores)).map(function(store){ return {id:store.store_id, 
-																	name:store.storeName+ "(" + store.number +")"}});
-	
-	
-	howAreWeDoingTodayReportFetcher(newStores,parent_id,function(for_TMP){
-		var param = _.extend(for_TMP, {
-			startPage:startPage,
-			breadCrumb : breadcrumb
-		});
-		
-		_.map(param.items, function(item) {
-			return _.extend(item,{linkaddress:"#menuReports/".concat(startPage)
-															.concat("HowAreWe/store/")
-															.concat(item.id)
-															.concat("/terminals")
-												});
-		});
-		
-	    var html = ich.generalTabel_HowAreWeToday_TMP(_.extend(param,{namefield:"Store"}));
-	    $(view.el).html(html);
-	});
+    var stores;
+    var parent_id;
+    var breadcrumb;
+    
+    if(_.isEmpty(group_id)) {
+	parent_id = {id:ReportData.group.group_id, name:ReportData.group.groupName};
+	stores = ReportData.group.stores;
+	breadcrumb = breadCrumb(ReportData.companyName,ReportData.group.groupName); 
+    } else {
+	var group = _.find(ReportData.company.hierarchy.groups, function(group){return group.group_id==group_id});
+	parent_id = {id:group.group_id, name:group.groupName};
+	stores = group.stores;
+	breadcrumb = breadCrumb(ReportData.company.companyName,group.groupName); 
+    }
+    
+    var newStores = _(_.clone(stores)).map(function(store){ return {id:store.store_id, name:store.storeName+ "(" + store.number +")"};});
+    
+    
+    howAreWeDoingTodayReportFetcher(newStores,parent_id,function(for_TMP){
+					for_TMP = _.applyToValues(for_TMP,toFixed(2),true);
+					var param = _.extend(for_TMP, {
+								 startPage:startPage,
+								 breadCrumb : breadcrumb
+							     });
+					
+					_.map(param.items, function(item) {
+						  return _.extend(item,{linkaddress:"#menuReports/".concat(startPage)
+									.concat("HowAreWe/store/")
+									.concat(item.id)
+									.concat("/terminals")
+								       });
+					      });
+					
+					var html = ich.generalTabel_HowAreWeToday_TMP(_.extend(param,{namefield:"Store"}));
+					$(view.el).html(html);
+				    });
 };
 
 function renderHowAreWeTerminalsTable(view, startPage, store_id) {
-	var terminals;
-	var parent_id;
-	var breadcrumb;
-	
-	if(_.isEmpty(store_id)) {
-		parent_id = {id:ReportData.store.store_id, name:ReportData.store.storeName};
-		terminals = ReportData.store.terminals;
-		breadcrumb = breadCrumb(ReportData.companyName,ReportData.groupName,ReportData.store.storeName); 
-	} else {
-		if(!_.isEmpty(ReportData.company)) {
-			var groups = ReportData.company.hierarchy.groups;
-			var group = _.find(groups, function(group){ 
-				return !_.isEmpty(_.find(group.stores, function(store){
-					return store.store_id==store_id;
-				}))});
-			
-			var stores = group.stores;
-			var store = _.find(stores, function(store){return store.store_id==store_id});
-			parent_id = {id:store.store_id, name:store.storeName};
-			terminals = store.terminals;
-			breadcrumb = breadCrumb(ReportData.company.companyName,group.groupName,store.storeName); 
-		} else if(!_.isEmpty(ReportData.group)) {
-			var stores = ReportData.group.stores;
-			var store = _.find(stores, function(store){return store.store_id==store_id});
-			parent_id = {id:store.store_id, name:store.storeName};
-			terminals = store.terminals;
-			breadcrumb = breadCrumb(ReportData.companyName,ReportData.group.groupName,store.storeName); 
-		}
+    var terminals;
+    var parent_id;
+    var breadcrumb;
+    
+    if(_.isEmpty(store_id)) {
+	parent_id = {id:ReportData.store.store_id, name:ReportData.store.storeName};
+	terminals = ReportData.store.terminals;
+	breadcrumb = breadCrumb(ReportData.companyName,ReportData.groupName,ReportData.store.storeName); 
+    } else {
+	if(!_.isEmpty(ReportData.company)) {
+	    var groups = ReportData.company.hierarchy.groups;
+	    var group = _.find(groups, function(group){ 
+				   return !_.isEmpty(_.find(group.stores, function(store){
+								return store.store_id==store_id;
+							    }));});
+	    
+	    var stores = group.stores;
+	    var store = _.find(stores, function(store){return store.store_id==store_id;});
+	    parent_id = {id:store.store_id, name:store.storeName};
+	    terminals = store.terminals;
+	    breadcrumb = breadCrumb(ReportData.company.companyName,group.groupName,store.storeName); 
+	} else if(!_.isEmpty(ReportData.group)) {
+	    var stores = ReportData.group.stores;
+	    var store = _.find(stores, function(store){return store.store_id==store_id});
+	    parent_id = {id:store.store_id, name:store.storeName};
+	    terminals = store.terminals;
+	    breadcrumb = breadCrumb(ReportData.companyName,ReportData.group.groupName,store.storeName); 
 	}
-	
-	var newTerminals = _(_.clone(terminals)).map(function(terminal){ return {id:terminal.terminal_id, name:terminal.terminal_label}});
-	
-	howAreWeDoingTodayTerminalReportFetcher(newTerminals,parent_id,function(for_TMP){
-		var param = _.extend(for_TMP, {
-			startPage:startPage,
-			breadCrumb : breadcrumb
-		});
-		param.cancelledtransactions = param.cancelledtransactions.toString();
-	    var html = ich.generalTabel_HowAreWeToday_TMP(_.extend(param,{namefield:"Terminal"}));
-	    $(view.el).html(html);
-	});
+    }
+    
+    var newTerminals = _(_.clone(terminals)).map(function(terminal){ return {id:terminal.terminal_id, name:terminal.terminal_label};});
+    
+    howAreWeDoingTodayTerminalReportFetcher(newTerminals,parent_id,function(for_TMP){
+						for_TMP = _.applyToValues(for_TMP,toFixed(2),true);
+						var param = _.extend(for_TMP, {
+									 startPage:startPage,
+									 breadCrumb : breadcrumb
+								     });
+						param.cancelledtransactions = param.cancelledtransactions.toString();
+						var html = ich.generalTabel_HowAreWeToday_TMP(_.extend(param,{namefield:"Terminal"}));
+						$(view.el).html(html);
+					    });
 };
