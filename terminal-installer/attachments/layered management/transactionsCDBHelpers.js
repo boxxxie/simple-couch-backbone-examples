@@ -218,7 +218,7 @@ function originTodaysSalesFetcher(view,db,id,runAfter){
 		refunds.menu = extractTotalSales(report.menuRefunds,report.menuRefunds);
 		refunds.scan = extractTotalSales(report.scanRefunds,report.menuRefunds);
 		refunds.ecr = extractTotalSales(report.ecrRefunds,report.menuRefunds);
-		runAfter({sales:sales,refunds:refunds});	  
+		runAfter({origin_sales:sales,origin_refunds:refunds});	  
 	    });
 };
 
