@@ -757,10 +757,13 @@
 	<tr>
 	  <th>{{namefield}}</th>
 	  <th># of Sales Trans</th>
+	  <th>Menu Sales</th>
+	  <th>Scan Sales</th>
+	  <th>ECR Sales</th>
 	  <th># of Refunds Trans</th>
-	  <th>Menu</th>
-	  <th>Scan</th>
-	  <th>ECR</th>
+	  <th>Menu Refunds</th>
+	  <th>Scan Refunds</th>
+	  <th>ECR Refunds</th>
 	  <th>Total</th>
 	  <th>AVG Sale</th>
 	</tr>
@@ -776,10 +779,17 @@
 	  	{{/linkaddress}}
 	  </td>
 	  <td align="right">{{transactions}}</td>
-	  <td align="right">{{refunds}}</td>
+	  {{#origin_sales}}
 	  <td align="right">{{menu}}</td>
 	  <td align="right">{{scan}}</td>
 	  <td align="right">{{ecr}}</td>
+	  {{/origin_sales}}
+	  <td align="right">{{refunds}}</td>
+	  {{#origin_refunds}}
+	  <td align="right">{{menu}}</td>
+	  <td align="right">{{scan}}</td>
+	  <td align="right">{{ecr}}</td>
+	  {{/origin_refunds}}
 	  <td align="right">{{total}}</td>
 	  <td align="right">{{avgsale}}</td>
 	</tr>
