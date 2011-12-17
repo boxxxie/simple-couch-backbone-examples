@@ -1,8 +1,8 @@
 var menuReportsCashOutsRouter = 
     new (Backbone.Router.extend(
 	     {routes: {
-	     	"menuReports/companyReportCashOuts":"menuReportsCompanyCashouts",
-	     	"menuReports/groupReportCashOuts":"menuReportsGroupCashouts",
+	     	  "menuReports/companyReportCashOuts":"menuReportsCompanyCashouts",
+	     	  "menuReports/groupReportCashOuts":"menuReportsGroupCashouts",
 		  "menuReports/storeReportCashOuts":"menuReportsStoreCashouts"
 	      },
 	      menuReportsCompanyCashouts:function() {
@@ -32,13 +32,13 @@ var menuReportsCashOutsView =
 			   console.log("menuReportsView, route:menuReportsCompanyCashouts");
 			   view.renderMenuReportsCompanyCashouts();
 		       });
-		menuReportsCashOutsRouter
+	     menuReportsCashOutsRouter
 		 .bind('route:menuReportsGroupCashouts', 
 		       function(){
 			   console.log("menuReportsView, route:menuReportsGroupCashouts");
 			   view.renderMenuReportsGroupCashouts();
 		       });
-		menuReportsCashOutsRouter
+	     menuReportsCashOutsRouter
 		 .bind('route:menuReportsStoreCashouts', 
 		       function(){
 			   console.log("menuReportsView, route:menuReportsStoreCashouts");
@@ -70,9 +70,9 @@ var menuReportsCashOutsView =
 			     });
 	     
 	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
-		$("#dateTo").datepicker("setDate", new Date());
-		
-		var dropdownGroup = $("#groupsdown");
+	     $("#dateTo").datepicker("setDate", new Date());
+	     
+	     var dropdownGroup = $("#groupsdown");
 	     var dropdownStore = $("#storesdown");
 	     var dropdownTerminal = $("#terminalsdown");
 	     
@@ -92,14 +92,14 @@ var menuReportsCashOutsView =
 						       return store.terminals?store.terminals:[]; 
 						   }).flatten().value();
 	     if(terminals.length>0) {
-		    _.each(terminals, function(terminal) {
-		 			dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	   });	
-	 	} else {
-	 		$('option', dropdownTerminal).remove();
-	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-	 	}
-		
+		 _.each(terminals, function(terminal) {
+		 	    dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+		 	});	
+	     } else {
+	 	 $('option', dropdownTerminal).remove();
+	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+	     }
+	     
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsGroupCashouts: function() {
@@ -127,9 +127,9 @@ var menuReportsCashOutsView =
 			     });
 	     
 	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
-		$("#dateTo").datepicker("setDate", new Date());
-		
-		var dropdownGroup = $("#groupsdown");
+	     $("#dateTo").datepicker("setDate", new Date());
+	     
+	     var dropdownGroup = $("#groupsdown");
 	     var dropdownStore = $("#storesdown");
 	     var dropdownTerminal = $("#terminalsdown");
 	     
@@ -145,14 +145,14 @@ var menuReportsCashOutsView =
 									return store.terminals?store.terminals:[]; 
 								    }).flatten().value();
 	     if(terminals.length>0) {
-		    _.each(terminals, function(terminal) {
-		 			dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	   });	
-	 	} else {
-	 		$('option', dropdownTerminal).remove();
-	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-	 	}
-		
+		 _.each(terminals, function(terminal) {
+		 	    dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+		 	});	
+	     } else {
+	 	 $('option', dropdownTerminal).remove();
+	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+	     }
+	     
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsStoreCashouts: function() {
@@ -180,9 +180,9 @@ var menuReportsCashOutsView =
 			     });
 	     
 	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
-		$("#dateTo").datepicker("setDate", new Date());
-		
-		var dropdownGroup = $("#groupsdown");
+	     $("#dateTo").datepicker("setDate", new Date());
+	     
+	     var dropdownGroup = $("#groupsdown");
 	     var dropdownStore = $("#storesdown");
 	     var dropdownTerminal = $("#terminalsdown");
 	     
@@ -197,14 +197,14 @@ var menuReportsCashOutsView =
 	     var terminals = ReportData.store.terminals?ReportData.store.terminals:[];
 	     
 	     if(terminals.length>0) {
-		    _.each(terminals, function(terminal) {
-		 			dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	   });	
-	 	} else {
-	 		$('option', dropdownTerminal).remove();
-	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-	 	}
-	 	
+		 _.each(terminals, function(terminal) {
+		 	    dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+		 	});	
+	     } else {
+	 	 $('option', dropdownTerminal).remove();
+	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+	     }
+	     
 	     console.log("rendered general report");
 	 }
 	});
@@ -223,18 +223,17 @@ function rendermenuReportsCashOutsTable() {
 	var endDateForQuery = new Date($("#dateTo").val());
 	var today = (new Date()).toString("MM/dd/yyyy");
 	
-    endDateForQuery.addDays(1);
+	endDateForQuery.addDays(1);
 	
-	//TODO
 	var ids;
-    
+	
 	if(dropdownTerminal.val()=="ALL") {
 	    ids = _($('option', dropdownTerminal)).chain()
-	    									.filter(function(item){ return item.value!=="ALL";})
-	    									.map(function(item){
-	    										return {id:item.value, name:item.text};
-	    									})
-	    									.value();
+	    	.filter(function(item){ return item.value!=="ALL";})
+	    	.map(function(item){
+	    		 return {id:item.value, name:item.text};
+	    	     })
+	    	.value();
 	} else {
 	    var sd = $("#terminalsdown option:selected");
 	    ids =[{id:sd.val(), name:sd.text()}];
@@ -245,11 +244,16 @@ function rendermenuReportsCashOutsTable() {
 	cashoutReportFetcher(ids,startDate,endDateForQuery)
 	(function(data_TMP){
 	     data_TMP = _.map(data_TMP, function(item){
-				var dialogtitle=getDialogTitle(ReportData,item.name);
-				return _.extend(item, {dialogtitle:dialogtitle});
-			    });
+				  var dialogtitle=getDialogTitle(ReportData,item.name);
+				  return _.extend(item, {dialogtitle:dialogtitle});
+			      });
 
-	     var html = ich.menuReportsCashOutsTabel_TMP({items:data_TMP});
+	     if(_.isEmpty(data_TMP)){
+		 var html = "There are no cashouts for this time period<br/>";	 
+	     }
+	     else{
+		 var html = ich.menuReportsCashOutsTabel_TMP({items:data_TMP});
+	     }
 	     $("cashoutstable").html(html);
 	     
 	     _.each(data_TMP, function(item){	

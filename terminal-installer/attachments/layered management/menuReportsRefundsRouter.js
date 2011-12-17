@@ -266,8 +266,13 @@ function renderRefundsTable() {
 					    return toFixed(2)(obj);
 					}, true);
 	     
-	     
-	     var html = ich.menuReportsRefundsTabel_TMP({items:data_TMP});
+	     if(_.isEmpty(data_TMP)){
+		 var html = "There are no refunds for this time period<br/>";	 
+	     }
+	     else{
+		 var html = ich.menuReportsRefundsTabel_TMP({items:data_TMP});
+	     }
+
 	     $("refundstable").html(html);
 	     
 	     _.each(data_TMP, function(item){	

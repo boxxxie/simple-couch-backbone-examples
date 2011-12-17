@@ -270,8 +270,12 @@ function renderDiscountsTable() {
 					    return toFixed(2)(obj);
 					}, true);
 	     
-	     
-	     var html = ich.menuReportsDiscountsTabel_TMP({items:data_TMP});
+	     if(_.isEmpty(data_TMP)){
+		 var html = "There are no discounts for this time period<br/>";	 
+	     }
+	     else{
+		 var html = ich.menuReportsDiscountsTabel_TMP({items:data_TMP});
+	     }
 	     $("discountstable").html(html);
 	     
 	     _.each(data_TMP, function(item){	
