@@ -38,7 +38,7 @@ function toFixed(mag){
     }
     return function(num){
 	if(_.isNumber(num)){
-	    return roundNumber(num,mag);
+	    return roundNumber(num,mag).toFixed(mag);
 	}
 	return num;
     };
