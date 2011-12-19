@@ -4,16 +4,32 @@ var Menu = couchDoc.extend(
     {
 	urlRoot:urlBase + db_menus,
 	menu_screen:function(screen){
-	    if(!this.menuButtons || _.isEmpty(this.menuButtons)){
+	    var menuButtons = this.get('menuButtons');
+	    if(!menuButtons || _.isEmpty(menuButtons)){
 		this.set_empty_menu();
 	    }
-	    var buttonRows = _(this.toJSON().menuButtons).chain()
+	    var buttonRows = _(this.get('menuButtons')).chain()
 		.groupBy(function(button){return button.display.screen;})
 		.peek(screen)
 		.partition(4)
 		.map(function(row){return {row:row};})
 		.value();
 	    return {menu_screen : buttonRows};
+	},
+	set_button:function(button){
+	    var screen = button.screen;
+	    var position = button.position;
+	    var menuButtons = this.get('menuButtons');
+	    var buttonToChange = this.find_button(menuButtons,screen,position);
+	    buttonToChange = button;
+	    this.set({menuButtons:menuButtons});    
+	},
+	get_button:function(screen,position){
+	    var menuButtons = this.get('menuButtons');
+	    return this.find_button(menuButtons,screen,position);
+	},
+	find_button:function(menuButtons,screen,position){
+	    return _(menuButtons).find(function(button){return button.screen == screen && button.position == position;});
 	},
 	set_empty_menu :function(){
 	    var default_menu_item =        
