@@ -174,25 +174,3 @@ _.mixin({
 		}
 		return partition_helper(arr,size);
 	    }});
-
-
- //FOR MENU ITEM 
-/*
-var num_of_menu_screens = 5;
-var num_of_menu_buttons = 180;
-var num_of_menu_buttons_per_screen = 36;
-var test = _(num_of_menu_screens).chain().range().zip(_.range(1,num_of_menu_screens+1))
-    .map(function(menu_screen){
-             return _(num_of_menu_buttons_per_screen).chain().range()
-		 .map(function(menu_item){
-			  var display = {display:_.extend(_.clone(default_menu_item.display),
-							  {screen: _.first(menu_screen), position: menu_item})};
-			  return _.extend(_.clone(default_menu_item),display);
-		      }).value();
-	 })
-    .flatten()
-    .value();
-console.log(test)
-console.log(_.size(test))
-
-*/

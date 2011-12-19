@@ -6,8 +6,6 @@ function guidGenerator() {
     };
     return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
-
-
 function checkLength( str, min, max) {
     if ( str.length > max || str.length < min ) {
 	return false;
@@ -15,7 +13,6 @@ function checkLength( str, min, max) {
 	return true;
     }
 };
-
 function checkRegexp(str, regexp) {
     if ( !( regexp.test(str) ) ) {
 	return false;
@@ -23,7 +20,6 @@ function checkRegexp(str, regexp) {
 	return true;
     }
 };
-
 function validateCompany(newCompany_w_options, previous) {
     function userExists(user){
 	return Companies.find(function(company){return company.get('user')==user;});
@@ -183,7 +179,6 @@ function deleteThing(companyID,groupID,storeID) {
 	deleteCompany(companyID);		
     }
 }
-
 function quickView(template,companyID,groupID,storeID,terminalID){
     var company = Companies.getModelById(companyID);
     var companyJSON = company.toJSON();
@@ -202,7 +197,6 @@ function quickView(template,companyID,groupID,storeID,terminalID){
     }
     quickViewDialog(ich[template](for_TMP));
 }
-
 function installTerminal(companyID,groupID,storeID,terminalID){
     //all of the IDs have to exist for the terminal to be installed. we'll trust that they are correct for now
     if(_.isEmpty(companyID)||_.isEmpty(groupID)||_.isEmpty(storeID)||_.isEmpty(terminalID)){
@@ -218,48 +212,51 @@ function installTerminal(companyID,groupID,storeID,terminalID){
 	alert("The terminal could not be installed");
 	return;
     }
-    var installInfo = {terminal_id:terminal.terminal_id,
-		       terminal_label:terminal.terminal_label,
-		       store_id:store.store_id,
-		       store_label:store.storeName,
-		       group_id:group.group_id,
-		       group_label:group.groupName,
-		       company_id:company.get('_id'),
-		       company_label:company.get('companyName'),
-		       location:_.selectKeys(terminal,["postalCode","areaCode","storeCode","companyCode","cityCode","countryCode"]),
-		       creationDate:terminal.creationdate,
-		       receipt_id:terminal.receipt_id,
-		       
-		       printers:sample_terminal.printers,
-		       departments:sample_terminal.departments,
-		       menuButtonHeaders:sample_terminal.menuButtonHeaders,
-		       menuButtons:sample_terminal.menuButtons,
-		       scales:sample_terminal.scales,
-		       showMobQRedits:terminal.usingmobqredits,
-		       locally_modifiable:!terminal.centrallycontrolmenus,
-		       automatedPayment:terminal.usingautomatedpayment,
-			   
-		       creditPayment:sample_terminal.creditPayment,
-		       debitPayment:sample_terminal.debitPayment,
-		       mobilePayment:sample_terminal.mobilePayment,
-		       paymentGateway:sample_terminal.paymentGateway,
-			   
-		       receiptHeaders:sample_terminal.receiptHeaders,
-		       cardserver:sample_terminal.cardserver,
-		       cardserverport:sample_terminal.cardserverport,
-		       cardterminalid:sample_terminal.cardterminalid,
-		       connectiontimeout:sample_terminal.connectiontimeout,
-		       store_address:{
-			   country:store.address.country,
-			   state_prov:store.address.province,
-			   city:store.address.city,
-			   zip_postal:store.address.postalcode,
-			   street:[store.address.street0,store.address.street1],
-			   phones:[store.contact.phone],
-			   emails:[store.contact.email]
-		       },
-		       store_number:store.number
-		      };
+    function terminal_install_properties(company,group,store,terminal,sample_terminal){
+	return {terminal_id:terminal.terminal_id,
+	   terminal_label:terminal.terminal_label,
+	   store_id:store.store_id,
+	   store_label:store.storeName,
+	   group_id:group.group_id,
+	   group_label:group.groupName,
+	   company_id:company.get('_id'),
+	   company_label:company.get('companyName'),
+	   location:_.selectKeys(terminal,["postalCode","areaCode","storeCode","companyCode","cityCode","countryCode"]),
+	   creationDate:terminal.creationdate,
+	   receipt_id:terminal.receipt_id,
+	   
+	   printers:sample_terminal.printers,
+	   departments:sample_terminal.departments,
+	   menuButtonHeaders:sample_terminal.menuButtonHeaders,
+	   menuButtons:sample_terminal.menuButtons,
+	   scales:sample_terminal.scales,
+	   showMobQRedits:terminal.usingmobqredits,
+	   locally_modifiable:!terminal.centrallycontrolmenus,
+	   automatedPayment:terminal.usingautomatedpayment,
+	   
+	   creditPayment:sample_terminal.creditPayment,
+	   debitPayment:sample_terminal.debitPayment,
+	   mobilePayment:sample_terminal.mobilePayment,
+	   paymentGateway:sample_terminal.paymentGateway,
+	   
+	   receiptHeaders:sample_terminal.receiptHeaders,
+	   cardserver:sample_terminal.cardserver,
+	   cardserverport:sample_terminal.cardserverport,
+	   cardterminalid:sample_terminal.cardterminalid,
+	   connectiontimeout:sample_terminal.connectiontimeout,
+	   store_address:{
+	       country:store.address.country,
+	       state_prov:store.address.province,
+	       city:store.address.city,
+	       zip_postal:store.address.postalcode,
+	       street:[store.address.street0,store.address.street1],
+	       phones:[store.contact.phone],
+	       emails:[store.contact.email]
+	   },
+	   store_number:store.number
+	  };
+    }
+    
 
     if(terminal.installed){
 	alert("The terminal has been installed already");
@@ -267,29 +264,41 @@ function installTerminal(companyID,groupID,storeID,terminalID){
     }
 
     var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
-    var db_corp = "terminals_corp";
-    var db_rt7 = "terminals_rt7";
-    var Terminal_rt7 = couchDoc.extend({urlRoot:urlBase + db_rt7});
-    var Terminal_corp = couchDoc.extend({urlRoot:urlBase + db_corp});
-    var terminalToInstall_rt7 = new Terminal_rt7(installInfo);
-    var terminalToInstall_corp = new Terminal_corp(installInfo);
+    var db_menus = "menus";
+    var Menu = couchDoc.extend({urlRoot:urlBase + db_menus});
+    var terminal_menu = new Menu({_id:companyID});
+    terminal_menu.fetch(
+	{success:function(model){
+	     //use the menu set up by the company for this terminal installation.
+	     var sample_terminal_with_menus = _.extend({},sample_terminal,_.selectKeys(model.toJSON(),['menuButtons','menuButtonHeaders']));
+	     var new_terminal_properties = terminal_install_properties(company,group,store,terminal,sample_terminal_with_menus);
+	     installRT7_and_CORP_terminals(new_terminal_properties);
+	 },
+	 error:function(){
+	     //install the terminal with the default sample terminal menu (possibly empty)
+	     var new_terminal_properties = terminal_install_properties(company,group,store,terminal,sample_terminal);
+	     installRT7_and_CORP_terminals(new_terminal_properties);
+	 }});
 
-    //on the success of the install of the first terminal, install the second terminal.
-    //this way we only have one success message.
-    //it may be possible to do this with triggers, TameJS, or monads, in a more elegant way.
-    terminalToInstall_rt7.save({},
-			       {success:function(__,_,resp){
-				    terminalToInstall_corp.set({_id:resp.id});
-				    terminalToInstall_corp.save(
-					{},{success:function(){
-						alert("The terminal has been installed successfully");
-					    }});}});
-
-    terminal.installed = true;
-    company.save();
-    
+    //FIXME: use async.js waterfall
+    function installRT7_and_CORP_terminals(terminal_properties){
+	var db_corp = "terminals_corp";
+	var db_rt7 = "terminals_rt7";
+	var Terminal_rt7 = couchDoc.extend({urlRoot:urlBase + db_rt7});
+	var Terminal_corp = couchDoc.extend({urlRoot:urlBase + db_corp});
+	var terminalToInstall_rt7 = new Terminal_rt7(terminal_properties);
+	var terminalToInstall_corp = new Terminal_corp(terminal_properties);
+	terminalToInstall_rt7.save({},
+				   {success:function(__,_,resp){
+					terminalToInstall_corp.set({_id:resp.id});
+					terminalToInstall_corp.save(
+					    {},{success:function(){
+						    alert("The terminal has been installed successfully");
+						    terminal.installed = true;
+						    company.save();
+						}});}});  
+    }   
 }
-
 function doc_setup(){
     
     var companiesView;
