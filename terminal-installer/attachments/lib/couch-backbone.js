@@ -16,6 +16,14 @@ var couchDoc = Backbone.Model.extend(
 	    options.success = function(resp, status, xhr){
 		if (success){success(resp, status, xhr);}
 	    };
+	    var error = options.error;   
+	    options.error = function(resp, status, xhr){
+		console.log("some error");
+		if(_(status.responseText).trim() =='{"error":"not_found","reason":"no_db_file"}'){
+		    //need to create a new database to store the document
+		}
+		if (error){error(resp, status, xhr);}
+	    };
 	    Backbone.Model.prototype.save.call(this, attrs, options);
 	},	
 	destroy:function(options){

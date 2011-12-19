@@ -90,11 +90,12 @@ function fetch_company_menu(companyID){
 	terminal_menu.fetch(
 	    {success:function(model){
 		 //return use the menu set up by the company.		     
-		 callback(_.selectKeys(model.toJSON(),['menuButtons','menuButtonHeaders']));
+		 //callback(_.selectKeys(model.toJSON(),['menuButtons','menuButtonHeaders']));
+		 callback(model);
 	     },
-	     error:function(){
+	     error:function(model){
 		 //return an empty menu
-		 callback(create_empty_menu());
+		 callback(model.set(create_empty_menu()));
 	     }});
     };
 }

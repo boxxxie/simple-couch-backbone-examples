@@ -1,5 +1,11 @@
 function sortStores(stores){
-    return _.sortBy(stores, function(store){return Number(_.first(store.number.match(/\d+/)));});
+    return _.sortBy(stores, function(store){
+			var storeNumberMatch = store.number.match(/\d+/);
+			if(storeNumberMatch){
+			    return Number(_.first(storeNumberMatch));
+			}
+			return 0;
+		    });
 };
 function randInt_maker(length){
     return function(){
