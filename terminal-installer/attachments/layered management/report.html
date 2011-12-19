@@ -1123,22 +1123,22 @@
 		</button>	
     	</td></tr>
     	<tr><td>
-		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusHeader(1);">
+		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderEditHeader(1);">
 			<span class="ui-button-text">Edit Menu1 Header</span>
 		</button>	
     	</td></tr>
     	<tr><td>
-		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusHeader(2);">
+		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderEditHeader(2);">
 			<span class="ui-button-text">Edit Menu2 Header</span>
 		</button>	
     	</td></tr>
 		<tr><td>
-		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusHeader(3);">
+		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderEditHeader(3);">
 			<span class="ui-button-text">Edit Menu3 Header</span>
 		</button>	
     	</td></tr>
 		<tr><td>
-		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusHeader(4);">
+		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderEditHeader(4);">
 			<span class="ui-button-text">Edit Menu4 Header</span>
 		</button>	
     	</td></tr>
@@ -1152,10 +1152,10 @@
 		{{#menu_screen}}
 		{{#row}}
 		<tr>
-		{{#col}}
 		<!--FIXME : onclick function would better be in js file-->
-			<td id={{screen}}:{{position}} onclick="renderEditMenuItem({{screen}},{{position}});">{{description1}}{{description2}}{{description3}}</td>
-		{{/col}}
+			{{#display}}
+			<td id={{screen}}:{{position}} onclick="renderEditMenuItem({{screen}},{{position}});">{{#description}}{{.}}{{/description}}</td>
+			{{/display}}
 		</tr>
 		{{/row}}
 		{{/menu_screen}}

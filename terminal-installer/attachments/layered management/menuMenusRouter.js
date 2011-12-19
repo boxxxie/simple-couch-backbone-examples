@@ -126,7 +126,15 @@ function renderMenuSetMenusScreen(numScreen) {
 	
 };
 
-function renderMenusSetMenusHeader(numHeader) {
+function renderEditPage(isMenu,num,position) {
+	
+};
+
+function renderEditHeader(numHeader) {
+	
+};
+
+function renderEditMenuItem(numScreen,position) {
 	
 };
 
