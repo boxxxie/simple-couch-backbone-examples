@@ -17,12 +17,14 @@ var couchDoc = Backbone.Model.extend(
 		if (success){success(resp, status, xhr);}
 	    };
 	    var error = options.error;   
-	    options.error = function(resp, status, xhr){
+	    options.error = function(model, status, xhr){
 		console.log("some error");
 		if(_(status.responseText).trim() =='{"error":"not_found","reason":"no_db_file"}'){
+		    //TODO: finish creating a DB if one doesn't exist when trying to do a new document (requires a rewrite, sounds like it could be a bad idea)
 		    //need to create a new database to store the document
+		    //$.couch.db("new/menus",{},true).create()
 		}
-		if (error){error(resp, status, xhr);}
+		if (error){error(model, status, xhr);}
 	    };
 	    Backbone.Model.prototype.save.call(this, attrs, options);
 	},	
