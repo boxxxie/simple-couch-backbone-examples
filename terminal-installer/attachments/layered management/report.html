@@ -27,6 +27,8 @@
     <script language="javascript" type="text/javascript" src="../lib/forms.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/date.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/async.js"></script>
+    
+    <script language="javascript" type="text/javascript" src="../lib/Menu.js"></script>
 
     <script language="javascript" type="text/javascript" src="../layered management/menu_helpers.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/dialogs.js"></script>
@@ -1148,16 +1150,16 @@
 	</script>
 	
 	<script id="menuSetMenus_Center_TMP" type="text/html">
-    	<table border="1">
+    	<table border="1" cellpadding="10">
 		{{#menu_screen}}
-		{{#row}}
 		<tr>
+		{{#row}}
 		<!--FIXME : onclick function would better be in js file-->
 			{{#display}}
-			<td id={{screen}}:{{position}} onclick="renderEditMenuItem({{screen}},{{position}});">{{#description}}{{.}}{{/description}}</td>
+			<td width="40" height="50" id={{screen}}:{{position}} onclick="renderEditMenuItem({{screen}},{{position}});">{{#description}}{{.}}{{/description}}</td>
 			{{/display}}
-		</tr>
 		{{/row}}
+		</tr>
 		{{/menu_screen}}
 		</table>
 	</script>

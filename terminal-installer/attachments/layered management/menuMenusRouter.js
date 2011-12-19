@@ -46,16 +46,18 @@ var menuSetMenusView =
 		       });
 	 },
 	 renderMenuSetMenusCompany: function() {
-	    //fetch_company_menu(ReportData.company._id)(function(for_TMP){
-	    //	console.log(for_TMP);
+	 	var view = this;
+	    fetch_company_menu(ReportData.company._id)(function(menu){
+	    	console.log(menu);
+	    	
 	    	var html = ich.menuSetMenus_TMP({startPage:"companyReport", 
 	     						    breadCrumb:breadCrumb(ReportData.company.companyName)});
-		     $(this.el).html(html);
+		     $(view.el).html(html);
 		     
 		     var htmlleft = ich.menuSetMenus_Left_TMP({});
 		     $("menusetmenusleft").html(htmlleft);
 	
-			var htmlcenter = ich.menuSetMenus_Center_TMP({});
+			var htmlcenter = ich.menuSetMenus_Center_TMP(menu.menu_screen(1));
 		     $("menusetmenuscenter").html(htmlcenter);
 		     
 		     var htmlbottom = ich.menuSetMenus_Bottom_TMP({menu1title:"MENU1",
@@ -68,24 +70,24 @@ var menuSetMenusView =
 		     $("menusetmenusright").html(htmlright);
 			
 		     console.log("rendered set menus");	
-	    //}); 
+	    }); 
 	     
 	 },
 	 renderMenuSetMenusGroup: function() {
-	     
+	     var view = this;
 	     var html = ich.menuSetMenus_TMP({startPage:"groupReport", 
 	     						    breadCrumb:breadCrumb(ReportData.companyName, ReportData.group.groupName)});
-	     $(this.el).html(html);
+	     $(view.el).html(html);
 	     
 	    
 		
 	     console.log("rendered set menus");
 	 },
 	 renderMenuSetMenusStore: function() {
-	     
+	     var view = this;
 	     var html = ich.menuSetMenus_TMP({startPage:"storeReport", 
 	     						    breadCrumb:breadCrumb(ReportData.companyName, ReportData.groupName, ReportData.store.storeName)});
-	     $(this.el).html(html);
+	     $(view.el).html(html);
 	          
 	 	
 	     console.log("rendered set menus");
@@ -93,36 +95,8 @@ var menuSetMenusView =
 	});
 
 /******************************************** helper functions ************************************/
-/*
- function rendermenuReportsCashOutsTable() {
-    console.log("renderCashOutsTable");
-    
-    	
-	console.log(ids);
-	
-	cashoutReportFetcher(ids,startDate,endDateForQuery)
-	(function(data_TMP){
-	     data_TMP = _.map(data_TMP, function(item){
-				var dialogtitle=getDialogTitle(ReportData,item.name);
-				return _.extend(item, {dialogtitle:dialogtitle});
-			    });
 
-	     var html = ich.menuReportsCashOutsTabel_TMP({items:data_TMP});
-	     $("cashoutstable").html(html);
-	     
-	     _.each(data_TMP, function(item){	
-			var btn = $('#'+item.id)
-			    .button()
-			    .click(function(){
-				       var data = item.cashout;
-				       var html = ich.menuReportsCashoutQuickViewDialog_TMP(data);
-				       quickmenuReportsCashoutViewDialog(html, {title:item.dialogtitle});
-				   });
-		    });		
-	 });
-};
-*/
-function renderMenuSetMenusScreen(numScreen) {
+function renderMenuSetMenusScreen(numMenu) {
 	
 };
 
