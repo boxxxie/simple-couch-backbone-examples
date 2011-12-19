@@ -80,6 +80,7 @@ function create_empty_menu(){
     return menu;
 };
 
+//FIXME: the callback should use a backbone model, instead of data.
 function fetch_company_menu(companyID){
     var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
     var db_menus = "menus";
