@@ -47,6 +47,7 @@
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsRefundsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsDiscountsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReports.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/menuMenusRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/report.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/docRdy.js"></script>
     
@@ -1100,7 +1101,7 @@
     
     
     <!-------------------------------------------------- Menu SET MENUS --------------------------------------->
-    <script id="dropdownSetMenus_P" class="partial" type="text/html">
+  <!--  <script id="dropdownSetMenus_P" class="partial" type="text/html">
     	Menus File : <select id="menusdown" class="{{>commonClasses_P}}">
     	</select>
     </script>
@@ -1113,23 +1114,146 @@
     		<option value = "menu4" selected>MENU 4</option>
     		<option value = "modifiers" selected>MODIFIERS</option>
     	</select>
-    </script>
+    </script> -->
     
-    
-    <script id="menuSetMenus_TMP" type="text/html">
-    	<h1>Set Menus</h1>
+    <script id="menuSetMenus_Left_TMP" type="text/html">
+    	<tr><td>
+		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusScreen(0);">
+			<span class="ui-button-text">Modifiers</span>
+		</button>	
+    	</td></tr>
+    	<tr><td>
+		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusHeader(1);">
+			<span class="ui-button-text">Edit Menu1 Header</span>
+		</button>	
+    	</td></tr>
+    	<tr><td>
+		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusHeader(2);">
+			<span class="ui-button-text">Edit Menu2 Header</span>
+		</button>	
+    	</td></tr>
+		<tr><td>
+		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusHeader(3);">
+			<span class="ui-button-text">Edit Menu3 Header</span>
+		</button>	
+    	</td></tr>
+		<tr><td>
+		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusHeader(4);">
+			<span class="ui-button-text">Edit Menu4 Header</span>
+		</button>	
+    	</td></tr>
+		<tr><td>
+		{{>backButton_P}}
+		</td></tr>
+	</script>
+	
+	<script id="menuSetMenus_Center_TMP" type="text/html">
+    	<table border="1">
+		{{#menu_screen}}
+		{{#row}}
+		<tr>
+		{{#col}}
+		<!--FIXME : onclick function would better be in js file-->
+			<td id={{screen}}:{{position}} onclick="renderEditMenuItem({{screen}},{{position}});">{{description1}}{{description2}}{{description3}}</td>
+		{{/col}}
+		</tr>
+		{{/row}}
+		{{/menu_screen}}
+		</table>
+	</script>
+	
+	<script id="menuSetMenus_Bottom_TMP" type="text/html">
+    	<tr>
+			<td>
+			<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusScreen(1);">
+				<span class="ui-button-text">{{menu1title}}</span>
+			</button>	
+			</td>
+			<td>
+			<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusScreen(2);">
+				<span class="ui-button-text">{{menu2title}}</span>
+			</button>	
+			</td>
+			<td>
+			<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusScreen(3);">
+				<span class="ui-button-text">{{menu3title}}</span>
+			</button>	
+			</td>
+			<td>
+			<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusScreen(4);">
+				<span class="ui-button-text">{{menu4title}}</span>
+			</button>	
+			</td>
+		</tr>
+	</script>
+	
+	<script id="menuSetMenus_Right_TMP" type="text/html">
+    	<label>{{menuSetMenusrighttitle}}</label>
+		<br/>
+		<label>Description 1: </label>
+		<input type="text" id="editmenudescription1" /><br />
+		<label>Description 2: </label>
+		<input type="text" id="editmenudescription2" /><br />
+		<label>Description 3: </label>
+		<input type="text" id="editmenudescription3" /><br />
+		<label>Color : </label>
+		<input type="text" id="editmenucolor" /><br/>
+		<label>Price : </label>
+		<input type="text" id="editmenucolor" /><br/>
+		
+		<input type="checkbox" id="editmenuactive" {{#editmenuactive}}checked=true{{/editmenuactive}} />
+		<label for="editmenuactive">Active</label>
+		<input type="checkbox" id="editmenumodifier" {{#editmenumodifier}}checked=true{{/editmenumodifier}} />
+		<label for="editmenumodifier">Modifier</label>
+		<input type="checkbox" id="editmenuapplyexemption" {{#editmenuapplyexemption}}checked=true{{/editmenuapplyexemption}} />
+		<label for="editmenuapplyexemption">Apply Exemption</label><br/>
+		
+		<input type="checkbox" id="editmenuapplytax1" {{#editmenuapplytax1}}checked=true{{/editmenuapplytax1}} />
+		<label for="editmenuapplytax1">Apply Tax1</label>
+		<input type="checkbox" id="editmenuapplytax2" {{#editmenuapplytax2}}checked=true{{/editmenuapplytax2}} />
+		<label for="editmenuapplytax2">Apply Tax2</label>
+		<input type="checkbox" id="editmenuapplytax3" {{#editmenuapplytax3}}checked=true{{/editmenuapplytax3}} />
+		<label for="editmenuapplytax3">Apply Tax3</label><br/>
+		
+		<input type="checkbox" id="editmenureadscale" {{#editmenureadscale}}checked=true{{/editmenureadscale}} />
+		<label for="editmenureadscale">Read Scale</label>
+		<input type="checkbox" id="editmenuprintkitchen" {{#editmenuprintkitchen}}checked=true{{/editmenuprintkitchen}} />
+		<label for="editmenuprintkitchen">Print in Kitchen</label><br/>
+		
+		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="clearEditMenu();">
+				<span class="ui-button-text">Clear</span>
+		</button>			
+		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="saveEditMenu();">
+				<span class="ui-button-text">Save</span>
+		</button>
+		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="closeEditMenu();">
+				<span class="ui-button-text">Close</span>
+		</button>
+	</script>
+	
+	<script id="menuSetMenus_TMP" type="text/html">
+		<h1>Set Menus</h1>
     	<h2>{{>breadcrumb_P}}</h2>
-    	{{>dropdownSetMenus_P}}
-    	{{>dropdownMenuScreen_P}}
-    	{{>dropdownSetMenusGoButton_P}}
-    	<br/><br/>
-    	<menusetmenus1table></menusetmenus1table>
-    	<menusetmenus2table></menusetmenus2table>
-    	<menusetmenus3table></menusetmenus3table>
-    	<menusetmenus4table></menusetmenus4table>
-    	<menusetmenus5table></menusetmenus5table>
-    </script>
-    
+		<table>
+			<tr>
+				<td rowspan="2">
+					<menusetmenusleft></menusetmenusleft>
+				</td>
+				<td>
+					<menusetmenuscenter></menusetmenuscenter>
+				</td>
+				<td>
+					<menusetmenusright></menusetmenusright>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<menusetmenusbottom></menusetmenusbottom>
+				</td>
+				<td></td>
+			</tr>
+		</table>
+	</script>
     
     
     <!------------------------------------------------------- LAYER LOGIN------------------------------------------>

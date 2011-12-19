@@ -46,41 +46,30 @@ var menuSetMenusView =
 		       });
 	 },
 	 renderMenuSetMenusCompany: function() {
-	     
-	     var html = ich.menuSetMenus_TMP({startPage:"companyReport", 
+	    //fetch_company_menu(ReportData.company._id)(function(for_TMP){
+	    //	console.log(for_TMP);
+	    	var html = ich.menuSetMenus_TMP({startPage:"companyReport", 
 	     						    breadCrumb:breadCrumb(ReportData.company.companyName)});
-	     $(this.el).html(html);
+		     $(this.el).html(html);
+		     
+		     var htmlleft = ich.menuSetMenus_Left_TMP({});
+		     $("menusetmenusleft").html(htmlleft);
+	
+			var htmlcenter = ich.menuSetMenus_Center_TMP({});
+		     $("menusetmenuscenter").html(htmlcenter);
+		     
+		     var htmlbottom = ich.menuSetMenus_Bottom_TMP({menu1title:"MENU1",
+		     											menu2title:"MENU2",
+		     											menu3title:"MENU3",
+		     											menu4title:"MENU4"});
+		     $("menusetmenusbottom").html(htmlbottom);
+		     
+		     var htmlright = ich.menuSetMenus_Right_TMP({menuSetMenusrighttitle:"Edit Menu Item"});
+		     $("menusetmenusright").html(htmlright);
+			
+		     console.log("rendered set menus");	
+	    //}); 
 	     
-	     		
-		var dropdownGroup = $("#groupsdown");
-	     var dropdownStore = $("#storesdown");
-	     var dropdownTerminal = $("#terminalsdown");
-	     
-	     _.each(ReportData.company.hierarchy.groups, function(group) {
-			dropdownGroup.append('<option value=' + group.group_id + '>' + group.groupName + '</option>');
-		    });
-	     
-	     var stores = _(ReportData.company.hierarchy.groups).chain().map(function(group) {
-										 return group.stores; 
-									     }).flatten().value();
-	     
-	     _.each(stores, function(store) {
-	 		dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
-	 	    });
-	     
-	     var terminals = _(stores).chain().map(function(store) {
-						       return store.terminals?store.terminals:[]; 
-						   }).flatten().value();
-	     if(terminals.length>0) {
-		    _.each(terminals, function(terminal) {
-		 			dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	   });	
-	 	} else {
-	 		$('option', dropdownTerminal).remove();
-	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-	 	}
-		
-	     console.log("rendered set menus");
 	 },
 	 renderMenuSetMenusGroup: function() {
 	     
@@ -104,36 +93,11 @@ var menuSetMenusView =
 	});
 
 /******************************************** helper functions ************************************/
-function rendermenuReportsCashOutsTable() {
+/*
+ function rendermenuReportsCashOutsTable() {
     console.log("renderCashOutsTable");
     
-    var dropdownGroup = $("#groupsdown");
-    var dropdownStore = $("#storesdown");
-    var dropdownTerminal = $("#terminalsdown");
-
-    if(!_.isEmpty($("#dateFrom").val()) && !_.isEmpty($("#dateTo").val())) {
-	var startDate = new Date($("#dateFrom").val());
-	var endDate = new Date($("#dateTo").val());
-	var endDateForQuery = new Date($("#dateTo").val());
-	var today = (new Date()).toString("MM/dd/yyyy");
-	
-    endDateForQuery.addDays(1);
-	
-	//TODO
-	var ids;
-    
-	if(dropdownTerminal.val()=="ALL") {
-	    ids = _($('option', dropdownTerminal)).chain()
-	    									.filter(function(item){ return item.value!=="ALL";})
-	    									.map(function(item){
-	    										return {id:item.value, name:item.text};
-	    									})
-	    									.value();
-	} else {
-	    var sd = $("#terminalsdown option:selected");
-	    ids =[{id:sd.val(), name:sd.text()}];
-	}
-	
+    	
 	console.log(ids);
 	
 	cashoutReportFetcher(ids,startDate,endDateForQuery)
@@ -156,8 +120,14 @@ function rendermenuReportsCashOutsTable() {
 				   });
 		    });		
 	 });
-	
-    } else {
-   	alert("Input Date");
-    }
 };
+*/
+function renderMenuSetMenusScreen(numScreen) {
+	
+};
+
+function renderMenusSetMenusHeader(numHeader) {
+	
+};
+
+
