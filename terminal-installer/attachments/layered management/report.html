@@ -111,7 +111,7 @@
       <a href="#menuSetMenus/{{startPage}}">Set Menus</a>
     </script>
     
-    <script id="AIR_Buttons_P" class="partial" type="text/html">
+    <script id="AIRS_Buttons_P" class="partial" type="text/html">
       <miscMenus>
 	<h3>Menus</h3>
 	<ol>
@@ -119,6 +119,17 @@
 	  <li>{{>inventoryButton_P}}</li>
 	  <li>{{>reportsButton_P}}</li>
 	  <li>{{>setMenusButton_P}}</li>
+	</ol>
+      </miscMenus>
+    </script>
+    
+    <script id="AIR_Buttons_P" class="partial" type="text/html">
+      <miscMenus>
+	<h3>Menus</h3>
+	<ol>
+	  <li>{{>adminButton_P}}</li>
+	  <li>{{>inventoryButton_P}}</li>
+	  <li>{{>reportsButton_P}}</li>
 	</ol>
       </miscMenus>
     </script>
@@ -1156,7 +1167,13 @@
 		{{#row}}
 		<!--FIXME : onclick function would better be in js file-->
 			{{#display}}
-			<td width="40" height="50" id={{screen}}:{{position}} onclick="renderEditMenuItem({{screen}},{{position}});">{{#description}}{{.}}{{/description}}</td>
+			<td width="80" height="30" id={{screen}}:{{position}} onclick="renderEditMenuItem({{screen}},{{position}});">
+				<ul style="list-style-type: none; padding-left: 0px">
+				<li>{{#description}}{{0}}{{/description}}</li>
+				<li>{{#description}}{{1}}{{/description}}</li>
+				<li>{{#description}}{{2}}{{/description}}</li>					
+				</ul>
+			</td>
 			{{/display}}
 		{{/row}}
 		</tr>
@@ -1190,37 +1207,53 @@
 	</script>
 	
 	<script id="menuSetMenus_Right_TMP" type="text/html">
-    	<label>{{menuSetMenusrighttitle}}</label>
+		<label>{{menuSetMenusrighttitle}}</label>
+		<form>
 		<br/>
+		{{#display}}
 		<label>Description 1: </label>
-		<input type="text" id="editmenudescription1" /><br />
+		<input type="text" var="display.description.0" id="editmenudescription0" value="{{#description}}{{0}}{{/description}}"/><br />
 		<label>Description 2: </label>
-		<input type="text" id="editmenudescription2" /><br />
+		<input type="text" var="display.description.1" id="editmenudescription1" value="{{#description}}{{1}}{{/description}}"/><br />
 		<label>Description 3: </label>
-		<input type="text" id="editmenudescription3" /><br />
+		<input type="text" var="display.description.2" id="editmenudescription2" value="{{#description}}{{2}}{{/description}}"/><br />
 		<label>Color : </label>
-		<input type="text" id="editmenucolor" /><br/>
+		<input type="text" var="display.color" id="editmenucolor" value="{{color}}" /><br/>
+		{{/display}}
+		
+		{{#foodItem}}
 		<label>Price : </label>
-		<input type="text" id="editmenucolor" /><br/>
+		<input type="text" var="foodItem.price" id="price" value="{{price}}"/><br/>
+		{{/foodItem}}
 		
-		<input type="checkbox" id="editmenuactive" {{#editmenuactive}}checked=true{{/editmenuactive}} />
-		<label for="editmenuactive">Active</label>
-		<input type="checkbox" id="editmenumodifier" {{#editmenumodifier}}checked=true{{/editmenumodifier}} />
-		<label for="editmenumodifier">Modifier</label>
-		<input type="checkbox" id="editmenuapplyexemption" {{#editmenuapplyexemption}}checked=true{{/editmenuapplyexemption}} />
-		<label for="editmenuapplyexemption">Apply Exemption</label><br/>
+		{{#display}}
+		<input type="checkbox" var="display.is_enabled" id="is_enabled" {{#is_enabled}}checked=true{{/is_enabled}} />
+		<label for="is_enabled">Active</label>
+		<input type="hidden" var="display.screen" value="{{screen}}" />
+		<input type="hidden" var="display.position" value="{{position}}" />
+		{{/display}}
 		
-		<input type="checkbox" id="editmenuapplytax1" {{#editmenuapplytax1}}checked=true{{/editmenuapplytax1}} />
-		<label for="editmenuapplytax1">Apply Tax1</label>
-		<input type="checkbox" id="editmenuapplytax2" {{#editmenuapplytax2}}checked=true{{/editmenuapplytax2}} />
-		<label for="editmenuapplytax2">Apply Tax2</label>
-		<input type="checkbox" id="editmenuapplytax3" {{#editmenuapplytax3}}checked=true{{/editmenuapplytax3}} />
-		<label for="editmenuapplytax3">Apply Tax3</label><br/>
-		
-		<input type="checkbox" id="editmenureadscale" {{#editmenureadscale}}checked=true{{/editmenureadscale}} />
-		<label for="editmenureadscale">Read Scale</label>
-		<input type="checkbox" id="editmenuprintkitchen" {{#editmenuprintkitchen}}checked=true{{/editmenuprintkitchen}} />
-		<label for="editmenuprintkitchen">Print in Kitchen</label><br/>
+		{{#foodItem}}
+		<input type="checkbox" var="foodItem.has_modifier" id="has_modifier" {{#has_modifier}}checked=true{{/has_modifier}} />
+		<label for="has_modifier">Modifier</label>
+		{{#apply_taxes}}
+		<input type="checkbox" var="foodItem.apply_taxes.exemption" id="exemption" {{#exemption}}checked=true{{/exemption}} />
+		<label for="exemption">Apply Exemption</label><br/>
+		<input type="checkbox" var="foodItem.apply_taxes.tax1" id="tax1" {{#tax1}}checked=true{{/tax1}} />
+		<label for="tax1">Apply Tax1</label>
+		<input type="checkbox" var="foodItem.apply_taxes.tax2" id="tax2" {{#tax2}}checked=true{{/tax2}} />
+		<label for="tax2">Apply Tax2</label>
+		<input type="checkbox" var="foodItem.apply_taxes.tax3" id="tax3" {{#tax3}}checked=true{{/tax3}} />
+		<label for="tax3">Apply Tax3</label><br/>
+		{{/apply_taxes}}
+		<input type="checkbox" var="foodItem.use_scale" id="use_scale" {{#use_scale}}checked=true{{/use_scale}} />
+		<label for="use_scale">Read Scale</label>
+		<input type="checkbox" var="foodItem.print_to_kitchen" id="print_to_kitchen" {{#print_to_kitchen}}checked=true{{/print_to_kitchen}} />
+		<label for="print_to_kitchen">Print in Kitchen</label>
+		<input type="checkbox" var="foodItem.duplicate" id="duplicate" {{#duplicate}}checked=true{{/duplicate}} />
+		<label for="duplicate">Duplicate</label><br/>
+		{{/foodItem}}
+		</form>
 		
 		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="clearEditMenu();">
 				<span class="ui-button-text">Clear</span>
@@ -1320,7 +1353,7 @@
 	  <li>{{>numberOfTerminalsFields_P}}</li>
 	</ul>
       </summaryTablesMenu>
-      {{>AIR_Buttons_P}}
+      {{>AIRS_Buttons_P}}
       <footer>
 	{{>logoutButton_P}}
       </footer>

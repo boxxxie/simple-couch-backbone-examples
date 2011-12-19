@@ -328,7 +328,12 @@ var Mustache = function() {
       }
     }
   });
-}();/*!
+  
+  
+}();
+
+
+/*!
   ICanHaz.js -- by @HenrikJoreteg
 */
 /*global jQuery  */

@@ -17,19 +17,37 @@ var Menu = couchDoc.extend(
 	    return {menu_screen : buttonRows};
 	},
 	set_button:function(button){
-	    var screen = button.screen;
-	    var position = button.position;
+	    var screen = button.display.screen;
+	    var position = button.display.position;
 	    var menuButtons = this.get('menuButtons');
-	    var buttonToChange = this.find_button(menuButtons,screen,position);
-	    buttonToChange = button;
-	    this.set({menuButtons:menuButtons});    
+	    
+	    var newMenuButtons = _.map(menuButtons, function(menubutton){
+	    	if(menubutton.display.screen==screen&&menubutton.display.position==position) {
+	    		return button;
+	    	}else {
+	    		return menubutton;
+	    	}
+	    });
+	    //var buttonToChange = this.find_button(menuButtons,screen,position);
+	    //buttonToChange = button;
+	    
+	    console.log("buttonToChange : ");
+	    console.log(this.find_button(newMenuButtons,screen,position));
+	    
+	    //_.each(menuButtons, function(button){
+	    //	console.log("screen, position : " + button.display.screen + ", " + button.display.position);
+	    //	console.log(button);
+	    //});
+	    
+	    
+	    this.set({menuButtons:newMenuButtons});
 	},
 	get_button:function(screen,position){
 	    var menuButtons = this.get('menuButtons');
 	    return this.find_button(menuButtons,screen,position);
 	},
 	find_button:function(menuButtons,screen,position){
-	    return _(menuButtons).find(function(button){return button.screen == screen && button.position == position;});
+	    return _(menuButtons).find(function(button){return button.display.screen == screen && button.display.position == position;});
 	},
 	set_empty_menu :function(){
 	    var default_menu_item =        
