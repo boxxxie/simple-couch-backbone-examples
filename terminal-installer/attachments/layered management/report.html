@@ -103,6 +103,10 @@
       <a href="#menuReports/{{startPage}}">Reports</a>
     </script>
     
+    <script id="setMenusButton_P" class="partial" type="text/html">
+      <a href="#menuSetMenus/{{startPage}}">Set Menus</a>
+    </script>
+    
     <script id="AIR_Buttons_P" class="partial" type="text/html">
       <miscMenus>
 	<h3>Menus</h3>
@@ -110,6 +114,7 @@
 	  <li>{{>adminButton_P}}</li>
 	  <li>{{>inventoryButton_P}}</li>
 	  <li>{{>reportsButton_P}}</li>
+	  <li>{{>setMenusButton_P}}</li>
 	</ol>
       </miscMenus>
     </script>
@@ -225,6 +230,15 @@
 	</span>
       </button>
     </script>
+    
+    
+	<script id="dropdownSetMenusGoButton_P" class="partial" type="text/html">
+	<button onclick="renderSetMenusTable();" class="ui-state-default ui-corner-all">
+	<span class="ui-button-text">
+	  Go
+	</span>
+      </button>
+	</script>
     
     <script id="quickReportViewHook_P" class="partial" type="text/html">
       <div id="dialog-quickView" title="{{title}}"></div>
@@ -1082,6 +1096,40 @@
       {{>backButton_P}}
       {{>menuButton_P}}
     </script>
+    
+    
+    <!-------------------------------------------------- Menu SET MENUS --------------------------------------->
+    <script id="dropdownSetMenus_P" class="partial" type="text/html">
+    	Menus File : <select id="menusdown" class="{{>commonClasses_P}}">
+    	</select>
+    </script>
+    
+    <script id="dropdownMenuScreen_P" class="partial" type="text/html">
+    	Menu : <select id="menuscreendown" class="{{>commonClasses_P}}">
+    		<option value = "menu1" selected>MENU 1</option>
+    		<option value = "menu2" selected>MENU 2</option>
+    		<option value = "menu3" selected>MENU 3</option>
+    		<option value = "menu4" selected>MENU 4</option>
+    		<option value = "modifiers" selected>MODIFIERS</option>
+    	</select>
+    </script>
+    
+    
+    <script id="menuSetMenus_TMP" type="text/html">
+    	<h1>Set Menus</h1>
+    	<h2>{{>breadcrumb_P}}</h2>
+    	{{>dropdownSetMenus_P}}
+    	{{>dropdownMenuScreen_P}}
+    	{{>dropdownSetMenusGoButton_P}}
+    	<br/><br/>
+    	<menusetmenus1table></menusetmenus1table>
+    	<menusetmenus2table></menusetmenus2table>
+    	<menusetmenus3table></menusetmenus3table>
+    	<menusetmenus4table></menusetmenus4table>
+    	<menusetmenus5table></menusetmenus5table>
+    </script>
+    
+    
     
     <!------------------------------------------------------- LAYER LOGIN------------------------------------------>
     <script id="layerLogin_TMP" type="text/html">
