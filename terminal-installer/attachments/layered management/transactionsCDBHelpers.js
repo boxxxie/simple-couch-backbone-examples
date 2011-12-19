@@ -13,6 +13,12 @@ var ZEROED_FIELDS = {allDiscount: 0,
 		     debitpayment: 0, 
 		     mobilepayment: 0, 
 		     otherpayment: 0, 
+
+		     cashtotal: 0, 
+		     credittotal: 0, 
+		     debittotal: 0, 
+		     mobiletotal: 0, 
+		     othertotal: 0, 
 		     noofsale: 0, 
 		     avgpayment: 0, 
 		     cashrefund: 0, 
@@ -32,9 +38,13 @@ var ZEROED_FIELDS = {allDiscount: 0,
 		     lastindex:0};
 
 function toFixed(mag){
+    function roundNumber(rnum, rlength) { // Arguments: number to round, number of decimal places
+	var newnumber = Math.round(rnum*Math.pow(10,rlength))/Math.pow(10,rlength);
+	return parseFloat(newnumber); // Output the result to the form field (change for your purposes)
+    }
     return function(num){
 	if(_.isNumber(num)){
-	    return num.toFixed(mag);
+	    return roundNumber(num,mag).toFixed(mag);
 	}
 	return num;
     };
@@ -182,10 +192,10 @@ function todaysSalesFetcher(view,db,id,runAfter){
 
 		_.extend(sales,extractTotalTransactions(report.sales,report.refunds));
 
-		sales.avgsale = Number(sales.sales_total) / Number(sales.transactions);
-		if(_.isNaN(sales.avgsale)){sales.avgsale = 0;}
-
 		sales.sales_minus_refunds = extractTotalSales(report.sales,report.refunds);
+
+		sales.avgsale = Number(sales.sales_minus_refunds) / Number(sales.transactions);
+		if(_.isNaN(sales.avgsale)){sales.avgsale = 0;}
 		runAfter(sales);	  
 	    });
 };
@@ -347,7 +357,6 @@ function originTodaysHourlySalesFetcher(view,db,id,runAfter){
 };
 function todaysHourlySalesFetcher(view,db,id,runAfter){
     var d = relative_dates();
-    //fixme:use todays date not yesterdays
     var todaysQuery = typedTransactionDateRangeGroupedQuery(d.today_h,d.tomorrow_h)(view,db);
     var sales = todaysQuery([id,'SALE']);
     var refunds = todaysQuery([id,'REFUND']);
@@ -396,7 +405,7 @@ function todaysHourlySalesFetcher(view,db,id,runAfter){
 		}
 
 		function transactionSummary(salesData,refundsData){
-		    var sales = 0, refunds = 0, saleCount = 0, refundCount = 0, avgsale = 0;
+		    var sales = 0, refunds = 0, saleCount = 0, refundCount = 0, avgsale = 0, net_sales = 0;
 		    if(_.isNotEmpty(salesData)){
 			sales = salesData.value;
 			saleCount = salesData.count;
@@ -405,8 +414,9 @@ function todaysHourlySalesFetcher(view,db,id,runAfter){
 			refunds = refundsData.value;
 			refundCount = refundsData.count;
 		    };
-		    if(saleCount){avgsale = sales / saleCount;}
-		    return {total:sales - refunds,refunds:refundCount+"",transactions:saleCount+"",avgsale:avgsale};
+		    net_sales = sales - refunds;
+		    if(saleCount){avgsale = net_sales / saleCount;}
+		    return {total:net_sales,refunds:refundCount+"",transactions:saleCount+"",avgsale:avgsale};
 		}
 
 		var stuff = _([]).
@@ -522,9 +532,9 @@ function generalSalesReportFetcher(view,db,id,runAfter){
 	    },
 	    function(err,report){
 		var sales = {};
-		sales.yesterdaysales= extractTotalSales(report.yesterdaysSales,report.yesterdaysRefunds).toFixed(2);
-		sales.mtdsales = extractTotalSales(report.monthsSales,report.monthsRefunds).toFixed(2);
-		sales.ytdsales = extractTotalSales(report.yearsSales,report.yearsRefunds).toFixed(2);
+		sales.yesterdaysales= toFixed(2)(extractTotalSales(report.yesterdaysSales,report.yesterdaysRefunds));
+		sales.mtdsales = toFixed(2)(extractTotalSales(report.monthsSales,report.monthsRefunds));
+		sales.ytdsales = toFixed(2)(extractTotalSales(report.yearsSales,report.yearsRefunds));
 		runAfter(sales);	  
 	    });
 };
@@ -813,9 +823,9 @@ function taxReportFetcher(terminals,startDate,endDate,callback){
     	return function(err,cashoutData){
 	    function extractTemplateData(extendedCashoutData){
 		function extractTaxTotals(cashout){
-		    var tax1 = (Number(cashout.netsaletax1) -  Number(cashout.netrefundtax1)).toFixed(2);
-		    var tax3 = (Number(cashout.netsaletax3) -  Number(cashout.netrefundtax3)).toFixed(2);
-		    return {sales : cashout.netsales, totalsales : cashout.netsalestotal, tax1 :tax1, tax3:tax3, firstindex:cashout.firstindex, lastindex:cashout.lastindex};
+		    var tax1 = toFixed(2)((Number(cashout.netsaletax1) -  Number(cashout.netrefundtax1)));
+		    var tax3 = toFixed(2)((Number(cashout.netsaletax3) -  Number(cashout.netrefundtax3)));
+		    return {sales : cashout.netsales - cashout.netrefund, totalsales : cashout.netsaleactivity, tax1 :tax1, tax3:tax3, firstindex:cashout.firstindex, lastindex:cashout.lastindex};
 		}
 		return _.extend({},
 				extractTaxTotals(extendedCashoutData.period),

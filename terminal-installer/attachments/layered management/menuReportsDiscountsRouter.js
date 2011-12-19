@@ -239,54 +239,71 @@ function renderDiscountsTable() {
 	}
 	console.log(ids);
 	
-	discountTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)(function(err,data_TMP){
-		//data_TMP = _.reject(data_TMP, function(item){return item.discount<=0});
-		
-		data_TMP=_.map(data_TMP, function(item){
-			var item = _.clone(item);
-			item.time.start=(new Date(item.time.start)).toString("yyyy/MM/dd-HH:mm:ss");
-			var t = new Date(item.time.start);
-			item.processday = _(t.toDateString().split(' ')).chain().rest().join(' ').value();
-			item.processtime = t.toString("h:mm").concat(t.getHours()>=12?" PM":" AM");
-			item.transactionNumber = item.receipt_id+"-"+item.transactionNumber;
-			if(item.type=="SALE") {item.type="SALE RECEIPT"}
-			else if(item.type=="REFUND") {item.type="REFUND RECEIPT"}
-			else if(item.type=="VOID") {item.type="SALE RECEIPT - VOIDED"}
-			else if(item.type=="VOIDREFUND") {item.type="REFUND RECEIPT - VOIDED"}
-			item.totaldiscount = item.discount;
-			return item;
-		});
-		
-		data_TMP = _.applyToValues(data_TMP, function(obj){
-				if(obj && obj.discount==0){
-					obj.discount=null;
-				}
-				if(obj && obj.quantity){
-					obj.orderamount = (obj.price * obj.quantity).toFixed(2);
-					obj.quantity+="";
-				}
-				return toFixed(2)(obj);
-			}, true);
-			
-		
-		var html = ich.menuReportsDiscountsTabel_TMP({items:data_TMP});
-		$("discountstable").html(html);
-		
-		_.each(data_TMP, function(item){	
+	discountTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)
+	(function(err,data_TMP){
+	     //data_TMP = _.reject(data_TMP, function(item){return item.discount<=0});
+	     
+	     data_TMP=_.map(data_TMP, function(item){
+				var item = _.clone(item);
+				var startTime=(new Date(item.time.start)).toString("yyyy/MM/dd-HH:mm:ss");
+				var t = new Date(item.time.start);
+				item.processday = _(t.toDateString().split(' ')).chain().rest().join(' ').value();
+				item.processtime = t.toString("h:mm").concat(t.getHours()>=12?" PM":" AM");
+				item.transactionNumber = item.receipt_id+"-"+item.transactionNumber;
+				if(item.type=="SALE") {item.type="SALE RECEIPT"}
+				else if(item.type=="REFUND") {item.type="REFUND RECEIPT"}
+				else if(item.type=="VOID") {item.type="SALE RECEIPT - VOIDED"}
+				else if(item.type=="VOIDREFUND") {item.type="REFUND RECEIPT - VOIDED"}
+				item.time.start = startTime;
+				item.totaldiscount = item.discount;
+				return item;
+			    });
+	     
+	     data_TMP = _.applyToValues(data_TMP, function(obj){
+					    if(obj && obj.discount==0){
+						obj.discount=null;
+					    }
+					    if(obj && obj.quantity){
+						obj.orderamount = toFixed(2)(obj.price * obj.quantity);
+						obj.quantity+="";
+					    }
+					    return toFixed(2)(obj);
+					}, true);
+	     
+	     if(_.isEmpty(data_TMP)){
+		 var html = "There are no discounts for this time period<br/>";	 
+	     }
+	     else{
+		 var html = ich.menuReportsDiscountsTabel_TMP({items:data_TMP});
+	     }
+	     $("discountstable").html(html);
+	     
+	     _.each(data_TMP, function(item){	
 			var item = _.clone(item);
 			
 			var dialogtitle=getDialogTitle(ReportData,item.name);
-						
-			var btn = $('#'+item._id).button().click(function(){
-				var btnData = item;
-				btnData.discount=null;
-				btnData.storename = ReportData.store.storeName;
-				var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
-				quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
-			});
-		});
-	});
-		
+
+
+			
+			var btn = $('#'+item._id)
+			    .button()
+			    .click(function(){
+				       var btnData = item;
+				       _.applyToValues(ReportData,
+						       function(o){
+							   if(o.store_id==btnData.store_id){
+							       btnData.storename = o.storeName;
+							   }
+							   return o;
+						       }
+						       ,true);
+				       btnData.discount=null;
+				       var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
+				       quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
+				   });
+		    });
+	 });
+	
     } else {
    	alert("Input Date");
     }
