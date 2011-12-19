@@ -174,3 +174,8 @@ _.mixin({
 		}
 		return partition_helper(arr,size);
 	    }});
+
+_.mixin({
+	    peek:function(arr,index){
+		return arr[index];
+	    }});
