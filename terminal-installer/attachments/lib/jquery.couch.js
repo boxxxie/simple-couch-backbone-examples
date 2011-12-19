@@ -71,6 +71,7 @@
 		   * /#jQuery-ajax-settings">jQuery ajax settings</a>
 		   */
 		  activeTasks: function(options) {
+		      options || (options = {});
 		      ajax(
 			  {url: this.urlPrefix + "/_active_tasks"},
 			  options,
@@ -87,6 +88,7 @@
 		   * /#jQuery-ajax-settings">jQuery ajax settings</a>
 		   */
 		  allDbs: function(options) {
+		      options || (options = {});
 		      ajax(
 			  {url: this.urlPrefix + "/_all_dbs"},
 			  options,
@@ -110,6 +112,7 @@
 		   * @param {String} [value] value to be set
 		   */
 		  config: function(options, section, option, value) {
+		      options || (options = {});
 		      var req = {url: this.urlPrefix + "/_config/"};
 		      if (section) {
 			  req.url += encodeURIComponent(section) + "/";
@@ -138,7 +141,7 @@
 		   * jQuery ajax settings</a>
 		   */
 		  session: function(options) {
-		      options = options || {};
+		      options || (options = {});
 		      $.ajax({
 				 type: "GET", url: this.urlPrefix + "/_session",
 				 beforeSend: function(xhr) {
@@ -180,8 +183,8 @@
 		   * <a href="http://api.jquery.com/jQuery.ajax/#jQuery-ajax-settings">
 		   * jQuery ajax settings</a>
 		   */
-		  signup: function(user_doc, password, options) {      
-		      options = options || {};
+		  signup: function(user_doc, password, options) {  
+		      options || (options = {});    
 		      // prepare user doc based on name and password
 		      user_doc = this.prepareUserDoc(user_doc, password);
 		      $.couch.userDb(function(db) {
@@ -221,7 +224,7 @@
 		   * jQuery ajax settings</a>
 		   */
 		  login: function(options) {
-		      options = options || {};
+		      options || (options = {});
 		      $.ajax({
 				 type: "POST", url: this.urlPrefix + "/_session", dataType: "json",
 				 data: {name: options.name, password: options.password},
@@ -249,7 +252,7 @@
 		   * jQuery ajax settings</a>
 		   */
 		  logout: function(options) {
-		      options = options || {};
+		      options || (options = {});
 		      $.ajax({
 				 type: "DELETE", url: this.urlPrefix + "/_session", dataType: "json",
 				 username : "_", password : "_",
@@ -280,6 +283,8 @@
 		   *});
 		   * </code></pre>
 		   */
+
+		  //FIXME: db_opts is only use in openDoc... really wondering about it's usefulness
 		  db: function(name, db_opts,dont_encode) {
 		      db_opts = db_opts || {};
 		      var rawDocs = {};
@@ -321,6 +326,7 @@
 			   * jQuery ajax settings</a>
 			   */
 			  compact: function(options) {
+			      options || (options = {});
 			      $.extend(options, {successStatus: 202});
 			      ajax({
 				       type: "POST", url: this.uri + "_compact",
@@ -340,6 +346,7 @@
 			   * jQuery.ajax/#jQuery-ajax-settings">jQuery ajax settings</a>
 			   */
 			  viewCleanup: function(options) {
+			      options || (options = {});
 			      $.extend(options, {successStatus: 202});
 			      ajax({
 				       type: "POST", url: this.uri + "_view_cleanup",
@@ -363,6 +370,7 @@
 			   * jQuery.ajax/#jQuery-ajax-settings">jQuery ajax settings</a>
 			   */
 			  compactView: function(groupname, options) {
+			      options || (options = {});
 			      $.extend(options, {successStatus: 202});
 			      ajax({
 				       type: "POST", url: this.uri + "_compact/" + groupname,
@@ -382,6 +390,7 @@
 			   * jQuery.ajax/#jQuery-ajax-settings">jQuery ajax settings</a>
 			   */
 			  create: function(options) {
+			      options || (options = {});
 			      $.extend(options, {successStatus: 201});
 			      ajax({
 				       type: "PUT", url: this.uri, contentType: "application/json",
@@ -402,6 +411,7 @@
 			   * jQuery.ajax/#jQuery-ajax-settings">jQuery ajax settings</a>
 			   */
 			  drop: function(options) {
+			      options || (options = {});
 			      ajax(
 				  {type: "DELETE", url: this.uri},
 				  options,
@@ -418,6 +428,7 @@
 			   * jQuery.ajax/#jQuery-ajax-settings">jQuery ajax settings</a>
 			   */
 			  info: function(options) {
+			      options || (options = {});
 			      ajax(
 				  {url: this.uri},
 				  options,
@@ -437,8 +448,7 @@
 			   * </code></pre>
 			   */
 			  changes: function(since, options) {
-
-			      options = options || {};
+			      options || (options = {});
 			      // set up the promise object within a closure for this handler
 			      var timeout = 100, db = this, active = true,
 			      listeners = [],
@@ -521,6 +531,7 @@
 			   * jQuery.ajax/#jQuery-ajax-settings">jQuery ajax settings</a>
 			   */
 			  allDocs: function(options) {
+			      options || (options = {});
 			      var type = "GET";
 			      var data = null;
 			      if (options["keys"]) {
@@ -545,6 +556,7 @@
 			   * jQuery.ajax/#jQuery-ajax-settings">jQuery ajax settings</a>
 			   */
 			  allDesignDocs: function(options) {
+			      options || (options = {});
 			      this.allDocs($.extend(
 					       {startkey:"_design", endkey:"_design0"}, options));
 			  },
@@ -557,7 +569,7 @@
 			   * jQuery.ajax/#jQuery-ajax-settings">jQuery ajax settings</a>
 			   */
 			  allApps: function(options) {
-			      options = options || {};
+			      options || (options = {});
 			      var self = this;
 			      if (options.eachApp) {
 				  this.allDesignDocs(
@@ -598,7 +610,7 @@
 			   * jQuery.ajax/#jQuery-ajax-settings">jQuery ajax settings</a>
 			   */
 			  openDoc: function(docId, options, ajaxOptions) {
-			      options = options || {};
+			      options || (options = {});
 			      if (db_opts.attachPrevRev || options.attachPrevRev) {
 				  $.extend(options, {
 					       beforeSuccess : function(req, doc) {
@@ -641,7 +653,7 @@
 			   * jQuery.ajax/#jQuery-ajax-settings">jQuery ajax settings</a>
 			   */
 			  saveDoc: function(doc, options) {
-			      options = options || {};
+			      options || (options = {});
 			      var db = this;
 			      var beforeSend = fullCommit(options);
 			      if (doc._id === undefined) {
@@ -692,6 +704,7 @@
 			   * jQuery.ajax/#jQuery-ajax-settings">jQuery ajax settings</a>
 			   */
 			  bulkSave: function(docs, options) {
+			      options || (options = {});
 			      var beforeSend = fullCommit(options);
 			      $.extend(options, {successStatus: 201, beforeSend : beforeSend});
 			      ajax({
@@ -716,6 +729,7 @@
 			   * jQuery.ajax/#jQuery-ajax-settings">jQuery ajax settings</a>
 			   */
 			  removeDoc: function(doc, options) {
+			      options || (options = {});
 			      ajax({
 				       type: "DELETE",
 				       url: this.uri +
@@ -737,6 +751,7 @@
 			   * jQuery.ajax/#jQuery-ajax-settings">jQuery ajax settings</a>
 			   */
 			  bulkRemove: function(docs, options){
+			      options || (options = {});
 			      docs.docs = $.each(
 				  docs.docs, function(i, doc){
 				      doc._deleted = true;
@@ -766,6 +781,7 @@
 			   * jQuery.ajax/#jQuery-ajax-settings">jQuery ajax settings</a>
 			   */
 			  copyDoc: function(docId, options, ajaxOptions) {
+			      options || (options = {});
 			      ajaxOptions = $.extend(ajaxOptions, {
 							 complete: function(req) {
 							     var resp = $.parseJSON(req.responseText);
@@ -802,6 +818,7 @@
 			   * jQuery.ajax/#jQuery-ajax-settings">jQuery ajax settings</a>
 			   */
 			  query: function(mapFun, reduceFun, language, options) {
+			      options || (options = {});
 			      language = language || "javascript";
 			      if (typeof(mapFun) !== "string") {
 				  mapFun = mapFun.toSource ? mapFun.toSource()
@@ -839,8 +856,8 @@
 			   * jQuery.ajax/#jQuery-ajax-settings">jQuery ajax settings</a>
 			   */
 			  list: function(list, view, options, ajaxOptions) {
+			      options || (options = {});
 			      var list = list.split('/');
-			      var options = options || {};
 			      var type = 'GET';
 			      var data = null;
 			      if (options['keys']) {
@@ -872,8 +889,8 @@
 			   * jQuery.ajax/#jQuery-ajax-settings">jQuery ajax settings</a>
 			   */
 			  view: function(name, options) {
+			      options || (options = {});
 			      var name = name.split('/');
-			      var options = options || {};
 			      var type = "GET";
 			      var data= null;
 			      if (options["keys"]) {
@@ -903,7 +920,7 @@
 			  show: function(name,id,options) {
 			      name = name.split('/'); //this seems a bit insane! kept because it's part of the API
 			      id = id || "";
-			      options =  options || {};
+			      options || (options = {});
 			      var type = "GET";
 			      var data = options['data'] || null;
 			      delete options["data"];
@@ -929,6 +946,7 @@
 			   * jQuery.ajax/#jQuery-ajax-settings">jQuery ajax settings</a>
 			   */
 			  getDbProperty: function(propName, options, ajaxOptions) {
+			      options || (options = {});
 			      ajax({url: this.uri + propName + encodeOptions(options)},
 				   options,
 				   "The property could not be retrieved",
@@ -948,6 +966,7 @@
 			   * jQuery.ajax/#jQuery-ajax-settings">jQuery ajax settings</a>
 			   */
 			  setDbProperty: function(propName, propValue, options, ajaxOptions) {
+			      options || (options = {});
 			      ajax({
 				       type: "PUT", 
 				       url: this.uri + propName + encodeOptions(options),
@@ -975,6 +994,7 @@
 		   * jQuery.ajax/#jQuery-ajax-settings">jQuery ajax settings</a>
 		   */
 		  info: function(options) {
+		      options || (options = {});
 		      ajax(
 			  {url: this.urlPrefix + "/"},
 			  options,
@@ -1037,7 +1057,7 @@
       * @private
       */
      function ajax(obj, options, errorMessage, ajaxOptions) {
-
+	 options || (options = {});
 	 var defaultAjaxOpts = {
 	     contentType: "application/json",
 	     headers:{"Accept": "application/json"}
@@ -1086,7 +1106,7 @@
       * @private
       */
      function fullCommit(options) {
-	 var options = options || {};
+	 options || (options = {});
 	 if (typeof options.ensure_full_commit !== "undefined") {
 	     var commit = options.ensure_full_commit;
 	     delete options.ensure_full_commit;
@@ -1103,6 +1123,7 @@
      // Convert a options object to an url query string.
      // ex: {key:'value',key2:'value2'} becomes '?key="value"&key2="value2"'
      function encodeOptions(options) {
+	 options || (options = {});
 	 var buf = [];
 	 if (typeof(options) === "object" && options !== null) {
 	     for (var name in options) {

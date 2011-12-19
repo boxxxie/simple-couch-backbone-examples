@@ -4,18 +4,20 @@ path = require('path');
 ddoc = { _id:'_design/app'};
 
 ddoc.rewrites = [
-    {"from": "downloads", "to": "posdownload\/downloads.html"},
-    {"from": "admin", "to": "login.html"},
-    {"from": "login", "to": "layered management/report.html"},
-    {"from": "terminals_rt7", "to": "../../../terminals_rt7"},
-    {"from": "terminals_corp", "to": "../../../terminals_corp"},
-    {"from": "cashouts/*", "to": "../../../cashouts/*"},
-    {"from": "transactions/*", "to": "../../../transactions/*"},
-    {"from": "menus/*", "to": "../../../menus/*"},
-    {from:"/", to:'index.html'},
-    {from:"/api", to:'../../'},
-    {from:"/api/*", to:'../../*'},
-    {from:"/*", to:'*'}
+    {from: "downloads", to: "posdownload\/downloads.html"},
+    {from: "admin", to: "login.html"},
+    {from: "login", to: "layered management/report.html"},
+    //{from: "new/:db", to: "../../../:db", method : "PUT"},
+    {from: "new/*", to: "../../../*", method : "PUT"},
+    {from: "terminals_rt7", to: "../../../terminals_rt7"},
+    {from: "terminals_corp", to: "../../../terminals_corp"},
+    {from: "cashouts/*", to: "../../../cashouts/*"},
+    {from: "transactions/*", to: "../../../transactions/*"},
+    {from: "menus/*", to: "../../../menus/*"},
+    {from: "/", to:'index.html'},
+    {from: "/api", to:'../../'},
+    {from: "/api/*", to:'../../*'},
+    {from: "/*", to:'*'}
 
 ];
 
