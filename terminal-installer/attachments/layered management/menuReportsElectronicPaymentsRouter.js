@@ -271,12 +271,14 @@ function renderElectronicPaymentsTable() {
 	(function(err,data_TMP){
 
 	     data_TMP=
-		 _.map(data_TMP, function(item){
-			   var dialogtitle= getDialogTitle(ReportData,
-							   item.name,
-							   startDate,
-							   endDateForQuery);
-			   return _.extend(item, {dialogtitle:dialogtitle});
+		 _.map(data_TMP, 
+		       function(item){
+			   var dialogtitle 
+			       = getDialogTitle(ReportData,
+						item.name,
+						startDate,
+						endDateForQuery);
+			   return _.extend(item, {dialogtitle:dialogtitle},{transaction_index:item.transaction_index+""});
 		       });
 	     data_TMP = _.applyToValues(data_TMP,toFixed(2),true);
 
