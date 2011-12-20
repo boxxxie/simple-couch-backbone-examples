@@ -295,6 +295,7 @@ function renderElectronicPaymentsTable() {
 			var dialogtitle=getDialogTitle(ReportData,item.name);
 			
 			var btn = $('#'+item._id)
+			    .each()
 			    .button()
 			    .click(function(){
 				       var btnData = item;

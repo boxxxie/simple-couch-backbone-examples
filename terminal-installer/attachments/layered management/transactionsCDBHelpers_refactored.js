@@ -335,9 +335,9 @@ function electronicPaymentsReportFetcher(terminals,startDate,endDate){
 	};
     };
     //process payments
-    return function(callback){
-	processedTransactionsFromCashouts(terminals,startDate,endDate)(electronicPaymentsIndexRangeFetcher_F,paymentMap(terminals))
-	(function(err,paymentList){
+   // return function(callback){
+	return processedTransactionsFromCashouts(terminals,startDate,endDate)(electronicPaymentsIndexRangeFetcher_F,paymentMap(terminals));
+/*	(function(err,paymentList){
 	     //process totals
 	     processedReducedTransactionsFromCashouts(terminals,startDate,endDate)
 	     (electronicPaymentsTotalsIndexRangeFetcher_F)
@@ -345,5 +345,5 @@ function electronicPaymentsReportFetcher(terminals,startDate,endDate){
 		  callback(err,{paymentList:paymentList,totals:totals});
 	      });
 	 });
-    };
+    };*/
 };
