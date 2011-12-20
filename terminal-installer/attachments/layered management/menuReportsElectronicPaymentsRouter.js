@@ -268,8 +268,10 @@ function renderElectronicPaymentsTable() {
 
 	console.log(ids);
 	electronicPaymentsReportFetcher(ids,startDate,endDateForQuery)
-	(function(err,data_TMP){
+	(function(err,response){
 
+	     var data_TMP = response.paymentList;
+	     var totals = response.totals;
 	     data_TMP=
 		 _.map(data_TMP, 
 		       function(item){
@@ -282,11 +284,11 @@ function renderElectronicPaymentsTable() {
 			   item.processday = _(t.toDateString().split(' ')).chain().rest().join(' ').value();
 			   item.processtime = t.toString("h:mm").concat(t.getHours()>=12?" PM":" AM");
 			   item.transactionNumber = item.receipt_id+"-"+item.transactionNumber;
-			   return _.extend(item, {dialogtitle:dialogtitle},
+			   return _.extend(item, 
+					   {dialogtitle:dialogtitle},
 			   		   {transaction_index:item.transaction_index+""});
 		       });
 	     
-	     //data_TMP = _.applyToValues(data_TMP,toFixed(2),true);
 	     data_TMP = 
 		 _.applyToValues(data_TMP, function(obj){
 				     if(obj && obj.discount==0){
@@ -321,7 +323,7 @@ function renderElectronicPaymentsTable() {
 		 var html = "<p>There are no Electronic Payments for this time period</p>";	 
 	     }
 	     else{
-		 var html = ich.electronicPaymentsTabel_TMP({items:data_TMP});
+		 var html = ich.electronicPaymentsTabel_TMP({items:data_TMP,totals:totals});
 	     }
 	     $("reportTable").html(html);
 	     _.each(data_TMP, function(item){
