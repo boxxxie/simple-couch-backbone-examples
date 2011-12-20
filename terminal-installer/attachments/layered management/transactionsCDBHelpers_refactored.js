@@ -26,9 +26,9 @@ var _async = {
 	};
     },
     typedSandwichTransactionQuery:function(start,end){
-	return function(view,db,base,end){
-	    var startKey = base.concat(start).concat(end);
-	    var endKey = base.concat(end).concat(end);
+	return function(view,db,base,tail){
+	    var startKey = base.concat(start).concat(tail);
+	    var endKey = base.concat(end).concat(tail);
 	    var options = {
 		reduce:true,
 		startkey:startKey,
@@ -48,8 +48,15 @@ var _async = {
 };
 
 function extract(dataArrays,field){
+    function extractProperty(data,field){
+	return _(data.rows).pluck(field);
+    }
     if(_.isEmpty(dataArrays)) {
 	return [];	
+    }
+
+    else if(!_.isArray(dataArrays)){
+	return extractProperty(dataArrays,field);
     }
     
     return _(dataArrays)
@@ -61,6 +68,9 @@ function extract(dataArrays,field){
 }
 function extractValue(dataArrays){
     return extract(dataArrays,'value');
+}
+function extractFirstValue(dataArrays){
+    return _.first(extractValue(dataArrays));
 }
 function extractDoc(dataArrays){
     return extract(dataArrays,'doc');
@@ -122,12 +132,18 @@ function electronicPaymentsTotalsIndexRangeFetcher_F(id){
 	return function(callback){
 	    async.parallel({debit:debit,credit:credit,visa:visa,mastercard:mastercard,amex:amex,deposit:deposit},
 			   function(err,responses){
-			       var totals = {totalDebit:extractSum(responses.debit),
-					     totalCredit:extractSum(responses.credit),
-					     totalDeposit:extractSum(responses.deposit),
-					     totalVisa:extractSum(responses.visa),
-					     totalMastercard:extractSum(responses.mastercard),
-					     totalAmex:extractSum(responses.amex)
+			       function extractSafeAmount(data){
+				   if (!data || !data.amount){
+				       return 0;
+				   }
+				   return data.amount;
+			       }
+			       var totals = {debit:extractSafeAmount(extractFirstValue(responses.debit)),
+					     credit:extractSafeAmount(extractFirstValue(responses.credit)),
+					     deposit:extractSafeAmount(extractFirstValue(responses.deposit)),
+					     visa:extractSafeAmount(extractFirstValue(responses.visa)),
+					     mastercard:extractSafeAmount(extractFirstValue(responses.mastercard)),
+					     amex:extractSafeAmount(extractFirstValue(responses.amex))
 					    };
 			       callback(err,totals);	  
 			   });
@@ -243,6 +259,32 @@ function processTransactions(mapFn,callback){
 	callback(err,terminals_merged_with_reduced_transactions);
     };
 };
+
+function mapReduceTransactions(mapFn,reduceFn,callback){
+    return function(err,transactions){
+	var terminals_merged_with_reduced_transactions = 
+	    _(transactions)
+	    .chain()
+	    .flatten()
+	    .map(mapFn)
+	    .reduce(reduceFn,{})
+	    .value(); 
+	callback(err,terminals_merged_with_reduced_transactions);
+    };
+};
+function mapReduceTransactionsFromCashouts(terminals,startDate,endDate){
+    return function (IndexRangeFetcher,mapFn,reduceFn){
+	return function(callback) {
+	    if(!_.isArray(terminals)){terminals = [terminals];}
+	    var ids = _.pluck(terminals,'id');
+	    _async.map(ids,
+		       transactionsFromIndexRange(generalCashoutFetcher_Period_F(startDate,endDate),
+						  IndexRangeFetcher),
+		       mapReduceTransactions(mapFn,reduceFn,callback));
+	};
+    };
+}
+
 function processedTransactionsFromCashouts(terminals,startDate,endDate){
     return function (IndexRangeFetcher,mapFn){
 	return function(callback) {
@@ -331,6 +373,15 @@ function cashoutReportFetcher(terminals,startDate,endDate){
 }
 
 function electronicPaymentsReportFetcher(terminals,startDate,endDate){
+   // var zero_total = {amount:0};
+    function addPropertiesTogether(addTo,addFrom){
+	if(addTo == {}){return addFrom;}
+	for (var prop in addFrom) {
+	    if(addTo[prop] == undefined){addTo[prop] = addFrom[prop];}
+	    else{addTo[prop] += addFrom[prop];}
+	};
+	return addTo;
+    }
     function paymentMap(terminals){
 	return function(transaction){
 	    var terminalForTransaction = _.find(terminals, function(ter){return transaction.terminal_id==ter.id;});
@@ -342,16 +393,33 @@ function electronicPaymentsReportFetcher(terminals,startDate,endDate){
 			    {sales:sales});
 	};
     };
+    function identity(o){
+	return o;
+    }
+    function mapTotals(total){
+/*	var zeroTotal =  {debit:zero_total,
+			  credit:zero_total,
+			  deposit:zero_total,
+			  visa:zero_total,
+			  mastercard:zero_total,
+			  amex:zero_total
+			 };
+*/
+	return total;
+	//return addPropertiesTogether(total,zero_total);
+    };
+
+    function reduceTotals(sum,cur){
+	return addPropertiesTogether(sum,cur);
+    };
+
     //process payments
-   // return function(callback){
-    return processedTransactionsFromCashouts(terminals,startDate,endDate)(electronicPaymentsIndexRangeFetcher_F,paymentMap(terminals));
-/*	(function(err,paymentList){
-	     //process totals
-	     processedReducedTransactionsFromCashouts(terminals,startDate,endDate)
-	     (electronicPaymentsTotalsIndexRangeFetcher_F)
-	     (function(err,totals){
-		  callback(err,{paymentList:paymentList,totals:totals});
-	      });
-	 });
-    };*/
+    return function(callback){
+	async.parallel({
+			   paymentList: processedTransactionsFromCashouts(terminals,startDate,endDate)(electronicPaymentsIndexRangeFetcher_F,paymentMap(terminals)),
+			   //totals: processedReducedTransactionsFromCashouts(terminals,startDate,endDate)(electronicPaymentsTotalsIndexRangeFetcher_F)
+			   totals: mapReduceTransactionsFromCashouts(terminals,startDate,endDate)(electronicPaymentsTotalsIndexRangeFetcher_F,identity,addPropertiesTogether)
+		       },
+		       callback);
+    };
 };
