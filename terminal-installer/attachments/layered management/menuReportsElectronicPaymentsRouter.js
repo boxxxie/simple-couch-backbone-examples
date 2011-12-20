@@ -289,6 +289,31 @@ function renderElectronicPaymentsTable() {
 		 var html = ich.electronicPaymentsTabel_TMP({items:data_TMP});
 	     }
 	     $("reportTable").html(html);
+	     _.each(data_TMP, function(item){
+			var item = _.clone(item);
+			
+			var dialogtitle=getDialogTitle(ReportData,item.name);
+			
+			var btn = $('#'+item._id)
+			    .button()
+			    .click(function(){
+				       var btnData = item;
+				       btnData.discount=null;
+				       //TODO:
+				       //btnData.storename = ReportData.store.storeName;
+				       //FIXME: use walk,
+				       _.applyToValues(ReportData,
+						       function(o){
+							   if(o.store_id==btnData.store_id){
+							       btnData.storename = o.storeName;
+							   }
+							   return o;
+						       }
+						       ,true);
+				       var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
+				       quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
+				   });
+		    });	
 	 });
 	
     } else {
