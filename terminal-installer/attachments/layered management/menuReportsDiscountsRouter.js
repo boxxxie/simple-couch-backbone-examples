@@ -259,6 +259,7 @@ function renderDiscountsTable() {
 		totalrow.total = (_.reduce(data_TMP, function(init, item){
 								return init + Number(item.total);
 							}, 0)).toFixed(2);
+		totalrow.percentdiscount = (Number(totalrow.discount)/Number(totalrow.sales)*100).toFixed(2);
 	     
 	     data_TMP=_.map(data_TMP, function(item){
 				var item = _.clone(item);
