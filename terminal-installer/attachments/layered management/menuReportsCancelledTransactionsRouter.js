@@ -239,6 +239,7 @@ function renderCancelledTransactionsTable() {
 	
 	canceledTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)
 	(function(err,data_TMP){
+		var numofcancelled = data_TMP.length + "";
 	     data_TMP=_.map(data_TMP, function(item){
 				var item = _.clone(item);
 				var startTime = (new Date(item.time.start)).toString("yyyy/MM/dd-HH:mm:ss");
@@ -266,7 +267,7 @@ function renderCancelledTransactionsTable() {
 				     return toFixed(2)(obj);
 				 }, true);
 	     
-	     var html = ich.menuReportsCancelledTabel_TMP({items:data_TMP});
+	     var html = ich.menuReportsCancelledTabel_TMP({items:data_TMP, numofcancelled:numofcancelled});
 	     $("cancelledtable").html(html);
 	     
 	     _.each(data_TMP, function(item){

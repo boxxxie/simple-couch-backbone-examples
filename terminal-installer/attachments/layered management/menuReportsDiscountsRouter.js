@@ -242,6 +242,23 @@ function renderDiscountsTable() {
 	discountTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)
 	(function(err,data_TMP){
 	     //data_TMP = _.reject(data_TMP, function(item){return item.discount<=0});
+	     var totalrow = {};
+	     totalrow.numofdiscount = data_TMP.length + "";
+	     totalrow.sales = (_.reduce(data_TMP, function(init, item){
+								return init + Number(item.sales);
+							}, 0)).toFixed(2);
+		totalrow.discount = (_.reduce(data_TMP, function(init, item){
+								return init + Number(item.discount);
+							}, 0)).toFixed(2);
+		totalrow.tax1and2 = (_.reduce(data_TMP, function(init, item){
+								return init + Number(item.tax1and2);
+							}, 0)).toFixed(2);
+		totalrow.tax3 = (_.reduce(data_TMP, function(init, item){
+								return init + Number(item.tax3);
+							}, 0)).toFixed(2);
+		totalrow.total = (_.reduce(data_TMP, function(init, item){
+								return init + Number(item.total);
+							}, 0)).toFixed(2);
 	     
 	     data_TMP=_.map(data_TMP, function(item){
 				var item = _.clone(item);
@@ -274,7 +291,7 @@ function renderDiscountsTable() {
 		 var html = "There are no discounts for this time period<br/>";	 
 	     }
 	     else{
-		 var html = ich.menuReportsDiscountsTabel_TMP({items:data_TMP});
+		 var html = ich.menuReportsDiscountsTabel_TMP({items:data_TMP, totalrow:totalrow});
 	     }
 	     $("discountstable").html(html);
 	     

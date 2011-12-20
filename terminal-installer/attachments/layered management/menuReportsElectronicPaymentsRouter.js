@@ -306,7 +306,10 @@ function renderElectronicPaymentsTable() {
 								    payment.paymentdetail.crt = payment.type;
 								}
 								if(payment.paymentdetail && payment.paymentdetail.errmsg) {
-								    payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace("<br>"," ");
+									while((payment.paymentdetail.errmsg).indexOf("<br>")>=0) { 
+										payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace("<br>"," ");
+									}
+								    //payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace("<br>"," ");
 								}
 								return payment;
 							    }); 

@@ -695,16 +695,18 @@
   	    <td>CARD: </td>
   	    <td colspan="3">{{card}}</td>
   	  </tr>
-  	  
+  	  {{#crt}}
   	  <tr>
   	    <td>CRT: </td>
   	    <td colspan="3">{{crt}}</td>
   	  </tr>
-  	  
+  	  {{/crt}}
+  	  {{#entry}}
   	  <tr>
   	    <td>ENTRY: </td>
   	    <td colspan="3">{{entry}}</td>
   	  </tr>
+  	  {{/entry}}
   	  <tr>
   	    <td>TYPE: </td>
   	    <td colspan="3">{{type}}</td>
@@ -719,14 +721,18 @@
   	    <td>AMOUNT: </td>
   	    <td colspan="3">{{amount}}</td>
   	  </tr>
+  	  {{#seq}}
   	  <tr>
   	    <td>SEQ: </td>
   	    <td colspan="3">{{seq}}</td>
   	  </tr>
+  	  {{/seq}}
+  	  {{#author}}
   	  <tr>
   	    <td>AUTHOR: </td>
   	    <td colspan="3">{{author}}</td>
   	  </tr>
+  	  {{/author}}
   	  <tr>
   	    <td>DATE: </td>
   	    <td colspan="3">{{date}}</td>
@@ -1016,6 +1022,16 @@
 	  <td>{{>quickTaxViewButton_P}}</td>
 	</tr>
 	{{/items}}
+	{{#totalrow}}
+	<tr>
+	  <td>Total</td>
+	  <td align="right">{{sales}}</td>
+	  <td align="right">{{tax1}}</td>
+	  <td align="right">{{tax3}}</td>
+	  <td align="right">{{totalsales}}</td>
+	  <td></td>
+	</tr>
+	{{/totalrow}}
       </table>
       {{>quickReportViewHook_P}}
     </script> 
@@ -1140,6 +1156,9 @@
 	</tr>
 	{{/items}}
       </table>
+      {{#numofcancelled}}
+      <label>Number of Cancelled Transactions : {{numofcancelled}}</label>
+      {{/numofcancelled}}
       {{>quickReportViewHook_P}}
     </script> 
     
@@ -1182,7 +1201,20 @@
 	  <td align="right">{{>quickRefundsViewButton_P}}</td>
 	</tr>
 	{{/items}}
+	{{#totalrow}}
+	<tr>
+		<td colspan="3" align="center">Total</td>
+		<td align="right">{{subTotal}}</td>
+	  <td align="right">{{tax1and2}}</td>
+	  <td align="right">{{tax3}}</td>
+	  <td align="right">{{total}}</td>
+	  <td></td>
+	</tr>
+	{{/totalrow}}
       </table>
+      {{#totalrow}}
+      <label>Number of Refunds Transactions : {{numofrefund}}</label>
+      {{/totalrow}}
       {{>quickReportViewHook_P}}
     </script> 
     
@@ -1230,7 +1262,21 @@
 	  <td align="right">{{>quickDiscountsViewButton_P}}</td>
 	</tr>
 	{{/items}}
+	{{#totalrow}}
+	<tr>
+		<td colspan="3" align="center">Total</td>
+		<td align="right">{{sales}}</td>
+	  <td align="right">-{{discount}}</td>
+	  <td align="right">{{tax1and2}}</td>
+	  <td align="right">{{tax3}}</td>
+	  <td align="right">{{total}}</td>
+	  <td colspan="2"></td>
+	</tr>
+	{{/totalrow}}
       </table>
+      {{#totalrow}}
+      <label> Numer of Discounts Transactions : {{numofdiscount}}</label>
+      {{/totalrow}}
       {{>quickReportViewHook_P}}
     </script> 
     
