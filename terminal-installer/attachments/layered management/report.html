@@ -186,6 +186,12 @@
       </button>
     </script>
     
+    <script id="quickElectronicPaymentsViewButton_P" class="partial" type="text/html">
+      <button id='{{_id}}'>
+	Details
+      </button>
+    </script>
+    
     <script id="quickDiscountsViewButton_P" class="partial" type="text/html">
       <button id='{{_id}}'>
 	Details
@@ -669,26 +675,97 @@
   	    <td align="right">$ {{total}}</td>
   	  </tr>
   	  {{#payments}}
+  	  {{#approved}}
   	  <tr>
   	    <td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{type}}</td>
   	    <td align="right">$ {{amount}}</td>
   	  </tr>
+  	  {{/approved}}
   	  {{/payments}}
   	  <tr>
   	    <td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Change Due</td>
   	    <td align="right">$ {{change}}</td>
   	  </tr>
-  	  {{#electricdata}}
+  	  {{#payments}}
+  	  {{#paymentdetail}}
   	  <tr>
-  	    <td colspan="4">===========================================</td>
+  	    <td colspan="4">===================================</td>
   	  </tr>
   	  <tr>
-  	    <td colspan="4"><p>{{resp}}</p></td>
+  	    <td>CARD: </td>
+  	    <td colspan="3">{{card}}</td>
+  	  </tr>
+  	  
+  	  <tr>
+  	    <td>CRT: </td>
+  	    <td colspan="3">{{crt}}</td>
+  	  </tr>
+  	  
+  	  <tr>
+  	    <td>ENTRY: </td>
+  	    <td colspan="3">{{entry}}</td>
   	  </tr>
   	  <tr>
-  	    <td colspan="4">===========================================</td>
+  	    <td>TYPE: </td>
+  	    <td colspan="3">{{type}}</td>
   	  </tr>
-  	  {{/electricdata}}
+  	  {{#acct}}
+  	  <tr>
+  	    <td>ACCT: </td>
+  	    <td colspan="3">{{entry}}</td>
+  	  </tr>
+  	  {{/acct}}
+  	  <tr>
+  	    <td>AMOUNT: </td>
+  	    <td colspan="3">{{amount}}</td>
+  	  </tr>
+  	  <tr>
+  	    <td>SEQ: </td>
+  	    <td colspan="3">{{seq}}</td>
+  	  </tr>
+  	  <tr>
+  	    <td>AUTHOR: </td>
+  	    <td colspan="3">{{author}}</td>
+  	  </tr>
+  	  <tr>
+  	    <td>DATE: </td>
+  	    <td colspan="3">{{date}}</td>
+  	  </tr>
+  	  {{#ref}}
+  	  <tr>
+  	    <td>REF: </td>
+  	    <td colspan="3">{{ref}}</td>
+  	  </tr>
+  	  {{/ref}}
+  	  {{#trace}}
+  	  <tr>
+  	    <td>TRACE: </td>
+  	    <td colspan="3">{{trace}}</td>
+  	  </tr>
+  	  {{/trace}}
+  	  {{#mercid}}
+  	  <tr>
+  	    <td>MERC ID: </td>
+  	    <td colspan="3">{{mercid}}</td>
+  	  </tr>
+  	  {{/mercid}}
+  	  {{#terid}}
+  	  <tr>
+  	    <td>TERM ID: </td>
+  	    <td colspan="3">{{terid}}</td>
+  	  </tr>
+  	  {{/terid}}
+  	  {{#errmsg}}
+  	  <tr>
+  	    <td colspan="4">{{errmsg}}</td>
+  	  </tr>
+  	  {{/errmsg}}
+  	  {{/paymentdetail}}
+  	  <tr>
+  	    <td colspan="4">===================================</td>
+  	  </tr>
+  	  
+  	  {{/payments}}
       	</table>
       </transactiondialog>
     </script>
@@ -983,7 +1060,7 @@
 	  <td align="right">{{debit}}</td>
 	  <td align="right">{{credit}}</td>
 	  <td align="right">{{authCode}}</td>
-	  <td>{{>quickTaxViewButton_P}}</td>
+	  <td>{{>quickElectronicPaymentsViewButton_P}}</td>
 	</tr>
 	{{/items}}
       </table>

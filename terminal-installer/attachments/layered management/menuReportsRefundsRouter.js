@@ -281,8 +281,9 @@ function renderRefundsTable() {
 			var dialogtitle=getDialogTitle(ReportData,item.name);
 			
 			var btn = $('#'+item._id)
-			    .button()
-			    .click(function(){
+				.each(function(){
+					$(this).button()
+			    	.click(function(){
 				       var btnData = item;
 				       btnData.discount=null;
 				       //TODO use walk
@@ -297,6 +298,7 @@ function renderRefundsTable() {
 				       var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
 				       quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
 				   });
+				});		    
 		    });
 	 });
 	

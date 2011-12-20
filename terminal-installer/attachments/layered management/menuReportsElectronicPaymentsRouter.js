@@ -278,9 +278,41 @@ function renderElectronicPaymentsTable() {
 						item.name,
 						startDate,
 						endDateForQuery);
-			   return _.extend(item, {dialogtitle:dialogtitle},{transaction_index:item.transaction_index+""});
+				var t = new Date(item.time.start);
+				item.processday = _(t.toDateString().split(' ')).chain().rest().join(' ').value();
+				item.processtime = t.toString("h:mm").concat(t.getHours()>=12?" PM":" AM");
+				item.transactionNumber = item.receipt_id+"-"+item.transactionNumber;
+			   return _.extend(item, {dialogtitle:dialogtitle},
+			   						{transaction_index:item.transaction_index+""});
 		       });
-	     data_TMP = _.applyToValues(data_TMP,toFixed(2),true);
+	     
+	     //data_TMP = _.applyToValues(data_TMP,toFixed(2),true);
+	     data_TMP = 
+		 _.applyToValues(data_TMP, function(obj){
+				     if(obj && obj.discount==0){
+					 obj.discount=null;
+				     }
+				     if(obj && obj.quantity){
+					 obj.orderamount = toFixed(2)(obj.price * obj.quantity);
+					 obj.quantity+="";
+				     }
+				     return toFixed(2)(obj);
+				 }, true);
+		
+		data_TMP = _.map(data_TMP, function(item){
+			if(item.payments) {
+				item.payments = _.map(item.payments, function(payment){
+					if(payment.paymentdetail) {
+						payment.paymentdetail.crt = payment.type;
+					}
+					if(payment.paymentdetail && payment.paymentdetail.errmsg) {
+						payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace("<br>"," ");
+					}
+					return payment;
+				}); 
+			}
+			return item;
+		});
 
 	     if(_.isEmpty(data_TMP)){
 		 var html = "<p>There are no Electronic Payments for this time period</p>";	 
@@ -294,9 +326,9 @@ function renderElectronicPaymentsTable() {
 			
 			var dialogtitle=getDialogTitle(ReportData,item.name);
 			
-			var btn = $('#'+item._id)
-			    .each()
-			    .button()
+			$("[id]")
+				.filter(function(){return $(this).attr('id') == item._id})
+				.each(function(){$(this).button()
 			    .click(function(){
 				       var btnData = item;
 				       btnData.discount=null;

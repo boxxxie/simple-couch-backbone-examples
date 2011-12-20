@@ -48,7 +48,11 @@ var _async = {
 };
 
 function extract(dataArrays,field){
-    return  _(dataArrays)
+	if(_.isEmpty(dataArrays.rows)) {
+		return [];	
+	}
+	
+    return _(dataArrays)
 	.chain()
 	.pluck('rows')
 	.flatten()
@@ -56,10 +60,10 @@ function extract(dataArrays,field){
 	.value();
 }
 function extractValue(dataArrays){
-    return extract(dataArray,'value');
+    return extract(dataArrays,'value');
 }
 function extractSum(dataArrays){
-    var value = extractValue(dataArray);
+    var value = extractValue(dataArrays);
     if(value && value.sum){
 	return value.sum;
     }
