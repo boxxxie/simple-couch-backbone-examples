@@ -13,10 +13,10 @@ var _async = {
 	    return function(callback){queryF(view,db)(options)(returnQuery(callback));};
 	};
     },
-    typedTransactionQuery:function(startDate,endDate){
+    typedTransactionQuery:function(start,end){
 	return function(view,db,base){
-	    var startKey = base.concat(startDate);
-	    var endKey = base.concat(endDate);
+	    var startKey = base.concat(start);
+	    var endKey = base.concat(end);
 	    var options = {
 		reduce:true,
 		startkey:startKey,
@@ -35,22 +35,42 @@ var _async = {
     }
 };
 
+function extract(dataArrays,field){
+    return  _(dataArrays)
+	.chain()
+	.pluck('rows')
+	.flatten()
+	.pluck(field)
+	.value();
+}
+
 function extractDocs(parallelFunctionsArray){
     return function(callback){
 	async.parallel(parallelFunctionsArray,
 		       function(err,responses){  
-			   var extractedData = 
-			       _(responses)
-			       .chain()
-			       .pluck('rows')
-			       .flatten()
-			       .pluck('doc')
-			       .value();
+			   callback(err,extract(responses,'doc'));	  
+		       });
+    };
+}
+function extractDocValMerge(parallelFunctionsArray){
+    return function(callback){
+	async.parallel(parallelFunctionsArray,
+		       function(err,responses){  
+			   var extractedDocs = extract(responses,'doc');
+			   var extractedValues = extract(responses,'value');
+			   var extractedData = _.zipMerge(extractedDocs,extractedValues);
 			   callback(err,extractedData);	  
 		       });
     };
 }
-
+function electronicPaymentsIndexRangeFetcher_F(id){
+    var view = cdb.view('reporting','electronic_payments');
+    var db = cdb.db('transactions',{},true);
+    return function(startIndex,endIndex){
+	var payments = _async.transactionRangeQuery(startIndex,endIndex)(view,db,[id]);
+	return extractDocValMerge([payments]);
+    };
+}
 function canceledTransactionsIndexRangeFetcher_F(id){
     var view = cdb.view('reporting','terminalID_type_index');
     var db = cdb.db('transactions',{},true);
@@ -68,7 +88,6 @@ function discountTransactionsIndexRangeFetcher_F(id){
 	return extractDocs([sales]);
     };
 }
-
 function refundTransactionsIndexRangeFetcher_F(id){
     var view = cdb.view('reporting','terminalID_type_index');
     var db = cdb.db('transactions',{},true);
@@ -98,7 +117,7 @@ function generalCashoutFetcher_Period_F(startDate,endDate){
 	    var dateEnd = date.toArray.until.day(endDate);
 
             var cashoutQuery = _async.typedTransactionQuery(dateStart,dateEnd)(view,db,baseKey);
- 
+	    
 	    cashoutQuery
 	    (function(err,report){
 		 var cashouts = (_.isFirstNotEmpty(report.rows)? _.first(report.rows).value:ZEROED_FIELDS);
@@ -136,8 +155,6 @@ function generalCashoutFetcher_Period_F(startDate,endDate){
 	};
     };
 };
-
-
 function transactionsFromIndexRange(indexFn,transactionFn){
     return function(terminal_id){
 	return function(continuation){
@@ -175,7 +192,6 @@ function processedTransactionsFromCashouts(terminals,startDate,endDate){
 	};
     };
 }
-
 function canceledTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
     function cancelledMap(terminals){
 	return function(transaction){
@@ -198,25 +214,6 @@ function refundTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
     return processedTransactionsFromCashouts(terminals,startDate,endDate)(refundTransactionsIndexRangeFetcher_F,refundMap(terminals));
 };
 function discountTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
-//<<<<<<< HEAD
-	
-   // function processTransactions(terminals,callback){
-   // 	return function(err,transactions){
-//	    function startTime(transaction){return (new Date(transaction.time.start)).getTime();};
-//	    var terminals_merged_with_reduced_transactions = 
-//		_(transactions)
-//		.chain()
-//		.flatten()
-//		.map(function(transaction){
-//			 var terminalForTransaction = _.find(terminals, function(ter){return transaction.terminal_id==ter.id;});
-//			 var sales = transaction.discount+transaction.subTotal;
-//			 return _.extend({},
-//					 transaction,
-//					 terminalForTransaction,
-//					 {date:(new Date(transaction.time.start)).toString("yyyy-MM-dd HH:mm:ss")},
-//					 {sales:sales},
-//					 {percentdiscount:transaction.discount/sales*100});
-//=======
     function discountMap(terminals){
 	return function(transaction){
 	    var terminalForTransaction = _.find(terminals, function(ter){return transaction.terminal_id==ter.id;});
@@ -231,7 +228,6 @@ function discountTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
     };
     return processedTransactionsFromCashouts(terminals,startDate,endDate)(discountTransactionsIndexRangeFetcher_F,discountMap(terminals));
 };
-
 function cashoutReportFetcher(terminals,startDate,endDate){
     function processCashouts(terminals,callback){
 	return function(err,cashouts){
@@ -244,7 +240,6 @@ function cashoutReportFetcher(terminals,startDate,endDate){
 			          name:cashout.terminalname,
 			          cashouttime:(new Date(cashout.cashouttime)).toString("yyyy/MM/dd-HH:mm:ss"),
 			          cashoutnumber:cashout.cashoutnumber.toString()};
-//>>>>>>> upstream/master
 		     })
         	.value();	    
 	    callback(templateData);
@@ -254,7 +249,23 @@ function cashoutReportFetcher(terminals,startDate,endDate){
     var ids = _.pluck(terminals,'id');
     return function(callback){
 	_async.map(ids,
-		  generalCashoutListFetcher_Period_F(startDate,endDate),
-		  processCashouts(terminals,callback));
+		   generalCashoutListFetcher_Period_F(startDate,endDate),
+		   processCashouts(terminals,callback));
     };
 }
+
+function electronicPaymentsReportFetcher(terminals,startDate,endDate){
+    function paymentMap(terminals){
+	return function(transaction){
+	    var terminalForTransaction = _.find(terminals, function(ter){return transaction.terminal_id==ter.id;});
+	    var sales = transaction.discount+transaction.subTotal;
+	    return _.extend({},
+			    transaction,
+			    terminalForTransaction,
+			    {date:(new Date(transaction.time.start)).toString("yyyy-MM-dd HH:mm:ss")},
+			    {sales:sales});
+	};
+    };
+    return processedTransactionsFromCashouts(terminals,startDate,endDate)
+    (electronicPaymentsIndexRangeFetcher_F,paymentMap(terminals));
+};

@@ -116,7 +116,6 @@ _.mixin({merge:function (objArray){
 	 }});
 
 _.mixin({zipMerge:function (){
-	     console.log('zipmerge')   ;
 	     return _.map(_.zip.apply(null,arguments),
                           function(zipped){return _.merge(zipped);});
 	 }});

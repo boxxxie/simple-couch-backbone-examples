@@ -49,6 +49,7 @@
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsCancelledTransactionsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsRefundsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsDiscountsRouter.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/menuReportsElectronicPaymentsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReports.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuMenusRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/report.js"></script>
@@ -169,25 +170,25 @@
     
     <script id="quickCashoutsViewButton_P" class="partial" type="text/html">
       <button id='{{id}}'>
-	  Details
+	Details
       </button>
     </script>
     
-     <script id="quickCancelledViewButton_P" class="partial" type="text/html">
+    <script id="quickCancelledViewButton_P" class="partial" type="text/html">
       <button id='{{_id}}'>
-	  Details
+	Details
       </button>
     </script>
     
     <script id="quickRefundsViewButton_P" class="partial" type="text/html">
       <button id='{{_id}}'>
-	  Details
+	Details
       </button>
     </script>
     
     <script id="quickDiscountsViewButton_P" class="partial" type="text/html">
       <button id='{{_id}}'>
-	  Details
+	Details
       </button>
     </script>
     
@@ -209,6 +210,14 @@
     
     <script id="menuTaxGoButton_P" class="partial" type="text/html">
       <button onclick="renderTaxCollectedTable();" class="ui-state-default ui-corner-all">
+	<span class="ui-button-text">
+	  Go
+	</span>
+      </button>
+    </script>
+
+    <script id="menuElectronicPaymentsGoButton_P" class="partial" type="text/html">
+      <button onclick="renderElectronicPaymentsTable();" class="ui-state-default ui-corner-all">
 	<span class="ui-button-text">
 	  Go
 	</span>
@@ -248,13 +257,13 @@
     </script>
     
     
-	<script id="dropdownSetMenusGoButton_P" class="partial" type="text/html">
-	<button onclick="renderSetMenusTable();" class="ui-state-default ui-corner-all">
+    <script id="dropdownSetMenusGoButton_P" class="partial" type="text/html">
+      <button onclick="renderSetMenusTable();" class="ui-state-default ui-corner-all">
 	<span class="ui-button-text">
 	  Go
 	</span>
       </button>
-	</script>
+    </script>
     
     <script id="quickReportViewHook_P" class="partial" type="text/html">
       <div id="dialog-quickView" title="{{title}}"></div>
@@ -292,26 +301,26 @@
 
     <!--------------------------- DIALOG QUICKVIEW(yesterday/mtd/ytd) ---------------------------------------->
     <script id="cashoutheader_P" class="partial" type="text/html">
-    	<tr>
-			<td>Store ID</td>
-			<td colspan="2" align="right">{{storename}}</td>    		
-    	</tr>
-    	<tr>
-			<td>Terminal ID</td>
-			<td colspan="2" align="right">{{terminalname}}</td>    		
-    	</tr>
-    	<tr>
-			<td>Process Date</td>
-			<td colspan="2" align="right">{{processdate}}</td>    		
-    	</tr>
-    	<tr>
-			<td>Process Time</td>
-			<td colspan="2" align="right">{{processtime}}</td>    		
-    	</tr>
-    	<tr>
-    		<td>User Name</td>
-    		<td colspan="2" align="right">{{username}}</td>
-    	</tr>
+      <tr>
+	<td>Store ID</td>
+	<td colspan="2" align="right">{{storename}}</td>    		
+      </tr>
+      <tr>
+	<td>Terminal ID</td>
+	<td colspan="2" align="right">{{terminalname}}</td>    		
+      </tr>
+      <tr>
+	<td>Process Date</td>
+	<td colspan="2" align="right">{{processdate}}</td>    		
+      </tr>
+      <tr>
+	<td>Process Time</td>
+	<td colspan="2" align="right">{{processtime}}</td>    		
+      </tr>
+      <tr>
+    	<td>User Name</td>
+    	<td colspan="2" align="right">{{username}}</td>
+      </tr>
     </script>
     
     <script id="netSales_P" class="partial" type="text/html">
@@ -435,7 +444,7 @@
     </script>
 
     <script id="transactionDetails_P" class="partial" type="text/html">
-    	<tr>
+      <tr>
 	<td colspan="3">Transaction Details</td>
       </tr>
       <tr>
@@ -469,7 +478,7 @@
     </script>
 
     <script id="salesByCategory_P" class="partial" type="text/html">
-    	<tr>
+      <tr>
 	<td colspan="3">Sales by Category(No taxes)</td>
       </tr>
       <tr>
@@ -571,119 +580,119 @@
 	</table>
       </taxcollecteddialog>
     </script>
-     
+    
     <!-------------------------------------- menureports cashout quickview dialog tmp -------------------->
-     <script id="menuReportsCashoutQuickViewDialog_TMP" type="text/html">
+    <script id="menuReportsCashoutQuickViewDialog_TMP" type="text/html">
       <menucashoutdialog>
       	<table>
-  		  {{>cashoutheader_P}}
+  	  {{>cashoutheader_P}}
   	  <tr><td colspan="3">----------------------------------------------------------------------</td></tr>
-      {{>netSales_P}}
-      <tr><td colspan="3">===================================</td></tr>
-      {{>netRefunds_P}}
-      <tr><td colspan="3">===================================</td></tr>
-      {{>netSaleActivity_P}}
-      <tr><td colspan="3">===================================</td></tr>
-      {{>paymentDetails_P}}
-      <tr><td colspan="3">===================================</td></tr>
-      {{>refundDetails_P}}
-      <tr><td colspan="3">===================================</td></tr>
-      {{>totalDiscount_P}}
-      <tr><td colspan="3">===================================</td></tr>
-      {{>transactionDetails_P}}
-      <tr><td colspan="3">===================================</td></tr>
-      {{>salesByCategory_P}}
+	  {{>netSales_P}}
+	  <tr><td colspan="3">===================================</td></tr>
+	  {{>netRefunds_P}}
+	  <tr><td colspan="3">===================================</td></tr>
+	  {{>netSaleActivity_P}}
+	  <tr><td colspan="3">===================================</td></tr>
+	  {{>paymentDetails_P}}
+	  <tr><td colspan="3">===================================</td></tr>
+	  {{>refundDetails_P}}
+	  <tr><td colspan="3">===================================</td></tr>
+	  {{>totalDiscount_P}}
+	  <tr><td colspan="3">===================================</td></tr>
+	  {{>transactionDetails_P}}
+	  <tr><td colspan="3">===================================</td></tr>
+	  {{>salesByCategory_P}}
       	</table>
       </menucashoutdialog>
     </script>
     
-     <!-------------------------------------- general transaction quickview dialog tmp -------------------->
-     <script id="generalTransactionQuickViewDialog_TMP" type="text/html">
+    <!-------------------------------------- general transaction quickview dialog tmp -------------------->
+    <script id="generalTransactionQuickViewDialog_TMP" type="text/html">
       <transactiondialog>
       	<table>
-      		<tr>
-      			<td colspan="2" align="left">Store ID: {{storename}}</td>
-      			<td colspan="2" align="right">{{processday}}</td>
-      		</tr>
-      		<tr>
-      			<td colspan="2" align="left">Terminal ID: {{name}}</td>
-      			<td colspan="2" align="right">{{processtime}}</td>
-      		</tr>
-      		<tr>
-      			<td colspan="2" align="left">{{transactionNumber}}</td>
-      			<td colspan="2" align="right">{{user}}</td>
-      		</tr>
-      		<tr>
-      			<td coslpan="4">{{type}}</td>
-      		</tr>
-  		  <tr>
-  		  	<td>ITEM</td>
-  		  	<td align="right">QTY</td>
-  		  	<td align="right">PRICE</td>
-  		  	<td align="right">AMOUNT</td>
-  		  </tr>
-  		  {{#order}}
-  		  <tr>
-  		  	<td>{{description}}</td>
-  		  	<td align="right">{{quantity}}</td>
-  		  	<td align="right">{{price}}</td>
-  		  	<td align="right">{{orderamount}}</td>
-  		  </tr>
-  		  {{#discount}}
-  		  <tr>
-  		  	<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Discount</td>
-  		  	<td align="right">-{{discount}}</td>
-  		  </tr>
-  		  {{/discount}}
-		  	{{#modifiers}}
-		  	<tr>
-		  		<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{description}}</td>
-		  		<td align="right">{{price}}</td>
-		  	</tr>
-		  	{{/modifiers}}
-  		  {{/order}}
-  		  <tr><td colspan="4" align="center">----------------------------------------------------------------</td></tr>
-  		  <tr>
-  		  	<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sub Total</td>
-  		  	<td align="right">$ {{subTotal}}</td>
-  		  </tr>
-  		  <tr>
-  		  	<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tax 1</td>
-  		  	<td align="right">{{tax1and2}}</td>
-  		  </tr>
-  		  <tr>
-  		  	<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tax 3</td>
-  		  	<td align="right">{{tax3}}</td>
-  		  </tr>
-  		  <tr>
-  		  	<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total</td>
-  		  	<td align="right">$ {{total}}</td>
-  		  </tr>
-  		  {{#payments}}
-  		  <tr>
-  		  	<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{type}}</td>
-  		  	<td align="right">$ {{amount}}</td>
-  		  </tr>
-  		  {{/payments}}
-  		  <tr>
-  		  	<td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Change Due</td>
-  		  	<td align="right">$ {{change}}</td>
-  		  </tr>
-  		  {{#electricdata}}
-  		  <tr>
-  		  	<td colspan="4">===========================================</td>
-  		  </tr>
-  		  <tr>
-  		  	<td colspan="4"><p>{{resp}}</p></td>
-  		  </tr>
-  		  <tr>
-  		  	<td colspan="4">===========================================</td>
-  		  </tr>
-  		  {{/electricdata}}
+      	  <tr>
+      	    <td colspan="2" align="left">Store ID: {{storename}}</td>
+      	    <td colspan="2" align="right">{{processday}}</td>
+      	  </tr>
+      	  <tr>
+      	    <td colspan="2" align="left">Terminal ID: {{name}}</td>
+      	    <td colspan="2" align="right">{{processtime}}</td>
+      	  </tr>
+      	  <tr>
+      	    <td colspan="2" align="left">{{transactionNumber}}</td>
+      	    <td colspan="2" align="right">{{user}}</td>
+      	  </tr>
+      	  <tr>
+      	    <td coslpan="4">{{type}}</td>
+      	  </tr>
+  	  <tr>
+  	    <td>ITEM</td>
+  	    <td align="right">QTY</td>
+  	    <td align="right">PRICE</td>
+  	    <td align="right">AMOUNT</td>
+  	  </tr>
+  	  {{#order}}
+  	  <tr>
+  	    <td>{{description}}</td>
+  	    <td align="right">{{quantity}}</td>
+  	    <td align="right">{{price}}</td>
+  	    <td align="right">{{orderamount}}</td>
+  	  </tr>
+  	  {{#discount}}
+  	  <tr>
+  	    <td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Discount</td>
+  	    <td align="right">-{{discount}}</td>
+  	  </tr>
+  	  {{/discount}}
+	  {{#modifiers}}
+	  <tr>
+	    <td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{description}}</td>
+	    <td align="right">{{price}}</td>
+	  </tr>
+	  {{/modifiers}}
+  	  {{/order}}
+  	  <tr><td colspan="4" align="center">----------------------------------------------------------------</td></tr>
+  	  <tr>
+  	    <td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sub Total</td>
+  	    <td align="right">$ {{subTotal}}</td>
+  	  </tr>
+  	  <tr>
+  	    <td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tax 1</td>
+  	    <td align="right">{{tax1and2}}</td>
+  	  </tr>
+  	  <tr>
+  	    <td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tax 3</td>
+  	    <td align="right">{{tax3}}</td>
+  	  </tr>
+  	  <tr>
+  	    <td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Total</td>
+  	    <td align="right">$ {{total}}</td>
+  	  </tr>
+  	  {{#payments}}
+  	  <tr>
+  	    <td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{type}}</td>
+  	    <td align="right">$ {{amount}}</td>
+  	  </tr>
+  	  {{/payments}}
+  	  <tr>
+  	    <td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Change Due</td>
+  	    <td align="right">$ {{change}}</td>
+  	  </tr>
+  	  {{#electricdata}}
+  	  <tr>
+  	    <td colspan="4">===========================================</td>
+  	  </tr>
+  	  <tr>
+  	    <td colspan="4"><p>{{resp}}</p></td>
+  	  </tr>
+  	  <tr>
+  	    <td colspan="4">===========================================</td>
+  	  </tr>
+  	  {{/electricdata}}
       	</table>
       </transactiondialog>
     </script>
-     
+    
     <!-------------------------------------------- MENU REPORTS ------------------------------------------------>
     <script id="menuReports_TMP" type="text/html">
       <h1>Reports Menus</h1>
@@ -692,7 +701,7 @@
 	<li><a href='#menuReports/{{startPage}}SalesSummary'> Sales Summary</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}HowAreWe'> How Are We Doing Today</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}HourlyActivity'> Hourly Activity</a> <br/></li>
-	<li><a href=''> Electronic Payment Processing Summary</a> <br/></li>
+	<li><a href='#menuReports/{{startPage}}ElectronicPayments'> Electronic Payments</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}TaxCollected'> Tax Collected</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}CashOuts'> Cash Outs</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}Cancelled'> Cancelled Transactions</a> <br/></li>
@@ -779,7 +788,7 @@
       {{>menuButton_P}}
     </script>	
 
-     <!------------------------------------- HowAreWeTodayTable TMP -------------------------------------------->
+    <!------------------------------------- HowAreWeTodayTable TMP -------------------------------------------->
     <script id="generalTabel_HowAreWeToday_TMP" type="text/html">
       <h1>How Are We Doing Today</h1>
       <h2>{{>breadcrumb_P}}</h2>
@@ -790,8 +799,8 @@
 	  <th colspan="4">Net Refunds</th>
 	  <th rowspan="2">Total</th>
 	  <th rowspan="2">AVG Sale</th>
-	 </tr>
-	  <tr>
+	</tr>
+	<tr>
 	  <th># of Trans</th>
 	  <th>Menu</th>
 	  <th>Scan</th>
@@ -805,13 +814,13 @@
 	{{#items}}
 	<tr>
 	  <td>
-	  	{{#linkaddress}}
-	  	<a href="{{linkaddress}}">
-	  	{{/linkaddress}}
-	  		{{name}}
-	  	{{#linkaddress}}
-	  	</a>
-	  	{{/linkaddress}}
+	    {{#linkaddress}}
+	    <a href="{{linkaddress}}">
+	      {{/linkaddress}}
+	      {{name}}
+	      {{#linkaddress}}
+	    </a>
+	    {{/linkaddress}}
 	  </td>
 	  <td align="right">{{transactions}}</td>
 	  {{#origin_sales}}
@@ -832,7 +841,7 @@
 	<tr>
 	  <td>Totals</td>
 	  {{#total}}
-	   <td align="right">{{transactions}}</td>
+	  <td align="right">{{transactions}}</td>
 	  {{#origin_sales}}
 	  <td align="right">{{menu}}</td>
 	  <td align="right">{{scan}}</td>
@@ -909,7 +918,7 @@
     </script>	
     
     
-  	<!----------------------------------------------- TAX COLLECTED REPORTS -------------------------------------------->
+    <!----------------------------------------------- TAX COLLECTED REPORTS -------------------------------------------->
     <script id="taxCollectedTabel_TMP" type="text/html">
       <table border="1">
 	<tr>
@@ -942,6 +951,53 @@
       {{>menuTaxGoButton_P}}			
       <br/><br/>
       <taxcollectedtable></taxcollectedtable>	
+      {{>backButton_P}}
+      {{>menuButton_P}}
+    </script>
+
+    <!----------------------------------------------- ELECTRONIC PAYMENTS REPORTS -------------------------------------------->
+    <script id="electronicPaymentsTabel_TMP" type="text/html">
+      <table border="1">
+	<tr>
+	  <th>Terminal</th>
+	  <th>Transaction</th>
+	  <th>Date</th>
+	  <th>Sale</th>
+	  <th>Tax 1</th>
+	  <th>Tax 3</th>
+	  <th>Total Sale</th>
+	  <th>Debit</th>
+	  <th>Credit</th>
+	  <th>Auth #</th>
+	  <th>Details</th>
+	</tr>
+	{{#items}}
+	<tr>
+	  <td>{{name}}</td>
+	  <td align="center">{{transaction_index}}</td>
+	  <td align="center">{{date}}</td>
+	  <td align="right">{{sales}}</td>
+	  <td align="right">{{tax1}}</td>
+	  <td align="right">{{tax3}}</td>
+	  <td align="right">{{totalsales}}</td>
+	  <td align="right">{{debit}}</td>
+	  <td align="right">{{credit}}</td>
+	  <td align="right">{{authCode}}</td>
+	  <td>{{>quickTaxViewButton_P}}</td>
+	</tr>
+	{{/items}}
+      </table>
+      {{>quickReportViewHook_P}}
+    </script> 
+    
+    <script id="electronicPaymentsReports_TMP" type="text/html">
+      <h1>Electronic Payments</h1>
+      <h2>{{>breadcrumb_P}}</h2>
+      {{>dropdownHourlyActiviy_P}} <br/>
+      {{>dateRangePicker_P}}
+      {{>menuElectronicPaymentsGoButton_P}}			
+      <br/><br/>
+      <reportTable></reportTable>	
       {{>backButton_P}}
       {{>menuButton_P}}
     </script>
@@ -1115,181 +1171,181 @@
     
     
     <!-------------------------------------------------- Menu SET MENUS --------------------------------------->
-  <!--  <script id="dropdownSetMenus_P" class="partial" type="text/html">
-    	Menus File : <select id="menusdown" class="{{>commonClasses_P}}">
-    	</select>
+    <!--  <script id="dropdownSetMenus_P" class="partial" type="text/html">
+    	  Menus File : <select id="menusdown" class="{{>commonClasses_P}}">
+    	  </select>
     </script>
     
     <script id="dropdownMenuScreen_P" class="partial" type="text/html">
-    	Menu : <select id="menuscreendown" class="{{>commonClasses_P}}">
-    		<option value = "menu1" selected>MENU 1</option>
-    		<option value = "menu2" selected>MENU 2</option>
-    		<option value = "menu3" selected>MENU 3</option>
-    		<option value = "menu4" selected>MENU 4</option>
-    		<option value = "modifiers" selected>MODIFIERS</option>
-    	</select>
+      Menu : <select id="menuscreendown" class="{{>commonClasses_P}}">
+    	<option value = "menu1" selected>MENU 1</option>
+    	<option value = "menu2" selected>MENU 2</option>
+    	<option value = "menu3" selected>MENU 3</option>
+    	<option value = "menu4" selected>MENU 4</option>
+    	<option value = "modifiers" selected>MODIFIERS</option>
+      </select>
     </script> -->
     
     <script id="menuSetMenus_Left_TMP" type="text/html">
-    	<tr><td>
-		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusScreen(0);">
-			<span class="ui-button-text">Modifiers</span>
-		</button>	
-    	</td></tr>
-    	<tr><td>
-		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderEditHeader(1);">
-			<span class="ui-button-text">Edit Menu1 Header</span>
-		</button>	
-    	</td></tr>
-    	<tr><td>
-		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderEditHeader(2);">
-			<span class="ui-button-text">Edit Menu2 Header</span>
-		</button>	
-    	</td></tr>
-		<tr><td>
-		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderEditHeader(3);">
-			<span class="ui-button-text">Edit Menu3 Header</span>
-		</button>	
-    	</td></tr>
-		<tr><td>
-		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderEditHeader(4);">
-			<span class="ui-button-text">Edit Menu4 Header</span>
-		</button>	
-    	</td></tr>
-		<tr><td>
-		{{>backButton_P}}
-		</td></tr>
-	</script>
+      <tr><td>
+	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusScreen(0);">
+	    <span class="ui-button-text">Modifiers</span>
+	  </button>	
+      </td></tr>
+      <tr><td>
+	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderEditHeader(1);">
+	    <span class="ui-button-text">Edit Menu1 Header</span>
+	  </button>	
+      </td></tr>
+      <tr><td>
+	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderEditHeader(2);">
+	    <span class="ui-button-text">Edit Menu2 Header</span>
+	  </button>	
+      </td></tr>
+      <tr><td>
+	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderEditHeader(3);">
+	    <span class="ui-button-text">Edit Menu3 Header</span>
+	  </button>	
+      </td></tr>
+      <tr><td>
+	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderEditHeader(4);">
+	    <span class="ui-button-text">Edit Menu4 Header</span>
+	  </button>	
+      </td></tr>
+      <tr><td>
+	  {{>backButton_P}}
+      </td></tr>
+    </script>
+    
+    <script id="menuSetMenus_Center_TMP" type="text/html">
+      <table border="1" cellpadding="10">
+	{{#menu_screen}}
+	<tr>
+	  {{#row}}
+	  <!--FIXME : onclick function would better be in js file-->
+	  {{#display}}
+	  <td width="80" height="30" id={{screen}}:{{position}} onclick="renderEditMenuItem({{screen}},{{position}});">
+	    <ul style="list-style-type: none; padding-left: 0px">
+	      <li>{{#description}}{{0}}{{/description}}</li>
+	      <li>{{#description}}{{1}}{{/description}}</li>
+	      <li>{{#description}}{{2}}{{/description}}</li>					
+	    </ul>
+	  </td>
+	  {{/display}}
+	  {{/row}}
+	</tr>
+	{{/menu_screen}}
+      </table>
+    </script>
+    
+    <script id="menuSetMenus_Bottom_TMP" type="text/html">
+      <tr>
+	<td>
+	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusScreen(1);">
+	    <span class="ui-button-text">{{menu1title}}</span>
+	  </button>	
+	</td>
+	<td>
+	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusScreen(2);">
+	    <span class="ui-button-text">{{menu2title}}</span>
+	  </button>	
+	</td>
+	<td>
+	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusScreen(3);">
+	    <span class="ui-button-text">{{menu3title}}</span>
+	  </button>	
+	</td>
+	<td>
+	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusScreen(4);">
+	    <span class="ui-button-text">{{menu4title}}</span>
+	  </button>	
+	</td>
+      </tr>
+    </script>
+    
+    <script id="menuSetMenus_Right_TMP" type="text/html">
+      <label>{{menuSetMenusrighttitle}}</label>
+      <form>
+	<br/>
+	{{#display}}
+	<label>Description 1: </label>
+	<input type="text" var="display.description.0" id="editmenudescription0" value="{{#description}}{{0}}{{/description}}"/><br />
+	<label>Description 2: </label>
+	<input type="text" var="display.description.1" id="editmenudescription1" value="{{#description}}{{1}}{{/description}}"/><br />
+	<label>Description 3: </label>
+	<input type="text" var="display.description.2" id="editmenudescription2" value="{{#description}}{{2}}{{/description}}"/><br />
+	<label>Color : </label>
+	<input type="text" var="display.color" id="editmenucolor" value="{{color}}" /><br/>
+	{{/display}}
 	
-	<script id="menuSetMenus_Center_TMP" type="text/html">
-    	<table border="1" cellpadding="10">
-		{{#menu_screen}}
-		<tr>
-		{{#row}}
-		<!--FIXME : onclick function would better be in js file-->
-			{{#display}}
-			<td width="80" height="30" id={{screen}}:{{position}} onclick="renderEditMenuItem({{screen}},{{position}});">
-				<ul style="list-style-type: none; padding-left: 0px">
-				<li>{{#description}}{{0}}{{/description}}</li>
-				<li>{{#description}}{{1}}{{/description}}</li>
-				<li>{{#description}}{{2}}{{/description}}</li>					
-				</ul>
-			</td>
-			{{/display}}
-		{{/row}}
-		</tr>
-		{{/menu_screen}}
-		</table>
-	</script>
+	{{#foodItem}}
+	<label>Price : </label>
+	<input type="text" var="foodItem.price" id="price" value="{{price}}"/><br/>
+	{{/foodItem}}
 	
-	<script id="menuSetMenus_Bottom_TMP" type="text/html">
-    	<tr>
-			<td>
-			<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusScreen(1);">
-				<span class="ui-button-text">{{menu1title}}</span>
-			</button>	
-			</td>
-			<td>
-			<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusScreen(2);">
-				<span class="ui-button-text">{{menu2title}}</span>
-			</button>	
-			</td>
-			<td>
-			<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusScreen(3);">
-				<span class="ui-button-text">{{menu3title}}</span>
-			</button>	
-			</td>
-			<td>
-			<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusScreen(4);">
-				<span class="ui-button-text">{{menu4title}}</span>
-			</button>	
-			</td>
-		</tr>
-	</script>
+	{{#display}}
+	<input type="checkbox" var="display.is_enabled" id="is_enabled" {{#is_enabled}}checked=true{{/is_enabled}} />
+	<label for="is_enabled">Active</label>
+	<input type="hidden" var="display.screen" value="{{screen}}" />
+	<input type="hidden" var="display.position" value="{{position}}" />
+	{{/display}}
 	
-	<script id="menuSetMenus_Right_TMP" type="text/html">
-		<label>{{menuSetMenusrighttitle}}</label>
-		<form>
-		<br/>
-		{{#display}}
-		<label>Description 1: </label>
-		<input type="text" var="display.description.0" id="editmenudescription0" value="{{#description}}{{0}}{{/description}}"/><br />
-		<label>Description 2: </label>
-		<input type="text" var="display.description.1" id="editmenudescription1" value="{{#description}}{{1}}{{/description}}"/><br />
-		<label>Description 3: </label>
-		<input type="text" var="display.description.2" id="editmenudescription2" value="{{#description}}{{2}}{{/description}}"/><br />
-		<label>Color : </label>
-		<input type="text" var="display.color" id="editmenucolor" value="{{color}}" /><br/>
-		{{/display}}
-		
-		{{#foodItem}}
-		<label>Price : </label>
-		<input type="text" var="foodItem.price" id="price" value="{{price}}"/><br/>
-		{{/foodItem}}
-		
-		{{#display}}
-		<input type="checkbox" var="display.is_enabled" id="is_enabled" {{#is_enabled}}checked=true{{/is_enabled}} />
-		<label for="is_enabled">Active</label>
-		<input type="hidden" var="display.screen" value="{{screen}}" />
-		<input type="hidden" var="display.position" value="{{position}}" />
-		{{/display}}
-		
-		{{#foodItem}}
-		<input type="checkbox" var="foodItem.has_modifier" id="has_modifier" {{#has_modifier}}checked=true{{/has_modifier}} />
-		<label for="has_modifier">Modifier</label>
-		{{#apply_taxes}}
-		<input type="checkbox" var="foodItem.apply_taxes.exemption" id="exemption" {{#exemption}}checked=true{{/exemption}} />
-		<label for="exemption">Apply Exemption</label><br/>
-		<input type="checkbox" var="foodItem.apply_taxes.tax1" id="tax1" {{#tax1}}checked=true{{/tax1}} />
-		<label for="tax1">Apply Tax1</label>
-		<input type="checkbox" var="foodItem.apply_taxes.tax2" id="tax2" {{#tax2}}checked=true{{/tax2}} />
-		<label for="tax2">Apply Tax2</label>
-		<input type="checkbox" var="foodItem.apply_taxes.tax3" id="tax3" {{#tax3}}checked=true{{/tax3}} />
-		<label for="tax3">Apply Tax3</label><br/>
-		{{/apply_taxes}}
-		<input type="checkbox" var="foodItem.use_scale" id="use_scale" {{#use_scale}}checked=true{{/use_scale}} />
-		<label for="use_scale">Read Scale</label>
-		<input type="checkbox" var="foodItem.print_to_kitchen" id="print_to_kitchen" {{#print_to_kitchen}}checked=true{{/print_to_kitchen}} />
-		<label for="print_to_kitchen">Print in Kitchen</label>
-		<input type="checkbox" var="foodItem.duplicate" id="duplicate" {{#duplicate}}checked=true{{/duplicate}} />
-		<label for="duplicate">Duplicate</label><br/>
-		{{/foodItem}}
-		</form>
-		
-		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="clearEditMenu();">
-				<span class="ui-button-text">Clear</span>
-		</button>			
-		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="saveEditMenu();">
-				<span class="ui-button-text">Save</span>
-		</button>
-		<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="closeEditMenu();">
-				<span class="ui-button-text">Close</span>
-		</button>
-	</script>
-	
-	<script id="menuSetMenus_TMP" type="text/html">
-		<h1>Set Menus</h1>
-    	<h2>{{>breadcrumb_P}}</h2>
-		<table>
-			<tr>
-				<td rowspan="2">
-					<menusetmenusleft></menusetmenusleft>
-				</td>
-				<td>
-					<menusetmenuscenter></menusetmenuscenter>
-				</td>
-				<td>
-					<menusetmenusright></menusetmenusright>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<menusetmenusbottom></menusetmenusbottom>
-				</td>
-				<td></td>
-			</tr>
-		</table>
-	</script>
+	{{#foodItem}}
+	<input type="checkbox" var="foodItem.has_modifier" id="has_modifier" {{#has_modifier}}checked=true{{/has_modifier}} />
+	<label for="has_modifier">Modifier</label>
+	{{#apply_taxes}}
+	<input type="checkbox" var="foodItem.apply_taxes.exemption" id="exemption" {{#exemption}}checked=true{{/exemption}} />
+	<label for="exemption">Apply Exemption</label><br/>
+	<input type="checkbox" var="foodItem.apply_taxes.tax1" id="tax1" {{#tax1}}checked=true{{/tax1}} />
+	<label for="tax1">Apply Tax1</label>
+	<input type="checkbox" var="foodItem.apply_taxes.tax2" id="tax2" {{#tax2}}checked=true{{/tax2}} />
+	<label for="tax2">Apply Tax2</label>
+	<input type="checkbox" var="foodItem.apply_taxes.tax3" id="tax3" {{#tax3}}checked=true{{/tax3}} />
+	<label for="tax3">Apply Tax3</label><br/>
+	{{/apply_taxes}}
+	<input type="checkbox" var="foodItem.use_scale" id="use_scale" {{#use_scale}}checked=true{{/use_scale}} />
+	<label for="use_scale">Read Scale</label>
+	<input type="checkbox" var="foodItem.print_to_kitchen" id="print_to_kitchen" {{#print_to_kitchen}}checked=true{{/print_to_kitchen}} />
+	<label for="print_to_kitchen">Print in Kitchen</label>
+	<input type="checkbox" var="foodItem.duplicate" id="duplicate" {{#duplicate}}checked=true{{/duplicate}} />
+	<label for="duplicate">Duplicate</label><br/>
+	{{/foodItem}}
+      </form>
+      
+      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="clearEditMenu();">
+	<span class="ui-button-text">Clear</span>
+      </button>			
+      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="saveEditMenu();">
+	<span class="ui-button-text">Save</span>
+      </button>
+      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="closeEditMenu();">
+	<span class="ui-button-text">Close</span>
+      </button>
+    </script>
+    
+    <script id="menuSetMenus_TMP" type="text/html">
+      <h1>Set Menus</h1>
+      <h2>{{>breadcrumb_P}}</h2>
+      <table>
+	<tr>
+	  <td rowspan="2">
+	    <menusetmenusleft></menusetmenusleft>
+	  </td>
+	  <td>
+	    <menusetmenuscenter></menusetmenuscenter>
+	  </td>
+	  <td>
+	    <menusetmenusright></menusetmenusright>
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <menusetmenusbottom></menusetmenusbottom>
+	  </td>
+	  <td></td>
+	</tr>
+      </table>
+    </script>
     
     
     <!------------------------------------------------------- LAYER LOGIN------------------------------------------>
