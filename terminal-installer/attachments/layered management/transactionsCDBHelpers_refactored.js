@@ -1,4 +1,15 @@
 var date = { toArray : { until : { day : function(date){return _.first(date.toArray(),3);}}}};
+function identity(o){
+    return o;
+}
+function addPropertiesTogether(addTo,addFrom){
+    if(addTo == {}){return addFrom;}
+    for (var prop in addFrom) {
+	if(addTo[prop] == undefined){addTo[prop] = addFrom[prop];}
+	else{addTo[prop] += addFrom[prop];}
+    };
+    return addTo;
+}
 var _async = {
     transactionRangeQuery:function(start,end){
 	return function(view,db,base){
@@ -373,15 +384,6 @@ function cashoutReportFetcher(terminals,startDate,endDate){
 }
 
 function electronicPaymentsReportFetcher(terminals,startDate,endDate){
-   // var zero_total = {amount:0};
-    function addPropertiesTogether(addTo,addFrom){
-	if(addTo == {}){return addFrom;}
-	for (var prop in addFrom) {
-	    if(addTo[prop] == undefined){addTo[prop] = addFrom[prop];}
-	    else{addTo[prop] += addFrom[prop];}
-	};
-	return addTo;
-    }
     function paymentMap(terminals){
 	return function(transaction){
 	    var terminalForTransaction = _.find(terminals, function(ter){return transaction.terminal_id==ter.id;});
@@ -393,31 +395,9 @@ function electronicPaymentsReportFetcher(terminals,startDate,endDate){
 			    {sales:sales});
 	};
     };
-    function identity(o){
-	return o;
-    }
-    function mapTotals(total){
-/*	var zeroTotal =  {debit:zero_total,
-			  credit:zero_total,
-			  deposit:zero_total,
-			  visa:zero_total,
-			  mastercard:zero_total,
-			  amex:zero_total
-			 };
-*/
-	return total;
-	//return addPropertiesTogether(total,zero_total);
-    };
-
-    function reduceTotals(sum,cur){
-	return addPropertiesTogether(sum,cur);
-    };
-
-    //process payments
     return function(callback){
 	async.parallel({
 			   paymentList: processedTransactionsFromCashouts(terminals,startDate,endDate)(electronicPaymentsIndexRangeFetcher_F,paymentMap(terminals)),
-			   //totals: processedReducedTransactionsFromCashouts(terminals,startDate,endDate)(electronicPaymentsTotalsIndexRangeFetcher_F)
 			   totals: mapReduceTransactionsFromCashouts(terminals,startDate,endDate)(electronicPaymentsTotalsIndexRangeFetcher_F,identity,addPropertiesTogether)
 		       },
 		       callback);
