@@ -48,10 +48,10 @@ var _async = {
 };
 
 function extract(dataArrays,field){
-	if(_.isEmpty(dataArrays.rows)) {
-		return [];	
-	}
-	
+    if(_.isEmpty(dataArrays)) {
+	return [];	
+    }
+    
     return _(dataArrays)
 	.chain()
 	.pluck('rows')
@@ -61,6 +61,9 @@ function extract(dataArrays,field){
 }
 function extractValue(dataArrays){
     return extract(dataArrays,'value');
+}
+function extractDoc(dataArrays){
+    return extract(dataArrays,'doc');
 }
 function extractSum(dataArrays){
     var value = extractValue(dataArrays);
@@ -91,8 +94,8 @@ function extractDocValMerge(parallelFunctionsArray){
     return function(callback){
 	async.parallel(parallelFunctionsArray,
 		       function(err,responses){  
-			   var extractedDocs = extract(responses,'doc');
-			   var extractedValues = extract(responses,'value');
+			   var extractedDocs = extractDoc(responses);
+			   var extractedValues = extractValue(responses);
 			   var extractedData = _.zipMerge(extractedDocs,extractedValues);
 			   callback(err,extractedData);	  
 		       });
@@ -252,6 +255,7 @@ function processedTransactionsFromCashouts(terminals,startDate,endDate){
 	};
     };
 }
+
 function processedReducedTransactionsFromCashouts(terminals,startDate,endDate){
     return function (IndexRangeFetcher){
 	return function(callback) {
@@ -340,7 +344,7 @@ function electronicPaymentsReportFetcher(terminals,startDate,endDate){
     };
     //process payments
    // return function(callback){
-	return processedTransactionsFromCashouts(terminals,startDate,endDate)(electronicPaymentsIndexRangeFetcher_F,paymentMap(terminals));
+    return processedTransactionsFromCashouts(terminals,startDate,endDate)(electronicPaymentsIndexRangeFetcher_F,paymentMap(terminals));
 /*	(function(err,paymentList){
 	     //process totals
 	     processedReducedTransactionsFromCashouts(terminals,startDate,endDate)
