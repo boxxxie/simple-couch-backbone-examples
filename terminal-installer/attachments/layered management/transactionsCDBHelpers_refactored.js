@@ -25,6 +25,18 @@ var _async = {
 	    return function(callback){queryF(view,db)(options)(returnQuery(callback));};
 	};
     },
+    typedSandwichTransactionQuery:function(start,end){
+	return function(view,db,base,end){
+	    var startKey = base.concat(start).concat(end);
+	    var endKey = base.concat(end).concat(end);
+	    var options = {
+		reduce:true,
+		startkey:startKey,
+		endkey:endKey
+	    };
+	    return function(callback){queryF(view,db)(options)(returnQuery(callback));};
+	};
+    },
     map:function(array,fn,runAfter){
 	/*
 	 * fn() must return a function of the form fn(err,response)
@@ -43,12 +55,31 @@ function extract(dataArrays,field){
 	.pluck(field)
 	.value();
 }
-
+function extractValue(dataArrays){
+    return extract(dataArray,'value');
+}
+function extractSum(dataArrays){
+    var value = extractValue(dataArray);
+    if(value && value.sum){
+	return value.sum;
+    }
+    else{
+	return 0;	
+    }
+}
 function extractDocs(parallelFunctionsArray){
     return function(callback){
 	async.parallel(parallelFunctionsArray,
 		       function(err,responses){  
 			   callback(err,extract(responses,'doc'));	  
+		       });
+    };
+}
+function extractVals(parallelFunctionsArray){
+    return function(callback){
+	async.parallel(parallelFunctionsArray,
+		       function(err,responses){  
+			   callback(err,extract(responses,'value'));	  
 		       });
     };
 }
@@ -69,6 +100,31 @@ function electronicPaymentsIndexRangeFetcher_F(id){
     return function(startIndex,endIndex){
 	var payments = _async.transactionRangeQuery(startIndex,endIndex)(view,db,[id]);
 	return extractDocValMerge([payments]);
+    };
+}
+function electronicPaymentsTotalsIndexRangeFetcher_F(id){
+    var view = cdb.view('reporting','electronic_payments');
+    var db = cdb.db('transactions',{},true);
+    return function(startIndex,endIndex){
+	var debit = _async.typedSandwichTransactionQuery(startIndex,endIndex)(view,db,[id],["DEBIT"]);
+	var credit = _async.typedSandwichTransactionQuery(startIndex,endIndex)(view,db,[id],["CREDIT"]);
+	var deposit = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id]);
+	var visa = _async.typedSandwichTransactionQuery(startIndex,endIndex)(view,db,[id],["VISA"]);
+	var mastercard = _async.typedSandwichTransactionQuery(startIndex,endIndex)(view,db,[id],["MASTERCARD"]);
+	var amex = _async.typedSandwichTransactionQuery(startIndex,endIndex)(view,db,[id],["AMEX"]);
+	return function(callback){
+	    async.parallel({debit:debit,credit:credit,visa:visa,mastercard:mastercard,amex:amex,deposit:deposit},
+			   function(err,responses){
+			       var totals = {totalDebit:extractSum(responses.debit),
+					     totalCredit:extractSum(responses.credit),
+					     totalDeposit:extractSum(responses.deposit),
+					     totalVisa:extractSum(responses.visa),
+					     totalMastercard:extractSum(responses.mastercard),
+					     totalAmex:extractSum(responses.amex)
+					    };
+			       callback(err,totals);	  
+			   });
+	};
     };
 }
 function canceledTransactionsIndexRangeFetcher_F(id){
@@ -192,6 +248,18 @@ function processedTransactionsFromCashouts(terminals,startDate,endDate){
 	};
     };
 }
+function processedReducedTransactionsFromCashouts(terminals,startDate,endDate){
+    return function (IndexRangeFetcher){
+	return function(callback) {
+	    if(!_.isArray(terminals)){terminals = [terminals];}
+	    var ids = _.pluck(terminals,'id');
+	    _async.map(ids,
+		       transactionsFromIndexRange(generalCashoutFetcher_Period_F(startDate,endDate),
+						  IndexRangeFetcher),
+		       returnQuery(callback));
+	};
+    };
+}
 function canceledTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
     function cancelledMap(terminals){
 	return function(transaction){
@@ -266,6 +334,16 @@ function electronicPaymentsReportFetcher(terminals,startDate,endDate){
 			    {sales:sales});
 	};
     };
-    return processedTransactionsFromCashouts(terminals,startDate,endDate)
-    (electronicPaymentsIndexRangeFetcher_F,paymentMap(terminals));
+    //process payments
+    return function(callback){
+	processedTransactionsFromCashouts(terminals,startDate,endDate)(electronicPaymentsIndexRangeFetcher_F,paymentMap(terminals))
+	(function(err,paymentList){
+	     //process totals
+	     processedReducedTransactionsFromCashouts(terminals,startDate,endDate)
+	     (electronicPaymentsTotalsIndexRangeFetcher_F)
+	     (function(err,totals){
+		  callback(err,{paymentList:paymentList,totals:totals});
+	      });
+	 });
+    };
 };
