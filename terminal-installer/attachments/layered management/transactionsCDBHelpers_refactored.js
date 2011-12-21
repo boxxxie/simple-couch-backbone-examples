@@ -13,6 +13,30 @@ function addPropertiesTogether(addTo,addFrom){
     };
     return addTo;
 }
+function jodaDateParser(dateString){
+    var dateMatch =  /([\d-])+([\d:])+/g;
+    var date = (dateString).match(dateMatch)[0];
+    var time = (dateString).match(dateMatch)[1];
+    return new Date(date+ " " +time);
+}
+function dateFormatter(dateString){
+    return jodaDateParser(dateString).toString("yyyy-MM-dd HH:mm:ss");
+}
+function applyReceiptInfo(templateData){
+    return _.map(templateData, function(an_item){
+		     var item = _.clone(an_item);
+		     var t = new Date(item.date);
+		     item.processday = _(t.toDateString().split(' ')).chain().rest().join(' ').value();
+		     item.processtime = t.toString("h:mm").concat(t.getHours()>=12?" PM":" AM");
+		     item.transactionNumber = item.receipt_id+"-"+item.transactionNumber;
+		     item.transaction_index = item.transaction_index+"";
+		     if(item.type=="SALE") {item.type="SALE RECEIPT";}
+		     else if(item.type=="REFUND") {item.type="REFUND RECEIPT";}
+		     else if(item.type=="VOID") {item.type="SALE RECEIPT - VOIDED";}
+		     else if(item.type=="VOIDREFUND") {item.type="REFUND RECEIPT - VOIDED";}
+		     return item;
+		 });
+}
 var _async = {
     transactionRangeQuery:function(start,end){
 	return function(view,db,base){
@@ -39,18 +63,6 @@ var _async = {
 	    return function(callback){queryF(view,db)(options)(returnQuery(callback));};
 	};
     },
-    /*typedSandwichTransactionQuery:function(start,end){
-	return function(view,db,base,tail){
-	    var startKey = base.concat(start).concat(tail);
-	    var endKey = base.concat(end).concat(tail);
-	    var options = {
-		reduce:true,
-		startkey:startKey,
-		endkey:endKey
-	    };
-	    return function(callback){queryF(view,db)(options)(returnQuery(callback));};
-	};
-    },*/
     map:function(array,fn,runAfter){
 	/*
 	 * fn() must return a function of the form fn(err,response)
@@ -376,7 +388,7 @@ function canceledTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
     function cancelledMap(terminals){
 	return function(transaction){
 	    var terminalForTransaction = _.find(terminals, function(ter){return transaction.terminal_id==ter.id;});
-	    return _.extend({},transaction,terminalForTransaction,{date:(new Date(transaction.time.start)).toString("yyyy-MM-dd HH:mm:ss")});
+	    return _.extend({},transaction,terminalForTransaction,{date: dateFormatter(transaction.time.start)});
 	};
     };
     return processedTransactionsFromCashouts(terminals,startDate,endDate)(canceledTransactionsIndexRangeFetcher_F,cancelledMap(terminals));
@@ -388,7 +400,7 @@ function refundTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
 	    return _.extend({},
 			    transaction,
 			    terminalForTransaction,
-			    {date:(new Date(transaction.time.start)).toString("yyyy-MM-dd HH:mm:ss")});
+			    {date: dateFormatter(transaction.time.start)});
 	};
     };
     return processedTransactionsFromCashouts(terminals,startDate,endDate)(refundTransactionsIndexRangeFetcher_F,refundMap(terminals));
@@ -401,7 +413,7 @@ function discountTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
 	    return _.extend({},
 			    transaction,
 			    terminalForTransaction,
-			    {date:(new Date(transaction.time.start)).toString("yyyy-MM-dd HH:mm:ss")},
+			    {date:dateFormatter(transaction.time.start)},
 			    {sales:sales},
 			    {percentdiscount:transaction.discount/sales*100});
 	};
@@ -415,11 +427,13 @@ function cashoutReportFetcher(terminals,startDate,endDate){
 		_(cashouts).chain()
 	    	.flatten()
 		.map(function(cashout){
-			 return  {cashout : cashout,
-			          id:cashout._id,
-			          name:cashout.terminalname,
-			          cashouttime:(new Date(cashout.cashouttime)).toString("yyyy/MM/dd-HH:mm:ss"),
-			          cashoutnumber:cashout.cashoutnumber.toString()};
+			 var transformedCashout 
+			     =  {cashout : cashout,
+				 id: cashout._id,
+				 name: cashout.terminalname,
+				 cashouttime: dateFormatter(cashout.cashouttime),
+				 cashoutnumber: cashout.cashoutnumber.toString()};
+			 return transformedCashout;
 		     })
         	.value();	    
 	    callback(templateData);
@@ -442,8 +456,8 @@ function electronicPaymentsReportFetcher(terminals,startDate,endDate){
 	    return _.extend({},
 			    transaction,
 			    terminalForTransaction,
-			    {date:(new Date(transaction.time.start)).toString("yyyy-MM-dd HH:mm:ss")},
-			    {sales:sales});
+			    {date: dateFormatter(transaction.time.start)},
+			    {sales: sales});
 	};
     };
     return function(callback){

@@ -16,6 +16,7 @@
     <script language="javascript" type="text/javascript" src="../lib/couchDBhelpers.js"></script>
     
     <script language="javascript" type="text/javascript" src="../lib/underscore.js"></script>
+    <!--script language="javascript" type="text/javascript" src="../lib/underscore.string.js"></script-->
     <script language="javascript" type="text/javascript" src="../lib/underscore_extended.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/backbone.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/backbone-events-logger.js"></script>
@@ -298,11 +299,19 @@
     </script>
     
     <script id="dateRangePicker_P" class="partial" type="text/html">
-      <label>Date Range</label><br/>
-      <label for="from">From</label>
-      <input type="text" id="dateFrom" name="from" />
-      <label for="to">to</label>
-      <input type="text" id="dateTo" name="to" />
+      <form id="dateRange">
+	<ul style="list-style-type: none;">
+	  <li>Date Range :</li>
+	  <li style="display: inline; float:left">
+	    <label for="dateFrom">From:</label>
+	    <input type="text" id="dateFrom" name="from" />
+	  </li>
+	  <li style="display: inline; float:letf">
+	    <label for="dateTo">To:</label>
+	    <input type="text" id="dateTo" name="to" />
+	  </li>
+	</ul>
+      </form>
     </script>
 
     <!--------------------------- DIALOG QUICKVIEW(yesterday/mtd/ytd) ---------------------------------------->
@@ -808,12 +817,19 @@
     
     <!----------------------------------------------- SALES SUMMARY REPORTS -------------------------------------------->
     <script id="groupDropdownbox_P" class="partial" type="text/html">
-      GROUP : <select id="groupsdown" onchange="updateStoreDropdown();" class="{{>commonClasses_P}}">
-	<option value = "ALL" selected>ALL</option>
-      </select>
-      STORE : <select id="storesdown" class="{{>commonClasses_P}}">
-	<option value = "ALL" selected>ALL</option>
-      </select>	
+      <ul>
+	<li style="display: inline;">GROUP : 
+	  <select id="groupsdown" onchange="updateStoreDropdown();" class="{{>commonClasses_P}}">
+	    <option value = "ALL" selected>ALL</option>
+	  </select>
+	</li>
+	<li style="display: inline;">
+	  STORE : 
+	  <select id="storesdown" class="{{>commonClasses_P}}">
+	    <option value = "ALL" selected>ALL</option>
+	  </select>	
+	</li>
+      </ul>
     </script>
     
     <script id="salesSummaryTabel_TMP" type="text/html">
@@ -873,7 +889,7 @@
     <script id="salesSummaryReports_TMP" type="text/html">
       <h1>Sales Summary Report</h1>
       <h2>{{>breadcrumb_P}}</h2>
-      {{>groupDropdownbox_P}} <br/>
+      {{>groupDropdownbox_P}}
       {{>dateRangePicker_P}}
       {{>menuReportGoButton_P}}			
       <br/><br/>
@@ -959,24 +975,34 @@
 	</tr>
       </table>
       {{#cancelledtransactions}}
-      <label>Number of Cancelled Transactions : {{cancelledtransactions}}</label><br/>
+      <p>Number of Cancelled Transactions : {{cancelledtransactions}}</p>
       {{/cancelledtransactions}}
       {{>backButton_P}}
       {{>menuButton_P}}
     </script>
     
     <!----------------------------------------------- HOURLY ACTIVITY REPORTS -------------------------------------------->
-    
+
     <script id="dropdownHourlyActiviy_P" class="partial" type="text/html">
-      GROUP : <select id="groupsdown" onchange="updateStoreDropdown();updateTerminalDropdown();" class="{{>commonClasses_P}}">
-	<option value = "ALL" selected>ALL</option>
-      </select>
-      STORE : <select id="storesdown" onChange="updateTerminalDropdown();" class="{{>commonClasses_P}}">
-	<option value = "ALL" selected>ALL</option>
-      </select>
-      TERMINAL : <select id="terminalsdown" class="{{>commonClasses_P}}">
-	<option value = "ALL" selected>ALL</option>
-      </select>
+      <ul>
+	<li style="display: inline;">
+	  GROUP : 
+	  <select id="groupsdown" onchange="updateStoreDropdown();updateTerminalDropdown();" class="{{>commonClasses_P}}">
+	    <option value = "ALL" selected>ALL</option>
+	  </select>
+	</li>
+	<li style="display: inline;">
+	  STORE : 
+	  <select id="storesdown" onChange="updateTerminalDropdown();" class="{{>commonClasses_P}}">
+	    <option value = "ALL" selected>ALL</option>
+	  </select>
+	</li>
+	<li style="display: inline;">
+	  TERMINAL : <select id="terminalsdown" class="{{>commonClasses_P}}">
+	    <option value = "ALL" selected>ALL</option>
+	  </select>
+	</li>
+      </ul>
     </script>
     
     <script id="hourlyActivityTabel_TMP" type="text/html">
@@ -1068,7 +1094,7 @@
     <script id="taxCollectedReports_TMP" type="text/html">
       <h1>Tax Collected</h1>
       <h2>{{>breadcrumb_P}}</h2>
-      {{>dropdownHourlyActiviy_P}} <br/>
+      {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
       {{>menuTaxGoButton_P}}			
       <br/><br/>
@@ -1132,7 +1158,7 @@
     <script id="electronicPaymentsReports_TMP" type="text/html">
       <h1>Electronic Payments</h1>
       <h2>{{>breadcrumb_P}}</h2>
-      {{>dropdownHourlyActiviy_P}} <br/>
+      {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
       {{>menuElectronicPaymentsGoButton_P}}			
       <br/><br/>
@@ -1160,7 +1186,7 @@
 	{{/items}}
       </table>
       {{#numofcashout}}
-      <label>Number of Cashouts : {{numofcashout}}</label>
+      <p>Number of Cashouts : {{numofcashout}}</p>
       {{/numofcashout}}
       {{>quickReportViewHook_P}}
     </script> 
@@ -1168,7 +1194,7 @@
     <script id="menuReportsCashOutsReports_TMP" type="text/html">
       <h1>CashOuts</h1>
       <h2>{{>breadcrumb_P}}</h2>
-      {{>dropdownHourlyActiviy_P}} <br/>
+      {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
       {{>menuCashoutsGoButton_P}}			
       <br/><br/>
@@ -1193,9 +1219,7 @@
 	{{#items}}
 	<tr>
 	  <td align="center">{{name}}</td>
-	  {{#time}}
-	  <td align="center">{{start}}</td>
-	  {{/time}}
+	  <td align="center">{{date}}</td>
 	  <td align="right">{{transactionNumber}}</td>
 	  <td align="right">{{subTotal}}</td>
 	  <td align="right">{{tax1and2}}</td>
@@ -1216,7 +1240,7 @@
 	{{/totalrow}}
       </table>
       {{#totalrow}}
-      <label>Number of Cancelled Transactions : {{numofcancelled}}</label>
+      <p>Number of Cancelled Transactions : {{numofcancelled}}</p>
       {{/totalrow}}
       {{>quickReportViewHook_P}}
     </script> 
@@ -1224,7 +1248,7 @@
     <script id="menuReportsCancelledReports_TMP" type="text/html">
       <h1>Cancelled Transactions</h1>
       <h2>{{>breadcrumb_P}}</h2>
-      {{>dropdownHourlyActiviy_P}} <br/>
+      {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
       {{>menuCancelledGoButton_P}}			
       <br/><br/>
@@ -1249,9 +1273,7 @@
 	{{#items}}
 	<tr>
 	  <td align="center">{{name}}</td>
-	  {{#time}}
-	  <td align="center">{{start}}</td>
-	  {{/time}}
+	  <td align="center">{{date}}</td>
 	  <td align="right">{{transactionNumber}}</td>
 	  <td align="right">{{subTotal}}</td>
 	  <td align="right">{{tax1and2}}</td>
@@ -1272,7 +1294,7 @@
 	{{/totalrow}}
       </table>
       {{#totalrow}}
-      <label>Number of Refunds Transactions : {{numofrefund}}</label>
+      <p>Number of Refunds Transactions : {{numofrefund}}</p>
       {{/totalrow}}
       {{>quickReportViewHook_P}}
     </script> 
@@ -1280,7 +1302,7 @@
     <script id="menuReportsRefundsReports_TMP" type="text/html">
       <h1>Refunds Transactions</h1>
       <h2>{{>breadcrumb_P}}</h2>
-      {{>dropdownHourlyActiviy_P}} <br/>
+      {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
       {{>menuRefundsGoButton_P}}			
       <br/><br/>
@@ -1308,9 +1330,7 @@
 	{{#items}}
 	<tr>
 	  <td align="center">{{name}}</td>
-	  {{#time}}
-	  <td align="center">{{start}}</td>
-	  {{/time}}
+	  <td align="center">{{date}}</td>
 	  <td align="right">{{transactionNumber}}</td>
 	  <td align="right">{{sales}}</td>
 	  <td align="right">-{{totaldiscount}}</td>
@@ -1343,7 +1363,7 @@
     <script id="menuReportsDiscountsReports_TMP" type="text/html">
       <h1>Discounts Transactions</h1>
       <h2>{{>breadcrumb_P}}</h2>
-      {{>dropdownHourlyActiviy_P}} <br/>
+      {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
       {{>menuDiscountsGoButton_P}}			
       <br/><br/>

@@ -273,6 +273,7 @@ function renderElectronicPaymentsTable() {
 	     var data_TMP = response.paymentList;
 	     var totals = _.applyToValues(response.totals, toFixed(2));
 	     
+	     data_TMP = applyReceiptInfo(data_TMP);
 	     data_TMP=
 		 _.map(data_TMP, 
 		       function(item){
@@ -281,13 +282,9 @@ function renderElectronicPaymentsTable() {
 						item.name,
 						startDate,
 						endDateForQuery);
-			   var t = new Date(item.time.start);
-			   item.processday = _(t.toDateString().split(' ')).chain().rest().join(' ').value();
-			   item.processtime = t.toString("h:mm").concat(t.getHours()>=12?" PM":" AM");
-			   item.transactionNumber = item.receipt_id+"-"+item.transactionNumber;
-			   return _.extend(item, 
-					   {dialogtitle:dialogtitle},
-			   		   {transaction_index:item.transaction_index+""});
+			   return _.extend({},
+					   item, 
+					   {dialogtitle:dialogtitle});
 		       });
 	     
 	     data_TMP = 

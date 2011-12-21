@@ -261,21 +261,7 @@ function renderDiscountsTable() {
 							}, 0)).toFixed(2);
 		totalrow.percentdiscount = (Number(totalrow.discount)/Number(totalrow.sales)*100).toFixed(2);
 	     
-	     data_TMP=_.map(data_TMP, function(item){
-				var item = _.clone(item);
-				var startTime=(new Date(item.time.start)).toString("yyyy/MM/dd-HH:mm:ss");
-				var t = new Date(item.time.start);
-				item.processday = _(t.toDateString().split(' ')).chain().rest().join(' ').value();
-				item.processtime = t.toString("h:mm").concat(t.getHours()>=12?" PM":" AM");
-				item.transactionNumber = item.receipt_id+"-"+item.transactionNumber;
-				if(item.type=="SALE") {item.type="SALE RECEIPT"}
-				else if(item.type=="REFUND") {item.type="REFUND RECEIPT"}
-				else if(item.type=="VOID") {item.type="SALE RECEIPT - VOIDED"}
-				else if(item.type=="VOIDREFUND") {item.type="REFUND RECEIPT - VOIDED"}
-				item.time.start = startTime;
-				item.totaldiscount = item.discount;
-				return item;
-			    });
+	     data_TMP= applyReceiptInfo(data_TMP);
 	     
 	     data_TMP = _.applyToValues(data_TMP, function(obj){
 					    if(obj && obj.discount==0){
@@ -308,7 +294,7 @@ function renderDiscountsTable() {
 			      
 	     
 	     if(_.isEmpty(data_TMP)){
-		 var html = "There are no discounts for this time period<br/>";	 
+		 var html = "<p>There are no discounts for this time period</p>";	 
 	     }
 	     else{
 		 var html = ich.menuReportsDiscountsTabel_TMP({items:data_TMP, totalrow:totalrow});

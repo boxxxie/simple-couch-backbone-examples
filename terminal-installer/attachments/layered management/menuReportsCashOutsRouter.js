@@ -250,7 +250,7 @@ function rendermenuReportsCashOutsTable() {
 			      });
 
 	     if(_.isEmpty(data_TMP)){
-		 var html = "There are no cashouts for this time period<br/>";	 
+		 var html = "<p>There are no cashouts for this time period</p>";	 
 	     }
 	     else{
 		 var html = ich.menuReportsCashOutsTabel_TMP({items:data_TMP, numofcashout:numofcashout});
