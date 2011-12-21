@@ -178,7 +178,6 @@ function renderHourlyActivityTable() {
     
     //TODO : hourly activity talble data 
     hourlyReportFetcher(id, function(data_param){
-    	
     		var totalrow={};
     		totalrow.transactions = (_.reduce(data_param, function(init, item){
 								return init + Number(item.transactions);

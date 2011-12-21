@@ -293,7 +293,14 @@ function renderTaxCollectedTable() {
 					   return _.extend(item, {dialogtitle:dialogtitle});
 				       });
 			     data_TMP = _.applyToValues(data_TMP,toFixed(2),true);
-			     var html = ich.taxCollectedTabel_TMP({items:data_TMP, totalrow:totalrow});
+			     
+			     if(_.isEmpty(data_TMP)){
+				 var html = "<p>There are no taxes collected for this time period</p>";	 
+			     }
+			     else{
+				 var html = ich.taxCollectedTabel_TMP({items:data_TMP, totalrow:totalrow});
+			     }
+
 			     $("taxcollectedtable").html(html);
 			 });
 	

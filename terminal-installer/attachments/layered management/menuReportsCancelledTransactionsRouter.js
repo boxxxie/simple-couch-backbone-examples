@@ -287,7 +287,13 @@ function renderCancelledTransactionsTable() {
 			      });
 			      
 	     
-	     var html = ich.menuReportsCancelledTabel_TMP({items:data_TMP, totalrow:totalrow});
+	     if(_.isEmpty(data_TMP)){
+		 var html = "<p>There are no taxes collected for this time period</p>";	 
+	     }
+	     else{
+		 var html = ich.menuReportsCancelledTabel_TMP({items:data_TMP, totalrow:totalrow});
+	     }
+
 	     $("cancelledtable").html(html);
 	     
 	     _.each(data_TMP, function(item){
