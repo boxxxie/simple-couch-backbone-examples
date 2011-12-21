@@ -264,15 +264,15 @@ function extractSalesSummaryTableInfo(list) {
     function getSummarySales(item) {
     	return {
 	    numberoftransactions:(Number(item.noofsale)+Number(item.noofrefund))+"",
-	    sales:toFixed(2)(item.netsales-item.netrefund),
-	    tax1:toFixed(2)(item.netsaletax1-item.netrefundtax1),
-	    tax3:toFixed(2)(item.netsaletax3-item.netrefundtax3),
+	    sales:toFixed(2)(Number(item.netsales)-Number(item.netrefund)),
+	    tax1:toFixed(2)(Number(item.netsaletax1)-Number(item.netrefundtax1)),
+	    tax3:toFixed(2)(Number(item.netsaletax3)-Number(item.netrefundtax3)),
 	    totalsales:toFixed(2)(Number(item.netsaleactivity)),
-	    cash:toFixed(2)(item.cashpayment-item.cashrefund),
-	    credit:toFixed(2)(item.creditpayment-item.creditrefund),
-	    debit:toFixed(2)(item.debitpayment-item.debitrefund),
-	    mobile:toFixed(2)(item.mobilepayment-item.mobilerefund),
-	    other:toFixed(2)(item.otherpayment-item.otherrefund)
+	    cash:toFixed(2)(Number(item.cashpayment)-Number(item.cashrefund)),
+	    credit:toFixed(2)(Number(item.creditpayment)-Number(item.creditrefund)),
+	    debit:toFixed(2)(Number(item.debitpayment)-Number(item.debitrefund)),
+	    mobile:toFixed(2)(Number(item.mobilepayment)-Number(item.mobilerefund)),
+	    other:toFixed(2)(Number(item.otherpayment)-Number(item.otherrefund))
 	};
     };
     
@@ -281,7 +281,7 @@ function extractSalesSummaryTableInfo(list) {
 	var input = _.clone(inputs);
 	var total={};
 	
-	total.totalsales = toFixed(2)(_(input.list).chain()
+	total.totalsales = toFixedWithSep(2)(_(input.list).chain()
 				      .pluck('summary')
 				      .reduce(function(init,item){ return Number(item.sales)+init;},0)
 				      .value())
@@ -291,35 +291,35 @@ function extractSalesSummaryTableInfo(list) {
 	    .pluck('summary')
 	    .reduce(function(init,item){ return Number(item.numberoftransactions)+init;},0)
 	    .value();
-	total.totaltax1 = toFixed(2)(_(input.list).chain()
+	total.totaltax1 = toFixedWithSep(2)(_(input.list).chain()
 				     .pluck('summary')
 				     .reduce(function(init,item){ return Number(item.tax1)+init;},0)
 				     .value());
-	total.totaltax3 = toFixed(2)(_(input.list).chain()
+	total.totaltax3 = toFixedWithSep(2)(_(input.list).chain()
 				     .pluck('summary')
 				     .reduce(function(init,item){ return Number(item.tax3)+init;},0)
 				     .value());
-	total.totaltotalsales = toFixed(2)(_(input.list).chain()
+	total.totaltotalsales = toFixedWithSep(2)(_(input.list).chain()
 					   .pluck('summary')
 					   .reduce(function(init,item){ return Number(item.totalsales)+init;},0)
 					   .value());
-	total.totalcash = toFixed(2)(_(input.list).chain()
+	total.totalcash = toFixedWithSep(2)(_(input.list).chain()
 				     .pluck('summary')
 				     .reduce(function(init,item){ return Number(item.cash)+init;},0)
 				     .value());
-	total.totalcredit = toFixed(2)(_(input.list).chain()
+	total.totalcredit = toFixedWithSep(2)(_(input.list).chain()
 				       .pluck('summary')
 				       .reduce(function(init,item){ return Number(item.credit)+init;},0)
 				       .value());
-	total.totaldebit = toFixed(2)(_(input.list).chain()
+	total.totaldebit = toFixedWithSep(2)(_(input.list).chain()
 				      .pluck('summary')
 				      .reduce(function(init,item){ return Number(item.debit)+init;},0)
 				      .value());
-	total.totalmobile = toFixed(2)(_(input.list).chain()
+	total.totalmobile = toFixedWithSep(2)(_(input.list).chain()
 				       .pluck('summary')
 				       .reduce(function(init,item){ return Number(item.mobile)+init;},0)
 				       .value());
-	total.totalother = toFixed(2)(_(input.list).chain()
+	total.totalother = toFixedWithSep(2)(_(input.list).chain()
 				      .pluck('summary')
 				      .reduce(function(init,item){ return Number(item.other)+init;},0)
 				      .value());
@@ -343,6 +343,18 @@ function extractSalesSummaryTableInfo(list) {
 	
 	
 	result = appendTotals(result);
+	
+	result.list = _.map(result.list, function(item){
+		_.applyToValues(item.summary, function(obj){
+					     var strObj = obj+"";
+					     if(strObj.indexOf(".")>=0) {
+					     	obj = toFixedWithSep(2)(obj);
+					     }
+					     return obj;
+					 }, true);
+		return item;
+	});
+	
 	return result;
 	
     } else if(!_.isEmpty(ReportData.group)) {

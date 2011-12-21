@@ -324,6 +324,18 @@ function renderElectronicPaymentsTable() {
 		 var html = "<p>There are no Electronic Payments for this time period</p>";	 
 	     }
 	     else{
+	     	
+	     	data_TMP = 
+			 _.applyToValues(data_TMP, function(obj){
+					     var strObj = obj+"";
+					     if(strObj.indexOf(".")>=0) {
+					     	obj = toFixedWithSep(2)(obj);
+					     }
+					     return obj;
+					 }, true);
+			totals =
+			_.applyToValues(totals,toFixedWithSep(2),true);
+					 
 		 var html = ich.electronicPaymentsTabel_TMP({items:data_TMP,totals:totals});
 	     }
 	     $("reportTable").html(html);
@@ -349,6 +361,9 @@ function renderElectronicPaymentsTable() {
 									    return o;
 									}
 									,true);
+									
+							_.applyToValues(btnData,toFixedWithSep(2),true);
+							
 							var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
 							quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
 						    });

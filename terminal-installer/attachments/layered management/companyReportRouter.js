@@ -14,7 +14,7 @@ function generalReportRenderer(view,param,template,idField){
 	return _.applyToValues({yesterdaysales:sumSalesType(sales,'yesterdaysales'),
 				mtdsales:sumSalesType(sales,'mtdsales'),
 				ytdsales:sumSalesType(sales,'ytdsales')},
-			       toFixed(2));
+			       toFixedWithSep(2));
     };
 
     return function(callback){

@@ -267,45 +267,58 @@ function extractSalesDetailTableInfo(list) {
     function getSalesDetail(item) {
     	return {
 	    numberoftransactions:Number(item.noofsale)+"",
-	    sales:toFixed(2)(item.netsales),
-	    tax1:toFixed(2)(item.netsaletax1),
-	    tax3:toFixed(2)(item.netsaletax3),
-	    totalsales:toFixed(2)(Number(item.netsalestotal)),
-	    cash:toFixed(2)(item.cashpayment),
-	    credit:toFixed(2)(item.creditpayment),
-	    debit:toFixed(2)(item.debitpayment),
-	    mobile:toFixed(2)(item.mobilepayment),
-	    other:toFixed(2)(item.otherpayment)
+	    sales:toFixedWithSep(2)(item.netsales),
+	    tax1:toFixedWithSep(2)(item.netsaletax1),
+	    tax3:toFixedWithSep(2)(item.netsaletax3),
+	    totalsales:toFixedWithSep(2)(Number(item.netsalestotal)),
+	    cash:toFixedWithSep(2)(item.cashpayment),
+	    credit:toFixedWithSep(2)(item.creditpayment),
+	    debit:toFixedWithSep(2)(item.debitpayment),
+	    mobile:toFixedWithSep(2)(item.mobilepayment),
+	    other:toFixedWithSep(2)(item.otherpayment)
 		};
     };
     
     function getRefundsDetail(item) {
+    	var refund,tax1,tax3,total,cash,credit,debit,mobile,other;
+    	
+    	refund = ((Number(item.netrefund))>0)? "-" + toFixedWithSep(2)(item.netrefund):toFixedWithSep(2)(item.netrefund);
+    	tax1 = ((Number(item.netrefundtax1))>0)? "-" + toFixedWithSep(2)(item.netrefundtax1):toFixedWithSep(2)(item.netrefundtax1);
+    	tax3 = ((Number(item.netrefundtax3))>0)? "-" + toFixedWithSep(2)(item.netrefundtax3):toFixedWithSep(2)(item.netrefundtax3);
+    	total = ((Number(item.netrefundtotal))>0)? "-" + toFixedWithSep(2)(item.netrefundtotal):toFixedWithSep(2)(item.netrefundtotal);
+    	cash = ((Number(item.cashrefund))>0)? "-" + toFixedWithSep(2)(item.cashrefund):toFixedWithSep(2)(item.cashrefund);
+    	credit = ((Number(item.creditrefund))>0)? "-" + toFixedWithSep(2)(item.creditrefund):toFixedWithSep(2)(item.creditrefund);
+    	debit = ((Number(item.debitrefund))>0)? "-" + toFixedWithSep(2)(item.debitrefund):toFixedWithSep(2)(item.debitrefund);
+    	mobile = ((Number(item.mobilerefund))>0)? "-" + toFixedWithSep(2)(item.mobilerefund):toFixedWithSep(2)(item.mobilerefund);
+    	other = ((Number(item.otherrefund))>0)? "-" + toFixedWithSep(2)(item.otherrefund):toFixedWithSep(2)(item.otherrefund);
+    	
     	return {
 	    numberoftransactions:Number(item.noofrefund)+"",
-	    sales:toFixed(2)(item.netrefund),
-	    tax1:toFixed(2)(item.netrefundtax1),
-	    tax3:toFixed(2)(item.netrefundtax3),
-	    totalsales:toFixed(2)(Number(item.netrefundtotal)),
-	    cash:toFixed(2)(item.cashrefund),
-	    credit:toFixed(2)(item.creditrefund),
-	    debit:toFixed(2)(item.debitrefund),
-	    mobile:toFixed(2)(item.mobilerefund),
-	    other:toFixed(2)(item.otherrefund)
+	    sales:refund,
+	    tax1:tax1,
+	    tax3:tax3,
+	    totalsales:total,
+	    cash:cash,
+	    credit:credit,
+	    debit:debit,
+	    mobile:mobile,
+	    other:other
 		};
     };
     
+    // toFixedWithSep will be done after totalrow is calculated
     function getTotalDetail(item) {
     	return {
 	    numberoftransactions:(Number(item.noofsale)+Number(item.noofrefund))+"",
-	    sales:toFixed(2)(item.netsales-item.netrefund),
-	    tax1:toFixed(2)(item.netsaletax1-item.netrefundtax1),
-	    tax3:toFixed(2)(item.netsaletax3-item.netrefundtax3),
+	    sales:toFixed(2)(Number(item.netsales)-Number(item.netrefund)),
+	    tax1:toFixed(2)(Number(item.netsaletax1)-Number(item.netrefundtax1)),
+	    tax3:toFixed(2)(Number(item.netsaletax3)-Number(item.netrefundtax3)),
 	    totalsales:toFixed(2)(Number(item.netsaleactivity)),
-	    cash:toFixed(2)(item.cashpayment-item.cashrefund),
-	    credit:toFixed(2)(item.creditpayment-item.creditrefund),
-	    debit:toFixed(2)(item.debitpayment-item.debitrefund),
-	    mobile:toFixed(2)(item.mobilepayment-item.mobilerefund),
-	    other:toFixed(2)(item.otherpayment-item.otherrefund)
+	    cash:toFixed(2)(Number(item.cashpayment)-Number(item.cashrefund)),
+	    credit:toFixed(2)(Number(item.creditpayment)-Number(item.creditrefund)),
+	    debit:toFixed(2)(Number(item.debitpayment)-Number(item.debitrefund)),
+	    mobile:toFixed(2)(Number(item.mobilepayment)-Number(item.mobilerefund)),
+	    other:toFixed(2)(Number(item.otherpayment)-Number(item.otherrefund))
 		};
     };
     
@@ -314,7 +327,7 @@ function extractSalesDetailTableInfo(list) {
 	var input = _.clone(inputs);
 	var total={};
 	
-	total.totalsales = toFixed(2)(_(input.list).chain()
+	total.totalsales = toFixedWithSep(2)(_(input.list).chain()
 				      .pluck('totalrow')
 				      .reduce(function(init,item){ return Number(item.sales)+init;},0)
 				      .value())
@@ -324,35 +337,35 @@ function extractSalesDetailTableInfo(list) {
 				    .pluck('totalrow')
 				    .reduce(function(init,item){ return Number(item.numberoftransactions)+init;},0)
 				    .value();
-	total.totaltax1 = toFixed(2)(_(input.list).chain()
+	total.totaltax1 = toFixedWithSep(2)(_(input.list).chain()
 				     .pluck('totalrow')
 				     .reduce(function(init,item){ return Number(item.tax1)+init;},0)
 				     .value());
-	total.totaltax3 = toFixed(2)(_(input.list).chain()
+	total.totaltax3 = toFixedWithSep(2)(_(input.list).chain()
 				     .pluck('totalrow')
 				     .reduce(function(init,item){ return Number(item.tax3)+init;},0)
 				     .value());
-	total.totaltotalsales = toFixed(2)(_(input.list).chain()
+	total.totaltotalsales = toFixedWithSep(2)(_(input.list).chain()
 					   .pluck('totalrow')
 					   .reduce(function(init,item){ return Number(item.totalsales)+init;},0)
 					   .value());
-	total.totalcash = toFixed(2)(_(input.list).chain()
+	total.totalcash = toFixedWithSep(2)(_(input.list).chain()
 				     .pluck('totalrow')
 				     .reduce(function(init,item){ return Number(item.cash)+init;},0)
 				     .value());
-	total.totalcredit = toFixed(2)(_(input.list).chain()
+	total.totalcredit = toFixedWithSep(2)(_(input.list).chain()
 				       .pluck('totalrow')
 				       .reduce(function(init,item){ return Number(item.credit)+init;},0)
 				       .value());
-	total.totaldebit = toFixed(2)(_(input.list).chain()
+	total.totaldebit = toFixedWithSep(2)(_(input.list).chain()
 				      .pluck('totalrow')
 				      .reduce(function(init,item){ return Number(item.debit)+init;},0)
 				      .value());
-	total.totalmobile = toFixed(2)(_(input.list).chain()
+	total.totalmobile = toFixedWithSep(2)(_(input.list).chain()
 				       .pluck('totalrow')
 				       .reduce(function(init,item){ return Number(item.mobile)+init;},0)
 				       .value());
-	total.totalother = toFixed(2)(_(input.list).chain()
+	total.totalother = toFixedWithSep(2)(_(input.list).chain()
 				      .pluck('totalrow')
 				      .reduce(function(init,item){ return Number(item.other)+init;},0)
 				      .value());
@@ -379,6 +392,18 @@ function extractSalesDetailTableInfo(list) {
 			    });
 		
 	result = appendTotals(result);
+	
+	result.list = _.map(result.list, function(item){
+		_.applyToValues(item.totalrow, function(obj){
+					     var strObj = obj+"";
+					     if(strObj.indexOf(".")>=0) {
+					     	obj = toFixedWithSep(2)(obj);
+					     }
+					     return obj;
+					 }, true);
+		return item;
+	});
+	
 	return result;
 	
     } else if(!_.isEmpty(ReportData.group)) {
@@ -398,6 +423,18 @@ function extractSalesDetailTableInfo(list) {
 	
 	
 	result = appendTotals(result);
+	
+	result.list = _.map(result.list, function(item){
+		_.applyToValues(item.totalrow, function(obj){
+					     var strObj = obj+"";
+					     if(strObj.indexOf(".")>=0) {
+					     	obj = toFixedWithSep(2)(obj);
+					     }
+					     return obj;
+					 }, true);
+		return item;
+	});
+	
 	return result;
 	
     } else if(!_.isEmpty(ReportData.store)) {
@@ -415,6 +452,18 @@ function extractSalesDetailTableInfo(list) {
 	
 	
 	result = appendTotals(result);
+	
+	result.list = _.map(result.list, function(item){
+		_.applyToValues(item.totalrow, function(obj){
+					     var strObj = obj+"";
+					     if(strObj.indexOf(".")>=0) {
+					     	obj = toFixedWithSep(2)(obj);
+					     }
+					     return obj;
+					 }, true);
+		return item;
+	});
+	
 	return result;
     }
 };
