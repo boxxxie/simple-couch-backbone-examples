@@ -1098,23 +1098,23 @@
 	</tr>
 	{{/items}}
       </table>
-      	<table>
+      	<table border="1">
   		<th>type</th>
   		<th>sale</th>
   		<th>refund</th>
   		<th>declined</th>
   	     	
 	     {{#totals}}
-	     <tr><td>Debit</td><td>{{debit_sale}}</td><td>{{debit_refund}}</td><td>{{debit_declined}}</td></tr>
-	     <tr><td>Credit</td><td>{{credit_sale}}</td><td>{{credit_refund}}</td><td>{{credit_declined}}</td></tr>
-	     <tr><td>Deposit</td><td>{{deposit_sale}}</td><td>{{deposit_refund}}</td><td>{{deposit_declined}}</td></tr>
-	     <tr><td>Amex</td><td>{{amex_sale}}</td><td>{{amex_refund}}</td><td>{{amex_declined}}</td></tr>
-	     <tr><td>Visa</td><td>{{visa_sale}}</td><td>{{visa_refund}}</td><td>{{vias_declined}}</td></tr>
-	     <tr><td>MasterCard</td><td>{{mastercard_sale}}</td><td>{{mastercard_refund}}</td><td>{{mastercard_declined}}</td></tr>
-	     <tr><td>Discover</td><td>{{discover_sale}}</td><td>{{discover_refund}}</td><td>{{discover_declined}}</td></tr>
+	     <tr><td>Debit</td><td align="right">{{debit_sale}}</td><td align="right">{{debit_refund}}</td><td align="right">{{debit_declined}}</td></tr>
+	     <tr><td>Credit</td><td align="right">{{credit_sale}}</td><td align="right">{{credit_refund}}</td><td align="right">{{credit_declined}}</td></tr>
+	     <tr><td>Deposit</td><td align="right">{{deposit_sale}}</td><td align="right">{{deposit_refund}}</td><td align="right">{{deposit_declined}}</td></tr>
+	     <tr><td>Amex</td><td align="right">{{amex_sale}}</td><td align="right">{{amex_refund}}</td><td align="right">{{amex_declined}}</td></tr>
+	     <tr><td>Visa</td><td align="right">{{visa_sale}}</td><td align="right">{{visa_refund}}</td><td align="right">{{visa_declined}}</td></tr>
+	     <tr><td>MasterCard</td><td align="right">{{mastercard_sale}}</td><td align="right">{{mastercard_refund}}</td><td align="right">{{mastercard_declined}}</td></tr>
+	     <tr><td>Discover</td><td align="right">{{discover_sale}}</td><td align="right">{{discover_refund}}</td><td align="right">{{discover_declined}}</td></tr>
+	     </table>
 	     <label>Voids : {{voids}}</label>
 	     {{/totals}}
-	     </table>
       {{>quickReportViewHook_P}}
     </script> 
     
