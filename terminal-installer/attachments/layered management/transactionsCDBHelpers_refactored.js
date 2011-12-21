@@ -36,7 +36,7 @@ var _async = {
 	    return function(callback){queryF(view,db)(options)(returnQuery(callback));};
 	};
     },
-    typedSandwichTransactionQuery:function(start,end){
+    /*typedSandwichTransactionQuery:function(start,end){
 	return function(view,db,base,tail){
 	    var startKey = base.concat(start).concat(tail);
 	    var endKey = base.concat(end).concat(tail);
@@ -47,7 +47,7 @@ var _async = {
 	    };
 	    return function(callback){queryF(view,db)(options)(returnQuery(callback));};
 	};
-    },
+    },*/
     map:function(array,fn,runAfter){
 	/*
 	 * fn() must return a function of the form fn(err,response)
@@ -87,7 +87,7 @@ function extractDoc(dataArrays){
     return extract(dataArrays,'doc');
 }
 function extractSum(dataArrays){
-    var value = extractValue(dataArrays);
+    var value = extractFirstValue(dataArrays);
     if(value && value.sum){
 	return value.sum;
     }
@@ -131,30 +131,69 @@ function electronicPaymentsIndexRangeFetcher_F(id){
     };
 }
 function electronicPaymentsTotalsIndexRangeFetcher_F(id){
-    var view = cdb.view('reporting','electronic_payments');
+    var view = cdb.view('reporting','typed_electronic_payments');
     var db = cdb.db('transactions',{},true);
     return function(startIndex,endIndex){
-	var debit = _async.typedSandwichTransactionQuery(startIndex,endIndex)(view,db,[id],["DEBIT"]);
-	var credit = _async.typedSandwichTransactionQuery(startIndex,endIndex)(view,db,[id],["CREDIT"]);
-	var deposit = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id]);
-	var visa = _async.typedSandwichTransactionQuery(startIndex,endIndex)(view,db,[id],["VISA"]);
-	var mastercard = _async.typedSandwichTransactionQuery(startIndex,endIndex)(view,db,[id],["MASTERCARD"]);
-	var amex = _async.typedSandwichTransactionQuery(startIndex,endIndex)(view,db,[id],["AMEX"]);
+	var debit_sale = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"sale","DEBIT"]);
+	var visa_sale = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"sale","VISA"]);
+	var mastercard_sale = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"sale","MASTERCARD"]);
+	var amex_sale = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"sale","AMEX"]);
+	var discover_sale = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"sale","AMEX"]);
+
+	var debit_declined = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"declined","DEBIT"]);
+	var visa_declined = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"declined","VISA"]);
+	var mastercard_declined = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"declined","MASTERCARD"]);
+	var amex_declined = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"declined","AMEX"]);
+	var discover_declined = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"declined","AMEX"]);
+
+	var debit_refund = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"refund","DEBIT"]);
+	var visa_refund = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"refund","VISA"]);
+	var mastercard_refund = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"refund","MASTERCARD"]);
+	var amex_refund = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"refund","AMEX"]);
+	var discover_refund = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"refund","AMEX"]);
+
+	var voids = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"void","CARDVOID"]);
+
 	return function(callback){
-	    async.parallel({debit:debit,credit:credit,visa:visa,mastercard:mastercard,amex:amex,deposit:deposit},
+	    async.parallel({debit_sale :  debit_sale,
+			    visa_sale : visa_sale,
+			    mastercard_sale :  mastercard_sale,
+			    amex_sale : amex_sale,
+			    discover_sale :  discover_sale,
+
+			    debit_declined : debit_declined,
+			    visa_declined : visa_declined,
+			    mastercard_declined : mastercard_declined,
+			    amex_declined : amex_declined,
+			    discover_declined : discover_declined,
+
+			    debit_refund : debit_refund,
+			    visa_refund : visa_refund,
+			    mastercard_refund : mastercard_refund,
+			    amex_refund : amex_refund,
+			    discover_refund : discover_refund,
+
+			   voids : voids},
 			   function(err,responses){
-			       function extractSafeAmount(data){
-				   if (!data || !data.amount){
-				       return 0;
-				   }
-				   return data.amount;
-			       }
-			       var totals = {debit:extractSafeAmount(extractFirstValue(responses.debit)),
-					     credit:extractSafeAmount(extractFirstValue(responses.credit)),
-					     deposit:extractSafeAmount(extractFirstValue(responses.deposit)),
-					     visa:extractSafeAmount(extractFirstValue(responses.visa)),
-					     mastercard:extractSafeAmount(extractFirstValue(responses.mastercard)),
-					     amex:extractSafeAmount(extractFirstValue(responses.amex))
+			       var totals = {debit_sales:extractSum(responses.debit_sale),
+					     visa_sale : extractSum(responses.visa_sale),
+					     mastercard_sale :  extractSum(responses.mastercard_sale),
+					     amex_sale : extractSum(responses.amex_sale),
+					     discover_sale :  extractSum(responses.discover_sale),
+
+					     debit_declined : extractSum(responses.debit_declined),
+					     visa_declined : extractSum(responses.visa_declined),
+					     mastercard_declined : extractSum(responses.mastercard_declined),
+					     amex_declined : extractSum(responses.amex_declined),
+					     discover_declined : extractSum(responses.discover_declined),
+
+					     debit_refund : extractSum(responses.debit_refund),
+					     visa_refund : extractSum(responses.visa_refund),
+					     mastercard_refund :extractSum(responses. mastercard_refund),
+					     amex_refund : extractSum(responses.amex_refund),
+					     discover_refund : extractSum(responses.discover_refund),
+
+					     voids : extractSum(responses.voids)
 					    };
 			       callback(err,totals);	  
 			   });
@@ -259,13 +298,11 @@ function transactionsFromIndexRange(indexFn,transactionFn){
 }
 function processTransactions(mapFn,callback){
     return function(err,transactions){
-	function startTime(transaction){return (new Date(transaction.time.start)).getTime();};
 	var terminals_merged_with_reduced_transactions = 
 	    _(transactions)
 	    .chain()
 	    .flatten()
 	    .map(mapFn)
-	    .sortBy(startTime)
 	    .value(); 
 	callback(err,terminals_merged_with_reduced_transactions);
     };
