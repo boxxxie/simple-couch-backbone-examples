@@ -2,6 +2,9 @@ var date = { toArray : { until : { day : function(date){return _.first(date.toAr
 function identity(o){
     return o;
 }
+function sum(sum,cur){
+    return sum + cur;
+}
 function addPropertiesTogether(addTo,addFrom){
     if(addTo == {}){return addFrom;}
     for (var prop in addFrom) {
@@ -175,7 +178,7 @@ function electronicPaymentsTotalsIndexRangeFetcher_F(id){
 
 			   voids : voids},
 			   function(err,responses){
-			       var totals = {debit_sales:extractSum(responses.debit_sale),
+			       var totals = {debit_sale : extractSum(responses.debit_sale),
 					     visa_sale : extractSum(responses.visa_sale),
 					     mastercard_sale :  extractSum(responses.mastercard_sale),
 					     amex_sale : extractSum(responses.amex_sale),
@@ -195,6 +198,17 @@ function electronicPaymentsTotalsIndexRangeFetcher_F(id){
 
 					     voids : extractSum(responses.voids)
 					    };
+
+			       var credit = {credit_sale : _([totals.visa_sale,totals.mastercard_sale,totals.amex_sale,totals.discover_sale]).reduce(sum,0),
+					     credit_refund : _([totals.visa_refund,totals.mastercard_refund,totals.amex_refund,totals.discover_refund]).reduce(sum,0),
+					     credit_declined : _([totals.visa_declined,totals.mastercard_declined,totals.amex_declined,totals.discover_declined]).reduce(sum,0)};
+
+			       var deposit = {deposit_sale : credit.credit_sale + totals.debit_sale,
+					      deposit_refund : credit.credit_refund + totals.debit_refund,
+					      deposit_declined : credit.credit_declined + totals.debit_declined};
+			       
+			       _.extend(totals,credit,deposit);
+						
 			       callback(err,totals);	  
 			   });
 	};
