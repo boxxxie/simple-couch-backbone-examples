@@ -335,6 +335,13 @@ function renderDiscountsTable() {
 						       }
 						       ,true);
 				       btnData.discount=null;
+				       btnData.order = _.map(btnData.order, function(orderitem){
+				       	if(orderitem.discount) {
+				       		orderitem.discount = (Number(orderitem.discount)*Number(orderitem.quantity)).toFixed(2);
+				       	}
+				       	return orderitem;
+				       });
+				       
 				       var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
 				       quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
 				   });
