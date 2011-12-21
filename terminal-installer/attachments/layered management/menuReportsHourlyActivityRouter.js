@@ -178,6 +178,7 @@ function renderHourlyActivityTable() {
     
     //TODO : hourly activity talble data 
     hourlyReportFetcher(id, function(data_param){
+    	
     		var totalrow={};
     		totalrow.transactions = (_.reduce(data_param, function(init, item){
 								return init + Number(item.transactions);
@@ -202,7 +203,22 @@ function renderHourlyActivityTable() {
 			} else {
 				totalrow.avgsale = "0.00";
 			}
-							
+			
+			data_param = _.map(data_param, function(item){
+	    		item.avgsale = toFixedWithSep(2)(item.avgsale);
+	    		item.ecr = toFixedWithSep(2)(item.ecr);
+	    		item.inventory = toFixedWithSep(2)(item.inventory);
+	    		item.menu = toFixedWithSep(2)(item.menu);
+	    		item.total = toFixedWithSep(2)(item.total);
+				return item;	    		
+	    	});
+    		
+			totalrow.avgsale = toFixedWithSep(2)(totalrow.avgsale);
+    		totalrow.ecr = toFixedWithSep(2)(totalrow.ecr);
+    		totalrow.inventory = toFixedWithSep(2)(totalrow.inventory);
+    		totalrow.menu = toFixedWithSep(2)(totalrow.menu);
+    		totalrow.total = toFixedWithSep(2)(totalrow.total);
+    					
     		var data = {items:data_param, totalrow:totalrow};
 		    var html = ich.hourlyActivityTabel_TMP(data);
     		$("hourlytable").html(html);    	

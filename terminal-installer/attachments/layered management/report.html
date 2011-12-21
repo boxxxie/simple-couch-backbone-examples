@@ -44,6 +44,7 @@
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsHowAreWeDoingTodayRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsSalesSummaryRouter.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/menuReportsSalesDetailRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsHourlyActivityRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsTaxCollectedRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsCashOutsRouter.js"></script>
@@ -199,8 +200,16 @@
       </button>
     </script>
     
-    <script id="menuReportGoButton_P" class="partial" type="text/html">
+    <script id="menuSummaryGoButton_P" class="partial" type="text/html">
       <button onclick="renderSalesSummaryReportTable();" class="ui-state-default ui-corner-all">
+	<span class="ui-button-text">
+	  Go
+	</span>
+      </button>
+    </script>
+    
+    <script id="menuSalesDetailGoButton_P" class="partial" type="text/html">
+      <button onclick="renderSalesDetailReportTable();" class="ui-state-default ui-corner-all">
 	<span class="ui-button-text">
 	  Go
 	</span>
@@ -802,6 +811,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       <ol>
 	<li><a href='#menuReports/{{startPage}}SalesSummary'> Sales Summary</a> <br/></li>
+	<li><a href='#menuReports/{{startPage}}SalesDetail'> Sales Detail</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}HowAreWe'> How Are We Doing Today</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}HourlyActivity'> Hourly Activity</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}ElectronicPayments'> Electronic Payments</a> <br/></li>
@@ -891,12 +901,116 @@
       <h2>{{>breadcrumb_P}}</h2>
       {{>groupDropdownbox_P}}
       {{>dateRangePicker_P}}
-      {{>menuReportGoButton_P}}			
+      {{>menuSummaryGoButton_P}}			
       <br/><br/>
       <summarytable></summarytable>		
       {{>backButton_P}}
       {{>menuButton_P}}
     </script>	
+
+
+	<!----------------------------------------------- SALES DETAIL REPORTS -------------------------------------------->
+    
+    <script id="salesDetailTabel_TMP" type="text/html">
+      <table border="1">
+	<tr>
+	  <th>Group Name</th>
+	  <th>Store Name</th>
+	  <th>Store Number</th>
+	  <th>Date</th>
+	  <th>Type</th>
+	  <th># of Transactions</th>
+	  <th>Net</th>
+	  <th>Tax 1</th>
+	  <th>Tax 3</th>
+	  <th>Total</th>
+	  <th>Cash</th>
+	  <th>Credit</th>
+	  <th>Debit</th>
+	  <th>Mobile</th>
+	  <th>Other</th>
+	</tr>
+	{{#list}}
+	<tr>
+	  <td rowspan="3">{{groupName}}</td>
+	  <td rowspan="3">{{storeName}}</td>
+	  <td rowspan="3">{{storeNumber}}</td>
+	  <td rowspan="3">{{date}}</td>
+	  {{#salerow}}
+	  <td>SALE</td>
+	  <td align="right">{{numberoftransactions}}</td>
+	  <td align="right">{{sales}}</td>
+	  <td align="right">{{tax1}}</td>
+	  <td align="right">{{tax3}}</td>
+	  <td align="right">{{totalsales}}</td>
+	  <td align="right">{{cash}}</td>
+	  <td align="right">{{credit}}</td>
+	  <td align="right">{{debit}}</td>
+	  <td align="right">{{mobile}}</td>
+	  <td align="right">{{other}}</td>
+	  {{/salerow}}
+	  {{#refundrow}}
+	  <tr>
+	  <td>REFUND</td>
+	  <td align="right">{{numberoftransactions}}</td>
+	  <td align="right">{{sales}}</td>
+	  <td align="right">{{tax1}}</td>
+	  <td align="right">{{tax3}}</td>
+	  <td align="right">{{totalsales}}</td>
+	  <td align="right">{{cash}}</td>
+	  <td align="right">{{credit}}</td>
+	  <td align="right">{{debit}}</td>
+	  <td align="right">{{mobile}}</td>
+	  <td align="right">{{other}}</td>
+	  </tr>
+	  {{/refundrow}}
+	  {{#totalrow}}
+	  <tr>
+	  <td>TOTAL</td>
+	  <td align="right">{{numberoftransactions}}</td>
+	  <td align="right">{{sales}}</td>
+	  <td align="right">{{tax1}}</td>
+	  <td align="right">{{tax3}}</td>
+	  <td align="right">{{totalsales}}</td>
+	  <td align="right">{{cash}}</td>
+	  <td align="right">{{credit}}</td>
+	  <td align="right">{{debit}}</td>
+	  <td align="right">{{mobile}}</td>
+	  <td align="right">{{other}}</td>
+	  </tr>
+	  {{/totalrow}}
+	</tr>
+	{{/list}}
+	<tr>
+	  {{#total}}
+	  <th colspan="5" align="center">TOTAL</th>
+	  <th align="right">{{totaltransactions}}</th>
+	  <th align="right">{{totalsales}}</th>
+	  <th align="right">{{totaltax1}}</th>
+	  <th align="right">{{totaltax3}}</th>
+	  <th align="right">{{totaltotalsales}}</th>
+	  <th align="right">{{totalcash}}</th>
+	  <th align="right">{{totalcredit}}</th>
+	  <th align="right">{{totaldebit}}</th>
+	  <th align="right">{{totalmobile}}</th>
+	  <th align="right">{{totalother}}</th>
+	  {{/total}}
+	</tr>
+      </table>
+    </script> 
+    
+    <script id="salesDetailReports_TMP" type="text/html">
+      <h1>Sales Detail Report</h1>
+      <h2>{{>breadcrumb_P}}</h2>
+      {{>groupDropdownbox_P}} <br/>
+      {{>dateRangePicker_P}}
+      {{>menuSalesDetailGoButton_P}}			
+      <br/><br/>
+      <salesdetailtable></salesdetailtable>		
+      {{>backButton_P}}
+      {{>menuButton_P}}
+    </script>
+
 
     <!------------------------------------- HowAreWeTodayTable TMP -------------------------------------------->
     <script id="generalTabel_HowAreWeToday_TMP" type="text/html">

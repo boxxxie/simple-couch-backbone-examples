@@ -1,54 +1,54 @@
-var menuReportsSalesSummaryRouter = 
+var menuReportsSalesDetailRouter = 
     new (Backbone.Router.extend(
 	     {routes: {
-		  "menuReports/companyReportSalesSummary":"menuReportsCompanySales",
-		  "menuReports/groupReportSalesSummary":"menuReportsGroupSales",
-		  "menuReports/storeReportSalesSummary":"menuReportsStoreSales"
+		  "menuReports/companyReportSalesDetail":"menuReportsCompanySalesDetail",
+		  "menuReports/groupReportSalesDetail":"menuReportsGroupSalesDetail",
+		  "menuReports/storeReportSalesDetail":"menuReportsStoreSalesDetail"
 	      },
-	      menuReportsCompanySales:function() {
-		  console.log("menuReportsCompanySales  ");
+	      menuReportsCompanySalesDetail:function() {
+		  console.log("menuReportsCompanySalesDetail  ");
 	      },
-	      menuReportsGroupSales:function() {
-		  console.log("menuReportsGroupSales  ");
+	      menuReportsGroupSalesDetail:function() {
+		  console.log("menuReportsGroupSalesDetail  ");
 	      },
-	      menuReportsStoreSales:function() {
-		  console.log("menuReportsStoreSales  ");
+	      menuReportsStoreSalesDetail:function() {
+		  console.log("menuReportsStoreSalesDetail  ");
 	      }
 	     }));
 
 
-var menuReportsSalesSummaryView = 
+var menuReportsSalesDetailView = 
     Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
 	     view.el = $("main");
 	     
 	     _.bindAll(view, 
-		       'renderMenuReportsCompanySales',
-		       'renderMenuReportsGroupSales',
-		       'renderMenuReportsStoreSales');
-	     menuReportsSalesSummaryRouter
-		 .bind('route:menuReportsCompanySales', 
+		       'renderMenuReportsCompanySalesDetail',
+		       'renderMenuReportsGroupSalesDetail',
+		       'renderMenuReportsStoreSalesDetail');
+	     menuReportsSalesDetailRouter
+		 .bind('route:menuReportsCompanySalesDetail', 
 		       function(){
-			   console.log("menuReportsView, route:menuReportsCompanySales");
-			   view.renderMenuReportsCompanySales();
+			   console.log("menuReportsView, route:menuReportsCompanySalesDetail");
+			   view.renderMenuReportsCompanySalesDetail();
 		       });
-	     menuReportsSalesSummaryRouter
-		 .bind('route:menuReportsGroupSales', 
+	     menuReportsSalesDetailRouter
+		 .bind('route:menuReportsGroupSalesDetail', 
 		       function(){
-			   console.log("menuReportsView, route:menuReportsGroupSales");
-			   view.renderMenuReportsGroupSales();
+			   console.log("menuReportsView, route:menuReportsGroupSalesDetail");
+			   view.renderMenuReportsGroupSalesDetail();
 		       });
-	     menuReportsSalesSummaryRouter
-		 .bind('route:menuReportsStoreSales',
+	     menuReportsSalesDetailRouter
+		 .bind('route:menuReportsStoreSalesDetail',
 		       function(){
-			   console.log("menuReportsView, route:menuReportsStoreSales");
-			   view.renderMenuReportsStoreSales();
+			   console.log("menuReportsView, route:menuReportsStoreSalesDetail");
+			   view.renderMenuReportsStoreSalesDetail();
 		       });
 	 },
-	 renderMenuReportsCompanySales: function() {
+	 renderMenuReportsCompanySalesDetail: function() {
 	     
-	     var html = ich.salesSummaryReports_TMP({startPage:"companyReport", 
+	     var html = ich.salesDetailReports_TMP({startPage:"companyReport", 
 	     					     breadCrumb:breadCrumb(ReportData.company.companyName)});
 	     $(this.el).html(html);
 	     
@@ -90,9 +90,9 @@ var menuReportsSalesSummaryView =
 	     
 	     console.log("rendered general report");
 	 },
-	 renderMenuReportsGroupSales: function() {
+	 renderMenuReportsGroupSalesDetail: function() {
 	     
-	     var html = ich.salesSummaryReports_TMP({startPage:"groupReport", 
+	     var html = ich.salesDetailReports_TMP({startPage:"groupReport", 
 	 					     breadCrumb:breadCrumb(ReportData.companyName,
 	 					     			   ReportData.group.groupName)});
 	     $(this.el).html(html);
@@ -131,9 +131,9 @@ var menuReportsSalesSummaryView =
 	     
 	     console.log("rendered general report");
 	 },
-	 renderMenuReportsStoreSales: function() {
+	 renderMenuReportsStoreSalesDetail: function() {
 	     
-	     var html = ich.salesSummaryReports_TMP({startPage:"storeReport", 
+	     var html = ich.salesDetailReports_TMP({startPage:"storeReport", 
 	 					     breadCrumb:breadCrumb(ReportData.companyName,
 	 					     			   ReportData.groupName,
 	 					     			   ReportData.store.storeName)});
@@ -176,7 +176,7 @@ var menuReportsSalesSummaryView =
 	});
 
 /********************************************* helper functions ***************************************/
-function updateStoreDropdown() {
+/*function updateStoreDropdown() {
     var groups = ReportData.company.hierarchy.groups;
     var dropdownGroup = $("#groupsdown");
     var dropdownStore = $("#storesdown");
@@ -199,10 +199,10 @@ function updateStoreDropdown() {
 	       }); 
     }
 };
+*/
 
-
-function renderSalesSummaryReportTable() {
-    console.log("renderSalesSummaryReportTable");
+function renderSalesDetailReportTable() {
+    console.log("renderSalesDetailReportTable");
     var groupdown = $("#groupsdown");
     var storedown = $("#storesdown");
 
@@ -225,10 +225,13 @@ function renderSalesSummaryReportTable() {
 	cashoutFetcher_Period(ids,startDate,endDateForQuery,
 			      function(a,for_TMP){
 	      			  console.log(for_TMP);
-	      			  var data_TMP = extractSalesSummaryTableInfo(for_TMP);
+	      			  //TODO
+	      			  for_TMP = _.map(for_TMP, function(item){ item.cashout = item.period; return item;});
 	      			  
-	      			  var html = ich.salesSummaryTabel_TMP(data_TMP);
-				  $("summarytable").html(html);
+	      			  var data_TMP = extractSalesDetailTableInfo(for_TMP);
+	      			  
+	      			  var html = ich.salesDetailTabel_TMP(data_TMP);
+				  $("salesdetailtable").html(html);
 			      });
     } else {
    	alert("Input Date");
@@ -237,7 +240,7 @@ function renderSalesSummaryReportTable() {
 
 
 
-function extractSalesSummaryTableInfo(list) {
+function extractSalesDetailTableInfo(list) {
     function getGroupName(groups, store_id) {
 	var name="";
 	_.each(groups, function(group){
@@ -261,7 +264,50 @@ function extractSalesSummaryTableInfo(list) {
 	return namenum;
     };
     
-    function getSummarySales(item) {
+    function getSalesDetail(item) {
+    	return {
+	    numberoftransactions:Number(item.noofsale)+"",
+	    sales:toFixedWithSep(2)(item.netsales),
+	    tax1:toFixedWithSep(2)(item.netsaletax1),
+	    tax3:toFixedWithSep(2)(item.netsaletax3),
+	    totalsales:toFixedWithSep(2)(Number(item.netsalestotal)),
+	    cash:toFixedWithSep(2)(item.cashpayment),
+	    credit:toFixedWithSep(2)(item.creditpayment),
+	    debit:toFixedWithSep(2)(item.debitpayment),
+	    mobile:toFixedWithSep(2)(item.mobilepayment),
+	    other:toFixedWithSep(2)(item.otherpayment)
+		};
+    };
+    
+    function getRefundsDetail(item) {
+    	var refund,tax1,tax3,total,cash,credit,debit,mobile,other;
+    	
+    	refund = ((Number(item.netrefund))>0)? "-" + toFixedWithSep(2)(item.netrefund):toFixedWithSep(2)(item.netrefund);
+    	tax1 = ((Number(item.netrefundtax1))>0)? "-" + toFixedWithSep(2)(item.netrefundtax1):toFixedWithSep(2)(item.netrefundtax1);
+    	tax3 = ((Number(item.netrefundtax3))>0)? "-" + toFixedWithSep(2)(item.netrefundtax3):toFixedWithSep(2)(item.netrefundtax3);
+    	total = ((Number(item.netrefundtotal))>0)? "-" + toFixedWithSep(2)(item.netrefundtotal):toFixedWithSep(2)(item.netrefundtotal);
+    	cash = ((Number(item.cashrefund))>0)? "-" + toFixedWithSep(2)(item.cashrefund):toFixedWithSep(2)(item.cashrefund);
+    	credit = ((Number(item.creditrefund))>0)? "-" + toFixedWithSep(2)(item.creditrefund):toFixedWithSep(2)(item.creditrefund);
+    	debit = ((Number(item.debitrefund))>0)? "-" + toFixedWithSep(2)(item.debitrefund):toFixedWithSep(2)(item.debitrefund);
+    	mobile = ((Number(item.mobilerefund))>0)? "-" + toFixedWithSep(2)(item.mobilerefund):toFixedWithSep(2)(item.mobilerefund);
+    	other = ((Number(item.otherrefund))>0)? "-" + toFixedWithSep(2)(item.otherrefund):toFixedWithSep(2)(item.otherrefund);
+    	
+    	return {
+	    numberoftransactions:Number(item.noofrefund)+"",
+	    sales:refund,
+	    tax1:tax1,
+	    tax3:tax3,
+	    totalsales:total,
+	    cash:cash,
+	    credit:credit,
+	    debit:debit,
+	    mobile:mobile,
+	    other:other
+		};
+    };
+    
+    // toFixedWithSep will be done after totalrow is calculated
+    function getTotalDetail(item) {
     	return {
 	    numberoftransactions:(Number(item.noofsale)+Number(item.noofrefund))+"",
 	    sales:toFixed(2)(Number(item.netsales)-Number(item.netrefund)),
@@ -273,7 +319,7 @@ function extractSalesSummaryTableInfo(list) {
 	    debit:toFixed(2)(Number(item.debitpayment)-Number(item.debitrefund)),
 	    mobile:toFixed(2)(Number(item.mobilepayment)-Number(item.mobilerefund)),
 	    other:toFixed(2)(Number(item.otherpayment)-Number(item.otherrefund))
-	};
+		};
     };
     
     //TODO : don't calculate here, ask server
@@ -282,48 +328,49 @@ function extractSalesSummaryTableInfo(list) {
 	var total={};
 	
 	total.totalsales = toFixedWithSep(2)(_(input.list).chain()
-				      .pluck('summary')
+				      .pluck('totalrow')
 				      .reduce(function(init,item){ return Number(item.sales)+init;},0)
 				      .value())
 	;
 
 	total.totaltransactions=_(input.list).chain()
-	    .pluck('summary')
-	    .reduce(function(init,item){ return Number(item.numberoftransactions)+init;},0)
-	    .value();
+				    .pluck('totalrow')
+				    .reduce(function(init,item){ return Number(item.numberoftransactions)+init;},0)
+				    .value();
 	total.totaltax1 = toFixedWithSep(2)(_(input.list).chain()
-				     .pluck('summary')
+				     .pluck('totalrow')
 				     .reduce(function(init,item){ return Number(item.tax1)+init;},0)
 				     .value());
 	total.totaltax3 = toFixedWithSep(2)(_(input.list).chain()
-				     .pluck('summary')
+				     .pluck('totalrow')
 				     .reduce(function(init,item){ return Number(item.tax3)+init;},0)
 				     .value());
 	total.totaltotalsales = toFixedWithSep(2)(_(input.list).chain()
-					   .pluck('summary')
+					   .pluck('totalrow')
 					   .reduce(function(init,item){ return Number(item.totalsales)+init;},0)
 					   .value());
 	total.totalcash = toFixedWithSep(2)(_(input.list).chain()
-				     .pluck('summary')
+				     .pluck('totalrow')
 				     .reduce(function(init,item){ return Number(item.cash)+init;},0)
 				     .value());
 	total.totalcredit = toFixedWithSep(2)(_(input.list).chain()
-				       .pluck('summary')
+				       .pluck('totalrow')
 				       .reduce(function(init,item){ return Number(item.credit)+init;},0)
 				       .value());
 	total.totaldebit = toFixedWithSep(2)(_(input.list).chain()
-				      .pluck('summary')
+				      .pluck('totalrow')
 				      .reduce(function(init,item){ return Number(item.debit)+init;},0)
 				      .value());
 	total.totalmobile = toFixedWithSep(2)(_(input.list).chain()
-				       .pluck('summary')
+				       .pluck('totalrow')
 				       .reduce(function(init,item){ return Number(item.mobile)+init;},0)
 				       .value());
 	total.totalother = toFixedWithSep(2)(_(input.list).chain()
-				      .pluck('summary')
+				      .pluck('totalrow')
 				      .reduce(function(init,item){ return Number(item.other)+init;},0)
 				      .value());
 	input.total = total;
+	
 	return input;
     };
     
@@ -332,20 +379,22 @@ function extractSalesSummaryTableInfo(list) {
     if(!_.isEmpty(ReportData.company)) {
 	var groups = ReportData.company.hierarchy.groups;
 	result.list = _.map(list, function(item){
-				var period = item.period;
+				var cashout = item.cashout;
 				var namenum = getStoreNameNum(groups,item.id);
 				return {groupName:getGroupName(groups,item.id),
 					storeName:namenum.name,
 					storeNumber:namenum.num,
-					summary:getSummarySales(period)
+					date:item.date,
+					salerow:getSalesDetail(cashout),
+					refundrow:getRefundsDetail(cashout),
+					totalrow:getTotalDetail(cashout)
 				       };
 			    });
-	
-	
+		
 	result = appendTotals(result);
 	
 	result.list = _.map(result.list, function(item){
-		_.applyToValues(item.summary, function(obj){
+		_.applyToValues(item.totalrow, function(obj){
 					     var strObj = obj+"";
 					     if(strObj.indexOf(".")>=0) {
 					     	obj = toFixedWithSep(2)(obj);
@@ -360,31 +409,61 @@ function extractSalesSummaryTableInfo(list) {
     } else if(!_.isEmpty(ReportData.group)) {
 	var groups = [ReportData.group];
 	result.list = _.map(list, function(item){
-				var period = item.period;
+				var cashout = item.cashout;
 				var namenum = getStoreNameNum(groups,item.id);
 				return {groupName:getGroupName(groups,item.id),
 					storeName:namenum.name,
 					storeNumber:namenum.num,
-					summary:getSummarySales(period)
+					date:item.date,
+					salerow:getSalesDetail(cashout),
+					refundrow:getRefundsDetail(cashout),
+					totalrow:getTotalDetail(cashout)
 				       };
 			    });
 	
 	
 	result = appendTotals(result);
+	
+	result.list = _.map(result.list, function(item){
+		_.applyToValues(item.totalrow, function(obj){
+					     var strObj = obj+"";
+					     if(strObj.indexOf(".")>=0) {
+					     	obj = toFixedWithSep(2)(obj);
+					     }
+					     return obj;
+					 }, true);
+		return item;
+	});
+	
 	return result;
 	
     } else if(!_.isEmpty(ReportData.store)) {
 	result.list = _.map(list, function(item){
-				var period = item.period;
+				var cashout = item.cashout;
 				return {groupName:ReportData.groupName,
 					storeName:ReportData.store.storeName,
 					storeNumber:ReportData.store.number,
-					summary:getSummarySales(period)
+					date:item.date,
+					salerow:getSalesDetail(cashout),
+					refundrow:getRefundsDetail(cashout),
+					totalrow:getTotalDetail(cashout)
 				       };
 			    });
 	
 	
 	result = appendTotals(result);
+	
+	result.list = _.map(result.list, function(item){
+		_.applyToValues(item.totalrow, function(obj){
+					     var strObj = obj+"";
+					     if(strObj.indexOf(".")>=0) {
+					     	obj = toFixedWithSep(2)(obj);
+					     }
+					     return obj;
+					 }, true);
+		return item;
+	});
+	
 	return result;
     }
 };

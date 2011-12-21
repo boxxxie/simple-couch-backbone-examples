@@ -177,7 +177,7 @@ function renderHowAreWeGroupsTable(view, startPage) {
     				
     				for_TMP  = appendTotalColum(for_TMP);
     				
-					for_TMP = _.applyToValues(for_TMP,toFixed(2),true);
+					for_TMP = _.applyToValues(for_TMP,toFixedWithSep(2),true);
 					var param = _.extend(for_TMP, {
 								 startPage:startPage,
 								 breadCrumb : breadCrumb(ReportData.company.companyName)
