@@ -31,9 +31,14 @@ function dateFormatter(dateString){
 function applyReceiptInfo(templateData){
     return _.map(templateData, function(an_item){
 		     var item = _.clone(an_item);
-		     var t = new Date(item.date);
+		     
+		     //FIXME:overriden, use item.date.
+		     var t = new Date(item.time.start);
 		     item.processday = _(t.toDateString().split(' ')).chain().rest().join(' ').value();
 		     item.processtime = t.toString("h:mm").concat(t.getHours()>=12?" PM":" AM");
+		     
+		     //FIXME:overriden, use item.date.
+		     item.date = item.processday;
 		     item.transactionNumber = item.receipt_id+"-"+item.transactionNumber;
 		     item.transaction_index = item.transaction_index+"";
 		     if(item.type=="SALE") {item.type="SALE RECEIPT";}

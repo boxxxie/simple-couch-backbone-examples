@@ -263,6 +263,14 @@ function renderDiscountsTable() {
 	     
 	     data_TMP= applyReceiptInfo(data_TMP);
 	     
+	     data_TMP = _.map(data_TMP, function(item){
+	     	item.totaldiscount = item.discount;
+	     	if(_.isNumber(item.totaldiscount)) {
+	     		item.totaldiscount = (item.totaldiscount>0)? "-"+toFixedWithSep(2)(item.totaldiscount):toFixedWithSep(2)(item.totaldiscount);
+	     	}
+	     	return item; 
+	     });
+	     
 	     data_TMP = _.applyToValues(data_TMP, function(obj){
 					    if(obj && obj.discount==0){
 						obj.discount=null;
