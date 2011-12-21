@@ -33,12 +33,12 @@ function applyReceiptInfo(templateData){
 		     var item = _.clone(an_item);
 		     
 		     //FIXME:overriden, use item.date.
-		     var t = new Date(item.time.start);
+		     var t = new Date(item.date);
 		     item.processday = _(t.toDateString().split(' ')).chain().rest().join(' ').value();
 		     item.processtime = t.toString("h:mm").concat(t.getHours()>=12?" PM":" AM");
 		     
 		     //FIXME:overriden, use item.date.
-		     item.date = item.processday;
+		     //item.date = item.processday;
 		     item.transactionNumber = item.receipt_id+"-"+item.transactionNumber;
 		     item.transaction_index = item.transaction_index+"";
 		     if(item.type=="SALE") {item.type="SALE RECEIPT";}

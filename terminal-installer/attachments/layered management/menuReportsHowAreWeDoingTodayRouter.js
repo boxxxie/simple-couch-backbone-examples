@@ -178,7 +178,7 @@ function renderHowAreWeGroupsTable(view, startPage) {
     				for_TMP  = appendTotalColum(for_TMP);
     				
 					for_TMP = _.applyToValues(for_TMP,toFixedWithSep(2),true);
-					for_TMP.itmes = _.map(for_TMP.itmes, function(item){
+					for_TMP.items = _.map(for_TMP.items, function(item){
 						item.refunds = Number(item.refunds)+"";
 						item.transactions = Number(item.transactions)+"";
 						return item;
