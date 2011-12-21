@@ -149,12 +149,34 @@ var storeReportHowAreWeTodayView =
 	
 
 /********************************************* helper functions *******************************************/
+function appendTotalColum(for_TMP) {
+	for_TMP.items = _.map(for_TMP.items, function(item){
+		var or_ref = item.origin_refunds;
+		var or_sal = item.origin_sales;
+		
+		or_sal.origintotal = or_sal.menu+or_sal.ecr+or_sal.scan;
+		or_ref.origintotal = or_ref.menu+or_ref.ecr+or_ref.scan;
+		
+		return item;
+	});
+	
+	var or_ref_to = for_TMP.total.origin_refunds;
+	var or_sal_to = for_TMP.total.origin_sales;
+	
+	or_sal_to.origintotal = or_sal_to.menu+or_sal_to.ecr+or_sal_to.scan;
+	or_ref_to.origintotal = or_ref_to.menu+or_ref_to.ecr+or_ref_to.scan;
+	
+	return for_TMP;
+};
 	
 function renderHowAreWeGroupsTable(view, startPage) {
 	var groups = ReportData.company.hierarchy.groups;
     var newGroups = _(_.clone(groups)).map(function(group){ return {id:group.group_id, name:group.groupName};});
     var parent_id = {id:ReportData.company._id, name:ReportData.company.companyName};
     howAreWeDoingTodayReportFetcher(newGroups,parent_id,function(for_TMP){
+    				
+    				for_TMP  = appendTotalColum(for_TMP);
+    				
 					for_TMP = _.applyToValues(for_TMP,toFixed(2),true);
 					var param = _.extend(for_TMP, {
 								 startPage:startPage,
@@ -192,6 +214,9 @@ function renderHowAreWeStoresTable(view, startPage, group_id) {
     
     
     howAreWeDoingTodayReportFetcher(newStores,parent_id,function(for_TMP){
+    				
+    				for_TMP  = appendTotalColum(for_TMP);
+    	
 					for_TMP = _.applyToValues(for_TMP,toFixed(2),true);
 					var param = _.extend(for_TMP, {
 								 startPage:startPage,
@@ -245,6 +270,9 @@ function renderHowAreWeTerminalsTable(view, startPage, store_id) {
     var newTerminals = _(_.clone(terminals)).map(function(terminal){ return {id:terminal.terminal_id, name:terminal.terminal_label};});
     
     howAreWeDoingTodayTerminalReportFetcher(newTerminals,parent_id,function(for_TMP){
+    	
+    					for_TMP  = appendTotalColum(for_TMP);
+    					
 						var param = _.extend(for_TMP, {
 									 startPage:startPage,
 									 breadCrumb : breadcrumb

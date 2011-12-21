@@ -878,9 +878,9 @@
       <table border="1">
 	<tr>
 	  <th rowspan="2">{{namefield}}</th>
-	  <th colspan="4">Net Sales</th>
-	  <th colspan="4">Net Refunds</th>
-	  <th rowspan="2">Total</th>
+	  <th colspan="5">Net Sales</th>
+	  <th colspan="5">Net Refunds</th>
+	  <th rowspan="2">Net Total</th>
 	  <th rowspan="2">AVG Sale</th>
 	</tr>
 	<tr>
@@ -888,10 +888,12 @@
 	  <th>Menu</th>
 	  <th>Scan</th>
 	  <th>ECR</th>
+	  <th>Total</th>
 	  <th># of Trans</th>
 	  <th>Menu</th>
 	  <th>Scan</th>
 	  <th>ECR</th>
+	  <th>Total</th>
 	  
 	</tr>
 	{{#items}}
@@ -910,31 +912,35 @@
 	  <td align="right">{{menu}}</td>
 	  <td align="right">{{scan}}</td>
 	  <td align="right">{{ecr}}</td>
+	  <td align="right">{{origintotal}}</td>
 	  {{/origin_sales}}
 	  <td align="right">{{refunds}}</td>
 	  {{#origin_refunds}}
 	  <td align="right">{{menu}}</td>
 	  <td align="right">{{scan}}</td>
 	  <td align="right">{{ecr}}</td>
+	  <td align="right">{{origintotal}}</td>
 	  {{/origin_refunds}}
 	  <td align="right">{{sales_minus_refunds}}</td>
 	  <td align="right">{{avgsale}}</td>
 	</tr>
 	{{/items}}
 	<tr>
-	  <th>Totals</th>
+	  <th>Total</th>
 	  {{#total}}
 	  <th align="right">{{transactions}}</th>
 	  {{#origin_sales}}
 	  <th align="right">{{menu}}</th>
 	  <th align="right">{{scan}}</th>
 	  <th align="right">{{ecr}}</th>
+	  <th align="right">{{origintotal}}</th>
 	  {{/origin_sales}}
 	  <th align="right">{{refunds}}</th>
 	  {{#origin_refunds}}
 	  <th align="right">{{menu}}</th>
 	  <th align="right">{{scan}}</th>
 	  <th align="right">{{ecr}}</th>
+	  <th align="right">{{origintotal}}</th>
 	  {{/origin_refunds}}
 	  <th align="right">{{sales_minus_refunds}}</th>
 	  <th align="right">{{avgsale}}</th>
@@ -986,6 +992,18 @@
 	  <td align="right">{{avgsale}}</td>
 	</tr>
 	{{/items}}
+	{{#totalrow}}
+	<tr>
+		<th>Total</th>
+		<th align="right">{{transactions}}</th>
+	  <th align="right">{{refunds}}</th>
+	  <th align="right">{{menu}}</th>
+	  <th align="right">{{inventory}}</th>
+	  <th align="right">{{ecr}}</th>
+	  <th align="right">{{total}}</th>
+	  <th align="right">{{avgsale}}</th>
+	</tr>
+	{{/totalrow}}
       </table>
     </script> 
     
