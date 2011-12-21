@@ -178,6 +178,14 @@ function renderHowAreWeGroupsTable(view, startPage) {
     				for_TMP  = appendTotalColum(for_TMP);
     				
 					for_TMP = _.applyToValues(for_TMP,toFixedWithSep(2),true);
+					for_TMP.itmes = _.map(for_TMP.itmes, function(item){
+						item.refunds = Number(item.refunds)+"";
+						item.transactions = Number(item.transactions)+"";
+						return item;
+					});
+					for_TMP.total.refunds = Number(for_TMP.total.refunds)+"";
+					for_TMP.total.transactions = Number(for_TMP.total.transactions)+"";
+					
 					var param = _.extend(for_TMP, {
 								 startPage:startPage,
 								 breadCrumb : breadCrumb(ReportData.company.companyName)
@@ -217,7 +225,15 @@ function renderHowAreWeStoresTable(view, startPage, group_id) {
     				
     				for_TMP  = appendTotalColum(for_TMP);
     	
-					for_TMP = _.applyToValues(for_TMP,toFixed(2),true);
+					for_TMP = _.applyToValues(for_TMP,toFixedWithSep(2),true);
+					for_TMP.itmes = _.map(for_TMP.itmes, function(item){
+						item.refunds = Number(item.refunds)+"";
+						item.transactions = Number(item.transactions)+"";
+						return item;
+					});
+					for_TMP.total.refunds = Number(for_TMP.total.refunds)+"";
+					for_TMP.total.transactions = Number(for_TMP.total.transactions)+"";
+					
 					var param = _.extend(for_TMP, {
 								 startPage:startPage,
 								 breadCrumb : breadcrumb
@@ -272,7 +288,15 @@ function renderHowAreWeTerminalsTable(view, startPage, store_id) {
     howAreWeDoingTodayTerminalReportFetcher(newTerminals,parent_id,function(for_TMP){
     	
     					for_TMP  = appendTotalColum(for_TMP);
-    					
+    					for_TMP = _.applyToValues(for_TMP,toFixedWithSep(2),true);
+    					for_TMP.itmes = _.map(for_TMP.itmes, function(item){
+							item.refunds = Number(item.refunds)+"";
+							item.transactions = Number(item.transactions)+"";
+							return item;
+						});
+						for_TMP.total.refunds = Number(for_TMP.total.refunds)+"";
+						for_TMP.total.transactions = Number(for_TMP.total.transactions)+"";
+						
 						var param = _.extend(for_TMP, {
 									 startPage:startPage,
 									 breadCrumb : breadcrumb
