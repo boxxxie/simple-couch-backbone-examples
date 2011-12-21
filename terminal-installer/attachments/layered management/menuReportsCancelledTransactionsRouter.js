@@ -280,6 +280,25 @@ function renderCancelledTransactionsTable() {
 				     }
 				     return toFixed(2)(obj);
 				 }, true);
+				 
+		data_TMP = _.map(data_TMP, function(item){
+				  if(item.payments) {
+				      item.payments = _.map(item.payments, function(payment){
+								if(payment.paymentdetail) {
+								    payment.paymentdetail.crt = payment.type;
+								}
+								if(payment.paymentdetail && payment.paymentdetail.errmsg) {
+									while((payment.paymentdetail.errmsg).indexOf("<br>")>=0) { 
+										payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace("<br>"," ");
+									}
+								    //payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace("<br>"," ");
+								}
+								return payment;
+							    }); 
+				  }
+				  return item;
+			      });
+			      
 	     
 	     var html = ich.menuReportsCancelledTabel_TMP({items:data_TMP, totalrow:totalrow});
 	     $("cancelledtable").html(html);
