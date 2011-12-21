@@ -24,6 +24,7 @@ function doc_setup() {
     var GroupHowAreWeDisplay = new groupReportHowAreWeTodayView();
     var StroeHowAreWeDisplay = new storeReportHowAreWeTodayView();
     var MenuReportsSalesSummaryDisplay = new menuReportsSalesSummaryView();
+    var MenuReportsSalesDetailDisplay = new menuReportsSalesDetailView();
     var MenuReportsHourlyActivityDisplay = new menuReportsHourlyActivityView();
     var MenuReportsTaxCollcetedDisplay = new menuReportsTaxCollectedView();
     var MenuReportsElectronicPaymentsDisplay = new menuReportsElectronicPaymentsView();
