@@ -271,7 +271,8 @@ function renderElectronicPaymentsTable() {
 	(function(err,response){
 
 	     var data_TMP = response.paymentList;
-	     var totals = response.totals;
+	     var totals = _.applyToValues(response.totals, toFixed(2));
+	     
 	     data_TMP=
 		 _.map(data_TMP, 
 		       function(item){
