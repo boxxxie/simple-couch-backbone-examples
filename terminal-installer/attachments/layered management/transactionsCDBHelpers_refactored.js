@@ -14,10 +14,16 @@ function addPropertiesTogether(addTo,addFrom){
     return addTo;
 }
 function jodaDateParser(dateString){
-    var dateMatch =  /([\d-])+([\d:])+/g;
-    var date = (dateString).match(dateMatch)[0];
-    var time = (dateString).match(dateMatch)[1];
-    return new Date(date+ " " +time);
+    //var dateMatch =  /([\d-])+([\d:])+/g;
+    var dateMatch = /(\d{2,4})/g;
+    var match = (dateString).match(dateMatch);
+    var year = match[0];
+    var month = match[1];
+    var day = match[2];
+    var hour = match[3];
+    var minute = match[4];
+    var second = match[5];
+    return new Date(year,month,day,hour,minute,second);
 }
 function dateFormatter(dateString){
     return jodaDateParser(dateString).toString("yyyy-MM-dd HH:mm:ss");
