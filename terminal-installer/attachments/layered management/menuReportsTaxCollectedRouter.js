@@ -269,6 +269,21 @@ function renderTaxCollectedTable() {
 	console.log(ids);
 
 	taxReportFetcher(ids,startDate,endDateForQuery,function(data_TMP){
+				//TODO: to be refracted
+				var totalrow={};
+				totalrow.sales = (_.reduce(data_TMP, function(init, item){
+									return init + Number(item.sales);
+								}, 0)).toFixed(2);
+				totalrow.tax1 = (_.reduce(data_TMP, function(init, item){
+									return init + Number(item.tax1);
+								}, 0)).toFixed(2);
+				totalrow.tax3 = (_.reduce(data_TMP, function(init, item){
+									return init + Number(item.tax3);
+								}, 0)).toFixed(2);
+				totalrow.totalsales = (_.reduce(data_TMP, function(init, item){
+									return init + Number(item.totalsales);
+								}, 0)).toFixed(2);
+				
 			     data_TMP=
 				 _.map(data_TMP, function(item){
 					   var dialogtitle= getDialogTitle(ReportData,
@@ -278,7 +293,7 @@ function renderTaxCollectedTable() {
 					   return _.extend(item, {dialogtitle:dialogtitle});
 				       });
 			     data_TMP = _.applyToValues(data_TMP,toFixed(2),true);
-			     var html = ich.taxCollectedTabel_TMP({items:data_TMP});
+			     var html = ich.taxCollectedTabel_TMP({items:data_TMP, totalrow:totalrow});
 			     $("taxcollectedtable").html(html);
 			 });
 	

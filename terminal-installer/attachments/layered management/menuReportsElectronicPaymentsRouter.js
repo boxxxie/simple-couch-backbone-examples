@@ -271,7 +271,8 @@ function renderElectronicPaymentsTable() {
 	(function(err,response){
 
 	     var data_TMP = response.paymentList;
-	     var totals = response.totals;
+	     var totals = _.applyToValues(response.totals, toFixed(2));
+	     
 	     data_TMP=
 		 _.map(data_TMP, 
 		       function(item){
@@ -308,7 +309,10 @@ function renderElectronicPaymentsTable() {
 								    payment.paymentdetail.crt = payment.type;
 								}
 								if(payment.paymentdetail && payment.paymentdetail.errmsg) {
-								    payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace("<br>"," ");
+									while((payment.paymentdetail.errmsg).indexOf("<br>")>=0) { 
+										payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace("<br>"," ");
+									}
+								    //payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace("<br>"," ");
 								}
 								return payment;
 							    }); 
@@ -352,6 +356,8 @@ function renderElectronicPaymentsTable() {
 		    });
 
 	 });
+    } else {
+   	alert("Input Date");
     }
 }
 

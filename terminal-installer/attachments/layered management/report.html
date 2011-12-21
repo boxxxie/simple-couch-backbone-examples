@@ -706,16 +706,18 @@
   	    <td>CARD: </td>
   	    <td colspan="3">{{card}}</td>
   	  </tr>
-  	  
+  	  {{#crt}}
   	  <tr>
   	    <td>CRT: </td>
   	    <td colspan="3">{{crt}}</td>
   	  </tr>
-  	  
+  	  {{/crt}}
+  	  {{#entry}}
   	  <tr>
   	    <td>ENTRY: </td>
   	    <td colspan="3">{{entry}}</td>
   	  </tr>
+  	  {{/entry}}
   	  <tr>
   	    <td>TYPE: </td>
   	    <td colspan="3">{{type}}</td>
@@ -723,21 +725,25 @@
   	  {{#acct}}
   	  <tr>
   	    <td>ACCT: </td>
-  	    <td colspan="3">{{entry}}</td>
+  	    <td colspan="3">{{acct}}</td>
   	  </tr>
   	  {{/acct}}
   	  <tr>
   	    <td>AMOUNT: </td>
   	    <td colspan="3">{{amount}}</td>
   	  </tr>
+  	  {{#seq}}
   	  <tr>
   	    <td>SEQ: </td>
   	    <td colspan="3">{{seq}}</td>
   	  </tr>
+  	  {{/seq}}
+  	  {{#author}}
   	  <tr>
   	    <td>AUTHOR: </td>
   	    <td colspan="3">{{author}}</td>
   	  </tr>
+  	  {{/author}}
   	  <tr>
   	    <td>DATE: </td>
   	    <td colspan="3">{{date}}</td>
@@ -760,12 +766,12 @@
   	    <td colspan="3">{{mercid}}</td>
   	  </tr>
   	  {{/mercid}}
-  	  {{#terid}}
+  	  {{#termid}}
   	  <tr>
   	    <td>TERM ID: </td>
-  	    <td colspan="3">{{terid}}</td>
+  	    <td colspan="3">{{termid}}</td>
   	  </tr>
-  	  {{/terid}}
+  	  {{/termid}}
   	  {{#errmsg}}
   	  <tr>
   	    <td colspan="4">{{errmsg}}</td>
@@ -848,17 +854,17 @@
 	{{/list}}
 	<tr>
 	  {{#total}}
-	  <td colspan="3" align="center">TOTAL</td>
-	  <td align="right">{{totaltransactions}}</td>
-	  <td align="right">{{totalsales}}</td>
-	  <td align="right">{{totaltax1}}</td>
-	  <td align="right">{{totaltax3}}</td>
-	  <td align="right">{{totaltotalsales}}</td>
-	  <td align="right">{{totalcash}}</td>
-	  <td align="right">{{totalcredit}}</td>
-	  <td align="right">{{totaldebit}}</td>
-	  <td align="right">{{totalmobile}}</td>
-	  <td align="right">{{totalother}}</td>
+	  <th colspan="3" align="center">TOTAL</th>
+	  <th align="right">{{totaltransactions}}</th>
+	  <th align="right">{{totalsales}}</th>
+	  <th align="right">{{totaltax1}}</th>
+	  <th align="right">{{totaltax3}}</th>
+	  <th align="right">{{totaltotalsales}}</th>
+	  <th align="right">{{totalcash}}</th>
+	  <th align="right">{{totalcredit}}</th>
+	  <th align="right">{{totaldebit}}</th>
+	  <th align="right">{{totalmobile}}</th>
+	  <th align="right">{{totalother}}</th>
 	  {{/total}}
 	</tr>
       </table>
@@ -883,9 +889,9 @@
       <table border="1">
 	<tr>
 	  <th rowspan="2">{{namefield}}</th>
-	  <th colspan="4">Net Sales</th>
-	  <th colspan="4">Net Refunds</th>
-	  <th rowspan="2">Total</th>
+	  <th colspan="5">Net Sales</th>
+	  <th colspan="5">Net Refunds</th>
+	  <th rowspan="2">Net Total</th>
 	  <th rowspan="2">AVG Sale</th>
 	</tr>
 	<tr>
@@ -893,10 +899,12 @@
 	  <th>Menu</th>
 	  <th>Scan</th>
 	  <th>ECR</th>
+	  <th>Total</th>
 	  <th># of Trans</th>
 	  <th>Menu</th>
 	  <th>Scan</th>
 	  <th>ECR</th>
+	  <th>Total</th>
 	  
 	</tr>
 	{{#items}}
@@ -915,34 +923,38 @@
 	  <td align="right">{{menu}}</td>
 	  <td align="right">{{scan}}</td>
 	  <td align="right">{{ecr}}</td>
+	  <td align="right">{{origintotal}}</td>
 	  {{/origin_sales}}
 	  <td align="right">{{refunds}}</td>
 	  {{#origin_refunds}}
 	  <td align="right">{{menu}}</td>
 	  <td align="right">{{scan}}</td>
 	  <td align="right">{{ecr}}</td>
+	  <td align="right">{{origintotal}}</td>
 	  {{/origin_refunds}}
 	  <td align="right">{{sales_minus_refunds}}</td>
 	  <td align="right">{{avgsale}}</td>
 	</tr>
 	{{/items}}
 	<tr>
-	  <td>Totals</td>
+	  <th>Total</th>
 	  {{#total}}
-	  <td align="right">{{transactions}}</td>
+	  <th align="right">{{transactions}}</th>
 	  {{#origin_sales}}
-	  <td align="right">{{menu}}</td>
-	  <td align="right">{{scan}}</td>
-	  <td align="right">{{ecr}}</td>
+	  <th align="right">{{menu}}</th>
+	  <th align="right">{{scan}}</th>
+	  <th align="right">{{ecr}}</th>
+	  <th align="right">{{origintotal}}</th>
 	  {{/origin_sales}}
-	  <td align="right">{{refunds}}</td>
+	  <th align="right">{{refunds}}</th>
 	  {{#origin_refunds}}
-	  <td align="right">{{menu}}</td>
-	  <td align="right">{{scan}}</td>
-	  <td align="right">{{ecr}}</td>
+	  <th align="right">{{menu}}</th>
+	  <th align="right">{{scan}}</th>
+	  <th align="right">{{ecr}}</th>
+	  <th align="right">{{origintotal}}</th>
 	  {{/origin_refunds}}
-	  <td align="right">{{sales_minus_refunds}}</td>
-	  <td align="right">{{avgsale}}</td>
+	  <th align="right">{{sales_minus_refunds}}</th>
+	  <th align="right">{{avgsale}}</th>
 	  {{/total}}
 	</tr>
       </table>
@@ -991,6 +1003,18 @@
 	  <td align="right">{{avgsale}}</td>
 	</tr>
 	{{/items}}
+	{{#totalrow}}
+	<tr>
+		<th>Total</th>
+		<th align="right">{{transactions}}</th>
+	  <th align="right">{{refunds}}</th>
+	  <th align="right">{{menu}}</th>
+	  <th align="right">{{inventory}}</th>
+	  <th align="right">{{ecr}}</th>
+	  <th align="right">{{total}}</th>
+	  <th align="right">{{avgsale}}</th>
+	</tr>
+	{{/totalrow}}
       </table>
     </script> 
     
@@ -1027,6 +1051,16 @@
 	  <td>{{>quickTaxViewButton_P}}</td>
 	</tr>
 	{{/items}}
+	{{#totalrow}}
+	<tr>
+	  <th>Total</th>
+	  <th align="right">{{sales}}</th>
+	  <th align="right">{{tax1}}</th>
+	  <th align="right">{{tax3}}</th>
+	  <th align="right">{{totalsales}}</th>
+	  <th></th>
+	</tr>
+	{{/totalrow}}
       </table>
       {{>quickReportViewHook_P}}
     </script> 
@@ -1075,6 +1109,23 @@
 	</tr>
 	{{/items}}
       </table>
+      	<table border="1">
+  		<th>type</th>
+  		<th>sale</th>
+  		<th>refund</th>
+  		<th>declined</th>
+  	     	
+	     {{#totals}}
+	     <tr><td>Debit</td><td align="right">{{debit_sale}}</td><td align="right">{{debit_refund}}</td><td align="right">{{debit_declined}}</td></tr>
+	     <tr><td>Credit</td><td align="right">{{credit_sale}}</td><td align="right">{{credit_refund}}</td><td align="right">{{credit_declined}}</td></tr>
+	     <tr><td>Deposit</td><td align="right">{{deposit_sale}}</td><td align="right">{{deposit_refund}}</td><td align="right">{{deposit_declined}}</td></tr>
+	     <tr><td>Amex</td><td align="right">{{amex_sale}}</td><td align="right">{{amex_refund}}</td><td align="right">{{amex_declined}}</td></tr>
+	     <tr><td>Visa</td><td align="right">{{visa_sale}}</td><td align="right">{{visa_refund}}</td><td align="right">{{visa_declined}}</td></tr>
+	     <tr><td>MasterCard</td><td align="right">{{mastercard_sale}}</td><td align="right">{{mastercard_refund}}</td><td align="right">{{mastercard_declined}}</td></tr>
+	     <tr><td>Discover</td><td align="right">{{discover_sale}}</td><td align="right">{{discover_refund}}</td><td align="right">{{discover_declined}}</td></tr>
+	     </table>
+	     <label>Voids : {{voids}}</label>
+	     {{/totals}}
       {{>quickReportViewHook_P}}
     </script> 
     
@@ -1108,6 +1159,9 @@
 	</tr>
 	{{/items}}
       </table>
+      {{#numofcashout}}
+      <label>Number of Cashouts : {{numofcashout}}</label>
+      {{/numofcashout}}
       {{>quickReportViewHook_P}}
     </script> 
     
@@ -1150,7 +1204,20 @@
 	  <td align="right">{{>quickCancelledViewButton_P}}</td>
 	</tr>
 	{{/items}}
+	{{#totalrow}}
+	<tr>
+		<th colspan="3">Total</th>
+		<th align="right">{{subTotal}}</th>
+	  <th align="right">{{tax1and2}}</th>
+	  <th align="right">{{tax3}}</th>
+	  <th align="right">{{total}}</th>
+	  <th></th>
+	</tr>
+	{{/totalrow}}
       </table>
+      {{#totalrow}}
+      <label>Number of Cancelled Transactions : {{numofcancelled}}</label>
+      {{/totalrow}}
       {{>quickReportViewHook_P}}
     </script> 
     
@@ -1193,7 +1260,20 @@
 	  <td align="right">{{>quickRefundsViewButton_P}}</td>
 	</tr>
 	{{/items}}
+	{{#totalrow}}
+	<tr>
+		<th colspan="3" align="center">Total</th>
+		<th align="right">{{subTotal}}</th>
+	  <th align="right">{{tax1and2}}</th>
+	  <th align="right">{{tax3}}</th>
+	  <th align="right">{{total}}</th>
+	  <td></td>
+	</tr>
+	{{/totalrow}}
       </table>
+      {{#totalrow}}
+      <label>Number of Refunds Transactions : {{numofrefund}}</label>
+      {{/totalrow}}
       {{>quickReportViewHook_P}}
     </script> 
     
@@ -1241,7 +1321,22 @@
 	  <td align="right">{{>quickDiscountsViewButton_P}}</td>
 	</tr>
 	{{/items}}
+	{{#totalrow}}
+	<tr>
+		<th colspan="3" align="center">Total</th>
+		<th align="right">{{sales}}</th>
+	  <th align="right">-{{discount}}</th>
+	  <th align="right">{{tax1and2}}</th>
+	  <th align="right">{{tax3}}</th>
+	  <th align="right">{{total}}</th>
+	  <th align="right">{{percentdiscount}}</th>
+	  <th></th>
+	</tr>
+	{{/totalrow}}
       </table>
+      {{#totalrow}}
+      <label> Numer of Discounts Transactions : {{numofdiscount}}</label>
+      {{/totalrow}}
       {{>quickReportViewHook_P}}
     </script> 
     

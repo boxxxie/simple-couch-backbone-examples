@@ -178,7 +178,32 @@ function renderHourlyActivityTable() {
     
     //TODO : hourly activity talble data 
     hourlyReportFetcher(id, function(data_param){
-    		var data = {items:data_param};
+    		var totalrow={};
+    		totalrow.transactions = (_.reduce(data_param, function(init, item){
+								return init + Number(item.transactions);
+							}, 0))+"";
+			totalrow.refunds = (_.reduce(data_param, function(init, item){
+								return init + Number(item.refunds);
+							}, 0))+"";
+			totalrow.menu = (_.reduce(data_param, function(init, item){
+								return init + Number(item.menu);
+							}, 0)).toFixed(2);
+			totalrow.inventory = (_.reduce(data_param, function(init, item){
+								return init + Number(item.inventory);
+							}, 0)).toFixed(2);
+			totalrow.ecr = (_.reduce(data_param, function(init, item){
+								return init + Number(item.ecr);
+							}, 0)).toFixed(2);
+			totalrow.total = (_.reduce(data_param, function(init, item){
+								return init + Number(item.total);
+							}, 0)).toFixed(2);
+			if((Number(totalrow.transactions)-Number(totalrow.refunds))!=0) {
+				totalrow.avgsale = (Number(totalrow.total)/(Number(totalrow.transactions)-Number(totalrow.refunds))).toFixed(2);
+			} else {
+				totalrow.avgsale = "0.00";
+			}
+							
+    		var data = {items:data_param, totalrow:totalrow};
 		    var html = ich.hourlyActivityTabel_TMP(data);
     		$("hourlytable").html(html);    	
     });

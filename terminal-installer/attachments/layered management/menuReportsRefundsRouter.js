@@ -240,6 +240,21 @@ function renderRefundsTable() {
 	
 	refundTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)
 	(function(err,data_TMP){
+		var totalrow = {};
+	     totalrow.numofrefund = data_TMP.length + "";
+	     totalrow.subTotal = (_.reduce(data_TMP, function(init, item){
+								return init + Number(item.subTotal);
+							}, 0)).toFixed(2);
+		totalrow.tax1and2 = (_.reduce(data_TMP, function(init, item){
+								return init + Number(item.tax1and2);
+							}, 0)).toFixed(2);
+		totalrow.tax3 = (_.reduce(data_TMP, function(init, item){
+								return init + Number(item.tax3);
+							}, 0)).toFixed(2);
+		totalrow.total = (_.reduce(data_TMP, function(init, item){
+								return init + Number(item.total);
+							}, 0)).toFixed(2);
+							
 	     data_TMP=_.map(data_TMP, function(item){
 				var item = _.clone(item);
 				var startTime = (new Date(item.time.start)).toString("yyyy/MM/dd-HH:mm:ss");
@@ -265,12 +280,27 @@ function renderRefundsTable() {
 					    }
 					    return toFixed(2)(obj);
 					}, true);
+		
+		data_TMP = _.map(data_TMP, function(item){
+				  if(item.payments) {
+				      item.payments = _.map(item.payments, function(payment){
+								if(payment.paymentdetail) {
+								    payment.paymentdetail.crt = payment.type;
+								}
+								if(payment.paymentdetail && payment.paymentdetail.errmsg) {
+								    payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace("<br>"," ");
+								}
+								return payment;
+							   });
+				  }
+				  return item;
+			      });
 	     
 	     if(_.isEmpty(data_TMP)){
 		 var html = "There are no refunds for this time period<br/>";	 
 	     }
 	     else{
-		 var html = ich.menuReportsRefundsTabel_TMP({items:data_TMP});
+		 var html = ich.menuReportsRefundsTabel_TMP({items:data_TMP, totalrow:totalrow});
 	     }
 
 	     $("refundstable").html(html);

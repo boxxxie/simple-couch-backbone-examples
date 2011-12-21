@@ -243,6 +243,7 @@ function rendermenuReportsCashOutsTable() {
 	
 	cashoutReportFetcher(ids,startDate,endDateForQuery)
 	(function(data_TMP){
+		var numofcashout = data_TMP.length+"";
 	     data_TMP = _.map(data_TMP, function(item){
 				  var dialogtitle=getDialogTitle(ReportData,item.name);
 				  return _.extend(item, {dialogtitle:dialogtitle});
@@ -252,7 +253,7 @@ function rendermenuReportsCashOutsTable() {
 		 var html = "There are no cashouts for this time period<br/>";	 
 	     }
 	     else{
-		 var html = ich.menuReportsCashOutsTabel_TMP({items:data_TMP});
+		 var html = ich.menuReportsCashOutsTabel_TMP({items:data_TMP, numofcashout:numofcashout});
 	     }
 	     $("cashoutstable").html(html);
 	     

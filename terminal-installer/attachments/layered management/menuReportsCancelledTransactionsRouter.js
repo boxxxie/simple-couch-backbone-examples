@@ -239,6 +239,21 @@ function renderCancelledTransactionsTable() {
 	
 	canceledTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)
 	(function(err,data_TMP){
+		var totalrow = {};
+	     totalrow.numofcancelled = data_TMP.length + "";
+	     totalrow.subTotal = (_.reduce(data_TMP, function(init, item){
+								return init + Number(item.subTotal);
+							}, 0)).toFixed(2);
+		totalrow.tax1and2 = (_.reduce(data_TMP, function(init, item){
+								return init + Number(item.tax1and2);
+							}, 0)).toFixed(2);
+		totalrow.tax3 = (_.reduce(data_TMP, function(init, item){
+								return init + Number(item.tax3);
+							}, 0)).toFixed(2);
+		totalrow.total = (_.reduce(data_TMP, function(init, item){
+								return init + Number(item.total);
+							}, 0)).toFixed(2);
+							
 	     data_TMP=_.map(data_TMP, function(item){
 				var item = _.clone(item);
 				var startTime = (new Date(item.time.start)).toString("yyyy/MM/dd-HH:mm:ss");
@@ -265,8 +280,27 @@ function renderCancelledTransactionsTable() {
 				     }
 				     return toFixed(2)(obj);
 				 }, true);
+				 
+		data_TMP = _.map(data_TMP, function(item){
+				  if(item.payments) {
+				      item.payments = _.map(item.payments, function(payment){
+								if(payment.paymentdetail) {
+								    payment.paymentdetail.crt = payment.type;
+								}
+								if(payment.paymentdetail && payment.paymentdetail.errmsg) {
+									while((payment.paymentdetail.errmsg).indexOf("<br>")>=0) { 
+										payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace("<br>"," ");
+									}
+								    //payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace("<br>"," ");
+								}
+								return payment;
+							    }); 
+				  }
+				  return item;
+			      });
+			      
 	     
-	     var html = ich.menuReportsCancelledTabel_TMP({items:data_TMP});
+	     var html = ich.menuReportsCancelledTabel_TMP({items:data_TMP, totalrow:totalrow});
 	     $("cancelledtable").html(html);
 	     
 	     _.each(data_TMP, function(item){
