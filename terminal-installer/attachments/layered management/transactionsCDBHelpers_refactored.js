@@ -37,7 +37,8 @@ function datePartFormatter(date){
 function applyReceiptInfo(templateData){
     return _.map(templateData, function(an_item){
 		     var item = _.clone(an_item);
-		     var t = new Date(item.date);
+		     //FIXME : date format ("2011-12-20T21:27:37")
+		     var t = new Date((item.date).replace(" ","T"));
 		     item.processday = _(t.toDateString().split(' ')).chain().rest().join(' ').value();
 		     item.processtime = t.toString("h:mm").concat(t.getHours()>=12?" PM":" AM");
 		     item.transactionNumber = item.receipt_id+"-"+item.transactionNumber;

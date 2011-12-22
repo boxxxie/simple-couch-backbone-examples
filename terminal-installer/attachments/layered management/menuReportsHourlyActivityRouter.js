@@ -216,7 +216,7 @@ function renderHourlyActivityTable() {
 								return init + Number(item.total);
 							}, 0)).toFixed(2);
 			if((Number(totalrow.transactions)-Number(totalrow.refunds))!=0) {
-				totalrow.avgsale = (Number(totalrow.total)/(Number(totalrow.transactions)-Number(totalrow.refunds))).toFixed(2);
+				totalrow.avgsale = (Number(totalrow.total)/(Number(totalrow.transactions))).toFixed(2);
 			} else {
 				totalrow.avgsale = "0.00";
 			}
