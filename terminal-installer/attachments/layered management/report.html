@@ -170,115 +170,21 @@
       </button>
     </script>
     
+    <script id="quickDetailsViewButton_P" class="partial" type="text/html">
+      <button id='{{_id}}'>
+	Details
+      </button>
+    </script>
+    
     <script id="quickCashoutsViewButton_P" class="partial" type="text/html">
       <button id='{{id}}'>
 	Details
       </button>
     </script>
     
-    <script id="quickCancelledViewButton_P" class="partial" type="text/html">
-      <button id='{{_id}}'>
-	Details
-      </button>
-    </script>
     
-    <script id="quickRefundsViewButton_P" class="partial" type="text/html">
-      <button id='{{_id}}'>
-	Details
-      </button>
-    </script>
-    
-    <script id="quickElectronicPaymentsViewButton_P" class="partial" type="text/html">
-      <button id='{{_id}}'>
-	Details
-      </button>
-    </script>
-    
-    <script id="quickDiscountsViewButton_P" class="partial" type="text/html">
-      <button id='{{_id}}'>
-	Details
-      </button>
-    </script>
-    
-    <script id="menuSummaryGoButton_P" class="partial" type="text/html">
-      <button onclick="renderSalesSummaryReportTable();" class="ui-state-default ui-corner-all">
-	<span class="ui-button-text">
-	  Go
-	</span>
-      </button>
-    </script>
-    
-    <script id="menuSalesDetailGoButton_P" class="partial" type="text/html">
-      <button onclick="renderSalesDetailReportTable();" class="ui-state-default ui-corner-all">
-	<span class="ui-button-text">
-	  Go
-	</span>
-      </button>
-    </script>
-    
-    <script id="menuHourlyGoButton_P" class="partial" type="text/html">
-      <button onclick="renderHourlyActivityTable();" class="ui-state-default ui-corner-all">
-	<span class="ui-button-text">
-	  Go
-	</span>
-      </button>
-    </script>
-    
-    <script id="menuTaxGoButton_P" class="partial" type="text/html">
-      <button onclick="renderTaxCollectedTable();" class="ui-state-default ui-corner-all">
-	<span class="ui-button-text">
-	  Go
-	</span>
-      </button>
-    </script>
-
-    <script id="menuElectronicPaymentsGoButton_P" class="partial" type="text/html">
-      <button onclick="renderElectronicPaymentsTable();" class="ui-state-default ui-corner-all">
-	<span class="ui-button-text">
-	  Go
-	</span>
-      </button>
-    </script>
-    
-    <script id="menuCashoutsGoButton_P" class="partial" type="text/html">
-      <button onclick="rendermenuReportsCashOutsTable();" class="ui-state-default ui-corner-all">
-	<span class="ui-button-text">
-	  Go
-	</span>
-      </button>
-    </script>
-    
-    <script id="menuCancelledGoButton_P" class="partial" type="text/html">
-      <button onclick="renderCancelledTransactionsTable();" class="ui-state-default ui-corner-all">
-	<span class="ui-button-text">
-	  Go
-	</span>
-      </button>
-    </script>
-    
-    <script id="menuRefundsGoButton_P" class="partial" type="text/html">
-      <button onclick="renderRefundsTable();" class="ui-state-default ui-corner-all">
-	<span class="ui-button-text">
-	  Go
-	</span>
-      </button>
-    </script>
-    
-    <script id="menuDiscountsGoButton_P" class="partial" type="text/html">
-      <button onclick="renderDiscountsTable();" class="ui-state-default ui-corner-all">
-	<span class="ui-button-text">
-	  Go
-	</span>
-      </button>
-    </script>
-    
-    
-    <script id="dropdownSetMenusGoButton_P" class="partial" type="text/html">
-      <button onclick="renderSetMenusTable();" class="ui-state-default ui-corner-all">
-	<span class="ui-button-text">
-	  Go
-	</span>
-      </button>
+    <script id="generalGoButton_P" class="partial" type="text/html">
+      <button id='generalgobtn'>GO</button>
     </script>
     
     <script id="quickReportViewHook_P" class="partial" type="text/html">
@@ -901,7 +807,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       {{>groupDropdownbox_P}}
       {{>dateRangePicker_P}}
-      {{>menuSummaryGoButton_P}}			
+      {{>generalGoButton_P}}			
       <br/><br/>
       <summarytable></summarytable>		
       {{>backButton_P}}
@@ -1004,7 +910,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       {{>groupDropdownbox_P}} <br/>
       {{>dateRangePicker_P}}
-      {{>menuSalesDetailGoButton_P}}			
+      {{>generalGoButton_P}}			
       <br/><br/>
       <salesdetailtable></salesdetailtable>		
       {{>backButton_P}}
@@ -1162,7 +1068,7 @@
       <h1>Hourly Activity Report</h1>
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}} 
-      {{>menuHourlyGoButton_P}}<br/>
+      {{>generalGoButton_P}}<br/>
       <br/><br/>
       <hourlytable></hourlytable>		
       {{>backButton_P}}
@@ -1210,7 +1116,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
-      {{>menuTaxGoButton_P}}			
+      {{>generalGoButton_P}}			
       <br/><br/>
       <taxcollectedtable></taxcollectedtable>	
       {{>backButton_P}}
@@ -1245,7 +1151,7 @@
 	  <td align="right">{{debit}}</td>
 	  <td align="right">{{credit}}</td>
 	  <td align="right">{{authCode}}</td>
-	  <td>{{>quickElectronicPaymentsViewButton_P}}</td>
+	  <td>{{>quickDetailsViewButton_P}}</td>
 	</tr>
 	{{/items}}
       </table>
@@ -1274,7 +1180,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
-      {{>menuElectronicPaymentsGoButton_P}}			
+      {{>generalGoButton_P}}			
       <br/><br/>
       <reportTable></reportTable>	
       {{>backButton_P}}
@@ -1310,7 +1216,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
-      {{>menuCashoutsGoButton_P}}			
+      {{>generalGoButton_P}}			
       <br/><br/>
       <cashoutstable></cashoutstable>	
       {{>backButton_P}}
@@ -1339,7 +1245,7 @@
 	  <td align="right">{{tax1and2}}</td>
 	  <td align="right">{{tax3}}</td>
 	  <td align="right">{{total}}</td>
-	  <td align="right">{{>quickCancelledViewButton_P}}</td>
+	  <td align="right">{{>quickDetailsViewButton_P}}</td>
 	</tr>
 	{{/items}}
 	{{#totalrow}}
@@ -1364,7 +1270,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
-      {{>menuCancelledGoButton_P}}			
+      {{>generalGoButton_P}}			
       <br/><br/>
       <cancelledtable></cancelledtable>	
       {{>backButton_P}}
@@ -1393,7 +1299,7 @@
 	  <td align="right">{{tax1and2}}</td>
 	  <td align="right">{{tax3}}</td>
 	  <td align="right">{{total}}</td>
-	  <td align="right">{{>quickRefundsViewButton_P}}</td>
+	  <td align="right">{{>quickDetailsViewButton_P}}</td>
 	</tr>
 	{{/items}}
 	{{#totalrow}}
@@ -1418,7 +1324,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
-      {{>menuRefundsGoButton_P}}			
+      {{>generalGoButton_P}}			
       <br/><br/>
       <refundstable></refundstable>	
       {{>backButton_P}}
@@ -1452,7 +1358,7 @@
 	  <td align="right">{{tax3}}</td>
 	  <td align="right">{{total}}</td>
 	  <td align="right">{{percentdiscount}}</td>
-	  <td align="right">{{>quickDiscountsViewButton_P}}</td>
+	  <td align="right">{{>quickDetailsViewButton_P}}</td>
 	</tr>
 	{{/items}}
 	{{#totalrow}}
@@ -1479,7 +1385,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
-      {{>menuDiscountsGoButton_P}}			
+      {{>generalGoButton_P}}			
       <br/><br/>
       <discountstable></discountstable>	
       {{>backButton_P}}
@@ -1654,8 +1560,10 @@
 	  </li>
 	  {{/foodItem}}
 	</ul>
+	{{#display}}
 	<input type="hidden" var="display.screen" value="{{screen}}" />
 	<input type="hidden" var="display.position" value="{{position}}" />
+	{{/display}}
       </form>
       
       <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="clearEditMenu();">

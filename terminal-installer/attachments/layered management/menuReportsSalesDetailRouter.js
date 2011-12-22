@@ -88,6 +88,12 @@ var menuReportsSalesDetailView =
 	 		dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
 	 	    });
 	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderSalesDetailReportTable();
+				   });
+	     
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsGroupSalesDetail: function() {
@@ -128,6 +134,12 @@ var menuReportsSalesDetailView =
 	     _.each(ReportData.group.stores, function(store) {
  			dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
 	 	    });
+	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderSalesDetailReportTable();
+				   });
 	     
 	     console.log("rendered general report");
 	 },
@@ -170,6 +182,12 @@ var menuReportsSalesDetailView =
 	     dropdownGroup.attr('disabled','disabled');
 	     dropdownStore.append('<option value="">'+ReportData.store.storeName+ '</option>');
 	     dropdownStore.attr('disabled','disabled');
+	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderSalesDetailReportTable();
+				   });
 	     
 	     console.log("rendered general report");
 	 }

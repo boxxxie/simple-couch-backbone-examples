@@ -61,7 +61,7 @@ var Menu = couchDoc.extend(
 			"description": [" ", " ", " "]
 		    },
 		    "foodItem": {
-			"price": 0,
+			"price": "",
 			"apply_taxes": {
 			    "exemption": false,
 			    "tax1": true,

@@ -111,6 +111,12 @@ var menuReportsTaxCollectedView =
 	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	     }
 	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderTaxCollectedTable();
+				   });
+	     
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsGroupTaxes: function() {
@@ -174,6 +180,12 @@ var menuReportsTaxCollectedView =
 	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	     }
 	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderTaxCollectedTable();
+				   });
+	     
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsStoreTaxes: function() {
@@ -233,6 +245,12 @@ var menuReportsTaxCollectedView =
 	 	 $('option', dropdownTerminal).remove();
 	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	     }
+	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderTaxCollectedTable();
+				   });
 	     
 	     console.log("rendered general report");
 	 }

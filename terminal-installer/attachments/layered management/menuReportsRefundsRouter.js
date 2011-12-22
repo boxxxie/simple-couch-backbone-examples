@@ -101,6 +101,11 @@ var menuReportsRefundsView =
 	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	     }
 	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderRefundsTable();
+				   });
 	     
 	     console.log("rendered general report");
 	 },
@@ -155,6 +160,12 @@ var menuReportsRefundsView =
 	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	     }
 	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderRefundsTable();
+				   });
+				   
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsStoreRefunds: function() {
@@ -206,6 +217,12 @@ var menuReportsRefundsView =
 	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	     }
 	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderRefundsTable();
+				   });
+				   
 	     console.log("rendered general report");
 	 }
 	});

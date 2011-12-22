@@ -80,6 +80,12 @@ var menuReportsHourlyActivityView =
 	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	 	}
 	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderHourlyActivityTable();
+				   });
+	     
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsGroupHourly: function() {
@@ -111,6 +117,12 @@ var menuReportsHourlyActivityView =
 	 		$('option', dropdownTerminal).remove();
 	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	 	}
+	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderHourlyActivityTable();
+				   });
 	     
 	     console.log("rendered general report");
 	 },
@@ -144,6 +156,12 @@ var menuReportsHourlyActivityView =
 	 		$('option', dropdownTerminal).remove();
 	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	 	}
+	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderHourlyActivityTable();
+				   });
 	     
 	     console.log("rendered general report");
 	 }
@@ -198,7 +216,7 @@ function renderHourlyActivityTable() {
 								return init + Number(item.total);
 							}, 0)).toFixed(2);
 			if((Number(totalrow.transactions)-Number(totalrow.refunds))!=0) {
-				totalrow.avgsale = (Number(totalrow.total)/(Number(totalrow.transactions)-Number(totalrow.refunds))).toFixed(2);
+				totalrow.avgsale = (Number(totalrow.total)/(Number(totalrow.transactions))).toFixed(2);
 			} else {
 				totalrow.avgsale = "0.00";
 			}

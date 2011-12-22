@@ -102,6 +102,12 @@ var menuReportsDiscountsView =
 	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	 	}
 		
+		var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderDiscountsTable();
+				   });
+				   
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsGroupDiscounts: function() {
@@ -155,6 +161,12 @@ var menuReportsDiscountsView =
 	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	 	}
 	 	
+	 	var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderDiscountsTable();
+				   });
+	 	
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsStoreDiscounts: function() {
@@ -206,6 +218,12 @@ var menuReportsDiscountsView =
 	 		$('option', dropdownTerminal).remove();
 	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	 	}
+	 	
+	 	var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderDiscountsTable();
+				   });
 	 	
 	     console.log("rendered general report");
 	 }

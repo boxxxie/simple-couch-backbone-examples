@@ -100,6 +100,12 @@ var menuReportsCashOutsView =
 	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	     }
 	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      rendermenuReportsCashOutsTable();
+				   });
+	     
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsGroupCashouts: function() {
@@ -153,6 +159,12 @@ var menuReportsCashOutsView =
 	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	     }
 	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      rendermenuReportsCashOutsTable();
+				   });
+	     
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsStoreCashouts: function() {
@@ -204,6 +216,12 @@ var menuReportsCashOutsView =
 	 	 $('option', dropdownTerminal).remove();
 	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	     }
+	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      rendermenuReportsCashOutsTable();
+				   });
 	     
 	     console.log("rendered general report");
 	 }
