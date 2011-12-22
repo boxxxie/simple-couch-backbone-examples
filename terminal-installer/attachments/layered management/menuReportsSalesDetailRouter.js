@@ -220,19 +220,30 @@ function renderSalesDetailReportTable() {
 	    ids = ids.concat(_.isEmpty(storedown.val())?ReportData.store.store_id:storedown.val());
 	}
 	
-	//TODO : args need to be changed ; children ids, parent id, startData, endData, callback
-	//		 so that this function will give back list items and total info
-	cashoutFetcher_Period(ids,startDate,endDateForQuery,
-			      function(a,for_TMP){
-	      			  console.log(for_TMP);
-	      			  //TODO
-	      			  for_TMP = _.map(for_TMP, function(item){ item.cashout = item.period; return item;});
-	      			  
-	      			  var data_TMP = extractSalesDetailTableInfo(for_TMP);
-	      			  
-	      			  var html = ich.salesDetailTabel_TMP(data_TMP);
-				  $("salesdetailtable").html(html);
-			      });
+	var dayCounter = startDate.clone();
+	var daysList = [dayCounter.clone()];
+	while(Date.compare(dayCounter.addDays(1),endDate) != 1){
+	    daysList.push(dayCounter.clone());
+	}
+
+	async.map(daysList,
+		  function(day,callback){  
+		      cashoutFetcher_Period(ids,day,day.clone().addDays(1),
+					    function(err,data){
+						var withDates = _(data).map(function(item){return _.extend(item,{date:dateFormatter(day)});});
+						callback(err,withDates);
+					    });
+		  },
+		  function(a,for_TMP){
+	      	      console.log(for_TMP);
+	      	      //TODO
+	      	      for_TMP = _(for_TMP).flatten();
+	      	      
+	      	      var data_TMP = extractSalesDetailTableInfo(for_TMP);
+	      	      
+	      	      var html = ich.salesDetailTabel_TMP(data_TMP);
+		      $("salesdetailtable").html(html);
+		  });
     } else {
    	alert("Input Date");
     }

@@ -18,27 +18,25 @@ function jodaDateParser(dateString){
     var dateMatch = /(\d{2,4})/g;
     var match = (dateString).match(dateMatch);
     var year = match[0];
-    var month = match[1];
+    var month = Number(match[1])-1;
     var day = match[2];
     var hour = match[3];
     var minute = match[4];
     var second = match[5];
     return new Date(year,month,day,hour,minute,second);
 }
-function dateFormatter(dateString){
-    return jodaDateParser(dateString).toString("yyyy-MM-dd HH:mm:ss");
+function jodaDateFormatter(dateString){
+    return dateFormatter(jodaDateParser(dateString));
+}
+function dateFormatter(date){
+    return date.toString("yyyy-MM-dd HH:mm:ss");
 }
 function applyReceiptInfo(templateData){
     return _.map(templateData, function(an_item){
 		     var item = _.clone(an_item);
-		     
-		     //FIXME:overriden, use item.date.
 		     var t = new Date(item.date);
 		     item.processday = _(t.toDateString().split(' ')).chain().rest().join(' ').value();
 		     item.processtime = t.toString("h:mm").concat(t.getHours()>=12?" PM":" AM");
-		     
-		     //FIXME:overriden, use item.date.
-		     //item.date = item.processday;
 		     item.transactionNumber = item.receipt_id+"-"+item.transactionNumber;
 		     item.transaction_index = item.transaction_index+"";
 		     if(item.type=="SALE") {item.type="SALE RECEIPT";}
@@ -399,7 +397,7 @@ function canceledTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
     function cancelledMap(terminals){
 	return function(transaction){
 	    var terminalForTransaction = _.find(terminals, function(ter){return transaction.terminal_id==ter.id;});
-	    return _.extend({},transaction,terminalForTransaction,{date: dateFormatter(transaction.time.start)});
+	    return _.extend({},transaction,terminalForTransaction,{date: jodaDateFormatter(transaction.time.start)});
 	};
     };
     return processedTransactionsFromCashouts(terminals,startDate,endDate)(canceledTransactionsIndexRangeFetcher_F,cancelledMap(terminals));
@@ -411,7 +409,7 @@ function refundTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
 	    return _.extend({},
 			    transaction,
 			    terminalForTransaction,
-			    {date: dateFormatter(transaction.time.start)});
+			    {date: jodaDateFormatter(transaction.time.start)});
 	};
     };
     return processedTransactionsFromCashouts(terminals,startDate,endDate)(refundTransactionsIndexRangeFetcher_F,refundMap(terminals));
@@ -424,7 +422,7 @@ function discountTransactionsFromCashoutsFetcher(terminals,startDate,endDate){
 	    return _.extend({},
 			    transaction,
 			    terminalForTransaction,
-			    {date:dateFormatter(transaction.time.start)},
+			    {date:jodaDateFormatter(transaction.time.start)},
 			    {sales:sales},
 			    {percentdiscount:transaction.discount/sales*100});
 	};
@@ -442,7 +440,7 @@ function cashoutReportFetcher(terminals,startDate,endDate){
 			     =  {cashout : cashout,
 				 id: cashout._id,
 				 name: cashout.terminalname,
-				 cashouttime: dateFormatter(cashout.cashouttime),
+				 cashouttime: jodaDateFormatter(cashout.cashouttime),
 				 cashoutnumber: cashout.cashoutnumber.toString()};
 			 return transformedCashout;
 		     })
@@ -467,7 +465,7 @@ function electronicPaymentsReportFetcher(terminals,startDate,endDate){
 	    return _.extend({},
 			    transaction,
 			    terminalForTransaction,
-			    {date: dateFormatter(transaction.time.start)},
+			    {date: jodaDateFormatter(transaction.time.start)},
 			    {sales: sales});
 	};
     };
