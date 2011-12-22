@@ -262,6 +262,13 @@ function rendermenuReportsCashOutsTable() {
 			    .button()
 			    .click(function(){
 				       var data = item.cashout;
+				       _.applyToValues(data, function(obj){
+						     var strObj = obj+"";
+						     if(strObj.indexOf(".")>=0) {
+						     	obj = toFixedWithSep(2)(obj);
+						     }
+						     return obj;
+						 }, true);
 				       var html = ich.menuReportsCashoutQuickViewDialog_TMP(data);
 				       quickmenuReportsCashoutViewDialog(html, {title:item.dialogtitle});
 				   });

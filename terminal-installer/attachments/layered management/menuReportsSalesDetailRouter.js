@@ -390,7 +390,8 @@ function extractSalesDetailTableInfo(list) {
     if(!_.isEmpty(ReportData.company)) {
 	var groups = ReportData.company.hierarchy.groups;
 	result.list = _.map(list, function(item){
-				var cashout = item.cashout;
+				//var cashout = item.cashout;
+				var cashout = item.period;
 				var namenum = getStoreNameNum(groups,item.id);
 				return {groupName:getGroupName(groups,item.id),
 					storeName:namenum.name,
@@ -420,7 +421,8 @@ function extractSalesDetailTableInfo(list) {
     } else if(!_.isEmpty(ReportData.group)) {
 	var groups = [ReportData.group];
 	result.list = _.map(list, function(item){
-				var cashout = item.cashout;
+				//var cashout = item.cashout;
+				var cashout = item.period;
 				var namenum = getStoreNameNum(groups,item.id);
 				return {groupName:getGroupName(groups,item.id),
 					storeName:namenum.name,
@@ -450,7 +452,8 @@ function extractSalesDetailTableInfo(list) {
 	
     } else if(!_.isEmpty(ReportData.store)) {
 	result.list = _.map(list, function(item){
-				var cashout = item.cashout;
+				//var cashout = item.cashout;
+				var cashout = item.period;
 				return {groupName:ReportData.groupName,
 					storeName:ReportData.store.storeName,
 					storeNumber:ReportData.store.number,

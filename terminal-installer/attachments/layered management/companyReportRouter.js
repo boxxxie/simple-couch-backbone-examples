@@ -22,6 +22,12 @@ function generalReportRenderer(view,param,template,idField){
 				    param.list =  listForTable;
 				    var formattedSales = generateFormattedSales(param.list);
 				    _.extend(param, {sales:formattedSales});
+				    param.list=_.map(param.list, function(item){
+				    	item.yesterdaysales = toFixedWithSep(2)(item.yesterdaysales);
+				    	item.mtdsales = toFixedWithSep(2)(item.mtdsales);
+				    	item.ytdsales = toFixedWithSep(2)(item.ytdsales);
+				    	return item;
+				    });
 				    var html = ich[template](param);
 				    $(view.el).html(html);
 				    if(_.isFunction(callback)){callback(param);}

@@ -226,7 +226,7 @@ function renderHowAreWeStoresTable(view, startPage, group_id) {
     				for_TMP  = appendTotalColum(for_TMP);
     	
 					for_TMP = _.applyToValues(for_TMP,toFixedWithSep(2),true);
-					for_TMP.itmes = _.map(for_TMP.itmes, function(item){
+					for_TMP.items = _.map(for_TMP.items, function(item){
 						item.refunds = Number(item.refunds)+"";
 						item.transactions = Number(item.transactions)+"";
 						return item;
@@ -289,7 +289,7 @@ function renderHowAreWeTerminalsTable(view, startPage, store_id) {
     	
     					for_TMP  = appendTotalColum(for_TMP);
     					for_TMP = _.applyToValues(for_TMP,toFixedWithSep(2),true);
-    					for_TMP.itmes = _.map(for_TMP.itmes, function(item){
+    					for_TMP.items = _.map(for_TMP.items, function(item){
 							item.refunds = Number(item.refunds)+"";
 							item.transactions = Number(item.transactions)+"";
 							return item;
@@ -301,7 +301,7 @@ function renderHowAreWeTerminalsTable(view, startPage, store_id) {
 									 startPage:startPage,
 									 breadCrumb : breadcrumb
 								     });
-						param.cancelledtransactions = param.cancelledtransactions+"";
+						param.cancelledtransactions = Number(param.cancelledtransactions)+"";
 						for_TMP = _.applyToValues(for_TMP,toFixed(2),true);
 						var html = ich.generalTabel_HowAreWeToday_TMP(_.extend(param,{namefield:"Terminal"}));
 						$(view.el).html(html);

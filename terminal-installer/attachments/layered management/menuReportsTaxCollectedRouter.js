@@ -298,6 +298,25 @@ function renderTaxCollectedTable() {
 				 var html = "<p>There are no taxes collected for this time period</p>";	 
 			     }
 			     else{
+			     	data_TMP = _.map(data_TMP, function(item){
+			     		item.firstindex = Number(item.firstindex)+"";
+			     		item.lastindex = Number(item.lastindex)+"";
+			     		return item;
+			     	});
+			     	_.applyToValues(data_TMP, function(obj){
+					     var strObj = obj+"";
+					     if(strObj.indexOf(".")>=0) {
+					     	obj = toFixedWithSep(2)(obj);
+					     }
+					     return obj;
+					 }, true);
+					 _.applyToValues(totalrow, function(obj){
+					     var strObj = obj+"";
+					     if(strObj.indexOf(".")>=0) {
+					     	obj = toFixedWithSep(2)(obj);
+					     }
+					     return obj;
+					 }, true);
 				 var html = ich.taxCollectedTabel_TMP({items:data_TMP, totalrow:totalrow});
 			     }
 
