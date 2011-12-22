@@ -111,6 +111,12 @@ var menuReportsElectronicPaymentsView =
 	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	     }
 	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderElectronicPaymentsTable();
+				   });
+	     
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsGroupPayments: function() {
@@ -174,6 +180,12 @@ var menuReportsElectronicPaymentsView =
 	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	     }
 	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderElectronicPaymentsTable();
+				   });
+	     
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsStorePayments: function() {
@@ -233,6 +245,12 @@ var menuReportsElectronicPaymentsView =
 	 	 $('option', dropdownTerminal).remove();
 	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	     }
+	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderElectronicPaymentsTable();
+				   });
 	     
 	     console.log("rendered general report");
 	 }

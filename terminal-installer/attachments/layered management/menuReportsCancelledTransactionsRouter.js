@@ -100,6 +100,12 @@ var menuReportsCancelledTransactionsView =
 	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	     }
 	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderCancelledTransactionsTable();
+				   });
+	     
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsGroupCancelled: function() {
@@ -153,6 +159,13 @@ var menuReportsCancelledTransactionsView =
 	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	     }
 	     
+	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderCancelledTransactionsTable();
+				   });
+				   
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsStoreCancelled: function() {
@@ -204,6 +217,12 @@ var menuReportsCancelledTransactionsView =
 	 	 $('option', dropdownTerminal).remove();
 	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	     }
+	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderCancelledTransactionsTable();
+				   });
 	     
 	     console.log("rendered general report");
 	 }

@@ -80,6 +80,12 @@ var menuReportsHourlyActivityView =
 	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	 	}
 	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderHourlyActivityTable();
+				   });
+	     
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsGroupHourly: function() {
@@ -111,6 +117,12 @@ var menuReportsHourlyActivityView =
 	 		$('option', dropdownTerminal).remove();
 	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	 	}
+	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderHourlyActivityTable();
+				   });
 	     
 	     console.log("rendered general report");
 	 },
@@ -144,6 +156,12 @@ var menuReportsHourlyActivityView =
 	 		$('option', dropdownTerminal).remove();
 	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	 	}
+	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderHourlyActivityTable();
+				   });
 	     
 	     console.log("rendered general report");
 	 }

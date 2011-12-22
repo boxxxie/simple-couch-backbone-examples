@@ -87,6 +87,12 @@ var menuReportsSalesSummaryView =
 	     _.each(stores, function(store) {
 	 		dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
 	 	    });
+	 	 
+	 	 var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderSalesSummaryReportTable();
+				   });
 	     
 	     console.log("rendered general report");
 	 },
@@ -129,6 +135,12 @@ var menuReportsSalesSummaryView =
  			dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
 	 	    });
 	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderSalesSummaryReportTable();
+				   });
+	     
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsStoreSales: function() {
@@ -170,6 +182,12 @@ var menuReportsSalesSummaryView =
 	     dropdownGroup.attr('disabled','disabled');
 	     dropdownStore.append('<option value="">'+ReportData.store.storeName+ '</option>');
 	     dropdownStore.attr('disabled','disabled');
+	     
+	     var btn = $('#generalgobtn')
+			    .button()
+			    .click(function(){
+				      renderSalesSummaryReportTable();
+				   });
 	     
 	     console.log("rendered general report");
 	 }
