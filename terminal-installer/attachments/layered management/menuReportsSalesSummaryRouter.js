@@ -371,6 +371,18 @@ function extractSalesSummaryTableInfo(list) {
 	
 	
 	result = appendTotals(result);
+	
+	result.list = _.map(result.list, function(item){
+		_.applyToValues(item.summary, function(obj){
+					     var strObj = obj+"";
+					     if(strObj.indexOf(".")>=0) {
+					     	obj = toFixedWithSep(2)(obj);
+					     }
+					     return obj;
+					 }, true);
+		return item;
+	});
+	
 	return result;
 	
     } else if(!_.isEmpty(ReportData.store)) {
@@ -385,6 +397,18 @@ function extractSalesSummaryTableInfo(list) {
 	
 	
 	result = appendTotals(result);
+	
+	result.list = _.map(result.list, function(item){
+		_.applyToValues(item.summary, function(obj){
+					     var strObj = obj+"";
+					     if(strObj.indexOf(".")>=0) {
+					     	obj = toFixedWithSep(2)(obj);
+					     }
+					     return obj;
+					 }, true);
+		return item;
+	});
+	
 	return result;
     }
 };

@@ -25,6 +25,22 @@ function quickReportViewDialog (html,options) {
 function quickReportView(id, title){
     cashoutFetcher(id,
     		      function(for_TMP){
+    		      	var yesterday_noofsale = Number(for_TMP.yesterday.noofsale)+"";
+    		      	var yesterday_noofrefund = Number(for_TMP.yesterday.noofrefund)+"";
+    		      	var mtd_noofsale = Number(for_TMP.mtd.noofsale)+"";
+    		      	var mtd_noofrefund = Number(for_TMP.mtd.noofrefund)+"";
+    		      	var ytd_noofsale = Number(for_TMP.ytd.noofsale)+"";
+    		      	var ytd_noofrefund = Number(for_TMP.ytd.noofrefund)+"";
+    		      	
+    		      	for_TMP = _.applyToValues(for_TMP,toFixedWithSep(2),true);
+    		      	
+    		      	for_TMP.yesterday.noofsale=yesterday_noofsale;
+    		      	for_TMP.yesterday.noofrefund=yesterday_noofrefund;
+    		      	for_TMP.mtd.noofsale=mtd_noofsale;
+    		      	for_TMP.mtd.noofrefund=mtd_noofrefund;
+    		      	for_TMP.ytd.noofsale=ytd_noofsale;
+    		      	for_TMP.ytd.noofrefund=ytd_noofrefund;
+    		      	
     			    var html = ich.cashOutReportDialog_TMP(for_TMP);
     			    quickReportViewDialog(html,{title:title});
     		      });
@@ -58,6 +74,13 @@ function quickTaxViewDialog (html,options) {
 
 function quickTaxView(id, title, firstindex, lastindex) {
 	taxReportTransactionsFetcher(id,firstindex,lastindex,function(for_TMP){
+		_.applyToValues(for_TMP, function(obj){
+					     var strObj = obj+"";
+					     if(strObj.indexOf(".")>=0) {
+					     	obj = toFixedWithSep(2)(obj);
+					     }
+					     return obj;
+					 }, true);
 		var html = ich.taxCollectedQuickViewDialog_TMP(for_TMP);
     	quickTaxViewDialog(html,{title:title});
 	});

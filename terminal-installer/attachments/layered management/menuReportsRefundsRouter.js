@@ -242,18 +242,18 @@ function renderRefundsTable() {
 	(function(err,data_TMP){
 	     var totalrow = {};
 	     totalrow.numofrefund = data_TMP.length + "";
-	     totalrow.subTotal = (_.reduce(data_TMP, function(init, item){
+	     totalrow.subTotal = toFixedWithSep(2)(_.reduce(data_TMP, function(init, item){
 					       return init + Number(item.subTotal);
-					   }, 0)).toFixed(2);
-	     totalrow.tax1and2 = (_.reduce(data_TMP, function(init, item){
+					   }, 0));
+	     totalrow.tax1and2 = toFixedWithSep(2)(_.reduce(data_TMP, function(init, item){
 					       return init + Number(item.tax1and2);
-					   }, 0)).toFixed(2);
-	     totalrow.tax3 = (_.reduce(data_TMP, function(init, item){
+					   }, 0));
+	     totalrow.tax3 = toFixedWithSep(2)(_.reduce(data_TMP, function(init, item){
 					   return init + Number(item.tax3);
-				       }, 0)).toFixed(2);
-	     totalrow.total = (_.reduce(data_TMP, function(init, item){
+				       }, 0));
+	     totalrow.total = toFixedWithSep(2)(_.reduce(data_TMP, function(init, item){
 					    return init + Number(item.total);
-					}, 0)).toFixed(2);
+					}, 0));
 
 	     data_TMP = applyReceiptInfo(data_TMP);
 	     
@@ -287,6 +287,13 @@ function renderRefundsTable() {
 		 var html = "<p>There are no refunds for this time period</p>";	 
 	     }
 	     else{
+	     	data_TMP = _.map(data_TMP, function(item){
+	     		item.subTotal = toFixedWithSep(2)(item.subTotal);
+	     		item.tax1and2 = toFixedWithSep(2)(item.tax1and2);
+	     		item.tax3 = toFixedWithSep(2)(item.tax3);
+	     		item.total = toFixedWithSep(2)(item.total);
+	     		return item;
+	     	});
 		 var html = ich.menuReportsRefundsTabel_TMP({items:data_TMP, totalrow:totalrow});
 	     }
 
@@ -312,6 +319,15 @@ function renderRefundsTable() {
 									 return o;
 								     }
 								     ,true);
+								     
+							_.applyToValues(btnData, function(obj){
+							     var strObj = obj+"";
+							     if(strObj.indexOf(".")>=0) {
+							     	obj = toFixedWithSep(2)(obj);
+							     }
+							     return obj;
+							 }, true);
+						 	     
 						     var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
 						     quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
 						 });

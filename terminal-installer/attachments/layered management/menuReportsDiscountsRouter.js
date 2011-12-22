@@ -305,6 +305,21 @@ function renderDiscountsTable() {
 		 var html = "<p>There are no discounts for this time period</p>";	 
 	     }
 	     else{
+	     	data_TMP = _.map(data_TMP, function(item){
+	     		item.subTotal = toFixedWithSep(2)(item.subTotal);
+	     		item.totaldiscount = toFixedWithSep(2)(item.totaldiscount);
+	     		item.tax1and2 = toFixedWithSep(2)(item.tax1and2);
+	     		item.tax3 = toFixedWithSep(2)(item.tax3);
+	     		item.total = toFixedWithSep(2)(item.total);
+	     		return item;
+	     	});
+	     	_.applyToValues(totalrow, function(obj){
+						     var strObj = obj+"";
+						     if(strObj.indexOf(".")>=0) {
+						     	obj = toFixedWithSep(2)(obj);
+						     }
+						     return obj;
+						 }, true);
 		 var html = ich.menuReportsDiscountsTabel_TMP({items:data_TMP, totalrow:totalrow});
 	     }
 	     $("discountstable").html(html);
@@ -336,6 +351,14 @@ function renderDiscountsTable() {
 				       	return orderitem;
 				       });
 				       
+				       _.applyToValues(btnData, function(obj){
+						     var strObj = obj+"";
+						     if(strObj.indexOf(".")>=0) {
+						     	obj = toFixedWithSep(2)(obj);
+						     }
+						     return obj;
+						 }, true);
+						 
 				       var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
 				       quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
 				   });

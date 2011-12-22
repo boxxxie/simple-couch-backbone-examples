@@ -96,7 +96,11 @@ function toFixedWithSep(mag){
     return function(num){
     	tmpNum = Number(num);
 	if(!_.isNaN(tmpNum) && _.isNumber(tmpNum)){
-	    return FormatNumberBy3(roundNumber(tmpNum,mag).toFixed(mag),".",",");
+		if(tmpNum>=0) {
+	    	return FormatNumberBy3(roundNumber(tmpNum,mag).toFixed(mag),".",",");
+	   } else {
+	   		return "-" + FormatNumberBy3(roundNumber(tmpNum*(-1),mag).toFixed(mag),".",",");
+	   }
 	}
 	return num;
     };
