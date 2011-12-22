@@ -162,9 +162,12 @@ function saveEditMenu() {
 	.each(function(keyVal){
 		  newButtonItemData = assignFromPath(newButtonItemData,_.first(keyVal),_.last(keyVal));
 	      });
-	      
+	
+	newButtonItemData.display.description = _.toArray(newButtonItemData.display.description);
+	
 	console.log("newButtonItemData");
     console.log(newButtonItemData);
+    
     newButtonItemData.display.position = Number(newButtonItemData.display.position); 
     newButtonItemData.display.screen = Number(newButtonItemData.display.screen);
     newButtonItemData.foodItem.price = Number(newButtonItemData.foodItem.price);
