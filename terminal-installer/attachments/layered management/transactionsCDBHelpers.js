@@ -785,13 +785,13 @@ function cashoutFetcher(ids,callback){
 };
 
 function cashoutFetcher_Period(ids,startDate,endDate,callback){
-    var transactionsView = cdb.view('reporting','cashouts_id_date');
-    var transaction_db = cdb.db('cashouts',{},true);
+    var view = cdb.view('reporting','cashouts_id_date');
+    var db = cdb.db('cashouts',{},true);
     if(!_.isArray(ids)){
-	return generalCashoutFetcher_Period(transactionsView,transaction_db,ids,startDate,endDate,callback);
+	return generalCashoutFetcher_Period(view,db,ids,startDate,endDate,callback);
     }
     else{
-	return generalCashoutArrayFetcher_Period(transactionsView,transaction_db,ids,startDate,endDate,callback);
+	return generalCashoutArrayFetcher_Period(view,db,ids,startDate,endDate,callback);
     }
 };
 
@@ -932,7 +932,7 @@ function taxReportTransactionsFetcher(terminal,startIndex,endIndex,callback){
 		}
 		return _.extend({},
 				moneyFields,
-				{date: dateFormatter(transaction.time.start)},
+				{date: jodaDateFormatter(transaction.time.start)},
 				{transaction:transaction.transactionNumber.toString()},
 				{type:transaction.type}
 			       );
