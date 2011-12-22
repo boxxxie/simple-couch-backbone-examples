@@ -145,29 +145,15 @@ function closeEditMenu() {
 };
 
 function saveEditMenu() {
-	var d = $("menusetmenusright");
-    var allFields = d.find('[var]');
-    console.log("allFields");
-    console.log(allFields);
-    
-     var newButtonItemData = {};
-    _(allFields).chain()
-	.map(function(el) {
-		 var $el = $(el);
-		 if($el.is(':checkbox')){
-		     return [jsPather($el.attr('var')),$el.is(':checked')];
-		 }
-		 return [jsPather($el.attr('var')),$el.val()];
-	     })
-	.each(function(keyVal){
-		  newButtonItemData = assignFromPath(newButtonItemData,_.first(keyVal),_.last(keyVal));
-	      });
-	
-	newButtonItemData.display.description = _.toArray(newButtonItemData.display.description);
-	
-	console.log("newButtonItemData");
+    var editDialog = $("#editMenuButton");
+
+    var newButtonItemData = varFormGrabber(editDialog);
+
+    newButtonItemData.display.description = _(newButtonItemData.display.description).toArray();
+	      
+    console.log("newButtonItemData");
     console.log(newButtonItemData);
-    
+
     newButtonItemData.display.position = Number(newButtonItemData.display.position); 
     newButtonItemData.display.screen = Number(newButtonItemData.display.screen);
     newButtonItemData.foodItem.price = Number(newButtonItemData.foodItem.price);

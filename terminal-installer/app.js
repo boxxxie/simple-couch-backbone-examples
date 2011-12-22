@@ -13,7 +13,7 @@ ddoc.rewrites = [
     {from: "terminals_corp", to: "../../../terminals_corp"},
     {from: "cashouts/*", to: "../../../cashouts/*"},
     {from: "transactions/*", to: "../../../transactions/*"},
-    {from: "menus/*", to: "../../../menus/*"},
+    {from: "menus_corp/*", to: "../../../menus_corp/*"},
     {from: "/", to:'index.html'},
     {from: "/api", to:'../../'},
     {from: "/api/*", to:'../../*'},

@@ -65,7 +65,7 @@ function installTerminal(companyID,groupID,storeID,terminalID){
     }
 
     var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
-    var db_menus = "menus";
+    var db_menus = "menus_corp";
     var Menu = couchDoc.extend({urlRoot:urlBase + db_menus});
     var terminal_menu = new Menu({_id:companyID});
     terminal_menu.save();

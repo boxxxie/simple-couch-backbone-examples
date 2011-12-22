@@ -33,14 +33,27 @@ function formGrabber($form,varName){
 		 //make a list of [obj.prop.prop..., value]
 		 var $el = $(el);
 		 if($el.is(':checkbox')){
-		     return [jsPather($el.attr(varName)),$el.is(':checked')];
+		     return [jsPather($el.attr(varName)),$el.is(':checked'),$el];
 		 }
-		 return [jsPather($el.attr(varName)),$el.val()];
+		 return [jsPather($el.attr(varName)),$el.val(),$el];
 	     })
+/*	.map(function(valsArray) {
+		 //make a list of [obj.prop.prop..., value]
+		 var $el =_.last(valsArray);
+		 var type = $el.attr('var_type');
+		 var value = _.second(valsArray);
+		 //TODO allow user to choose own delimiter via html attribute
+		 //assume delimiter is new line
+		 if(type == "array" && _.isString(value)){
+		     var arrayVal = _(value.split("\n")).map(_.str.trim);
+		     return [jsPather($el.attr(varName)),arrayVal,$el];
+		 }
+		 return [jsPather($el.attr(varName)),$el.val(),$el];
+	     })*/
 	.reduce(function(obj,cur_keyVal){
 		    //consume the path-value list and make the object it represents
 		    var path = _.first(cur_keyVal);
-		    var valueToAssign = _.last(cur_keyVal);
+		    var valueToAssign = _.second(cur_keyVal);
 		    obj = assignFromPath(obj,path,valueToAssign);
 		    return obj;
 		},{})
