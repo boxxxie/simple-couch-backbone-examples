@@ -230,7 +230,7 @@ function renderSalesDetailReportTable() {
 		  function(day,callback){  
 		      cashoutFetcher_Period(ids,day,day.clone().addDays(1),
 					    function(err,data){
-						var withDates = _(data).map(function(item){return _.extend(item,{date:dateFormatter(day)});});
+						var withDates = _(data).map(function(item){return _.extend(item,{date:dateFormatter(day).slice("")[0]});});
 						callback(err,withDates);
 					    });
 		  },
