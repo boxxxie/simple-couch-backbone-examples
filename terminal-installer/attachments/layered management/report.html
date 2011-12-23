@@ -1394,20 +1394,6 @@
     
     
     <!-------------------------------------------------- Menu SET MENUS --------------------------------------->
-    <!--  <script id="dropdownSetMenus_P" class="partial" type="text/html">
-    	  Menus File : <select id="menusdown" class="{{>commonClasses_P}}">
-    	  </select>
-    </script>
-    
-    <script id="dropdownMenuScreen_P" class="partial" type="text/html">
-      Menu : <select id="menuscreendown" class="{{>commonClasses_P}}">
-    	<option value = "menu1" selected>MENU 1</option>
-    	<option value = "menu2" selected>MENU 2</option>
-    	<option value = "menu3" selected>MENU 3</option>
-    	<option value = "menu4" selected>MENU 4</option>
-    	<option value = "modifiers" selected>MODIFIERS</option>
-      </select>
-    </script> -->
     
     <script id="menuSetMenus_Left_TMP" type="text/html">
       <tr><td>
@@ -1445,9 +1431,9 @@
 	{{#menu_screen}}
 	<tr>
 	  {{#row}}
-	  <!--FIXME : onclick function would better be in js file-->
+	  <!--FIXME : put onclick function in js file-->
 	  {{#display}}
-	  <td width="80" height="30" id={{screen}}:{{position}} onclick="renderEditMenuItem({{screen}},{{position}});">
+	  <td style="width : 80px; height : 30px; background-color: rgb( {{color}} )" id={{screen}}:{{position}} onclick="renderEditMenuItem({{screen}},{{position}});">
 	    <ul style="list-style-type: none; padding-left: 0px">
 	      {{#description}}<li>{{.}}</li>{{/description}}		
 	    </ul>
@@ -1483,14 +1469,37 @@
 	</td>
       </tr>
     </script>
-    
+
+    <script id="menuSetMenuHeader_TMP" type="text/html">
+      <form id="editMenuHeaderButton">
+	<p>Menu Header Label:</p>
+	<table style="float: left;">	
+	  <tr>
+	    <td><label for="description1">Description 1:</label></td>
+	    <td><input type="text" var="description1" id="description1" value="{{description1}}"/></td>
+	  </tr>
+	  <tr>
+	    <td><label for="description2">Description 2:</label></td>
+	    <td><input type="text" var="description2" id="description2" value="{{description2}}"/></td>
+	  </tr>
+	  <tr>
+	    <td><label for="description3">Description 3:</label></td>
+	    <td><input type="text" var="description3" id="description3" value="{{description3}}"/></td>
+	  </tr>
+	  <tr>
+	    <td><label for="displayColor"> Color :</label></td>
+	    <td><input type="text" id="displayColor" var="display.color"  value="{{color}}" /></td>
+	  </tr>	
+	</table>
+      </form>
+    </script>
+	
     <script id="menuSetMenus_Right_TMP" type="text/html">
       <label>{{menuSetMenusrighttitle}}</label>
       <form id="editMenuButton">
 
 	<label>Menu Label: </label>
-	<!--<textarea var="display.description" var_type="array" rows="3" cols="30">{{#description}}{{0}}{{/description}}{{#description}}{{1}}{{/description}}{{#description}}{{2}}{{/description}}</textarea>-->
-	<table>	
+	<table style="float: left;">	
 	  {{#display}}
 	  <tr>
 	    <td><label for="editmenudescription0">Description 1:</label></td>
@@ -1512,11 +1521,11 @@
 	  {{#foodItem}}
 	  <tr>
 	    <td><label>Price : </label></td>
-	    <td><input type="text" var="foodItem.price"  value="{{price}}"/></td>
+	    <td><input type="text" var="foodItem.price"  value="{{price}}" var_type="number" var_default="0"/></td>
 	  </tr>
 	  {{/foodItem}}
 	</table>
-	<ul style="list-style-type:none;">
+	<ul style="list-style-type:none; float: left;">
 	  {{#display}}
 	  <li> 
 	    <label for="is_enabled">Active</label>
@@ -1561,8 +1570,8 @@
 	  {{/foodItem}}
 	</ul>
 	{{#display}}
-	<input type="hidden" var="display.screen" value="{{screen}}" />
-	<input type="hidden" var="display.position" value="{{position}}" />
+	<input type="hidden" var="display.screen" var_type="number" var_default="0"  value="{{screen}}" />
+	<input type="hidden" var="display.position" var_type="number" var_default="0" value="{{position}}" />
 	{{/display}}
       </form>
       

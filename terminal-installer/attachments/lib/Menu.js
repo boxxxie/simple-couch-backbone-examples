@@ -46,18 +46,25 @@ var Menu = couchDoc.extend(
 	    var menuButtons = this.get('menuButtons');
 	    return this.find_button(menuButtons,screen,position);
 	},
+	get_header:function(screen){
+	    var menuButtonHeaders = this.get('menuButtonHeaders');
+	    return this.find_header(menuButtonHeaders,screen);
+	},
+	find_header:function(headers,screen){
+	    return _(headers).find(function(button){return button.menu_id == screen;});
+	},
 	find_button:function(menuButtons,screen,position){
 	    return _(menuButtons).find(function(button){return button.display.screen == screen && button.display.position == position;});
 	},
 	set_empty_menu :function(){
+	    var white = "255,255,255";
+	    var dark_green ="0,150,0";
 	    var default_menu_item =        
 		{
 		    "display": {
 			"is_enabled": false,
 			"image": "",
 			"color": "255,255,255",
-			"screen": 1,
-			"position": 0,
 			"description": [" ", " ", " "]
 		    },
 		    "foodItem": {
@@ -116,7 +123,8 @@ var Menu = couchDoc.extend(
 	    var num_of_menu_buttons = 180;
 	    var num_of_menu_buttons_per_screen = 36;
 	    var menu = {};
-	    menu.menuButtons = _(num_of_menu_screens).chain().range().zip(_.range(1,num_of_menu_screens+1))
+	    menu.menuButtons = 
+		_(num_of_menu_screens).chain().range().zip(_.range(1,num_of_menu_screens+1))
 		.map(function(menu_screen){
 			 return _(num_of_menu_buttons_per_screen).chain().range()
 			     .map(function(menu_item){
@@ -125,7 +133,13 @@ var Menu = couchDoc.extend(
 				      return _.extend(_.clone(default_menu_item),display);
 				  }).value();
 		     })
-		.flatten()
+		.flatten().
+		map(function(button){
+			if(button.display.screen == 0){
+			    button.display.color = dark_green;
+			}
+			return button;
+		    })
 		.value();
 	    menu.menuButtonHeaders = menuButtonHeaders;
 	    return this.set(menu);

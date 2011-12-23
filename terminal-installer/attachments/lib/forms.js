@@ -37,19 +37,29 @@ function formGrabber($form,varName){
 		 }
 		 return [jsPather($el.attr(varName)),$el.val(),$el];
 	     })
-/*	.map(function(valsArray) {
+	.map(function(valsArray) {
 		 //make a list of [obj.prop.prop..., value]
 		 var $el =_.last(valsArray);
 		 var type = $el.attr('var_type');
+		 var default_value = $el.attr('var_default');
 		 var value = _.second(valsArray);
-		 //TODO allow user to choose own delimiter via html attribute
-		 //assume delimiter is new line
-		 if(type == "array" && _.isString(value)){
-		     var arrayVal = _(value.split("\n")).map(_.str.trim);
-		     return [jsPather($el.attr(varName)),arrayVal,$el];
+		 if(type == "number"){
+		     var numVal = Number(value);
+		     var numDefault = Number(default_value);
+		     var transformedVal;
+		     if(_.isNaN(numVal) && _.isNaN(numDefault)){
+			 transformedVal = 0;
+		     }
+		     else if(_.isNaN(numVal) && !_.isNaN(numDefault)){
+			 transformedVal = numDefault;
+		     }
+		     else{
+			 transformedVal = numVal;
+		     }
+		     return [jsPather($el.attr(varName)),transformedVal,$el];
 		 }
 		 return [jsPather($el.attr(varName)),$el.val(),$el];
-	     })*/
+	     })
 	.reduce(function(obj,cur_keyVal){
 		    //consume the path-value list and make the object it represents
 		    var path = _.first(cur_keyVal);

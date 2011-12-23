@@ -32,7 +32,7 @@ function installTerminal(companyID,groupID,storeID,terminalID){
 	   menuButtons:sample_terminal.menuButtons,
 	   scales:sample_terminal.scales,
 	   showMobQRedits:terminal.usingmobqredits,
-	   locally_modifiable:!terminal.centrallycontrolmenus,
+	   locally_modifiable:false;//!terminal.centrallycontrolmenus,
 	   automatedPayment:terminal.usingautomatedpayment,
 	   
 	   creditPayment:sample_terminal.creditPayment,
@@ -95,7 +95,7 @@ function installTerminal(companyID,groupID,storeID,terminalID){
 					terminalToInstall_corp.set({_id:resp.id});
 					terminalToInstall_corp.save(
 					    {},{success:function(){
-						    alert("The terminal has been installed successfully");
+						    alert("The terminal is now ready to be Installed");
 						    terminal.installed = true;
 						    company.save();
 						}});}});  
