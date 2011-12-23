@@ -32,7 +32,7 @@ function installTerminal(companyID,groupID,storeID,terminalID){
 	   menuButtons:sample_terminal.menuButtons,
 	   scales:sample_terminal.scales,
 	   showMobQRedits:terminal.usingmobqredits,
-	   locally_modifiable:false;//!terminal.centrallycontrolmenus,
+	   locally_modifiable:false, //!terminal.centrallycontrolmenus,
 	   automatedPayment:terminal.usingautomatedpayment,
 	   
 	   creditPayment:sample_terminal.creditPayment,
