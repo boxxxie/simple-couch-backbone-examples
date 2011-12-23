@@ -1477,7 +1477,7 @@
 	<table style="float: left;">	
 	  <tr>
 	    <td><label for="description1">Description 1:</label></td>
-	    <td><input type="text" var="description1" id="description1" value="{{description1}}"/></td>
+	    <td width="10"><input type="text" var="description1" id="description1" value="{{description1}}"/></td>
 	  </tr>
 	  <tr>
 	    <td><label for="description2">Description 2:</label></td>
@@ -1496,33 +1496,31 @@
     </script>
     
     <script id="menuSetMenus_Right_TMP" type="text/html">
-      <label>{{menuSetMenusrighttitle}}</label>
       <form id="editMenuButton">
-
-	<label>Menu Label: </label>
-	<table style="float: left;">	
+	Menu Label:
+	<table>	
 	  {{#display}}
 	  <tr>
 	    <td><label for="editmenudescription0">Description 1:</label></td>
-	    <td><input type="text" var="display.description.0" id="editmenudescription0" value="{{description.0}}"/></td>
+	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" var="display.description.0" id="editmenudescription0" value="{{description.0}}"/></td>
 	  </tr>
 	  <tr>
 	    <td><label for="editmenudescription1">Description 2:</label></td>
-	    <td><input type="text" var="display.description.1" id="editmenudescription1" value="{{description.1}}"/></td>
+	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" var="display.description.1" id="editmenudescription1" value="{{description.1}}"/></td>
 	  </tr>
 	  <tr>
 	    <td><label for="editmenudescription2">Description 3:</label></td>
-	    <td><input type="text" var="display.description.2" id="editmenudescription2" value="{{description.2}}"/></td>
+	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" var="display.description.2" id="editmenudescription2" value="{{description.2}}"/></td>
 	  </tr>
 	  <tr>
 	    <td><label for="displayColor"> Color :</label></td>
-	    <td><input type="text" id="displayColor" var="display.color"  value="{{color}}" /></td>
+	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" id="displayColor" var="display.color"  value="{{color}}" /></td>
 	  </tr>	
 	  {{/display}}
 	  {{#foodItem}}
 	  <tr>
 	    <td><label>Price : </label></td>
-	    <td><input type="text" var="foodItem.price"  value="{{price}}" var_type="number" var_default="0"/></td>
+	    <td><input class="menuEditInput" type="text" var="foodItem.price"  value="{{price}}" var_type="number" var_default="0"/></td>
 	  </tr>
 	  {{/foodItem}}
 	</table>
@@ -1575,16 +1573,19 @@
 	<input type="hidden" var="display.position" var_type="number" var_default="0" value="{{position}}" />
 	{{/display}}
       </form>
-      
-      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="clearEditMenu();">
+      <ul style="list-style-type:none; float: left;">
+      	<li>
+      	<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="clearEditMenu();">
 	<span class="ui-button-text">Clear</span>
-      </button>			
+      </button>
       <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="saveEditMenu();">
 	<span class="ui-button-text">Save</span>
       </button>
       <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="closeEditMenu();">
 	<span class="ui-button-text">Close</span>
       </button>
+      </li>
+      </ul>
     </script>
     
     <script id="menuSetMenus_TMP" type="text/html">
@@ -1598,7 +1599,7 @@
 	  <td>
 	    <menusetmenuscenter></menusetmenuscenter>
 	  </td>
-	  <td>
+	  <td  rowspan="2">
 	    <menusetmenusright></menusetmenusright>
 	  </td>
 	</tr>
@@ -1606,7 +1607,6 @@
 	  <td>
 	    <menusetmenusbottom></menusetmenusbottom>
 	  </td>
-	  <td></td>
 	</tr>
       </table>
     </script>
