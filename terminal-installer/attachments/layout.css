@@ -108,6 +108,11 @@ input.menuButtonToggle {
     width:13px;
 }
 
+input.menuEditInput {
+    width:150px;
+    height:14px;
+}
+
 .installListItem
 {
     border: solid 1px gray;
@@ -116,3 +121,6 @@ input.menuButtonToggle {
     padding: 5px;
     margin: 5px;
 }
+
+
+
