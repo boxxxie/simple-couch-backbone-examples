@@ -1447,28 +1447,16 @@
     
     <script id="menuSetMenus_Bottom_TMP" type="text/html">
       <tr>
+    {{#menuButtonHeaders}}
 	<td>
-	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusScreen(1);">
-	    <span class="ui-button-text">{{menu1title}}</span>
-	    <!--<ul style="list-style-type: none; padding-left: 0px;"><li>Edit</li> <li>Menu1</li> <li>Header</li></ul>-->
+	  <button id="menubuttonheader{{menu_id}}" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false"><!--onClick="renderMenuSetMenusScreen({{menu_id}});"-->
+	    <ul style="list-style-type: none; padding-left: 0px;"><li>{{description1}}</li> <li>{{description2}}</li> <li>{{description3}}</li></ul>
 	  </button>	
 	</td>
-	<td>
-	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusScreen(2);">
-	    <span class="ui-button-text">{{menu2title}}</span>
-	  </button>	
-	</td>
-	<td>
-	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusScreen(3);">
-	    <span class="ui-button-text">{{menu3title}}</span>
-	  </button>	
-	</td>
-	<td>
-	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusScreen(4);">
-	    <span class="ui-button-text">{{menu4title}}</span>
-	  </button>	
-	</td>
+	{{/menuButtonHeaders}}
+
       </tr>
+
     </script>
 
     <script id="menuSetMenuHeader_TMP" type="text/html">

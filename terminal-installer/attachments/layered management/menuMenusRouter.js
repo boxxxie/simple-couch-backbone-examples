@@ -43,16 +43,27 @@ var menuSetMenusView =
 		  //var htmlcenter = ich.menuSetMenus_Center_TMP(menuModel.menu_screen(1));
 		  //$("menusetmenuscenter").html(htmlcenter);
 		  
-		  var menu1title = "MENU1";//menuModel.menuButtonHeaders[0].description1?"MENU1":menuModel.menuButtonHeaders[0].description1;
-		  var menu2title = "MENU2";//menuModel.menuButtonHeaders[1].description1?"MENU2":menuModel.menuButtonHeaders[1].description1;
-		  var menu3title = "MENU3";//menuModel.menuButtonHeaders[2].description1?"MENU3":menuModel.menuButtonHeaders[2].description1;
-		  var menu4title = "MENU4";//menuModel.menuButtonHeaders[3].description1?"MENU4":menuModel.menuButtonHeaders[3].description1;
+		  var menuModelHeaders = menuModel.get('menuButtonHeaders');
 		  
-		  var htmlbottom = ich.menuSetMenus_Bottom_TMP({menu1title:menu1title,
-		     						menu2title:menu2title,
-		     						menu3title:menu3title,
-		     						menu4title:menu4title});
+		menuModelHeaders = _.map(menuModelHeaders, function(item) {
+				if(_.isEmpty(item.description1) 
+			  		&& _.isEmpty(item.description2)
+			  		&& _.isEmpty(item.description3)) {
+				  	item.description2="MENU" + item.menu_id;
+				  }
+				  return item;
+		  });
+		  
+		  
+		  var htmlbottom = ich.menuSetMenus_Bottom_TMP({menuButtonHeaders:menuModelHeaders});
 		  $("menusetmenusbottom").html(htmlbottom);
+		  
+		  _.each(menuModelHeaders, function(item){
+		  	$("#menubuttonheader"+item.menu_id).button()
+					    .click(function(){
+						      renderMenuSetMenusScreen(item.menu_id);
+						   });;
+		  });
 		  
 		  //var htmlright = ich.menuSetMenus_Right_TMP({menuSetMenusrighttitle:"Edit Menu Item"});
 		  //$("menusetmenusright").html(htmlright);
