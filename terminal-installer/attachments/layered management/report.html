@@ -1398,27 +1398,27 @@
     
     <script id="menuSetMenus_Left_TMP" type="text/html">
       <tr><td>
-	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderMenuSetMenusScreen(0);">
+	  <button id="menumodifiersbutton" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
 	    <span class="ui-button-text">Modifiers</span>
 	  </button>	
       </td></tr>
       <tr><td>
-	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderEditHeader(1);">
+	  <button id="menueditheader1" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
 	    <span class="ui-button-text">Edit Menu1 Header</span>
 	  </button>	
       </td></tr>
       <tr><td>
-	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderEditHeader(2);">
+	  <button id="menueditheader2" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
 	    <span class="ui-button-text">Edit Menu2 Header</span>
 	  </button>	
       </td></tr>
       <tr><td>
-	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderEditHeader(3);">
+	  <button id="menueditheader3" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
 	    <span class="ui-button-text">Edit Menu3 Header</span>
 	  </button>	
       </td></tr>
       <tr><td>
-	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="renderEditHeader(4);">
+	  <button id="menueditheader4" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
 	    <span class="ui-button-text">Edit Menu4 Header</span>
 	  </button>	
       </td></tr>
@@ -1428,6 +1428,7 @@
     </script>
     
     <script id="menuSetMenus_Center_TMP" type="text/html">
+    	<label>{{menuscreentitle}}</label>
       <table border="1" cellpadding="10">
 	{{#menu_screen}}
 	<tr>
@@ -1482,6 +1483,8 @@
 	  </tr>	
 	</table>
 	<input type="hidden" var="menu_id" var_type="number" value="{{menu_id}}" />
+	<input type="hidden" var="defaultImage" value="{{defaultImage}}" />
+	<input type="hidden" var="image" value="{{image}}" />
       </form>
       <ul style="list-style-type:none; float: left;">
 	      	<li>

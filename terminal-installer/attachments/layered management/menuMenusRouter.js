@@ -17,7 +17,9 @@ var menuSetMenusView =
 	     view.el = $("main");
 	     
 	     _.bindAll(view, 
-		       'renderMenuSetMenusCompany');
+		       'renderMenuSetMenusCompany',
+		       'renderMenuHeaderPartial',
+		       'renderMenuScreenPartial');
 	     menuSetMenusRouter
 		 .bind('route:menuSetMenusCompany', 
 		       function(){
@@ -36,14 +38,45 @@ var menuSetMenusView =
 	     					   breadCrumb:breadCrumb(ReportData.company.companyName)});
 		  $(view.el).html(html);
 		  
+		  
 		  var htmlleft = ich.menuSetMenus_Left_TMP({});
 		  $("menusetmenusleft").html(htmlleft);
+		  $("#menumodifiersbutton").button()
+					    .click(function(){
+						      view.renderMenuScreenPartial(0);
+						      $("menusetmenusright").html({});
+						   });
+		 $("#menueditheader1").button()
+					    .click(function(){
+						      renderEditHeader(1);
+						   });
+		$("#menueditheader2").button()
+					    .click(function(){
+						      renderEditHeader(2);
+						   });
+		$("#menueditheader3").button()
+					    .click(function(){
+						      renderEditHeader(3);
+						   });
+		$("#menueditheader4").button()
+					    .click(function(){
+						      renderEditHeader(4);
+						   });						   						   
+						   
 		  
-		  renderMenuSetMenusScreen(1); // default menuscreen MENU1
-		  //var htmlcenter = ich.menuSetMenus_Center_TMP(menuModel.menu_screen(1));
-		  //$("menusetmenuscenter").html(htmlcenter);
+		  view.renderMenuScreenPartial(1);
+		  view.renderMenuHeaderPartial();
 		  
-		  var menuModelHeaders = menuModel.get('menuButtonHeaders');
+		  menuModel.bind("change:menuButtonHeaders",view.renderMenuHeaderPartial);
+		  menuModel.bind("change:menuButtons", view.renderMenuScreenPartial)
+		  
+		  console.log("rendered set menus");	
+	      }); 
+	     
+	 },
+	 renderMenuHeaderPartial: function() {
+	 	var view = this;
+	 	var menuModelHeaders = menuModel.get('menuButtonHeaders');
 		  
 		menuModelHeaders = _.map(menuModelHeaders, function(item) {
 				if(_.isEmpty(item.description1) 
@@ -61,27 +94,45 @@ var menuSetMenusView =
 		  _.each(menuModelHeaders, function(item){
 		  	$("#menubuttonheader"+item.menu_id).button()
 					    .click(function(){
-						      renderMenuSetMenusScreen(item.menu_id);
+						      view.renderMenuScreenPartial(item.menu_id);
+						      $("menusetmenusright").html({});
 						   });;
 		  });
-		  
-		  //var htmlright = ich.menuSetMenus_Right_TMP({menuSetMenusrighttitle:"Edit Menu Item"});
-		  //$("menusetmenusright").html(htmlright);
-		  
-		  console.log("rendered set menus");	
-	      }); 
-	     
+	 },
+	 renderMenuScreenPartial: function(model,menus,item) {
+	 	if(_.isNumber(model)){
+	 	    console.log("screen num : " + model);
+	 	    var menuscreentitle;
+	 	    
+	 	    if(model==0) {
+	 	    	menuscreentitle = "MODIFIERS";
+	 	    } else {
+	 	    	var header = menuModel.get_header(model);
+	 	    	menuscreentitle = "".concat(header.description1)
+	 	    						.concat(header.description2)
+	 	    						.concat(header.description3);
+	 	    }
+	 	    
+		    var htmlcenter = ich.menuSetMenus_Center_TMP(_.extend({menuscreentitle:menuscreentitle},menuModel.menu_screen(model)));
+		    $("menusetmenuscenter").html(htmlcenter);
+		    console.log("menuscreen rendered");
+		} else if(!_.isEmpty(item)) {
+			console.log("screen num : " + item.display.screen);
+			
+			var menuscreentitle;
+			var header = menuModel.get_header(item.display.screen);
+	 	    	menuscreentitle = "".concat(header.description1)
+	 	    						.concat(header.description2)
+	 	    						.concat(header.description3);
+	 	    						
+		    var htmlcenter = ich.menuSetMenus_Center_TMP(_.extend({menuscreentitle:menuscreentitle},menuModel.menu_screen(item.display.screen)));
+		    $("menusetmenuscenter").html(htmlcenter);
+		    console.log("menuscreen rendered");
+		}
 	 }
 	});
 
 /******************************************** helper functions ************************************/
-
-function renderMenuSetMenusScreen(numMenu) {
-    console.log("screen num : " + numMenu);
-    var htmlcenter = ich.menuSetMenus_Center_TMP(menuModel.menu_screen(numMenu));
-    $("menusetmenuscenter").html(htmlcenter);
-    console.log("menuscreen rendered");
-};
 
 function renderEditPage(num,position) {
     if(_.isNumber(position)) {
@@ -136,7 +187,7 @@ function saveEditMenu() {
     menuModel.save();
     
     console.log("menuModel, saved");
-    renderMenuSetMenusScreen(newButtonItemData.display.screen);
+//    renderMenuSetMenusScreen(newButtonItemData.display.screen);
     closeEditMenu();
 };
 
@@ -149,7 +200,16 @@ function closeEditHeader() {
 }
 
 function saveEditHeader() {
-	
+	var editDialog = $("#editMenuHeaderButton");
+
+    var newHeaderItemData = varFormGrabber(editDialog);
+
+    console.log("newHeaderItemData");
+    console.log(newHeaderItemData);
+    
+    menuModel.set_header(newHeaderItemData);    
+    menuModel.save();
+    closeEditMenu();
 }
 
 //menuModel.bind("change:menuButtonHeaders",function(){console.log('afdklsjsakjhaskdjhsadlkjhsladk')})

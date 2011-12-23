@@ -33,7 +33,7 @@ var Menu = couchDoc.extend(
 	    console.log("buttonToChange : ");
 	    console.log(this.find_button(newMenuButtons,screen,position));	    
 	    
-	    this.set({menuButtons:newMenuButtons});
+	    this.set({menuButtons:newMenuButtons},button);
 	},
 	set_header:function(newHeader){
 	    var screen = newHeader.menu_id;
@@ -48,7 +48,7 @@ var Menu = couchDoc.extend(
 	    		  }
 		      });
 
-	    this.set({menuButtonHeaders:newHeaders});
+	    this.set({menuButtonHeaders:newHeaders},newHeader);
 	},
 	get_button:function(screen,position){
 	    var menuButtons = this.get('menuButtons');
