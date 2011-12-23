@@ -7,12 +7,6 @@ var menuSetMenusRouter =
 	      },
 	      menuSetMenusCompany:function() {
 		  console.log("menuSetMenusCompany  ");
-	      },
-	      menuSetMenusGroup:function() {
-		  console.log("menuSetMenusGroup  ");
-	      },
-	      menuSetMenusStore:function() {
-		  console.log("menuSetMenusStore  ");
 	      }
 	     }));
 
@@ -23,9 +17,7 @@ var menuSetMenusView =
 	     view.el = $("main");
 	     
 	     _.bindAll(view, 
-		       'renderMenuSetMenusCompany',
-		       'renderMenuSetMenusGroup',
-		       'renderMenuSetMenusStore');
+		       'renderMenuSetMenusCompany');
 	     menuSetMenusRouter
 		 .bind('route:menuSetMenusCompany', 
 		       function(){
