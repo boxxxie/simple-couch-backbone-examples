@@ -88,18 +88,21 @@ function renderEditPage(num,position) {
 	//renderEditMenuItem
 	var button = menuModel.get_button(num,position);
 	
-	var htmlright = ich.menuSetMenus_Right_TMP(_.extend({menuSetMenusrighttitle:"Edit Menu Item"},button));
+	var htmlright = ich.menuSetMenus_Right_TMP(button);
 	$("menusetmenusright").html(htmlright);
 	
     } else {
 	//renderEditHeader
 	var menu_id=num;
+	var header  = menuModel.get_header(menu_id);
+	
+	var htmlright = ich.menuSetMenuHeader_TMP(header);
+	$("menusetmenusright").html(htmlright);
 	
     }
 };
 
 function renderEditHeader(numHeader) {
-    var header  = menuModel.get_header(numHeader);
     renderEditPage(numHeader);
 };
 
@@ -134,8 +137,20 @@ function saveEditMenu() {
     
     console.log("menuModel, saved");
     renderMenuSetMenusScreen(newButtonItemData.display.screen);
+    closeEditMenu();
 };
 
+function clearEditHeader() {
+	
+}
+
+function closeEditHeader() {
+	 $("menusetmenusright").html({});
+}
+
+function saveEditHeader() {
+	
+}
 
 //menuModel.bind("change:menuButtonHeaders",function(){console.log('afdklsjsakjhaskdjhsadlkjhsladk')})
 //menuModel.bind("change:menuButtons",function(){console.log('afdklsjsakjhaskdjhsadlkjhsladk')})

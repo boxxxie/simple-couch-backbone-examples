@@ -1465,22 +1465,37 @@
 	<table style="float: left;">	
 	  <tr>
 	    <td><label for="description1">Description 1:</label></td>
-	    <td width="10"><input type="text" var="description1" id="description1" value="{{description1}}"/></td>
+	    <td><input class="menuEditInput" type="text" var="description1" id="description1" value="{{description1}}"/></td>
 	  </tr>
 	  <tr>
 	    <td><label for="description2">Description 2:</label></td>
-	    <td><input type="text" var="description2" id="description2" value="{{description2}}"/></td>
+	    <td><input class="menuEditInput" type="text" var="description2" id="description2" value="{{description2}}"/></td>
 	  </tr>
 	  <tr>
 	    <td><label for="description3">Description 3:</label></td>
-	    <td><input type="text" var="description3" id="description3" value="{{description3}}"/></td>
+	    <td><input class="menuEditInput" type="text" var="description3" id="description3" value="{{description3}}"/></td>
 	  </tr>
 	  <tr>
 	    <td><label for="displayColor"> Color :</label></td>
-	    <td><input type="text" id="displayColor" var="display.color"  value="{{color}}" /></td>
+	    <td><input class="menuEditInput" type="text" id="displayColor" var="color"  value="{{color}}" /></td>
 	  </tr>	
 	</table>
+	<input type="hidden" var="menu_id" var_type="number" value="{{menu_id}}" />
       </form>
+      <ul style="list-style-type:none; float: left;">
+	      	<li>
+	      	<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="clearEditHeader();">
+		<span class="ui-button-text">Clear</span>
+	      </button>
+	      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="saveEditHeader();">
+		<span class="ui-button-text">Save</span>
+	      </button>
+	      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="closeEditHeader();">
+		<span class="ui-button-text">Close</span>
+	      </button>
+	      </li>
+	      </ul>
+	  </td>
     </script>
     
     <script id="menuSetMenus_Right_TMP" type="text/html">
@@ -1562,18 +1577,19 @@
 	{{/display}}
       </form>
       <ul style="list-style-type:none; float: left;">
-      	<li>
-      	<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="clearEditMenu();">
-	<span class="ui-button-text">Clear</span>
-      </button>
-      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="saveEditMenu();">
-	<span class="ui-button-text">Save</span>
-      </button>
-      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="closeEditMenu();">
-	<span class="ui-button-text">Close</span>
-      </button>
-      </li>
-      </ul>
+	      	<li>
+	      	<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="clearEditMenu();">
+		<span class="ui-button-text">Clear</span>
+	      </button>
+	      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="saveEditMenu();">
+		<span class="ui-button-text">Save</span>
+	      </button>
+	      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="closeEditMenu();">
+		<span class="ui-button-text">Close</span>
+	      </button>
+	      </li>
+	      </ul>
+	  </td>
     </script>
     
     <script id="menuSetMenus_TMP" type="text/html">
@@ -1589,7 +1605,6 @@
 	  </td>
 	  <td  rowspan="2">
 	    <menusetmenusright></menusetmenusright>
-	  </td>
 	</tr>
 	<tr>
 	  <td>
