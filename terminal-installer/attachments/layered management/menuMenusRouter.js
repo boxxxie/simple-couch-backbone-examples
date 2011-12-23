@@ -167,6 +167,20 @@ function renderEditPage(num,position) {
 	var htmlright = ich.menuSetMenuHeader_TMP(header);
 	$("menusetmenusright").html(htmlright);
 	
+	$("#displayColor").ColorPicker({
+		onSubmit: function(hsb, hex, rgb, el) {
+			$(el).val(rgb.r + "," + rgb.g + "," + rgb.b);
+			$(el).ColorPickerHide();
+		}
+		//,
+		//onBeforeShow: function () {
+		//	$(this).ColorPickerSetColor(this.value);
+		//}
+	})
+	.bind('keyup', function(){
+		//$(this).ColorPickerSetColor(this.value);
+	});
+	
     }
 };
 

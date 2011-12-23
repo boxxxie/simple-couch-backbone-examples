@@ -159,3 +159,7 @@
 .colorpicker_slider {
 	background-position: bottom;
 }
+
+.colorpicker_text {
+	width: 45px;
+}
