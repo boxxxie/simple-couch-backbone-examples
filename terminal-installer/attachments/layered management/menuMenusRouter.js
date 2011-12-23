@@ -146,6 +146,19 @@ function renderEditPage(num,position) {
 	var htmlright = ich.menuSetMenus_Right_TMP(button);
 	$("menusetmenusright").html(htmlright);
 	
+	$("#displayColor").ColorPicker({
+		onSubmit: function(hsb, hex, rgb, el) {
+			$(el).val(rgb.r + "," + rgb.g + "," + rgb.b);
+			$(el).ColorPickerHide();
+		},
+		onBeforeShow: function () {
+			$(this).ColorPickerSetColor(this.value);
+		}
+	})
+	.bind('keyup', function(){
+		$(this).ColorPickerSetColor(this.value);
+	});
+	
     } else {
 	//renderEditHeader
 	var menu_id=num;
@@ -191,7 +204,6 @@ function saveEditMenu() {
     menuModel.save();
     
     console.log("menuModel, saved");
-//    renderMenuSetMenusScreen(newButtonItemData.display.screen);
     closeEditMenu();
 };
 
@@ -215,6 +227,3 @@ function saveEditHeader() {
     menuModel.save();
     closeEditMenu();
 }
-
-//menuModel.bind("change:menuButtonHeaders",function(){console.log('afdklsjsakjhaskdjhsadlkjhsladk')})
-//menuModel.bind("change:menuButtons",function(){console.log('afdklsjsakjhaskdjhsadlkjhsladk')})
