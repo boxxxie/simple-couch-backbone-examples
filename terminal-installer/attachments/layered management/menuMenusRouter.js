@@ -120,10 +120,14 @@ var menuSetMenusView =
 			console.log("screen num : " + item.display.screen);
 			
 			var menuscreentitle;
-			var header = menuModel.get_header(item.display.screen);
+			if(item.display.screen==0) {
+	 	    	menuscreentitle = "MODIFIERS";
+	 	    } else {
+	 	    	var header = menuModel.get_header(item.display.screen);
 	 	    	menuscreentitle = "".concat(header.description1)
 	 	    						.concat(header.description2)
 	 	    						.concat(header.description3);
+	 	    }
 	 	    						
 		    var htmlcenter = ich.menuSetMenus_Center_TMP(_.extend({menuscreentitle:menuscreentitle},menuModel.menu_screen(item.display.screen)));
 		    $("menusetmenuscenter").html(htmlcenter);
