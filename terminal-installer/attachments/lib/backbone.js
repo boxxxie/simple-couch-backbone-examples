@@ -829,10 +829,18 @@
 		  // calls `loadUrl`, normalizing across the hidden iframe.
 		  checkUrl : function(e) {
 		      var current = this.getFragment();
-		      if (current == this.fragment && this.iframe) current = this.getFragment(this.iframe.location.hash);
-		      if (current == this.fragment || current == decodeURIComponent(this.fragment)) return false;
-		      if (this.iframe) this.navigate(current);
-		      this.loadUrl() || this.loadUrl(window.location.hash);
+		      try{
+			  if (current == this.fragment && this.iframe){
+			      current = this.getFragment(this.iframe.location.hash);}
+		      }
+		      catch(e){
+
+		      }
+		      finally{
+			  if (current == this.fragment || current == decodeURIComponent(this.fragment)) return false;
+			  if (this.iframe) this.navigate(current);
+			  this.loadUrl() || this.loadUrl(window.location.hash);
+		      }
 		  },
 
 		  // Attempt to load the current URL fragment. If a route succeeds with a

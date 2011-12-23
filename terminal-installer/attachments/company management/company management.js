@@ -257,7 +257,8 @@ function doc_setup(){
 	     companyManagementHome:function(){
 		 console.log("companyManagementHome");
 		 var html = ich.company_management_page_TMP({createButtonLabel:"New Company"});
-		 $('body').html(html);
+		 //TODO this should be refactored out to a render function
+		 $('#main').html(html);
 		 $("#create-dialog")
 		     .html(ich.companyInputDialog_TMP(
 			       {title:"Make a new Company",
@@ -275,7 +276,7 @@ function doc_setup(){
 		 var html = ich.group_management_page_TMP(_.extend({createButtonLabel:"New Group",
 								    company:companyJSON},
 								   breadCrumb(companyID)));
-		 $('body').html(html);
+		 $("#main").html(html);
 		 $("#create-dialog")
 		     .html(ich.groupInputDialog_TMP(
 			       {title:"Make a new Group",
@@ -297,7 +298,7 @@ function doc_setup(){
 								    company_id:company.get('_id'),
 								    groupName:company.getGroup(groupID).groupName},
 								   breadCrumb(companyID,groupID)));
-		 $('body').html(html);
+		 $("#main").html(html);
 		 $("#create-dialog")
 		     .html(ich.storeInputDialog_TMP(
 			       {title:"Make a new Store",
@@ -322,7 +323,7 @@ function doc_setup(){
 			       groupName:company.getGroup(groupID).groupName,
 			       storeName:store.storeName},
 			      breadCrumb(companyID,groupID,storeID)));
-		 $('body').html(html);
+		 $("#main").html(html);
 		 $("#create-dialog")
 		     .html(ich.terminalInputDialog_TMP(
 			       {title:"Make a new Terminal",terminal:{}}));
@@ -365,7 +366,7 @@ function doc_setup(){
 						    company_id:company._id};
 			       return _.extend(companyClone,companyStats,quickViewArgs);})};
 	     var html = ich.companiesTabel_TMP(forTMP_w_stats);
-	     $(this.el).html(html);
+	     $(view.el).html(html);
 	     console.log("companiesView renderManagementPage");
 	     return this;
 	 },
@@ -373,9 +374,9 @@ function doc_setup(){
 	     var view = this;
 	     var company = Companies.getModelById(id);
 	     var companyJSON = company.toJSON();
-	     $('body').html(ich.modify_company_page_TMP(_.extend({company:companyJSON,
-								  company_id:id},
-								 breadCrumb(id))));
+	     $("#main").html(ich.modify_company_page_TMP(_.extend({company:companyJSON,
+								   company_id:id},
+								  breadCrumb(id))));
 	     $('fieldset').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.companyInputDialog_TMP({title:"Edit the Company",
 								company:companyJSON}));
@@ -421,7 +422,7 @@ function doc_setup(){
 						    group_id:group.group_id};
 			       return _.extend(groupClone,companyStats,quickViewArgs);})};
 	     var html = ich.groupsTabel_TMP(forTMP);
-	     $(this.el).html(html);
+	     $(view.el).html(html);
 	     console.log("renderManagementPage groupsView");
 	     return this;
 	 },
@@ -429,12 +430,12 @@ function doc_setup(){
 	     var view = this;
 	     var company = Companies.getModelById(companyID);
 	     var selectedgroup = view.model.getGroup(groupID);
-	     $('body').html(ich.modify_group_page_TMP(_.extend({company_id:company.get("_id"), 
-								group_id:selectedgroup.group_id, 
-								groupName:selectedgroup.groupName, 
-								operationalname:company.get("operationalname"),
-								group:selectedgroup},
-							       breadCrumb(companyID,groupID))));
+	     $("#main").html(ich.modify_group_page_TMP(_.extend({company_id:company.get("_id"), 
+								 group_id:selectedgroup.group_id, 
+								 groupName:selectedgroup.groupName, 
+								 operationalname:company.get("operationalname"),
+								 group:selectedgroup},
+								breadCrumb(companyID,groupID))));
              $('fieldset').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.groupInputDialog_TMP({title:"Edit the Group",group:selectedgroup}));
 	     GroupModifyDialog("edit-thing",_.extend(editGroup(companyID,groupID), {company:company, groupName:selectedgroup.groupName}));
@@ -501,7 +502,7 @@ function doc_setup(){
 							    store_id:storeToEdit.store_id,
 							    store: storeToEdit},
 							   breadCrumb(companyID,groupID,storeID)));
-	     $('body').html(html);
+	     $("#main").html(html);
 	     $('fieldset').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.storeInputDialog_TMP({title:"Edit the store",store:storeToEdit}));
 	     StoreModifyDialog("edit-thing",_.extend(editStore(companyID,groupID,storeID),{company:company, groupID:groupID, storeNum:storeToEdit.number }));
@@ -561,7 +562,7 @@ function doc_setup(){
 			   store_id:storeID,
 			   group_id:groupID,
 			   company_id:companyID}));
-	     $('body').html(html);
+	     $("#main").html(html);
 	     $('fieldset').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.terminalInputDialog_TMP({title:"Edit the Terminal",terminal:terminalToEdit}));
 	     TerminalModifyDialog("edit-thing",editTerminal(companyID,groupID,storeID,terminalID));
@@ -572,19 +573,19 @@ function doc_setup(){
     companiesViewTest = new companiesView(
 	{
 	    collection: Companies,
-	    el:_.first($("#companies"))
+	    //el:_.first($("#companies"))
 	});
     groupsViewTest = new groupsView(
 	{
-	    el:_.first($("#groups"))
+	    //el:_.first($("#groups"))
 	});
     storesViewTest = new storesView(
 	{
-	    el:_.first($("#stores"))
+	    //el:_.first($("#stores"))
 	});
     terminalsViewTest = new terminalsView(
 	{
-	    el:_.first($("#terminals"))
+	    //el:_.first($("#terminals"))
 	});
 
     Backbone.history.start();
