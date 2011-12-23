@@ -58,7 +58,7 @@ function formGrabber($form,varName){
 		     }
 		     return [jsPather($el.attr(varName)),transformedVal,$el];
 		 }
-		 return [jsPather($el.attr(varName)),$el.val(),$el];
+		 return [jsPather($el.attr(varName)),value,$el];
 	     })
 	.reduce(function(obj,cur_keyVal){
 		    //consume the path-value list and make the object it represents
