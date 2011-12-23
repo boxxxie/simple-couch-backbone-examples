@@ -21,26 +21,34 @@ var Menu = couchDoc.extend(
 	    var position = button.display.position;
 	    var menuButtons = this.get('menuButtons');
 	    
-	    var newMenuButtons = _.map(menuButtons, function(menubutton){
-	    	if(menubutton.display.screen==screen&&menubutton.display.position==position) {
-	    		return button;
-	    	}else {
-	    		return menubutton;
-	    	}
-	    });
-	    //var buttonToChange = this.find_button(menuButtons,screen,position);
-	    //buttonToChange = button;
+	    var newMenuButtons = 
+		_.map(menuButtons, function(menubutton){
+	    		  if(menubutton.display.screen==screen && menubutton.display.position==position) {
+	    		      return button;
+	    		  }else {
+	    		      return menubutton;
+	    		  }
+		      });
 	    
 	    console.log("buttonToChange : ");
-	    console.log(this.find_button(newMenuButtons,screen,position));
-	    
-	    //_.each(menuButtons, function(button){
-	    //	console.log("screen, position : " + button.display.screen + ", " + button.display.position);
-	    //	console.log(button);
-	    //});
-	    
+	    console.log(this.find_button(newMenuButtons,screen,position));	    
 	    
 	    this.set({menuButtons:newMenuButtons});
+	},
+	set_header:function(newHeader){
+	    var screen = newHeader.menu_id;
+	    var menuHeaders = this.get('menuButtonHeaders');
+
+	    var newHeaders = 
+		_.map(menuHeaders, function(header){
+	    		  if(header.menu_id == screen) {
+	    		      return newHeader;
+	    		  }else {
+	    		      return header;
+	    		  }
+		      });
+
+	    this.set({menuButtonHeaders:newHeaders});
 	},
 	get_button:function(screen,position){
 	    var menuButtons = this.get('menuButtons');
