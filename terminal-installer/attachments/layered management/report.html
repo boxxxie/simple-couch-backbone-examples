@@ -461,7 +461,7 @@
     </script>
 
     <script id="cashOutReportDialog_TMP" type="text/html">
-      <cashoutdialog>
+      <div id='cashoutdialog'>
 	<table border="1">
 	  <tr>
 	    <th>YESTERDAY</th>
@@ -480,13 +480,13 @@
 	    </td>
 	  </tr>
 	</table>
-      </cashoutdialog>
+      </div>
     </script>
     
     
     <!----------------------------------- TaxCollected quickviewDialog -------------------------------->
     <script id="taxCollectedQuickViewDialog_TMP" type="text/html">
-      <taxcollecteddialog>
+      <div id='taxcollecteddialog'>
 	<table border="1">
 	  <tr>
 	    <th>Transaction #</th>
@@ -518,12 +518,12 @@
 	  </tr>
 	  {{/totals}}
 	</table>
-      </taxcollecteddialog>
+      </div>
     </script>
     
     <!-------------------------------------- menureports cashout quickview dialog tmp -------------------->
     <script id="menuReportsCashoutQuickViewDialog_TMP" type="text/html">
-      <menucashoutdialog>
+      <div id='menucashoutdialog'>
       	<table>
   	  {{>cashoutheader_P}}
   	  <tr><td colspan="3">----------------------------------------------------------------------</td></tr>
@@ -545,12 +545,12 @@
 	  <tr><td colspan="3">===================================</td></tr>
 	  {{>salesByCategory_P}}
       	</table>
-      </menucashoutdialog>
+      </div>
     </script>
     
     <!-------------------------------------- general transaction quickview dialog tmp -------------------->
     <script id="generalTransactionQuickViewDialog_TMP" type="text/html">
-      <transactiondialog>
+      <div id="transactiondialog">
       	<table>
       	  <tr>
       	    <td colspan="2" align="left">Store ID: {{storename}}</td>
@@ -709,7 +709,7 @@
   	  
   	  {{/payments}}
       	</table>
-      </transactiondialog>
+      </div>
     </script>
     
     <!-------------------------------------------- MENU REPORTS ------------------------------------------------>

@@ -1,7 +1,7 @@
 
 /********************* management page and groups/stores/terminals table quickview dialog ************/
 function quickReportViewDialog (html,options) {
-	var form = $(html).filter('cashoutdialog');
+	var form = $(html).filter('#cashoutdialog');
     var d = $("#dialog-quickView");    	
     d.html(form);
     d.find('input').attr('disabled',true);
@@ -51,7 +51,7 @@ function quickReportView(id, title){
 
 /******************************* menuReports - tax collected quick view dialog ************************/
 function quickTaxViewDialog (html,options) {
-	var form = $(html).filter('taxcollecteddialog');
+	var form = $(html).filter('#taxcollecteddialog');
     var d = $("#dialog-quickView");    	
     d.html(form);
     d.find('input').attr('disabled',true);
@@ -88,7 +88,7 @@ function quickTaxView(id, title, firstindex, lastindex) {
 
 /********************************** menuReports - cashouts quick view dialog *****************************/
 function quickmenuReportsCashoutViewDialog (html,options) {
-	var form = $(html).filter('menucashoutdialog');
+	var form = $(html).filter('#menucashoutdialog');
     var d = $("#dialog-quickView");    	
     d.html(form);
     d.find('input').attr('disabled',true);
@@ -111,7 +111,7 @@ function quickmenuReportsCashoutViewDialog (html,options) {
 
 /********************************** menuReports - cancelled trans quick view dialog *****************************/
 function quickmenuReportsTransactionViewDialog (html,options) {
-	var form = $(html).filter('transactiondialog');
+	var form = $(html).filter('#transactiondialog');
     var d = $("#dialog-quickView");    	
     d.html(form);
     d.find('input').attr('disabled',true);

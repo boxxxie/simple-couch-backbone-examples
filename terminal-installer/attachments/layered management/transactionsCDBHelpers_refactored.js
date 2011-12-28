@@ -44,7 +44,7 @@ function applyReceiptInfo(templateData){
 		     var item = _.clone(an_item);
 		     //FIXME : date format ("2011-12-20T21:27:37")
 			//how about we return the date obj too instead of making it here?
-		     var t = new Date((item.date).replace(" ","T"));
+		     var t = jodaDateParser(item.date);
 		     item.processday = _(t.toDateString().split(' ')).chain().rest().join(' ').value();
 		     item.processtime = t.toString("h:mm").concat(t.getHours()>=12?" PM":" AM");
 		     item.transactionNumber = item.receipt_id+"-"+item.transactionNumber;

@@ -354,8 +354,8 @@ function renderElectronicPaymentsTable() {
 		 var html = ich.electronicPaymentsTabel_TMP({items:data_TMP,totals:totals});
 	     }
 	     $("#reporttable").html(html);
-	     _.each(data_TMP, function(item){
-			var item = _.clone(item);
+	     _.each(data_TMP, function(transaction){
+			var item = _.clone(transaction);
 			
 			var dialogtitle=getDialogTitle(ReportData,item.name);
 			
