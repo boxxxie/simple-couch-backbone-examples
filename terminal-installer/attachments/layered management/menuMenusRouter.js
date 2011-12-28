@@ -40,11 +40,11 @@ var menuSetMenusView =
 		  
 		  
 		  var htmlleft = ich.menuSetMenus_Left_TMP({});
-		  $("menusetmenusleft").html(htmlleft);
+		  $("#menusetmenusleft").html(htmlleft);
 		  $("#menumodifiersbutton").button()
 					    .click(function(){
 						      view.renderMenuScreenPartial(0);
-						      $("menusetmenusright").html({});
+						      $("#menusetmenusright").html({});
 						   });
 		 $("#menueditheader1").button()
 					    .click(function(){
@@ -89,13 +89,13 @@ var menuSetMenusView =
 		  
 		  
 		  var htmlbottom = ich.menuSetMenus_Bottom_TMP({menuButtonHeaders:menuModelHeaders});
-		  $("menusetmenusbottom").html(htmlbottom);
+		  $("#menusetmenusbottom").html(htmlbottom);
 		  
 		  _.each(menuModelHeaders, function(item){
 		  	$("#menubuttonheader"+item.menu_id).button()
 					    .click(function(){
 						      view.renderMenuScreenPartial(item.menu_id);
-						      $("menusetmenusright").html({});
+						      $("#menusetmenusright").html({});
 						   });;
 		  });
 	 },
@@ -114,7 +114,7 @@ var menuSetMenusView =
 	 	    }
 	 	    
 		    var htmlcenter = ich.menuSetMenus_Center_TMP(_.extend({menuscreentitle:menuscreentitle},menuModel.menu_screen(model)));
-		    $("menusetmenuscenter").html(htmlcenter);
+		    $("#menusetmenuscenter").html(htmlcenter);
 		    
 		    console.log("menuscreen rendered");
 		} else if(!_.isEmpty(item)) {
@@ -131,7 +131,7 @@ var menuSetMenusView =
 	 	    }
 	 	    						
 		    var htmlcenter = ich.menuSetMenus_Center_TMP(_.extend({menuscreentitle:menuscreentitle},menuModel.menu_screen(item.display.screen)));
-		    $("menusetmenuscenter").html(htmlcenter);
+		    $("#menusetmenuscenter").html(htmlcenter);
 		    console.log("menuscreen rendered");
 		}
 	 }
@@ -145,7 +145,7 @@ function renderEditPage(num,position) {
 	var button = menuModel.get_button(num,position);
 	
 	var htmlright = ich.menuSetMenus_Right_TMP(button);
-	$("menusetmenusright").html(htmlright);
+	$("#menusetmenusright").html(htmlright);
 
 	// if modifier menu, disable modifier/read scale button
 	// otherwise(menu), disable duplicate button	
@@ -177,7 +177,7 @@ function renderEditPage(num,position) {
 	var header  = menuModel.get_header(menu_id);
 	
 	var htmlright = ich.menuSetMenuHeader_TMP(header);
-	$("menusetmenusright").html(htmlright);
+	$("#menusetmenusright").html(htmlright);
 	
 	$("#displayColor").ColorPicker({
 		onSubmit: function(hsb, hex, rgb, el) {
@@ -208,7 +208,7 @@ function clearEditMenu() {
 };
 
 function closeEditMenu() {
-    $("menusetmenusright").html({});
+    $("#menusetmenusright").html({});
 };
 
 function saveEditMenu() {
@@ -237,7 +237,7 @@ function clearEditHeader() {
 }
 
 function closeEditHeader() {
-	 $("menusetmenusright").html({});
+	 $("#menusetmenusright").html({});
 }
 
 function saveEditHeader() {
