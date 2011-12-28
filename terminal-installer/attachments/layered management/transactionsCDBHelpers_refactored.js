@@ -14,6 +14,7 @@ function addPropertiesTogether(addTo,addFrom){
     return addTo;
 }
 function jodaDateParser(dateString){
+    if(_.isDate(dateString)){return dateString;}
     //var dateMatch =  /([\d-])+([\d:])+/g;
     var dateMatch = /(\d{2,4})/g;
     var match = (dateString).match(dateMatch);
