@@ -115,15 +115,20 @@ var menuSetMenusView =
 	 	    
 		    var htmlcenter = ich.menuSetMenus_Center_TMP(_.extend({menuscreentitle:menuscreentitle},menuModel.menu_screen(model)));
 		    $("menusetmenuscenter").html(htmlcenter);
+		    
 		    console.log("menuscreen rendered");
 		} else if(!_.isEmpty(item)) {
 			console.log("screen num : " + item.display.screen);
 			
 			var menuscreentitle;
-			var header = menuModel.get_header(item.display.screen);
+			if(item.display.screen==0) {
+	 	    	menuscreentitle = "MODIFIERS";
+	 	    } else {
+	 	    	var header = menuModel.get_header(item.display.screen);
 	 	    	menuscreentitle = "".concat(header.description1)
 	 	    						.concat(header.description2)
 	 	    						.concat(header.description3);
+	 	    }
 	 	    						
 		    var htmlcenter = ich.menuSetMenus_Center_TMP(_.extend({menuscreentitle:menuscreentitle},menuModel.menu_screen(item.display.screen)));
 		    $("menusetmenuscenter").html(htmlcenter);
@@ -141,6 +146,30 @@ function renderEditPage(num,position) {
 	
 	var htmlright = ich.menuSetMenus_Right_TMP(button);
 	$("menusetmenusright").html(htmlright);
+
+	// if modifier menu, disable modifier/read scale button
+	// otherwise(menu), disable duplicate button	
+	if(num==0) {
+		var btnHasModifier = $("#has_modifier");
+		var btnUseScale = $("#use_scale");
+		btnHasModifier.attr('disabled',true);
+		btnUseScale.attr('disabled',true);
+	} else {
+	    var btnDuplicate = $("#duplicate");
+	    btnDuplicate.attr('disabled',true);
+	}
+	$("#displayColor").ColorPicker({
+		onSubmit: function(hsb, hex, rgb, el) {
+			$(el).val(rgb.r + "," + rgb.g + "," + rgb.b);
+			$(el).ColorPickerHide();
+		},
+		onBeforeShow: function () {
+			$(this).ColorPickerSetColor(this.value);
+		}
+	})
+	.bind('keyup', function(){
+		$(this).ColorPickerSetColor(this.value);
+	});
 	
     } else {
 	//renderEditHeader
@@ -149,6 +178,19 @@ function renderEditPage(num,position) {
 	
 	var htmlright = ich.menuSetMenuHeader_TMP(header);
 	$("menusetmenusright").html(htmlright);
+	
+	$("#displayColor").ColorPicker({
+		onSubmit: function(hsb, hex, rgb, el) {
+			$(el).val(rgb.r + "," + rgb.g + "," + rgb.b);
+			$(el).ColorPickerHide();
+		},
+		onBeforeShow: function () {
+			$(this).ColorPickerSetColor(this.value);
+		}
+	})
+	.bind('keyup', function(){
+		$(this).ColorPickerSetColor(this.value);
+	});
 	
     }
 };
@@ -187,7 +229,6 @@ function saveEditMenu() {
     menuModel.save();
     
     console.log("menuModel, saved");
-//    renderMenuSetMenusScreen(newButtonItemData.display.screen);
     closeEditMenu();
 };
 
@@ -211,6 +252,3 @@ function saveEditHeader() {
     menuModel.save();
     closeEditMenu();
 }
-
-//menuModel.bind("change:menuButtonHeaders",function(){console.log('afdklsjsakjhaskdjhsadlkjhsladk')})
-//menuModel.bind("change:menuButtons",function(){console.log('afdklsjsakjhaskdjhsadlkjhsladk')})
