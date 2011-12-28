@@ -38,7 +38,6 @@ var ZEROED_FIELDS = {allDiscount: 0,
 		     lastindex:0};
 
 function toFixed(mag){
-	
     function roundNumber(rnum, rlength) { // Arguments: number to round, number of decimal places
 	var newnumber = Math.round(rnum*Math.pow(10,rlength))/Math.pow(10,rlength);
 	return parseFloat(newnumber); // Output the result to the form field (change for your purposes)
@@ -51,59 +50,8 @@ function toFixed(mag){
     };
 }
 
-function toFixedWithSep(mag){
-	function FormatNumberBy3(num, decpoint, sep) {
-	  // check for missing parameters and use defaults if so
-	  if (arguments.length == 2) {
-	    sep = ",";
-	  }
-	  if (arguments.length == 1) {
-	    sep = ",";
-	    decpoint = ".";
-	  }
-	  // need a string for operations
-	  num = num.toString();
-	  // separate the whole number and the fraction if possible
-	  a = num.split(decpoint);
-	  x = a[0]; // decimal
-	  y = a[1]; // fraction
-	  z = "";
-	
-	
-	  if (typeof(x) != "undefined") {
-	    // reverse the digits. regexp works from left to right.
-	    for (i=x.length-1;i>=0;i--)
-	      z += x.charAt(i);
-	    // add seperators. but undo the trailing one, if there
-	    z = z.replace(/(\d{3})/g, "$1" + sep);
-	    if (z.slice(-sep.length) == sep)
-	      z = z.slice(0, -sep.length);
-	    x = "";
-	    // reverse again to get back the number
-	    for (i=z.length-1;i>=0;i--)
-	      x += z.charAt(i);
-	    // add the fraction back in, if it was there
-	    if (typeof(y) != "undefined" && y.length > 0)
-	      x += decpoint + y;
-	  }
-	  return x;
-	}
-	
-    function roundNumber(rnum, rlength) { // Arguments: number to round, number of decimal places
-	var newnumber = Math.round(rnum*Math.pow(10,rlength))/Math.pow(10,rlength);
-	return parseFloat(newnumber); // Output the result to the form field (change for your purposes)
-    }
-    return function(num){
-    	var tmpNum = Number(num);
-	if(!_.isNaN(tmpNum) && _.isNumber(tmpNum)){
-		if(tmpNum>=0) {
-	    	return FormatNumberBy3(roundNumber(tmpNum,mag).toFixed(mag),".",",");
-	   } else {
-	   		return "-" + FormatNumberBy3(roundNumber(tmpNum*(-1),mag).toFixed(mag),".",",");
-	   }
-	}
-	return num;
-    };
+function currency_format(num){
+    return format(",##0.00",toFixed(2)(num));
 }
 
 function addPropertiesTogether(addTo,addFrom){

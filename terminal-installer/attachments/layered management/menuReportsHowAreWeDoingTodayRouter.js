@@ -177,7 +177,7 @@ function renderHowAreWeGroupsTable(view, startPage) {
     				
     				for_TMP  = appendTotalColum(for_TMP);
     				
-					for_TMP = _.applyToValues(for_TMP,toFixedWithSep(2),true);
+					for_TMP = _.applyToValues(for_TMP,currency_format,true);
 					for_TMP.items = _.map(for_TMP.items, function(item){
 						item.refunds = Number(item.refunds)+"";
 						item.transactions = Number(item.transactions)+"";
@@ -225,7 +225,7 @@ function renderHowAreWeStoresTable(view, startPage, group_id) {
     				
     				for_TMP  = appendTotalColum(for_TMP);
     	
-					for_TMP = _.applyToValues(for_TMP,toFixedWithSep(2),true);
+					for_TMP = _.applyToValues(for_TMP,currency_format,true);
 					for_TMP.items = _.map(for_TMP.items, function(item){
 						item.refunds = Number(item.refunds)+"";
 						item.transactions = Number(item.transactions)+"";
@@ -288,7 +288,7 @@ function renderHowAreWeTerminalsTable(view, startPage, store_id) {
     howAreWeDoingTodayTerminalReportFetcher(newTerminals,parent_id,function(for_TMP){
     	
     					for_TMP  = appendTotalColum(for_TMP);
-    					for_TMP = _.applyToValues(for_TMP,toFixedWithSep(2),true);
+    					for_TMP = _.applyToValues(for_TMP,currency_format,true);
     					for_TMP.items = _.map(for_TMP.items, function(item){
 							item.refunds = Number(item.refunds)+"";
 							item.transactions = Number(item.transactions)+"";

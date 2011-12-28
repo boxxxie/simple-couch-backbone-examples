@@ -296,30 +296,30 @@ function extractSalesDetailTableInfo(list) {
     function getSalesDetail(item) {
     	return {
 	    numberoftransactions:Number(item.noofsale)+"",
-	    sales:toFixedWithSep(2)(item.netsales),
-	    tax1:toFixedWithSep(2)(item.netsaletax1),
-	    tax3:toFixedWithSep(2)(item.netsaletax3),
-	    totalsales:toFixedWithSep(2)(Number(item.netsalestotal)),
-	    cash:toFixedWithSep(2)(item.cashpayment),
-	    credit:toFixedWithSep(2)(item.creditpayment),
-	    debit:toFixedWithSep(2)(item.debitpayment),
-	    mobile:toFixedWithSep(2)(item.mobilepayment),
-	    other:toFixedWithSep(2)(item.otherpayment)
+	    sales:currency_format(item.netsales),
+	    tax1:currency_format(item.netsaletax1),
+	    tax3:currency_format(item.netsaletax3),
+	    totalsales:currency_format(Number(item.netsalestotal)),
+	    cash:currency_format(item.cashpayment),
+	    credit:currency_format(item.creditpayment),
+	    debit:currency_format(item.debitpayment),
+	    mobile:currency_format(item.mobilepayment),
+	    other:currency_format(item.otherpayment)
 		};
     };
     
     function getRefundsDetail(item) {
     	var refund,tax1,tax3,total,cash,credit,debit,mobile,other;
     	
-    	refund = ((Number(item.netrefund))>0)? "-" + toFixedWithSep(2)(item.netrefund):toFixedWithSep(2)(item.netrefund);
-    	tax1 = ((Number(item.netrefundtax1))>0)? "-" + toFixedWithSep(2)(item.netrefundtax1):toFixedWithSep(2)(item.netrefundtax1);
-    	tax3 = ((Number(item.netrefundtax3))>0)? "-" + toFixedWithSep(2)(item.netrefundtax3):toFixedWithSep(2)(item.netrefundtax3);
-    	total = ((Number(item.netrefundtotal))>0)? "-" + toFixedWithSep(2)(item.netrefundtotal):toFixedWithSep(2)(item.netrefundtotal);
-    	cash = ((Number(item.cashrefund))>0)? "-" + toFixedWithSep(2)(item.cashrefund):toFixedWithSep(2)(item.cashrefund);
-    	credit = ((Number(item.creditrefund))>0)? "-" + toFixedWithSep(2)(item.creditrefund):toFixedWithSep(2)(item.creditrefund);
-    	debit = ((Number(item.debitrefund))>0)? "-" + toFixedWithSep(2)(item.debitrefund):toFixedWithSep(2)(item.debitrefund);
-    	mobile = ((Number(item.mobilerefund))>0)? "-" + toFixedWithSep(2)(item.mobilerefund):toFixedWithSep(2)(item.mobilerefund);
-    	other = ((Number(item.otherrefund))>0)? "-" + toFixedWithSep(2)(item.otherrefund):toFixedWithSep(2)(item.otherrefund);
+    	refund = ((Number(item.netrefund))>0)? "-" + currency_format(item.netrefund):currency_format(item.netrefund);
+    	tax1 = ((Number(item.netrefundtax1))>0)? "-" + currency_format(item.netrefundtax1):currency_format(item.netrefundtax1);
+    	tax3 = ((Number(item.netrefundtax3))>0)? "-" + currency_format(item.netrefundtax3):currency_format(item.netrefundtax3);
+    	total = ((Number(item.netrefundtotal))>0)? "-" + currency_format(item.netrefundtotal):currency_format(item.netrefundtotal);
+    	cash = ((Number(item.cashrefund))>0)? "-" + currency_format(item.cashrefund):currency_format(item.cashrefund);
+    	credit = ((Number(item.creditrefund))>0)? "-" + currency_format(item.creditrefund):currency_format(item.creditrefund);
+    	debit = ((Number(item.debitrefund))>0)? "-" + currency_format(item.debitrefund):currency_format(item.debitrefund);
+    	mobile = ((Number(item.mobilerefund))>0)? "-" + currency_format(item.mobilerefund):currency_format(item.mobilerefund);
+    	other = ((Number(item.otherrefund))>0)? "-" + currency_format(item.otherrefund):currency_format(item.otherrefund);
     	
     	return {
 	    numberoftransactions:Number(item.noofrefund)+"",
@@ -356,7 +356,7 @@ function extractSalesDetailTableInfo(list) {
 	var input = _.clone(inputs);
 	var total={};
 	
-	total.totalsales = toFixedWithSep(2)(_(input.list).chain()
+	total.totalsales = currency_format(_(input.list).chain()
 				      .pluck('totalrow')
 				      .reduce(function(init,item){ return Number(item.sales)+init;},0)
 				      .value())
@@ -366,35 +366,35 @@ function extractSalesDetailTableInfo(list) {
 				    .pluck('totalrow')
 				    .reduce(function(init,item){ return Number(item.numberoftransactions)+init;},0)
 				    .value();
-	total.totaltax1 = toFixedWithSep(2)(_(input.list).chain()
+	total.totaltax1 = currency_format(_(input.list).chain()
 				     .pluck('totalrow')
 				     .reduce(function(init,item){ return Number(item.tax1)+init;},0)
 				     .value());
-	total.totaltax3 = toFixedWithSep(2)(_(input.list).chain()
+	total.totaltax3 = currency_format(_(input.list).chain()
 				     .pluck('totalrow')
 				     .reduce(function(init,item){ return Number(item.tax3)+init;},0)
 				     .value());
-	total.totaltotalsales = toFixedWithSep(2)(_(input.list).chain()
+	total.totaltotalsales = currency_format(_(input.list).chain()
 					   .pluck('totalrow')
 					   .reduce(function(init,item){ return Number(item.totalsales)+init;},0)
 					   .value());
-	total.totalcash = toFixedWithSep(2)(_(input.list).chain()
+	total.totalcash = currency_format(_(input.list).chain()
 				     .pluck('totalrow')
 				     .reduce(function(init,item){ return Number(item.cash)+init;},0)
 				     .value());
-	total.totalcredit = toFixedWithSep(2)(_(input.list).chain()
+	total.totalcredit = currency_format(_(input.list).chain()
 				       .pluck('totalrow')
 				       .reduce(function(init,item){ return Number(item.credit)+init;},0)
 				       .value());
-	total.totaldebit = toFixedWithSep(2)(_(input.list).chain()
+	total.totaldebit = currency_format(_(input.list).chain()
 				      .pluck('totalrow')
 				      .reduce(function(init,item){ return Number(item.debit)+init;},0)
 				      .value());
-	total.totalmobile = toFixedWithSep(2)(_(input.list).chain()
+	total.totalmobile = currency_format(_(input.list).chain()
 				       .pluck('totalrow')
 				       .reduce(function(init,item){ return Number(item.mobile)+init;},0)
 				       .value());
-	total.totalother = toFixedWithSep(2)(_(input.list).chain()
+	total.totalother = currency_format(_(input.list).chain()
 				      .pluck('totalrow')
 				      .reduce(function(init,item){ return Number(item.other)+init;},0)
 				      .value());
@@ -427,7 +427,7 @@ function extractSalesDetailTableInfo(list) {
 		_.applyToValues(item.totalrow, function(obj){
 					     var strObj = obj+"";
 					     if(strObj.indexOf(".")>=0) {
-					     	obj = toFixedWithSep(2)(obj);
+					     	obj = currency_format(obj);
 					     }
 					     return obj;
 					 }, true);
@@ -459,7 +459,7 @@ function extractSalesDetailTableInfo(list) {
 		_.applyToValues(item.totalrow, function(obj){
 					     var strObj = obj+"";
 					     if(strObj.indexOf(".")>=0) {
-					     	obj = toFixedWithSep(2)(obj);
+					     	obj = currency_format(obj);
 					     }
 					     return obj;
 					 }, true);
@@ -489,7 +489,7 @@ function extractSalesDetailTableInfo(list) {
 		_.applyToValues(item.totalrow, function(obj){
 					     var strObj = obj+"";
 					     if(strObj.indexOf(".")>=0) {
-					     	obj = toFixedWithSep(2)(obj);
+					     	obj = currency_format(obj);
 					     }
 					     return obj;
 					 }, true);

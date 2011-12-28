@@ -284,7 +284,7 @@ function renderDiscountsTable() {
 	     data_TMP = _.map(data_TMP, function(item){
 	     	item.totaldiscount = item.discount;
 	     	if(_.isNumber(item.totaldiscount)) {
-	     		item.totaldiscount = (item.totaldiscount>0)? "-"+toFixedWithSep(2)(item.totaldiscount):toFixedWithSep(2)(item.totaldiscount);
+	     		item.totaldiscount = (item.totaldiscount>0)? "-"+currency_format(item.totaldiscount):currency_format(item.totaldiscount);
 	     	}
 	     	return item; 
 	     });
@@ -324,17 +324,17 @@ function renderDiscountsTable() {
 	     }
 	     else{
 	     	data_TMP = _.map(data_TMP, function(item){
-	     		item.subTotal = toFixedWithSep(2)(item.subTotal);
-	     		item.totaldiscount = toFixedWithSep(2)(item.totaldiscount);
-	     		item.tax1and2 = toFixedWithSep(2)(item.tax1and2);
-	     		item.tax3 = toFixedWithSep(2)(item.tax3);
-	     		item.total = toFixedWithSep(2)(item.total);
+	     		item.subTotal = currency_format(item.subTotal);
+	     		item.totaldiscount = currency_format(item.totaldiscount);
+	     		item.tax1and2 = currency_format(item.tax1and2);
+	     		item.tax3 = currency_format(item.tax3);
+	     		item.total = currency_format(item.total);
 	     		return item;
 	     	});
 	     	_.applyToValues(totalrow, function(obj){
 						     var strObj = obj+"";
 						     if(strObj.indexOf(".")>=0) {
-						     	obj = toFixedWithSep(2)(obj);
+						     	obj = currency_format(obj);
 						     }
 						     return obj;
 						 }, true);
@@ -372,7 +372,7 @@ function renderDiscountsTable() {
 				       _.applyToValues(btnData, function(obj){
 						     var strObj = obj+"";
 						     if(strObj.indexOf(".")>=0) {
-						     	obj = toFixedWithSep(2)(obj);
+						     	obj = currency_format(obj);
 						     }
 						     return obj;
 						 }, true);

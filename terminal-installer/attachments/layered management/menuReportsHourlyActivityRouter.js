@@ -222,19 +222,19 @@ function renderHourlyActivityTable() {
 			}
 			
 			data_param = _.map(data_param, function(item){
-	    		item.avgsale = toFixedWithSep(2)(item.avgsale);
-	    		item.ecr = toFixedWithSep(2)(item.ecr);
-	    		item.inventory = toFixedWithSep(2)(item.inventory);
-	    		item.menu = toFixedWithSep(2)(item.menu);
-	    		item.total = toFixedWithSep(2)(item.total);
+	    		item.avgsale = currency_format(item.avgsale);
+	    		item.ecr = currency_format(item.ecr);
+	    		item.inventory = currency_format(item.inventory);
+	    		item.menu = currency_format(item.menu);
+	    		item.total = currency_format(item.total);
 				return item;	    		
 	    	});
     		
-			totalrow.avgsale = toFixedWithSep(2)(totalrow.avgsale);
-    		totalrow.ecr = toFixedWithSep(2)(totalrow.ecr);
-    		totalrow.inventory = toFixedWithSep(2)(totalrow.inventory);
-    		totalrow.menu = toFixedWithSep(2)(totalrow.menu);
-    		totalrow.total = toFixedWithSep(2)(totalrow.total);
+			totalrow.avgsale = currency_format(totalrow.avgsale);
+    		totalrow.ecr = currency_format(totalrow.ecr);
+    		totalrow.inventory = currency_format(totalrow.inventory);
+    		totalrow.menu = currency_format(totalrow.menu);
+    		totalrow.total = currency_format(totalrow.total);
     					
     		var data = {items:data_param, totalrow:totalrow};
 		    var html = ich.hourlyActivityTabel_TMP(data);

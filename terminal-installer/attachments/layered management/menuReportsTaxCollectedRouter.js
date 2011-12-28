@@ -324,14 +324,14 @@ function renderTaxCollectedTable() {
 			     	_.applyToValues(data_TMP, function(obj){
 					     var strObj = obj+"";
 					     if(strObj.indexOf(".")>=0) {
-					     	obj = toFixedWithSep(2)(obj);
+					     	obj = currency_format(obj);
 					     }
 					     return obj;
 					 }, true);
 					 _.applyToValues(totalrow, function(obj){
 					     var strObj = obj+"";
 					     if(strObj.indexOf(".")>=0) {
-					     	obj = toFixedWithSep(2)(obj);
+					     	obj = currency_format(obj);
 					     }
 					     return obj;
 					 }, true);

@@ -259,16 +259,16 @@ function renderRefundsTable() {
 	(function(err,data_TMP){
 	     var totalrow = {};
 	     totalrow.numofrefund = data_TMP.length + "";
-	     totalrow.subTotal = toFixedWithSep(2)(_.reduce(data_TMP, function(init, item){
+	     totalrow.subTotal = currency_format(_.reduce(data_TMP, function(init, item){
 					       return init + Number(item.subTotal);
 					   }, 0));
-	     totalrow.tax1and2 = toFixedWithSep(2)(_.reduce(data_TMP, function(init, item){
+	     totalrow.tax1and2 = currency_format(_.reduce(data_TMP, function(init, item){
 					       return init + Number(item.tax1and2);
 					   }, 0));
-	     totalrow.tax3 = toFixedWithSep(2)(_.reduce(data_TMP, function(init, item){
+	     totalrow.tax3 = currency_format(_.reduce(data_TMP, function(init, item){
 					   return init + Number(item.tax3);
 				       }, 0));
-	     totalrow.total = toFixedWithSep(2)(_.reduce(data_TMP, function(init, item){
+	     totalrow.total = currency_format(_.reduce(data_TMP, function(init, item){
 					    return init + Number(item.total);
 					}, 0));
 
@@ -305,10 +305,10 @@ function renderRefundsTable() {
 	     }
 	     else{
 	     	data_TMP = _.map(data_TMP, function(item){
-	     		item.subTotal = toFixedWithSep(2)(item.subTotal);
-	     		item.tax1and2 = toFixedWithSep(2)(item.tax1and2);
-	     		item.tax3 = toFixedWithSep(2)(item.tax3);
-	     		item.total = toFixedWithSep(2)(item.total);
+	     		item.subTotal = currency_format(item.subTotal);
+	     		item.tax1and2 = currency_format(item.tax1and2);
+	     		item.tax3 = currency_format(item.tax3);
+	     		item.total = currency_format(item.total);
 	     		return item;
 	     	});
 		 var html = ich.menuReportsRefundsTabel_TMP({items:data_TMP, totalrow:totalrow});
@@ -340,7 +340,7 @@ function renderRefundsTable() {
 							_.applyToValues(btnData, function(obj){
 							     var strObj = obj+"";
 							     if(strObj.indexOf(".")>=0) {
-							     	obj = toFixedWithSep(2)(obj);
+							     	obj = currency_format(obj);
 							     }
 							     return obj;
 							 }, true);
