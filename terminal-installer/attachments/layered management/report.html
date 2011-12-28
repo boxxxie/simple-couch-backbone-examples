@@ -1567,7 +1567,7 @@
 	  {{/apply_taxes}}
 	  <li>
 	    <label for="use_scale">Read Scale</label>
-	    <input type="checkbox" class="menuButtonToggle" var="foodItem.use_scale" {{#use_scale}}checked=true{{/use_scale}} />
+	    <input type="checkbox" class="menuButtonToggle" id="use_scale" var="foodItem.use_scale" {{#use_scale}}checked=true{{/use_scale}} />
 	  </li>
 	  <li>
 	    <label for="print_to_kitchen">Print in Kitchen</label>
@@ -1575,7 +1575,7 @@
 	  </li>
 	  <li>
 	    <label for="duplicate">Duplicate</label>
-	    <input type="checkbox" class="menuButtonToggle" var="foodItem.duplicate" {{#duplicate}}checked=true{{/duplicate}} />
+	    <input type="checkbox" class="menuButtonToggle" id="duplicate" var="foodItem.duplicate" {{#duplicate}}checked=true{{/duplicate}} />
 	  </li>
 	  {{/foodItem}}
 	</ul>

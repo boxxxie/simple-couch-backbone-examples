@@ -115,6 +115,7 @@ var menuSetMenusView =
 	 	    
 		    var htmlcenter = ich.menuSetMenus_Center_TMP(_.extend({menuscreentitle:menuscreentitle},menuModel.menu_screen(model)));
 		    $("menusetmenuscenter").html(htmlcenter);
+		    
 		    console.log("menuscreen rendered");
 		} else if(!_.isEmpty(item)) {
 			console.log("screen num : " + item.display.screen);
@@ -145,7 +146,18 @@ function renderEditPage(num,position) {
 	
 	var htmlright = ich.menuSetMenus_Right_TMP(button);
 	$("menusetmenusright").html(htmlright);
-	
+
+	// if modifier menu, disable modifier/read scale button
+	// otherwise(menu), disable duplicate button	
+	if(num==0) {
+		var btnHasModifier = $("#has_modifier");
+		var btnUseScale = $("#use_scale");
+		btnHasModifier.attr('disabled',true);
+		btnUseScale.attr('disabled',true);
+	} else {
+	    var btnDuplicate = $("#duplicate");
+	    btnDuplicate.attr('disabled',true);
+	}
 	$("#displayColor").ColorPicker({
 		onSubmit: function(hsb, hex, rgb, el) {
 			$(el).val(rgb.r + "," + rgb.g + "," + rgb.b);
@@ -171,14 +183,13 @@ function renderEditPage(num,position) {
 		onSubmit: function(hsb, hex, rgb, el) {
 			$(el).val(rgb.r + "," + rgb.g + "," + rgb.b);
 			$(el).ColorPickerHide();
+		},
+		onBeforeShow: function () {
+			$(this).ColorPickerSetColor(this.value);
 		}
-		//,
-		//onBeforeShow: function () {
-		//	$(this).ColorPickerSetColor(this.value);
-		//}
 	})
 	.bind('keyup', function(){
-		//$(this).ColorPickerSetColor(this.value);
+		$(this).ColorPickerSetColor(this.value);
 	});
 	
     }
