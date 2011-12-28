@@ -10,7 +10,7 @@ _.mixin({
 	     * [[a,'a'],[b,'b']] ->  {a:'a',b:'b'}
 	     */
 	    toObject:function(pairs){
-		return pairs.reduce(function(total,cur){
+		return _(pairs).reduce(function(total,cur){
 					var key = _.first(cur),
 					val = _.last(cur);
 					total[key] = val;

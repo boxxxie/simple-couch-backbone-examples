@@ -20,7 +20,7 @@ var menuReportsCashOutsView =
     Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
-	     view.el = $("main");
+	     view.el = $("#main");
 	     
 	     _.bindAll(view, 
 		       'renderMenuReportsCompanyCashouts',
@@ -273,7 +273,7 @@ function rendermenuReportsCashOutsTable() {
 	     else{
 		 var html = ich.menuReportsCashOutsTabel_TMP({items:data_TMP, numofcashout:numofcashout});
 	     }
-	     $("cashoutstable").html(html);
+	     $("#cashoutstable").html(html);
 	     
 	     _.each(data_TMP, function(item){	
 			var btn = $('#'+item.id)

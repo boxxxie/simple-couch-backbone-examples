@@ -20,7 +20,7 @@ var menuReportsElectronicPaymentsView =
     Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
-	     view.el = $("main");
+	     view.el = $("#main");
 	     
 	     _.bindAll(view, 
 		       'renderMenuReportsCompanyPayments',
@@ -353,7 +353,7 @@ function renderElectronicPaymentsTable() {
 					 
 		 var html = ich.electronicPaymentsTabel_TMP({items:data_TMP,totals:totals});
 	     }
-	     $("reportTable").html(html);
+	     $("#reporttable").html(html);
 	     _.each(data_TMP, function(item){
 			var item = _.clone(item);
 			

@@ -94,7 +94,7 @@ function toFixedWithSep(mag){
 	return parseFloat(newnumber); // Output the result to the form field (change for your purposes)
     }
     return function(num){
-    	tmpNum = Number(num);
+    	var tmpNum = Number(num);
 	if(!_.isNaN(tmpNum) && _.isNumber(tmpNum)){
 		if(tmpNum>=0) {
 	    	return FormatNumberBy3(roundNumber(tmpNum,mag).toFixed(mag),".",",");

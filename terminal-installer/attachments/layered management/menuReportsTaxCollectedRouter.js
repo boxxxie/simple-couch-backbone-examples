@@ -20,7 +20,7 @@ var menuReportsTaxCollectedView =
     Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
-	     view.el = $("main");
+	     view.el = $("#main");
 	     
 	     _.bindAll(view, 
 		       'renderMenuReportsCompanyTaxes',
@@ -338,7 +338,7 @@ function renderTaxCollectedTable() {
 				 var html = ich.taxCollectedTabel_TMP({items:data_TMP, totalrow:totalrow});
 			     }
 
-			     $("taxcollectedtable").html(html);
+			     $("#taxcollectedtable").html(html);
 			 });
 	
     } else {

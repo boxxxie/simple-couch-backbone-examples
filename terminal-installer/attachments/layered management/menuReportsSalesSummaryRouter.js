@@ -21,7 +21,7 @@ var menuReportsSalesSummaryView =
     Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
-	     view.el = $("main");
+	     view.el = $("#main");
 	     
 	     _.bindAll(view, 
 		       'renderMenuReportsCompanySales',
@@ -246,7 +246,7 @@ function renderSalesSummaryReportTable() {
 	      			  var data_TMP = extractSalesSummaryTableInfo(for_TMP);
 	      			  
 	      			  var html = ich.salesSummaryTabel_TMP(data_TMP);
-				  $("summarytable").html(html);
+				  $("#summarytable").html(html);
 			      });
     } else {
    	alert("Input Date");

@@ -20,7 +20,7 @@ var menuReportsCancelledTransactionsView =
     Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
-	     view.el = $("main");
+	     view.el = $("#main");
 	     
 	     _.bindAll(view, 
 		       'renderMenuReportsCompanyCancelled',
@@ -320,7 +320,7 @@ function renderCancelledTransactionsTable() {
 		 var html = ich.menuReportsCancelledTabel_TMP({items:data_TMP, totalrow:totalrow});
 	     }
 
-	     $("cancelledtable").html(html);
+	     $("#cancelledtable").html(html);
 	     
 	     _.each(data_TMP, function(item){
 			var item = _.clone(item);

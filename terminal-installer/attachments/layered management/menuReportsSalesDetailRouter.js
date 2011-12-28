@@ -21,7 +21,7 @@ var menuReportsSalesDetailView =
     Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
-	     view.el = $("main");
+	     view.el = $("#main");
 	     
 	     _.bindAll(view, 
 		       'renderMenuReportsCompanySalesDetail',
@@ -260,7 +260,7 @@ function renderSalesDetailReportTable() {
 	      	      var data_TMP = extractSalesDetailTableInfo(for_TMP);
 	      	      
 	      	      var html = ich.salesDetailTabel_TMP(data_TMP);
-		      $("salesdetailtable").html(html);
+		      $("#salesdetailtable").html(html);
 		  });
     } else {
    	alert("Input Date");

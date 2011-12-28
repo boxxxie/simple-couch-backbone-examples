@@ -25,7 +25,7 @@ var companyReportHowAreWeTodayView =
     Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
-	     view.el = $("main");
+	     view.el = $("#main");
 	     
 	     _.bindAll(view, 
 		       'renderGroupsTable_HowAreWeToday', 
@@ -85,7 +85,7 @@ var groupReportHowAreWeTodayView =
     Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
-	     view.el = $("main");
+	     view.el = $("#main");
 	     
 	     _.bindAll(view, 
 		       'renderStoresTable_HowAreWeToday', 
@@ -130,7 +130,7 @@ var storeReportHowAreWeTodayView =
     Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
-	     view.el = $("main");
+	     view.el = $("#main");
 	     
 	     _.bindAll(view, 
 		       'renderTerminalsTable_HowAreWeToday');

@@ -25,15 +25,19 @@ function jodaDateParser(dateString){
     var second = match[5];
     return new Date(year,month,day,hour,minute,second);
 }
-function jodaDateFormatter(dateString){
-    return dateFormatter(jodaDateParser(dateString));
-}
 function dateFormatter(date){
     return date.toString("yyyy-MM-dd HH:mm:ss");
 }
 function datePartFormatter(date){
     return date.toString("yyyy-MM-dd");
 }
+function jodaDateFormatter(dateString){
+    return dateFormatter(jodaDateParser(dateString));
+}
+function jodaDatePartFormatter(dateString){
+    return datePartFormatter(jodaDateParser(dateString));
+}
+
 function applyReceiptInfo(templateData){
     return _.map(templateData, function(an_item){
 		     var item = _.clone(an_item);

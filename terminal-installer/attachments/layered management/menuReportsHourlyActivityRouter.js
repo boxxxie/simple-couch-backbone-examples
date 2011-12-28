@@ -21,7 +21,7 @@ var menuReportsHourlyActivityView =
     Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
-	     view.el = $("main");
+	     view.el = $("#main");
 	     
 	     _.bindAll(view, 
 		       'renderMenuReportsCompanyHourly',
@@ -238,7 +238,7 @@ function renderHourlyActivityTable() {
     					
     		var data = {items:data_param, totalrow:totalrow};
 		    var html = ich.hourlyActivityTabel_TMP(data);
-    		$("hourlytable").html(html);    	
+    		$("#hourlytable").html(html);    	
     });
 };
 

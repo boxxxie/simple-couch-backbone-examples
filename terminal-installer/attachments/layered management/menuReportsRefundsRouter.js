@@ -20,7 +20,7 @@ var menuReportsRefundsView =
     Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
-	     view.el = $("main");
+	     view.el = $("#main");
 	     
 	     _.bindAll(view, 
 		       'renderMenuReportsCompanyRefunds',
@@ -314,7 +314,7 @@ function renderRefundsTable() {
 		 var html = ich.menuReportsRefundsTabel_TMP({items:data_TMP, totalrow:totalrow});
 	     }
 
-	     $("refundstable").html(html);
+	     $("#refundstable").html(html);
 	     
 	     _.each(data_TMP, function(item){	
 			var item = _.clone(item);

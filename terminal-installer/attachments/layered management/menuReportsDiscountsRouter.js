@@ -20,7 +20,7 @@ var menuReportsDiscountsView =
     Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
-	     view.el = $("main");
+	     view.el = $("#main");
 	     
 	     _.bindAll(view, 
 		       'renderMenuReportsCompanyDiscounts',
@@ -340,7 +340,7 @@ function renderDiscountsTable() {
 						 }, true);
 		 var html = ich.menuReportsDiscountsTabel_TMP({items:data_TMP, totalrow:totalrow});
 	     }
-	     $("discountstable").html(html);
+	     $("#discountstable").html(html);
 	     
 	     _.each(data_TMP, function(item){	
 			var item = _.clone(item);
