@@ -82,5 +82,5 @@ function login() {
 
 function logout() {
     ReportData=null;
-    window.location.href ='';
+    window.location.href ='login';
 };
