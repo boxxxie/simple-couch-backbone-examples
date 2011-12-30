@@ -1435,8 +1435,8 @@
 	  {{#row}}
 	  <!--FIXME : put onclick function in js file-->
 	  {{#display}}
-	  <td style="width : 80px; height : 30px; background-color: rgb( {{color}} )" id={{screen}}:{{position}} onclick="renderEditMenuItem({{screen}},{{position}});">
-	    <ul style="list-style-type: none; padding-left: 0px">
+	  <td width="80px" height="60px"  align="center" style="background-color: rgb( {{color}} ); padding: 0;" id={{screen}}:{{position}} onclick="renderEditMenuItem({{screen}},{{position}});">
+	    <ul style="list-style-type: none; padding-left: 0px; margin: 0px">
 	      {{#description}}<li>{{.}}</li>{{/description}}		
 	    </ul>
 	  </td>

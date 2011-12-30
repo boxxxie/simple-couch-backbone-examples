@@ -51,31 +51,31 @@ var sample_terminal ={
    ],
    "departments": [
        {
-           "description1": "Default",
-           "description2": "Admin",
-           "description3": "1",
-           "image": ""
-       },
-       {
-           "description1": "Default",
+           "description1": "DEPT1",
            "description2": "",
            "description3": "",
            "image": ""
        },
        {
-           "description1": "Default",
+           "description1": "DEPT2",
            "description2": "",
            "description3": "",
            "image": ""
        },
        {
-           "description1": "Default",
+           "description1": "DEPT3",
            "description2": "",
            "description3": "",
            "image": ""
        },
        {
-           "description1": "Default",
+           "description1": "DEPT4",
+           "description2": "",
+           "description3": "",
+           "image": ""
+       },
+       {
+           "description1": "DEPT5",
            "description2": "",
            "description3": "",
            "image": ""
@@ -83,7 +83,7 @@ var sample_terminal ={
    ],
    "scales": [
        {
-           "description1": "Default",
+           "description1": "SCALE1",
            "description2": "",
            "description3": "",
            "scaleId": "1",
@@ -96,7 +96,7 @@ var sample_terminal ={
            "enabled": false
        },
        {
-           "description1": "",
+           "description1": "SCALE2",
            "description2": "",
            "description3": "",
            "scaleId": "2",
@@ -109,7 +109,7 @@ var sample_terminal ={
            "enabled": false
        },
        {
-           "description1": "",
+           "description1": "SCALE3",
            "description2": "",
            "description3": "",
            "scaleId": "3",
