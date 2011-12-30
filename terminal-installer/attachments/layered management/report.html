@@ -122,7 +122,6 @@
     </script>
     
     <script id="AIRS_Buttons_P" class="partial" type="text/html">
-      <miscMenus>
 	<h3>Menus</h3>
 	<ol>
 	  <li>{{>adminButton_P}}</li>
@@ -130,18 +129,15 @@
 	  <li>{{>reportsButton_P}}</li>
 	  <li>{{>setMenusButton_P}}</li>
 	</ol>
-      </miscMenus>
     </script>
     
     <script id="AIR_Buttons_P" class="partial" type="text/html">
-      <miscMenus>
 	<h3>Menus</h3>
 	<ol>
 	  <li>{{>adminButton_P}}</li>
 	  <li>{{>inventoryButton_P}}</li>
 	  <li>{{>reportsButton_P}}</li>
 	</ol>
-      </miscMenus>
     </script>
 
     <script id="backButton_P" class="partial" type="text/html">
@@ -1683,13 +1679,10 @@
     <script id="companyManagementPage_TMP" type="text/html">
       <h1>Company Management</h1>
       {{>breadcrumb_P}}
-      <!--<salesSummary>-->
 	<ul>
 	  <li>{{>salesFields_P}}</li>
 	  <li>{{>quickReportViewButton_P}}</li>
 	</ul>
-      <!--</salesSummary>
-      <summaryTablesMenu>-->
     <label>-----------------------------------------------------------------------</label>
 	<ul>
 	  <li>{{>numberOfGroupsFields_P}}</li>
@@ -1697,11 +1690,8 @@
 	  <li>{{>numberOfTerminalsFields_P}}</li>
 	</ul>
 	<label>-----------------------------------------------------------------------</label>
-      <!--</summaryTablesMenu>-->
       {{>AIRS_Buttons_P}}
-      <!--<footer>-->
 	{{>logoutButton_P}}
-      <!--</footer>-->
       {{>quickReportViewHook_P}}
     </script>
 
