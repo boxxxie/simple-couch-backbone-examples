@@ -1408,6 +1408,7 @@
     <!-------------------------------------------------- Menu SET MENUS --------------------------------------->
     
     <script id="menuSetMenus_Left_TMP" type="text/html">
+    	<table>
       <tr><td>
 	  <button id="menumodifiersbutton" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
 	    <span class="ui-button-text">Modifiers</span>
@@ -1436,6 +1437,7 @@
       <tr><td>
 	  {{>backButton_P}}
       </td></tr>
+      </table>
     </script>
     
     <script id="menuSetMenus_Center_TMP" type="text/html">
@@ -1459,6 +1461,7 @@
     </script>
     
     <script id="menuSetMenus_Bottom_TMP" type="text/html">
+    <table>
       <tr>
     {{#menuButtonHeaders}}
 	<td>
@@ -1467,30 +1470,29 @@
 	  </button>	
 	</td>
 	{{/menuButtonHeaders}}
-
       </tr>
-
+	</table>
     </script>
 
     <script id="menuSetMenuHeader_TMP" type="text/html">
       <form id="editMenuHeaderButton">
 	<p>Menu Header Label:</p>
-	<table style="float: left;">	
+	<table>	
 	  <tr>
 	    <td><label for="description1">Description 1:</label></td>
-	    <td><input class="menuEditInput" type="text" var="description1" id="description1" value="{{description1}}"/></td>
+	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" var="description1" id="description1" value="{{description1}}"/></td>
 	  </tr>
 	  <tr>
 	    <td><label for="description2">Description 2:</label></td>
-	    <td><input class="menuEditInput" type="text" var="description2" id="description2" value="{{description2}}"/></td>
+	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" var="description2" id="description2" value="{{description2}}"/></td>
 	  </tr>
 	  <tr>
 	    <td><label for="description3">Description 3:</label></td>
-	    <td><input class="menuEditInput" type="text" var="description3" id="description3" value="{{description3}}"/></td>
+	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" var="description3" id="description3" value="{{description3}}"/></td>
 	  </tr>
 	  <tr>
 	    <td><label for="displayColor"> Color :</label></td>
-	    <td><input class="menuEditInput" type="text" id="displayColor" var="color"  value="{{color}}" /></td>
+	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" id="displayColor" var="color"  value="{{color}}" /></td>
 	  </tr>	
 	</table>
 	<input type="hidden" var="menu_id" var_type="number" value="{{menu_id}}" />
@@ -1510,10 +1512,10 @@
 	      </button>
 	      </li>
 	      </ul>
-	  </td>
     </script>
     
     <script id="menuSetMenus_Right_TMP" type="text/html">
+    <!--
       <form id="editMenuButton">
 	Menu Label:
 	<table>	
@@ -1602,9 +1604,95 @@
 	      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="closeEditMenu();">
 		<span class="ui-button-text">Close</span>
 	      </button>
-	      </li>
-	      </ul>
-	  </td>
+      	</li>
+      </ul>
+     -->
+     
+     <form id="editMenuButton">
+	Menu Label:
+	<table>	
+	  {{#display}}
+	  <tr>
+	    <td><label for="editmenudescription0">Description 1:</label></td>
+	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" var="display.description.0" id="editmenudescription0" value="{{description.0}}"/></td>
+	  </tr>
+	  <tr>
+	    <td><label for="editmenudescription1">Description 2:</label></td>
+	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" var="display.description.1" id="editmenudescription1" value="{{description.1}}"/></td>
+	  </tr>
+	  <tr>
+	    <td><label for="editmenudescription2">Description 3:</label></td>
+	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" var="display.description.2" id="editmenudescription2" value="{{description.2}}"/></td>
+	  </tr>
+	  <tr>
+	    <td><label for="displayColor"> Color :</label></td>
+	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" id="displayColor" var="display.color"  value="{{color}}" /></td>
+	  </tr>	
+	  {{/display}}
+	  {{#foodItem}}
+	  <tr>
+	    <td><label>Price : </label></td>
+	    <td><input class="menuEditInput" type="text" var="foodItem.price"  value="{{price}}" var_type="number" var_default="0"/></td>
+	  </tr>
+	  {{/foodItem}}
+	<tr><td colspan="2">
+	<ul style="list-style-type:none; float: left;">
+	  {{#display}}
+	  <li>
+	  	<input type="checkbox" style="border: 0" var="display.is_enabled" class="menuButtonToggle" id="is_enabled" {{#is_enabled}}checked=true{{/is_enabled}} /> 
+	    <label for="is_enabled">Active</label>
+	  {{/display}}
+	  {{#foodItem}}
+	    <input type="checkbox" style="border: 0" var="foodItem.has_modifier" class="menuButtonToggle" id="has_modifier" {{#has_modifier}}checked=true{{/has_modifier}} />
+	    <label for="has_modifier">Modifier</label>
+	  </li>
+	  {{#apply_taxes}}
+	  <li>
+	    <input class="menuButtonToggle" style="border: 0" type="checkbox" var="foodItem.apply_taxes.exemption" id="exemption" {{#exemption}}checked=true{{/exemption}} />
+	    <label for="exemption">Apply Exemption</label>
+	    <input type="checkbox" style="border: 0" class="menuButtonToggle" var="foodItem.apply_taxes.tax1" id="tax1" {{#tax1}}checked=true{{/tax1}} />
+	    <label for="tax1">Apply Tax1</label>
+	  </li>
+	  <li>
+	    <input type="checkbox" style="border: 0" class="menuButtonToggle" var="foodItem.apply_taxes.tax2" id="tax2" {{#tax2}}checked=true{{/tax2}} />
+	    <label for="tax2">Apply Tax2</label>
+	    <input type="checkbox" style="border: 0" class="menuButtonToggle" var="foodItem.apply_taxes.tax3" id="tax3" {{#tax3}}checked=true{{/tax3}} />
+	    <label for="tax3">Apply Tax3</label>
+	  </li>
+	  {{/apply_taxes}}
+	  <li>
+	    <input type="checkbox" style="border: 0" class="menuButtonToggle" id="use_scale" var="foodItem.use_scale" {{#use_scale}}checked=true{{/use_scale}} />
+	    <label for="use_scale">Read Scale</label>
+	    <input type="checkbox" style="border: 0" class="menuButtonToggle" var="foodItem.print_to_kitchen" {{#print_to_kitchen}}checked=true{{/print_to_kitchen}} />
+	    <label for="print_to_kitchen">Print in Kitchen</label>
+	  </li>
+	  <li>
+	    <input type="checkbox" style="border: 0" class="menuButtonToggle" id="duplicate" var="foodItem.duplicate" {{#duplicate}}checked=true{{/duplicate}} />
+	    <label for="duplicate">Duplicate</label>
+	  </li>
+	  {{/foodItem}}
+	</ul>
+	</td></tr>
+	</table>
+	{{#display}}
+	<input type="hidden" var="display.screen" var_type="number" var_default="0"  value="{{screen}}" />
+	<input type="hidden" var="display.position" var_type="number" var_default="0" value="{{position}}" />
+	{{/display}}
+      </form>
+      <ul style="list-style-type:none; float: left;">
+	      	<li>
+	      	<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="clearEditMenu();">
+		<span class="ui-button-text">Clear</span>
+	      </button>
+	      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="saveEditMenu();">
+		<span class="ui-button-text">Save</span>
+	      </button>
+	      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="closeEditMenu();">
+		<span class="ui-button-text">Close</span>
+	      </button>
+      	</li>
+      </ul>
+      
     </script>
     
     <script id="menuSetMenus_TMP" type="text/html">

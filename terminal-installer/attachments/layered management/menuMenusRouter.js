@@ -39,8 +39,9 @@ var menuSetMenusView =
 		  $(view.el).html(html);
 		  
 		  
-		  var htmlleft = ich.menuSetMenus_Left_TMP({});
+		  var htmlleft = ich.menuSetMenus_Left_TMP({tmp:"tmp"});
 		  $("#menusetmenusleft").html(htmlleft);
+		  
 		  $("#menumodifiersbutton").button()
 					    .click(function(){
 						      view.renderMenuScreenPartial(0);
