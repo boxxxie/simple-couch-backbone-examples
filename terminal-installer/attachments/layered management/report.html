@@ -1683,23 +1683,25 @@
     <script id="companyManagementPage_TMP" type="text/html">
       <h1>Company Management</h1>
       {{>breadcrumb_P}}
-      <salesSummary>
+      <!--<salesSummary>-->
 	<ul>
 	  <li>{{>salesFields_P}}</li>
 	  <li>{{>quickReportViewButton_P}}</li>
 	</ul>
-      </salesSummary>
-      <summaryTablesMenu>
+      <!--</salesSummary>
+      <summaryTablesMenu>-->
+    <label>-----------------------------------------------------------------------</label>
 	<ul>
 	  <li>{{>numberOfGroupsFields_P}}</li>
 	  <li>{{>numberOfStoresFields_P}}</li>
 	  <li>{{>numberOfTerminalsFields_P}}</li>
 	</ul>
-      </summaryTablesMenu>
+	<label>-----------------------------------------------------------------------</label>
+      <!--</summaryTablesMenu>-->
       {{>AIRS_Buttons_P}}
-      <footer>
+      <!--<footer>-->
 	{{>logoutButton_P}}
-      </footer>
+      <!--</footer>-->
       {{>quickReportViewHook_P}}
     </script>
 
