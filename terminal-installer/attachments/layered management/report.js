@@ -32,6 +32,7 @@ function doc_setup() {
     var MenuReportsCancelledDisplay = new menuReportsCancelledTransactionsView();
     var MenuReportsRefundsDisplay = new menuReportsRefundsView();
     var MenuReportsDiscountsDisplay = new menuReportsDiscountsView();
+    var MenuReportsInventoryDisplay = new menuReportsInventoryView();
     var MenuSetMenusDisplay = new menuSetMenusView();
     Backbone.history.start();
 

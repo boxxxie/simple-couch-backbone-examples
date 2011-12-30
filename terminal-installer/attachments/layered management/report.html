@@ -57,6 +57,7 @@
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsRefundsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsDiscountsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsElectronicPaymentsRouter.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/menuReportsInventoryRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReports.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuMenusRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/report.js"></script>
@@ -727,6 +728,7 @@
 	<li><a href='#menuReports/{{startPage}}Cancelled'> Cancelled Transactions</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}Refunds'> Refunds</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}Discounts'> Discounts</a> <br/></li>
+	<li><a href='#menuReports/{{startPage}}Inventory'> Inventory Reports</a> <br/></li>
       </ol>
       {{>backButton_P}}
       {{>menuButton_P}}
@@ -1393,6 +1395,19 @@
       {{>menuButton_P}}
     </script>
     
+    
+    <!---------------------------------- INVENTORY REPORTS ------------------------------------------------>
+    <script id="inventoryReports_TMP" type="text/html">
+      <h1>Inventory Report</h1>
+      <h2>{{>breadcrumb_P}}</h2>
+      {{>groupDropdownbox_P}}
+      {{>dateRangePicker_P}}
+      {{>generalGoButton_P}}			
+      <br/><br/>
+      <div id='inventorytable'></div>		
+      {{>backButton_P}}
+      {{>menuButton_P}}
+    </script>
     
     <!-------------------------------------------------- Menu SET MENUS --------------------------------------->
     
