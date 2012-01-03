@@ -46,6 +46,7 @@
     <script language="javascript" type="text/javascript" src="../layered management/dialogs.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/transactionsCDBHelpers.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/transactionsCDBHelpers_refactored.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/transactionsCDBHelpers_inventory.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/loginRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/reportParamGetters.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/companyReportRouter.js"></script>
@@ -1440,8 +1441,8 @@
 	  {{#row}}
 	  <!--FIXME : put onclick function in js file-->
 	  {{#display}}
-	  <td style="width : 80px; height : 30px; background-color: rgb( {{color}} )" id={{screen}}:{{position}} onclick="renderEditMenuItem({{screen}},{{position}});">
-	    <ul style="list-style-type: none; padding-left: 0px">
+	  <td width="80px" height="60px"  align="center" style="background-color: rgb( {{color}} ); padding: 0;" id={{screen}}:{{position}} onclick="renderEditMenuItem({{screen}},{{position}});">
+	    <ul style="list-style-type: none; padding-left: 0px; margin: 0px">
 	      {{#description}}<li>{{.}}</li>{{/description}}		
 	    </ul>
 	  </td>

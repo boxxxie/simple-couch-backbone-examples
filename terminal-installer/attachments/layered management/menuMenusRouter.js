@@ -82,7 +82,7 @@ var menuSetMenusView =
 				if(_.isEmpty(item.description1) 
 			  		&& _.isEmpty(item.description2)
 			  		&& _.isEmpty(item.description3)) {
-				  	item.description2="MENU" + item.menu_id;
+				  	item.description1="MENU" + item.menu_id;
 				  }
 				  return item;
 		  });
