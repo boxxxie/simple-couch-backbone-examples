@@ -51,7 +51,10 @@ function toFixed(mag){
 }
 
 function currency_format(num){
-    return format(",##0.00",toFixed(2)(num));
+    if(_.isNumber(num)){
+	return format(",##0.00",toFixed(2)(num));
+    }
+    return num;
 }
 
 function addPropertiesTogether(addTo,addFrom){

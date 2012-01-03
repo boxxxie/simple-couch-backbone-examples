@@ -150,7 +150,7 @@ function inventoryTotalsRangeFetcher_F(id){
 			       var priceFormatedTMP = _(forTMP)
 				   .applyToValues(function(item){
 						      if(item.price){
-							  return _.extend(item,{price:item.price.toFixed(2)});
+							  return _.extend(item,{price:currency_format(item.price)});
 						      }
 						      return item;
 						  },true);
