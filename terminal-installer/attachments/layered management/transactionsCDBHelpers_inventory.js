@@ -72,13 +72,13 @@ function inventoryTotalsRangeFetcher_F(id){
 					       var typedPercentage = "0.00";
 					   }
 					   else{
-					       var typedPercentage = (item.price/typedSales * 100).toFixed(2);
+					       var typedPercentage = item.price/typedSales * 100;
 					   }
 					   if(totalSales == 0){
 					       var totalSalesPercentage = "0.00";
 					   }
 					   else{
-					       var totalSalesPercentage = (item.price/totalSales * 100).toFixed(2);
+					       var totalSalesPercentage = item.price/totalSales * 100;
 					   }
 					   return _.extend({},item,{typedSalesPercentage : typedPercentage, totalSalesPercentage: totalSalesPercentage});
 				       };
@@ -87,7 +87,6 @@ function inventoryTotalsRangeFetcher_F(id){
 				   refunds = _.applyToValues(refunds.rows,negate,true);
 				   return _(inventory_transform(sales.concat(refunds)))
 				       .map(applyPercentages(typedSales,totalSales));
-				   
 			       }
 			       function totals(sales,refunds){
 				   function defaultValue(o){
@@ -102,6 +101,13 @@ function inventoryTotalsRangeFetcher_F(id){
 				   var refundsVal =_.applyToValues(defaultValue(refunds),negate);
 				   return addPropertiesTogether(salesVal,refundsVal);
 			       }
+
+			       function totals_calc(sales_list){
+				   return _(sales_list).chain()
+				       .map(_.selectKeys_F(['price','quantity','totalSalesPercentage','typedSalesPercentage']))
+				       .reduce(addPropertiesTogether,{})
+				       .value();
+			       }
 			       
 			       var ecr_sales = _.reduce([totals(resp.total_department_sale,resp.total_department_refund),
 							 totals(resp.total_scale_sale,resp.total_scale_refund),
@@ -112,10 +118,15 @@ function inventoryTotalsRangeFetcher_F(id){
 			       var menu_sales=totals(resp.total_menu_sale,resp.total_menu_refund);
 			       var scan_sales=totals(resp.total_scan_sale,resp.total_scan_refund);
 
+
 			       var totalSales = _.reduce([menu_sales,scan_sales,ecr_sales],addPropertiesTogether,{}).price;
 			       
 
-			       var menu_sales_list =totals_list(resp.all_menu_sales,resp.all_menu_refunds,menu_sales.price,totalSales);
+
+			       var menu_sales_list = totals_list(resp.all_menu_sales,resp.all_menu_refunds,menu_sales.price,totalSales);
+			       var menu_sales_totals = totals_calc(menu_sales_list);
+ 
+
 			       var scan_sales_list =_(totals_list(resp.all_scan_sales,resp.all_scan_refunds,scan_sales.price,totalSales))
 				   .map(function(scan){
 					    var labels = scan.label.split('-');
@@ -123,37 +134,54 @@ function inventoryTotalsRangeFetcher_F(id){
 					    var description =  _.str.trim(_.second(labels));
 					    return _.extend({upc: upc, description:description},scan);
 					});
+			       var scan_sales_totals = totals_calc(scan_sales_list);
+			       
 			       var ecr_sales_list =totals_list(resp.all_ecr_sales,resp.all_ecr_refunds,ecr_sales.price,totalSales);
 			       var department_sales_list=totals_list(resp.all_department_sales,resp.all_department_refunds,ecr_sales.price,totalSales);
-			       var scale_sales_list=_(totals_list(resp.all_scale_sales,resp.all_scale_refunds,ecr_sales.price,totalSales))
+			       var scale_sales_list=totals_list(resp.all_scale_sales,resp.all_scale_refunds,ecr_sales.price,totalSales);
+
+			       var ecr_sales_totals = totals_calc(ecr_sales_list.concat(department_sales_list).concat(scale_sales_list));
+			       
+			       var scale_sales_list_formatted = _(scale_sales_list)
 				   .map(function(scale){
 					    scale.quantity = scale.quantity.toFixed(3);
 					    return scale;
 					});
-
+			       
 			       var forTMP = { 
 				   menu_sales_list: menu_sales_list,
+				   menu_list_totals:menu_sales_totals,
 				   menu_sales:menu_sales,
 
 				   scan_sales_list:scan_sales_list,
+				   scan_list_totals:scan_sales_totals,
 				   scan_sales:scan_sales,
 				   
 				   department_sales_list:department_sales_list,
 				   
-				   scale_sales_list:scale_sales_list,
+				   scale_sales_list:scale_sales_list_formatted,
 
 				   ecr_sales_list:ecr_sales_list,
+				   ecr_list_totals:ecr_sales_totals,
 
 				   ecr_sales:ecr_sales
 			       };
 
-			       var priceFormatedTMP = _(forTMP)
+			       var priceFormatedTMP = _(forTMP).chain()
 				   .applyToValues(function(item){
 						      if(item.price){
 							  return _.extend(item,{price:currency_format(item.price)});
 						      }
 						      return item;
-						  },true);
+						  },true)
+				   .applyToValues(function(item){
+						      if(item.quantity){
+							  return _.extend(item,{quantity:item.quantity+""});
+						      }
+						      return item;
+						  },true)
+				   .applyToValues(toFixed(2),true)
+				   .value();
 			       
 			       callback(err,priceFormatedTMP);	  
 			   });

@@ -32,6 +32,20 @@ _.mixin({
 	    }});
 
 _.mixin({
+	    /*create an object with only the keys in the selected keys array arg
+	     * ({a:'a',b:'b'},['a']) -> {a:'a'}
+	     */
+	    selectKeys_F:function (keys){
+		return function(obj){
+		    return  _(obj).chain()
+			.kv()
+			.filter(function(kv){return _.contains(keys,_.first(kv));})
+			.toObject()
+			.value();
+		};
+	    }});
+	
+_.mixin({
 	    /*create an object without the keys in the selected keys array arg
 	     * ({a:'a',b:'b'},['a']) -> {b:'b'}
 	     */
