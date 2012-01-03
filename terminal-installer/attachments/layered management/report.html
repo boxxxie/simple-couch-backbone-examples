@@ -1402,6 +1402,131 @@
       </ul>
     </script>
     
+    <script id="menuReportsInventoryMenuTabel_TMP" type="text/html">
+	<ul style="list-style-type: none; padding-left: 0px; margin: 0px">
+	<li style="display: inline;">Menu Sales - Total Sales For Date Range : $ {{#menu_sales}}{{price}}{{/menu_sales}}
+	</li>
+	</ul>	
+      <table border="1">
+	<tr>
+	  <th>Description</th>
+	  <th>Qty Sold</th>
+	  <th>Total Sales</th>
+	  <th>% of Menu Sales</th>
+	  <th>% of Total Sales</th>
+	</tr>
+	{{#menu_sales_list}}
+	<tr>
+	  <td align="center">{{label}}</td>
+	  <td align="right">{{quantity}}</td>
+	  <td align="right">{{price}}</td>
+	  <td align="right">{{totalSalesPercentage}}</td>
+	  <td align="right">{{typedSalesPercentage}}</td>
+	</tr>
+	{{/menu_sales_list}}
+	{{#menu_list_totals}}
+	<tr>
+	  <th colspan="2" align="center">Total</th>
+	  <th align="right">{{price}}</th>
+	  <th align="right">{{totalSalesPercentage}}</th>
+	  <th align="right">{{typedSalesPercentage}}</th>
+	</tr>
+	{{/menu_list_totals}}
+      </table>
+      <br/><br/>
+    </script>
+    
+    
+    <script id="menuReportsInventoryScanTabel_TMP" type="text/html">
+	<ul style="list-style-type: none; padding-left: 0px; margin: 0px">
+	<li style="display: inline;">Scan Sales - Total Sales For Date Range : $ {{#scan_sales}}{{price}}{{/scan_sales}}
+	</li>
+	</ul>	
+      <table border="1">
+	<tr>
+	  <th>SKU</th>
+	  <th>Description</th>
+	  <th>Qty Sold</th>
+	  <th>Total Sales</th>
+	  <th>% of Scan Sales</th>
+	  <th>% of Total Sales</th>
+	</tr>
+	{{#scan_sales_list}}
+	<tr>
+	  <td align="center">{{upc}}</td>
+	  <td align="center">{{description}}</td>
+	  <td align="right">{{quantity}}</td>
+	  <td align="right">{{price}}</td>
+	  <td align="right">{{totalSalesPercentage}}</td>
+	  <td align="right">{{typedSalesPercentage}}</td>
+	</tr>
+	{{/scan_sales_list}}
+	{{#scan_list_totals}}
+	<tr>
+	  <th colspan="3" align="center">Total</th>
+	  <th align="right">{{price}}</th>
+	  <th align="right">{{totalSalesPercentage}}</th>
+	  <th align="right">{{typedSalesPercentage}}</th>
+	</tr>
+	{{/scan_list_totals}}
+      </table>
+      <br/><br/>
+    </script>
+    
+    
+    <script id="menuReportsInventoryEcrTabel_TMP" type="text/html">
+    {{#ecr_sales}}
+	<ul style="list-style-type: none; padding-left: 0px; margin: 0px">
+	<li style="display: inline;">ECR Sales - Total Sales For Date Range : $ {{price}}
+	</li>
+	</ul>
+	{{/ecr_sales}}	
+      <table border="1">
+	<tr>
+	  <th>Open Item</th>
+	  <th>Qty Sold</th>
+	  <th>Total Sales</th>
+	  <th>% of ECR Sales</th>
+	  <th>% of Total Sales</th>
+	</tr>
+	{{#department_sales_list}}
+	<tr>
+	  <td align="center">{{label}}</td>
+	  <td align="right">{{quantity}}</td>
+	  <td align="right">{{price}}</td>
+	  <td align="right">{{totalSalesPercentage}}</td>
+	  <td align="right">{{typedSalesPercentage}}</td>
+	</tr>
+	{{/department_sales_list}}
+	{{#scale_sales_list}}
+	<tr>
+	  <td align="center">{{label}}</td>
+	  <td align="right">{{quantity}}</td>
+	  <td align="right">{{price}}</td>
+	  <td align="right">{{totalSalesPercentage}}</td>
+	  <td align="right">{{typedSalesPercentage}}</td>
+	</tr>
+	{{/scale_sales_list}}
+	{{#ecr_sales_list}}
+	<tr>
+	  <td align="center">{{label}}</td>
+	  <td align="right">{{quantity}}</td>
+	  <td align="right">{{price}}</td>
+	  <td align="right">{{totalSalesPercentage}}</td>
+	  <td align="right">{{typedSalesPercentage}}</td>
+	</tr>
+	{{/ecr_sales_list}}
+	{{#ecr_list_totals}}
+	<tr>
+	  <th colspan="2" align="center">Total</th>
+	  <th align="right">{{price}}</th>
+	  <th align="right">{{totalSalesPercentage}}</th>
+	  <th align="right">{{typedSalesPercentage}}</th>
+	</tr>
+	{{/ecr_list_totals}}
+      </table>
+    </script>
+    
     <script id="inventoryReports_TMP" type="text/html">
       <h1>Inventory Report</h1>
       <h2>{{>breadcrumb_P}}</h2>
@@ -1413,7 +1538,7 @@
       <br/><br/>
       <div id='inventorymenutable'></div>
       <div id='inventoryscantable'></div>
-      <div id='inventoryecrtable'></div>
+      <div id='inventoryecrtable'></div><br/>
       {{>backButton_P}}
       {{>menuButton_P}}
     </script>

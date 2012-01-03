@@ -220,38 +220,55 @@ function renderInventoryReportTable() {
 	
 	console.log(id);
 	
-	//cashoutFetcher_Period(ids,startDate,endDateForQuery,
-	//		      function(a,for_TMP){
-	//      			  console.log(for_TMP);
-	//      			  var data_TMP = extractSalesSummaryTableInfo(for_TMP);
-	//      			  
-	//      			  var html = ich.salesSummaryTabel_TMP(data_TMP);
-	//			  $("#summarytable").html(html);
-	//
-	//		      });
-	
-	var tmpAll = "all";
-	var tmpMenu = "menu";
-	var tmpScan = "scan";
-	var tmpEcr = "ecr";
-	
-	var cate_drop = $('#inventorydown');
-	
-	var opts = $('option',cate_drop);
-	opts[0].selected=true;
-	
-	var drop = cate_drop.change(function() {
-			var category = $(this).val();
-			if(category=="ALL") {
-				console.log(tmpAll);	
-			} else if(category=="Menu") {
-				console.log(tmpMenu);
-			} else if(category=="Scan") {
-				console.log(tmpScan);
-			} else if(category=="ECR") {
-				console.log(tmpEcr);
-			}
-		});
+	inventoryTotalsRangeFetcher_F(id.id)(startDate.toArray().slice(0,3), endDateForQuery.toArray().slice(0,3))(function(err,for_TMP) {
+		console.log(for_TMP);
+		var menuParam = {menu_sales:for_TMP.menu_sales, menu_sales_list:for_TMP.menu_sales_list, menu_list_totals:for_TMP.menu_list_totals};
+		var scanParam = {scan_sales:for_TMP.scan_sales, scan_sales_list:for_TMP.scan_sales_list, scan_list_totals:for_TMP.scan_list_totals};
+		var ecrParam = {ecr_sales:for_TMP.ecr_sales, 
+						department_sales_list:for_TMP.department_sales_list,
+						scale_sales_list:for_TMP.scale_sales_list,
+						ecr_sales_list:for_TMP.ecr_sales_list,
+						ecr_list_totals:for_TMP.ecr_list_totals};
+							
+		var html_menu = ich.menuReportsInventoryMenuTabel_TMP(menuParam);
+	     $("#inventorymenutable").html(html_menu);
+		
+		var html_scan = ich.menuReportsInventoryScanTabel_TMP(scanParam);
+	     $("#inventoryscantable").html(html_scan);
+		
+		var html_ecr = ich.menuReportsInventoryEcrTabel_TMP(ecrParam);
+	     $("#inventoryecrtable").html(html_ecr);
+		
+		var cate_drop = $('#inventorydown');
+		
+		var opts = $('option',cate_drop);
+		opts[0].selected=true;
+		
+		var drop = cate_drop.change(function() {
+				var category = $(this).val();
+				if(category=="ALL") {
+				    $("#inventorymenutable").html(html_menu);
+				    $("#inventoryscantable").html(html_scan);
+				    $("#inventoryecrtable").html(html_ecr);
+					//console.log(tmpAll);	
+				} else if(category=="Menu") {
+					$("#inventorymenutable").html(html_menu);
+					$("#inventoryscantable").html({});
+				    $("#inventoryecrtable").html({});
+					//console.log(tmpMenu);
+				} else if(category=="Scan") {
+					$("#inventorymenutable").html({});
+				    $("#inventoryscantable").html(html_scan);
+				    $("#inventoryecrtable").html({});
+					//console.log(tmpScan);
+				} else if(category=="ECR") {
+					$("#inventorymenutable").html({});
+				    $("#inventoryscantable").html({});
+				    $("#inventoryecrtable").html(html_ecr);
+					//console.log(tmpEcr);
+				}
+			});
+	});
 		
     } else {
    	alert("Input Date");

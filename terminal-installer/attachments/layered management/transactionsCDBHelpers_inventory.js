@@ -4,6 +4,8 @@ function negate(num){
     }
     return num;
 }
+
+//inven...F(id)(sd,ed)(err,data_TMP)
 function inventoryTotalsRangeFetcher_F(id){
     var view = cdb.view('reporting','inventory_report');
     var db = cdb.db('transactions',{},true); //fixme change the db to cashouts_transactions
