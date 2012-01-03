@@ -15,7 +15,6 @@ function addPropertiesTogether(addTo,addFrom){
 }
 function jodaDateParser(dateString){
     if(_.isDate(dateString)){return dateString;}
-    //var dateMatch =  /([\d-])+([\d:])+/g;
     var dateMatch = /(\d{2,4})/g;
     var match = (dateString).match(dateMatch);
     var year = match[0];
@@ -67,6 +66,19 @@ var _async = {
 		startkey:startKey,
 		endkey:endKey
 	    };
+	    return function(callback){queryF(view,db)(options)(returnQuery(callback));};
+	};
+    },
+    transactionRangeGroupedQuery:function(start,end){
+	return function(view,db,base){
+	    var startKey = base.concat(start);
+	    var endKey = base.concat(end).concat({});
+	    var options = {
+		reduce:false,
+		startkey:startKey,
+		endkey:endKey
+	    };
+	    //todo: if statement for callback to insert our own
 	    return function(callback){queryF(view,db)(options)(returnQuery(callback));};
 	};
     },
