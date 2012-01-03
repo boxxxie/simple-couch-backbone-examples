@@ -206,15 +206,7 @@ function renderInventoryReportTable() {
 	var endDateForQuery = new Date($("#dateTo").val());
 	endDateForQuery.addDays(1);
 	
-	//var ids = [];
 	var id;
-	
-		
-	//if(storedown.val()=="ALL") {
-	//    _.each($('option', storedown), function(option){ if(option.value!=="ALL"){ids=ids.concat(option.value);}});
-	//} else {
-	//    ids = ids.concat(_.isEmpty(storedown.val())?ReportData.store.store_id:storedown.val());
-	//}
 	
 	if(storedown.val()!="ALL") {
 		var sd = $("#storesdown option:selected");
@@ -238,186 +230,30 @@ function renderInventoryReportTable() {
 	//
 	//		      });
 	
+	var tmpAll = "all";
+	var tmpMenu = "menu";
+	var tmpScan = "scan";
+	var tmpEcr = "ecr";
+	
+	var cate_drop = $('#inventorydown');
+	
+	var opts = $('option',cate_drop);
+	opts[0].selected=true;
+	
+	var drop = cate_drop.change(function() {
+			var category = $(this).val();
+			if(category=="ALL") {
+				console.log(tmpAll);	
+			} else if(category=="Menu") {
+				console.log(tmpMenu);
+			} else if(category=="Scan") {
+				console.log(tmpScan);
+			} else if(category=="ECR") {
+				console.log(tmpEcr);
+			}
+		});
+		
     } else {
    	alert("Input Date");
     }
 };
-
-
-/*
-function extractSalesSummaryTableInfo(list) {
-    function getGroupName(groups, store_id) {
-	var name="";
-	_.each(groups, function(group){
-		   name = !_(group.stores).chain()
-		       .pluck("store_id")
-		       .filter(function(id){return id==store_id;})
-		       .isEmpty()
-		       .value()? group.groupName:name;
-	       });
-	return name;
-    };
-    
-    function getStoreNameNum(groups, store_id) {
-	var namenum ={name:"",num:""};
-	_.each(groups, function(group){
-		   _.each(group.stores, function(store){
-			      namenum.name = store.store_id==store_id?store.storeName:namenum.name;
-			      namenum.num = store.store_id==store_id?store.number:namenum.num;
-			  });
-	       });
-	return namenum;
-    };
-    
-    function getSummarySales(item) {
-    	return {
-	    numberoftransactions:(Number(item.noofsale)+Number(item.noofrefund))+"",
-	    sales:toFixed(2)(Number(item.netsales)-Number(item.netrefund)),
-	    tax1:toFixed(2)(Number(item.netsaletax1)-Number(item.netrefundtax1)),
-	    tax3:toFixed(2)(Number(item.netsaletax3)-Number(item.netrefundtax3)),
-	    totalsales:toFixed(2)(Number(item.netsaleactivity)),
-	    cash:toFixed(2)(Number(item.cashpayment)-Number(item.cashrefund)),
-	    credit:toFixed(2)(Number(item.creditpayment)-Number(item.creditrefund)),
-	    debit:toFixed(2)(Number(item.debitpayment)-Number(item.debitrefund)),
-	    mobile:toFixed(2)(Number(item.mobilepayment)-Number(item.mobilerefund)),
-	    other:toFixed(2)(Number(item.otherpayment)-Number(item.otherrefund))
-	};
-    };
-    
-    //TODO : don't calculate here, ask server
-    function appendTotals(inputs) {
-	var input = _.clone(inputs);
-	var total={};
-	
-	total.totalsales = toFixedWithSep(2)(_(input.list).chain()
-				      .pluck('summary')
-				      .reduce(function(init,item){ return Number(item.sales)+init;},0)
-				      .value())
-	;
-
-	total.totaltransactions=_(input.list).chain()
-	    .pluck('summary')
-	    .reduce(function(init,item){ return Number(item.numberoftransactions)+init;},0)
-	    .value();
-	total.totaltax1 = toFixedWithSep(2)(_(input.list).chain()
-				     .pluck('summary')
-				     .reduce(function(init,item){ return Number(item.tax1)+init;},0)
-				     .value());
-	total.totaltax3 = toFixedWithSep(2)(_(input.list).chain()
-				     .pluck('summary')
-				     .reduce(function(init,item){ return Number(item.tax3)+init;},0)
-				     .value());
-	total.totaltotalsales = toFixedWithSep(2)(_(input.list).chain()
-					   .pluck('summary')
-					   .reduce(function(init,item){ return Number(item.totalsales)+init;},0)
-					   .value());
-	total.totalcash = toFixedWithSep(2)(_(input.list).chain()
-				     .pluck('summary')
-				     .reduce(function(init,item){ return Number(item.cash)+init;},0)
-				     .value());
-	total.totalcredit = toFixedWithSep(2)(_(input.list).chain()
-				       .pluck('summary')
-				       .reduce(function(init,item){ return Number(item.credit)+init;},0)
-				       .value());
-	total.totaldebit = toFixedWithSep(2)(_(input.list).chain()
-				      .pluck('summary')
-				      .reduce(function(init,item){ return Number(item.debit)+init;},0)
-				      .value());
-	total.totalmobile = toFixedWithSep(2)(_(input.list).chain()
-				       .pluck('summary')
-				       .reduce(function(init,item){ return Number(item.mobile)+init;},0)
-				       .value());
-	total.totalother = toFixedWithSep(2)(_(input.list).chain()
-				      .pluck('summary')
-				      .reduce(function(init,item){ return Number(item.other)+init;},0)
-				      .value());
-	input.total = total;
-	return input;
-    };
-    
-    var result = {};
-    
-    if(!_.isEmpty(ReportData.company)) {
-	var groups = ReportData.company.hierarchy.groups;
-	result.list = _.map(list, function(item){
-				var period = item.period;
-				var namenum = getStoreNameNum(groups,item.id);
-				return {groupName:getGroupName(groups,item.id),
-					storeName:namenum.name,
-					storeNumber:namenum.num,
-					summary:getSummarySales(period)
-				       };
-			    });
-	
-	
-	result = appendTotals(result);
-	
-	result.list = _.map(result.list, function(item){
-		_.applyToValues(item.summary, function(obj){
-					     var strObj = obj+"";
-					     if(strObj.indexOf(".")>=0) {
-					     	obj = toFixedWithSep(2)(obj);
-					     }
-					     return obj;
-					 }, true);
-		return item;
-	});
-	
-	return result;
-	
-    } else if(!_.isEmpty(ReportData.group)) {
-	var groups = [ReportData.group];
-	result.list = _.map(list, function(item){
-				var period = item.period;
-				var namenum = getStoreNameNum(groups,item.id);
-				return {groupName:getGroupName(groups,item.id),
-					storeName:namenum.name,
-					storeNumber:namenum.num,
-					summary:getSummarySales(period)
-				       };
-			    });
-	
-	
-	result = appendTotals(result);
-	
-	result.list = _.map(result.list, function(item){
-		_.applyToValues(item.summary, function(obj){
-					     var strObj = obj+"";
-					     if(strObj.indexOf(".")>=0) {
-					     	obj = toFixedWithSep(2)(obj);
-					     }
-					     return obj;
-					 }, true);
-		return item;
-	});
-	
-	return result;
-	
-    } else if(!_.isEmpty(ReportData.store)) {
-	result.list = _.map(list, function(item){
-				var period = item.period;
-				return {groupName:ReportData.groupName,
-					storeName:ReportData.store.storeName,
-					storeNumber:ReportData.store.number,
-					summary:getSummarySales(period)
-				       };
-			    });
-	
-	
-	result = appendTotals(result);
-	
-	result.list = _.map(result.list, function(item){
-		_.applyToValues(item.summary, function(obj){
-					     var strObj = obj+"";
-					     if(strObj.indexOf(".")>=0) {
-					     	obj = toFixedWithSep(2)(obj);
-					     }
-					     return obj;
-					 }, true);
-		return item;
-	});
-	
-	return result;
-    }
-};
-*/

@@ -108,6 +108,10 @@ input.menuButtonToggle {
     width:13px;
 }
 
+input.datepickerInput {
+    width:120px;
+}
+
 input.menuEditInput {
     width:150px;
     height:14px;

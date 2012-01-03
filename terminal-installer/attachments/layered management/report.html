@@ -215,14 +215,15 @@
       <form id="dateRange">
 	<ul style="list-style-type: none;">
 	  <li>Date Range :</li>
-	  <li style="display: inline; float:left">
+	  <li style="display: inline; float:left; padding-right: 5px;">
 	    <label for="dateFrom">From:</label>
-	    <input type="text" id="dateFrom" name="from" />
+	    <input type="text" id="dateFrom" name="from" class="datepickerInput"/>
 	  </li>
-	  <li style="display: inline; float:letf">
+	  <li style="display: inline; float:left; padding-right: 5px;">
 	    <label for="dateTo">To:</label>
-	    <input type="text" id="dateTo" name="to" />
+	    <input type="text" id="dateTo" name="to" class="datepickerInput"/>
 	  </li>
+	  <li style="float:left; padding-right: 5px;">{{>generalGoButton_P}}</li>
 	</ul>
       </form>
     </script>
@@ -806,7 +807,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       {{>groupDropdownbox_P}}
       {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}			
+      <!--{{>generalGoButton_P}}-->			
       <br/><br/>
       <div id='summarytable'></div>		
       {{>backButton_P}}
@@ -909,7 +910,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       {{>groupDropdownbox_P}} <br/>
       {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}			
+      <!--{{>generalGoButton_P}}-->			
       <br/><br/>
       <div id='salesdetailtable'></div>		
       {{>backButton_P}}
@@ -1067,7 +1068,8 @@
       <h1>Hourly Activity Report</h1>
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}} 
-      {{>generalGoButton_P}}<br/>
+      <!--{{>generalGoButton_P}}-->
+      <br/>
       <br/><br/>
       <div id='hourlytable'></div>		
       {{>backButton_P}}
@@ -1115,7 +1117,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}			
+      <!--{{>generalGoButton_P}}-->			
       <br/><br/>
       <div id='taxcollectedtable'></div>	
       {{>backButton_P}}
@@ -1179,7 +1181,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}			
+      <!--{{>generalGoButton_P}}-->			
       <br/><br/>
       <div id="reporttable"></div>	
       {{>backButton_P}}
@@ -1215,7 +1217,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}			
+      <!--{{>generalGoButton_P}}-->			
       <br/><br/>
       <div id='cashoutstable'></div>	
       {{>backButton_P}}
@@ -1269,7 +1271,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}			
+      <!--{{>generalGoButton_P}}-->			
       <br/><br/>
       <div id='cancelledtable'></div>	
       {{>backButton_P}}
@@ -1323,7 +1325,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}			
+      <!--{{>generalGoButton_P}}-->			
       <br/><br/>
       <div id='refundstable'></div>	
       {{>backButton_P}}
@@ -1384,7 +1386,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}			
+      <!--{{>generalGoButton_P}}-->			
       <br/><br/>
       <div id='discountstable'></div>	
       {{>backButton_P}}
@@ -1393,14 +1395,31 @@
     
     
     <!---------------------------------- INVENTORY REPORTS ------------------------------------------------>
+    <script id="inventoryDropdownbox_P" class="partial" type="text/html">
+      <ul style="list-style-type: none; padding-left: 0px; margin: 0px">
+	<li style="display: inline;">Category : 
+	  <select id="inventorydown" class="{{>commonClasses_P}}">
+	    <option value = "ALL" selected>ALL</option>
+	    <option value = "Menu" >Menu</option>
+	    <option value = "Scan" >Scan</option>
+	    <option value = "ECR" >ECR</option>
+	  </select>
+	</li>
+      </ul>
+    </script>
+    
     <script id="inventoryReports_TMP" type="text/html">
       <h1>Inventory Report</h1>
       <h2>{{>breadcrumb_P}}</h2>
       {{>groupDropdownbox_P}}
       {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}			
+      <!--{{>generalGoButton_P}}-->
       <br/><br/>
-      <div id='inventorytable'></div>		
+      {{>inventoryDropdownbox_P}}			
+      <br/><br/>
+      <div id='inventorymenutable'></div>
+      <div id='inventoryscantable'></div>
+      <div id='inventoryecrtable'></div>
       {{>backButton_P}}
       {{>menuButton_P}}
     </script>
@@ -1464,10 +1483,10 @@
     <table>
       <tr>
     {{#menuButtonHeaders}}
-	<td width="80px" height="60px"  align="center" valign="center" id="menubuttonheader{{menu_id}}">
-	  <!--<button id="menubuttonheader{{menu_id}}" class="{{>commonButtonClasses_P}}"   role="button" aria-disabled="false">--><!--onClick="renderMenuSetMenusScreen({{menu_id}});"-->
-	    <ul style="list-style-type: none; padding-left: 0px; margin: 0px">{{#description1}}<li>{{description1}}</li>{{/description1}} {{#description2}}<li>{{description2}}</li>{{/description2}} {{#description3}}<li>{{description3}}</li>{{/description3}}</ul>
-	  <!--</button>-->	
+	<td width="80px" height="60px"  align="center" id="menubuttonheader{{menu_id}}">
+	  <button id="menubuttonheader{{menu_id}}" class="{{>commonButtonClasses_P}}"   role="button" aria-disabled="false">
+	    <ul style="list-style-type: none; padding-left: 0px; margin: 0px;">{{#description1}}<li>{{description1}}</li>{{/description1}} {{#description2}}<li>{{description2}}</li>{{/description2}} {{#description3}}<li>{{description3}}</li>{{/description3}}</ul>
+	  </button>	
 	</td>
 	{{/menuButtonHeaders}}
       </tr>
@@ -1490,10 +1509,10 @@
 	    <td><label for="description3">Description 3:</label></td>
 	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" var="description3" id="description3" value="{{description3}}"/></td>
 	  </tr>
-	  <tr>
+	  <!--<tr>
 	    <td><label for="displayColor"> Color :</label></td>
 	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" id="displayColor" var="color"  value="{{color}}" /></td>
-	  </tr>	
+	  </tr>-->	
 	</table>
 	<input type="hidden" var="menu_id" var_type="number" value="{{menu_id}}" />
 	<input type="hidden" var="defaultImage" value="{{defaultImage}}" />
