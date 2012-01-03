@@ -344,18 +344,18 @@ function renderElectronicPaymentsTable() {
 			 _.applyToValues(data_TMP, function(obj){
 					     var strObj = obj+"";
 					     if(strObj.indexOf(".")>=0) {
-					     	obj = toFixedWithSep(2)(obj);
+					     	obj = currency_format(obj);
 					     }
 					     return obj;
 					 }, true);
 			totals =
-			_.applyToValues(totals,toFixedWithSep(2),true);
+			_.applyToValues(totals,currency_format,true);
 					 
 		 var html = ich.electronicPaymentsTabel_TMP({items:data_TMP,totals:totals});
 	     }
 	     $("#reporttable").html(html);
-	     _.each(data_TMP, function(transaction){
-			var item = _.clone(transaction);
+	     _.each(data_TMP, function(item){
+			var item = _.clone(item);
 			
 			var dialogtitle=getDialogTitle(ReportData,item.name);
 			
@@ -377,7 +377,7 @@ function renderElectronicPaymentsTable() {
 									}
 									,true);
 									
-							_.applyToValues(btnData,toFixedWithSep(2),true);
+							_.applyToValues(btnData,currency_format,true);
 							
 							var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
 							quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});

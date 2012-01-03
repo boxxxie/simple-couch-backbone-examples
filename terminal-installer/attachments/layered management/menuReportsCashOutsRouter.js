@@ -284,7 +284,7 @@ function rendermenuReportsCashOutsTable() {
 				       _.applyToValues(data, function(obj){
 						     var strObj = obj+"";
 						     if(strObj.indexOf(".")>=0) {
-						     	obj = toFixedWithSep(2)(obj);
+						     	obj = currency_format(obj);
 						     }
 						     return obj;
 						 }, true);

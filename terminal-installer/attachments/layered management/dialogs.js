@@ -32,7 +32,7 @@ function quickReportView(id, title){
     		      	var ytd_noofsale = Number(for_TMP.ytd.noofsale)+"";
     		      	var ytd_noofrefund = Number(for_TMP.ytd.noofrefund)+"";
     		      	
-    		      	for_TMP = _.applyToValues(for_TMP,toFixedWithSep(2),true);
+    		      	for_TMP = _.applyToValues(for_TMP,currency_format,true);
     		      	
     		      	for_TMP.yesterday.noofsale=yesterday_noofsale;
     		      	for_TMP.yesterday.noofrefund=yesterday_noofrefund;
@@ -77,7 +77,7 @@ function quickTaxView(id, title, firstindex, lastindex) {
 		_.applyToValues(for_TMP, function(obj){
 					     var strObj = obj+"";
 					     if(strObj.indexOf(".")>=0) {
-					     	obj = toFixedWithSep(2)(obj);
+					     	obj = currency_format(obj);
 					     }
 					     return obj;
 					 }, true);

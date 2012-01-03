@@ -299,7 +299,7 @@ function extractSalesSummaryTableInfo(list) {
 	var input = _.clone(inputs);
 	var total={};
 	
-	total.totalsales = toFixedWithSep(2)(_(input.list).chain()
+	total.totalsales = currency_format(_(input.list).chain()
 				      .pluck('summary')
 				      .reduce(function(init,item){ return Number(item.sales)+init;},0)
 				      .value())
@@ -309,35 +309,35 @@ function extractSalesSummaryTableInfo(list) {
 	    .pluck('summary')
 	    .reduce(function(init,item){ return Number(item.numberoftransactions)+init;},0)
 	    .value();
-	total.totaltax1 = toFixedWithSep(2)(_(input.list).chain()
+	total.totaltax1 = currency_format(_(input.list).chain()
 				     .pluck('summary')
 				     .reduce(function(init,item){ return Number(item.tax1)+init;},0)
 				     .value());
-	total.totaltax3 = toFixedWithSep(2)(_(input.list).chain()
+	total.totaltax3 = currency_format(_(input.list).chain()
 				     .pluck('summary')
 				     .reduce(function(init,item){ return Number(item.tax3)+init;},0)
 				     .value());
-	total.totaltotalsales = toFixedWithSep(2)(_(input.list).chain()
+	total.totaltotalsales = currency_format(_(input.list).chain()
 					   .pluck('summary')
 					   .reduce(function(init,item){ return Number(item.totalsales)+init;},0)
 					   .value());
-	total.totalcash = toFixedWithSep(2)(_(input.list).chain()
+	total.totalcash = currency_format(_(input.list).chain()
 				     .pluck('summary')
 				     .reduce(function(init,item){ return Number(item.cash)+init;},0)
 				     .value());
-	total.totalcredit = toFixedWithSep(2)(_(input.list).chain()
+	total.totalcredit = currency_format(_(input.list).chain()
 				       .pluck('summary')
 				       .reduce(function(init,item){ return Number(item.credit)+init;},0)
 				       .value());
-	total.totaldebit = toFixedWithSep(2)(_(input.list).chain()
+	total.totaldebit = currency_format(_(input.list).chain()
 				      .pluck('summary')
 				      .reduce(function(init,item){ return Number(item.debit)+init;},0)
 				      .value());
-	total.totalmobile = toFixedWithSep(2)(_(input.list).chain()
+	total.totalmobile = currency_format(_(input.list).chain()
 				       .pluck('summary')
 				       .reduce(function(init,item){ return Number(item.mobile)+init;},0)
 				       .value());
-	total.totalother = toFixedWithSep(2)(_(input.list).chain()
+	total.totalother = currency_format(_(input.list).chain()
 				      .pluck('summary')
 				      .reduce(function(init,item){ return Number(item.other)+init;},0)
 				      .value());
@@ -366,7 +366,7 @@ function extractSalesSummaryTableInfo(list) {
 		_.applyToValues(item.summary, function(obj){
 					     var strObj = obj+"";
 					     if(strObj.indexOf(".")>=0) {
-					     	obj = toFixedWithSep(2)(obj);
+					     	obj = currency_format(obj);
 					     }
 					     return obj;
 					 }, true);
@@ -394,7 +394,7 @@ function extractSalesSummaryTableInfo(list) {
 		_.applyToValues(item.summary, function(obj){
 					     var strObj = obj+"";
 					     if(strObj.indexOf(".")>=0) {
-					     	obj = toFixedWithSep(2)(obj);
+					     	obj = currency_format(obj);
 					     }
 					     return obj;
 					 }, true);
@@ -420,7 +420,7 @@ function extractSalesSummaryTableInfo(list) {
 		_.applyToValues(item.summary, function(obj){
 					     var strObj = obj+"";
 					     if(strObj.indexOf(".")>=0) {
-					     	obj = toFixedWithSep(2)(obj);
+					     	obj = currency_format(obj);
 					     }
 					     return obj;
 					 }, true);
