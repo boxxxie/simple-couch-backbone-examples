@@ -92,15 +92,16 @@ var menuSetMenusView =
 		  var htmlbottom = ich.menuSetMenus_Bottom_TMP({menuButtonHeaders:menuModelHeaders});
 		  $("#menusetmenusbottom").html(htmlbottom);
 		  
-		  /*_.each(menuModelHeaders, function(item){
+		  _.each(menuModelHeaders, function(item){
 		  	$("#menubuttonheader"+item.menu_id).button()
-		  				.css({background:"rgb("+item.color+")"})
+		  				//.css({background:"rgb("+item.color+")"})
 					    .click(function(){
 						      view.renderMenuScreenPartial(item.menu_id);
 						      $("#menusetmenusright").html({});
 						   });
-		  });*/
+		  });
 		 
+		 /*
 		 _.each(menuModelHeaders, function(item){
 		  	$("#menubuttonheader"+item.menu_id)
 					    .click(function(){
@@ -108,6 +109,7 @@ var menuSetMenusView =
 						      $("#menusetmenusright").html({});
 						   });;
 		  });
+		  */
 		 
 	 },
 	 renderMenuScreenPartial: function(model,menus,item) {

@@ -164,22 +164,9 @@
       </button>
     </script>
     
-    <script id="quickTaxViewButton_P" class="partial" type="text/html">
-      <button onclick="quickTaxView('{{id}}','{{dialogtitle}}','{{firstindex}}','{{lastindex}}');" class="ui-state-default ui-corner-all">
-	<span class="ui-button-text">
-	  Details
-	</span>
-      </button>
-    </script>
-    
     <script id="quickDetailsViewButton_P" class="partial" type="text/html">
       <button id='{{_id}}'>Details</button>
     </script>
-    
-    <script id="quickCashoutsViewButton_P" class="partial" type="text/html">
-      <button id='{{id}}'>Details</button>
-    </script>
-    
     
     <script id="generalGoButton_P" class="partial" type="text/html">
       <button id='generalgobtn'>GO</button>
@@ -1095,7 +1082,7 @@
 	  <td align="right">{{tax1}}</td>
 	  <td align="right">{{tax3}}</td>
 	  <td align="right">{{totalsales}}</td>
-	  <td>{{>quickTaxViewButton_P}}</td>
+	  <td>{{>quickDetailsViewButton_P}}</td>
 	</tr>
 	{{/items}}
 	{{#totalrow}}
@@ -1202,7 +1189,8 @@
 	  <td>{{name}}</td>
 	  <td>{{cashouttime}}</td>
 	  <td>{{cashoutnumber}}</td>
-	  <td>{{>quickCashoutsViewButton_P}}</td>
+	  <!--<td>{{>quickCashoutsViewButton_P}}</td>-->
+	  <td>{{>quickDetailsViewButton_P}}</td>
 	</tr>
 	{{/items}}
       </table>
@@ -1483,10 +1471,10 @@
     <table>
       <tr>
     {{#menuButtonHeaders}}
-	<td width="80px" height="60px"  align="center" id="menubuttonheader{{menu_id}}">
-	  <button id="menubuttonheader{{menu_id}}" class="{{>commonButtonClasses_P}}"   role="button" aria-disabled="false">
+	<td width="80px" height="60px" style="margin-right: 0px" align="center" id="menubuttonheader{{menu_id}}"><!---->
+	  <!--<button id="menubuttonheader{{menu_id}}" class="{{>commonButtonClasses_P}}"   role="button" aria-disabled="false">-->
 	    <ul style="list-style-type: none; padding-left: 0px; margin: 0px;">{{#description1}}<li>{{description1}}</li>{{/description1}} {{#description2}}<li>{{description2}}</li>{{/description2}} {{#description3}}<li>{{description3}}</li>{{/description3}}</ul>
-	  </button>	
+	  <!--</button>-->	
 	</td>
 	{{/menuButtonHeaders}}
       </tr>
