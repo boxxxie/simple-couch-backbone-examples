@@ -6,7 +6,7 @@ function negate(num){
 }
 function inventoryTotalsRangeFetcher_F(id){
     var view = cdb.view('reporting','inventory_report');
-    var db = cdb.db('transactions',{},true); //fixme change the db to cashouts_transactions
+    var db = cdb.db('cashedout_transactions',{},true); //fixme change the db to cashouts_transactions
     return function(startDate,endDate){
 	var rangeQuery = _async.typedTransactionQuery(startDate,endDate);
 	var rangeGroupedQuery = _async.transactionRangeGroupedQuery(startDate,endDate);
