@@ -111,7 +111,7 @@ function inventoryTotalsRangeFetcher_F(id){
 				   }
 				   var salesVal = defaultValue(sales);
 				   var refundsVal =_.applyToValues(defaultValue(refunds),negate);
-				   return addPropertiesTogetherRounded(2)(salesVal,refundsVal);
+				   return _([salesVal,refundsVal]).reduce(addPropertiesTogetherRounded(2),{});
 			       }
 			       function totals_calc(sales_list){
 				   return _(sales_list).chain()
