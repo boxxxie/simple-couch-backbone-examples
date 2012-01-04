@@ -1419,16 +1419,17 @@
 	  <td align="center">{{label}}</td>
 	  <td align="right">{{quantity}}</td>
 	  <td align="right">{{price}}</td>
-	  <td align="right">{{totalSalesPercentage}}</td>
 	  <td align="right">{{typedSalesPercentage}}</td>
+	  <td align="right">{{totalSalesPercentage}}</td>
+	  
 	</tr>
 	{{/menu_sales_list}}
 	{{#menu_list_totals}}
 	<tr>
 	  <th colspan="2" align="center">Total</th>
 	  <th align="right">{{price}}</th>
-	  <th align="right">{{totalSalesPercentage}}</th>
 	  <th align="right">{{typedSalesPercentage}}</th>
+          <th align="right">{{totalSalesPercentage}}</th>
 	</tr>
 	{{/menu_list_totals}}
       </table>
@@ -1456,16 +1457,16 @@
 	  <td align="center">{{description}}</td>
 	  <td align="right">{{quantity}}</td>
 	  <td align="right">{{price}}</td>
+   	  <td align="right">{{typedSalesPercentage}}</td>
 	  <td align="right">{{totalSalesPercentage}}</td>
-	  <td align="right">{{typedSalesPercentage}}</td>
 	</tr>
 	{{/scan_sales_list}}
 	{{#scan_list_totals}}
 	<tr>
 	  <th colspan="3" align="center">Total</th>
 	  <th align="right">{{price}}</th>
+   	  <th align="right">{{typedSalesPercentage}}</th>
 	  <th align="right">{{totalSalesPercentage}}</th>
-	  <th align="right">{{typedSalesPercentage}}</th>
 	</tr>
 	{{/scan_list_totals}}
       </table>
@@ -1492,8 +1493,8 @@
 	  <td align="center">{{label}}</td>
 	  <td align="right">{{quantity}}</td>
 	  <td align="right">{{price}}</td>
-	  <td align="right">{{totalSalesPercentage}}</td>
 	  <td align="right">{{typedSalesPercentage}}</td>
+	  <td align="right">{{totalSalesPercentage}}</td>
 	</tr>
 	{{/department_sales_list}}
 	{{#scale_sales_list}}
@@ -1518,7 +1519,7 @@
 	<tr>
 	  <th colspan="2" align="center">Total</th>
 	  <th align="right">{{price}}</th>
-	<th align="right">{{typedSalesPercentage}}</th>
+	  <th align="right">{{typedSalesPercentage}}</th>
 	  <th align="right">{{totalSalesPercentage}}</th>
 	</tr>
 	{{/ecr_list_totals}}
