@@ -49,7 +49,7 @@ var menuReportsInventoryView =
 	 renderMenuReportsCompanyInventory: function() {
 	     
 	     var html = ich.inventoryReports_TMP({startPage:"companyReport", 
-	     					     breadCrumb:breadCrumb(ReportData.company.companyName)});
+	     					  breadCrumb:breadCrumb(ReportData.company.companyName)});
 	     $(this.el).html(html);
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )
@@ -87,20 +87,20 @@ var menuReportsInventoryView =
 	     _.each(stores, function(store) {
 	 		dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
 	 	    });
-	 	 
-	 	 var btn = $('#generalgobtn')
-			    .button()
-			    .click(function(){
-				      renderInventoryReportTable();
-				   });
+	     
+	     var btn = $('#generalgobtn')
+		 .button()
+		 .click(function(){
+			    renderInventoryReportTable();
+			});
 	     
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsGroupInventory: function() {
 	     
 	     var html = ich.inventoryReports_TMP({startPage:"groupReport", 
-	 					     breadCrumb:breadCrumb(ReportData.companyName,
-	 					     			   ReportData.group.groupName)});
+	 					  breadCrumb:breadCrumb(ReportData.companyName,
+	 					     			ReportData.group.groupName)});
 	     $(this.el).html(html);
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )
@@ -136,19 +136,19 @@ var menuReportsInventoryView =
 	 	    });
 	     
 	     var btn = $('#generalgobtn')
-			    .button()
-			    .click(function(){
-				      renderInventoryReportTable();
-				   });
+		 .button()
+		 .click(function(){
+			    renderInventoryReportTable();
+			});
 	     
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsStoreInventory: function() {
 	     
 	     var html = ich.inventoryReports_TMP({startPage:"storeReport", 
-	 					     breadCrumb:breadCrumb(ReportData.companyName,
-	 					     			   ReportData.groupName,
-	 					     			   ReportData.store.storeName)});
+	 					  breadCrumb:breadCrumb(ReportData.companyName,
+	 					     			ReportData.groupName,
+	 					     			ReportData.store.storeName)});
 	     $(this.el).html(html);
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )
@@ -184,10 +184,10 @@ var menuReportsInventoryView =
 	     dropdownStore.attr('disabled','disabled');
 	     
 	     var btn = $('#generalgobtn')
-			    .button()
-			    .click(function(){
-				      renderInventoryReportTable();
-				   });
+		 .button()
+		 .click(function(){
+			    renderInventoryReportTable();
+			});
 	     
 	     console.log("rendered general report");
 	 }
@@ -209,67 +209,74 @@ function renderInventoryReportTable() {
 	var id;
 	
 	if(storedown.val()!="ALL") {
-		var sd = $("#storesdown option:selected");
-		id = {id:sd.val(), name:sd.text()};
+	    var sd = $("#storesdown option:selected");
+	    id = {id:sd.val(), name:sd.text()};
 	} else if(groupdown.val()!="ALL") {
-		var sd = $("#groupsdown option:selected");
-		id = {id:sd.val(), name:sd.text()};
+	    var sd = $("#groupsdown option:selected");
+	    id = {id:sd.val(), name:sd.text()};
 	} else if(storedown.val()=="ALL" && groupdown.val()=="ALL") {
-		id = {id:ReportData.company._id, name:ReportData.company.companyName};
+	    id = {id:ReportData.company._id, name:ReportData.company.companyName};
 	}
 	
 	console.log(id);
 	
-	inventoryTotalsRangeFetcher_F(id.id)(startDate.toArray().slice(0,3), endDateForQuery.toArray().slice(0,3))(function(err,for_TMP) {
-		console.log(for_TMP);
-		var menuParam = {menu_sales:for_TMP.menu_sales, menu_sales_list:for_TMP.menu_sales_list, menu_list_totals:for_TMP.menu_list_totals};
-		var scanParam = {scan_sales:for_TMP.scan_sales, scan_sales_list:for_TMP.scan_sales_list, scan_list_totals:for_TMP.scan_list_totals};
-		var ecrParam = {ecr_sales:for_TMP.ecr_sales, 
-						department_sales_list:for_TMP.department_sales_list,
-						scale_sales_list:for_TMP.scale_sales_list,
-						ecr_sales_list:for_TMP.ecr_sales_list,
-						ecr_list_totals:for_TMP.ecr_list_totals};
-							
-		var html_menu = ich.menuReportsInventoryMenuTabel_TMP(menuParam);
-	     $("#inventorymenutable").html(html_menu);
-		
-		var html_scan = ich.menuReportsInventoryScanTabel_TMP(scanParam);
-	     $("#inventoryscantable").html(html_scan);
-		
-		var html_ecr = ich.menuReportsInventoryEcrTabel_TMP(ecrParam);
-	     $("#inventoryecrtable").html(html_ecr);
-		
-		var cate_drop = $('#inventorydown');
-		
-		var opts = $('option',cate_drop);
-		opts[0].selected=true;
-		
-		var drop = cate_drop.change(function() {
-				var category = $(this).val();
-				if(category=="ALL") {
-				    $("#inventorymenutable").html(html_menu);
-				    $("#inventoryscantable").html(html_scan);
-				    $("#inventoryecrtable").html(html_ecr);
-					//console.log(tmpAll);	
-				} else if(category=="Menu") {
-					$("#inventorymenutable").html(html_menu);
-					$("#inventoryscantable").html({});
-				    $("#inventoryecrtable").html({});
-					//console.log(tmpMenu);
-				} else if(category=="Scan") {
-					$("#inventorymenutable").html({});
-				    $("#inventoryscantable").html(html_scan);
-				    $("#inventoryecrtable").html({});
-					//console.log(tmpScan);
-				} else if(category=="ECR") {
-					$("#inventorymenutable").html({});
-				    $("#inventoryscantable").html({});
-				    $("#inventoryecrtable").html(html_ecr);
-					//console.log(tmpEcr);
-				}
-			});
-	});
-		
+	inventoryTotalsRangeFetcher_F(id.id)(startDate.toArray().slice(0,3), endDateForQuery.toArray().slice(0,3))
+	(function(err,for_TMP) {
+	     console.log(for_TMP);
+	     var menuParam = {menu_sales:for_TMP.menu_sales, menu_sales_list:for_TMP.menu_sales_list, menu_list_totals:for_TMP.menu_list_totals};
+	     var scanParam = {scan_sales:for_TMP.scan_sales, scan_sales_list:for_TMP.scan_sales_list, scan_list_totals:for_TMP.scan_list_totals};
+	     var ecrParam = {ecr_sales:for_TMP.ecr_sales, 
+			     department_sales_list:for_TMP.department_sales_list,
+			     scale_sales_list:for_TMP.scale_sales_list,
+			     ecr_sales_list:for_TMP.ecr_sales_list,
+			     ecr_list_totals:for_TMP.ecr_list_totals};
+	     
+	     if(_.isEmpty(menuParam.menu_sales_list)){
+		 var html = "<p>There are no menu sales for this time frame</p>";
+	     }
+	     else{var html = ich.menuReportsInventoryMenuTabel_TMP(menuParam);}
+	     $("#inventorymenutable").html(html);
+	     
+	     if(_.isEmpty(scanParam.scan_sales_list)){
+		 var html = "<p>There are no inventory sales for this time frame</p>";
+	     }
+	     else{var html = ich.menuReportsInventoryScanTabel_TMP(scanParam);}
+	     $("#inventoryscantable").html(html);
+	     
+	     if(_.all([ecrParam.scale_sales_list,ecrParam.ecr_sales_list,ecrParam.department_sales_list],_.isEmpty)){
+		 var html = "<p>There are no ECR sales for this time frame</p>";
+	     }
+	     else{var html = ich.menuReportsInventoryEcrTabel_TMP(ecrParam);}
+	     $("#inventoryecrtable").html(html);
+	     
+	     var cate_drop = $('#inventorydown');
+	     
+	     var opts = $('option',cate_drop);
+	     opts[0].selected=true;
+	     
+	     var drop = cate_drop.change(
+		 function() {
+		     var category = $(this).val();
+		     if(category=="ALL") {
+			 $("#inventorymenutable").show();
+			 $("#inventoryscantable").show();
+			 $("#inventoryecrtable").show();
+		     } else if(category=="Menu") {
+			 $("#inventorymenutable").show();
+			 $("#inventoryscantable").hide();
+			 $("#inventoryecrtable").hide();
+		     } else if(category=="Scan") {
+			 $("#inventorymenutable").hide();
+			 $("#inventoryscantable").show();
+			 $("#inventoryecrtable").hide();
+		     } else if(category=="ECR") {
+			 $("#inventorymenutable").hide();
+			 $("#inventoryscantable").hide();
+			 $("#inventoryecrtable").show();
+		     }
+		 });
+	 });
+	
     } else {
    	alert("Input Date");
     }

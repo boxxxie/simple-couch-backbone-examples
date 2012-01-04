@@ -39,6 +39,7 @@
 
     <script language="javascript" type="text/javascript" src="../lib/bigdecimal.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/bignumber.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/fraction.js"></script>
     
     <script language="javascript" type="text/javascript" src="../lib/Menu.js"></script>
 
@@ -205,19 +206,21 @@
     </script>
     
     <script id="dateRangePicker_P" class="partial" type="text/html">
-      <form id="dateRange">
-	<ul style="list-style-type: none;">
-	  <li>Date Range :</li>
-	  <li style="display: inline; float:left; padding-right: 5px;">
-	    <label for="dateFrom">From:</label>
-	    <input type="text" id="dateFrom" name="from" class="datepickerInput"/>
-	  </li>
-	  <li style="display: inline; float:left; padding-right: 5px;">
-	    <label for="dateTo">To:</label>
-	    <input type="text" id="dateTo" name="to" class="datepickerInput"/>
-	  </li>
-	</ul>
-      </form>
+      <div id="dateRangePicker" style="margin-bottom: 40px;">
+	<form id="dateRange">
+	  <ul style="list-style-type: none;">
+	    <li>Date Range :</li>
+	    <li style="display: inline; float:left; padding-right: 5px;">
+	      <label for="dateFrom">From:</label>
+	      <input type="text" id="dateFrom" name="from" class="datepickerInput"/>
+	    </li>
+	    <li style="display: inline; float:left; padding-right: 5px;">
+	      <label for="dateTo">To:</label>
+	      <input type="text" id="dateTo" name="to" class="datepickerInput"/>
+	    </li>
+	  </ul>
+	</form>
+      </div>
     </script>
 
     <!--------------------------- DIALOG QUICKVIEW(yesterday/mtd/ytd) ---------------------------------------->
@@ -707,17 +710,17 @@
       <h1>Reports Menus</h1>
       <h2>{{>breadcrumb_P}}</h2>
       <ol>
-	<li><a href='#menuReports/{{startPage}}SalesSummary'> Sales Summary</a> <br/></li>
-	<li><a href='#menuReports/{{startPage}}SalesDetail'> Sales Detail</a> <br/></li>
-	<li><a href='#menuReports/{{startPage}}HowAreWe'> How Are We Doing Today</a> <br/></li>
-	<li><a href='#menuReports/{{startPage}}HourlyActivity'> Hourly Activity</a> <br/></li>
-	<li><a href='#menuReports/{{startPage}}ElectronicPayments'> Electronic Payments</a> <br/></li>
-	<li><a href='#menuReports/{{startPage}}TaxCollected'> Tax Collected</a> <br/></li>
-	<li><a href='#menuReports/{{startPage}}CashOuts'> Cash Outs</a> <br/></li>
-	<li><a href='#menuReports/{{startPage}}Cancelled'> Cancelled Transactions</a> <br/></li>
-	<li><a href='#menuReports/{{startPage}}Refunds'> Refunds</a> <br/></li>
-	<li><a href='#menuReports/{{startPage}}Discounts'> Discounts</a> <br/></li>
-	<li><a href='#menuReports/{{startPage}}Inventory'> Inventory Reports</a> <br/></li>
+	<li><a href='#menuReports/{{startPage}}SalesSummary'> Sales Summary</a></li>
+	<li><a href='#menuReports/{{startPage}}SalesDetail'> Sales Detail</a></li>
+	<li><a href='#menuReports/{{startPage}}HowAreWe'> How Are We Doing Today</a></li>
+	<li><a href='#menuReports/{{startPage}}HourlyActivity'> Hourly Activity</a></li>
+	<li><a href='#menuReports/{{startPage}}ElectronicPayments'> Electronic Payments</a></li>
+	<li><a href='#menuReports/{{startPage}}TaxCollected'> Tax Collected</a></li>
+	<li><a href='#menuReports/{{startPage}}CashOuts'> Cash Outs</a></li>
+	<li><a href='#menuReports/{{startPage}}Cancelled'> Cancelled Transactions</a></li>
+	<li><a href='#menuReports/{{startPage}}Refunds'> Refunds</a></li>
+	<li><a href='#menuReports/{{startPage}}Discounts'> Discounts</a></li>
+	<li><a href='#menuReports/{{startPage}}Inventory'> Inventory Reports</a></li>
       </ol>
       {{>backButton_P}}
       {{>menuButton_P}}
@@ -800,7 +803,6 @@
       {{>groupDropdownbox_P}}
       {{>dateRangePicker_P}}
       {{>generalGoButton_P}}			
-      <br/><br/>
       <div id='summarytable'></div>		
       {{>backButton_P}}
       {{>menuButton_P}}
@@ -903,7 +905,6 @@
       {{>groupDropdownbox_P}}
       {{>dateRangePicker_P}}
       {{>generalGoButton_P}}		
-      <br/><br/>
       <div id='salesdetailtable'></div>		
       {{>backButton_P}}
       {{>menuButton_P}}
@@ -1061,8 +1062,6 @@
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}} 
       {{>generalGoButton_P}}
-      <br/>
-      <br/><br/>
       <div id='hourlytable'></div>		
       {{>backButton_P}}
       {{>menuButton_P}}
@@ -1111,7 +1110,6 @@
       {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
       {{>generalGoButton_P}}	
-      <br/><br/>
       <div id='taxcollectedtable'></div>	
       {{>backButton_P}}
       {{>menuButton_P}}
@@ -1175,7 +1173,6 @@
       {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
       {{>generalGoButton_P}}		
-      <br/><br/>
       <div id="reporttable"></div>	
       {{>backButton_P}}
       {{>menuButton_P}}
@@ -1211,7 +1208,6 @@
       {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
       {{>generalGoButton_P}}		
-      <br/><br/>
       <div id='cashoutstable'></div>	
       {{>backButton_P}}
       {{>menuButton_P}}
@@ -1265,7 +1261,6 @@
       {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
       {{>generalGoButton_P}}	
-      <br/><br/>
       <div id='cancelledtable'></div>	
       {{>backButton_P}}
       {{>menuButton_P}}
@@ -1319,7 +1314,6 @@
       {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
       {{>generalGoButton_P}}		
-      <br/><br/>
       <div id='refundstable'></div>	
       {{>backButton_P}}
       {{>menuButton_P}}
@@ -1380,7 +1374,6 @@
       {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
       {{>generalGoButton_P}}		
-      <br/><br/>
       <div id='discountstable'></div>	
       {{>backButton_P}}
       {{>menuButton_P}}
@@ -1403,7 +1396,8 @@
     
     <script id="menuReportsInventoryMenuTabel_TMP" type="text/html">
       <ul style="list-style-type: none; padding-left: 0px; margin: 0px">
-	<li style="display: inline;">Menu Sales - Total Sales For Date Range : $ {{#menu_sales}}{{price}}{{/menu_sales}}
+	<li style="display: inline;">
+	  Menu Sales - Total Sales For Date Range : $ {{#menu_sales}}{{price}}{{/menu_sales}}
 	</li>
       </ul>	
       <table border="1">
@@ -1421,7 +1415,6 @@
 	  <td align="right">{{price}}</td>
 	  <td align="right">{{typedSalesPercentage}}</td>
 	  <td align="right">{{totalSalesPercentage}}</td>
-	  
 	</tr>
 	{{/menu_sales_list}}
 	{{#menu_list_totals}}
@@ -1433,7 +1426,6 @@
 	</tr>
 	{{/menu_list_totals}}
       </table>
-      <br/><br/>
     </script>
     
     
@@ -1470,7 +1462,6 @@
 	</tr>
 	{{/scan_list_totals}}
       </table>
-      <br/><br/>
     </script>
     
     
@@ -1532,13 +1523,10 @@
       {{>groupDropdownbox_P}}
       {{>dateRangePicker_P}}
       {{>generalGoButton_P}}
-      <br/><br/>
       {{>inventoryDropdownbox_P}}			
-      <br/><br/>
-      <div id='inventorymenutable'></div>
-      <div id='inventoryscantable'></div>
-      <div id='inventoryecrtable'></div>
-      <br/>
+      <div id='inventorymenutable' style="margin-bottom:30px;"></div>
+      <div id='inventoryscantable' style="margin-bottom:30px;"></div>
+      <div id='inventoryecrtable' style="margin-bottom:30px;"></div>
       {{>backButton_P}}
       {{>menuButton_P}}
     </script>
@@ -1784,8 +1772,7 @@
     <script id="layerLogin_TMP" type="text/html">
       <title>RT7 - V2 POS</title>
       <div class="wrapper">
-	<form id="ids_form">
-	  <h1></h1><br/><br/><br/>
+	<form id="ids_form" style="margin-top: 90px;">
 	  <center>
 	    <table width="400" border="0" cellspacing="0" cellpadding="6">
 	      <tr>
@@ -1808,14 +1795,10 @@
 		<td align="right">Password</td>
 		<td><input id="layeredloginpassword" type="password" var="password" /></td>
 	      </tr>
-	      <tr>
-		<td></td>
-		<td></td>
-	      </tr>
 	    </table>
 	  </center>
 	</form>
-	{{>loginButton_P}}
+	<span style="margin-left:220px;">{{>loginButton_P}}</span>
       </div>
       <div class="footer">
 	<div class="footerin">
