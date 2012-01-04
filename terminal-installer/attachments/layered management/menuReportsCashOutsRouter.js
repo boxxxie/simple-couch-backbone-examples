@@ -268,11 +268,12 @@ function rendermenuReportsCashOutsTable() {
 				  return _.extend(item, {dialogtitle:dialogtitle});
 			      });
 
+		var html;
 	     if(_.isEmpty(data_TMP)){
-		 var html = "<p>There are no cashouts for this time period</p>";	 
+		 	html = "<p>There are no cashouts for this time period</p>";	 
 	     }
 	     else{
-		 var html = ich.menuReportsCashOutsTabel_TMP({items:data_TMP, numofcashout:numofcashout});
+		 	html = ich.menuReportsCashOutsTabel_TMP({items:data_TMP, numofcashout:numofcashout});
 	     }
 	     $("#cashoutstable").html(html);
 	     
