@@ -68,7 +68,6 @@ function installTerminal(companyID,groupID,storeID,terminalID){
     var db_menus = "menus_corp";
     var Menu = couchDoc.extend({urlRoot:urlBase + db_menus});
     var terminal_menu = new Menu({_id:companyID});
-    terminal_menu.save();
     terminal_menu.fetch(
 	{success:function(model){
 	     //use the menu set up by the company for this terminal installation.

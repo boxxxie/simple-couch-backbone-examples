@@ -18,7 +18,7 @@ function addPropertiesTogetherRounded(roundMag){
 
 function inventoryTotalsRangeFetcher_F(id){
     var view = cdb.view('reporting','inventory_report');
-   // var db = cdb.db('cashedout_transactions',{},true); //fixme change the db to cashouts_transactions
+    // var db = cdb.db('cashedout_transactions',{},true); //fixme change the db to cashouts_transactions
     var db = cdb.db('transactions',{},true); //fixme change the db to cashouts_transactions
     return function(startDate,endDate){
 	var rangeQuery = _async.typedTransactionQuery(startDate,endDate);
@@ -61,7 +61,7 @@ function inventoryTotalsRangeFetcher_F(id){
 				       var reducedVal = _(val).
 					   chain().
 					   map(_.selectKeys_F(['price','quantity'])).
-					   reduce(addPropertiesTogetherRounded(2),{}).
+					   reduce(addPropertiesTogether,{}).
 					   value();
 				       return _.extend({label:key},reducedVal);
 				   }
@@ -112,20 +112,19 @@ function inventoryTotalsRangeFetcher_F(id){
 				   }
 				   var salesVal = defaultValue(sales);
 				   var refundsVal =_.applyToValues(defaultValue(refunds),negate);
-				   return _([salesVal,refundsVal]).reduce(addPropertiesTogetherRounded(2),{});
+				   return _([salesVal,refundsVal]).reduce(addPropertiesTogether,{});
 			       }
 			       function totals_calc(sales_list){
 				   return _(sales_list).chain()
 				       .map(_.selectKeys_F(['price','quantity','totalSalesPercentage','typedSalesPercentage']))
-				       .reduce(addPropertiesTogetherRounded(2),{})
+				       .reduce(addPropertiesTogether,{})
 				       .value();
 			       }
 
 			       resp = _.applyToValues(resp,function(item){
 							  if(item && item.price){
-							  		item.price = Number(toFixed(2)(item.price));
-							  		return item;
-							      //return _.extend(item,{price:Number(toFixed(2)(item.price))});
+							      item.price = Number(toFixed(2)(item.price));
+							      return item;
 							  }
 							  return item;
 						      },true);
@@ -133,20 +132,20 @@ function inventoryTotalsRangeFetcher_F(id){
 			       var ecr_sales = _.reduce([totals(resp.total_department_sale,resp.total_department_refund),
 							 totals(resp.total_scale_sale,resp.total_scale_refund),
 							 totals(resp.total_ecr_sale,resp.total_ecr_refund)],
-							addPropertiesTogetherRounded(2),
+							addPropertiesTogether,
 							{});
 
 			       var menu_sales=totals(resp.total_menu_sale,resp.total_menu_refund);
 			       var scan_sales=totals(resp.total_scan_sale,resp.total_scan_refund);
 
 
-			       var totalSales = _.reduce([menu_sales,scan_sales,ecr_sales],addPropertiesTogetherRounded(2),{}).price;
+			       var totalSales = _.reduce([menu_sales,scan_sales,ecr_sales],addPropertiesTogether,{}).price;
 			       
 
 
 			       var menu_sales_list = totals_list(resp.all_menu_sales,resp.all_menu_refunds,menu_sales.price,totalSales);
 			       var menu_sales_totals = totals_calc(menu_sales_list);
- 
+			       
 
 			       var scan_sales_list =_(totals_list(resp.all_scan_sales,resp.all_scan_refunds,scan_sales.price,totalSales))
 				   .map(function(scan){
