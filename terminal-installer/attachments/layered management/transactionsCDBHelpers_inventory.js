@@ -63,7 +63,7 @@ function inventoryTotalsRangeFetcher_F(id){
 					   map(function(o){return _.selectKeys(o,['price','quantity']);}).
 					   reduce(addPropertiesTogetherRounded(2),{}).
 					   value();
-					   reducedVal.price = Number(toFixed(2)(reduceVal.price));
+					   reducedVal.price = Number(toFixed(2)(reducedVal.price));
 				       return _.extend({label:key},reducedVal);
 				   }
 				   
