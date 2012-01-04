@@ -184,19 +184,19 @@ function electronicPaymentsTotalsIndexRangeFetcher_F(id){
 	var visa_sale = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"sale","VISA"]);
 	var mastercard_sale = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"sale","MASTERCARD"]);
 	var amex_sale = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"sale","AMEX"]);
-	var discover_sale = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"sale","AMEX"]);
+	var discover_sale = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"sale","DISCOVER"]);
 
 	var debit_declined = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"declined","DEBIT"]);
 	var visa_declined = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"declined","VISA"]);
 	var mastercard_declined = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"declined","MASTERCARD"]);
 	var amex_declined = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"declined","AMEX"]);
-	var discover_declined = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"declined","AMEX"]);
+	var discover_declined = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"declined","DISCOVER"]);
 
 	var debit_refund = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"refund","DEBIT"]);
 	var visa_refund = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"refund","VISA"]);
 	var mastercard_refund = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"refund","MASTERCARD"]);
 	var amex_refund = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"refund","AMEX"]);
-	var discover_refund = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"refund","AMEX"]);
+	var discover_refund = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"refund","DISCOVER"]);
 
 	var voids = _async.typedTransactionQuery(startIndex,endIndex)(view,db,[id,"void","CARDVOID"]);
 

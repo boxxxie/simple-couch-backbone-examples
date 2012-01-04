@@ -313,6 +313,9 @@ function renderElectronicPaymentsTable() {
 				     if(obj && obj.quantity){
 					 obj.orderamount = toFixed(2)(obj.price * obj.quantity);
 					 obj.quantity+="";
+					 if(obj.discount) {
+					 	obj.discountamount = toFixed(2)(obj.discount * obj.quantity);
+					 }
 				     }
 				     return toFixed(2)(obj);
 				 }, true);
