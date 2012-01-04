@@ -5,6 +5,7 @@ function negate(num){
     return num;
 }
 
+//inven...F(id)(sd,ed)(err,data_TMP)
 function addPropertiesTogetherRounded(roundMag){
     return function(addTo,addFrom){
 	for (var prop in addFrom) {
@@ -62,6 +63,7 @@ function inventoryTotalsRangeFetcher_F(id){
 					   map(function(o){return _.selectKeys(o,['price','quantity']);}).
 					   reduce(addPropertiesTogetherRounded(2),{}).
 					   value();
+					   reducedVal.price = Number(toFixed(2)(reduceVal.price));
 				       return _.extend({label:key},reducedVal);
 				   }
 				   
@@ -122,7 +124,9 @@ function inventoryTotalsRangeFetcher_F(id){
 
 			       resp = _.applyToValues(resp,function(item){
 							  if(item && item.price){
-							      return _.extend(item,{price:Number(toFixed(2)(item.price))});
+							  		item.price = Number(toFixed(2)(item.price));
+							  		return item;
+							      //return _.extend(item,{price:Number(toFixed(2)(item.price))});
 							  }
 							  return item;
 						      },true);

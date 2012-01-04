@@ -264,6 +264,7 @@ function rendermenuReportsCashOutsTable() {
 		var numofcashout = data_TMP.length+"";
 	     data_TMP = _.map(data_TMP, function(item){
 				  var dialogtitle=getDialogTitle(ReportData,item.name);
+				  item._id = item.id;
 				  return _.extend(item, {dialogtitle:dialogtitle});
 			      });
 
@@ -276,7 +277,7 @@ function rendermenuReportsCashOutsTable() {
 	     $("#cashoutstable").html(html);
 	     
 	     _.each(data_TMP, function(item){	
-			var btn = $('#'+item.id)
+			var btn = $('#'+item._id)
 			    .button()
 			    .click(function(){
 				       var data = item.cashout;

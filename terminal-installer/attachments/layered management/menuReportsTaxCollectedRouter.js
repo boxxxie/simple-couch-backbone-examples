@@ -304,11 +304,8 @@ function renderTaxCollectedTable() {
 				
 			     data_TMP=
 				 _.map(data_TMP, function(item){
-					   var dialogtitle= getDialogTitle(ReportData,
-									   item.name,
-									   startDate,
-									   endDateForQuery);
-					   return _.extend(item, {dialogtitle:dialogtitle});
+						item._id = item.id;
+					   return item;
 				       });
 			     data_TMP = _.applyToValues(data_TMP,toFixed(2),true);
 			     
@@ -316,11 +313,11 @@ function renderTaxCollectedTable() {
 				 var html = "<p>There are no taxes collected for this time period</p>";	 
 			     }
 			     else{
-			     	data_TMP = _.map(data_TMP, function(item){
+			     	/*data_TMP = _.map(data_TMP, function(item){
 			     		item.firstindex = Number(item.firstindex)+"";
 			     		item.lastindex = Number(item.lastindex)+"";
 			     		return item;
-			     	});
+			     	});*/
 			     	_.applyToValues(data_TMP, function(obj){
 					     var strObj = obj+"";
 					     if(strObj.indexOf(".")>=0) {
@@ -339,6 +336,19 @@ function renderTaxCollectedTable() {
 			     }
 
 			     $("#taxcollectedtable").html(html);
+			     _.each(data_TMP, function(item){	
+					var btn = $('#'+item._id)
+					    .button()
+					    .click(function(){
+					    	var dialogtitle= getDialogTitle(ReportData,
+									   item.name,
+									   startDate,
+									   endDateForQuery);
+							var firstindex = Number(item.firstindex)+"";
+			     			var lastindex = Number(item.lastindex)+"";
+							quickTaxView(item._id,dialogtitle ,firstindex,lastindex);
+						   });
+				    });
 			 });
 	
     } else {

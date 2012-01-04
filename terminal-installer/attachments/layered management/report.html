@@ -63,6 +63,7 @@
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsRefundsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsDiscountsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsElectronicPaymentsRouter.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/menuReportsInventoryRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReports.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuMenusRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/report.js"></script>
@@ -127,7 +128,6 @@
     </script>
     
     <script id="AIRS_Buttons_P" class="partial" type="text/html">
-      <miscMenus>
 	<h3>Menus</h3>
 	<ol>
 	  <li>{{>adminButton_P}}</li>
@@ -135,18 +135,15 @@
 	  <li>{{>reportsButton_P}}</li>
 	  <li>{{>setMenusButton_P}}</li>
 	</ol>
-      </miscMenus>
     </script>
     
     <script id="AIR_Buttons_P" class="partial" type="text/html">
-      <miscMenus>
 	<h3>Menus</h3>
 	<ol>
 	  <li>{{>adminButton_P}}</li>
 	  <li>{{>inventoryButton_P}}</li>
 	  <li>{{>reportsButton_P}}</li>
 	</ol>
-      </miscMenus>
     </script>
 
     <script id="backButton_P" class="partial" type="text/html">
@@ -173,22 +170,9 @@
       </button>
     </script>
     
-    <script id="quickTaxViewButton_P" class="partial" type="text/html">
-      <button onclick="quickTaxView('{{id}}','{{dialogtitle}}','{{firstindex}}','{{lastindex}}');" class="ui-state-default ui-corner-all">
-	<span class="ui-button-text">
-	  Details
-	</span>
-      </button>
-    </script>
-    
     <script id="quickDetailsViewButton_P" class="partial" type="text/html">
       <button id='{{_id}}'>Details</button>
     </script>
-    
-    <script id="quickCashoutsViewButton_P" class="partial" type="text/html">
-      <button id='{{id}}'>Details</button>
-    </script>
-    
     
     <script id="generalGoButton_P" class="partial" type="text/html">
       <button id='generalgobtn'>GO</button>
@@ -224,13 +208,13 @@
       <form id="dateRange">
 	<ul style="list-style-type: none;">
 	  <li>Date Range :</li>
-	  <li style="display: inline; float:left">
+	  <li style="display: inline; float:left; padding-right: 5px;">
 	    <label for="dateFrom">From:</label>
-	    <input type="text" id="dateFrom" name="from" />
+	    <input type="text" id="dateFrom" name="from" class="datepickerInput"/>
 	  </li>
-	  <li style="display: inline; float:letf">
+	  <li style="display: inline; float:left; padding-right: 5px;">
 	    <label for="dateTo">To:</label>
-	    <input type="text" id="dateTo" name="to" />
+	    <input type="text" id="dateTo" name="to" class="datepickerInput"/>
 	  </li>
 	</ul>
       </form>
@@ -733,6 +717,7 @@
 	<li><a href='#menuReports/{{startPage}}Cancelled'> Cancelled Transactions</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}Refunds'> Refunds</a> <br/></li>
 	<li><a href='#menuReports/{{startPage}}Discounts'> Discounts</a> <br/></li>
+	<li><a href='#menuReports/{{startPage}}Inventory'> Inventory Reports</a> <br/></li>
       </ol>
       {{>backButton_P}}
       {{>menuButton_P}}
@@ -915,9 +900,9 @@
     <script id="salesDetailReports_TMP" type="text/html">
       <h1>Sales Detail Report</h1>
       <h2>{{>breadcrumb_P}}</h2>
-      {{>groupDropdownbox_P}} <br/>
+      {{>groupDropdownbox_P}}
       {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}			
+      {{>generalGoButton_P}}		
       <br/><br/>
       <div id='salesdetailtable'></div>		
       {{>backButton_P}}
@@ -1075,7 +1060,8 @@
       <h1>Hourly Activity Report</h1>
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}} 
-      {{>generalGoButton_P}}<br/>
+      {{>generalGoButton_P}}
+      <br/>
       <br/><br/>
       <div id='hourlytable'></div>		
       {{>backButton_P}}
@@ -1084,6 +1070,7 @@
     
     
     <!----------------------------------------------- TAX COLLECTED REPORTS -------------------------------------------->
+    
     <script id="taxCollectedTabel_TMP" type="text/html">
       <table border="1">
 	<tr>
@@ -1101,7 +1088,7 @@
 	  <td align="right">{{tax1}}</td>
 	  <td align="right">{{tax3}}</td>
 	  <td align="right">{{totalsales}}</td>
-	  <td>{{>quickTaxViewButton_P}}</td>
+	  <td>{{>quickDetailsViewButton_P}}</td>
 	</tr>
 	{{/items}}
 	{{#totalrow}}
@@ -1123,7 +1110,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}			
+      {{>generalGoButton_P}}	
       <br/><br/>
       <div id='taxcollectedtable'></div>	
       {{>backButton_P}}
@@ -1187,7 +1174,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}			
+      {{>generalGoButton_P}}		
       <br/><br/>
       <div id="reporttable"></div>	
       {{>backButton_P}}
@@ -1208,7 +1195,8 @@
 	  <td>{{name}}</td>
 	  <td>{{cashouttime}}</td>
 	  <td>{{cashoutnumber}}</td>
-	  <td>{{>quickCashoutsViewButton_P}}</td>
+	  <!--<td>{{>quickCashoutsViewButton_P}}</td>-->
+	  <td>{{>quickDetailsViewButton_P}}</td>
 	</tr>
 	{{/items}}
       </table>
@@ -1223,7 +1211,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}			
+      {{>generalGoButton_P}}		
       <br/><br/>
       <div id='cashoutstable'></div>	
       {{>backButton_P}}
@@ -1277,7 +1265,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}			
+      {{>generalGoButton_P}}	
       <br/><br/>
       <div id='cancelledtable'></div>	
       {{>backButton_P}}
@@ -1331,7 +1319,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}			
+      {{>generalGoButton_P}}		
       <br/><br/>
       <div id='refundstable'></div>	
       {{>backButton_P}}
@@ -1392,7 +1380,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}}
       {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}			
+      {{>generalGoButton_P}}		
       <br/><br/>
       <div id='discountstable'></div>	
       {{>backButton_P}}
@@ -1400,9 +1388,165 @@
     </script>
     
     
+    <!---------------------------------- INVENTORY REPORTS ------------------------------------------------>
+    <script id="inventoryDropdownbox_P" class="partial" type="text/html">
+      <ul style="list-style-type: none; padding-left: 0px; margin: 0px">
+	<li style="display: inline;">Category : 
+	  <select id="inventorydown" class="{{>commonClasses_P}}">
+	    <option value = "ALL" selected>ALL</option>
+	    <option value = "Menu" >Menu</option>
+	    <option value = "Scan" >Scan</option>
+	    <option value = "ECR" >ECR</option>
+	  </select>
+	</li>
+      </ul>
+    </script>
+    
+    <script id="menuReportsInventoryMenuTabel_TMP" type="text/html">
+	<ul style="list-style-type: none; padding-left: 0px; margin: 0px">
+	<li style="display: inline;">Menu Sales - Total Sales For Date Range : $ {{#menu_sales}}{{price}}{{/menu_sales}}
+	</li>
+	</ul>	
+      <table border="1">
+	<tr>
+	  <th>Description</th>
+	  <th>Qty Sold</th>
+	  <th>Total Sales</th>
+	  <th>% of Menu Sales</th>
+	  <th>% of Total Sales</th>
+	</tr>
+	{{#menu_sales_list}}
+	<tr>
+	  <td align="center">{{label}}</td>
+	  <td align="right">{{quantity}}</td>
+	  <td align="right">{{price}}</td>
+	  <td align="right">{{totalSalesPercentage}}</td>
+	  <td align="right">{{typedSalesPercentage}}</td>
+	</tr>
+	{{/menu_sales_list}}
+	{{#menu_list_totals}}
+	<tr>
+	  <th colspan="2" align="center">Total</th>
+	  <th align="right">{{price}}</th>
+	  <th align="right">{{totalSalesPercentage}}</th>
+	  <th align="right">{{typedSalesPercentage}}</th>
+	</tr>
+	{{/menu_list_totals}}
+      </table>
+      <br/><br/>
+    </script>
+    
+    
+    <script id="menuReportsInventoryScanTabel_TMP" type="text/html">
+	<ul style="list-style-type: none; padding-left: 0px; margin: 0px">
+	<li style="display: inline;">Scan Sales - Total Sales For Date Range : $ {{#scan_sales}}{{price}}{{/scan_sales}}
+	</li>
+	</ul>	
+      <table border="1">
+	<tr>
+	  <th>SKU</th>
+	  <th>Description</th>
+	  <th>Qty Sold</th>
+	  <th>Total Sales</th>
+	  <th>% of Scan Sales</th>
+	  <th>% of Total Sales</th>
+	</tr>
+	{{#scan_sales_list}}
+	<tr>
+	  <td align="center">{{upc}}</td>
+	  <td align="center">{{description}}</td>
+	  <td align="right">{{quantity}}</td>
+	  <td align="right">{{price}}</td>
+	  <td align="right">{{totalSalesPercentage}}</td>
+	  <td align="right">{{typedSalesPercentage}}</td>
+	</tr>
+	{{/scan_sales_list}}
+	{{#scan_list_totals}}
+	<tr>
+	  <th colspan="3" align="center">Total</th>
+	  <th align="right">{{price}}</th>
+	  <th align="right">{{totalSalesPercentage}}</th>
+	  <th align="right">{{typedSalesPercentage}}</th>
+	</tr>
+	{{/scan_list_totals}}
+      </table>
+      <br/><br/>
+    </script>
+    
+    
+    <script id="menuReportsInventoryEcrTabel_TMP" type="text/html">
+    {{#ecr_sales}}
+	<ul style="list-style-type: none; padding-left: 0px; margin: 0px">
+	<li style="display: inline;">ECR Sales - Total Sales For Date Range : $ {{price}}
+	</li>
+	</ul>
+	{{/ecr_sales}}	
+      <table border="1">
+	<tr>
+	  <th>Open Item</th>
+	  <th>Qty Sold</th>
+	  <th>Total Sales</th>
+	  <th>% of ECR Sales</th>
+	  <th>% of Total Sales</th>
+	</tr>
+	{{#department_sales_list}}
+	<tr>
+	  <td align="center">{{label}}</td>
+	  <td align="right">{{quantity}}</td>
+	  <td align="right">{{price}}</td>
+	  <td align="right">{{totalSalesPercentage}}</td>
+	  <td align="right">{{typedSalesPercentage}}</td>
+	</tr>
+	{{/department_sales_list}}
+	{{#scale_sales_list}}
+	<tr>
+	  <td align="center">{{label}}</td>
+	  <td align="right">{{quantity}}</td>
+	  <td align="right">{{price}}</td>
+	  <td align="right">{{totalSalesPercentage}}</td>
+	  <td align="right">{{typedSalesPercentage}}</td>
+	</tr>
+	{{/scale_sales_list}}
+	{{#ecr_sales_list}}
+	<tr>
+	  <td align="center">{{label}}</td>
+	  <td align="right">{{quantity}}</td>
+	  <td align="right">{{price}}</td>
+	  <td align="right">{{totalSalesPercentage}}</td>
+	  <td align="right">{{typedSalesPercentage}}</td>
+	</tr>
+	{{/ecr_sales_list}}
+	{{#ecr_list_totals}}
+	<tr>
+	  <th colspan="2" align="center">Total</th>
+	  <th align="right">{{price}}</th>
+	  <th align="right">{{totalSalesPercentage}}</th>
+	  <th align="right">{{typedSalesPercentage}}</th>
+	</tr>
+	{{/ecr_list_totals}}
+      </table>
+    </script>
+    
+    <script id="inventoryReports_TMP" type="text/html">
+      <h1>Inventory Report</h1>
+      <h2>{{>breadcrumb_P}}</h2>
+      {{>groupDropdownbox_P}}
+      {{>dateRangePicker_P}}
+      {{>generalGoButton_P}}
+      <br/><br/>
+      {{>inventoryDropdownbox_P}}			
+      <br/><br/>
+      <div id='inventorymenutable'></div>
+      <div id='inventoryscantable'></div>
+      <div id='inventoryecrtable'></div><br/>
+      {{>backButton_P}}
+      {{>menuButton_P}}
+    </script>
+    
     <!-------------------------------------------------- Menu SET MENUS --------------------------------------->
     
     <script id="menuSetMenus_Left_TMP" type="text/html">
+    	<table>
       <tr><td>
 	  <button id="menumodifiersbutton" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
 	    <span class="ui-button-text">Modifiers</span>
@@ -1431,6 +1575,7 @@
       <tr><td>
 	  {{>backButton_P}}
       </td></tr>
+      </table>
     </script>
     
     <script id="menuSetMenus_Center_TMP" type="text/html">
@@ -1454,39 +1599,39 @@
     </script>
     
     <script id="menuSetMenus_Bottom_TMP" type="text/html">
+    <table>
       <tr>
     {{#menuButtonHeaders}}
-	<td>
-	  <button id="menubuttonheader{{menu_id}}" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false"><!--onClick="renderMenuSetMenusScreen({{menu_id}});"-->
-	    <ul style="list-style-type: none; padding-left: 0px;"><li>{{description1}}</li> <li>{{description2}}</li> <li>{{description3}}</li></ul>
-	  </button>	
+	<td width="80px" height="60px" style="margin-right: 0px" align="center" id="menubuttonheader{{menu_id}}"><!---->
+	  <!--<button id="menubuttonheader{{menu_id}}" class="{{>commonButtonClasses_P}}"   role="button" aria-disabled="false">-->
+	    <ul style="list-style-type: none; padding-left: 0px; margin: 0px;">{{#description1}}<li>{{description1}}</li>{{/description1}} {{#description2}}<li>{{description2}}</li>{{/description2}} {{#description3}}<li>{{description3}}</li>{{/description3}}</ul>
+	  <!--</button>-->	
 	</td>
 	{{/menuButtonHeaders}}
-
       </tr>
-
+	</table>
     </script>
 
     <script id="menuSetMenuHeader_TMP" type="text/html">
       <form id="editMenuHeaderButton">
 	<p>Menu Header Label:</p>
-	<table style="float: left;">	
+	<table>	
 	  <tr>
 	    <td><label for="description1">Description 1:</label></td>
-	    <td><input class="menuEditInput" type="text" var="description1" id="description1" value="{{description1}}"/></td>
+	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" var="description1" id="description1" value="{{description1}}"/></td>
 	  </tr>
 	  <tr>
 	    <td><label for="description2">Description 2:</label></td>
-	    <td><input class="menuEditInput" type="text" var="description2" id="description2" value="{{description2}}"/></td>
+	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" var="description2" id="description2" value="{{description2}}"/></td>
 	  </tr>
 	  <tr>
 	    <td><label for="description3">Description 3:</label></td>
-	    <td><input class="menuEditInput" type="text" var="description3" id="description3" value="{{description3}}"/></td>
+	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" var="description3" id="description3" value="{{description3}}"/></td>
 	  </tr>
-	  <tr>
+	  <!--<tr>
 	    <td><label for="displayColor"> Color :</label></td>
-	    <td><input class="menuEditInput" type="text" id="displayColor" var="color"  value="{{color}}" /></td>
-	  </tr>	
+	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" id="displayColor" var="color"  value="{{color}}" /></td>
+	  </tr>-->	
 	</table>
 	<input type="hidden" var="menu_id" var_type="number" value="{{menu_id}}" />
 	<input type="hidden" var="defaultImage" value="{{defaultImage}}" />
@@ -1505,11 +1650,10 @@
 	      </button>
 	      </li>
 	      </ul>
-	  </td>
     </script>
     
     <script id="menuSetMenus_Right_TMP" type="text/html">
-      <form id="editMenuButton">
+     <form id="editMenuButton">
 	Menu Label:
 	<table>	
 	  {{#display}}
@@ -1536,51 +1680,45 @@
 	    <td><input class="menuEditInput" type="text" var="foodItem.price"  value="{{price}}" var_type="number" var_default="0"/></td>
 	  </tr>
 	  {{/foodItem}}
-	</table>
+	<tr><td colspan="2">
 	<ul style="list-style-type:none; float: left;">
 	  {{#display}}
-	  <li> 
+	  <li>
+	  	<input type="checkbox" style="border: 0" var="display.is_enabled" class="menuButtonToggle" id="is_enabled" {{#is_enabled}}checked=true{{/is_enabled}} /> 
 	    <label for="is_enabled">Active</label>
-	    <input type="checkbox" var="display.is_enabled" class="menuButtonToggle" id="is_enabled" {{#is_enabled}}checked=true{{/is_enabled}} />
-	  </li>	  
 	  {{/display}}
 	  {{#foodItem}}
-	  <li> 
+	    <input type="checkbox" style="border: 0" var="foodItem.has_modifier" class="menuButtonToggle" id="has_modifier" {{#has_modifier}}checked=true{{/has_modifier}} />
 	    <label for="has_modifier">Modifier</label>
-	    <input type="checkbox" var="foodItem.has_modifier" class="menuButtonToggle" id="has_modifier" {{#has_modifier}}checked=true{{/has_modifier}} />
 	  </li>
 	  {{#apply_taxes}}
 	  <li>
+	    <input class="menuButtonToggle" style="border: 0" type="checkbox" var="foodItem.apply_taxes.exemption" id="exemption" {{#exemption}}checked=true{{/exemption}} />
 	    <label for="exemption">Apply Exemption</label>
-	    <input class="menuButtonToggle" type="checkbox" var="foodItem.apply_taxes.exemption" id="exemption" {{#exemption}}checked=true{{/exemption}} />
-	  </li>
-	  <li>
+	    <input type="checkbox" style="border: 0" class="menuButtonToggle" var="foodItem.apply_taxes.tax1" id="tax1" {{#tax1}}checked=true{{/tax1}} />
 	    <label for="tax1">Apply Tax1</label>
-	    <input type="checkbox" class="menuButtonToggle" var="foodItem.apply_taxes.tax1" id="tax1" {{#tax1}}checked=true{{/tax1}} />
 	  </li>
 	  <li>
+	    <input type="checkbox" style="border: 0" class="menuButtonToggle" var="foodItem.apply_taxes.tax2" id="tax2" {{#tax2}}checked=true{{/tax2}} />
 	    <label for="tax2">Apply Tax2</label>
-	    <input type="checkbox" class="menuButtonToggle" var="foodItem.apply_taxes.tax2" id="tax2" {{#tax2}}checked=true{{/tax2}} />
-	  </li>
-	  <li>
+	    <input type="checkbox" style="border: 0" class="menuButtonToggle" var="foodItem.apply_taxes.tax3" id="tax3" {{#tax3}}checked=true{{/tax3}} />
 	    <label for="tax3">Apply Tax3</label>
-	    <input type="checkbox" class="menuButtonToggle" var="foodItem.apply_taxes.tax3" id="tax3" {{#tax3}}checked=true{{/tax3}} />
 	  </li>
 	  {{/apply_taxes}}
 	  <li>
+	    <input type="checkbox" style="border: 0" class="menuButtonToggle" id="use_scale" var="foodItem.use_scale" {{#use_scale}}checked=true{{/use_scale}} />
 	    <label for="use_scale">Read Scale</label>
-	    <input type="checkbox" class="menuButtonToggle" id="use_scale" var="foodItem.use_scale" {{#use_scale}}checked=true{{/use_scale}} />
-	  </li>
-	  <li>
+	    <input type="checkbox" style="border: 0" class="menuButtonToggle" var="foodItem.print_to_kitchen" {{#print_to_kitchen}}checked=true{{/print_to_kitchen}} />
 	    <label for="print_to_kitchen">Print in Kitchen</label>
-	    <input type="checkbox" class="menuButtonToggle" var="foodItem.print_to_kitchen" {{#print_to_kitchen}}checked=true{{/print_to_kitchen}} />
 	  </li>
 	  <li>
+	    <input type="checkbox" style="border: 0" class="menuButtonToggle" id="duplicate" var="foodItem.duplicate" {{#duplicate}}checked=true{{/duplicate}} />
 	    <label for="duplicate">Duplicate</label>
-	    <input type="checkbox" class="menuButtonToggle" id="duplicate" var="foodItem.duplicate" {{#duplicate}}checked=true{{/duplicate}} />
 	  </li>
 	  {{/foodItem}}
 	</ul>
+	</td></tr>
+	</table>
 	{{#display}}
 	<input type="hidden" var="display.screen" var_type="number" var_default="0"  value="{{screen}}" />
 	<input type="hidden" var="display.position" var_type="number" var_default="0" value="{{position}}" />
@@ -1597,9 +1735,9 @@
 	      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="closeEditMenu();">
 		<span class="ui-button-text">Close</span>
 	      </button>
-	      </li>
-	      </ul>
-	  </td>
+      	</li>
+      </ul>
+      
     </script>
     
     <script id="menuSetMenus_TMP" type="text/html">
@@ -1674,23 +1812,19 @@
     <script id="companyManagementPage_TMP" type="text/html">
       <h1>Company Management</h1>
       {{>breadcrumb_P}}
-      <salesSummary>
 	<ul>
 	  <li>{{>salesFields_P}}</li>
 	  <li>{{>quickReportViewButton_P}}</li>
 	</ul>
-      </salesSummary>
-      <summaryTablesMenu>
+    <label>-----------------------------------------------------------------------</label>
 	<ul>
 	  <li>{{>numberOfGroupsFields_P}}</li>
 	  <li>{{>numberOfStoresFields_P}}</li>
 	  <li>{{>numberOfTerminalsFields_P}}</li>
 	</ul>
-      </summaryTablesMenu>
+	<label>-----------------------------------------------------------------------</label>
       {{>AIRS_Buttons_P}}
-      <footer>
 	{{>logoutButton_P}}
-      </footer>
       {{>quickReportViewHook_P}}
     </script>
 

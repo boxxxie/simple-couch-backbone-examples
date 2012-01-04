@@ -41,6 +41,7 @@ var menuSetMenusView =
 		  
 		  var htmlleft = ich.menuSetMenus_Left_TMP({});
 		  $("#menusetmenusleft").html(htmlleft);
+		  
 		  $("#menumodifiersbutton").button()
 					    .click(function(){
 						      view.renderMenuScreenPartial(0);
@@ -93,11 +94,23 @@ var menuSetMenusView =
 		  
 		  _.each(menuModelHeaders, function(item){
 		  	$("#menubuttonheader"+item.menu_id).button()
+		  				//.css({background:"rgb("+item.color+")"})
+					    .click(function(){
+						      view.renderMenuScreenPartial(item.menu_id);
+						      $("#menusetmenusright").html({});
+						   });
+		  });
+		 
+		 /*
+		 _.each(menuModelHeaders, function(item){
+		  	$("#menubuttonheader"+item.menu_id)
 					    .click(function(){
 						      view.renderMenuScreenPartial(item.menu_id);
 						      $("#menusetmenusright").html({});
 						   });;
 		  });
+		  */
+		 
 	 },
 	 renderMenuScreenPartial: function(model,menus,item) {
 	 	if(_.isNumber(model)){
