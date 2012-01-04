@@ -113,13 +113,19 @@ function inventoryTotalsRangeFetcher_F(id){
 				   var refundsVal =_.applyToValues(defaultValue(refunds),negate);
 				   return addPropertiesTogetherRounded(2)(salesVal,refundsVal);
 			       }
-
 			       function totals_calc(sales_list){
 				   return _(sales_list).chain()
 				       .map(_.selectKeys_F(['price','quantity','totalSalesPercentage','typedSalesPercentage']))
 				       .reduce(addPropertiesTogetherRounded(2),{})
 				       .value();
 			       }
+
+			       resp = _.applyToValues(resp,function(item){
+							  if(item && item.price){
+							      return _.extend(item,{price:Number(toFixed(2)(item.price))});
+							  }
+							  return item;
+						      },true);
 			       
 			       var ecr_sales = _.reduce([totals(resp.total_department_sale,resp.total_department_refund),
 							 totals(resp.total_scale_sale,resp.total_scale_refund),
