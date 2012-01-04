@@ -6,8 +6,19 @@ function negate(num){
 }
 
 //inven...F(id)(sd,ed)(err,data_TMP)
+function addPropertiesTogetherRounded(roundMag){
+    return function(addTo,addFrom){
+	for (var prop in addFrom) {
+	    var addFromVal = Number(toFixed(roundMag)(addFrom[prop]));
+	    (addTo[prop] !== undefined && _.isNumber(addFromVal)) ? addTo[prop] += addFromVal: addTo[prop] = addFromVal;
+	}
+	return addTo;
+    };
+};
+
 function inventoryTotalsRangeFetcher_F(id){
     var view = cdb.view('reporting','inventory_report');
+   // var db = cdb.db('cashedout_transactions',{},true); //fixme change the db to cashouts_transactions
     var db = cdb.db('transactions',{},true); //fixme change the db to cashouts_transactions
     return function(startDate,endDate){
 	var rangeQuery = _async.typedTransactionQuery(startDate,endDate);
@@ -50,7 +61,7 @@ function inventoryTotalsRangeFetcher_F(id){
 				       var reducedVal = _(val).
 					   chain().
 					   map(function(o){return _.selectKeys(o,['price','quantity']);}).
-					   reduce(addPropertiesTogether,{}).
+					   reduce(addPropertiesTogetherRounded(2),{}).
 					   value();
 				       return _.extend({label:key},reducedVal);
 				   }
@@ -101,27 +112,27 @@ function inventoryTotalsRangeFetcher_F(id){
 				   }
 				   var salesVal = defaultValue(sales);
 				   var refundsVal =_.applyToValues(defaultValue(refunds),negate);
-				   return addPropertiesTogether(salesVal,refundsVal);
+				   return addPropertiesTogetherRounded(2)(salesVal,refundsVal);
 			       }
 
 			       function totals_calc(sales_list){
 				   return _(sales_list).chain()
 				       .map(_.selectKeys_F(['price','quantity','totalSalesPercentage','typedSalesPercentage']))
-				       .reduce(addPropertiesTogether,{})
+				       .reduce(addPropertiesTogetherRounded(2),{})
 				       .value();
 			       }
 			       
 			       var ecr_sales = _.reduce([totals(resp.total_department_sale,resp.total_department_refund),
 							 totals(resp.total_scale_sale,resp.total_scale_refund),
 							 totals(resp.total_ecr_sale,resp.total_ecr_refund)],
-							addPropertiesTogether,
+							addPropertiesTogetherRounded(2),
 							{});
 
 			       var menu_sales=totals(resp.total_menu_sale,resp.total_menu_refund);
 			       var scan_sales=totals(resp.total_scan_sale,resp.total_scan_refund);
 
 
-			       var totalSales = _.reduce([menu_sales,scan_sales,ecr_sales],addPropertiesTogether,{}).price;
+			       var totalSales = _.reduce([menu_sales,scan_sales,ecr_sales],addPropertiesTogetherRounded(2),{}).price;
 			       
 
 
