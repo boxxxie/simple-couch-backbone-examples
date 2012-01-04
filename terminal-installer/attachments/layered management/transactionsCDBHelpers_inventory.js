@@ -60,10 +60,10 @@ function inventoryTotalsRangeFetcher_F(id){
 				       var val = _.second(pair);
 				       var reducedVal = _(val).
 					   chain().
-					   map(function(o){return _.selectKeys(o,['price','quantity']);}).
+					   map(_.selectKeys_F(['price','quantity'])).
 					   reduce(addPropertiesTogetherRounded(2),{}).
 					   value();
-					   reducedVal.price = Number(toFixed(2)(reduceVal.price));
+				       //reducedVal.price = Number(toFixed(2)(reduceVal.price));
 				       return _.extend({label:key},reducedVal);
 				   }
 				   

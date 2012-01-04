@@ -21,7 +21,7 @@
     <script language="javascript" type="text/javascript" src="../lib/couchDBhelpers.js"></script>
 
     <script type="text/javascript" src="../lib/colorpicker.js"></script>
-	    
+    
     <script language="javascript" type="text/javascript" src="../lib/underscore.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/underscore.string.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/underscore_extended.js"></script>
@@ -128,22 +128,22 @@
     </script>
     
     <script id="AIRS_Buttons_P" class="partial" type="text/html">
-	<h3>Menus</h3>
-	<ol>
-	  <li>{{>adminButton_P}}</li>
-	  <li>{{>inventoryButton_P}}</li>
-	  <li>{{>reportsButton_P}}</li>
-	  <li>{{>setMenusButton_P}}</li>
-	</ol>
+      <h3>Menus</h3>
+      <ol>
+	<li>{{>adminButton_P}}</li>
+	<li>{{>inventoryButton_P}}</li>
+	<li>{{>reportsButton_P}}</li>
+	<li>{{>setMenusButton_P}}</li>
+      </ol>
     </script>
     
     <script id="AIR_Buttons_P" class="partial" type="text/html">
-	<h3>Menus</h3>
-	<ol>
-	  <li>{{>adminButton_P}}</li>
-	  <li>{{>inventoryButton_P}}</li>
-	  <li>{{>reportsButton_P}}</li>
-	</ol>
+      <h3>Menus</h3>
+      <ol>
+	<li>{{>adminButton_P}}</li>
+	<li>{{>inventoryButton_P}}</li>
+	<li>{{>reportsButton_P}}</li>
+      </ol>
     </script>
 
     <script id="backButton_P" class="partial" type="text/html">
@@ -1195,7 +1195,6 @@
 	  <td>{{name}}</td>
 	  <td>{{cashouttime}}</td>
 	  <td>{{cashoutnumber}}</td>
-	  <!--<td>{{>quickCashoutsViewButton_P}}</td>-->
 	  <td>{{>quickDetailsViewButton_P}}</td>
 	</tr>
 	{{/items}}
@@ -1403,10 +1402,10 @@
     </script>
     
     <script id="menuReportsInventoryMenuTabel_TMP" type="text/html">
-	<ul style="list-style-type: none; padding-left: 0px; margin: 0px">
+      <ul style="list-style-type: none; padding-left: 0px; margin: 0px">
 	<li style="display: inline;">Menu Sales - Total Sales For Date Range : $ {{#menu_sales}}{{price}}{{/menu_sales}}
 	</li>
-	</ul>	
+      </ul>	
       <table border="1">
 	<tr>
 	  <th>Description</th>
@@ -1438,10 +1437,10 @@
     
     
     <script id="menuReportsInventoryScanTabel_TMP" type="text/html">
-	<ul style="list-style-type: none; padding-left: 0px; margin: 0px">
+      <ul style="list-style-type: none; padding-left: 0px; margin: 0px">
 	<li style="display: inline;">Scan Sales - Total Sales For Date Range : $ {{#scan_sales}}{{price}}{{/scan_sales}}
 	</li>
-	</ul>	
+      </ul>	
       <table border="1">
 	<tr>
 	  <th>SKU</th>
@@ -1475,12 +1474,11 @@
     
     
     <script id="menuReportsInventoryEcrTabel_TMP" type="text/html">
-    {{#ecr_sales}}
-	<ul style="list-style-type: none; padding-left: 0px; margin: 0px">
-	<li style="display: inline;">ECR Sales - Total Sales For Date Range : $ {{price}}
-	</li>
-	</ul>
-	{{/ecr_sales}}	
+      {{#ecr_sales}}
+      <ul style="list-style-type: none; padding-left: 0px; margin: 0px">
+	<li style="display: inline;">ECR Sales - Total Sales For Date Range : $ {{price}}</li>
+      </ul>
+      {{/ecr_sales}}	
       <table border="1">
 	<tr>
 	  <th>Open Item</th>
@@ -1538,7 +1536,8 @@
       <br/><br/>
       <div id='inventorymenutable'></div>
       <div id='inventoryscantable'></div>
-      <div id='inventoryecrtable'></div><br/>
+      <div id='inventoryecrtable'></div>
+      <br/>
       {{>backButton_P}}
       {{>menuButton_P}}
     </script>
@@ -1546,40 +1545,52 @@
     <!-------------------------------------------------- Menu SET MENUS --------------------------------------->
     
     <script id="menuSetMenus_Left_TMP" type="text/html">
-    	<table>
-      <tr><td>
-	  <button id="menumodifiersbutton" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	    <span class="ui-button-text">Modifiers</span>
-	  </button>	
-      </td></tr>
-      <tr><td>
-	  <button id="menueditheader1" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	    <span class="ui-button-text">Edit Menu1 Header</span>
-	  </button>	
-      </td></tr>
-      <tr><td>
-	  <button id="menueditheader2" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	    <span class="ui-button-text">Edit Menu2 Header</span>
-	  </button>	
-      </td></tr>
-      <tr><td>
-	  <button id="menueditheader3" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	    <span class="ui-button-text">Edit Menu3 Header</span>
-	  </button>	
-      </td></tr>
-      <tr><td>
-	  <button id="menueditheader4" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	    <span class="ui-button-text">Edit Menu4 Header</span>
-	  </button>	
-      </td></tr>
-      <tr><td>
-	  {{>backButton_P}}
-      </td></tr>
+      <table>
+	<tr>
+	  <td>
+	    <button id="menumodifiersbutton" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
+	      <span class="ui-button-text">Modifiers</span>
+	    </button>	
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <button id="menueditheader1" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
+	      <span class="ui-button-text">Edit Menu1 Header</span>
+	    </button>	
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <button id="menueditheader2" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
+	      <span class="ui-button-text">Edit Menu2 Header</span>
+	    </button>	
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <button id="menueditheader3" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
+	      <span class="ui-button-text">Edit Menu3 Header</span>
+	    </button>	
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <button id="menueditheader4" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
+	      <span class="ui-button-text">Edit Menu4 Header</span>
+	    </button>	
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    {{>backButton_P}}
+	  </td>
+	</tr>
       </table>
     </script>
     
     <script id="menuSetMenus_Center_TMP" type="text/html">
-    	<label>{{menuscreentitle}}</label>
+      <label>{{menuscreentitle}}</label>
       <table border="1" cellpadding="10">
 	{{#menu_screen}}
 	<tr>
@@ -1599,17 +1610,20 @@
     </script>
     
     <script id="menuSetMenus_Bottom_TMP" type="text/html">
-    <table>
-      <tr>
-    {{#menuButtonHeaders}}
-	<td width="80px" height="60px" style="margin-right: 0px" align="center" id="menubuttonheader{{menu_id}}"><!---->
-	  <!--<button id="menubuttonheader{{menu_id}}" class="{{>commonButtonClasses_P}}"   role="button" aria-disabled="false">-->
-	    <ul style="list-style-type: none; padding-left: 0px; margin: 0px;">{{#description1}}<li>{{description1}}</li>{{/description1}} {{#description2}}<li>{{description2}}</li>{{/description2}} {{#description3}}<li>{{description3}}</li>{{/description3}}</ul>
-	  <!--</button>-->	
-	</td>
-	{{/menuButtonHeaders}}
-      </tr>
-	</table>
+      <table>
+	<tr>
+	  {{#menuButtonHeaders}}
+	  <td width="80px" height="60px" style="margin-right: 0px" align="center" id="menubuttonheader{{menu_id}}"><!---->
+	    <!--<button id="menubuttonheader{{menu_id}}" class="{{>commonButtonClasses_P}}"   role="button" aria-disabled="false">-->
+	    <ul style="list-style-type: none; padding-left: 0px; margin: 0px;">{{#description1}}<li>{{description1}}</li>{{/description1}} 
+	      {{#description2}}<li>{{description2}}</li>{{/description2}} 
+	      {{#description3}}<li>{{description3}}</li>{{/description3}}
+	    </ul>
+	    <!--</button>-->	
+	  </td>
+	  {{/menuButtonHeaders}}
+	</tr>
+      </table>
     </script>
 
     <script id="menuSetMenuHeader_TMP" type="text/html">
@@ -1629,8 +1643,8 @@
 	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" var="description3" id="description3" value="{{description3}}"/></td>
 	  </tr>
 	  <!--<tr>
-	    <td><label for="displayColor"> Color :</label></td>
-	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" id="displayColor" var="color"  value="{{color}}" /></td>
+	      <td><label for="displayColor"> Color :</label></td>
+	      <td><input class="menuEditInput" type="text" maxlength="10" size="10" id="displayColor" var="color"  value="{{color}}" /></td>
 	  </tr>-->	
 	</table>
 	<input type="hidden" var="menu_id" var_type="number" value="{{menu_id}}" />
@@ -1638,22 +1652,22 @@
 	<input type="hidden" var="image" value="{{image}}" />
       </form>
       <ul style="list-style-type:none; float: left;">
-	      	<li>
-	      	<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="clearEditHeader();">
-		<span class="ui-button-text">Clear</span>
-	      </button>
-	      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="saveEditHeader();">
-		<span class="ui-button-text">Save</span>
-	      </button>
-	      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="closeEditHeader();">
-		<span class="ui-button-text">Close</span>
-	      </button>
-	      </li>
-	      </ul>
+	<li>
+	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="clearEditHeader();">
+	    <span class="ui-button-text">Clear</span>
+	  </button>
+	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="saveEditHeader();">
+	    <span class="ui-button-text">Save</span>
+	  </button>
+	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="closeEditHeader();">
+	    <span class="ui-button-text">Close</span>
+	  </button>
+	</li>
+      </ul>
     </script>
     
     <script id="menuSetMenus_Right_TMP" type="text/html">
-     <form id="editMenuButton">
+      <form id="editMenuButton">
 	Menu Label:
 	<table>	
 	  {{#display}}
@@ -1680,44 +1694,46 @@
 	    <td><input class="menuEditInput" type="text" var="foodItem.price"  value="{{price}}" var_type="number" var_default="0"/></td>
 	  </tr>
 	  {{/foodItem}}
-	<tr><td colspan="2">
-	<ul style="list-style-type:none; float: left;">
-	  {{#display}}
-	  <li>
-	  	<input type="checkbox" style="border: 0" var="display.is_enabled" class="menuButtonToggle" id="is_enabled" {{#is_enabled}}checked=true{{/is_enabled}} /> 
-	    <label for="is_enabled">Active</label>
-	  {{/display}}
-	  {{#foodItem}}
-	    <input type="checkbox" style="border: 0" var="foodItem.has_modifier" class="menuButtonToggle" id="has_modifier" {{#has_modifier}}checked=true{{/has_modifier}} />
-	    <label for="has_modifier">Modifier</label>
-	  </li>
-	  {{#apply_taxes}}
-	  <li>
-	    <input class="menuButtonToggle" style="border: 0" type="checkbox" var="foodItem.apply_taxes.exemption" id="exemption" {{#exemption}}checked=true{{/exemption}} />
-	    <label for="exemption">Apply Exemption</label>
-	    <input type="checkbox" style="border: 0" class="menuButtonToggle" var="foodItem.apply_taxes.tax1" id="tax1" {{#tax1}}checked=true{{/tax1}} />
-	    <label for="tax1">Apply Tax1</label>
-	  </li>
-	  <li>
-	    <input type="checkbox" style="border: 0" class="menuButtonToggle" var="foodItem.apply_taxes.tax2" id="tax2" {{#tax2}}checked=true{{/tax2}} />
-	    <label for="tax2">Apply Tax2</label>
-	    <input type="checkbox" style="border: 0" class="menuButtonToggle" var="foodItem.apply_taxes.tax3" id="tax3" {{#tax3}}checked=true{{/tax3}} />
-	    <label for="tax3">Apply Tax3</label>
-	  </li>
-	  {{/apply_taxes}}
-	  <li>
-	    <input type="checkbox" style="border: 0" class="menuButtonToggle" id="use_scale" var="foodItem.use_scale" {{#use_scale}}checked=true{{/use_scale}} />
-	    <label for="use_scale">Read Scale</label>
-	    <input type="checkbox" style="border: 0" class="menuButtonToggle" var="foodItem.print_to_kitchen" {{#print_to_kitchen}}checked=true{{/print_to_kitchen}} />
-	    <label for="print_to_kitchen">Print in Kitchen</label>
-	  </li>
-	  <li>
-	    <input type="checkbox" style="border: 0" class="menuButtonToggle" id="duplicate" var="foodItem.duplicate" {{#duplicate}}checked=true{{/duplicate}} />
-	    <label for="duplicate">Duplicate</label>
-	  </li>
-	  {{/foodItem}}
-	</ul>
-	</td></tr>
+	  <tr>
+	    <td colspan="2">
+	      <ul style="list-style-type:none; float: left;">
+		{{#display}}
+		<li>
+	  	  <input type="checkbox" style="border: 0" var="display.is_enabled" class="menuButtonToggle" id="is_enabled" {{#is_enabled}}checked=true{{/is_enabled}} /> 
+		  <label for="is_enabled">Active</label>
+		  {{/display}}
+		  {{#foodItem}}
+		  <input type="checkbox" style="border: 0" var="foodItem.has_modifier" class="menuButtonToggle" id="has_modifier" {{#has_modifier}}checked=true{{/has_modifier}} />
+		  <label for="has_modifier">Modifier</label>
+		</li>
+		{{#apply_taxes}}
+		<li>
+		  <input class="menuButtonToggle" style="border: 0" type="checkbox" var="foodItem.apply_taxes.exemption" id="exemption" {{#exemption}}checked=true{{/exemption}} />
+		  <label for="exemption">Apply Exemption</label>
+		  <input type="checkbox" style="border: 0" class="menuButtonToggle" var="foodItem.apply_taxes.tax1" id="tax1" {{#tax1}}checked=true{{/tax1}} />
+		  <label for="tax1">Apply Tax1</label>
+		</li>
+		<li>
+		  <input type="checkbox" style="border: 0" class="menuButtonToggle" var="foodItem.apply_taxes.tax2" id="tax2" {{#tax2}}checked=true{{/tax2}} />
+		  <label for="tax2">Apply Tax2</label>
+		  <input type="checkbox" style="border: 0" class="menuButtonToggle" var="foodItem.apply_taxes.tax3" id="tax3" {{#tax3}}checked=true{{/tax3}} />
+		  <label for="tax3">Apply Tax3</label>
+		</li>
+		{{/apply_taxes}}
+		<li>
+		  <input type="checkbox" style="border: 0" class="menuButtonToggle" id="use_scale" var="foodItem.use_scale" {{#use_scale}}checked=true{{/use_scale}} />
+		  <label for="use_scale">Read Scale</label>
+		  <input type="checkbox" style="border: 0" class="menuButtonToggle" var="foodItem.print_to_kitchen" {{#print_to_kitchen}}checked=true{{/print_to_kitchen}} />
+		  <label for="print_to_kitchen">Print in Kitchen</label>
+		</li>
+		<li>
+		  <input type="checkbox" style="border: 0" class="menuButtonToggle" id="duplicate" var="foodItem.duplicate" {{#duplicate}}checked=true{{/duplicate}} />
+		  <label for="duplicate">Duplicate</label>
+		</li>
+		{{/foodItem}}
+	      </ul>
+	    </td>
+	  </tr>
 	</table>
 	{{#display}}
 	<input type="hidden" var="display.screen" var_type="number" var_default="0"  value="{{screen}}" />
@@ -1725,19 +1741,18 @@
 	{{/display}}
       </form>
       <ul style="list-style-type:none; float: left;">
-	      	<li>
-	      	<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="clearEditMenu();">
-		<span class="ui-button-text">Clear</span>
-	      </button>
-	      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="saveEditMenu();">
-		<span class="ui-button-text">Save</span>
-	      </button>
-	      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="closeEditMenu();">
-		<span class="ui-button-text">Close</span>
-	      </button>
+	<li>
+	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="clearEditMenu();">
+	    <span class="ui-button-text">Clear</span>
+	  </button>
+	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="saveEditMenu();">
+	    <span class="ui-button-text">Save</span>
+	  </button>
+	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="closeEditMenu();">
+	    <span class="ui-button-text">Close</span>
+	  </button>
       	</li>
       </ul>
-      
     </script>
     
     <script id="menuSetMenus_TMP" type="text/html">
@@ -1753,6 +1768,7 @@
 	  </td>
 	  <td  rowspan="2">
 	    <div id='menusetmenusright'></div>
+	  </td>
 	</tr>
 	<tr>
 	  <td>
@@ -1812,19 +1828,19 @@
     <script id="companyManagementPage_TMP" type="text/html">
       <h1>Company Management</h1>
       {{>breadcrumb_P}}
-	<ul>
-	  <li>{{>salesFields_P}}</li>
-	  <li>{{>quickReportViewButton_P}}</li>
-	</ul>
-    <label>-----------------------------------------------------------------------</label>
-	<ul>
-	  <li>{{>numberOfGroupsFields_P}}</li>
-	  <li>{{>numberOfStoresFields_P}}</li>
-	  <li>{{>numberOfTerminalsFields_P}}</li>
-	</ul>
-	<label>-----------------------------------------------------------------------</label>
+      <ul>
+	<li>{{>salesFields_P}}</li>
+	<li>{{>quickReportViewButton_P}}</li>
+      </ul>
+      <label>-----------------------------------------------------------------------</label>
+      <ul>
+	<li>{{>numberOfGroupsFields_P}}</li>
+	<li>{{>numberOfStoresFields_P}}</li>
+	<li>{{>numberOfTerminalsFields_P}}</li>
+      </ul>
+      <label>-----------------------------------------------------------------------</label>
       {{>AIRS_Buttons_P}}
-	{{>logoutButton_P}}
+      {{>logoutButton_P}}
       {{>quickReportViewHook_P}}
     </script>
 
