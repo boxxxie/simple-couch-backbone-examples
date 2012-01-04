@@ -5,17 +5,6 @@ function negate(num){
     return num;
 }
 
-//inven...F(id)(sd,ed)(err,data_TMP)
-function addPropertiesTogetherRounded(roundMag){
-    return function(addTo,addFrom){
-	for (var prop in addFrom) {
-	    var addFromVal = Number(toFixed(roundMag)(addFrom[prop]));
-	    (addTo[prop] !== undefined && _.isNumber(addFromVal)) ? addTo[prop] += addFromVal: addTo[prop] = addFromVal;
-	}
-	return addTo;
-    };
-};
-
 function inventoryTotalsRangeFetcher_F(id){
     var view = cdb.view('reporting','inventory_report');
     // var db = cdb.db('cashedout_transactions',{},true); //fixme change the db to cashouts_transactions
@@ -53,7 +42,7 @@ function inventoryTotalsRangeFetcher_F(id){
 			       all_ecr_refunds : rangeGroupedQuery(view,db,[id,"REFUND","ECR"])
 
 			   },
-			   function(err,resp){
+			   function(err,raw_resp){
 			       function inventory_transform(items){
 				   function reduceValue(pair){
 				       var key = _.first(pair);
@@ -121,13 +110,7 @@ function inventoryTotalsRangeFetcher_F(id){
 				       .value();
 			       }
 
-			       resp = _.applyToValues(resp,function(item){
-							  if(item && item.price){
-							      item.price = Number(toFixed(2)(item.price));
-							      return item;
-							  }
-							  return item;
-						      },true);
+			       var resp = raw_resp;
 			       
 			       var ecr_sales = _.reduce([totals(resp.total_department_sale,resp.total_department_refund),
 							 totals(resp.total_scale_sale,resp.total_scale_refund),
