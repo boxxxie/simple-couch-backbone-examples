@@ -112,10 +112,10 @@ var menuReportsTaxCollectedView =
 	     }
 	     
 	     var btn = $('#generalgobtn')
-			    .button()
-			    .click(function(){
-				      renderTaxCollectedTable();
-				   });
+		 .button()
+		 .click(function(){
+			    renderTaxCollectedTable();
+			});
 	     
 	     console.log("rendered general report");
 	 },
@@ -181,10 +181,10 @@ var menuReportsTaxCollectedView =
 	     }
 	     
 	     var btn = $('#generalgobtn')
-			    .button()
-			    .click(function(){
-				      renderTaxCollectedTable();
-				   });
+		 .button()
+		 .click(function(){
+			    renderTaxCollectedTable();
+			});
 	     
 	     console.log("rendered general report");
 	 },
@@ -247,10 +247,10 @@ var menuReportsTaxCollectedView =
 	     }
 	     
 	     var btn = $('#generalgobtn')
-			    .button()
-			    .click(function(){
-				      renderTaxCollectedTable();
-				   });
+		 .button()
+		 .click(function(){
+			    renderTaxCollectedTable();
+			});
 	     
 	     console.log("rendered general report");
 	 }
@@ -287,24 +287,24 @@ function renderTaxCollectedTable() {
 	console.log(ids);
 
 	taxReportFetcher(ids,startDate,endDateForQuery,function(data_TMP){
-				//TODO: to be refracted
-				var totalrow={};
-				totalrow.sales = (_.reduce(data_TMP, function(init, item){
-									return init + Number(item.sales);
-								}, 0)).toFixed(2);
-				totalrow.tax1 = (_.reduce(data_TMP, function(init, item){
-									return init + Number(item.tax1);
-								}, 0)).toFixed(2);
-				totalrow.tax3 = (_.reduce(data_TMP, function(init, item){
-									return init + Number(item.tax3);
-								}, 0)).toFixed(2);
-				totalrow.totalsales = (_.reduce(data_TMP, function(init, item){
-									return init + Number(item.totalsales);
-								}, 0)).toFixed(2);
-				
+			     //TODO: to be refracted
+			     var totalrow={};
+			     totalrow.sales = (_.reduce(data_TMP, function(init, item){
+							    return init + Number(item.sales);
+							}, 0)).toFixed(2);
+			     totalrow.tax1 = (_.reduce(data_TMP, function(init, item){
+							   return init + Number(item.tax1);
+						       }, 0)).toFixed(2);
+			     totalrow.tax3 = (_.reduce(data_TMP, function(init, item){
+							   return init + Number(item.tax3);
+						       }, 0)).toFixed(2);
+			     totalrow.totalsales = (_.reduce(data_TMP, function(init, item){
+								 return init + Number(item.totalsales);
+							     }, 0)).toFixed(2);
+			     
 			     data_TMP=
 				 _.map(data_TMP, function(item){
-						item._id = item.id;
+					   item._id = item.id;
 					   return item;
 				       });
 			     data_TMP = _.applyToValues(data_TMP,toFixed(2),true);
@@ -313,25 +313,25 @@ function renderTaxCollectedTable() {
 				 var html = "<p>There are no taxes collected for this time period</p>";	 
 			     }
 			     else{
-			     	/*data_TMP = _.map(data_TMP, function(item){
-			     		item.firstindex = Number(item.firstindex)+"";
-			     		item.lastindex = Number(item.lastindex)+"";
-			     		return item;
-			     	});*/
-			     	_.applyToValues(data_TMP, function(obj){
-					     var strObj = obj+"";
-					     if(strObj.indexOf(".")>=0) {
-					     	obj = currency_format(obj);
-					     }
-					     return obj;
-					 }, true);
-					 _.applyToValues(totalrow, function(obj){
-					     var strObj = obj+"";
-					     if(strObj.indexOf(".")>=0) {
-					     	obj = currency_format(obj);
-					     }
-					     return obj;
-					 }, true);
+			     	 /*data_TMP = _.map(data_TMP, function(item){
+			     	  item.firstindex = Number(item.firstindex)+"";
+			     	  item.lastindex = Number(item.lastindex)+"";
+			     	  return item;
+			     	  });*/
+			     	 _.applyToValues(data_TMP, function(obj){
+						     var strObj = obj+"";
+						     if(strObj.indexOf(".")>=0) {
+					     		 obj = currency_format(obj);
+						     }
+						     return obj;
+						 }, true);
+				 _.applyToValues(totalrow, function(obj){
+						     var strObj = obj+"";
+						     if(strObj.indexOf(".")>=0) {
+					     		 obj = currency_format(obj);
+						     }
+						     return obj;
+						 }, true);
 				 var html = ich.taxCollectedTabel_TMP({items:data_TMP, totalrow:totalrow});
 			     }
 
@@ -340,13 +340,13 @@ function renderTaxCollectedTable() {
 					var btn = $('#'+item._id)
 					    .button()
 					    .click(function(){
-					    	var dialogtitle= getDialogTitle(ReportData,
-									   item.name,
-									   startDate,
-									   endDateForQuery);
-							var firstindex = Number(item.firstindex)+"";
-			     			var lastindex = Number(item.lastindex)+"";
-							quickTaxView(item._id,dialogtitle ,firstindex,lastindex);
+					    	       var dialogtitle= getDialogTitle(ReportData,
+										       item.name,
+										       startDate,
+										       endDateForQuery);
+						       var firstindex = Number(item.firstindex)+"";
+			     			       var lastindex = Number(item.lastindex)+"";
+						       quickTaxView(item._id,dialogtitle ,firstindex,lastindex);
 						   });
 				    });
 			 });

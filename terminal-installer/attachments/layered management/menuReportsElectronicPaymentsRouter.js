@@ -112,10 +112,10 @@ var menuReportsElectronicPaymentsView =
 	     }
 	     
 	     var btn = $('#generalgobtn')
-			    .button()
-			    .click(function(){
-				      renderElectronicPaymentsTable();
-				   });
+		 .button()
+		 .click(function(){
+			    renderElectronicPaymentsTable();
+			});
 	     
 	     console.log("rendered general report");
 	 },
@@ -181,10 +181,10 @@ var menuReportsElectronicPaymentsView =
 	     }
 	     
 	     var btn = $('#generalgobtn')
-			    .button()
-			    .click(function(){
-				      renderElectronicPaymentsTable();
-				   });
+		 .button()
+		 .click(function(){
+			    renderElectronicPaymentsTable();
+			});
 	     
 	     console.log("rendered general report");
 	 },
@@ -247,10 +247,10 @@ var menuReportsElectronicPaymentsView =
 	     }
 	     
 	     var btn = $('#generalgobtn')
-			    .button()
-			    .click(function(){
-				      renderElectronicPaymentsTable();
-				   });
+		 .button()
+		 .click(function(){
+			    renderElectronicPaymentsTable();
+			});
 	     
 	     console.log("rendered general report");
 	 }
@@ -314,7 +314,7 @@ function renderElectronicPaymentsTable() {
 					 obj.orderamount = toFixed(2)(obj.price * obj.quantity);
 					 obj.quantity+="";
 					 if(obj.discount) {
-					 	obj.discountamount = toFixed(2)(obj.discount * obj.quantity);
+					     obj.discountamount = toFixed(2)(obj.discount * obj.quantity);
 					 }
 				     }
 				     return toFixed(2)(obj);
@@ -327,7 +327,7 @@ function renderElectronicPaymentsTable() {
 								    payment.paymentdetail.crt = payment.type;
 								}
 								if(payment.paymentdetail && payment.paymentdetail.errmsg) {
-										payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace(/<br>/g," ");
+								    payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace(/<br>/g," ");
 								}
 								return payment;
 							    }); 
@@ -339,19 +339,47 @@ function renderElectronicPaymentsTable() {
 		 var html = "<p>There are no Electronic Payments for this time period</p>";	 
 	     }
 	     else{
-	     	
-	     	data_TMP = 
-			 _.applyToValues(data_TMP, function(obj){
-					     var strObj = obj+"";
-					     if(strObj.indexOf(".")>=0) {
-					     	obj = currency_format(obj);
-					     }
-					     return obj;
-					 }, true);
-			totals =
-			_.applyToValues(totals,currency_format,true);
-					 
-		 var html = ich.electronicPaymentsTabel_TMP({items:data_TMP,totals:totals});
+	     	 
+	     	 data_TMP = 
+		     _.applyToValues(data_TMP, function(obj){
+					 var strObj = obj+"";
+					 if(strObj.indexOf(".")>=0) {
+					     obj = currency_format(obj);
+					 }
+					 return obj;
+				     }, true);
+		 totals =
+		     _.applyToValues(totals,currency_format,true);
+		 
+		 var data = _(data_TMP).chain()
+		     .map(function(item){
+			      if(item.authCode=="refund") {
+	                	  var propsToChange = _.selectKeys(item,['credit','debit','sales','subTotal','tax1and2','tax3','total']);
+				  
+				  propsToChange =_(propsToChange).chain()
+				      .map(function(val,key){
+					       if(val!="0.00") {val = "-"+val;}
+					       return [key,val];
+					   })
+				      .toObject()
+				      .value();            
+				  return _.extend({},item, propsToChange);
+			      }
+			      return item;
+			  })
+		     .value();
+		 
+		 totals=_(totals).chain()
+		     .map(function(val,key){
+			      if( (/_refund/).test(key)) {
+	        		  if(val!="0.00") { val = "-"+val; }
+	    		      }
+			      return [key,val];
+			  })
+		     .toObject()
+		     .value();
+		 
+		 var html = ich.electronicPaymentsTabel_TMP({items:data,totals:totals});
 	     }
 	     $("#reporttable").html(html);
 	     _.each(data_TMP, function(item){
@@ -376,7 +404,7 @@ function renderElectronicPaymentsTable() {
 									    return o;
 									}
 									,true);
-									
+							
 							_.applyToValues(btnData,currency_format,true);
 							
 							var html = ich.generalTransactionQuickViewDialog_TMP(btnData);

@@ -15,7 +15,7 @@ var menuReportsDiscountsRouter =
 		  console.log("menuReportsStoreDiscounts  ");
 	      }
 	     }));
-	     
+
 var menuReportsDiscountsView = 
     Backbone.View.extend(
 	{initialize:function(){
@@ -32,15 +32,15 @@ var menuReportsDiscountsView =
 			   console.log("menuReportsView, route:menuReportsCompanyDiscounts");
 			   view.renderMenuReportsCompanyDiscounts();
 		       });
-		
-		menuReportsDiscountsRouter
+	     
+	     menuReportsDiscountsRouter
 		 .bind('route:menuReportsGroupDiscounts', 
 		       function(){
 			   console.log("menuReportsView, route:menuReportsGroupDiscounts");
 			   view.renderMenuReportsGroupDiscounts();
 		       });
-		
-		menuReportsDiscountsRouter
+	     
+	     menuReportsDiscountsRouter
 		 .bind('route:menuReportsStoreDiscounts', 
 		       function(){
 			   console.log("menuReportsView, route:menuReportsStoreDiscounts");
@@ -50,7 +50,7 @@ var menuReportsDiscountsView =
 	 renderMenuReportsCompanyDiscounts: function() {
 	     
 	     var html = ich.menuReportsDiscountsReports_TMP({startPage:"companyReport", 
-	     					     breadCrumb:breadCrumb(ReportData.company.companyName)});
+	     						     breadCrumb:breadCrumb(ReportData.company.companyName)});
 	     $(this.el).html(html);
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )
@@ -72,9 +72,9 @@ var menuReportsDiscountsView =
 			     });
 	     
 	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
-		$("#dateTo").datepicker("setDate", new Date());
-		
-		var dropdownGroup = $("#groupsdown");
+	     $("#dateTo").datepicker("setDate", new Date());
+	     
+	     var dropdownGroup = $("#groupsdown");
 	     var dropdownStore = $("#storesdown");
 	     var dropdownTerminal = $("#terminalsdown");
 	     
@@ -94,26 +94,26 @@ var menuReportsDiscountsView =
 						       return store.terminals?store.terminals:[]; 
 						   }).flatten().value();
 	     if(terminals.length>0) {
-		    _.each(terminals, function(terminal) {
-		 			dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	   });	
-	 	} else {
-	 		$('option', dropdownTerminal).remove();
-	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-	 	}
-		
-		var btn = $('#generalgobtn')
-			    .button()
-			    .click(function(){
-				      renderDiscountsTable();
-				   });
-				   
+		 _.each(terminals, function(terminal) {
+		 	    dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+		 	});	
+	     } else {
+	 	 $('option', dropdownTerminal).remove();
+	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+	     }
+	     
+	     var btn = $('#generalgobtn')
+		 .button()
+		 .click(function(){
+			    renderDiscountsTable();
+			});
+	     
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsGroupDiscounts: function() {
 	     
 	     var html = ich.menuReportsDiscountsReports_TMP({startPage:"groupReport", 
-	     					     breadCrumb:breadCrumb(ReportData.companyName, ReportData.group.groupName)});
+	     						     breadCrumb:breadCrumb(ReportData.companyName, ReportData.group.groupName)});
 	     $(this.el).html(html);
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )
@@ -135,9 +135,9 @@ var menuReportsDiscountsView =
 			     });
 	     
 	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
-		$("#dateTo").datepicker("setDate", new Date());
-		
-		var dropdownGroup = $("#groupsdown");
+	     $("#dateTo").datepicker("setDate", new Date());
+	     
+	     var dropdownGroup = $("#groupsdown");
 	     var dropdownStore = $("#storesdown");
 	     var dropdownTerminal = $("#terminalsdown");
 	     
@@ -153,26 +153,26 @@ var menuReportsDiscountsView =
 									return store.terminals?store.terminals:[]; 
 								    }).flatten().value();
 	     if(terminals.length>0) {
-		    _.each(terminals, function(terminal) {
-		 			dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	   });	
-	 	} else {
-	 		$('option', dropdownTerminal).remove();
-	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-	 	}
-	 	
-	 	var btn = $('#generalgobtn')
-			    .button()
-			    .click(function(){
-				      renderDiscountsTable();
-				   });
-	 	
+		 _.each(terminals, function(terminal) {
+		 	    dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+		 	});	
+	     } else {
+	 	 $('option', dropdownTerminal).remove();
+	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+	     }
+	     
+	     var btn = $('#generalgobtn')
+		 .button()
+		 .click(function(){
+			    renderDiscountsTable();
+			});
+	     
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsStoreDiscounts: function() {
 	     
 	     var html = ich.menuReportsDiscountsReports_TMP({startPage:"storeReport", 
-	     					     breadCrumb:breadCrumb(ReportData.companyName, ReportData.groupName, ReportData.store.storeName)});
+	     						     breadCrumb:breadCrumb(ReportData.companyName, ReportData.groupName, ReportData.store.storeName)});
 	     $(this.el).html(html);
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )
@@ -194,9 +194,9 @@ var menuReportsDiscountsView =
 			     });
 	     
 	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
-		$("#dateTo").datepicker("setDate", new Date());
-		
-		var dropdownGroup = $("#groupsdown");
+	     $("#dateTo").datepicker("setDate", new Date());
+	     
+	     var dropdownGroup = $("#groupsdown");
 	     var dropdownStore = $("#storesdown");
 	     var dropdownTerminal = $("#terminalsdown");
 	     
@@ -211,29 +211,29 @@ var menuReportsDiscountsView =
 	     var terminals = ReportData.store.terminals?ReportData.store.terminals:[];
 	     
 	     if(terminals.length>0) {
-		    _.each(terminals, function(terminal) {
-		 			dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	   });	
-	 	} else {
-	 		$('option', dropdownTerminal).remove();
-	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-	 	}
-	 	
-	 	var btn = $('#generalgobtn')
-			    .button()
-			    .click(function(){
-				      renderDiscountsTable();
-				   });
-	 	
+		 _.each(terminals, function(terminal) {
+		 	    dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+		 	});	
+	     } else {
+	 	 $('option', dropdownTerminal).remove();
+	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+	     }
+	     
+	     var btn = $('#generalgobtn')
+		 .button()
+		 .click(function(){
+			    renderDiscountsTable();
+			});
+	     
 	     console.log("rendered general report");
 	 }
 	});
-	
+
 /******************************************** helper functions ************************************/
 function renderDiscountsTable() {
-	console.log("renderDiscountsTable");
-	
-	var dropdownGroup = $("#groupsdown");
+    console.log("renderDiscountsTable");
+    
+    var dropdownGroup = $("#groupsdown");
     var dropdownStore = $("#storesdown");
     var dropdownTerminal = $("#terminalsdown");
 
@@ -241,16 +241,16 @@ function renderDiscountsTable() {
 	var startDate = new Date($("#dateFrom").val());
 	var endDate = new Date($("#dateTo").val());
 	var endDateForQuery = new Date($("#dateTo").val());
-    endDateForQuery.addDays(1);
+	endDateForQuery.addDays(1);
 	
 	//TODO
 	if(dropdownTerminal.val()=="ALL") {
 	    ids = _($('option', dropdownTerminal)).chain()
-	    									.filter(function(item){ return item.value!=="ALL";})
-	    									.map(function(item){
-	    										return {id:item.value, name:item.text};
-	    									})
-	    									.value();
+	    	.filter(function(item){ return item.value!=="ALL";})
+	    	.map(function(item){
+	    		 return {id:item.value, name:item.text};
+	    	     })
+	    	.value();
 	} else {
 	    var sd = $("#terminalsdown option:selected");
 	    ids =[{id:sd.val(), name:sd.text()}];
@@ -263,31 +263,31 @@ function renderDiscountsTable() {
 	     var totalrow = {};
 	     totalrow.numofdiscount = data_TMP.length + "";
 	     totalrow.sales = (_.reduce(data_TMP, function(init, item){
-								return init + Number(item.sales);
-							}, 0)).toFixed(2);
-		totalrow.discount = (_.reduce(data_TMP, function(init, item){
-								return init + Number(item.discount);
-							}, 0)).toFixed(2);
-		totalrow.tax1and2 = (_.reduce(data_TMP, function(init, item){
-								return init + Number(item.tax1and2);
-							}, 0)).toFixed(2);
-		totalrow.tax3 = (_.reduce(data_TMP, function(init, item){
-								return init + Number(item.tax3);
-							}, 0)).toFixed(2);
-		totalrow.total = (_.reduce(data_TMP, function(init, item){
-								return init + Number(item.total);
-							}, 0)).toFixed(2);
-		totalrow.percentdiscount = (Number(totalrow.discount)/Number(totalrow.sales)*100).toFixed(2);
+					    return init + Number(item.sales);
+					}, 0)).toFixed(2);
+	     totalrow.discount = (_.reduce(data_TMP, function(init, item){
+					       return init + Number(item.discount);
+					   }, 0)).toFixed(2);
+	     totalrow.tax1and2 = (_.reduce(data_TMP, function(init, item){
+					       return init + Number(item.tax1and2);
+					   }, 0)).toFixed(2);
+	     totalrow.tax3 = (_.reduce(data_TMP, function(init, item){
+					   return init + Number(item.tax3);
+				       }, 0)).toFixed(2);
+	     totalrow.total = (_.reduce(data_TMP, function(init, item){
+					    return init + Number(item.total);
+					}, 0)).toFixed(2);
+	     totalrow.percentdiscount = (Number(totalrow.discount)/Number(totalrow.sales)*100).toFixed(2);
 	     
 	     data_TMP= applyReceiptInfo(data_TMP);
 	     
 	     data_TMP = _.map(data_TMP, function(item){
-	     	item.totaldiscount = item.discount;
-	     	if(_.isNumber(item.totaldiscount)) {
-	     		item.totaldiscount = (item.totaldiscount>0)? "-"+currency_format(item.totaldiscount):currency_format(item.totaldiscount);
-	     	}
-	     	return item; 
-	     });
+	     			  item.totaldiscount = item.discount;
+	     			  if(_.isNumber(item.totaldiscount)) {
+	     			      item.totaldiscount = (item.totaldiscount>0)? "-"+currency_format(item.totaldiscount):currency_format(item.totaldiscount);
+	     			  }
+	     			  return item; 
+			      });
 	     
 	     data_TMP = _.applyToValues(data_TMP, function(obj){
 					    if(obj && obj.discount==0){
@@ -297,47 +297,47 @@ function renderDiscountsTable() {
 						obj.orderamount = toFixed(2)(obj.price * obj.quantity);
 						obj.quantity+="";
 						if(obj.discount) {
-						 	obj.discountamount = toFixed(2)(obj.discount * obj.quantity);
-						 }
+						    obj.discountamount = toFixed(2)(obj.discount * obj.quantity);
+						}
 					    }
 					    return toFixed(2)(obj);
 					}, true);
-					
-		data_TMP = _.map(data_TMP, function(item){
+	     
+	     data_TMP = _.map(data_TMP, function(item){
 				  if(item.payments) {
 				      item.payments = _.map(item.payments, function(payment){
 								if(payment.paymentdetail) {
 								    payment.paymentdetail.crt = payment.type;
 								}
 								if(payment.paymentdetail && payment.paymentdetail.errmsg) {
-									payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace(/<br>/g," ");
+								    payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace(/<br>/g," ");
 								}
 								return payment;
 							    }); 
 				  }
 				  return item;
 			      });
-			      
+	     
 	     
 	     if(_.isEmpty(data_TMP)){
 		 var html = "<p>There are no discounts for this time period</p>";	 
 	     }
 	     else{
-	     	data_TMP = _.map(data_TMP, function(item){
-	     		item.subTotal = currency_format(item.subTotal);
-	     		item.totaldiscount = currency_format(item.totaldiscount);
-	     		item.tax1and2 = currency_format(item.tax1and2);
-	     		item.tax3 = currency_format(item.tax3);
-	     		item.total = currency_format(item.total);
-	     		return item;
-	     	});
-	     	_.applyToValues(totalrow, function(obj){
-						     var strObj = obj+"";
-						     if(strObj.indexOf(".")>=0) {
-						     	obj = currency_format(obj);
-						     }
-						     return obj;
-						 }, true);
+	     	 data_TMP = _.map(data_TMP, function(item){
+	     			      item.subTotal = currency_format(item.subTotal);
+	     			      item.totaldiscount = currency_format(item.totaldiscount);
+	     			      item.tax1and2 = currency_format(item.tax1and2);
+	     			      item.tax3 = currency_format(item.tax3);
+	     			      item.total = currency_format(item.total);
+	     			      return item;
+	     			  });
+	     	 _.applyToValues(totalrow, function(obj){
+				     var strObj = obj+"";
+				     if(strObj.indexOf(".")>=0) {
+					 obj = currency_format(obj);
+				     }
+				     return obj;
+				 }, true);
 		 var html = ich.menuReportsDiscountsTabel_TMP({items:data_TMP, totalrow:totalrow});
 	     }
 	     $("#discountstable").html(html);
@@ -363,20 +363,20 @@ function renderDiscountsTable() {
 						       ,true);
 				       btnData.discount=null;
 				       btnData.order = _.map(btnData.order, function(orderitem){
-				       	if(orderitem.discount) {
-				       		orderitem.discount = (Number(orderitem.discount)*Number(orderitem.quantity)).toFixed(2);
-				       	}
-				       	return orderitem;
-				       });
+				       				 if(orderitem.discount) {
+				       				     orderitem.discount = (Number(orderitem.discount)*Number(orderitem.quantity)).toFixed(2);
+				       				 }
+				       				 return orderitem;
+							     });
 				       
 				       _.applyToValues(btnData, function(obj){
-						     var strObj = obj+"";
-						     if(strObj.indexOf(".")>=0) {
-						     	obj = currency_format(obj);
-						     }
-						     return obj;
-						 }, true);
-						 
+							   var strObj = obj+"";
+							   if(strObj.indexOf(".")>=0) {
+						     	       obj = currency_format(obj);
+							   }
+							   return obj;
+						       }, true);
+				       
 				       var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
 				       quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
 				   });

@@ -72,19 +72,19 @@ var menuReportsHourlyActivityView =
 						       return store.terminals?store.terminals:[]; 
 						   }).flatten().value();
 	     if(terminals.length>0) {
-	    	_.each(terminals, function(terminal) {
-		 			dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	   });	
-	 	} else {
-	 		$('option', dropdownTerminal).remove();
-	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-	 	}
+	    	 _.each(terminals, function(terminal) {
+		 	    dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+		 	});	
+	     } else {
+	 	 $('option', dropdownTerminal).remove();
+	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+	     }
 	     
 	     var btn = $('#generalgobtn')
-			    .button()
-			    .click(function(){
-				      renderHourlyActivityTable();
-				   });
+		 .button()
+		 .click(function(){
+			    renderHourlyActivityTable();
+			});
 	     
 	     console.log("rendered general report");
 	 },
@@ -110,19 +110,19 @@ var menuReportsHourlyActivityView =
 									return store.terminals?store.terminals:[]; 
 								    }).flatten().value();
 	     if(terminals.length>0) {
-		    _.each(terminals, function(terminal) {
-		 			dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	   });	
-	 	} else {
-	 		$('option', dropdownTerminal).remove();
-	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-	 	}
+		 _.each(terminals, function(terminal) {
+		 	    dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+		 	});	
+	     } else {
+	 	 $('option', dropdownTerminal).remove();
+	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+	     }
 	     
 	     var btn = $('#generalgobtn')
-			    .button()
-			    .click(function(){
-				      renderHourlyActivityTable();
-				   });
+		 .button()
+		 .click(function(){
+			    renderHourlyActivityTable();
+			});
 	     
 	     console.log("rendered general report");
 	 },
@@ -149,19 +149,19 @@ var menuReportsHourlyActivityView =
 	     var terminals =  ReportData.store.terminals?ReportData.store.terminals:[];
 	     
 	     if(terminals.length>0) {
-		    _.each(terminals, function(terminal) {
-		 			dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	   });	
-	 	} else {
-	 		$('option', dropdownTerminal).remove();
-	    	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-	 	}
+		 _.each(terminals, function(terminal) {
+		 	    dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+		 	});	
+	     } else {
+	 	 $('option', dropdownTerminal).remove();
+	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+	     }
 	     
 	     var btn = $('#generalgobtn')
-			    .button()
-			    .click(function(){
-				      renderHourlyActivityTable();
-				   });
+		 .button()
+		 .click(function(){
+			    renderHourlyActivityTable();
+			});
 	     
 	     console.log("rendered general report");
 	 }
@@ -186,8 +186,8 @@ function renderHourlyActivityTable() {
 	id = dropdownGroup.val();
     } else {
 	if(dropdownGroup.val()=="ALL") {
-	  //  alert("company id : "+ReportData.company._id);
-	  id=ReportData.company._id;
+	    //  alert("company id : "+ReportData.company._id);
+	    id=ReportData.company._id;
 	} else if(dropdownGroup.val()=="") {
 	    //alert("store id : "+ ReportData.store.store_id);
 	    id=ReportData.store.store_id;
@@ -196,50 +196,50 @@ function renderHourlyActivityTable() {
     
     //TODO : hourly activity talble data 
     hourlyReportFetcher(id, function(data_param){
-    		var totalrow={};
-    		totalrow.transactions = (_.reduce(data_param, function(init, item){
-								return init + Number(item.transactions);
-							}, 0))+"";
-			totalrow.refunds = (_.reduce(data_param, function(init, item){
-								return init + Number(item.refunds);
-							}, 0))+"";
-			totalrow.menu = (_.reduce(data_param, function(init, item){
-								return init + Number(item.menu);
-							}, 0)).toFixed(2);
-			totalrow.inventory = (_.reduce(data_param, function(init, item){
-								return init + Number(item.inventory);
-							}, 0)).toFixed(2);
-			totalrow.ecr = (_.reduce(data_param, function(init, item){
-								return init + Number(item.ecr);
-							}, 0)).toFixed(2);
-			totalrow.total = (_.reduce(data_param, function(init, item){
-								return init + Number(item.total);
-							}, 0)).toFixed(2);
-			if((Number(totalrow.transactions)-Number(totalrow.refunds))!=0) {
+    			    var totalrow={};
+    			    totalrow.transactions = (_.reduce(data_param, function(init, item){
+								  return init + Number(item.transactions);
+							      }, 0))+"";
+			    totalrow.refunds = (_.reduce(data_param, function(init, item){
+							     return init + Number(item.refunds);
+							 }, 0))+"";
+			    totalrow.menu = (_.reduce(data_param, function(init, item){
+							  return init + Number(item.menu);
+						      }, 0)).toFixed(2);
+			    totalrow.inventory = (_.reduce(data_param, function(init, item){
+							       return init + Number(item.inventory);
+							   }, 0)).toFixed(2);
+			    totalrow.ecr = (_.reduce(data_param, function(init, item){
+							 return init + Number(item.ecr);
+						     }, 0)).toFixed(2);
+			    totalrow.total = (_.reduce(data_param, function(init, item){
+							   return init + Number(item.total);
+						       }, 0)).toFixed(2);
+			    if((Number(totalrow.transactions)-Number(totalrow.refunds))!=0) {
 				totalrow.avgsale = (Number(totalrow.total)/(Number(totalrow.transactions))).toFixed(2);
-			} else {
+			    } else {
 				totalrow.avgsale = "0.00";
-			}
-			
-			data_param = _.map(data_param, function(item){
-	    		item.avgsale = currency_format(item.avgsale);
-	    		item.ecr = currency_format(item.ecr);
-	    		item.inventory = currency_format(item.inventory);
-	    		item.menu = currency_format(item.menu);
-	    		item.total = currency_format(item.total);
-				return item;	    		
-	    	});
-    		
-			totalrow.avgsale = currency_format(totalrow.avgsale);
-    		totalrow.ecr = currency_format(totalrow.ecr);
-    		totalrow.inventory = currency_format(totalrow.inventory);
-    		totalrow.menu = currency_format(totalrow.menu);
-    		totalrow.total = currency_format(totalrow.total);
-    					
-    		var data = {items:data_param, totalrow:totalrow};
-		    var html = ich.hourlyActivityTabel_TMP(data);
-    		$("#hourlytable").html(html);    	
-    });
+			    }
+			    
+			    data_param = _.map(data_param, function(item){
+	    					   item.avgsale = currency_format(item.avgsale);
+	    					   item.ecr = currency_format(item.ecr);
+	    					   item.inventory = currency_format(item.inventory);
+	    					   item.menu = currency_format(item.menu);
+	    					   item.total = currency_format(item.total);
+						   return item;	    		
+	    				       });
+    			    
+			    totalrow.avgsale = currency_format(totalrow.avgsale);
+    			    totalrow.ecr = currency_format(totalrow.ecr);
+    			    totalrow.inventory = currency_format(totalrow.inventory);
+    			    totalrow.menu = currency_format(totalrow.menu);
+    			    totalrow.total = currency_format(totalrow.total);
+    			    
+    			    var data = {items:data_param, totalrow:totalrow};
+			    var html = ich.hourlyActivityTabel_TMP(data);
+    			    $("#hourlytable").html(html);    	
+			});
 };
 
 function updateTerminalDropdown() {
@@ -281,11 +281,11 @@ function updateTerminalDropdown() {
 				      }).flatten().value();
     
     if(terminals.length>0) {
-	    _.each(terminals, function(terminal) {
-	 			dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-	 	   });	
- 	} else {
- 		$('option', dropdownTerminal).remove();
+	_.each(terminals, function(terminal) {
+	 	   dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+	       });	
+    } else {
+ 	$('option', dropdownTerminal).remove();
     	dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
- 	}
+    }
 };

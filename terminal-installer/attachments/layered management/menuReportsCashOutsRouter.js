@@ -101,10 +101,10 @@ var menuReportsCashOutsView =
 	     }
 	     
 	     var btn = $('#generalgobtn')
-			    .button()
-			    .click(function(){
-				      rendermenuReportsCashOutsTable();
-				   });
+		 .button()
+		 .click(function(){
+			    rendermenuReportsCashOutsTable();
+			});
 	     
 	     console.log("rendered general report");
 	 },
@@ -160,10 +160,10 @@ var menuReportsCashOutsView =
 	     }
 	     
 	     var btn = $('#generalgobtn')
-			    .button()
-			    .click(function(){
-				      rendermenuReportsCashOutsTable();
-				   });
+		 .button()
+		 .click(function(){
+			    rendermenuReportsCashOutsTable();
+			});
 	     
 	     console.log("rendered general report");
 	 },
@@ -218,10 +218,10 @@ var menuReportsCashOutsView =
 	     }
 	     
 	     var btn = $('#generalgobtn')
-			    .button()
-			    .click(function(){
-				      rendermenuReportsCashOutsTable();
-				   });
+		 .button()
+		 .click(function(){
+			    rendermenuReportsCashOutsTable();
+			});
 	     
 	     console.log("rendered general report");
 	 }
@@ -261,19 +261,19 @@ function rendermenuReportsCashOutsTable() {
 	
 	cashoutReportFetcher(ids,startDate,endDateForQuery)
 	(function(data_TMP){
-		var numofcashout = data_TMP.length+"";
+	     var numofcashout = data_TMP.length+"";
 	     data_TMP = _.map(data_TMP, function(item){
 				  var dialogtitle=getDialogTitle(ReportData,item.name);
 				  item._id = item.id;
 				  return _.extend(item, {dialogtitle:dialogtitle});
 			      });
 
-		var html;
+	     var html;
 	     if(_.isEmpty(data_TMP)){
-		 	html = "<p>There are no cashouts for this time period</p>";	 
+		 html = "<p>There are no cashouts for this time period</p>";	 
 	     }
 	     else{
-		 	html = ich.menuReportsCashOutsTabel_TMP({items:data_TMP, numofcashout:numofcashout});
+		 html = ich.menuReportsCashOutsTabel_TMP({items:data_TMP, numofcashout:numofcashout});
 	     }
 	     $("#cashoutstable").html(html);
 	     
@@ -283,12 +283,12 @@ function rendermenuReportsCashOutsTable() {
 			    .click(function(){
 				       var data = item.cashout;
 				       _.applyToValues(data, function(obj){
-						     var strObj = obj+"";
-						     if(strObj.indexOf(".")>=0) {
-						     	obj = currency_format(obj);
-						     }
-						     return obj;
-						 }, true);
+							   var strObj = obj+"";
+							   if(strObj.indexOf(".")>=0) {
+						     	       obj = currency_format(obj);
+							   }
+							   return obj;
+						       }, true);
 				       var html = ich.menuReportsCashoutQuickViewDialog_TMP(data);
 				       quickmenuReportsCashoutViewDialog(html, {title:item.dialogtitle});
 				   });

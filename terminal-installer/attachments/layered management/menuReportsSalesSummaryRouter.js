@@ -87,12 +87,12 @@ var menuReportsSalesSummaryView =
 	     _.each(stores, function(store) {
 	 		dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
 	 	    });
-	 	 
-	 	 var btn = $('#generalgobtn')
-			    .button()
-			    .click(function(){
-				      renderSalesSummaryReportTable();
-				   });
+	     
+	     var btn = $('#generalgobtn')
+		 .button()
+		 .click(function(){
+			    renderSalesSummaryReportTable();
+			});
 	     
 	     console.log("rendered general report");
 	 },
@@ -136,10 +136,10 @@ var menuReportsSalesSummaryView =
 	 	    });
 	     
 	     var btn = $('#generalgobtn')
-			    .button()
-			    .click(function(){
-				      renderSalesSummaryReportTable();
-				   });
+		 .button()
+		 .click(function(){
+			    renderSalesSummaryReportTable();
+			});
 	     
 	     console.log("rendered general report");
 	 },
@@ -184,10 +184,10 @@ var menuReportsSalesSummaryView =
 	     dropdownStore.attr('disabled','disabled');
 	     
 	     var btn = $('#generalgobtn')
-			    .button()
-			    .click(function(){
-				      renderSalesSummaryReportTable();
-				   });
+		 .button()
+		 .click(function(){
+			    renderSalesSummaryReportTable();
+			});
 	     
 	     console.log("rendered general report");
 	 }
@@ -300,9 +300,9 @@ function extractSalesSummaryTableInfo(list) {
 	var total={};
 	
 	total.totalsales = currency_format(_(input.list).chain()
-				      .pluck('summary')
-				      .reduce(function(init,item){ return Number(item.sales)+init;},0)
-				      .value())
+					   .pluck('summary')
+					   .reduce(function(init,item){ return Number(item.sales)+init;},0)
+					   .value())
 	;
 
 	total.totaltransactions=_(input.list).chain()
@@ -310,37 +310,37 @@ function extractSalesSummaryTableInfo(list) {
 	    .reduce(function(init,item){ return Number(item.numberoftransactions)+init;},0)
 	    .value();
 	total.totaltax1 = currency_format(_(input.list).chain()
-				     .pluck('summary')
-				     .reduce(function(init,item){ return Number(item.tax1)+init;},0)
-				     .value());
+					  .pluck('summary')
+					  .reduce(function(init,item){ return Number(item.tax1)+init;},0)
+					  .value());
 	total.totaltax3 = currency_format(_(input.list).chain()
-				     .pluck('summary')
-				     .reduce(function(init,item){ return Number(item.tax3)+init;},0)
-				     .value());
+					  .pluck('summary')
+					  .reduce(function(init,item){ return Number(item.tax3)+init;},0)
+					  .value());
 	total.totaltotalsales = currency_format(_(input.list).chain()
-					   .pluck('summary')
-					   .reduce(function(init,item){ return Number(item.totalsales)+init;},0)
-					   .value());
+						.pluck('summary')
+						.reduce(function(init,item){ return Number(item.totalsales)+init;},0)
+						.value());
 	total.totalcash = currency_format(_(input.list).chain()
-				     .pluck('summary')
-				     .reduce(function(init,item){ return Number(item.cash)+init;},0)
-				     .value());
+					  .pluck('summary')
+					  .reduce(function(init,item){ return Number(item.cash)+init;},0)
+					  .value());
 	total.totalcredit = currency_format(_(input.list).chain()
-				       .pluck('summary')
-				       .reduce(function(init,item){ return Number(item.credit)+init;},0)
-				       .value());
+					    .pluck('summary')
+					    .reduce(function(init,item){ return Number(item.credit)+init;},0)
+					    .value());
 	total.totaldebit = currency_format(_(input.list).chain()
-				      .pluck('summary')
-				      .reduce(function(init,item){ return Number(item.debit)+init;},0)
-				      .value());
+					   .pluck('summary')
+					   .reduce(function(init,item){ return Number(item.debit)+init;},0)
+					   .value());
 	total.totalmobile = currency_format(_(input.list).chain()
-				       .pluck('summary')
-				       .reduce(function(init,item){ return Number(item.mobile)+init;},0)
-				       .value());
+					    .pluck('summary')
+					    .reduce(function(init,item){ return Number(item.mobile)+init;},0)
+					    .value());
 	total.totalother = currency_format(_(input.list).chain()
-				      .pluck('summary')
-				      .reduce(function(init,item){ return Number(item.other)+init;},0)
-				      .value());
+					   .pluck('summary')
+					   .reduce(function(init,item){ return Number(item.other)+init;},0)
+					   .value());
 	input.total = total;
 	return input;
     };
@@ -363,15 +363,15 @@ function extractSalesSummaryTableInfo(list) {
 	result = appendTotals(result);
 	
 	result.list = _.map(result.list, function(item){
-		_.applyToValues(item.summary, function(obj){
-					     var strObj = obj+"";
-					     if(strObj.indexOf(".")>=0) {
-					     	obj = currency_format(obj);
-					     }
-					     return obj;
-					 }, true);
-		return item;
-	});
+				_.applyToValues(item.summary, function(obj){
+						    var strObj = obj+"";
+						    if(strObj.indexOf(".")>=0) {
+					     		obj = currency_format(obj);
+						    }
+						    return obj;
+						}, true);
+				return item;
+			    });
 	
 	return result;
 	
@@ -391,15 +391,15 @@ function extractSalesSummaryTableInfo(list) {
 	result = appendTotals(result);
 	
 	result.list = _.map(result.list, function(item){
-		_.applyToValues(item.summary, function(obj){
-					     var strObj = obj+"";
-					     if(strObj.indexOf(".")>=0) {
-					     	obj = currency_format(obj);
-					     }
-					     return obj;
-					 }, true);
-		return item;
-	});
+				_.applyToValues(item.summary, function(obj){
+						    var strObj = obj+"";
+						    if(strObj.indexOf(".")>=0) {
+					     		obj = currency_format(obj);
+						    }
+						    return obj;
+						}, true);
+				return item;
+			    });
 	
 	return result;
 	
@@ -417,15 +417,15 @@ function extractSalesSummaryTableInfo(list) {
 	result = appendTotals(result);
 	
 	result.list = _.map(result.list, function(item){
-		_.applyToValues(item.summary, function(obj){
-					     var strObj = obj+"";
-					     if(strObj.indexOf(".")>=0) {
-					     	obj = currency_format(obj);
-					     }
-					     return obj;
-					 }, true);
-		return item;
-	});
+				_.applyToValues(item.summary, function(obj){
+						    var strObj = obj+"";
+						    if(strObj.indexOf(".")>=0) {
+					     		obj = currency_format(obj);
+						    }
+						    return obj;
+						}, true);
+				return item;
+			    });
 	
 	return result;
     }

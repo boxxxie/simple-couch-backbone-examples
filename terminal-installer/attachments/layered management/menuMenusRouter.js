@@ -43,27 +43,27 @@ var menuSetMenusView =
 		  $("#menusetmenusleft").html(htmlleft);
 		  
 		  $("#menumodifiersbutton").button()
-					    .click(function(){
-						      view.renderMenuScreenPartial(0);
-						      $("#menusetmenusright").html({});
-						   });
-		 $("#menueditheader1").button()
-					    .click(function(){
-						      renderEditHeader(1);
-						   });
-		$("#menueditheader2").button()
-					    .click(function(){
-						      renderEditHeader(2);
-						   });
-		$("#menueditheader3").button()
-					    .click(function(){
-						      renderEditHeader(3);
-						   });
-		$("#menueditheader4").button()
-					    .click(function(){
-						      renderEditHeader(4);
-						   });						   						   
-						   
+		      .click(function(){
+				 view.renderMenuScreenPartial(0);
+				 $("#menusetmenusright").html({});
+			     });
+		  $("#menueditheader1").button()
+		      .click(function(){
+				 renderEditHeader(1);
+			     });
+		  $("#menueditheader2").button()
+		      .click(function(){
+				 renderEditHeader(2);
+			     });
+		  $("#menueditheader3").button()
+		      .click(function(){
+				 renderEditHeader(3);
+			     });
+		  $("#menueditheader4").button()
+		      .click(function(){
+				 renderEditHeader(4);
+			     });						   						   
+		  
 		  
 		  view.renderMenuScreenPartial(1);
 		  view.renderMenuHeaderPartial();
@@ -76,77 +76,77 @@ var menuSetMenusView =
 	     
 	 },
 	 renderMenuHeaderPartial: function() {
-	 	var view = this;
-	 	var menuModelHeaders = menuModel.get('menuButtonHeaders');
-		  
-		menuModelHeaders = _.map(menuModelHeaders, function(item) {
-				if(_.isEmpty(item.description1) 
-			  		&& _.isEmpty(item.description2)
-			  		&& _.isEmpty(item.description3)) {
-				  	item.description1="MENU" + item.menu_id;
-				  }
-				  return item;
-		  });
-		  
-		  
-		  var htmlbottom = ich.menuSetMenus_Bottom_TMP({menuButtonHeaders:menuModelHeaders});
-		  $("#menusetmenusbottom").html(htmlbottom);
-		  
-		  _.each(menuModelHeaders, function(item){
+	     var view = this;
+	     var menuModelHeaders = menuModel.get('menuButtonHeaders');
+	     
+	     menuModelHeaders = _.map(menuModelHeaders, function(item) {
+					  if(_.isEmpty(item.description1) 
+			  		     && _.isEmpty(item.description2)
+			  		     && _.isEmpty(item.description3)) {
+				  	      item.description1="MENU" + item.menu_id;
+					  }
+					  return item;
+				      });
+	     
+	     
+	     var htmlbottom = ich.menuSetMenus_Bottom_TMP({menuButtonHeaders:menuModelHeaders});
+	     $("#menusetmenusbottom").html(htmlbottom);
+	     
+	     _.each(menuModelHeaders, function(item){
 		  	$("#menubuttonheader"+item.menu_id).button()
-		  				//.css({background:"rgb("+item.color+")"})
-					    .click(function(){
-						      view.renderMenuScreenPartial(item.menu_id);
-						      $("#menusetmenusright").html({});
-						   });
-		  });
-		 
-		 /*
-		 _.each(menuModelHeaders, function(item){
-		  	$("#menubuttonheader"+item.menu_id)
-					    .click(function(){
-						      view.renderMenuScreenPartial(item.menu_id);
-						      $("#menusetmenusright").html({});
-						   });;
-		  });
-		  */
-		 
+		  	//.css({background:"rgb("+item.color+")"})
+			    .click(function(){
+				       view.renderMenuScreenPartial(item.menu_id);
+				       $("#menusetmenusright").html({});
+				   });
+		    });
+	     
+	     /*
+	      _.each(menuModelHeaders, function(item){
+	      $("#menubuttonheader"+item.menu_id)
+	      .click(function(){
+	      view.renderMenuScreenPartial(item.menu_id);
+	      $("#menusetmenusright").html({});
+	      });;
+	      });
+	      */
+	     
 	 },
 	 renderMenuScreenPartial: function(model,menus,item) {
-	 	if(_.isNumber(model)){
-	 	    console.log("screen num : " + model);
-	 	    var menuscreentitle;
-	 	    
-	 	    if(model==0) {
-	 	    	menuscreentitle = "MODIFIERS";
-	 	    } else {
-	 	    	var header = menuModel.get_header(model);
-	 	    	menuscreentitle = "".concat(header.description1)
-	 	    						.concat(header.description2)
-	 	    						.concat(header.description3);
-	 	    }
-	 	    
-		    var htmlcenter = ich.menuSetMenus_Center_TMP(_.extend({menuscreentitle:menuscreentitle},menuModel.menu_screen(model)));
-		    $("#menusetmenuscenter").html(htmlcenter);
-		    
-		    console.log("menuscreen rendered");
-		} else if(!_.isEmpty(item)) {
-			console.log("screen num : " + item.display.screen);
-			
-			var menuscreentitle;
-			if(item.display.screen==0) {
-	 	    	menuscreentitle = "MODIFIERS";
-	 	    } else {
-	 	    	var header = menuModel.get_header(item.display.screen);
-	 	    	menuscreentitle = "".concat(header.description1)
-	 	    						.concat(header.description2)
-	 	    						.concat(header.description3);
-	 	    }
-	 	    						
-		    var htmlcenter = ich.menuSetMenus_Center_TMP(_.extend({menuscreentitle:menuscreentitle},menuModel.menu_screen(item.display.screen)));
-		    $("#menusetmenuscenter").html(htmlcenter);
-		    console.log("menuscreen rendered");
-		}
+	     if(_.isNumber(model)){
+	 	 console.log("screen num : " + model);
+	 	 var menuscreentitle;
+	 	 
+	 	 if(model==0) {
+	 	     menuscreentitle = "MODIFIERS";
+	 	 } else {
+	 	     var header = menuModel.get_header(model);
+	 	     menuscreentitle = "".concat(header.description1)
+	 	    	 .concat(header.description2)
+	 	    	 .concat(header.description3);
+	 	 }
+	 	 
+		 var htmlcenter = ich.menuSetMenus_Center_TMP(_.extend({menuscreentitle:menuscreentitle},menuModel.menu_screen(model)));
+		 $("#menusetmenuscenter").html(htmlcenter);
+		 
+		 console.log("menuscreen rendered");
+	     } else if(!_.isEmpty(item)) {
+		 console.log("screen num : " + item.display.screen);
+		 
+		 var menuscreentitle;
+		 if(item.display.screen==0) {
+	 	     menuscreentitle = "MODIFIERS";
+	 	 } else {
+	 	     var header = menuModel.get_header(item.display.screen);
+	 	     menuscreentitle = "".concat(header.description1)
+	 	    	 .concat(header.description2)
+	 	    	 .concat(header.description3);
+	 	 }
+	 	 
+		 var htmlcenter = ich.menuSetMenus_Center_TMP(_.extend({menuscreentitle:menuscreentitle},menuModel.menu_screen(item.display.screen)));
+		 $("#menusetmenuscenter").html(htmlcenter);
+		 console.log("menuscreen rendered");
+	     }
 	 }
 	});
 
@@ -163,26 +163,26 @@ function renderEditPage(num,position) {
 	// if modifier menu, disable modifier/read scale button
 	// otherwise(menu), disable duplicate button	
 	if(num==0) {
-		var btnHasModifier = $("#has_modifier");
-		var btnUseScale = $("#use_scale");
-		btnHasModifier.attr('disabled',true);
-		btnUseScale.attr('disabled',true);
+	    var btnHasModifier = $("#has_modifier");
+	    var btnUseScale = $("#use_scale");
+	    btnHasModifier.attr('disabled',true);
+	    btnUseScale.attr('disabled',true);
 	} else {
 	    var btnDuplicate = $("#duplicate");
 	    btnDuplicate.attr('disabled',true);
 	}
 	$("#displayColor").ColorPicker({
-		onSubmit: function(hsb, hex, rgb, el) {
-			$(el).val(rgb.r + "," + rgb.g + "," + rgb.b);
-			$(el).ColorPickerHide();
-		},
-		onBeforeShow: function () {
-			$(this).ColorPickerSetColor(this.value);
-		}
-	})
-	.bind('keyup', function(){
-		$(this).ColorPickerSetColor(this.value);
-	});
+					   onSubmit: function(hsb, hex, rgb, el) {
+					       $(el).val(rgb.r + "," + rgb.g + "," + rgb.b);
+					       $(el).ColorPickerHide();
+					   },
+					   onBeforeShow: function () {
+					       $(this).ColorPickerSetColor(this.value);
+					   }
+				       })
+	    .bind('keyup', function(){
+		      $(this).ColorPickerSetColor(this.value);
+		  });
 	
     } else {
 	//renderEditHeader
@@ -193,17 +193,17 @@ function renderEditPage(num,position) {
 	$("#menusetmenusright").html(htmlright);
 	
 	$("#displayColor").ColorPicker({
-		onSubmit: function(hsb, hex, rgb, el) {
-			$(el).val(rgb.r + "," + rgb.g + "," + rgb.b);
-			$(el).ColorPickerHide();
-		},
-		onBeforeShow: function () {
-			$(this).ColorPickerSetColor(this.value);
-		}
-	})
-	.bind('keyup', function(){
-		$(this).ColorPickerSetColor(this.value);
-	});
+					   onSubmit: function(hsb, hex, rgb, el) {
+					       $(el).val(rgb.r + "," + rgb.g + "," + rgb.b);
+					       $(el).ColorPickerHide();
+					   },
+					   onBeforeShow: function () {
+					       $(this).ColorPickerSetColor(this.value);
+					   }
+				       })
+	    .bind('keyup', function(){
+		      $(this).ColorPickerSetColor(this.value);
+		  });
 	
     }
 };
@@ -246,15 +246,15 @@ function saveEditMenu() {
 };
 
 function clearEditHeader() {
-	
+    
 }
 
 function closeEditHeader() {
-	 $("#menusetmenusright").html({});
+    $("#menusetmenusright").html({});
 }
 
 function saveEditHeader() {
-	var editDialog = $("#editMenuHeaderButton");
+    var editDialog = $("#editMenuHeaderButton");
 
     var newHeaderItemData = varFormGrabber(editDialog);
 
