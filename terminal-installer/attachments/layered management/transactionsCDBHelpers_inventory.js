@@ -84,7 +84,7 @@ function inventoryTotalsRangeFetcher_F(id){
 				    var totalSalesPercentage = item.price/totalSales * 100;
 				    var totalSalesPercentage_rounded =  Number(toFixed(2)(totalSalesPercentage));
 				}
-				return _.extend({},item,{typedSalesPercentage: typedPercentage_rounded, totalSalesPercentage: totalSalesPercentage_rounded});
+				return _.extend({},item,{typedSalesPercentage: typedPercentage, totalSalesPercentage: totalSalesPercentage});
 			    };
 			}
 			sales = sales.rows;
@@ -112,13 +112,7 @@ function inventoryTotalsRangeFetcher_F(id){
 			    .value();
 		    }
 
-		    var resp = _.applyToValues(raw_resp,function(item){
-						   if(item && item.price){
-						       item.price = Number(toFixed(2)(item.price));
-						       return item;
-						   }
-						   return item;
-					       },true);
+		    var resp = raw_resp;
 		    
 		    var ecr_sales = _.reduce([totals(resp.total_department_sale,resp.total_department_refund),
 					      totals(resp.total_scale_sale,resp.total_scale_refund),
@@ -145,6 +139,7 @@ function inventoryTotalsRangeFetcher_F(id){
 				 var description =  _.str.trim(_.second(labels));
 				 return _.extend({upc: upc, description:description},scan);
 			     });
+
 		    var scan_sales_totals = totals_calc(scan_sales_list);
 		    
 		    var ecr_sales_list =totals_list(resp.all_ecr_sales,resp.all_ecr_refunds,ecr_sales.price,totalSales);
