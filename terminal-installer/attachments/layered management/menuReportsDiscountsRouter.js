@@ -307,10 +307,7 @@ function renderDiscountsTable() {
 								    payment.paymentdetail.crt = payment.type;
 								}
 								if(payment.paymentdetail && payment.paymentdetail.errmsg) {
-									while((payment.paymentdetail.errmsg).indexOf("<br>")>=0) { 
-										payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace("<br>"," ");
-									}
-								    //payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace("<br>"," ");
+									payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace(/<br>/g," ");
 								}
 								return payment;
 							    }); 
