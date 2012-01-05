@@ -67,6 +67,43 @@ function quickReportView(id, title){
     		      	for_TMP.ytd.noofsale=ytd_noofsale;
     		      	for_TMP.ytd.noofrefund=ytd_noofrefund;
     		      	
+    		      	var yesterdayPropsToChange = _.selectKeys(for_TMP.yesterday,['netsalestotal', 'netrefundtotal', 'netsaleactivity', 'avgpayment', 'avgrefund' , 'cashtotal' , 'allDiscount', 'cancelledtotal','avgcancelled','menusalesamount', 'scansalesamount','ecrsalesamount']);
+					yesterdayPropsToChange =_(yesterdayPropsToChange).chain()
+							      .map(function(val,key){
+								       if(val.indexOf('-')>=0) { val = val.replace('-',''); val = "-$ " +val;}
+								       else {val = "$ " +val;}
+								       return [key,val];
+								   })
+							      .toObject()
+							      .value();
+				   var yesterdayCashoutForm = _.extend({},for_TMP.yesterday,yesterdayPropsToChange);
+				   
+				   var mtdPropsToChange = _.selectKeys(for_TMP.mtd,['netsalestotal', 'netrefundtotal', 'netsaleactivity', 'avgpayment', 'avgrefund' , 'cashtotal' , 'allDiscount', 'cancelledtotal','avgcancelled','menusalesamount', 'scansalesamount','ecrsalesamount']);
+					mtdPropsToChange =_(mtdPropsToChange).chain()
+							      .map(function(val,key){
+								       if(val.indexOf('-')>=0) { val = val.replace('-',''); val = "-$ " +val;}
+								       else {val = "$ " +val;}
+								       return [key,val];
+								   })
+							      .toObject()
+							      .value();
+				   var mtdCashoutForm = _.extend({},for_TMP.mtd,mtdPropsToChange);
+				   
+				   var ytdPropsToChange = _.selectKeys(for_TMP.ytd,['netsalestotal', 'netrefundtotal', 'netsaleactivity', 'avgpayment', 'avgrefund' , 'cashtotal' , 'allDiscount', 'cancelledtotal','avgcancelled','menusalesamount', 'scansalesamount','ecrsalesamount']);
+					ytdPropsToChange =_(ytdPropsToChange).chain()
+							      .map(function(val,key){
+								       if(val.indexOf('-')>=0) { val = val.replace('-',''); val = "-$ " +val;}
+								       else {val = "$ " +val;}
+								       return [key,val];
+								   })
+							      .toObject()
+							      .value();
+				   var ytdCashoutForm = _.extend({},for_TMP.ytd,ytdPropsToChange); 
+    		      	
+    		      	for_TMP.yesterday = yesterdayCashoutForm;
+    		      	for_TMP.ytd = ytdCashoutForm;
+    		      	for_TMP.mtd = mtdCashoutForm;
+    		      	
     			    var html = ich.cashOutReportDialog_TMP(for_TMP);
     			    quickReportViewDialog(html,{title:title});
     		      });
