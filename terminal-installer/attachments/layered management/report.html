@@ -568,7 +568,10 @@
   	  </tr>
   	  {{#order}}
   	  <tr>
-  	    <td>{{#upccode}}{{upccode}}<br/>{{/upccode}}{{description}}</td>
+  	    <td>
+  	    	{{#upccode}}<div style="margin-bottom:0px;">{{upccode}}</div>{{/upccode}}
+  	    	<div style="margin-bottom:0px;">{{description}}</div>
+  	    </td>
   	    <td align="right">{{quantity}}</td>
   	    <td align="right">{{price}}</td>
   	    <td align="right">{{orderamount}}</td>
