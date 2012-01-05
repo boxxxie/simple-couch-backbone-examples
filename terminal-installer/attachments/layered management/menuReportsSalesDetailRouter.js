@@ -427,10 +427,25 @@ function extractSalesDetailTableInfo(list) {
 				_.applyToValues(item.totalrow, function(obj){
 						    var strObj = obj+"";
 						    if(strObj.indexOf(".")>=0) {
-					     		obj = currency_format(obj);
+					     		obj = currency_format(Number(obj));
 						    }
 						    return obj;
 						}, true);
+				_.applyToValues(item.salerow, function(obj){
+						    var strObj = obj+"";
+						    if(strObj.indexOf(".")>=0 && strObj.indexOf(",")<0 ) {
+					     		obj = currency_format(Number(obj));
+						    }
+						    return obj;
+						}, true);
+				_.applyToValues(item.refundrow, function(obj){
+						    var strObj = obj+"";
+						    if(strObj.indexOf(".")>=0 && strObj.indexOf(",")<0 ) {
+					     		if(strObj!="0.00") { obj = "-" + currency_format(Number(obj)*-1); }
+						    }
+						    return obj;
+						}, true);
+						
 				return item;
 			    });
 	

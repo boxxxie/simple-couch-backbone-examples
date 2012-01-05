@@ -23,9 +23,9 @@ function generalReportRenderer(view,param,template,idField){
 				    var formattedSales = generateFormattedSales(param.list);
 				    _.extend(param, {sales:formattedSales});
 				    param.list=_.map(param.list, function(item){
-				    			 item.yesterdaysales = currency_format(item.yesterdaysales);
-				    			 item.mtdsales = currency_format(item.mtdsales);
-				    			 item.ytdsales = currency_format(item.ytdsales);
+				    			 item.yesterdaysales = currency_format(Number(item.yesterdaysales));
+				    			 item.mtdsales = currency_format(Number(item.mtdsales));
+				    			 item.ytdsales = currency_format(Number(item.ytdsales));
 				    			 return item;
 						     });
 				    var html = ich[template](param);

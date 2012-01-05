@@ -222,19 +222,30 @@ function renderHourlyActivityTable() {
 			    }
 			    
 			    data_param = _.map(data_param, function(item){
-	    					   item.avgsale = currency_format(item.avgsale);
-	    					   item.ecr = currency_format(item.ecr);
-	    					   item.inventory = currency_format(item.inventory);
-	    					   item.menu = currency_format(item.menu);
-	    					   item.total = currency_format(item.total);
+	    					   //item.avgsale = currency_format(Number(item.avgsale));
+	    					   //item.ecr = currency_format(Number(item.ecr));
+	    					   //item.inventory = currency_format(Number(item.inventory));
+	    					   //item.menu = currency_format(Number(item.menu));
+	    					   //item.total = currency_format(Number(item.total));
+	    					   item.avgsale = Number(item.avgsale)>=0?currency_format(Number(item.avgsale)):"-"+currency_format(Number(item.avgsale)*-1);
+	    					   item.ecr = Number(item.ecr)>=0?currency_format(Number(item.ecr)):"-"+currency_format(Number(item.ecr)*-1);
+	    					   item.inventory = Number(item.inventory)>=0?currency_format(Number(item.inventory)):"-"+currency_format(Number(item.inventory)*-1);
+	    					   item.menu = Number(item.menu)>=0?currency_format(Number(item.menu)):"-"+currency_format(Number(item.menu)*-1);
+	    					   item.total = Number(item.total)>=0?currency_format(Number(item.total)):"-"+currency_format(Number(item.total)*-1);
+	    					   
 						   return item;	    		
 	    				       });
     			    
-			    totalrow.avgsale = currency_format(totalrow.avgsale);
-    			    totalrow.ecr = currency_format(totalrow.ecr);
-    			    totalrow.inventory = currency_format(totalrow.inventory);
-    			    totalrow.menu = currency_format(totalrow.menu);
-    			    totalrow.total = currency_format(totalrow.total);
+			    	//totalrow.avgsale = currency_format(totalrow.avgsale);
+    			    //totalrow.ecr = currency_format(totalrow.ecr);
+    			    //totalrow.inventory = currency_format(totalrow.inventory);
+    			    //totalrow.menu = currency_format(totalrow.menu);
+    			    //totalrow.total = currency_format(totalrow.total);
+    			    totalrow.avgsale = Number(totalrow.avgsale)>=0?currency_format(Number(totalrow.avgsale)):"-"+currency_format(Number(totalrow.avgsale)*-1);
+				    totalrow.ecr = Number(totalrow.ecr)>=0?currency_format(Number(totalrow.ecr)):"-"+currency_format(Number(totalrow.ecr)*-1);
+				    totalrow.inventory = Number(totalrow.inventory)>=0?currency_format(Number(totalrow.inventory)):"-"+currency_format(Number(totalrow.inventory)*-1);
+				    totalrow.menu = Number(totalrow.menu)>=0?currency_format(Number(totalrow.menu)):"-"+currency_format(Number(totalrow.menu)*-1);
+				    totalrow.total = Number(totalrow.total)>=0?currency_format(Number(totalrow.total)):"-"+currency_format(Number(totalrow.total)*-1);
     			    
     			    var data = {items:data_param, totalrow:totalrow};
 			    var html = ich.hourlyActivityTabel_TMP(data);

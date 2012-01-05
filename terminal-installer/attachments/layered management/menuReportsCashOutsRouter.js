@@ -285,11 +285,23 @@ function rendermenuReportsCashOutsTable() {
 				       _.applyToValues(data, function(obj){
 							   var strObj = obj+"";
 							   if(strObj.indexOf(".")>=0) {
-						     	       obj = currency_format(obj);
+						     	       obj = currency_format(Number(obj));
 							   }
 							   return obj;
 						       }, true);
-				       var html = ich.menuReportsCashoutQuickViewDialog_TMP(data);
+						
+						 var propsToChange = _.selectKeys(data,['netsalestotal', 'netrefundtotal', 'netsaleactivity', 'avgpayment', 'avgrefund' , 'cashtotal' , 'allDiscount', 'cancelledtotal','avgcancelled','menusalesamount', 'scansalesamount','ecrsalesamount']);
+						 propsToChange =_(propsToChange).chain()
+								      .map(function(val,key){
+									       if(val.indexOf('-')>=0) { val = val.replace('-',''); val = "-$ " +val;}
+									       else {val = "$ " +val;}
+									       return [key,val];
+									   })
+								      .toObject()
+								      .value();
+					   var cashoutData = _.extend({},data,propsToChange); 
+						
+				       var html = ich.menuReportsCashoutQuickViewDialog_TMP(cashoutData);
 				       quickmenuReportsCashoutViewDialog(html, {title:item.dialogtitle});
 				   });
 		    });		

@@ -25,6 +25,32 @@ function quickReportViewDialog (html,options) {
 function quickReportView(id, title){
     cashoutFetcher(id,
     		      function(for_TMP){
+    		      	var datamtd = _(for_TMP.mtd).chain()
+				                .map(function(val,key){
+				                    val = Number(val);
+				                    return [key,val];
+				                })
+				                .toObject()
+				                .value();
+				    var dataytd = _(for_TMP.ytd).chain()
+				                .map(function(val,key){
+				                    val = Number(val);
+				                    return [key,val];
+				                })
+				                .toObject()
+				                .value();
+				    var datayesterday = _(for_TMP.yesterday).chain()
+				                .map(function(val,key){
+				                    val = Number(val);
+				                    return [key,val];
+				                })
+				                .toObject()
+				                .value();
+    		      	
+    		      	for_TMP.mtd = datamtd;
+    		      	for_TMP.ytd = dataytd;
+    		      	for_TMP.yesterday = datayesterday;
+    		      	
     		      	var yesterday_noofsale = Number(for_TMP.yesterday.noofsale)+"";
     		      	var yesterday_noofrefund = Number(for_TMP.yesterday.noofrefund)+"";
     		      	var mtd_noofsale = Number(for_TMP.mtd.noofsale)+"";
@@ -77,7 +103,7 @@ function quickTaxView(id, title, firstindex, lastindex) {
 		_.applyToValues(for_TMP, function(obj){
 					     var strObj = obj+"";
 					     if(strObj.indexOf(".")>=0) {
-					     	obj = currency_format(obj);
+					     	obj = currency_format(Number(obj));
 					     }
 					     return obj;
 					 }, true);

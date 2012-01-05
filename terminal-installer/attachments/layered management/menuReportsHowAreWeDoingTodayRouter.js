@@ -177,14 +177,27 @@ function renderHowAreWeGroupsTable(view, startPage) {
     				
     				for_TMP  = appendTotalColum(for_TMP);
     				
-					for_TMP = _.applyToValues(for_TMP,currency_format,true);
-					for_TMP.items = _.map(for_TMP.items, function(item){
-						item.refunds = Number(item.refunds)+"";
-						item.transactions = Number(item.transactions)+"";
+    				for_TMP.total.refunds_total = Number(for_TMP.total.refunds_total);
+    				for_TMP.total.sales_total = Number(for_TMP.total.sales_total);
+    				for_TMP.total.sales_minus_refunds = Number(for_TMP.total.sales_minus_refunds);
+    				for_TMP.total.avgsale = Number(for_TMP.total.avgsale);
+    				
+    				for_TMP.items = _.map(for_TMP.items, function(item){
+    					item.refunds_total = Number(item.refunds_total);
+						item.sales_total = Number(item.sales_total);
+						item.sales_minus_refunds = Number(item.sales_minus_refunds);
+						item.avgsale = Number(item.avgsale);
 						return item;
-					});
-					for_TMP.total.refunds = Number(for_TMP.total.refunds)+"";
-					for_TMP.total.transactions = Number(for_TMP.total.transactions)+"";
+    				});
+    				
+					for_TMP = _.applyToValues(for_TMP,currency_format,true);
+					//for_TMP.items = _.map(for_TMP.items, function(item){
+					//	item.refunds = Number(item.refunds)+"";
+					//	item.transactions = Number(item.transactions)+"";
+					//	return item;
+					//});
+					//for_TMP.total.refunds = Number(for_TMP.total.refunds)+"";
+					//for_TMP.total.transactions = Number(for_TMP.total.transactions)+"";
 					
 					var param = _.extend(for_TMP, {
 								 startPage:startPage,
@@ -224,15 +237,30 @@ function renderHowAreWeStoresTable(view, startPage, group_id) {
     howAreWeDoingTodayReportFetcher(newStores,parent_id,function(for_TMP){
     				
     				for_TMP  = appendTotalColum(for_TMP);
+    				
+    				for_TMP.total.refunds_total = Number(for_TMP.total.refunds_total);
+    				for_TMP.total.sales_total = Number(for_TMP.total.sales_total);
+    				for_TMP.total.sales_minus_refunds = Number(for_TMP.total.sales_minus_refunds);
+    				for_TMP.total.avgsale = Number(for_TMP.total.avgsale);
+    				
+    				for_TMP.items = _.map(for_TMP.items, function(item){
+    					item.refunds_total = Number(item.refunds_total);
+						item.sales_total = Number(item.sales_total);
+						item.sales_minus_refunds = Number(item.sales_minus_refunds);
+						item.avgsale = Number(item.avgsale);
+						return item;
+    				});
+    				
     	
 					for_TMP = _.applyToValues(for_TMP,currency_format,true);
-					for_TMP.items = _.map(for_TMP.items, function(item){
-						item.refunds = Number(item.refunds)+"";
-						item.transactions = Number(item.transactions)+"";
-						return item;
-					});
-					for_TMP.total.refunds = Number(for_TMP.total.refunds)+"";
-					for_TMP.total.transactions = Number(for_TMP.total.transactions)+"";
+					
+					//for_TMP.items = _.map(for_TMP.items, function(item){
+					//	item.refunds = Number(item.refunds)+"";
+					//	item.transactions = Number(item.transactions)+"";
+					//	return item;
+					//});
+					//for_TMP.total.refunds = Number(for_TMP.total.refunds)+"";
+					//for_TMP.total.transactions = Number(for_TMP.total.transactions)+"";
 					
 					var param = _.extend(for_TMP, {
 								 startPage:startPage,
@@ -288,14 +316,29 @@ function renderHowAreWeTerminalsTable(view, startPage, store_id) {
     howAreWeDoingTodayTerminalReportFetcher(newTerminals,parent_id,function(for_TMP){
     	
     					for_TMP  = appendTotalColum(for_TMP);
-    					for_TMP = _.applyToValues(for_TMP,currency_format,true);
-    					for_TMP.items = _.map(for_TMP.items, function(item){
-							item.refunds = Number(item.refunds)+"";
-							item.transactions = Number(item.transactions)+"";
+    					
+    					for_TMP.total.refunds_total = Number(for_TMP.total.refunds_total);
+	    				for_TMP.total.sales_total = Number(for_TMP.total.sales_total);
+	    				for_TMP.total.sales_minus_refunds = Number(for_TMP.total.sales_minus_refunds);
+	    				for_TMP.total.avgsale = Number(for_TMP.total.avgsale);
+	    				
+	    				for_TMP.items = _.map(for_TMP.items, function(item){
+	    					item.refunds_total = Number(item.refunds_total);
+							item.sales_total = Number(item.sales_total);
+							item.sales_minus_refunds = Number(item.sales_minus_refunds);
+							item.avgsale = Number(item.avgsale);
 							return item;
-						});
-						for_TMP.total.refunds = Number(for_TMP.total.refunds)+"";
-						for_TMP.total.transactions = Number(for_TMP.total.transactions)+"";
+	    				});
+    					
+    					for_TMP = _.applyToValues(for_TMP,currency_format,true);
+    					
+    					//for_TMP.items = _.map(for_TMP.items, function(item){
+						//	item.refunds = Number(item.refunds)+"";
+						//	item.transactions = Number(item.transactions)+"";
+						//	return item;
+						//});
+						//for_TMP.total.refunds = Number(for_TMP.total.refunds)+"";
+						//for_TMP.total.transactions = Number(for_TMP.total.transactions)+"";
 						
 						var param = _.extend(for_TMP, {
 									 startPage:startPage,

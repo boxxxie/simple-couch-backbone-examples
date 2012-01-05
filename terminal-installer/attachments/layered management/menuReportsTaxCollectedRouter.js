@@ -321,14 +321,14 @@ function renderTaxCollectedTable() {
 			     	 _.applyToValues(data_TMP, function(obj){
 						     var strObj = obj+"";
 						     if(strObj.indexOf(".")>=0) {
-					     		 obj = currency_format(obj);
+					     		 obj = currency_format(Number(obj));
 						     }
 						     return obj;
 						 }, true);
 				 _.applyToValues(totalrow, function(obj){
 						     var strObj = obj+"";
 						     if(strObj.indexOf(".")>=0) {
-					     		 obj = currency_format(obj);
+					     		 obj = currency_format(Number(obj));
 						     }
 						     return obj;
 						 }, true);

@@ -277,6 +277,7 @@ function renderDiscountsTable() {
 	     totalrow.total = (_.reduce(data_TMP, function(init, item){
 					    return init + Number(item.total);
 					}, 0)).toFixed(2);
+							
 	     totalrow.percentdiscount = (Number(totalrow.discount)/Number(totalrow.sales)*100).toFixed(2);
 	     
 	     data_TMP= applyReceiptInfo(data_TMP);
@@ -323,18 +324,27 @@ function renderDiscountsTable() {
 		 var html = "<p>There are no discounts for this time period</p>";	 
 	     }
 	     else{
-	     	 data_TMP = _.map(data_TMP, function(item){
-	     			      item.subTotal = currency_format(item.subTotal);
-	     			      item.totaldiscount = currency_format(item.totaldiscount);
-	     			      item.tax1and2 = currency_format(item.tax1and2);
-	     			      item.tax3 = currency_format(item.tax3);
-	     			      item.total = currency_format(item.total);
-	     			      return item;
-	     			  });
+	     	 //data_TMP = _.map(data_TMP, function(item){
+	     	//		      item.subTotal = currency_format(item.subTotal);
+	     	//		      item.totaldiscount = currency_format(item.totaldiscount);
+	     	//		      item.tax1and2 = currency_format(item.tax1and2);
+	     	//		      item.tax3 = currency_format(item.tax3);
+	     	//		      item.total = currency_format(item.total);
+	     	//		      return item;
+	     	//		  });
+	     	data_TMP = 
+		     _.applyToValues(data_TMP, function(obj){
+					 var strObj = obj+"";
+					 if(strObj.indexOf(".")>=0 && strObj.indexOf("$")<0) {
+					     obj = currency_format(Number(obj));
+					 }
+					 return obj;
+				     }, true);
+				     
 	     	 _.applyToValues(totalrow, function(obj){
 				     var strObj = obj+"";
 				     if(strObj.indexOf(".")>=0) {
-					 obj = currency_format(obj);
+					 obj = currency_format(Number(obj));
 				     }
 				     return obj;
 				 }, true);
@@ -369,13 +379,13 @@ function renderDiscountsTable() {
 				       				 return orderitem;
 							     });
 				       
-				       _.applyToValues(btnData, function(obj){
-							   var strObj = obj+"";
-							   if(strObj.indexOf(".")>=0) {
-						     	       obj = currency_format(obj);
-							   }
-							   return obj;
-						       }, true);
+				       //_.applyToValues(btnData, function(obj){
+					//		   var strObj = obj+"";
+					//		   if(strObj.indexOf(".")>=0) {
+					//	     	       obj = currency_format(obj);
+					//		   }
+					//		   return obj;
+					//	       }, true);
 				       
 				       var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
 				       quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});

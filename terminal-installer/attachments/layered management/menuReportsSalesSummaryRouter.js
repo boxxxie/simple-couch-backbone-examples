@@ -366,7 +366,7 @@ function extractSalesSummaryTableInfo(list) {
 				_.applyToValues(item.summary, function(obj){
 						    var strObj = obj+"";
 						    if(strObj.indexOf(".")>=0) {
-					     		obj = currency_format(obj);
+					     		obj = currency_format(Number(obj));
 						    }
 						    return obj;
 						}, true);
@@ -394,7 +394,7 @@ function extractSalesSummaryTableInfo(list) {
 				_.applyToValues(item.summary, function(obj){
 						    var strObj = obj+"";
 						    if(strObj.indexOf(".")>=0) {
-					     		obj = currency_format(obj);
+					     		obj = currency_format(Number(obj));
 						    }
 						    return obj;
 						}, true);
@@ -420,7 +420,7 @@ function extractSalesSummaryTableInfo(list) {
 				_.applyToValues(item.summary, function(obj){
 						    var strObj = obj+"";
 						    if(strObj.indexOf(".")>=0) {
-					     		obj = currency_format(obj);
+					     		obj = currency_format(Number(obj));
 						    }
 						    return obj;
 						}, true);

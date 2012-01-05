@@ -343,13 +343,20 @@ function renderElectronicPaymentsTable() {
 	     	 data_TMP = 
 		     _.applyToValues(data_TMP, function(obj){
 					 var strObj = obj+"";
-					 if(strObj.indexOf(".")>=0) {
-					     obj = currency_format(obj);
+					 if(strObj.indexOf(".")>=0 && strObj.indexOf("$")<0) {
+					     obj = currency_format(Number(obj));
 					 }
 					 return obj;
 				     }, true);
 		 totals =
-		     _.applyToValues(totals,currency_format,true);
+		     //_.applyToValues(totals,currency_format,true);
+		     _.applyToValues(totals,function(obj){
+		     	var strObj = obj+"";
+					 if(strObj.indexOf(".")>=0) {
+					     obj = currency_format(Number(obj));
+					 }
+					 return obj;
+		     },true);
 		 
 		 var data = _(data_TMP).chain()
 		     .map(function(item){
