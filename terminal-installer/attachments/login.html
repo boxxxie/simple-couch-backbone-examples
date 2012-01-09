@@ -4,7 +4,34 @@
     <script language="javascript" type="text/javascript" src="lib/jquery-1.6.4.js"></script>
     <script language="javascript" type="text/javascript" src="lib/jquery.timers-1.0.0.js.txt"></script>
     <title>RT7 RMS v2</title>
-    <script language="javascript" type="text/javascript">
+
+  </head>
+  <body onload="getDate()">
+    <form name="formLogin">
+      <h1>RT7 BACKOFFICE</h1>
+      <dl>
+	USER ID : <input type="text" id="userID" />
+      </dl>
+      <dl>
+	PASSWORD : <input type="password" id="password" />
+      </dl>
+      <dl>
+	<input type="button" id="btnLogin" value="Login" onclick="login()"/>
+      </dl>
+      
+      <!-- <dl>
+	   <input type="button" id="btnCustomerLogin" value="Customer Login" onclick="javascript:window.location.href ='layered management/report.html';"/>
+      </dl> -->
+      
+      <dl>
+	<label id="date">Date</label>
+	<input type="text" id="txtDate" disabled="true"/>
+	<label id="time">Time</label>
+	<input type="text" id="txtTime" disabled="true"/>
+	<!--<label id="contentdate">Date</label>-->
+      </dl>
+    </form>
+        <script language="javascript" type="text/javascript">
     function login() {
 	var id = document.getElementById('userID').value;
 	var pw = document.getElementById('password').value;
@@ -26,33 +53,13 @@ function getDate() {
     }, 0);
     
 }
+$("#password")
+    .keyup(function(event){
+	if(event.keyCode == 13){
+	    login();
+	}
+    });
+$("#userID").focus();
     </script>
-  </head>
-  <body onload="getDate()">
-    <form name="formLogin">
-      <h1>RT7 BACKOFFICE</h1>
-      <dl>
-	USER ID : <input type="text" id="userID" />
-      </dl>
-      <dl>
-	PASSWORD : <input type="password" id="password" />
-      </dl>
-      <dl>
-	<input type="button" id="btnLogin" value="Login" onclick="login()"/>
-      </dl>
-      
-     <!-- <dl>
-		<input type="button" id="btnCustomerLogin" value="Customer Login" onclick="javascript:window.location.href ='layered management/report.html';"/>
-     </dl> -->
-      
-      <dl>
-	<label id="date">Date</label>
-	<input type="text" id="txtDate" disabled="true"/>
-	<label id="time">Time</label>
-	<input type="text" id="txtTime" disabled="true"/>
-	<!--<label id="contentdate">Date</label>-->
-      </dl>
-    </form>
-    
   </body>
 </html>

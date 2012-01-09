@@ -590,4 +590,11 @@ function doc_setup(){
 
     Backbone.history.start();
 
+    $("#layeredloginpassword")
+	.keyup(function(event){
+  		   if(event.keyCode == 13){
+		       login();
+		   }
+	       });
+
 };
