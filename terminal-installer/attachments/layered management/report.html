@@ -1524,17 +1524,21 @@
       {{>AIRS_Buttons_P}}
       <h1>Inventory Report</h1>
       <h2>{{>breadcrumb_P}}</h2>
-      <a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/inventorysold.png" class="report-menu-icon"/>Inventory Sold Report</div></a>
-      <a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/scanprice.png" class="report-menu-icon"/>SCAN Item Price Changes</div></a>
-      <a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/scantax.png" class="report-menu-icon"/>SCAN Sales Tax Changes</div></a>
-      <a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/scanaddnew.png" class="report-menu-icon"/>Add New Inventory SCAN Items</div></a>
-      <a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/pricelog.png" class="report-menu-icon"/>Price Change Log</div></a>
-      <a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/taxlog.png" class="report-menu-icon"/>Tax Change Log</div></a>
-
-      {{>groupDropdownbox_P}}
-      {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}
-      {{>inventoryDropdownbox_P}}			
+      <!-- FIXME: put in proper links 
+      <div style="height:200px;">
+	<a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/inventorysold.png" class="report-menu-icon"/>Inventory Sold Report</div></a>
+	<a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/scanprice.png" class="report-menu-icon"/>SCAN Item Price Changes</div></a>
+	<a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/scantax.png" class="report-menu-icon"/>SCAN Sales Tax Changes</div></a>
+	<a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/scanaddnew.png" class="report-menu-icon"/>Add New Inventory SCAN Items</div></a>
+	<a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/pricelog.png" class="report-menu-icon"/>Price Change Log</div></a>
+	<a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/taxlog.png" class="report-menu-icon"/>Tax Change Log</div></a>
+      </div> -->
+      <div>
+	{{>groupDropdownbox_P}}
+	{{>dateRangePicker_P}}
+	{{>generalGoButton_P}}
+	{{>inventoryDropdownbox_P}}
+      </div>
       <div id='inventorymenutable' style="margin-bottom:30px;"></div>
       <div id='inventoryscantable' style="margin-bottom:30px;"></div>
       <div id='inventoryecrtable' style="margin-bottom:30px;"></div>

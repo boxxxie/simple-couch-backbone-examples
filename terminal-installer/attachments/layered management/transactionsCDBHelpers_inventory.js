@@ -181,7 +181,7 @@ function inventoryTotalsRangeFetcher_F(id){
 					   return item;
 				       },true)
 			.applyToValues(function(item){
-					   if(item.quantity){
+					   if(_.isNumber(item.quantity)){
 					       return _.extend(item,{quantity:item.quantity+""});
 					   }
 					   return item;
