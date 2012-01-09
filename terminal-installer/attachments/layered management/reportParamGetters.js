@@ -24,17 +24,18 @@ function getReportParam() {
 	var numGroups = _.size(groups);
 	var numStores = _.reduce(groups, function(sum, group){ return sum + _.size(group.stores); }, 0);
 	var numTerminals = _.reduce(stores, function(sum, store){ return sum + _.size(store.terminals); }, 0);
-	return {
+	var for_TMP = {
 	    numberOfGroups:numGroups,
 	    numberOfStores:numStores,
 	    numberOfTerminals:numTerminals,
 	    startPage:'companyReport',
 	    breadCrumb:breadCrumb(company.companyName),
 	    //instead of using this as a title, we could put it at the top of the dialogHTML and have a generic title
-	    quickViewArgs:{id:ReportData.company._id, 
+	    quickViewArgs:{id:company._id, 
 			   title:dialogTitle(company.companyName,null,numGroups,null,numStores,null,numTerminals)
 			  },
 	    list:[{company_id:company._id}]};
+	return for_TMP;
     } 
     else if(!_.isEmpty(ReportData.group)) {
 	var group = ReportData.group; 
