@@ -182,38 +182,45 @@
 	</span>
       </button>
     </script>
-    
-    <script id="quickDetailsViewButton_P" class="partial" type="text/html">
-      <center><button id='{{_id}}'>Details</button></center>
-    </script>
-    
-    <script id="generalGoButton_P" class="partial" type="text/html">
-      <div style="margin-top:20px;margin-bottom:20px;padding-bottom:20px;border-bottom: 4px dotted #ccc;">
-	<button id='generalgobtn'>Generate Report</button></div>
-    </script>
-    
-    <script id="quickReportViewHook_P" class="partial" type="text/html">
-      <div id="dialog-quickView" title="{{title}}"></div>
-    </script>
-    
-    <script id="salesFields_P" class="partial" type="text/html">
-      {{#sales}}
-      <table class="reportstable">
-	<tr>
-	  <th width="25%">Yesterday's Sales:</td>
-	  <th width="25%">MTD Sales:</td>
-	  <th width="25%">YTD Sales:</td>
-	  <td width="25%" align="center" rowspan="2"><a onclick="quickReportView('{{id}}','{{title}}');" style="cursor: pointer;"><img src="../images/details.png"></a></td>
+
+    <script id="quickReportViewButtonImage_P" class="partial" type="text/html">
+      {{#quickViewArgs}}
+      <a onclick="quickReportView('{{id}}','{{title}}');" style="cursor: pointer;"><img src="../images/details.png"></a>
+	{{/quickViewArgs}}
+      </script>
+
+      <script id="quickDetailsViewButton_P" class="partial" type="text/html">
+	<center><button id='{{_id}}'>Details</button></center>
+      </script>
+      
+      <script id="generalGoButton_P" class="partial" type="text/html">
+	<div style="margin-top:20px;margin-bottom:20px;padding-bottom:20px;border-bottom: 4px dotted #ccc;">
+	  <button id='generalgobtn'>Generate Report</button></div>
+      </script>
+      
+      <script id="quickReportViewHook_P" class="partial" type="text/html">
+	<div id="dialog-quickView" title="{{title}}"></div>
+      </script>
+      
+      <script id="salesFields_P" class="partial" type="text/html">
+	<table class="reportstable">
+	  <tr>
+	    <th width="25%">Yesterday's Sales:</td>
+	    <th width="25%">MTD Sales:</td>
+	    <th width="25%">YTD Sales:</td>
+	    <td width="25%" align="center" rowspan="2">{{>quickReportViewButtonImage_P}}</td>
 	  </tr>
-	<tr>
-	  <td align="center"><span style="font-size:26px;">${{yesterdaysales}}</span></td>
-	  <td align="center"><span style="font-size:26px;">${{mtdsales}}</span></td>
-	  <td align="center"><span style="font-size:26px;">${{ytdsales}}</span></td>
-	</tr>
+	  <tr>
+	    {{#sales}}
+	    <td align="center"><span style="font-size:26px;">${{yesterdaysales}}</span></td>
+	    <td align="center"><span style="font-size:26px;">${{mtdsales}}</span></td>
+	    <td align="center"><span style="font-size:26px;">${{ytdsales}}</span></td>
+            {{/sales}}
+	  </tr>
 	</table>
       </br>
       <h2>More Reports:</h2>
-      {{/sales}}
+
     </script>
     
     <script id="numberOfGroupsFields_P" class="partial" type="text/html">
@@ -1525,14 +1532,14 @@
       <h1>Inventory Report</h1>
       <h2>{{>breadcrumb_P}}</h2>
       <!-- FIXME: put in proper links 
-      <div style="height:200px;">
-	<a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/inventorysold.png" class="report-menu-icon"/>Inventory Sold Report</div></a>
-	<a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/scanprice.png" class="report-menu-icon"/>SCAN Item Price Changes</div></a>
-	<a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/scantax.png" class="report-menu-icon"/>SCAN Sales Tax Changes</div></a>
-	<a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/scanaddnew.png" class="report-menu-icon"/>Add New Inventory SCAN Items</div></a>
-	<a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/pricelog.png" class="report-menu-icon"/>Price Change Log</div></a>
-	<a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/taxlog.png" class="report-menu-icon"/>Tax Change Log</div></a>
-      </div> -->
+	   <div style="height:200px;">
+	     <a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/inventorysold.png" class="report-menu-icon"/>Inventory Sold Report</div></a>
+	     <a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/scanprice.png" class="report-menu-icon"/>SCAN Item Price Changes</div></a>
+	     <a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/scantax.png" class="report-menu-icon"/>SCAN Sales Tax Changes</div></a>
+	     <a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/scanaddnew.png" class="report-menu-icon"/>Add New Inventory SCAN Items</div></a>
+	     <a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/pricelog.png" class="report-menu-icon"/>Price Change Log</div></a>
+	     <a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/taxlog.png" class="report-menu-icon"/>Tax Change Log</div></a>
+	   </div> -->
       <div>
 	{{>groupDropdownbox_P}}
 	{{>dateRangePicker_P}}
@@ -1777,7 +1784,6 @@
 	{{>numberOfGroupsFields_P}}
 	{{>numberOfStoresFields_P}}
 	{{>numberOfTerminalsFields_P}}
-	{{>quickReportViewButton_P}}
 	<div style="clear:both;"></div>
 	{{>quickReportViewHook_P}}
       </script>
