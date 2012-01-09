@@ -74,8 +74,8 @@
 
     <script id="breadcrumb_P" class="partial" type="text/html">
       {{#breadCrumb}}
-      <h2>{{#companyName}}
-	<i>Company</i> {{companyName}}
+      {{#companyName}}
+	{{companyName}}
 	{{#groupName}}
 	- <i>Group</i> {{groupName}}
 	{{#storeName}}
@@ -86,7 +86,6 @@
 	{{/storeName}}
 	{{/groupName}}
 	{{/companyName}}
-      </h2>
       {{/breadCrumb}}
     </script>
     
@@ -111,13 +110,17 @@
 	<span class="ui-button-text">Logout</span>
       </button>
     </script>
-    
+        
+    <script id="homeButton_P" class="partial" type="text/html">
+      <a onclick="javascript:window.location.href = '#companyReport/';" style="cursor: pointer;">Home</a>
+    </script>
+        
     <script id="adminButton_P" class="partial" type="text/html">
       <a href="">Administration</a>
     </script>
     
     <script id="inventoryButton_P" class="partial" type="text/html">
-      <a href="">Inventory</a>
+      <a href='#menuReports/{{startPage}}Inventory'>Inventory</a>
     </script>
 
     <script id="reportsButton_P" class="partial" type="text/html">
@@ -129,13 +132,21 @@
     </script>
     
     <script id="AIRS_Buttons_P" class="partial" type="text/html">
-      <h3>Menus</h3>
-      <ol>
+	  <div style="width:1000px;margin:20px auto;padding:0px;background-color:transparent;font-size:13px;font-weight:bold;text-align:center;">
+  <img src="../images/logo.png"/>
+  </div>
+  <div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	  <div id="nav-menu">
+      <ul>
+	<li>{{>homeButton_P}}</li>
 	<li>{{>adminButton_P}}</li>
 	<li>{{>inventoryButton_P}}</li>
 	<li>{{>reportsButton_P}}</li>
 	<li>{{>setMenusButton_P}}</li>
-      </ol>
+	<li><a href="#" onClick="logout()">Logout</a></li>
+      </ul>
+	  </div>
+	  <div style="clear:both;"></div>
     </script>
     
     <script id="AIR_Buttons_P" class="partial" type="text/html">
@@ -148,10 +159,10 @@
     </script>
 
     <script id="backButton_P" class="partial" type="text/html">
-      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
-	      onClick="javascript:history.go(-1);">
-	<span class="ui-button-text">Back</span>
-      </button>
+	<div style="margin-top:20px;margin-bottom:20px;border-top: 4px dotted #ccc;"></div>
+	<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="javascript:history.go(-1);">
+	<span class="ui-button-text">&laquo; Go Back</span>
+    </button>
     </script>
     
     <script id="menuButton_P" class="partial" type="text/html">
@@ -172,11 +183,12 @@
     </script>
     
     <script id="quickDetailsViewButton_P" class="partial" type="text/html">
-      <button id='{{_id}}'>Details</button>
+      <center><button id='{{_id}}'>Details</button></center>
     </script>
     
     <script id="generalGoButton_P" class="partial" type="text/html">
-      <button id='generalgobtn'>GO</button>
+      <div style="margin-top:20px;margin-bottom:20px;padding-bottom:20px;border-bottom: 4px dotted #ccc;">
+	  <button id='generalgobtn'>Generate Report</button></div>
     </script>
     
     <script id="quickReportViewHook_P" class="partial" type="text/html">
@@ -185,40 +197,44 @@
     
     <script id="salesFields_P" class="partial" type="text/html">
       {{#sales}}
-      <ul>
-	<li>Yesterday's Sales: ${{yesterdaysales}}</li>
-	<li>MTD Sales: ${{mtdsales}}</li>
-	<li>YTD Sales: ${{ytdsales}}</li>
-      </ul>
+	  <table class="reportstable">
+  <tr>
+    <th width="25%">Yesterday's Sales:</td>
+    <th width="25%">MTD Sales:</td>
+    <th width="25%">YTD Sales:</td>
+    <td width="25%" align="center" rowspan="2"><a onclick="quickReportView('{{id}}','{{title}}');" style="cursor: pointer;"><img src="../images/details.png"></a></td>
+  </tr>
+  <tr>
+    <td align="center"><span style="font-size:26px;">${{yesterdaysales}}</span></td>
+    <td align="center"><span style="font-size:26px;">${{mtdsales}}</span></td>
+    <td align="center"><span style="font-size:26px;">${{ytdsales}}</span></td>
+  </tr>
+</table>
+<br>
+<h2>More Reports:</h2>
       {{/sales}}
     </script>
 
     <script id="numberOfGroupsFields_P" class="partial" type="text/html">
-      <a href="#{{startPage}}/groups">Number Of Groups: {{numberOfGroups}}</a>
+      <a href="#{{startPage}}/groups"><div class="report-menu"><img src="../images/reports/groups.png" class="report-menu-icon"/>Number of Groups: {{numberOfGroups}}</div></a>
     </script>
 
     <script id="numberOfStoresFields_P" class="partial" type="text/html">
-      <a href="#{{startPage}}/stores">Number Of Stores: {{numberOfStores}}</a>
+      <a href="#{{startPage}}/stores"><div class="report-menu"><img src="../images/reports/stores.png" class="report-menu-icon"/>Number of Stores: {{numberOfStores}}</div></a>
     </script>
 
     <script id="numberOfTerminalsFields_P" class="partial" type="text/html">
-      <a href="#{{startPage}}/terminals">Number Of Terminals: {{numberOfTerminals}}</a>
+      <a href="#{{startPage}}/terminals"><div class="report-menu"><img src="../images/reports/terminals.png" class="report-menu-icon"/>Number of Terminals: {{numberOfTerminals}}</div></a>
     </script>
     
     <script id="dateRangePicker_P" class="partial" type="text/html">
-      <div id="dateRangePicker" style="margin-bottom: 40px;">
+      <div id="dateRangePicker" style="margin-top: 20px;margin-bottom: 20px;">
 	<form id="dateRange">
-	  <ul style="list-style-type: none;">
-	    <li>Date Range :</li>
-	    <li style="display: inline; float:left; padding-right: 5px;">
+		Date Range:
 	      <label for="dateFrom">From:</label>
 	      <input type="text" id="dateFrom" name="from" class="datepickerInput"/>
-	    </li>
-	    <li style="display: inline; float:left; padding-right: 5px;">
 	      <label for="dateTo">To:</label>
 	      <input type="text" id="dateTo" name="to" class="datepickerInput"/>
-	    </li>
-	  </ul>
 	</form>
       </div>
     </script>
@@ -455,7 +471,7 @@
 
     <script id="cashOutReportDialog_TMP" type="text/html">
       <div id='cashoutdialog'>
-	<table border="1">
+	<table class="reportstable">
 	  <tr>
 	    <th>YESTERDAY</th>
 	    <th>MTD</th>
@@ -463,13 +479,13 @@
 	  </tr>
 	  <tr>
 	    <td>
-	      {{#yesterday}}<table>{{>cashOutTable_P}}</table>{{/yesterday}}
+	      {{#yesterday}}<table width="100%">{{>cashOutTable_P}}</table>{{/yesterday}}
 	    </td>
 	    <td>
-	      {{#mtd}}<table>{{>cashOutTable_P}}</table>{{/mtd}}
+	      {{#mtd}}<table width="100%">{{>cashOutTable_P}}</table>{{/mtd}}
 	    </td>
 	    <td>
-	      {{#ytd}}<table>{{>cashOutTable_P}}</table>{{/ytd}}
+	      {{#ytd}}<table width="100%">{{>cashOutTable_P}}</table>{{/ytd}}
 	    </td>
 	  </tr>
 	</table>
@@ -480,7 +496,7 @@
     <!----------------------------------- TaxCollected quickviewDialog -------------------------------->
     <script id="taxCollectedQuickViewDialog_TMP" type="text/html">
       <div id='taxcollecteddialog'>
-	<table border="1">
+	<table class="reportstable">
 	  <tr>
 	    <th>Transaction #</th>
 	    <th>Type</th>
@@ -568,10 +584,7 @@
   	  </tr>
   	  {{#order}}
   	  <tr>
-  	    <td>
-  	    	{{#upccode}}<div style="margin-bottom:0px;">{{upccode}}</div>{{/upccode}}
-  	    	<div style="margin-bottom:0px;">{{description}}</div>
-  	    </td>
+  	    <td>{{description}}</td>
   	    <td align="right">{{quantity}}</td>
   	    <td align="right">{{price}}</td>
   	    <td align="right">{{orderamount}}</td>
@@ -579,7 +592,7 @@
   	  {{#discount}}
   	  <tr>
   	    <td colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Discount</td>
-  	    <td align="right">-{{discountamount}}</td>
+  	    <td align="right">-{{discount}}</td>
   	  </tr>
   	  {{/discount}}
 	  {{#modifiers}}
@@ -710,23 +723,20 @@
     
     <!-------------------------------------------- MENU REPORTS ------------------------------------------------>
     <script id="menuReports_TMP" type="text/html">
-      <h1>Reports Menus</h1>
+	   {{>AIRS_Buttons_P}}
+      <h1>Reports</h1>
       <h2>{{>breadcrumb_P}}</h2>
-      <ol>
-	<li><a href='#menuReports/{{startPage}}SalesSummary'> Sales Summary</a></li>
-	<li><a href='#menuReports/{{startPage}}SalesDetail'> Sales Detail</a></li>
-	<li><a href='#menuReports/{{startPage}}HowAreWe'> How Are We Doing Today</a></li>
-	<li><a href='#menuReports/{{startPage}}HourlyActivity'> Hourly Activity</a></li>
-	<li><a href='#menuReports/{{startPage}}ElectronicPayments'> Electronic Payments</a></li>
-	<li><a href='#menuReports/{{startPage}}TaxCollected'> Tax Collected</a></li>
-	<li><a href='#menuReports/{{startPage}}CashOuts'> Cash Outs</a></li>
-	<li><a href='#menuReports/{{startPage}}Cancelled'> Cancelled Transactions</a></li>
-	<li><a href='#menuReports/{{startPage}}Refunds'> Refunds</a></li>
-	<li><a href='#menuReports/{{startPage}}Discounts'> Discounts</a></li>
-	<li><a href='#menuReports/{{startPage}}Inventory'> Inventory Reports</a></li>
-      </ol>
-      {{>backButton_P}}
-      {{>menuButton_P}}
+	<a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/salessummary.png" class="report-menu-icon"/>Sales Summary</div></a>
+	<a href='#menuReports/{{startPage}}SalesDetail'><div class="report-menu"><img src="../images/reports/salesdetails.png" class="report-menu-icon"/>Sales Detail</div></a>
+	<a href='#menuReports/{{startPage}}HowAreWe'><div class="report-menu"><img src="../images/reports/howarewedoingtoday.png" class="report-menu-icon"/>How Are We Doing Today?</div></a>
+	<a href='#menuReports/{{startPage}}HourlyActivity'><div class="report-menu"><img src="../images/reports/hourlyactivity.png" class="report-menu-icon"/>Hourly Activity</div></a>
+	<a href='#menuReports/{{startPage}}ElectronicPayments'><div class="report-menu"><img src="../images/reports/epayment.png" class="report-menu-icon"/>Electronic Payments</div></a>
+	<a href='#menuReports/{{startPage}}TaxCollected'><div class="report-menu"><img src="../images/reports/tax.png" class="report-menu-icon"/>Tax Collected</div></a>
+	<a href='#menuReports/{{startPage}}CashOuts'><div class="report-menu"><img src="../images/reports/cashouts.png" class="report-menu-icon"/>Cash Outs</div></a>
+	<a href='#menuReports/{{startPage}}Cancelled'><div class="report-menu"><img src="../images/reports/cancelledtransactions.png" class="report-menu-icon"/>Cancelled Transactions</div></a>
+	<a href='#menuReports/{{startPage}}Refunds'><div class="report-menu"><img src="../images/reports/refunds.png" class="report-menu-icon"/>Refunds</div></a>
+	<a href='#menuReports/{{startPage}}Discounts'><div class="report-menu"><img src="../images/reports/discounts.png" class="report-menu-icon"/>Discounts</div></a>
+	<div style="clear: both;"></div>
     </script>
     
     <!----------------------------------------------- SALES SUMMARY REPORTS -------------------------------------------->
@@ -747,12 +757,10 @@
     </script>
     
     <script id="salesSummaryTabel_TMP" type="text/html">
-      <table border="1">
+      <table class="reportstable">
 	<tr>
-	  <th>Group Name</th>
-	  <th>Store Name</th>
-	  <th>Store Number</th>
-	  <th># of Transactions</th>
+	  <th colspan="3">Info</th>
+	  <th># of Trans</th>
 	  <th>Sales</th>
 	  <th>Tax 1</th>
 	  <th>Tax 3</th>
@@ -765,9 +773,7 @@
 	</tr>
 	{{#list}}
 	<tr>
-	  <td>{{groupName}}</td>
-	  <td>{{storeName}}</td>
-	  <td>{{storeNumber}}</td>
+	  <td colspan="3"><strong>Group:</strong><br> {{groupName}}<br><strong>Store:</strong><br> {{storeName}}<br>Store #: {{storeNumber}}</td>
 	  {{#summary}}
 	  <td align="right">{{numberoftransactions}}</td>
 	  <td align="right">{{sales}}</td>
@@ -801,6 +807,7 @@
     </script> 
     
     <script id="salesSummaryReports_TMP" type="text/html">
+	  {{>AIRS_Buttons_P}}
       <h1>Sales Summary Report</h1>
       <h2>{{>breadcrumb_P}}</h2>
       {{>groupDropdownbox_P}}
@@ -808,21 +815,17 @@
       {{>generalGoButton_P}}			
       <div id='summarytable'></div>		
       {{>backButton_P}}
-      {{>menuButton_P}}
     </script>	
 
 
     <!----------------------------------------------- SALES DETAIL REPORTS -------------------------------------------->
     
     <script id="salesDetailTabel_TMP" type="text/html">
-      <table border="1">
+      <table class="reportstable">
 	<tr>
-	  <th>Group Name</th>
-	  <th>Store Name</th>
-	  <th>Store Number</th>
-	  <th>Date</th>
+	  <th>Info</th>
 	  <th>Type</th>
-	  <th># of Transactions</th>
+	  <th># of Trans</th>
 	  <th>Net</th>
 	  <th>Tax 1</th>
 	  <th>Tax 3</th>
@@ -835,10 +838,7 @@
 	</tr>
 	{{#list}}
 	<tr>
-	  <td rowspan="3">{{groupName}}</td>
-	  <td rowspan="3">{{storeName}}</td>
-	  <td rowspan="3">{{storeNumber}}</td>
-	  <td rowspan="3">{{date}}</td>
+	  <td rowspan="3"><strong>{{date}}</strong><br>Group: {{groupName}}<br>Store: {{storeName}}<br>Store #: {{storeNumber}}</td>
 	  {{#salerow}}
 	  <td>SALE</td>
 	  <td align="right">{{numberoftransactions}}</td>
@@ -886,7 +886,7 @@
 	{{/list}}
 	<tr>
 	  {{#total}}
-	  <th colspan="5" align="center">TOTAL</th>
+	  <th colspan="2" align="center">TOTAL</th>
 	  <th align="right">{{totaltransactions}}</th>
 	  <th align="right">{{totalsales}}</th>
 	  <th align="right">{{totaltax1}}</th>
@@ -903,6 +903,7 @@
     </script> 
     
     <script id="salesDetailReports_TMP" type="text/html">
+	  {{>AIRS_Buttons_P}}
       <h1>Sales Detail Report</h1>
       <h2>{{>breadcrumb_P}}</h2>
       {{>groupDropdownbox_P}}
@@ -910,19 +911,19 @@
       {{>generalGoButton_P}}		
       <div id='salesdetailtable'></div>		
       {{>backButton_P}}
-      {{>menuButton_P}}
     </script>
 
 
     <!------------------------------------- HowAreWeTodayTable TMP -------------------------------------------->
     <script id="generalTabel_HowAreWeToday_TMP" type="text/html">
+	  {{>AIRS_Buttons_P}}
       <h1>How Are We Doing Today</h1>
       <h2>{{>breadcrumb_P}}</h2>
-      <table border="1">
+      <table class="reportstable">
 	<tr>
 	  <th rowspan="2">{{namefield}}</th>
-	  <th colspan="5">Net Sales(No Taxes)</th>
-	  <th colspan="5">Net Refunds(No Taxes)</th>
+	  <th colspan="5">Net Sales (No Taxes)</th>
+	  <th colspan="5">Net Refunds (No Taxes)</th>
 	  <th rowspan="2">Net Total</th>
 	  <th rowspan="2">AVG Sale</th>
 	</tr>
@@ -994,7 +995,6 @@
       <p>Number of Cancelled Transactions : {{cancelledtransactions}}</p>
       {{/cancelledtransactions}}
       {{>backButton_P}}
-      {{>menuButton_P}}
     </script>
     
     <!----------------------------------------------- HOURLY ACTIVITY REPORTS -------------------------------------------->
@@ -1022,11 +1022,11 @@
     </script>
     
     <script id="hourlyActivityTabel_TMP" type="text/html">
-      <table border="1">
+      <table class="reportstable">
 	<tr>
 	  <th>Time</th>
-	  <th># of Sales Trans</th>
-	  <th># of Refunds Trans</th>
+	  <th># of<br>Sales Trans</th>
+	  <th># of<br>Refunds Trans</th>
 	  <th>Menu</th>
 	  <th>Scan</th>
 	  <th>ECR</th>
@@ -1061,20 +1061,20 @@
     </script> 
     
     <script id="hourlyActivityReports_TMP" type="text/html">
+	  {{>AIRS_Buttons_P}}
       <h1>Hourly Activity Report</h1>
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}} 
       {{>generalGoButton_P}}
       <div id='hourlytable'></div>		
       {{>backButton_P}}
-      {{>menuButton_P}}
     </script>	
     
     
     <!----------------------------------------------- TAX COLLECTED REPORTS -------------------------------------------->
     
     <script id="taxCollectedTabel_TMP" type="text/html">
-      <table border="1">
+      <table class="reportstable">
 	<tr>
 	  <th>Terminal</th>
 	  <th>Sales</th>
@@ -1108,6 +1108,7 @@
     </script> 
     
     <script id="taxCollectedReports_TMP" type="text/html">
+	  {{>AIRS_Buttons_P}}
       <h1>Tax Collected</h1>
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}}
@@ -1115,12 +1116,11 @@
       {{>generalGoButton_P}}	
       <div id='taxcollectedtable'></div>	
       {{>backButton_P}}
-      {{>menuButton_P}}
     </script>
 
     <!----------------------------------------------- ELECTRONIC PAYMENTS REPORTS -------------------------------------------->
     <script id="electronicPaymentsTabel_TMP" type="text/html">
-      <table border="1">
+      <table class="reportstable">
 	<tr>
 	  <th>Terminal</th>
 	  <th>Transaction</th>
@@ -1150,20 +1150,19 @@
 	</tr>
 	{{/items}}
       </table>
-      <table border="1">
-  	<th>type</th>
-  	<th>sale</th>
-  	<th>refund</th>
-  	<th>declined</th>
+      <table class="reportstable">
+  	<th align="left">Type</th>
+  	<th>Sale</th>
+  	<th>Refund</th>
+  	<th>Declined</th>
   	
 	{{#totals}}
 	<tr><td>Debit</td><td align="right">{{debit_sale}}</td><td align="right">{{debit_refund}}</td><td align="right">{{debit_declined}}</td></tr>
-	<tr><td>Credit</td><td align="right">{{credit_sale}}</td><td align="right">{{credit_refund}}</td><td align="right">{{credit_declined}}</td></tr>
-	<tr><td>Deposit</td><td align="right">{{deposit_sale}}</td><td align="right">{{deposit_refund}}</td><td align="right">{{deposit_declined}}</td></tr>
-	<tr><td>Amex</td><td align="right">{{amex_sale}}</td><td align="right">{{amex_refund}}</td><td align="right">{{amex_declined}}</td></tr>
 	<tr><td>Visa</td><td align="right">{{visa_sale}}</td><td align="right">{{visa_refund}}</td><td align="right">{{visa_declined}}</td></tr>
 	<tr><td>MasterCard</td><td align="right">{{mastercard_sale}}</td><td align="right">{{mastercard_refund}}</td><td align="right">{{mastercard_declined}}</td></tr>
+	<tr><td>Amex</td><td align="right">{{amex_sale}}</td><td align="right">{{amex_refund}}</td><td align="right">{{amex_declined}}</td></tr>
 	<tr><td>Discover</td><td align="right">{{discover_sale}}</td><td align="right">{{discover_refund}}</td><td align="right">{{discover_declined}}</td></tr>
+	<tr><td>Deposit</td><td align="right">{{deposit_sale}}</td><td align="right">{{deposit_refund}}</td><td align="right">{{deposit_declined}}</td></tr>
       </table>
       <label>Voids : {{voids}}</label>
       {{/totals}}
@@ -1171,6 +1170,7 @@
     </script> 
     
     <script id="electronicPaymentsReports_TMP" type="text/html">
+	  {{>AIRS_Buttons_P}}
       <h1>Electronic Payments</h1>
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}}
@@ -1178,12 +1178,11 @@
       {{>generalGoButton_P}}		
       <div id="reporttable"></div>	
       {{>backButton_P}}
-      {{>menuButton_P}}
     </script>
     
     <!----------------------------------------------- CASHOUTS REPORTS -------------------------------------------->
     <script id="menuReportsCashOutsTabel_TMP" type="text/html">
-      <table border="1">
+      <table class="reportstable">
 	<tr>
 	  <th>Terminal</th>
 	  <th>Date</th>
@@ -1206,6 +1205,7 @@
     </script> 
     
     <script id="menuReportsCashOutsReports_TMP" type="text/html">
+	  {{>AIRS_Buttons_P}}
       <h1>CashOuts</h1>
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}}
@@ -1213,12 +1213,11 @@
       {{>generalGoButton_P}}		
       <div id='cashoutstable'></div>	
       {{>backButton_P}}
-      {{>menuButton_P}}
     </script>
     
     <!--------------------------- CANCELLED TRANSACTIONS REPORTS ---------------------------------->
     <script id="menuReportsCancelledTabel_TMP" type="text/html">
-      <table border="1">
+      <table class="reportstable">
 	<tr>
 	  <th>Terminal</th>
 	  <th>Date</th>
@@ -1259,6 +1258,7 @@
     </script> 
     
     <script id="menuReportsCancelledReports_TMP" type="text/html">
+	  {{>AIRS_Buttons_P}}
       <h1>Cancelled Transactions</h1>
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}}
@@ -1266,16 +1266,15 @@
       {{>generalGoButton_P}}	
       <div id='cancelledtable'></div>	
       {{>backButton_P}}
-      {{>menuButton_P}}
     </script>
     
     <!--------------------------- REFUNDS REPORTS ---------------------------------->
     <script id="menuReportsRefundsTabel_TMP" type="text/html">
-      <table border="1">
+      <table class="reportstable">
 	<tr>
 	  <th>Terminal</th>
 	  <th>Date</th>
-	  <th>Refund Trans #</th>
+	  <th>Refund Transaction #</th>
 	  <th>Sales</th>
 	  <th>Tax 1</th>
 	  <th>Tax 3</th>
@@ -1301,7 +1300,7 @@
 	  <th align="right">{{tax1and2}}</th>
 	  <th align="right">{{tax3}}</th>
 	  <th align="right">{{total}}</th>
-	  <td></td>
+	  <th></th>
 	</tr>
 	{{/totalrow}}
       </table>
@@ -1312,6 +1311,7 @@
     </script> 
     
     <script id="menuReportsRefundsReports_TMP" type="text/html">
+	  {{>AIRS_Buttons_P}}
       <h1>Refunds Transactions</h1>
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}}
@@ -1319,13 +1319,12 @@
       {{>generalGoButton_P}}		
       <div id='refundstable'></div>	
       {{>backButton_P}}
-      {{>menuButton_P}}
     </script>
     
     
     <!--------------------------- DISCOUNTS REPORTS ---------------------------------->
     <script id="menuReportsDiscountsTabel_TMP" type="text/html">
-      <table border="1">
+      <table class="reportstable">
 	<tr>
 	  <th>Terminal</th>
 	  <th>Date</th>
@@ -1372,6 +1371,7 @@
     </script> 
     
     <script id="menuReportsDiscountsReports_TMP" type="text/html">
+	  {{>AIRS_Buttons_P}}
       <h1>Discounts Transactions</h1>
       <h2>{{>breadcrumb_P}}</h2>
       {{>dropdownHourlyActiviy_P}}
@@ -1379,7 +1379,6 @@
       {{>generalGoButton_P}}		
       <div id='discountstable'></div>	
       {{>backButton_P}}
-      {{>menuButton_P}}
     </script>
     
     
@@ -1403,7 +1402,7 @@
 	  Menu Sales - Total Sales For Date Range : $ {{#menu_sales}}{{price}}{{/menu_sales}}
 	</li>
       </ul>	
-      <table border="1">
+      <table class="reportstable">
 	<tr>
 	  <th>Description</th>
 	  <th>Qty Sold</th>
@@ -1437,7 +1436,7 @@
 	<li style="display: inline;">Scan Sales - Total Sales For Date Range : $ {{#scan_sales}}{{price}}{{/scan_sales}}
 	</li>
       </ul>	
-      <table border="1">
+      <table class="reportstable">
 	<tr>
 	  <th>SKU</th>
 	  <th>Description</th>
@@ -1474,7 +1473,7 @@
 	<li style="display: inline;">ECR Sales - Total Sales For Date Range : $ {{price}}</li>
       </ul>
       {{/ecr_sales}}	
-      <table border="1">
+      <table class="reportstable">
 	<tr>
 	  <th>Open Item</th>
 	  <th>Qty Sold</th>
@@ -1521,8 +1520,16 @@
     </script>
     
     <script id="inventoryReports_TMP" type="text/html">
+	  {{>AIRS_Buttons_P}}
       <h1>Inventory Report</h1>
       <h2>{{>breadcrumb_P}}</h2>
+	<a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/inventorysold.png" class="report-menu-icon"/>Inventory Sold Report</div></a>
+	<a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/scanprice.png" class="report-menu-icon"/>SCAN Item Price Changes</div></a>
+	<a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/scantax.png" class="report-menu-icon"/>SCAN Sales Tax Changes</div></a>
+	<a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/scanaddnew.png" class="report-menu-icon"/>Add New Inventory SCAN Items</div></a>
+	<a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/pricelog.png" class="report-menu-icon"/>Price Change Log</div></a>
+	<a href='#menuReports/{{startPage}}SalesSummary'><div class="report-menu"><img src="../images/reports/taxlog.png" class="report-menu-icon"/>Tax Change Log</div></a>
+
       {{>groupDropdownbox_P}}
       {{>dateRangePicker_P}}
       {{>generalGoButton_P}}
@@ -1531,65 +1538,26 @@
       <div id='inventoryscantable' style="margin-bottom:30px;"></div>
       <div id='inventoryecrtable' style="margin-bottom:30px;"></div>
       {{>backButton_P}}
-      {{>menuButton_P}}
     </script>
     
     <!-------------------------------------------------- Menu SET MENUS --------------------------------------->
     
     <script id="menuSetMenus_Left_TMP" type="text/html">
-      <table>
-	<tr>
-	  <td>
+	<h2>Modifiers</h2>
 	    <button id="menumodifiersbutton" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	      <span class="ui-button-text">Modifiers</span>
+	      <span class="ui-button-text">Edit Modifiers</span>
 	    </button>	
-	  </td>
-	</tr>
-	<tr>
-	  <td>
-	    <button id="menueditheader1" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	      <span class="ui-button-text">Edit Menu1 Header</span>
-	    </button>	
-	  </td>
-	</tr>
-	<tr>
-	  <td>
-	    <button id="menueditheader2" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	      <span class="ui-button-text">Edit Menu2 Header</span>
-	    </button>	
-	  </td>
-	</tr>
-	<tr>
-	  <td>
-	    <button id="menueditheader3" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	      <span class="ui-button-text">Edit Menu3 Header</span>
-	    </button>	
-	  </td>
-	</tr>
-	<tr>
-	  <td>
-	    <button id="menueditheader4" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	      <span class="ui-button-text">Edit Menu4 Header</span>
-	    </button>	
-	  </td>
-	</tr>
-	<tr>
-	  <td>
-	    {{>backButton_P}}
-	  </td>
-	</tr>
-      </table>
     </script>
     
     <script id="menuSetMenus_Center_TMP" type="text/html">
-      <label>{{menuscreentitle}}</label>
-      <table border="1" cellpadding="10">
+      <table class="menutable" style="background-color:#f4f4f4;"><tr><td align="center"><span style="font-size:24px;color:fff;">{{menuscreentitle}}</span></td><tr></table>
+      <table class="menutable">
 	{{#menu_screen}}
 	<tr>
 	  {{#row}}
 	  <!--FIXME : put onclick function in js file-->
 	  {{#display}}
-	  <td width="80px" height="60px"  align="center" style="background-color: rgb( {{color}} ); padding: 0;" id={{screen}}:{{position}} onclick="renderEditMenuItem({{screen}},{{position}});">
+	  <td align="center" style="background-color: rgb( {{color}} );" id={{screen}}:{{position}} onclick="renderEditMenuItem({{screen}},{{position}});">
 	    <ul style="list-style-type: none; padding-left: 0px; margin: 0px">
 	      {{#description}}<li>{{.}}</li>{{/description}}		
 	    </ul>
@@ -1602,20 +1570,13 @@
     </script>
     
     <script id="menuSetMenus_Bottom_TMP" type="text/html">
-      <table>
-	<tr>
 	  {{#menuButtonHeaders}}
-	  <td width="80px" height="60px" style="margin-right: 0px" align="center" id="menubuttonheader{{menu_id}}"><!---->
-	    <!--<button id="menubuttonheader{{menu_id}}" class="{{>commonButtonClasses_P}}"   role="button" aria-disabled="false">-->
-	    <ul style="list-style-type: none; padding-left: 0px; margin: 0px;">{{#description1}}<li>{{description1}}</li>{{/description1}} 
-	      {{#description2}}<li>{{description2}}</li>{{/description2}} 
-	      {{#description3}}<li>{{description3}}</li>{{/description3}}
-	    </ul>
-	    <!--</button>-->	
-	  </td>
+	  <div style="border-top: 4px solid #666;float:left;width:168px;padding-top:10px;padding-bottom:10px;margin:0px;" id="menubuttonheader{{menu_id}}">
+	  	  {{#description1}}{{description1}}{{/description1}} 
+	      {{#description2}}{{description2}}{{/description2}} 
+	      {{#description3}}{{description3}}{{/description3}}
+	  </div>
 	  {{/menuButtonHeaders}}
-	</tr>
-      </table>
     </script>
 
     <script id="menuSetMenuHeader_TMP" type="text/html">
@@ -1623,15 +1584,15 @@
 	<p>Menu Header Label:</p>
 	<table>	
 	  <tr>
-	    <td><label for="description1">Description 1:</label></td>
+	    <td><label for="description1">Line 1:</label></td>
 	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" var="description1" id="description1" value="{{description1}}"/></td>
 	  </tr>
 	  <tr>
-	    <td><label for="description2">Description 2:</label></td>
+	    <td><label for="description2">Line 2:</label></td>
 	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" var="description2" id="description2" value="{{description2}}"/></td>
 	  </tr>
 	  <tr>
-	    <td><label for="description3">Description 3:</label></td>
+	    <td><label for="description3">Line 3:</label></td>
 	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" var="description3" id="description3" value="{{description3}}"/></td>
 	  </tr>
 	  <!--<tr>
@@ -1660,23 +1621,23 @@
     
     <script id="menuSetMenus_Right_TMP" type="text/html">
       <form id="editMenuButton">
-	Menu Label:
+	<h2>Menu Label:</h2>
 	<table>	
 	  {{#display}}
 	  <tr>
-	    <td><label for="editmenudescription0">Description 1:</label></td>
+	    <td><label for="editmenudescription0">Line 1:</label></td>
 	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" var="display.description.0" id="editmenudescription0" value="{{description.0}}"/></td>
 	  </tr>
 	  <tr>
-	    <td><label for="editmenudescription1">Description 2:</label></td>
+	    <td><label for="editmenudescription1">Line 2:</label></td>
 	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" var="display.description.1" id="editmenudescription1" value="{{description.1}}"/></td>
 	  </tr>
 	  <tr>
-	    <td><label for="editmenudescription2">Description 3:</label></td>
+	    <td><label for="editmenudescription2">Line 3:</label></td>
 	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" var="display.description.2" id="editmenudescription2" value="{{description.2}}"/></td>
 	  </tr>
 	  <tr>
-	    <td><label for="displayColor"> Color :</label></td>
+	    <td><label for="displayColor"> Menu Color :</label></td>
 	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" id="displayColor" var="display.color"  value="{{color}}" /></td>
 	  </tr>	
 	  {{/display}}
@@ -1745,95 +1706,74 @@
 	  </button>
       	</li>
       </ul>
+	  <div style="width:300px;height:60px;"></div>
     </script>
     
     <script id="menuSetMenus_TMP" type="text/html">
+	   {{>AIRS_Buttons_P}}
       <h1>Set Menus</h1>
       <h2>{{>breadcrumb_P}}</h2>
-      <table>
-	<tr>
-	  <td rowspan="2">
-	    <div id='menusetmenusleft'></div>
-	  </td>
-	  <td>
+		<div style='float:left;width:680px;'>
 	    <div id='menusetmenuscenter'></div>
-	  </td>
-	  <td  rowspan="2">
+		<div id='menusetmenusbottom'></div>
+		<div style='float:left;width:170px;'><button id="menueditheader1" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
+	      <span id="menueditheader1" class="ui-button-text">Edit Menu 1 Header</span>
+	    </button></div>
+		<div style='float:left;width:170px;'><button id="menueditheader2" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
+	      <span class="ui-button-text">Edit Menu 2 Header</span>
+	    </button></div>
+		<div style='float:left;width:170px;'><button id="menueditheader3" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
+	      <span class="ui-button-text">Edit Menu 3 Header</span>
+	    </button></div>
+		<div style='float:left;width:170px;'><button id="menueditheader4" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
+	      <span class="ui-button-text">Edit Menu 4 Header</span>
+	    </button></div>
+	</div>
+	    <div style='float:right;width:300px;'>
+	    <div id='menusetmenusleft'></div>
 	    <div id='menusetmenusright'></div>
-	  </td>
-	</tr>
-	<tr>
-	  <td>
-	    <div id='menusetmenusbottom'></div>
-	  </td>
-	</tr>
-      </table>
+		</div>
+		<div style='clear:both'></div>
     </script>
     
     
     <!------------------------------------------------------- LAYER LOGIN------------------------------------------>
     <script id="layerLogin_TMP" type="text/html">
-      <title>RT7 - V2 POS</title>
-      <div class="wrapper">
+      <div class="loginwrapper2">
+      <div class="loginbox2">
 	<form id="ids_form" style="margin-top: 90px;">
 	  <center>
-	    <table width="400" border="0" cellspacing="0" cellpadding="6">
-	      <tr>
-		<td align="right">Company ID:</td>
-		<td><input type="text" var="company" /></td>
-	      </tr>
-	      <tr>
-		<td align="right">Group ID:</td>
-		<td><input type="text" var="group" /></td>
-	      </tr>
-	      <tr>
-		<td align="right">Store ID:</td>
-		<td><input type="text" var="store" /></td>
-	      </tr>
-	      <tr>
-		<td align="right">User ID:</td>
-		<td><input type="text" var="user" /></td>
-	      </tr>
-	      <tr>
-		<td align="right">Password</td>
-		<td><input id="layeredloginpassword" type="password" var="password" /></td>
-	      </tr>
-	    </table>
+		<input class="login" type="text" var="company" autofocus="autofocus" value="Lettieri Espresso + Bar"/>
+	    <input class="login" type="text" var="group" placeholder="Group ID"/>
+		<input class="login" type="text" var="store" placeholder="Store ID"/>
+		<input class="login" type="text" var="user" value="c" placeholder="User ID"/>
+		<input class="login" type="password" var="password" id="layeredloginpassword" value="c" placeholder="Password"/>
 	  </center>
 	</form>
 	<span style="margin-left:220px;">{{>loginButton_P}}</span>
       </div>
-      <div class="footer">
-	<div class="footerin">
-	  &copy; 2011 RT7 Incorporated.
-	  <img src="../images/rt7.png" style="float:right;"/>
 	</div>
-      </div>
+	  <center><img src="../images/v1login.png"></center>
     </script>
 
     <!------------------------------------  company management page TMP ------------------------------->
     <script id="companyManagementPage_TMP" type="text/html">
-      <h1>Company Management</h1>
-      {{>breadcrumb_P}}
-      <ul>
-	<li>{{>salesFields_P}}</li>
-	<li>{{>quickReportViewButton_P}}</li>
-      </ul>
-      <label>-----------------------------------------------------------------------</label>
-      <ul>
-	<li>{{>numberOfGroupsFields_P}}</li>
-	<li>{{>numberOfStoresFields_P}}</li>
-	<li>{{>numberOfTerminalsFields_P}}</li>
-      </ul>
-      <label>-----------------------------------------------------------------------</label>
       {{>AIRS_Buttons_P}}
-      {{>logoutButton_P}}
-      {{>quickReportViewHook_P}}
+      <!--{{>logoutButton_P}}-->
+      <h1>Company Management</h1>
+      <h2>{{>breadcrumb_P}}</h2>
+  	{{>salesFields_P}}
+	{{>numberOfGroupsFields_P}}
+	{{>numberOfStoresFields_P}}
+	{{>numberOfTerminalsFields_P}}
+	<div style="clear:both;"></div>
+    {{>quickReportViewHook_P}}
     </script>
 
 
     <!------------------------------------  group management page TMP ------------------------------->
     <script id="groupManagementPage_TMP" type="text/html">
+	  {{>AIRS_Buttons_P}}
       <h1>Group Management</h1>
       {{>breadcrumb_P}}
       <ul>
@@ -1853,6 +1793,7 @@
 
     <!------------------------------------  store management page TMP ------------------------------->
     <script id="storeManagementPage_TMP" type="text/html">
+	  {{>AIRS_Buttons_P}}
       <h1>Store Management</h1>
       {{>breadcrumb_P}}
       <ul>
@@ -1871,10 +1812,10 @@
 
     <!------------------------------------- groups table TMP -------------------------------------------->
     <script id="groupsTabel_TMP" type="text/html">
+	  {{>AIRS_Buttons_P}}
       <h1>Groups Table</h1>
-      {{>breadcrumb_P}}
-      {{>salesFields_P}}
-      <table border="1">
+      <h2>{{>breadcrumb_P}}</h2>
+      <table class="reportstable">
 	<tr>
 	  <th>Company Name</th>
 	  <th>Group Name</th>
@@ -1900,15 +1841,14 @@
       </table>
       {{>quickReportViewHook_P}}
       {{>backButton_P}}
-      {{>menuButton_P}}
     </script>
 
     <!------------------------------------- stores table TMP -------------------------------------------->
     <script id="storesTabel_TMP" type="text/html">
+	  {{>AIRS_Buttons_P}}
       <h1>Stores Table</h1>
-      {{>breadcrumb_P}}
-      {{>salesFields_P}}
-      <table border="1">
+      <h2>{{>breadcrumb_P}}</h2>
+      <table class="reportstable">
 	<tr>
 	  <th>Company Name</th>
 	  <th>Group Name</th>
@@ -1936,15 +1876,14 @@
       </table>
       {{>quickReportViewHook_P}}
       {{>backButton_P}}
-      {{>menuButton_P}}
     </script> 
 
     <!------------------------------------- terminals table TMP -------------------------------------------->
     <script id="terminalsTabel_TMP" type="text/html">
+	  {{>AIRS_Buttons_P}}
       <h1>Terminals Table</h1>
-      {{>breadcrumb_P}}
-      {{>salesFields_P}}
-      <table border="1">
+      <h2>{{>breadcrumb_P}}</h2>
+      <table class="reportstable">
 	<tr>
 	  <th>Company Name</th>
 	  <th>Group Name</th>
@@ -1972,10 +1911,17 @@
       </table>
       {{>quickReportViewHook_P}}
       {{>backButton_P}}
-      {{>menuButton_P}}
     </script> 
   </head>
   <body>
-    <div id="main"></div>  		
+  <div id="main"></div></div>
+<div style="width:1000px;margin:0 auto; color:#666;text-align:center;">
+<script>document.write(Date()+".")</script>
+</div>
+    <div class="footer">
+	<div class="footerin">
+	  &copy; 2012 RT7 Incorporated.
+	  <img src="../images/rt7.png" style="float:right;"/>
+	</div></div>
   </body>
 </html>
