@@ -44,6 +44,9 @@ function inventoryTotalsRangeFetcher_F(id){
 		},
 		function(err,raw_resp){
 		    function inventory_transform(items){
+			function zeroQuantity(item){
+			    return item.quantity == 0;
+			}
 			function reduceValue(pair){
 			    var key = _.first(pair);
 			    var val = _.second(pair);
@@ -64,6 +67,7 @@ function inventoryTotalsRangeFetcher_F(id){
 				     })
 			    .kv()
 			    .map(reduceValue)
+			    .reject(zeroQuantity)
 			    .value();
 			return out;
 		    }
