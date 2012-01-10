@@ -34,6 +34,7 @@ function doc_setup() {
     var MenuReportsDiscountsDisplay = new menuReportsDiscountsView();
     var MenuReportsInventoryDisplay = new menuReportsInventoryView();
     var MenuSetMenusDisplay = new menuSetMenusView();
+    var MenuInventoryDisplay = new menuInventoryView();
     Backbone.history.start();
 
 	$("#layeredloginpassword").keyup(function(event){
