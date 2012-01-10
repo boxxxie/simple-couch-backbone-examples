@@ -110,7 +110,9 @@ var menuInventoryView =
 			  
 			  console.log("rendered menus for inventory");
 		  } else {
-		  	console.log("set up menu first");
+		  	//console.log("set up menu first");
+		  	alert("Please, Create Menu first.");
+		  	window.history.go(-1);
 		  }
 		  });
 	 },
@@ -221,10 +223,28 @@ function renderEditMenuPrice(num,position) {
 	var btn = $("#btnMenuSave")
 				.click(function(){
 					console.log("menuInventory Price Change");
-					//saveEditMenu();
+					//TODO
+					save_button_into_db();
 				});
     
     } else {
 	//renderEditHeader
     }
+};
+
+function save_button_into_db() {
+	var editDialog = $("#editMenuButton");
+
+    var newButtonItemData = varFormGrabber(editDialog);
+
+    console.log("newButtonItemData.display.description");
+    console.log(newButtonItemData.display.description);
+    newButtonItemData.display.description = _(newButtonItemData.display.description).chain().toArray().map(function(s){return _.str.trim(s);}).value();
+    console.log("newButtonItemData.display.description");
+    console.log(newButtonItemData.display.description);
+
+    console.log("newButtonItemData");
+    console.log(newButtonItemData);
+    
+    //FIXME: save this button
 };
