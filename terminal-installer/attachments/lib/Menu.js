@@ -16,6 +16,11 @@ var Menu = couchDoc.extend(
 		.value();
 	    return {menu_screen : buttonRows};
 	},
+	set_buttons:function(buttons){
+	    _.each(buttons,function(button){
+		       this.set_button(button);
+		   });
+	},
 	set_button:function(button){
 	    var screen = button.display.screen;
 	    var position = button.display.position;
@@ -67,8 +72,8 @@ var Menu = couchDoc.extend(
 	set_empty_menu :function(){
 	    var white = "255,255,255";
 	    var dark_green ="0,150,0";
-	    var default_menu_item =        
-		{
+	    function emptyMenuButton(){
+		return {
 		    "display": {
 			"is_enabled": false,
 			"image": "",
@@ -89,44 +94,47 @@ var Menu = couchDoc.extend(
 			"has_modifier": false
 		    }
 		};
-	    var menuButtonHeaders = [
-		{
-		    "description1": "",
-		    "description2": "",
-		    "description3": "",
-		    "defaultImage": "/assets/menu-1.png",
-		    "menu_id": 1,
-		    "image": "",
-		    "color": ""
-		},
-		{
-		    "description1": "",
-		    "description2": "",
-		    "description3": "",
-		    "defaultImage": "/assets/menu-2.png",
-		    "menu_id": 2,
-		    "image": "",
-		    "color": ""
-		},
-		{
-		    "description1": "",
-		    "description2": "",
-		    "description3": "",
-		    "defaultImage": "/assets/menu-3.png",
-		    "menu_id": 3,
-		    "image": "",
-		    "color": ""
-		},
-		{
-		    "description1": "",
-		    "description2": "",
-		    "description3": "",
-		    "defaultImage": "/assets/menu-4.png",
-		    "menu_id": 4,
-		    "image": "",
-		    "color": ""
-		}
-	    ];
+	    }
+	    function emptyMenuButtonHeaders(){
+		return[
+		    {
+			"description1": "",
+			"description2": "",
+			"description3": "",
+			"defaultImage": "/assets/menu-1.png",
+			"menu_id": 1,
+			"image": "",
+			"color": ""
+		    },
+		    {
+			"description1": "",
+			"description2": "",
+			"description3": "",
+			"defaultImage": "/assets/menu-2.png",
+			"menu_id": 2,
+			"image": "",
+			"color": ""
+		    },
+		    {
+			"description1": "",
+			"description2": "",
+			"description3": "",
+			"defaultImage": "/assets/menu-3.png",
+			"menu_id": 3,
+			"image": "",
+			"color": ""
+		    },
+		    {
+			"description1": "",
+			"description2": "",
+			"description3": "",
+			"defaultImage": "/assets/menu-4.png",
+			"menu_id": 4,
+			"image": "",
+			"color": ""
+		    }
+		];
+	    }
 	    var num_of_menu_screens = 5;
 	    var num_of_menu_buttons = 180;
 	    var num_of_menu_buttons_per_screen = 36;
@@ -134,11 +142,12 @@ var Menu = couchDoc.extend(
 	    menu.menuButtons = 
 		_(num_of_menu_screens).chain().range().zip(_.range(1,num_of_menu_screens+1))
 		.map(function(menu_screen){
-			 return _(num_of_menu_buttons_per_screen).chain().range()
+			 return _(num_of_menu_buttons_per_screen).chain()
+			     .range()
 			     .map(function(menu_item){
-				      var display = {display:_.extend(_.clone(default_menu_item.display),
+				      var display = {display:_.extend({},emptyMenuButton().display,
 								      {screen: _.first(menu_screen), position: menu_item})};
-				      return _.extend(_.clone(default_menu_item),display);
+				      return _.extend({},emptyMenuButton(),display);
 				  }).value();
 		     })
 		.flatten().
@@ -149,7 +158,7 @@ var Menu = couchDoc.extend(
 			return button;
 		    })
 		.value();
-	    menu.menuButtonHeaders = menuButtonHeaders;
+	    menu.menuButtonHeaders = emptyMenuButtonHeaders();
 	    return this.set(menu);
 	}
     });

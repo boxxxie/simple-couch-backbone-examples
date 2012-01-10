@@ -1,4 +1,5 @@
 _.mixin({
+	    //depricated! can use .map(function(value,key){return [key,value];});
 	    /* Retrieve the keys and values of an object's properties.
 	     {a:'a',b:'b'} -> [[a,'a'],[b,'b']]
 	    */
@@ -135,6 +136,7 @@ _.mixin({zipMerge:function (){
 	 }});
 
 
+//TODO: add walk to lib, or make an underscore_walk lib
 _.mixin({
 	    /*applies a function over the values of an object*/
 	    applyToValues:function(obj,fn,recursive){
@@ -192,3 +194,11 @@ _.mixin({
 	    peek:function(arr,index){
 		return arr[index];
 	    }});
+
+_.mixin({
+	    groupBy_F:function(iterator){
+		return function(list){
+		    return _.groupBy(list,iterator);
+		};
+	    }});
+
