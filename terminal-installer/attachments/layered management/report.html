@@ -1554,13 +1554,29 @@
       <!-- FIXME: put in proper links -->
 	   <div style="height:200px;">
 	     <a href='#menuReports/{{startPage}}Inventory'><div class="report-menu"><img src="../images/reports/inventorysold.png" class="report-menu-icon"/>Inventory Sold Report</div></a>
-	     <a href='#menuInventory/{{startPage}}Inventory'><div class="report-menu"><img src="../images/reports/scanprice.png" class="report-menu-icon"/>SCAN Item Price Changes</div></a>
-	     <a href='#menuInventory/{{startPage}}Inventory'><div class="report-menu"><img src="../images/reports/scantax.png" class="report-menu-icon"/>SCAN Sales Tax Changes</div></a>
-	     <a href='#menuInventory/{{startPage}}Inventory'><div class="report-menu"><img src="../images/reports/scanaddnew.png" class="report-menu-icon"/>Add New Inventory SCAN Items</div></a>
-	     <a href='#menuInventory/{{startPage}}Inventory'><div class="report-menu"><img src="../images/reports/pricelog.png" class="report-menu-icon"/>Price Change Log</div></a>
-	     <a href='#menuInventory/{{startPage}}Inventory'><div class="report-menu"><img src="../images/reports/taxlog.png" class="report-menu-icon"/>Tax Change Log</div></a>
+	     <a href='#menuInventory/{{startPage}}scanPriceChange'><div class="report-menu"><img src="../images/reports/scanprice.png" class="report-menu-icon"/>SCAN Item Price Changes</div></a>
+	     <a href='#menuInventory/{{startPage}}scanTaxChange'><div class="report-menu"><img src="../images/reports/scantax.png" class="report-menu-icon"/>SCAN Sales Tax Changes</div></a>
+	     <a href='#menuInventory/{{startPage}}addScanItem'><div class="report-menu"><img src="../images/reports/scanaddnew.png" class="report-menu-icon"/>Add New Inventory SCAN Items</div></a>
+	     <a href='#menuInventory/{{startPage}}priceChangeLog'><div class="report-menu"><img src="../images/reports/pricelog.png" class="report-menu-icon"/>Price Change Log</div></a>
+	     <a href='#menuInventory/{{startPage}}taxChangeLog'><div class="report-menu"><img src="../images/reports/taxlog.png" class="report-menu-icon"/>Tax Change Log</div></a>
+	     <a href='#menuInventory/{{startPage}}menuPriceChange'><div class="report-menu"><img src="../images/reports/pricelog.png" class="report-menu-icon"/>Menu Price Change</div></a>
 	   </div>
       {{>backButton_P}}
+    </script>
+    
+    <script id="menuInventorymenuPriceChange_TMP" type="text/html">
+      {{>AIRS_Buttons_P}}
+      <h1>Menu Price Change</h1>
+      <h2>{{>breadcrumb_P}}</h2>
+      <div style='float:left;width:680px;'>
+	<div id='menusetmenuscenter'></div>
+	<div id='menusetmenusbottom'></div>
+      </div>
+      <div style='float:right;width:300px;'>
+	<div id='menusetmenusleft'></div>
+	<div id='menusetmenusright'></div>
+      </div>
+      <div style='clear:both'></div>
     </script>
     
     <!-------------------------------------------------- Menu SET MENUS --------------------------------------->
@@ -1586,7 +1602,7 @@
 	  {{#row}}
 	  <!--FIXME : put onclick function in js file-->
 	  {{#display}}
-	  <td align="center" style="background-color: rgb( {{color}} );" id={{screen}}:{{position}} onclick="renderEditMenuItem({{screen}},{{position}});">
+	  <td align="center" style="background-color: rgb( {{color}} );" id={{screen}}:{{position}} >
 	    <ul style="list-style-type: none; padding-left: 0px; margin: 0px">
 	      {{#description}}<li>{{.}}</li>{{/description}}		
 	    </ul>
@@ -1635,9 +1651,9 @@
       </form>
       <ul style="list-style-type:none; float: left;">
 	<li>
-	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="clearEditHeader();">
+	  <!--<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="clearEditHeader();">
 	    <span class="ui-button-text">Clear</span>
-	  </button>
+	  </button>-->
 	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="saveEditHeader();">
 	    <span class="ui-button-text">Save</span>
 	  </button>
@@ -1724,10 +1740,10 @@
       </form>
       <ul style="list-style-type:none; float: left;">
 	<li>
-	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="clearEditMenu();">
+	  <!--<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="clearEditMenu();">
 	    <span class="ui-button-text">Clear</span>
-	  </button>
-	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="saveEditMenu();">
+	  </button>-->
+	  <button id="btnMenuSave" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false"> <!--onClick="saveEditMenu();"-->
 	    <span class="ui-button-text">Save</span>
 	  </button>
 	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="closeEditMenu();">

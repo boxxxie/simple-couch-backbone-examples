@@ -69,7 +69,7 @@ var menuSetMenusView =
 		  view.renderMenuHeaderPartial();
 		  
 		  menuModel.bind("change:menuButtonHeaders",view.renderMenuHeaderPartial);
-		  menuModel.bind("change:menuButtons", view.renderMenuScreenPartial)
+		  menuModel.bind("change:menuButtons", view.renderMenuScreenPartial);
 		  
 		  console.log("rendered set menus");	
 	      }); 
@@ -126,8 +126,19 @@ var menuSetMenusView =
 	 	    	 .concat(header.description3);
 	 	 }
 	 	 
-		 var htmlcenter = ich.menuSetMenus_Center_TMP(_.extend({menuscreentitle:menuscreentitle},menuModel.menu_screen(model)));
+	 	 var menuScreen = menuModel.menu_screen(model);
+		 var htmlcenter = ich.menuSetMenus_Center_TMP(_.extend({menuscreentitle:menuscreentitle},menuScreen));
 		 $("#menusetmenuscenter").html(htmlcenter);
+		 
+		 _.each(menuScreen.menu_screen, function(item){
+		 	_.each(item.row, function(rowitem) {
+		 		var btn = $('#'+rowitem.display.screen+"\\:"+rowitem.display.position)
+		 					.click(function(){
+			    				//onsole.log("click event! : "+ this.id);
+			    				renderEditMenuItem(rowitem.display.screen, rowitem.display.position);
+				   			});	
+		 	});	
+		  });
 		 
 		 console.log("menuscreen rendered");
 	     } else if(!_.isEmpty(item)) {
@@ -143,8 +154,20 @@ var menuSetMenusView =
 	 	    	 .concat(header.description3);
 	 	 }
 	 	 
-		 var htmlcenter = ich.menuSetMenus_Center_TMP(_.extend({menuscreentitle:menuscreentitle},menuModel.menu_screen(item.display.screen)));
+	 	 var menuScreen = menuModel.menu_screen(item.display.screen);
+		 var htmlcenter = ich.menuSetMenus_Center_TMP(_.extend({menuscreentitle:menuscreentitle},menuScreen));
 		 $("#menusetmenuscenter").html(htmlcenter);
+		 
+		 _.each(menuScreen.menu_screen, function(item){
+		 	_.each(item.row, function(rowitem) {
+		 		var btn = $('#'+rowitem.display.screen+"\\:"+rowitem.display.position)
+		 					.click(function(){
+			    				//console.log("click event! : "+ this.id);
+			    				renderEditMenuItem(rowitem.display.screen, rowitem.display.position);
+				   			});	
+		 	});	
+		  });	
+		 
 		 console.log("menuscreen rendered");
 	     }
 	 }
@@ -159,6 +182,11 @@ function renderEditPage(num,position) {
 	
 	var htmlright = ich.menuSetMenus_Right_TMP(button);
 	$("#menusetmenusright").html(htmlright);
+	var btn = $("#btnMenuSave")
+				.click(function(){
+					console.log("menuSavebtn event");
+					saveEditMenu();
+				});
 
 	// if modifier menu, disable modifier/read scale button
 	// otherwise(menu), disable duplicate button	
