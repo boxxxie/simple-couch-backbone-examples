@@ -247,7 +247,7 @@ function save_button_into_db() {
     console.log(newButtonItemData);
     
     //FIXME: save this button
-    var isAllStore = confirm("Apply Stores : All?");
+    var isAllStore = confirm("Apply Stores : All?\n*Cancel:Select Stores");
     console.log("yes? : " + isAllStore);
     if(isAllStore) {
     	
