@@ -12,17 +12,20 @@ var couchDoc = Backbone.Model.extend(
 	save:function(attrs,options){
 	    options || (options = {});
 	    var model = this;
-	    var success = options.success;   
+	    var success = options.success;
+	    if(_.isUndefined(this.id)){
+		//get uuid from couchdb and set the model's id to it
+		var id = $.couch.newUUID();
+		var idObj = {};
+		idObj[this.idAttribute] = id;
+		this.set(idObj,{silent:true});
+	    }
 	    options.success = function(resp, status, xhr){
 		if (success){success(resp, status, xhr);}
 	    };
 	    var error = options.error;   
 	    options.error = function(model, status, xhr){
-		console.log("some error");
 		if(_(status.responseText).trim() =='{"error":"not_found","reason":"no_db_file"}'){
-		    //TODO: finish creating a DB if one doesn't exist when trying to do a new document (requires a rewrite, sounds like it could be a bad idea)
-		    //need to create a new database to store the document
-		    //$.couch.db("new/menus",{},true).create()
 		}
 		if (error){error(model, status, xhr);}
 	    };
@@ -61,40 +64,3 @@ var couchCollection = function(couch,options){
 		  }
 		 }));
 };
-
-
-//-------------------- not part of couch-backbone yet------------------//
-//this is an outbound parser//
-
-//testing for persistfilter
-/*
-Backbone.Model.prototype.save = function() {
-  var _save = Backbone.Model.prototype.save;
-  
-  return function(attrs, options) {
-    attrs = _.clone(attrs);
-
-    if (typeof this.persistFilter === "function") {
-      attrs = this.persistFilter(attrs) || attrs;
-    }
-
-    _save.call(this, attrs, options);
-  };
-}();
-
-var Test = Backbone.Model.extend({
-  initialize: function() {
-    this.set({ lol: "HI" });
-  },
-
-  persistFilter: function(attrs) {
-    var newAttrs = {};
-
-    _.each(attrs, function(val, key) {
-      newAttrs["prefix::" + key] = val;
-    });
-
-    return newAttrs;
-  }
-});
-*/
