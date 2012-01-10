@@ -250,7 +250,8 @@ function save_button_into_db() {
     var isAllStore = confirm("Apply Stores : All?");
     console.log("yes? : " + isAllStore);
     if(isAllStore) {
-    	
+    	var button = new MenuButton({menuButton:newButtonItemData, date: (new Date()).toString(), id:ReportData.company._id});
+	button.save();
     } else {
     	
     }
