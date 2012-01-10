@@ -30,7 +30,7 @@ var menuSetMenusView =
 	 renderMenuSetMenusCompany: function() {
 	     var view = this;
 	     fetch_company_menu(ReportData.company._id)
-	     (function(menu){
+	     (function(err,menu){
 	    	  console.log(menu);
 	    	  menuModel = menu;
 	    	  

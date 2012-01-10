@@ -6,12 +6,12 @@ function fetch_company_menu(companyID){
 	    {success:function(model){
 		 //return use the menu set up by the company.		     
 		 //callback(_.selectKeys(model.toJSON(),['menuButtons','menuButtonHeaders']));
-		 callback(model);
+		 callback(false, model);
 	     },
 	     error:function(model){
 		 //return an empty menu
 		 model.set_empty_menu();
-		 callback(model);
+		 callback(true, model);
 	     }});
     };
-}
+};
