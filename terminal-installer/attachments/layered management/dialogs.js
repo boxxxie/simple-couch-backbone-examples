@@ -210,17 +210,13 @@ function menuInventoryApplyStoresViewDialog (html,options) {
 	 buttons: {
 	 	"Apply" : function() {
 	 		console.log("apply btn clicked");
-			var ck = form.find("input");
-			var applyck = _(ck).chain()
-			     			.map(function(item){
-			    				var btn = $("#"+item.id);
-			    				if(btn.is(":checked")){
-			    					return btn;
-			    				}
-			    			})
-						    .compact()
-						    .value();
-			_.each();
+			var ck = form.find("input:checked")
+			.each(function(){
+		    	var chbox = $(this);
+		    	var button = new MenuButton({menuButton:newButton, date: (new Date()).toString(), id:chbox.attr("id")});
+				button.save();
+		   		});
+			d.dialog('close');
 	 	},
 	     "Close": function() {
 		 d.dialog('close');
@@ -235,7 +231,7 @@ function menuInventoryApplyStoresViewDialog (html,options) {
 
 function menuInventoyApplyStoresView(stores, buttonItem) {
 	var items = _.map(stores, function(item){
-		return _.extend({},{id:item.store_id,name:item.storeName});
+		return _.extend({},{id:item.id,name:item.name});
 	});
 	var html = ich.menuInventoryApplyStoresQuickViewDialog_TMP({items:items});
 	menuInventoryApplyStoresViewDialog(html,{title:"Apply Price - new Price : $ " + currency_format(buttonItem.foodItem.price), newButton : buttonItem});
