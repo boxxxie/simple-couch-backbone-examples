@@ -223,17 +223,17 @@ function renderEditMenuPrice(num,position) {
 	var btn = $("#btnMenuSave")
 				.click(function(){
 					console.log("menuInventory Price Change");
-					//TODO
-					save_button_into_db();
-				});
-    
+					   //TODO
+					   save_button_into_db();
+				       });
+	
     } else {
 	//renderEditHeader
     }
 };
 
 function save_button_into_db() {
-	var editDialog = $("#editMenuButton");
+    var editDialog = $("#editMenuButton");
 
     var newButtonItemData = varFormGrabber(editDialog);
 
