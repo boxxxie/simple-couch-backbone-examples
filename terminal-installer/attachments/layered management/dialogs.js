@@ -198,6 +198,7 @@ function quickmenuReportsTransactionViewDialog (html,options) {
 /**************************************** menuInventory - apply stores dialog ****************************/
 function menuInventoryApplyStoresViewDialog (html,options) {
 	var newButton = options.newButton;
+	var stores = options.stores;
 	var form = $(html).filter('#menuinventoryapplystoresdialog');
     var d = $("#dialog-quickView");    	
     d.html(form);
@@ -209,13 +210,19 @@ function menuInventoryApplyStoresViewDialog (html,options) {
 	 modal: true,
 	 buttons: {
 	 	"Apply" : function() {
-	 		console.log("apply btn clicked");
-			var ck = form.find("input:checked")
-			.each(function(){
-		    	var chbox = $(this);
-		    	var button = new MenuButton({menuButton:newButton, date: (new Date()).toString(), id:chbox.attr("id")});
+	 		if(form.find("input:checked").length < stores.length) {
+				var ck = form.find("input:checked")
+							.each(function(){
+						    	var chbox = $(this);
+						    	var button = new MenuButton({menuButton:newButton, date: (new Date()).toString(), id:chbox.attr("id")});
+								button.save();
+						   	});
+			   	console.log("price is applied on selected stores");
+		   } else {
+		   		var button = new MenuButton({menuButton:newButton, date: (new Date()).toString(), id:ReportData.company._id});
 				button.save();
-		   		});
+				console.log("price is applied on every stores");
+		   }
 			d.dialog('close');
 	 	},
 	     "Close": function() {
@@ -234,5 +241,5 @@ function menuInventoyApplyStoresView(stores, buttonItem) {
 		return _.extend({},{id:item.id,name:item.name});
 	});
 	var html = ich.menuInventoryApplyStoresQuickViewDialog_TMP({items:items});
-	menuInventoryApplyStoresViewDialog(html,{title:"Apply Price - new Price : $ " + currency_format(buttonItem.foodItem.price), newButton : buttonItem});
+	menuInventoryApplyStoresViewDialog(html,{title:"Apply Price - new Price : $ " + currency_format(buttonItem.foodItem.price), newButton : buttonItem, stores:items});
 };
