@@ -223,17 +223,17 @@ function renderEditMenuPrice(num,position) {
 	var btn = $("#btnMenuSave")
 				.click(function(){
 					console.log("menuInventory Price Change");
-					//TODO
-					save_button_into_db();
-				});
-    
+					   //TODO
+					   save_button_into_db();
+				       });
+	
     } else {
 	//renderEditHeader
     }
 };
 
 function save_button_into_db() {
-	var editDialog = $("#editMenuButton");
+    var editDialog = $("#editMenuButton");
 
     var newButtonItemData = varFormGrabber(editDialog);
 
@@ -246,13 +246,25 @@ function save_button_into_db() {
     console.log("newButtonItemData");
     console.log(newButtonItemData);
     
-    //FIXME: save this button
+    function extractStores(obj){
+	var stores = [];
+	pre_walk(obj,function(o){
+		     if(o.stores){
+			 stores = stores.concat(o.stores);
+		     }
+		     return o;
+		 });
+	return stores.map(function(store){
+			      return {type:'store',id:store.store_id,name:store.storeName};
+			  });
+    };
+
     var isAllStore = confirm("Apply Stores : All?");
     console.log("yes? : " + isAllStore);
     if(isAllStore) {
     	var button = new MenuButton({menuButton:newButtonItemData, date: (new Date()).toString(), id:ReportData.company._id});
 	button.save();
     } else {
-    	
+    	var stores = extractStores(ReportData);
     }
 };

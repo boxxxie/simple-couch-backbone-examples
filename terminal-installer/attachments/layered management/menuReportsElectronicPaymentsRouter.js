@@ -334,49 +334,47 @@ function renderElectronicPaymentsTable() {
 				  }
 				  return item;
 			      });
-
+	     
+	     data_TMP = 
+		 _.applyToValues(data_TMP, function(obj){
+				     var strObj = obj+"";
+				     if(strObj.indexOf(".")>=0 && strObj.indexOf("$")<0) {
+					 obj = currency_format(Number(obj));
+				     }
+				     return obj;
+				 }, true);
+	     totals =
+		 _.applyToValues(totals,function(obj){
+		     		     var strObj = obj+"";
+				     if(strObj.indexOf(".")>=0) {
+					 obj = currency_format(Number(obj));
+				     }
+				     return obj;
+				 },true);
+	     
+	     var data = _(data_TMP).chain()
+		 .map(function(item){
+			  if(item.authCode=="refund") {
+	                      var propsToChange = _.selectKeys(item,['credit','debit','sales','subTotal','tax1and2','tax3','total']);
+			      
+			      propsToChange =_(propsToChange).chain()
+				  .map(function(val,key){
+					   if(val!="0.00") {val = "-"+val;}
+					   return [key,val];
+				       })
+				  .toObject()
+				  .value();            
+			      return _.extend({},item, propsToChange);
+			  }
+			  return item;
+		      })
+		 .value();
+	     
 	     if(_.isEmpty(data_TMP)){
-		 var html = "<p>There are no Electronic Payments for this time period</p>";	 
+		 var formatted_totals = false;	
 	     }
 	     else{
-	     	 
-	     	 data_TMP = 
-		     _.applyToValues(data_TMP, function(obj){
-					 var strObj = obj+"";
-					 if(strObj.indexOf(".")>=0 && strObj.indexOf("$")<0) {
-					     obj = currency_format(Number(obj));
-					 }
-					 return obj;
-				     }, true);
-		 totals =
-		     //_.applyToValues(totals,currency_format,true);
-		     _.applyToValues(totals,function(obj){
-		     	var strObj = obj+"";
-					 if(strObj.indexOf(".")>=0) {
-					     obj = currency_format(Number(obj));
-					 }
-					 return obj;
-		     },true);
-		 
-		 var data = _(data_TMP).chain()
-		     .map(function(item){
-			      if(item.authCode=="refund") {
-	                	  var propsToChange = _.selectKeys(item,['credit','debit','sales','subTotal','tax1and2','tax3','total']);
-				  
-				  propsToChange =_(propsToChange).chain()
-				      .map(function(val,key){
-					       if(val!="0.00") {val = "-"+val;}
-					       return [key,val];
-					   })
-				      .toObject()
-				      .value();            
-				  return _.extend({},item, propsToChange);
-			      }
-			      return item;
-			  })
-		     .value();
-		 
-		 totals=_(totals).chain()
+		 var formatted_totals = _(totals).chain()
 		     .map(function(val,key){
 			      if( (/_refund/).test(key)) {
 	        		  if(val!="0.00") { val = "-"+val; }
@@ -385,9 +383,9 @@ function renderElectronicPaymentsTable() {
 			  })
 		     .toObject()
 		     .value();
-		 
-		 var html = ich.electronicPaymentsTabel_TMP({items:data,totals:totals});
 	     }
+	     
+	     var html = ich.electronicPaymentsTabel_TMP({items:data,totals:formatted_totals});
 	     $("#reporttable").html(html);
 	     _.each(data_TMP, function(item){
 			var item = _.clone(item);
