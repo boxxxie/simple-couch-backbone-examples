@@ -220,7 +220,8 @@ function menuInventoryApplyStoresViewDialog (html,options) {
 			    			})
 						    .compact()
 						    .value();
-			_.each();
+			//_.each();
+			console.log(applyck);
 	 	},
 	     "Close": function() {
 		 d.dialog('close');
@@ -235,7 +236,7 @@ function menuInventoryApplyStoresViewDialog (html,options) {
 
 function menuInventoyApplyStoresView(stores, buttonItem) {
 	var items = _.map(stores, function(item){
-		return _.extend({},{id:item.store_id,name:item.storeName});
+		return _.extend({},{id:item.id,name:item.name});
 	});
 	var html = ich.menuInventoryApplyStoresQuickViewDialog_TMP({items:items});
 	menuInventoryApplyStoresViewDialog(html,{title:"Apply Price - new Price : $ " + currency_format(buttonItem.foodItem.price), newButton : buttonItem});

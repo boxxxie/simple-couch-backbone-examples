@@ -246,6 +246,19 @@ function save_button_into_db() {
     console.log("newButtonItemData");
     console.log(newButtonItemData);
     
+    function extractStores(obj){
+		var stores = [];
+		pre_walk(obj,function(o){
+		    if(o.stores){
+		stores = stores.concat(o.stores);
+		    }
+		    return o;
+		});
+		return stores.map(function(store){
+		     return {type:'store',id:store.store_id,name:store.storeName};
+		 });
+    };
+    
     //FIXME: save this button
     var isAllStore = confirm("Apply Stores : All?\n*Cancel:Select Stores");
     console.log("yes? : " + isAllStore);
@@ -253,7 +266,8 @@ function save_button_into_db() {
     	var button = new MenuButton({menuButton:newButtonItemData, date: (new Date()).toString(), id:ReportData.company._id});
 		button.save();
     } else {
-    	var stores = ReportData.company.hierarchy.groups[0].stores;
+    	//var stores = ReportData.company.hierarchy.groups[0].stores;
+    	var stores = extractStores(ReportData);
     	menuInventoyApplyStoresView(stores, newButtonItemData);
     }
 };
