@@ -251,8 +251,9 @@ function save_button_into_db() {
     console.log("yes? : " + isAllStore);
     if(isAllStore) {
     	var button = new MenuButton({menuButton:newButtonItemData, date: (new Date()).toString(), id:ReportData.company._id});
-	button.save();
+		button.save();
     } else {
-    	
+    	var stores = ReportData.company.hierarchy.groups[0].stores;
+    	menuInventoyApplyStoresView(stores, newButtonItemData);
     }
 };
