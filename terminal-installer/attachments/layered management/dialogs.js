@@ -210,18 +210,13 @@ function menuInventoryApplyStoresViewDialog (html,options) {
 	 buttons: {
 	 	"Apply" : function() {
 	 		console.log("apply btn clicked");
-			var ck = form.find("input");
-			var applyck = _(ck).chain()
-			     			.map(function(item){
-			    				var btn = $("#"+item.id);
-			    				if(btn.is(":checked")){
-			    					return btn;
-			    				}
-			    			})
-						    .compact()
-						    .value();
-			//_.each();
-			console.log(applyck);
+			var ck = form.find("input:checked")
+			.each(function(){
+		    	var chbox = $(this);
+		    	var button = new MenuButton({menuButton:newButton, date: (new Date()).toString(), id:chbox.attr("id")});
+				button.save();
+		   		});
+			d.dialog('close');
 	 	},
 	     "Close": function() {
 		 d.dialog('close');
