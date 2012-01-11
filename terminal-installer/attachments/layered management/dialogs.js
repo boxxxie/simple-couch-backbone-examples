@@ -194,3 +194,49 @@ function quickmenuReportsTransactionViewDialog (html,options) {
     d.dialog(dialogOptions);
     d.dialog("open");
 };
+
+/**************************************** menuInventory - apply stores dialog ****************************/
+function menuInventoryApplyStoresViewDialog (html,options) {
+	var newButton = options.newButton;
+	var form = $(html).filter('#menuinventoryapplystoresdialog');
+    var d = $("#dialog-quickView");    	
+    d.html(form);
+
+    var dialogOptions = _.extend(
+	{autoOpen: false,
+	 height: 450,
+	 width: 424,
+	 modal: true,
+	 buttons: {
+	 	"Apply" : function() {
+	 		console.log("apply btn clicked");
+			var ck = form.find("input");
+			var applyck = _(ck).chain()
+			     			.map(function(item){
+			    				var btn = $("#"+item.id);
+			    				if(btn.is(":checked")){
+			    					return btn;
+			    				}
+			    			})
+						    .compact()
+						    .value();
+			_.each();
+	 	},
+	     "Close": function() {
+		 d.dialog('close');
+	     }
+	 },
+	 title:options.title
+	},_.clone(options));
+    
+    d.dialog(dialogOptions);
+    d.dialog("open");
+};
+
+function menuInventoyApplyStoresView(stores, buttonItem) {
+	var items = _.map(stores, function(item){
+		return _.extend({},{id:item.store_id,name:item.storeName});
+	});
+	var html = ich.menuInventoryApplyStoresQuickViewDialog_TMP({items:items});
+	menuInventoryApplyStoresViewDialog(html,{title:"Apply Price - new Price : $ " + currency_format(buttonItem.foodItem.price), newButton : buttonItem});
+};

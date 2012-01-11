@@ -245,7 +245,7 @@ function save_button_into_db() {
 
     console.log("newButtonItemData");
     console.log(newButtonItemData);
-    
+
     function extractStores(obj){
 	var stores = [];
 	pre_walk(obj,function(o){
@@ -259,11 +259,11 @@ function save_button_into_db() {
 			  });
     };
 
-    var isAllStore = confirm("Apply Stores : All?");
+    var isAllStore = confirm("Apply Stores : All?\n*Cancel:Select Stores");
     console.log("yes? : " + isAllStore);
     if(isAllStore) {
     	var button = new MenuButton({menuButton:newButtonItemData, date: (new Date()).toString(), id:ReportData.company._id});
-	button.save();
+		button.save();
     } else {
     	var stores = extractStores(ReportData);
     }

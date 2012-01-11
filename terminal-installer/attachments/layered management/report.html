@@ -1705,6 +1705,30 @@
 	<div id='menusetmenusright'></div>
       </div>
       <div style='clear:both'></div>
+      {{>quickReportViewHook_P}}
+    </script>
+    
+    <script id="menuInventoryApplyStoresQuickViewDialog_TMP" type="text/html">
+      <div id='menuinventoryapplystoresdialog'>
+      	<form id="formInventoryApplystores">
+		<table class="reportstable"><!--class="reportstable"-->
+<thead>
+			<tr>
+				<td>Apply</td>
+				<td>Store</td>
+			</tr>
+</thead>
+<tbody>
+			{{#items}}
+			<tr>
+				<td><input type="checkbox" id="{{id}}" value="{{name}}"/></td>
+				<td><label>{{name}}</label></td>
+			</tr>
+			{{/items}}   
+</tbody>
+		</table>
+		</form>
+      </div>
     </script>
     
     <!-------------------------------------------------- Menu SET MENUS --------------------------------------->
