@@ -192,7 +192,7 @@ margin: 0 0.30em;
 
 #nav-menu li a
 {
-background: url(background.gif) #4ac3c8 bottom left repeat-x;
+background: #4ac3c8 bottom left repeat-x;
 height: 2em;
 line-height: 2em;
 float: left;
@@ -208,7 +208,7 @@ border-radius:10px;
 
 #nav-menu li a:hover
 {
-background: url(background.gif) #4B545E bottom left repeat-x;
+background: #4B545E bottom left repeat-x;
 border: 0.1em solid #dcdce9;
 color: #fff;
 }

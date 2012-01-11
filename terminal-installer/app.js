@@ -50,6 +50,7 @@ ddoc.views.user_pass = {
 			     .forEach(function(store){
 					  var sName = store.number.toLowerCase();
 					  emit({company:opName,group:gpName,store:sName,user:store.user,password:store.password},{company:compID,group:gpID,store:store.store_id});
+					  emit({company:opName,store:sName,user:store.user,password:store.password},{company:compID,group:gpID,store:store.store_id});
 				      });
 		     });
     }
