@@ -1737,6 +1737,7 @@
 	<a href='#menuInventory/{{startPage}}menuPriceChange'><div class="report-menu"><img src="../images/reports/pricelog.png" class="report-menu-icon"/>Menu Price Change</div></a>
 	{{/showMenuPriceChange}}
       </div>
+      <div style="clear: both;"></div>
       {{>backButton_P}}
     </script>
     
@@ -1764,6 +1765,7 @@
 			<tr>
 				<td>Apply</td>
 				<td>Store</td>
+				<td>Store #</td>
 			</tr>
 </thead>
 <tbody>
@@ -1771,6 +1773,7 @@
 			<tr>
 				<td><input type="checkbox" id="{{id}}" value="{{name}}"/></td>
 				<td><label>{{name}}</label></td>
+				<td><label>{{storeNumber}}</label></td>
 			</tr>
 			{{/items}}   
 </tbody>

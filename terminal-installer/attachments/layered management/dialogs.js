@@ -238,8 +238,9 @@ function menuInventoryApplyStoresViewDialog (html,options) {
 
 function menuInventoyApplyStoresView(stores, buttonItem) {
     var items = _.map(stores, function(item){
-			  return _.extend({},{id:item.id,name:item.name});
+			  return _.extend({},{id:item.id,name:item.name,store_id:item.id});
 		      });
+	items = appendGroupStoreInfoFromStoreID(items);
     var html = ich.menuInventoryApplyStoresQuickViewDialog_TMP({items:items});
     menuInventoryApplyStoresViewDialog(html,{title:"Apply Price - new Price : $ " + currency_format(buttonItem.foodItem.price), newButton : buttonItem, stores:items});
 };
