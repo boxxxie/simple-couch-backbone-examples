@@ -332,6 +332,9 @@ function renderTaxCollectedTable() {
 						     }
 						     return obj;
 						 }, true);
+				
+				data_TMP = appendGroupStoreInfoFromTerminalID(data_TMP);
+				
 				 var html = ich.taxCollectedTabel_TMP({items:data_TMP, totalrow:totalrow});
 			     }
 
@@ -341,7 +344,7 @@ function renderTaxCollectedTable() {
 					    .button()
 					    .click(function(){
 					    	       var dialogtitle= getDialogTitle(ReportData,
-										       item.name,
+										       item,
 										       startDate,
 										       endDateForQuery);
 						       var firstindex = Number(item.firstindex)+"";
@@ -356,6 +359,7 @@ function renderTaxCollectedTable() {
     }
 };
 
+/*
 function getDialogTitle(ReportData, name, startDate, endDate) {
     var companyName, groupName, storeName, terminalName;
     if(!_.isEmpty(ReportData.company)){
@@ -383,4 +387,27 @@ function getDialogTitle(ReportData, name, startDate, endDate) {
     }
     
     return title;
+};
+*/
+
+function appendGroupStoreInfoFromTerminalID(list) {
+	
+	function getStoreIdFromTerminalId(obj, terminal_id){
+		var storeid;
+		pre_walk(obj,function(o){
+		    if(o.terminals){
+				if(_.find(o.terminals, function(terminal){ return terminal.terminal_id == terminal_id})) {
+					storeid = o.store_id;
+				}
+		    }
+		    return o;
+		});
+		return storeid;		
+    };
+	
+    list = _.map(list, function(item){
+		return _.extend({},item,{store_id:getStoreIdFromTerminalId(ReportData,item.id)});
+	});
+	
+	return appendGroupStoreInfoFromStoreID(list);
 };

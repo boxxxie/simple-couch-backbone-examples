@@ -786,7 +786,10 @@
       <table class="reportstable">
 	<thead>
 	  <tr>
-	    <th>Info</th>
+	    <!--<th>Info</th>-->
+	    <th>Group</th>
+	    <th>Store Name</th>
+	    <th>Store #</th>
 	    <th># of Trans</th>
 	    <th>Sales</th>
 	    <th>Tax 1</th>
@@ -802,7 +805,7 @@
 	<tfoot>
 	  <tr>
 	    {{#total}}
-	    <th align="center">TOTAL</th>
+	    <th align="center" colspan="3">TOTAL</th>
 	    <th align="right">{{totaltransactions}}</th>
 	    <th align="right">{{totalsales}}</th>
 	    <th align="right">{{totaltax1}}</th>
@@ -819,7 +822,7 @@
 	<tbody>
 	  {{#list}}
 	  <tr>
-	    <td>
+	   <!-- <td>
 	      <ul>
 		<li><strong>Group:</strong></li>
 		<li>{{groupName}}</li>
@@ -827,7 +830,10 @@
 		<li>{{storeName}}</li>
 		<li>Store #: {{storeNumber}}</li>
 	      </ul>
-	    </td>
+	   </td>-->
+	   <td>{{groupName}}</td>
+	   <td>{{storeName}}</td>
+	   <td>{{storeNumber}}</td>
 	    {{#summary}}
 	    <td align="right">{{numberoftransactions}}</td>
 	    <td align="right">{{sales}}</td>
@@ -871,7 +877,11 @@
       <table class="reportstable">
 	<thead>
 	  <tr>
-	    <th>Info</th>
+	    <!--<th>Info</th>-->
+	    <th>Date</th>
+	    <th>Group</th>
+	    <th>Store Name</th>
+	    <th>Store #</th>
 	    <th>Type</th>
 	    <th># of Trans</th>
 	    <th>Net</th>
@@ -888,7 +898,7 @@
 	<tfoot>
 	  <tr>
 	    {{#total}}
-	    <th colspan="2" align="center">TOTAL</th>
+	    <th colspan="5" align="center">TOTAL</th>
 	    <th align="right">{{totaltransactions}}</th>
 	    <th align="right">{{totalsales}}</th>
 	    <th align="right">{{totaltax1}}</th>
@@ -905,14 +915,18 @@
 	<tbody>
 	  {{#list}}
 	  <tr>
-	    <td rowspan="3">
+	    <!--<td rowspan="3">
 	      <ul>
 		<li><strong>{{date}}</strong></li>
 		<li>Group: {{groupName}}</li>
 		<li>Store: {{storeName}}</li>
 		<li>Store #: {{storeNumber}}</li>
 	      </ul>
-	    </td>
+	    </td>-->
+	    <td rowspan="3">{{date}}</td>
+	    <td rowspan="3">{{groupName}}</td>
+	   <td rowspan="3">{{storeName}}</td>
+	   <td rowspan="3">{{storeNumber}}</td>
 	    {{#salerow}}
 	    <td>SALE</td>
 	    <td align="right">{{numberoftransactions}}</td>
@@ -1155,6 +1169,9 @@
       <table class="reportstable">
 	<thead>
 	  <tr>
+	  	<th>Group</th>
+	  	<th>Store</th>
+	  	<th>Store #</th>
 	    <th>Terminal</th>
 	    <th>Sales</th>
 	    <th>Tax 1</th>
@@ -1166,7 +1183,7 @@
 	<tfoot>
 	  {{#totalrow}}
 	  <tr>
-	    <th>Total</th>
+	    <th colspan="4">Total</th>
 	    <th align="right">{{sales}}</th>
 	    <th align="right">{{tax1}}</th>
 	    <th align="right">{{tax3}}</th>
@@ -1178,6 +1195,9 @@
 	<tbody>
 	  {{#items}}
 	  <tr>
+	  	<td>{{groupName}}</td>
+	  	<td>{{storeName}}</td>
+	  	<td>{{storeNumber}}</td>
 	    <td>{{name}}</td>
 	    <td align="right">{{sales}}</td>
 	    <td align="right">{{tax1}}</td>
@@ -1207,9 +1227,12 @@
       <table class="reportstable">
 	<thead>
 	  <tr>
+	  	<th>Date</th>
+	  	<th>Group</th>
+	  	<th>Store</th>
+	  	<th>Store #</th>
 	    <th>Terminal</th>
 	    <th>Transaction</th>
-	    <th>Date</th>
 	    <th>Sale</th>
 	    <th>Tax 1</th>
 	    <th>Tax 3</th>
@@ -1223,9 +1246,12 @@
 	<tbody>
 	  {{#items}}
 	  <tr>
+	  	<td align="center">{{date}}</td>
+	  	<td>{{groupName}}</td>
+	  	<td>{{storeName}}</td>
+	  	<td>{{storeNumber}}</td>
 	    <td>{{name}}</td>
 	    <td align="center">{{transaction_index}}</td>
-	    <td align="center">{{date}}</td>
 	    <td align="right">{{sales}}</td>
 	    <td align="right">{{tax1and2}}</td>
 	    <td align="right">{{tax3}}</td>
@@ -1238,7 +1264,7 @@
 	  {{/items}}
 	  {{^items}}
 	  <tr>
-	    <td align='center' colspan='11'>
+	    <td align='center' colspan='14'>
 	      There are no Electronic Payments for this time period.
 	    </td>
 	  </tr>
@@ -1284,8 +1310,11 @@
       <table class="reportstable">
 	<thead>
 	  <tr>
+	  	<th>Date</th>
+	  	<th>Group</th>
+	  	<th>Store</th>
+	  	<th>Store #</th>
 	    <th>Terminal</th>
-	    <th>Date</th>
 	    <th>Cashout #</th>
 	    <th>Details</th>
 	  </tr>
@@ -1293,8 +1322,11 @@
 	<tbody>
 	  {{#items}}
 	  <tr>
+	  	<td>{{cashouttime}}</td>
+	  	<td>{{groupName}}</td>
+	  	<td>{{storeName}}</td>
+	  	<td>{{storeNumber}}</td>
 	    <td>{{name}}</td>
-	    <td>{{cashouttime}}</td>
 	    <td>{{cashoutnumber}}</td>
 	    <td>{{>quickDetailsViewButton_P}}</td>
 	  </tr>
@@ -1323,8 +1355,11 @@
       <table class="reportstable">
 	<thead>
 	  <tr>
+	  	<th>Date</th>
+	  	<th>Group</th>
+	  	<th>Store</th>
+	  	<th>Store #</th>
 	    <th>Terminal</th>
-	    <th>Date</th>
 	    <th>Cancelled Tran #</th>
 	    <th>Sales</th>
 	    <th>Tax 1</th>
@@ -1336,7 +1371,7 @@
 	<tfoot>
 	  {{#totalrow}}
 	  <tr>
-	    <th colspan="3">Total</th>
+	    <th colspan="6">Total</th>
 	    <th align="right">{{subTotal}}</th>
 	    <th align="right">{{tax1and2}}</th>
 	    <th align="right">{{tax3}}</th>
@@ -1348,8 +1383,11 @@
 	<tbody>
 	  {{#items}}
 	  <tr>
+	  	<td align="center">{{date}}</td>
+	  	<td align="center">{{groupName}}</td>
+	  	<td align="center">{{storeName}}</td>
+	  	<td align="center">{{storeNumber}}</td>
 	    <td align="center">{{name}}</td>
-	    <td align="center">{{date}}</td>
 	    <td align="right">{{transactionNumber}}</td>
 	    <td align="right">{{subTotal}}</td>
 	    <td align="right">{{tax1and2}}</td>
@@ -1382,8 +1420,11 @@
       <table class="reportstable">
 	<thead>
 	  <tr>
+	  	<th>Date</th>
+	    <th>Group</th>
+	    <th>Store</th>
+	    <th>Store #</th>
 	    <th>Terminal</th>
-	    <th>Date</th>
 	    <th>Refund Transaction #</th>
 	    <th>Sales</th>
 	    <th>Tax 1</th>
@@ -1395,7 +1436,7 @@
 	<tfoot>
 	  {{#totalrow}}
 	  <tr>
-	    <th colspan="3" align="center">Total</th>
+	    <th colspan="6" align="center">Total</th>
 	    <th align="right">{{subTotal}}</th>
 	    <th align="right">{{tax1and2}}</th>
 	    <th align="right">{{tax3}}</th>
@@ -1407,8 +1448,11 @@
 	<tbody>
 	  {{#items}}
 	  <tr>
+	  	<td align="center">{{date}}</td>
+	    <td align="center">{{groupName}}</td>
+	    <td align="center">{{storeName}}</td>
+	    <td align="center">{{storeNumber}}</td>
 	    <td align="center">{{name}}</td>
-	    <td align="center">{{date}}</td>
 	    <td align="right">{{transactionNumber}}</td>
 	    <td align="right">{{subTotal}}</td>
 	    <td align="right">{{tax1and2}}</td>
@@ -1442,8 +1486,11 @@
       <table class="reportstable">
 	<thead>
 	  <tr>
+	  	<th>Date</th>
+	    <th>Group</th>
+	    <th>Store</th>
+	    <th>Store #</th>
 	    <th>Terminal</th>
-	    <th>Date</th>
 	    <th>Trans #</th>
 	    <th>Sales</th>
 	    <th>Discount</th>
@@ -1457,7 +1504,7 @@
 	<tfoot>
 	  {{#totalrow}}
 	  <tr>
-	    <th colspan="3" align="center">Total</th>
+	    <th colspan="6" align="center">Total</th>
 	    <th align="right">{{sales}}</th>
 	    <th align="right">-{{discount}}</th>
 	    <th align="right">{{tax1and2}}</th>
@@ -1471,8 +1518,11 @@
 	<tbody>
 	  {{#items}}
 	  <tr>
+	  	<td align="center">{{date}}</td>
+	    <td align="center">{{groupName}}</td>
+	    <td align="center">{{storeName}}</td>
+	    <td align="center">{{storeNumber}}</td>
 	    <td align="center">{{name}}</td>
-	    <td align="center">{{date}}</td>
 	    <td align="right">{{transactionNumber}}</td>
 	    <td align="right">{{sales}}</td>
 	    <td align="right">{{totaldiscount}}</td>
@@ -1972,19 +2022,11 @@
     <script id="groupManagementPage_TMP" type="text/html">
       {{>main_navigation_buttons_P}}
       <h1>Group Management</h1>
-      {{>breadcrumb_P}}
-      <ul>
-	<li>{{>salesFields_P}}</li>
-	<li>{{>quickReportViewButton_P}}</li>
-      </ul>
-      <label>-----------------------------------------------------------------------</label>
-      <ul>
-	<li>{{>numberOfStoresFields_P}}</li>
-	<li>{{>numberOfTerminalsFields_P}}</li>
-      </ul>
-      <label>-----------------------------------------------------------------------</label>
-      {{>AIR_Buttons_P}}
-      {{>logoutButton_P}}
+      <h2>{{>breadcrumb_P}}</h2>
+	{{>salesFields_P}}
+	{{>numberOfStoresFields_P}}
+	{{>numberOfTerminalsFields_P}}
+	<div style="clear:both;"></div>
       {{>quickReportViewHook_P}}
     </script>
 
@@ -1992,18 +2034,10 @@
     <script id="storeManagementPage_TMP" type="text/html">
       {{>main_navigation_buttons_P}}
       <h1>Store Management</h1>
-      {{>breadcrumb_P}}
-      <ul>
-	<li>{{>salesFields_P}}</li>
-	<li>{{>quickReportViewButton_P}}</li>
-      </ul>
-      <label>-----------------------------------------------------------------------</label>
-      <ul>
-	<li>{{>numberOfTerminalsFields_P}}</li>
-      </ul>
-      <label>-----------------------------------------------------------------------</label>
-      {{>AIR_Buttons_P}}
-      {{>logoutButton_P}}
+      <h2>{{>breadcrumb_P}}</h2>
+	{{>salesFields_P}}
+	{{>numberOfTerminalsFields_P}}
+	<div style="clear:both;"></div>
       {{>quickReportViewHook_P}}
     </script>
 

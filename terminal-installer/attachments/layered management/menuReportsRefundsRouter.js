@@ -257,6 +257,8 @@ function renderRefundsTable() {
 	
 	refundTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)
 	(function(err,data_TMP){
+		data_TMP = appendGroupStoreInfoFromStoreID(data_TMP);
+		
 	     var totalrow = {};
 	     totalrow.numofrefund = data_TMP.length + "";
 	     totalrow.subTotal = currency_format(_.reduce(data_TMP, function(init, item){
@@ -330,7 +332,7 @@ function renderRefundsTable() {
 	     _.each(data_TMP, function(item){	
 			var item = _.clone(item);
 			
-			var dialogtitle=getDialogTitle(ReportData,item.name);
+			var dialogtitle=getDialogTitle(ReportData,item);
 			
 			var btn = $('#'+item._id)
 			    .each(function(){

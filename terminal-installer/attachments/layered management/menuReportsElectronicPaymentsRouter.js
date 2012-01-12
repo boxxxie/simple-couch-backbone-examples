@@ -289,20 +289,14 @@ function renderElectronicPaymentsTable() {
 	(function(err,response){
 
 	     var data_TMP = response.paymentList;
+	     data_TMP = appendGroupStoreInfoFromStoreID(data_TMP);
 	     var totals = _.applyToValues(response.totals, toFixed(2));
 	     
 	     data_TMP = applyReceiptInfo(data_TMP);
 	     data_TMP=
 		 _.map(data_TMP, 
 		       function(item){
-			   var dialogtitle 
-			       = getDialogTitle(ReportData,
-						item.name,
-						startDate,
-						endDateForQuery);
-			   return _.extend({},
-					   item, 
-					   {dialogtitle:dialogtitle});
+			   return _.extend({},item);
 		       });
 	     
 	     data_TMP = 
@@ -387,10 +381,11 @@ function renderElectronicPaymentsTable() {
 	     
 	     var html = ich.electronicPaymentsTabel_TMP({items:data,totals:formatted_totals});
 	     $("#reporttable").html(html);
+	     
 	     _.each(data_TMP, function(item){
 			var item = _.clone(item);
 			
-			var dialogtitle=getDialogTitle(ReportData,item.name);
+			var dialogtitle=getDialogTitle(ReportData,item);
 			
 			$("[id]")
 			    .filter(function(){return $(this).attr('id') == item._id;})
@@ -424,8 +419,9 @@ function renderElectronicPaymentsTable() {
     }
 }
 
-function getDialogTitle(ReportData, name, startDate, endDate) {
+function getDialogTitle(ReportData, item, startDate, endDate) {
     var companyName, groupName, storeName, terminalName;
+    /*
     if(!_.isEmpty(ReportData.company)){
 	companyName = ReportData.company.companyName;
     } else if(!_.isEmpty(ReportData.group)){
@@ -436,11 +432,21 @@ function getDialogTitle(ReportData, name, startDate, endDate) {
 	groupName = ReportData.groupName;
 	storeName = ReportData.store.storeName; 		
     }
-    terminalName = name;
+    */
+    if(!_.isEmpty(ReportData.company)){
+		companyName = ReportData.company.companyName;
+    } else {
+    	companyName = ReportData.companyName;
+    }
+    groupName = item.groupName;
+    storeName = item.storeName;
+    storeNumber = item.storeNumber;
+    terminalName = item.name;
     
     var title = "".concat("Company : ").concat(companyName);
     if(groupName) title = title.concat(" , Group : ").concat(groupName);
     if(storeName) title = title.concat(" , Store : ").concat(storeName);
+    if(storeNumber) title = title.concat(" , Store #: ").concat(storeNumber);
     title = title.concat(" , Terminal : ")
 	.concat(terminalName);
     if(startDate) {
@@ -451,4 +457,69 @@ function getDialogTitle(ReportData, name, startDate, endDate) {
     }
     
     return title;
+};
+
+
+//FIXME:
+function appendGroupStoreInfoFromStoreID(list) {
+    function getGroupName(groups, store_id) {
+	var name="";
+	_.each(groups, function(group){
+		   name = !_(group.stores).chain()
+		       .pluck("store_id")
+		       .filter(function(id){return id==store_id;})
+		       .isEmpty()
+		       .value()? group.groupName:name;
+	       });
+	return name;
+    };
+    
+    function getStoreNameNum(groups, store_id) {
+	var namenum ={name:"",num:""};
+	_.each(groups, function(group){
+		   _.each(group.stores, function(store){
+			      namenum.name = store.store_id==store_id?store.storeName:namenum.name;
+			      namenum.num = store.store_id==store_id?store.number:namenum.num;
+			  });
+	       });
+	return namenum;
+    };
+    
+    
+    var result = {};
+    
+    if(!_.isEmpty(ReportData.company)) {
+	var groups = ReportData.company.hierarchy.groups;
+	result = _.map(list, function(item){
+				var namenum = getStoreNameNum(groups,item.store_id);
+				return _.extend({},item,{groupName:getGroupName(groups,item.store_id),
+								storeName:namenum.name,
+								storeNumber:namenum.num
+						       });
+			    });
+	
+	return result;
+	
+    } else if(!_.isEmpty(ReportData.group)) {
+	var groups = [ReportData.group];
+	result = _.map(list, function(item){
+				var namenum = getStoreNameNum(groups,item.store_id);
+				return _.extend({},item,{groupName:getGroupName(groups,item.store_id),
+								storeName:namenum.name,
+								storeNumber:namenum.num
+						       });
+			    });
+	
+	return result;
+	
+    } else if(!_.isEmpty(ReportData.store)) {
+	result = _.map(list, function(item){
+				return _.extend({},item,{groupName:ReportData.groupName,
+								storeName:ReportData.store.storeName,
+								storeNumber:ReportData.store.number
+						       });
+			    });
+
+	return result;
+    }
 };
