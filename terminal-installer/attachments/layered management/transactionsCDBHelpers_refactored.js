@@ -56,6 +56,16 @@ function applyReceiptInfo(templateData){
 		 });
 }
 var _async = {
+    generalKeyQuery:function(view,db){
+	    return function(key){
+		var options = {
+		    reduce: false,
+		    include_docs: true,
+		    key: key
+		};
+		return function(callback){queryF(view,db)(options)(returnQuery(callback));};
+	    };
+    },
     transactionRangeQuery:function(start,end){
 	return function(view,db,base){
 	    var startKey = base.concat(start);
@@ -101,6 +111,14 @@ var _async = {
 	async.map(array, 
 		  function(array_item,callback){fn(array_item)(callback);},
 		  runAfter);
+    },
+    parallel:function(array,fn,runAfter){
+	/*
+	 * fn() must return a function of the form fn(err,response)
+	 *todo needs to look like this -> below 
+	 * function(callback){async.parallel(_.map(store_ids,function(id){return keyQ(id);}),returnQuery(callback));}
+	 */
+
     }
 };
 

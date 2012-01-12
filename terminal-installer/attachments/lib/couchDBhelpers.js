@@ -1,13 +1,13 @@
 var cdb = {
-    db:function(name,ops,dont_encode){return $.couch.db("_rewrite\/"+name,ops,dont_encode);},
-
+    db:function(name,ops,dont_encode){
+	if(_.isUndefined(ops) || _.isUndefined(dont_encode)){
+	    return $.couch.db("_rewrite\/"+name,{},true);
+	}
+	return $.couch.db("_rewrite\/"+name,ops,dont_encode);
+    },
     view:function(designDoc,name){return designDoc + "/" + name;}
- 
 };
 
-function db(name){return $.couch.db(name);};
-
-function view(designDoc,name){return designDoc + "/" + name;};
 function appView(name){return cdb.view('app',name);};
 function appShow(name){return cdb.view('app',name);};
 
@@ -32,7 +32,7 @@ function basicQuery(view,database){
 };
 
 function keyQuery(view, database, key) {
-	return query({key:key}, view, database);
+    return query({key:key}, view, database);
 };
 
 function groupQuery(view,database,group_level){
@@ -52,8 +52,8 @@ function peekingQuery(view,database,startKey){
     //endkey will be like ['something',{}];
     var endkey = startKey.concat({});
     return query({group_level:endkey.length,
-		 startkey:startKey,
-		 endkey:endkey},view,database);
+		  startkey:startKey,
+		  endkey:endkey},view,database);
 };
 
 function extractKeys(data){

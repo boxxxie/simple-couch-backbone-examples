@@ -200,7 +200,6 @@ var menuInventoryView =
 /*********************************************** helper functions *********************************************/
 function renderEditMenuPrice(num,position) {
     if(_.isNumber(position)) {
-	//renderEditMenuItem
 	var button = menuModelforInventory.get_button(num,position);
 	
 	var htmlright = ich.menuSetMenus_Right_TMP(button);
@@ -233,16 +232,6 @@ function save_button_into_db() {
 
     var newButtonItemData = varFormGrabber(editDialog);
 
-    console.log("newButtonItemData.display.description");
-    console.log(newButtonItemData.display.description);
-
-    newButtonItemData.display.description = _(newButtonItemData.display.description).chain().toArray().map(function(s){return _.str.trim(s);}).value();
-    console.log("newButtonItemData.display.description");
-    console.log(newButtonItemData.display.description);
-
-    console.log("newButtonItemData");
-    console.log(newButtonItemData);
-    
     function extractStores(obj){
 	var stores = [];
 	pre_walk(obj,function(o){
@@ -255,13 +244,56 @@ function save_button_into_db() {
 			      return {type:'store',id:store.store_id,name:store.storeName};
 			  });
     };
+    function rebuildMenus(company_id,store_ids){
+	var db = cdb.db("menu_buttons");
+	var view = cdb.view("menubuttons","id");
+	var keyQ = _async.generalKeyQuery(view,db);
+	
+	async.parallel({company_menu_buttons:keyQ(company_id),
+			stores_menu_buttons:function(callback){async.parallel(_.map(store_ids,function(id){return keyQ(id);}),callback);}},
+		       function(err,responses){
+			   //for each store make a menu by concating the menu from company with the menu from store and then fetch the stores menu from the menu_corp db and overwrite the menuButtons and then save.
+			   console.log(responses);
+		       });
+				     
+}
+    //concat all of the .rows together from couchdb views over that return buttons
+    function constructMenu_keyValue(couchDB_responses){
+	/*returns (can extend with transformed empty menu 
+	 Object:
+	 0:0: Object
+	 1:0: Object
+	 */
+	return _(couchDB_responses).chain()
+	    .map(function(response){
+		     return {date: response.doc.date, menuButton: response.doc.menuButton};
+		 })
+	    .groupBy(function(item){
+			 return item.menuButton.display.screen +":"+
+			     item.menuButton.display.position;
+		     })
+	    .map(function(buttonChangeLog,location){
+		     var mostRecentMenuButton = 
+			 _(buttonChangeLog).chain()
+			 .sortBy(function(item){return item.date;})
+			 .last()
+			 .value();
+		     return [location,mostRecentMenuButton.menuButton];
+		 })
+	    .toObject()
+	    .value();
+    }
     
     var isAllStore = confirm("Apply Stores : All?\n*Cancel:Select Stores");
+
     if(isAllStore) {
     	var button = new MenuButton({menuButton:newButtonItemData, date: (new Date()).toString(), id:ReportData.company._id});
 	button.save();
+	rebuildMenus(ReportData.company._id,_.pluck(extractStores(ReportData),'id'));
     } else {
     	var stores = extractStores(ReportData);
     	menuInventoyApplyStoresView(stores, newButtonItemData);
     }
+
+
 };
