@@ -211,13 +211,16 @@ function menuInventoryApplyStoresViewDialog (html,options) {
 	 buttons: {
 	     "Apply" : function() {
 	 	 if(form.find("input:checked").length < stores.length) {
+	 	 	var boxes = form.find("input:checked");
 		     var ck = form.find("input:checked")
 			 .each(function(){
 				   var chbox = $(this);
 				   var button = new MenuButton({menuButton:newButton, date: (new Date()).toString(), id:chbox.attr("id")});
 				   button.save();
+				   console.log("btn saved");
 			       });
 		     console.log("The price change will be applied to selected stores");
+		     console.log(boxes);
 		 } else {
 		     var button = new MenuButton({menuButton:newButton, date: (new Date()).toString(), id:ReportData.company._id});
 		     button.save();

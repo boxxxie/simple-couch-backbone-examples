@@ -280,8 +280,8 @@ font-weight:normal;
 border:1px solid #4B545E;
 padding-top:10px;
 padding-bottom:10px;
-padding-right:4px;
-padding-left:4px;
+padding-right:0px;
+padding-left:0px;
 background-color:#f4f4f4;
 background-image: url(images/table-bg.png);
 }
@@ -291,8 +291,8 @@ font-size:12px;
 font-weight:normal;
 padding-top:10px;
 padding-bottom:10px;
-padding-right:4px;
-padding-left:4px;
+padding-right:0px;
+padding-left:0px;
 background-color:#4B545E;
 border:1px solid #CCC;
 color:#ffffff;
@@ -305,10 +305,11 @@ color:#ffffff;
 	width:680px;
 	border-collapse:collapse;
 }
+
 .menutable td, #customers th 
 {
 width:170px;
-height:50px;
+height:70px;
 font-size:12px;
 font-weight:normal;
 border:1px solid #4B545E;
