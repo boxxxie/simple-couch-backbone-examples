@@ -56,6 +56,33 @@ ddoc.views.user_pass = {
     }
 };
 
+ddoc.views.user_pass2 = {
+	map:function (doc){
+	var _ = require("views/lib/underscore");
+	require("views/lib/underscore_extended");
+	
+	var opName = doc.companyName.toLowerCase();
+	var user = doc.user;
+	var pass = doc.password;
+	var compID = doc._id;
+
+	emit({company:opName,user:user,password:pass},{company:compID, companyName:doc.companyName});
+	
+	doc.hierarchy.groups
+	    .forEach(function(group){
+			 var gpName = group.groupName.toLowerCase();
+			 var gpID = group.group_id;
+			 emit({company:opName,group:gpName,user:group.user,password:group.password},{company:compID, companyName:doc.companyName,group:gpID,groupName:gpName});
+			 
+			 group.stores
+			     .forEach(function(store){
+					  var sName = store.number.toLowerCase();
+					  emit({company:opName,group:gpName,store:sName,user:store.user,password:store.password},{company:compID,companyName:doc.companyName,group:gpID,groupName:gpName,store:store.store_id,storeName:store.storeName,storeNumber:store.number});
+					  emit({company:opName,store:sName,user:store.user,password:store.password},{company:compID,companyName:doc.companyName,group:gpID,groupName:gpName,store:store.store_id,storeName:store.storeName,storeNumber:store.number});
+				      });
+		     });
+    }
+};
 
 ddoc.views.receipt_id = {
     map:function(doc){

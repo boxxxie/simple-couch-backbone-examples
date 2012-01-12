@@ -288,7 +288,7 @@ function renderHowAreWeTerminalsTable(view, startPage, store_id) {
     if(_.isEmpty(store_id)) {
 	parent_id = {id:ReportData.store.store_id, name:ReportData.store.storeName};
 	terminals = ReportData.store.terminals;
-	breadcrumb = breadCrumb(ReportData.companyName,ReportData.groupName,ReportData.store.storeName); 
+	breadcrumb = breadCrumb(ReportData.companyName,ReportData.groupName,ReportData.store.storeName,ReportData.store.number); 
     } else {
 	if(!_.isEmpty(ReportData.company)) {
 	    var groups = ReportData.company.hierarchy.groups;
@@ -301,13 +301,13 @@ function renderHowAreWeTerminalsTable(view, startPage, store_id) {
 	    var store = _.find(stores, function(store){return store.store_id==store_id;});
 	    parent_id = {id:store.store_id, name:store.storeName};
 	    terminals = store.terminals;
-	    breadcrumb = breadCrumb(ReportData.company.companyName,group.groupName,store.storeName); 
+	    breadcrumb = breadCrumb(ReportData.company.companyName,group.groupName,store.storeName,store.number); 
 	} else if(!_.isEmpty(ReportData.group)) {
 	    var stores = ReportData.group.stores;
 	    var store = _.find(stores, function(store){return store.store_id==store_id});
 	    parent_id = {id:store.store_id, name:store.storeName};
 	    terminals = store.terminals;
-	    breadcrumb = breadCrumb(ReportData.companyName,ReportData.group.groupName,store.storeName); 
+	    breadcrumb = breadCrumb(ReportData.companyName,ReportData.group.groupName,store.storeName,store.number); 
 	}
     }
     

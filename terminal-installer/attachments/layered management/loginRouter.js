@@ -48,7 +48,7 @@ function login() {
     console.log(login_key);
     
     var db_install = cdb.db("api",{},true);
-    var user_passwordView = appView("user_pass");
+    var user_passwordView = appView("user_pass2");
     var branch_show = appShow("branch");
 
     keyQuery(user_passwordView, db_install, login_key)
@@ -62,11 +62,12 @@ function login() {
 			     {data : account.loginTo,
 			      success:function(data){
 				  if(_.isNotEmpty(account.loginTo.store)) {
-				      ReportData = {store:data, companyName:login_key.company, groupName:login_key.group};
+				  	  
+				      ReportData = {store:data, companyName:account.loginTo.companyName, groupName:account.loginTo.groupName};
 				      window.location.href = "#storeReport/";
 				  }
 				  else if(_.isNotEmpty(account.loginTo.group)) {
-				      ReportData = {group:data, companyName:login_key.company};
+				      ReportData = {group:data, companyName:account.loginTo.companyName};
 				      window.location.href = "#groupReport/";
 				  } 
 				  else if(_.isNotEmpty(account.loginTo.company)) {

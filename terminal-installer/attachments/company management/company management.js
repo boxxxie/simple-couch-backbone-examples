@@ -490,6 +490,7 @@ function doc_setup(){
 	     console.log("renderManagementPage store rendered");
 	 },
 	 renderModifyPage:function(companyID,groupID,storeID){
+	 	//var view = this;
 	     var company = Companies.getModelById(companyID);
 	     var group = company.getGroup(groupID);
 	     var storeToEdit = company.getStore(groupID,storeID);
