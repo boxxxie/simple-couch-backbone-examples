@@ -25,7 +25,7 @@ var couchDoc = Backbone.Model.extend(
 	    };
 	    var error = options.error;   
 	    options.error = function(model, status, xhr){
-		if(_(status.responseText).trim() =='{"error":"not_found","reason":"no_db_file"}'){
+		if(status.responseText == '{"error":"not_found","reason":"no_db_file"}'){
 		}
 		if (error){error(model, status, xhr);}
 	    };
