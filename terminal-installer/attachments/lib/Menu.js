@@ -17,9 +17,11 @@ var Menu = couchDoc.extend(
 	    return {menu_screen : buttonRows};
 	},
 	set_buttons:function(buttons){
+	    var thisModel = this;
 	    _.each(buttons,function(button){
-		       this.set_button(button);
+		       thisModel.set_button(button);
 		   });
+	    return this;
 	},
 	set_button:function(button){
 	    var screen = button.display.screen;
@@ -39,6 +41,7 @@ var Menu = couchDoc.extend(
 	    console.log(this.find_button(newMenuButtons,screen,position));	    
 	    
 	    this.set({menuButtons:newMenuButtons},button);
+	    return this;
 	},
 	set_header:function(newHeader){
 	    var screen = newHeader.menu_id;

@@ -197,7 +197,6 @@ function quickmenuReportsTransactionViewDialog (html,options) {
 
 /**************************************** menuInventory - apply stores dialog ****************************/
 function menuInventoryApplyStoresViewDialog (html,options) {
-    var newButton = options.newButton;
     var stores = options.stores;
     var form = $(html).filter('#menuinventoryapplystoresdialog');
     var d = $("#dialog-quickView");    	
@@ -210,18 +209,22 @@ function menuInventoryApplyStoresViewDialog (html,options) {
 	 modal: true,
 	 buttons: {
 	     "Apply" : function() {
-	 	 if(form.find("input:checked").length < stores.length) {
-		     var ck = form.find("input:checked")
-			 .each(function(){
-				   var chbox = $(this);
-				   var button = new MenuButton({menuButton:newButton, date: (new Date()).toString(), id:chbox.attr("id")});
-				   button.save();
-			       });
+		 var checkedStores = form.find("input:checked").toArray();
+		 if(_.isEmpty(checkedStores)){
+		     
+		 }
+		 else if(checkedStores.length != stores.length) {
+		     var store_ids_to_update = _(checkedStores)
+			 .map(function(){
+				  var chbox = $(this);
+				  return chbox.attr("id");
+			      });
 		     console.log("The price change will be applied to selected stores");
-		 } else {
-		     var button = new MenuButton({menuButton:newButton, date: (new Date()).toString(), id:ReportData.company._id});
-		     button.save();
+		     console.log(store_ids_to_update);
+		     options.makeButtons(store_ids_to_update);
+		 } else if (checkedStores.length == stores.length){
 		     console.log("The price change will be applied to all stores in this company");
+		     options.makeButtons([]);
 		 }
 		 d.dialog('close');
 	     },
@@ -236,11 +239,3 @@ function menuInventoryApplyStoresViewDialog (html,options) {
     d.dialog("open");
 };
 
-function menuInventoyApplyStoresView(stores, buttonItem) {
-    var items = _.map(stores, function(item){
-			  return _.extend({},{id:item.id,name:item.name,store_id:item.id});
-		      });
-	items = appendGroupStoreInfoFromStoreID(items);
-    var html = ich.menuInventoryApplyStoresQuickViewDialog_TMP({items:items});
-    menuInventoryApplyStoresViewDialog(html,{title:"Apply Price - new Price : $ " + currency_format(buttonItem.foodItem.price), newButton : buttonItem, stores:items});
-};

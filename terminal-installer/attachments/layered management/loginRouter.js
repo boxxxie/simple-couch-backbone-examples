@@ -22,7 +22,6 @@ var reportLoginView = Backbone.View.extend(
      renderLoginPage:function(){
 	 var view = this;
 	 console.log("reportview renderLoginPage");
-	 return this;
      }
     });
 
