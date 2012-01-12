@@ -488,7 +488,6 @@ function doc_setup(){
 	     var html = ich.storesTabel_TMP(forTMP);
 	     $(view.el).html(html);
 	     console.log("renderManagementPage store rendered");
-	     return view;
 	 },
 	 renderModifyPage:function(companyID,groupID,storeID){
 	     var company = Companies.getModelById(companyID);
@@ -507,8 +506,6 @@ function doc_setup(){
 	     $("#dialog-hook").html(ich.storeInputDialog_TMP({title:"Edit the store",store:storeToEdit}));
 	     StoreModifyDialog("edit-thing",_.extend(editStore(companyID,groupID,storeID),{company:company, groupID:groupID, storeNum:storeToEdit.number }));
 	     console.log("renderModifyPage stores view rendered " + companyID+""+groupID+" "+storeID);
-	     return view;
-	     
 	 }
 	});
 

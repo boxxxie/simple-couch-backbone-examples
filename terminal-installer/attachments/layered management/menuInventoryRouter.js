@@ -254,6 +254,7 @@ function save_button_into_db() {
 			stores_menu_buttons:function(callback){async.parallel(_.map(store_ids,function(id){return keyQ(id);}),callback);}},
 		       function(err,responses){
 			   //for each store make a menu by concating the menu from company with the menu from store and then fetch the stores menu from the menu_corp db and overwrite the menuButtons and then save.
+			   
 			   console.log(responses);
 		       });
 				     
