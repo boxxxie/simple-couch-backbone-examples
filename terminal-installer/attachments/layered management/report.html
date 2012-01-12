@@ -223,8 +223,8 @@
 	      <td align="center"><span style="font-size:26px;">${{mtdsales}}</span></td>
 	      <td align="center"><span style="font-size:26px;">${{ytdsales}}</span></td>
               {{/sales}}
-<td width="25%" align="center">{{>quickReportViewButtonImage_P}}</td>
-		
+	      <td width="25%" align="center">{{>quickReportViewButtonImage_P}}</td>
+	      
 	    </tr>
 	  </tbody>
 	</table>
@@ -826,18 +826,18 @@
 	<tbody>
 	  {{#list}}
 	  <tr>
-	   <!-- <td>
-	      <ul>
-		<li><strong>Group:</strong></li>
-		<li>{{groupName}}</li>
-		<li><strong>Store:</strong></li>
-		<li>{{storeName}}</li>
-		<li>Store #: {{storeNumber}}</li>
-	      </ul>
-	   </td>-->
-	   <td>{{groupName}}</td>
-	   <td>{{storeName}}</td>
-	   <td>{{storeNumber}}</td>
+	    <!-- <td>
+		 <ul>
+		   <li><strong>Group:</strong></li>
+		   <li>{{groupName}}</li>
+		   <li><strong>Store:</strong></li>
+		   <li>{{storeName}}</li>
+		   <li>Store #: {{storeNumber}}</li>
+		 </ul>
+	    </td>-->
+	    <td>{{groupName}}</td>
+	    <td>{{storeName}}</td>
+	    <td>{{storeNumber}}</td>
 	    {{#summary}}
 	    <td align="right">{{numberoftransactions}}</td>
 	    <td align="right">{{sales}}</td>
@@ -920,17 +920,17 @@
 	  {{#list}}
 	  <tr>
 	    <!--<td rowspan="3">
-	      <ul>
-		<li><strong>{{date}}</strong></li>
-		<li>Group: {{groupName}}</li>
-		<li>Store: {{storeName}}</li>
-		<li>Store #: {{storeNumber}}</li>
-	      </ul>
+		<ul>
+		  <li><strong>{{date}}</strong></li>
+		  <li>Group: {{groupName}}</li>
+		  <li>Store: {{storeName}}</li>
+		  <li>Store #: {{storeNumber}}</li>
+		</ul>
 	    </td>-->
 	    <td rowspan="3">{{date}}</td>
 	    <td rowspan="3">{{groupName}}</td>
-	   <td rowspan="3">{{storeName}}</td>
-	   <td rowspan="3">{{storeNumber}}</td>
+	    <td rowspan="3">{{storeName}}</td>
+	    <td rowspan="3">{{storeNumber}}</td>
 	    {{#salerow}}
 	    <td>SALE</td>
 	    <td align="right">{{numberoftransactions}}</td>
@@ -1173,9 +1173,9 @@
       <table class="reportstable">
 	<thead>
 	  <tr>
-	  	<th>Group</th>
-	  	<th>Store</th>
-	  	<th>Store #</th>
+	    <th>Group</th>
+	    <th>Store</th>
+	    <th>Store #</th>
 	    <th>Terminal</th>
 	    <th>Sales</th>
 	    <th>Tax 1</th>
@@ -1199,9 +1199,9 @@
 	<tbody>
 	  {{#items}}
 	  <tr>
-	  	<td>{{groupName}}</td>
-	  	<td>{{storeName}}</td>
-	  	<td>{{storeNumber}}</td>
+	    <td>{{groupName}}</td>
+	    <td>{{storeName}}</td>
+	    <td>{{storeNumber}}</td>
 	    <td>{{name}}</td>
 	    <td align="right">{{sales}}</td>
 	    <td align="right">{{tax1}}</td>
@@ -1231,10 +1231,10 @@
       <table class="reportstable">
 	<thead>
 	  <tr>
-	  	<th>Date</th>
-	  	<th>Group</th>
-	  	<th>Store</th>
-	  	<th>Store #</th>
+	    <th>Date</th>
+	    <th>Group</th>
+	    <th>Store</th>
+	    <th>Store #</th>
 	    <th>Terminal</th>
 	    <th>Transaction</th>
 	    <th>Sale</th>
@@ -1250,10 +1250,10 @@
 	<tbody>
 	  {{#items}}
 	  <tr>
-	  	<td align="center">{{date}}</td>
-	  	<td>{{groupName}}</td>
-	  	<td>{{storeName}}</td>
-	  	<td>{{storeNumber}}</td>
+	    <td align="center">{{date}}</td>
+	    <td>{{groupName}}</td>
+	    <td>{{storeName}}</td>
+	    <td>{{storeNumber}}</td>
 	    <td>{{name}}</td>
 	    <td align="center">{{transaction_index}}</td>
 	    <td align="right">{{sales}}</td>
@@ -1314,10 +1314,10 @@
       <table class="reportstable">
 	<thead>
 	  <tr>
-	  	<th>Date</th>
-	  	<th>Group</th>
-	  	<th>Store</th>
-	  	<th>Store #</th>
+	    <th>Date</th>
+	    <th>Group</th>
+	    <th>Store</th>
+	    <th>Store #</th>
 	    <th>Terminal</th>
 	    <th>Cashout #</th>
 	    <th>Details</th>
@@ -1326,10 +1326,10 @@
 	<tbody>
 	  {{#items}}
 	  <tr>
-	  	<td>{{cashouttime}}</td>
-	  	<td>{{groupName}}</td>
-	  	<td>{{storeName}}</td>
-	  	<td>{{storeNumber}}</td>
+	    <td>{{cashouttime}}</td>
+	    <td>{{groupName}}</td>
+	    <td>{{storeName}}</td>
+	    <td>{{storeNumber}}</td>
 	    <td>{{name}}</td>
 	    <td>{{cashoutnumber}}</td>
 	    <td>{{>quickDetailsViewButton_P}}</td>
@@ -1359,10 +1359,10 @@
       <table class="reportstable">
 	<thead>
 	  <tr>
-	  	<th>Date</th>
-	  	<th>Group</th>
-	  	<th>Store</th>
-	  	<th>Store #</th>
+	    <th>Date</th>
+	    <th>Group</th>
+	    <th>Store</th>
+	    <th>Store #</th>
 	    <th>Terminal</th>
 	    <th>Cancelled Tran #</th>
 	    <th>Sales</th>
@@ -1387,10 +1387,10 @@
 	<tbody>
 	  {{#items}}
 	  <tr>
-	  	<td align="center">{{date}}</td>
-	  	<td align="center">{{groupName}}</td>
-	  	<td align="center">{{storeName}}</td>
-	  	<td align="center">{{storeNumber}}</td>
+	    <td align="center">{{date}}</td>
+	    <td align="center">{{groupName}}</td>
+	    <td align="center">{{storeName}}</td>
+	    <td align="center">{{storeNumber}}</td>
 	    <td align="center">{{name}}</td>
 	    <td align="right">{{transactionNumber}}</td>
 	    <td align="right">{{subTotal}}</td>
@@ -1424,7 +1424,7 @@
       <table class="reportstable">
 	<thead>
 	  <tr>
-	  	<th>Date</th>
+	    <th>Date</th>
 	    <th>Group</th>
 	    <th>Store</th>
 	    <th>Store #</th>
@@ -1452,7 +1452,7 @@
 	<tbody>
 	  {{#items}}
 	  <tr>
-	  	<td align="center">{{date}}</td>
+	    <td align="center">{{date}}</td>
 	    <td align="center">{{groupName}}</td>
 	    <td align="center">{{storeName}}</td>
 	    <td align="center">{{storeNumber}}</td>
@@ -1490,7 +1490,7 @@
       <table class="reportstable">
 	<thead>
 	  <tr>
-	  	<th>Date</th>
+	    <th>Date</th>
 	    <th>Group</th>
 	    <th>Store</th>
 	    <th>Store #</th>
@@ -1522,7 +1522,7 @@
 	<tbody>
 	  {{#items}}
 	  <tr>
-	  	<td align="center">{{date}}</td>
+	    <td align="center">{{date}}</td>
 	    <td align="center">{{groupName}}</td>
 	    <td align="center">{{storeName}}</td>
 	    <td align="center">{{storeNumber}}</td>
@@ -1767,27 +1767,27 @@
     </script>
     
     <script id="menuInventoryApplyStoresQuickViewDialog_TMP" type="text/html">
-      <div id='menuinventoryapplystoresdialog'>
+      <div id="menuinventoryapplystoresdialog">
       	<form id="formInventoryApplystores">
-		<table class="reportstable"><!--class="reportstable"-->
-<thead>
-			<tr>
-				<td>Apply</td>
-				<td>Store</td>
-				<td>Store #</td>
-			</tr>
-</thead>
-<tbody>
-			{{#items}}
-			<tr>
-				<td><input type="checkbox" id="{{id}}" value="{{name}}"/></td>
-				<td><label>{{name}}</label></td>
-				<td><label>{{storeNumber}}</label></td>
-			</tr>
-			{{/items}}   
-</tbody>
-		</table>
-		</form>
+	  <table class="reportstable">
+	    <thead>
+	      <tr>
+		<td>Apply</td>
+		<td>Store</td>
+		<td>Store #</td>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      {{#items}}
+	      <tr>
+		<td><input type="checkbox" id="{{id}}" value="{{name}}"/></td>
+		<td><label>{{name}}</label></td>
+		<td><label>{{number}}</label></td>
+	      </tr>
+	      {{/items}}   
+	    </tbody>
+	  </table>
+	</form>
       </div>
     </script>
     
@@ -2039,10 +2039,10 @@
       {{>main_navigation_buttons_P}}
       <h1>Group Management</h1>
       <h2>{{>breadcrumb_P}}</h2>
-	{{>salesFields_P}}
-	{{>numberOfStoresFields_P}}
-	{{>numberOfTerminalsFields_P}}
-	<div style="clear:both;"></div>
+      {{>salesFields_P}}
+      {{>numberOfStoresFields_P}}
+      {{>numberOfTerminalsFields_P}}
+      <div style="clear:both;"></div>
       {{>quickReportViewHook_P}}
     </script>
 
@@ -2051,9 +2051,9 @@
       {{>main_navigation_buttons_P}}
       <h1>Store Management</h1>
       <h2>{{>breadcrumb_P}}</h2>
-	{{>salesFields_P}}
-	{{>numberOfTerminalsFields_P}}
-	<div style="clear:both;"></div>
+      {{>salesFields_P}}
+      {{>numberOfTerminalsFields_P}}
+      <div style="clear:both;"></div>
       {{>quickReportViewHook_P}}
     </script>
 

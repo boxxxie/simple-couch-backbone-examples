@@ -233,6 +233,8 @@ function save_button_into_db() {
     var editDialog = $("#editMenuButton");
 
     var newButtonItemData = varFormGrabber(editDialog);
+    var allStore_ids = _.pluck(extractStores(ReportData),'id');
+    var company_id = ReportData.company._id;
 
     function extractStores(obj){
 	var stores = [];
@@ -243,30 +245,45 @@ function save_button_into_db() {
 		     return o;
 		 });
 	return stores.map(function(store){
-			      return {type:'store',id:store.store_id,name:store.storeName};
+			      return {type:'store',id:store.store_id,name:store.storeName,number:store.number};
 			  });
     };
     function rebuildMenus(company_id,store_ids){
+	console.log("company id"); console.log(company_id);
+	console.log("stores to update menus for"); console.log(store_ids);
+
 	var db = cdb.db("menu_buttons");
 	var view = cdb.view("menubuttons","id");
 	var keyQ = _async.generalKeyQuery(view,db);
 	
-	async.parallel({company_menu_buttons:keyQ(company_id),
-			stores_menu_buttons:function(callback){async.parallel(_.map(store_ids,function(id){return keyQ(id);}),callback);}},
-		       function(err,responses){
-			   //for each store make a menu by concating the menu from company with the menu from store and then fetch the stores menu from the menu_corp db and overwrite the menuButtons and then save.
-			   
-			   console.log(responses);
-		       });
-				     
-}
-    //concat all of the .rows together from couchdb views over that return buttons
+	async.waterfall([keyQ(company_id),
+			 function(company_response,callback){
+			     async.forEach(store_ids,
+					   function(store_id,callback){
+					       keyQ(store_id)
+					       (function(err,storeMenuButtonsResp){
+						    var allButtons =  storeMenuButtonsResp.rows.concat(company_response.rows);
+						    var sparseStoreMenu = constructMenu_keyValue(allButtons);
+
+						    //var constructedStoreMenu = (new Menu()).set_empty_menu().set_buttons(storeMenu);
+
+						    var currentStoreMenu = new Menu({_id:store_id});
+						    currentStoreMenu.fetch({success:function(model, response){
+										model.set_buttons(sparseStoreMenu);
+										model.save();
+										callback();
+									    }, 
+									    error:function(model,response){
+										model.set_empty_menu().set_buttons(sparseStoreMenu);
+										model.save();
+										callback();
+									    }});
+						});},
+					   function(err){console.log("finsihed updating the menus");});
+			 }]);
+	
+    }
     function constructMenu_keyValue(couchDB_responses){
-	/*returns (can extend with transformed empty menu 
-	 Object:
-	 0:0: Object
-	 1:0: Object
-	 */
 	return _(couchDB_responses).chain()
 	    .map(function(response){
 		     return {date: response.doc.date, menuButton: response.doc.menuButton};
@@ -281,22 +298,37 @@ function save_button_into_db() {
 			 .sortBy(function(item){return item.date;})
 			 .last()
 			 .value();
-		     return [location,mostRecentMenuButton.menuButton];
+		     //return [location,mostRecentMenuButton.menuButton];
+		     return mostRecentMenuButton.menuButton;
 		 })
-	    .toObject()
 	    .value();
     }
     
     var isAllStore = confirm("Apply Stores : All?\n*Cancel:Select Stores");
-
-    if(isAllStore) {
-    	var button = new MenuButton({menuButton:newButtonItemData, date: (new Date()).toString(), id:ReportData.company._id});
-	button.save();
-	rebuildMenus(ReportData.company._id,_.pluck(extractStores(ReportData),'id'));
-    } else {
-    	var stores = extractStores(ReportData);
-    	menuInventoyApplyStoresView(stores, newButtonItemData);
+    
+    function makeButtons(newButtonItemData){
+	return function(ids){
+	    _.each(ids,function(id){
+   		       var button = new MenuButton({menuButton:newButtonItemData, date: (new Date()).toString(), id:id});
+		       button.save();});
+		       
+	    if(_.isNotEmpty(ids)){
+			rebuildMenus(company_id, ids);
+	    }
+	    else{
+			rebuildMenus(company_id, allStore_ids);
+	    }
+	};
     }
 
-
+    if(isAllStore) {
+		makeButtons(newButtonItemData)(allStore_ids);
+    } else {
+    	var stores = extractStores(ReportData);
+		var html = ich.menuInventoryApplyStoresQuickViewDialog_TMP({items:stores});
+		menuInventoryApplyStoresViewDialog(html,{title:"Apply Price - new Price : $ " + 
+														currency_format(newButtonItemData.foodItem.price), 
+												 stores:stores,
+												 makeButtons:makeButtons(newButtonItemData)});
+    }
 };
