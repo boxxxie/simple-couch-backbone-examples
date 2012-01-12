@@ -1,5 +1,5 @@
-function breadCrumb(companyName,groupName,storeName,terminalName){
-    return {companyName:companyName,groupName:groupName,storeName:storeName,terminalName:terminalName};
+function breadCrumb(companyName,groupName,storeName,storeNumber,terminalName){
+    return {companyName:companyName,groupName:groupName,storeName:storeName,storeNumber:storeNumber,terminalName:terminalName};
 };
 
 function dialogTitle(companyName, groupName, numGroups, storeName, numStores, terminalName, numTerminals){
@@ -59,7 +59,7 @@ function getReportParam() {
 	return  {
 	    numberOfTerminals:numTerminals,
 	    startPage:"storeReport",
-	    breadCrumb:breadCrumb(ReportData.companyName,ReportData.groupName,store.storeName),
+	    breadCrumb:breadCrumb(ReportData.companyName,ReportData.groupName,store.storeName,store.number),
 	    quickViewArgs:{id:ReportData.store.store_id, 
 			   title:dialogTitle(ReportData.companyName,ReportData.groupName,null,store.storeName,null,null,numTerminals)
 			  },
@@ -196,7 +196,7 @@ function getTerminalsTableParam(store_id) {
 							       }
 						};
 				     })},{startPage:"companyReport",
-				     	  breadCrumb:breadCrumb(ReportData.company.companyName, groupName,storeName)});
+				     	  breadCrumb:breadCrumb(ReportData.company.companyName, groupName,storeName,storeNumber)});
     } else if(!_.isEmpty(ReportData.group)) {
 	var group = ReportData.group;
 	var stores;
@@ -230,7 +230,7 @@ function getTerminalsTableParam(store_id) {
 							       }
 						};
 				     })},{startPage:"groupReport",
-				     	  breadCrumb:breadCrumb(ReportData.companyName,ReportData.group.groupName, storeName)});
+				     	  breadCrumb:breadCrumb(ReportData.companyName,ReportData.group.groupName, storeName,storeNumber)});
     } else if(!_.isEmpty(ReportData.store)) {
 	var store = ReportData.store;
 
@@ -247,7 +247,7 @@ function getTerminalsTableParam(store_id) {
 							       }
 						};
 				     })},{startPage:"storeReport",
-				     	  breadCrumb:breadCrumb(ReportData.companyName,ReportData.groupName,ReportData.store.storeName)});
+				     	  breadCrumb:breadCrumb(ReportData.companyName,ReportData.groupName,ReportData.store.storeName,ReportData.store.number)});
     }
 };
 
