@@ -3,10 +3,22 @@ var menuModel;
 var menuSetMenusRouter = 
     new (Backbone.Router.extend(
 	     {routes: {
-	     	  "menuSetMenus/companyReport":"menuSetMenusCompany"
+	     	  "menuSetMenus/companyReport":"menuSetMenusCompany",
+	     	  "menuSetMenus/groupReport":"menuSetMenusGroup",
+	     	  "menuSetMenus/storeReport":"menuSetMenusStore"
 	      },
 	      menuSetMenusCompany:function() {
 		  console.log("menuSetMenusCompany  ");
+	      },
+	      menuSetMenusGroup:function() {
+		  console.log("menuSetMenusGroup  ");
+		  alert("Company can access this menu.");
+		  window.history.go(-1);
+	      },
+	      menuSetMenusStore:function() {
+		  console.log("menuSetMenusStore  ");
+		  alert("Company can access this menu.");
+		  window.history.go(-1);
 	      }
 	     }));
 
@@ -18,6 +30,8 @@ var menuSetMenusView =
 	     
 	     _.bindAll(view, 
 		       'renderMenuSetMenusCompany',
+		       //'renderMenuSetMenusGroup',
+		       //'renderMenuSetMenusStore',
 		       'renderMenuHeaderPartial',
 		       'renderMenuScreenPartial');
 	     menuSetMenusRouter
@@ -26,6 +40,22 @@ var menuSetMenusView =
 			   console.log("menuReportsView, route:menuSetMenusCompany");
 			   view.renderMenuSetMenusCompany();
 		       });
+		//menuSetMenusRouter
+		 //.bind('route:menuSetMenusGroup', 
+		  //     function(){
+		//	   console.log("menuReportsView, route:menuSetMenusGroup");
+		//	   //view.renderMenuSetMenusCompany();
+		//	   alert("Company can access this menu.");
+		//	   window.history.go(-1);
+		 //      });
+		//menuSetMenusRouter
+		 //.bind('route:menuSetMenusStore', 
+		  //     function(){
+		//	   console.log("menuReportsView, route:menuSetMenusStore");
+		//	   //view.renderMenuSetMenusCompany();
+		//	   alert("Company can access this menu.");
+		//	   window.history.go(-1);
+		 //      });
 	 },
 	 renderMenuSetMenusCompany: function() {
 	     var view = this;

@@ -1726,7 +1726,6 @@
       {{>main_navigation_buttons_P}}
       <h1>Inventory</h1>
       <h2>{{>breadcrumb_P}}</h2>
-      <!-- FIXME: put in proper links -->
       <div style="height:200px;">
 	<a href='#menuReports/{{startPage}}Inventory'><div class="report-menu"><img src="../images/reports/inventorysold.png" class="report-menu-icon"/>Inventory Sold Report</div></a>
 	<a href='#menuInventory/{{startPage}}scanPriceChange'><div class="report-menu"><img src="../images/reports/scanprice.png" class="report-menu-icon"/>SCAN Item Price Changes</div></a>
@@ -1734,7 +1733,9 @@
 	<a href='#menuInventory/{{startPage}}addScanItem'><div class="report-menu"><img src="../images/reports/scanaddnew.png" class="report-menu-icon"/>Add New Inventory SCAN Items</div></a>
 	<a href='#menuInventory/{{startPage}}priceChangeLog'><div class="report-menu"><img src="../images/reports/pricelog.png" class="report-menu-icon"/>Price Change Log</div></a>
 	<a href='#menuInventory/{{startPage}}taxChangeLog'><div class="report-menu"><img src="../images/reports/taxlog.png" class="report-menu-icon"/>Tax Change Log</div></a>
+	{{#showMenuPriceChange}}
 	<a href='#menuInventory/{{startPage}}menuPriceChange'><div class="report-menu"><img src="../images/reports/pricelog.png" class="report-menu-icon"/>Menu Price Change</div></a>
+	{{/showMenuPriceChange}}
       </div>
       {{>backButton_P}}
     </script>
