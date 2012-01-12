@@ -221,7 +221,7 @@
     <script id="companyForm_P" class="partial" type="text/html">
       {{#company}}
       <form>
-	<fieldset>
+	<div id="fieldset">
 	  <label for="company-name">Company name</label>
 	  <input type="text" id="company-name" value="{{companyName}}" class="text ui-widget-content ui-corner-all" />
 	  <label for="operationalname">Operational Name</label>
@@ -229,7 +229,7 @@
 	  {{>userpass_P}}
 	  {{>addressFields_P}}
 	  {{>contactFields_P}}
-	</fieldset>
+	</div>
       </form>
       {{/company}}
     </script>
@@ -301,13 +301,13 @@
     <script id="groupForm_P" class="partial" type="text/html">
       {{#group}}
       <form>
-	<fieldset>
+	<div id="fieldset">
 	  <label for="group-name">Group Name</label>
 	  <input type="text" id="group-name" value="{{groupName}}" class="text ui-widget-content ui-corner-all" />
 	  {{>userpass_P}}
 	  {{>addressFields_P}}
 	  {{>contactFields_P}}
-	</fieldset>
+	</div>
       </form>
       {{/group}}
     </script>
@@ -342,7 +342,7 @@
     <script id="storeForm_P" class="partial" type="text/html">
       {{#store}}
       <form>
-	<fieldset>
+	<div id="fieldset">
 	  <label for="store-name">Store Name</label>
 	  <input type="text" id="store-name" value="{{storeName}}" class="text ui-widget-content ui-corner-all" />
 	  <label for="store-num">Store Number</label>
@@ -350,7 +350,7 @@
 	  {{>userpass_P}}
 	  {{>addressFields_P}}
 	  {{>contactFields_P}}
-	</fieldset>
+	</div>
       </form>
       {{/store}}
     </script>
@@ -420,7 +420,7 @@
     <script id="terminalFrom_P" class="partial" type="text/html">
       {{#terminal}}	
       <form>
-	<fieldset>
+	<div id="fieldset">
 	  <label for="terminal-id">Terminal ID</label>
 	  <input type="text" id="terminal-id" value="{{terminal_label}}" class="text ui-widget-content ui-corner-all" />
 	  <label for="companyCode">Company Code</label>
@@ -442,7 +442,7 @@
 	  <label for="usingmobqredits">Using mobQRedits</label>
 	  <input type="checkbox" id="usingmobqredits" {{#usingmobqredits}}checked=true{{/usingmobqredits}} />-->
 	  
-	</fieldset>
+	</div>
       </form>
       {{/terminal}}
     </script>

@@ -465,7 +465,7 @@ function TerminalInputDialog (attachTo,options) {
 };
 
 function quickViewDialog (html,options) {
-    var form = $(html).filter('fieldset');
+    var form = $(html).filter("#fieldset");
     var d = $("#dialog-quickView");    	
     d.html(form);
     d.find('input').attr('disabled',true);

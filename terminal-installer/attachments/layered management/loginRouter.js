@@ -63,6 +63,7 @@ function login() {
 			     {data : account.loginTo,
 			      success:function(data){
 				  if(_.isNotEmpty(account.loginTo.store)) {
+				  	  
 				      ReportData = {store:data, companyName:login_key.company, groupName:login_key.group};
 				      window.location.href = "#storeReport/";
 				  }
