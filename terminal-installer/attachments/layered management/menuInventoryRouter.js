@@ -78,7 +78,8 @@ var menuInventoryView =
 	     var html = ich.menuInventory_TMP({startPage:"storeReport", 
 	 				       breadCrumb:breadCrumb(ReportData.companyName,
 	 					     		     ReportData.groupName,
-	 					     		     ReportData.store.storeName)});
+	 					     		     ReportData.store.storeName,
+	 					     		     ReportData.store.number)});
 	     $(this.el).html(html);
 	 },
 	 renderMenuInventoryCompanymenuPriceChange: function() {
