@@ -67,6 +67,11 @@
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsInventoryRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuMenusRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuInventoryRouter.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/menuInventoryScanPriceChangesRouter.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/menuInventoryScanTaxChangesRouter.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/menuInventoryAddScanItemRouter.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/menuInventoryPriceChangeLogRouter.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/menuInventoryTaxChangeLogRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/report.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/docRdy.js"></script>
     
@@ -1754,8 +1759,10 @@
 	<div id='menusetmenusleft'></div>
 	<div id='menusetmenusright'></div>
       </div>
-      <div style='clear:both'></div>
+      <!--<div style='clear:both'></div>-->
       {{>quickReportViewHook_P}}
+      <div style="clear: both;"></div>
+      {{>backButton_P}}
     </script>
     
     <script id="menuInventoryApplyStoresQuickViewDialog_TMP" type="text/html">

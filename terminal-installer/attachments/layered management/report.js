@@ -35,6 +35,12 @@ function doc_setup() {
     var MenuReportsInventoryDisplay = new menuReportsInventoryView();
     var MenuSetMenusDisplay = new menuSetMenusView();
     var MenuInventoryDisplay = new menuInventoryView();
+    var MenuInventoryScanPriceChangeDisplay = new menuInventoryscanPriceChangeView();
+    var MenuInventoryScanTaxChangeDisplay = new menuInventoryscanTaxChangeView();
+    var MenuInventoryAddScanItemDisplay = new menuInventoryaddScanItemView();
+    var MenuInventoryPriceChangeLogDisplay = new menuInventorypriceChangeLogView();
+    var MenuInventoryTaxChangeLogDisplay = new menuInventorytaxChangeLogView();
+    
     Backbone.history.start();
 
 	$("#layeredloginpassword").keyup(function(event){
