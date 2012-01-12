@@ -491,6 +491,7 @@ function doc_setup(){
 	     return view;
 	 },
 	 renderModifyPage:function(companyID,groupID,storeID){
+	 	//var view = this;
 	     var company = Companies.getModelById(companyID);
 	     var group = company.getGroup(groupID);
 	     var storeToEdit = company.getStore(groupID,storeID);
@@ -507,7 +508,7 @@ function doc_setup(){
 	     $("#dialog-hook").html(ich.storeInputDialog_TMP({title:"Edit the store",store:storeToEdit}));
 	     StoreModifyDialog("edit-thing",_.extend(editStore(companyID,groupID,storeID),{company:company, groupID:groupID, storeNum:storeToEdit.number }));
 	     console.log("renderModifyPage stores view rendered " + companyID+""+groupID+" "+storeID);
-	     return view;
+	     //return view;
 	     
 	 }
 	});
