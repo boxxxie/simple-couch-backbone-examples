@@ -169,6 +169,9 @@ function getTerminalsTableParam(store_id) {
 								return _.extend(_.clone(store), {groupName:group.groupName});
 							    });
 					   }).flatten().filter(function(store){return store.store_id==store_id;}).value();
+		var groupName = _.first(stores).groupName;
+		var storeName = _.first(stores).storeName;
+		var storeNumber = _.first(stores).number;
 	}
 	var terminals = _(stores).chain()
 	    .map(function(store){
@@ -193,7 +196,7 @@ function getTerminalsTableParam(store_id) {
 							       }
 						};
 				     })},{startPage:"companyReport",
-				     	  breadCrumb:breadCrumb(ReportData.company.companyName)});
+				     	  breadCrumb:breadCrumb(ReportData.company.companyName, groupName,storeName)});
     } else if(!_.isEmpty(ReportData.group)) {
 	var group = ReportData.group;
 	var stores;
@@ -201,6 +204,9 @@ function getTerminalsTableParam(store_id) {
 	    stores = group.stores;
 	} else {
 	    stores = _.filter(group.stores, function(store){return store.store_id ==store_id;});
+	    var groupName = group.groupName;
+		var storeName = _.first(stores).storeName;
+		var storeNumber = _.first(stores).number;
 	}
 	var terminals = _(stores).chain()
 	    .map(function(store){
@@ -224,7 +230,7 @@ function getTerminalsTableParam(store_id) {
 							       }
 						};
 				     })},{startPage:"groupReport",
-				     	  breadCrumb:breadCrumb(ReportData.companyName,ReportData.group.groupName)});
+				     	  breadCrumb:breadCrumb(ReportData.companyName,ReportData.group.groupName, storeName)});
     } else if(!_.isEmpty(ReportData.store)) {
 	var store = ReportData.store;
 
