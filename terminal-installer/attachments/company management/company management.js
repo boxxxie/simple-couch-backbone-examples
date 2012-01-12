@@ -377,7 +377,7 @@ function doc_setup(){
 	     $("#main").html(ich.modify_company_page_TMP(_.extend({company:companyJSON,
 								   company_id:id},
 								  breadCrumb(id))));
-	     $('fieldset').find('input').attr("disabled",true);
+	     $('#form').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.companyInputDialog_TMP({title:"Edit the Company",
 								company:companyJSON}));
 	     CompanyModifyDialog("edit-thing",editCompany(company));
@@ -436,7 +436,7 @@ function doc_setup(){
 								 operationalname:company.get("operationalname"),
 								 group:selectedgroup},
 								breadCrumb(companyID,groupID))));
-             $('fieldset').find('input').attr("disabled",true);
+             $('#form').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.groupInputDialog_TMP({title:"Edit the Group",group:selectedgroup}));
 	     GroupModifyDialog("edit-thing",_.extend(editGroup(companyID,groupID), {company:company, groupName:selectedgroup.groupName}));
 	     console.log("renderModifyPage groupsView");
@@ -503,7 +503,7 @@ function doc_setup(){
 							    store: storeToEdit},
 							   breadCrumb(companyID,groupID,storeID)));
 	     $("#main").html(html);
-	     $('fieldset').find('input').attr("disabled",true);
+	     $('#form').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.storeInputDialog_TMP({title:"Edit the store",store:storeToEdit}));
 	     StoreModifyDialog("edit-thing",_.extend(editStore(companyID,groupID,storeID),{company:company, groupID:groupID, storeNum:storeToEdit.number }));
 	     console.log("renderModifyPage stores view rendered " + companyID+""+groupID+" "+storeID);
@@ -561,7 +561,7 @@ function doc_setup(){
 			   group_id:groupID,
 			   company_id:companyID}));
 	     $("#main").html(html);
-	     $('fieldset').find('input').attr("disabled",true);
+	     $('#form').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.terminalInputDialog_TMP({title:"Edit the Terminal",terminal:terminalToEdit}));
 	     TerminalModifyDialog("edit-thing",editTerminal(companyID,groupID,storeID,terminalID));
 	     console.log("renderModifyPage terminals view rendered");
