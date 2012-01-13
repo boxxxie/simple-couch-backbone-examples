@@ -1581,7 +1581,11 @@
 	<thead>
 	  <tr>
 	    <th>Description</th>
-	    <th>Qty Sold</th>
+	    <th>Qty</th>
+	    <th>Sales</th>
+	    <th>Qty</th>
+	    <th>Refunds</th>
+	    <th>Total Qty</th>
 	    <th>Total Sales</th>
 	    <th>% of Menu Sales</th>
 	    <th>% of Total Sales</th>
@@ -1590,8 +1594,13 @@
 	<tfoot>
 	  {{#menu_list_totals}}
 	  <tr>
-	    <th colspan="2" align="center">Total</th>
-	    <th align="right">{{price}}</th>
+	    <th colspan="1" align="center">Total</th>
+	    <th align="right">{{sales.quantity}}</th>
+	    <th align="right">{{sales.price}}</th>
+	    <th align="right">{{refunds.quantity}}</th>
+	    <th align="right">{{refunds.price}}</th>
+	    <th align="right">{{totals.quantity}}</th>
+	    <th align="right">{{totals.price}}</th>
 	    <th align="right">{{typedSalesPercentage}}</th>
 	    <th align="right">{{totalSalesPercentage}}</th>
 	  </tr>
@@ -1601,8 +1610,12 @@
 	  {{#menu_sales_list}}
 	  <tr>
 	    <td align="center">{{label}}</td>
-	    <td align="right">{{quantity}}</td>
-	    <td align="right">{{price}}</td>
+	    <td align="right">{{sales.quantity}}</td>
+	    <td align="right">{{sales.price}}</td>
+	    <td align="right">{{refunds.quantity}}</td>
+	    <td align="right">{{refunds.price}}</td>
+	    <td align="right">{{totals.quantity}}</td>
+	    <td align="right">{{totals.price}}</td>
 	    <td align="right">{{typedSalesPercentage}}</td>
 	    <td align="right">{{totalSalesPercentage}}</td>
 	  </tr>

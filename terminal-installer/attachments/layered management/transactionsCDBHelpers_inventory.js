@@ -44,12 +44,7 @@ function inventoryTotalsRangeFetcher_F(id){
 		},
 		function(err,raw_resp){
 		    function inventory_transform(items){
-			function zeroQuantity(item){
-			    return item.quantity == 0;
-			}
-			function reduceValue(pair){
-			    var key = _.first(pair);
-			    var val = _.second(pair);
+			function reduceValue(val,key){
 			    var reducedVal = _(val).
 				chain().
 				map(_.selectKeys_F(['price','quantity'])).
@@ -65,9 +60,7 @@ function inventoryTotalsRangeFetcher_F(id){
 			    .groupBy(function(item){
 					 return item.label;
 				     })
-			    .kv()
 			    .map(reduceValue)
-			    .reject(zeroQuantity)
 			    .value();
 			return out;
 		    }
@@ -78,14 +71,14 @@ function inventoryTotalsRangeFetcher_F(id){
 				    var typedPercentage = 0;
 				}
 				else{
-				    var typedPercentage = item.price/typedSales * 100;
+				    var typedPercentage = item.totals.price/typedSales * 100;
 				    var typedPercentage_rounded = Number(toFixed(2)(typedPercentage));
 				}
 				if(totalSales == 0){
 				    var totalSalesPercentage = 0;
 				}
 				else{
-				    var totalSalesPercentage = item.price/totalSales * 100;
+				    var totalSalesPercentage = item.totals.price/totalSales * 100;
 				    var totalSalesPercentage_rounded =  Number(toFixed(2)(totalSalesPercentage));
 				}
 				return _.extend({},item,{typedSalesPercentage: typedPercentage, totalSalesPercentage: totalSalesPercentage});
@@ -93,8 +86,16 @@ function inventoryTotalsRangeFetcher_F(id){
 			}
 			sales = sales.rows;
 			refunds = _.applyToValues(refunds.rows,negate,true);
-			return _(inventory_transform(sales.concat(refunds)))
-			    .map(applyPercentages(typedSales,totalSales));
+			var totals_labeled = _.mapNest(inventory_transform(sales.concat(refunds)),['price','quantity'],'totals');
+			var sales_labeled = _.mapNest(inventory_transform(sales),['price','quantity'],'sales');
+			var refunds_labeled = _.mapNest(inventory_transform(refunds),['price','quantity'],'refunds');
+			return _([])
+			    .chain()
+			    .concat(totals_labeled, sales_labeled, refunds_labeled)
+			    .groupBy('label')
+			    .mapMerge()
+			    .map(applyPercentages(typedSales,totalSales))
+			    .value();
 		    }
 		    function totals(sales,refunds){
 			function defaultValue(o){

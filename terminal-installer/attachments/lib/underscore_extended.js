@@ -4,7 +4,10 @@ _.mixin({
 	     {a:'a',b:'b'} -> [[a,'a'],[b,'b']]
 	    */
 	    kv:function (obj) {
-		return _.zip(_.keys(obj),_.values(obj));}});
+		return _.map(obj,function(val,key){
+				 return [key,val];
+			     });}});
+//		return _.zip(_.keys(obj),_.values(obj));}});
 
 _.mixin({
 	    /*converts an array of pairs into an objcet
@@ -124,13 +127,24 @@ _.mixin({renameKeys:function (toEdit,fieldMap){
 		 .value();
 	 }});
 
+_.mixin({renameKeys_F:function (fieldMap){
+	     return function(toEdit){
+		 return _.renameKeys(toEdit,fieldMap);
+	     };}});
+
+_.mixin({mapRenameKeys:function (list,fieldMap){
+	     return _.map(list,_.renameKeys_F(fieldMap));    
+	 }});
+
 _.mixin({merge:function (objArray){
 	     //merges all of the objects in an array into one object
 	     //probably can be done via apply.extend([...])
 	     return _.reduce(objArray,function(sum,cur){return _.extend(sum,cur);},{});
-	 }});
-
-_.mixin({zipMerge:function (){
+	 },
+	 mapMerge:function(list){
+	     return _.map(list,_.merge);
+	 },
+	 zipMerge:function (){
 	     return _.map(_.zip.apply(null,arguments),
                           function(zipped){return _.merge(zipped);});
 	 }});
@@ -201,4 +215,22 @@ _.mixin({
 		    return _.groupBy(list,iterator);
 		};
 	    }});
+
+
+_.mixin({
+	    //fn({a:1,b:2,c:3},['a','b'],'field') -> {field:{a:1,b:2},c:3}
+	    nest:function(obj,selectedKeysList,newFieldName){
+		var o = {};
+		o[newFieldName] = _.selectKeys(obj,selectedKeysList);
+		return _.extend(_.removeKeys(obj,selectedKeysList),o);
+	    },
+	    nest_F:function(selectedKeysList,newFieldName){
+		return function(obj){
+		    return _.nest(obj,selectedKeysList,newFieldName);
+		};
+	    },
+	    mapNest:function (list,selectedKeysList,newFieldName){
+		return _.map(list,_.nest_F(selectedKeysList,newFieldName));    
+	    }
+	});
 
