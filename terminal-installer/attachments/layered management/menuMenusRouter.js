@@ -287,14 +287,6 @@ function saveEditMenu() {
 
     var newButtonItemData = varFormGrabber(editDialog);
 
-    console.log("newButtonItemData.display.description");
-    console.log(newButtonItemData.display.description);
-    newButtonItemData.display.description = _(newButtonItemData.display.description).chain().toArray().map(function(s){return _.str.trim(s);}).value();
-    console.log("newButtonItemData.display.description");
-    console.log(newButtonItemData.display.description);
-
-    console.log("newButtonItemData");
-    console.log(newButtonItemData);
     
     menuModel.set_button(newButtonItemData);    
     menuModel.save();
