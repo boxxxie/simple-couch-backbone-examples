@@ -23,9 +23,6 @@ ddoc.rewrites = [
 
 ];
 
-
-
-
 ddoc.views = {};
 
 ddoc.views.user_pass = {
@@ -34,51 +31,31 @@ ddoc.views.user_pass = {
 	require("views/lib/underscore_extended");
 	
 	var opName = doc.companyName.toLowerCase();
-	var user = doc.user;
+	var user = doc.user.toLowerCase();
 	var pass = doc.password;
 	var compID = doc._id;
 
-	emit({company:opName,user:user,password:pass},{company:compID});
+	var company_emit_value = {company:compID, companyName:doc.companyName};
+	var company_emit_key = {company:opName, user:user, password:pass};
+	emit(company_emit_key,company_emit_value);
 	
 	doc.hierarchy.groups
 	    .forEach(function(group){
 			 var gpName = group.groupName.toLowerCase();
+			 var user = group.user.toLowerCase();
 			 var gpID = group.group_id;
-			 emit({company:opName,group:gpName,user:group.user,password:group.password},{company:compID,group:gpID});
+			 var group_emit_value = _.extend({group:gpID, groupName:gpName}, company_emit_value);
+			 var group_emit_key = {company:opName, group:gpName, user:user, password:group.password};
+			 emit(group_emit_key, group_emit_value);
 			 
 			 group.stores
 			     .forEach(function(store){
 					  var sName = store.number.toLowerCase();
-					  emit({company:opName,group:gpName,store:sName,user:store.user,password:store.password},{company:compID,group:gpID,store:store.store_id});
-					  emit({company:opName,store:sName,user:store.user,password:store.password},{company:compID,group:gpID,store:store.store_id});
-				      });
-		     });
-    }
-};
-
-ddoc.views.user_pass2 = {
-	map:function (doc){
-	var _ = require("views/lib/underscore");
-	require("views/lib/underscore_extended");
-	
-	var opName = doc.companyName.toLowerCase();
-	var user = doc.user;
-	var pass = doc.password;
-	var compID = doc._id;
-
-	emit({company:opName,user:user,password:pass},{company:compID, companyName:doc.companyName});
-	
-	doc.hierarchy.groups
-	    .forEach(function(group){
-			 var gpName = group.groupName.toLowerCase();
-			 var gpID = group.group_id;
-			 emit({company:opName,group:gpName,user:group.user,password:group.password},{company:compID, companyName:doc.companyName,group:gpID,groupName:gpName});
-			 
-			 group.stores
-			     .forEach(function(store){
-					  var sName = store.number.toLowerCase();
-					  emit({company:opName,group:gpName,store:sName,user:store.user,password:store.password},{company:compID,companyName:doc.companyName,group:gpID,groupName:gpName,store:store.store_id,storeName:store.storeName,storeNumber:store.number});
-					  emit({company:opName,store:sName,user:store.user,password:store.password},{company:compID,companyName:doc.companyName,group:gpID,groupName:gpName,store:store.store_id,storeName:store.storeName,storeNumber:store.number});
+					  var user = store.user.toLowerCase();
+					  var store_emit_value = _.extend({store:store.store_id, storeName:store.storeName, storeNumber:store.number},group_emit_value);
+					  var store_emit_key = {company:opName, group:gpName, store:sName, user:user, password:store.password};
+					  emit(store_emit_key,store_emit_value);
+					  emit(store_emit_key,store_emit_value);
 				      });
 		     });
     }
