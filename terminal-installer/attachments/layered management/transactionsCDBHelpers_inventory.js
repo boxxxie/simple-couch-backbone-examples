@@ -144,12 +144,14 @@ function inventoryTotalsRangeFetcher_F(id){
 
 		    var ecr_sales_totals = _.reduce(ecr_sales_list.concat(department_sales_list).concat(scale_sales_list),_.addPropertiesTogether,{});
 		    
-		    var scale_sales_list_formatted = _(scale_sales_list)
-			.map(function(scale){
-				 scale.quantity = scale.quantity.toFixed(3);
-				 return scale;
-			     });
-		    
+		    var scale_sales_list_formatted = prewalk(scale_sales_list,
+							     function(obj){
+								 if(obj.quantity){
+								     return _.extend(obj,{quantity:obj.quantity.toFixed(3)});
+								 }	 
+								 return obj;
+							     });
+							     
 		    var forTMP = { 
 			menu_sales_list: menu_sales_list,
 			menu_list_totals:menu_sales_totals,
