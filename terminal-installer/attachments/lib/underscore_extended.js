@@ -31,23 +31,16 @@ _.mixin({
 	    },
 	    selectKeys_F:function (keys){
 		return function(obj){
-		    return  _(obj).chain()
-			.kv()
-			.filter(function(kv){return _.contains(keys,_.first(kv));})
-			.toObject()
-			.value();
+		    return  _.selectKeys(obj,keys);
 		};
 	    },
 	    selectKeysIf:function (obj,keys,filterFn){
-		return  _(obj).chain()
-		    .kv()
-		    .filter(function(kv){
-				return _.contains(keys,_.first(kv)) && filterFn(_.second(kv));
-			    })
-		    .toObject()
-		    .value();
+		return  _(obj).filter$(
+		    function(val,key){
+			return _.contains(keys,key) && filterFn(val);
+		    });
 	    }
-});
+	});
 
 	
 _.mixin({

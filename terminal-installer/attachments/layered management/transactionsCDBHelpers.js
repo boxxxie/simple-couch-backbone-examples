@@ -311,18 +311,15 @@ function originTodaysHourlySalesFetcher(view,db,id,runAfter){
 			   report.ecrSales.rows,
 			   report.ecrRefunds.rows).
 		    map(function(item){return {type:type(item),origin:origin(item),time:time(item),value:salesAmount(item)};}).
-		    groupBy(function(item){return item.time+item.origin;}).kv().
-		    map(function(pair){
-			    var sale_refund = _.second(pair);
+		    groupBy(function(item){return item.time+item.origin;}).
+		    map(function(sale_refund){
 			    var sales = _(sale_refund).chain().filter(isSale).first().value();
 			    var refunds = _(sale_refund).chain().filter(isRefund).first().value();
 			    var totalSales = extractTotalSales(sales,refunds);
 			    return _.removeKeys(_.extend({},refunds,sales,{value:totalSales}),['type']);
 			}).
-		    groupBy(function(item){return item.time;}).kv().
-		    map(function(pair){
-			    var time = _.first(pair);
-			    var menu_scan_ecrs = _.second(pair);
+		    groupBy(function(item){return item.time;}).
+		    map(function(menu_scan_ecrs,time){
 			    var originsForKeys = _.extend({},
 							  template(),
 							  _.reduce(menu_scan_ecrs,function(sum,cur){
