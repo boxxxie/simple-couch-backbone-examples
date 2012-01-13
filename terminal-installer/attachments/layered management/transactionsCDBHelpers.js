@@ -331,8 +331,7 @@ function originTodaysHourlySalesFetcher(view,db,id,runAfter){
 			    return timeForKey;
 			}).
 		    reduce(function(sum,cur){
-			       var pair = _.first(_.kv(cur));
-			       sum[_.first(pair)] = _.second(pair);
+			       sum[_.first(_.keys(cur))] = _.first(_.values(cur));
 			       return sum;
 			   },{})
 		    .value();
