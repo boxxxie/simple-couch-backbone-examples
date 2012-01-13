@@ -7,7 +7,6 @@ _.mixin({
 		return _.map(obj,function(val,key){
 				 return [key,val];
 			     });}});
-//		return _.zip(_.keys(obj),_.values(obj));}});
 
 _.mixin({
 	    /*converts an array of pairs into an objcet
@@ -263,7 +262,7 @@ _.mixin({
 
 _.mixin({
 	    isObject:function(obj){
-		return typeof(obj) === 'object';
+		return typeof(obj) === 'object' && !_.isArray(obj);
 	    }});
 
 _.mixin({
@@ -276,6 +275,8 @@ _.mixin({
 	    }});
 
 _.mixin({
+	    //_.filter$({a:1,b:2},function(val,key){return key == 'a'}) -> {a: 1}
+	    //_.filter$([1,2],function(val){return val == 1}) -> [1]
 	    filter$:function(obj,iterator){
 		if(_.isObject(obj)){
 		    function iteratorWrapper(value, index, list){
@@ -284,14 +285,31 @@ _.mixin({
 			//we want the value to look like '1' and index to look like 'a'
 			return iterator(_.second(value), _.first(value), list);
 		    }
-		    return _(obj).chain()
-		    .kv()
-		    .filter(iteratorWrapper)
-		    .toObject()
-		    .value();
+		    return _(obj)
+			.chain()
+			.kv()
+			.filter(iteratorWrapper)
+			.toObject()
+			.value();
 		}
 		else if(_.isArray(obj)){
 		    return _.filter(obj,iterator);
+		}
+		else{
+		    return obj;
+		}
+	    }
+	});
+
+_.mixin({
+	    //_.map$({a:1,b:2},function(val,key){return [key,val] }) -> {a:1,b:2}
+	    // _.map$([{a:1},{b:2}],function(val,key){return val }) -> [{a:1},{b:2}]
+	    map$:function(obj,iterator){
+		if(_.isObject(obj)){
+		    return _(_.map(obj,iterator)).toObject();
+		}
+		else if(_.isArray(obj)){
+		    return _.map(obj,iterator);
 		}
 		else{
 		    return obj;
