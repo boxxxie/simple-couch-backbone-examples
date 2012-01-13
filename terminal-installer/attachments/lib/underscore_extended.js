@@ -265,7 +265,13 @@ _.mixin({
 		    console.log(obj);
 		    return obj;
 		};
-	    }});
+	    }/*,
+	    log:function(obj,logText){
+		console.log(logText);
+		console.log(obj);
+		return obj;
+	    }*/
+	});
 
 _.mixin({
 	    //_.filter$({a:1,b:2},function(val,key){return key == 'a'}) -> {a: 1}

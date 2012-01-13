@@ -338,16 +338,13 @@ function originTodaysHourlySalesFetcher(view,db,id,runAfter){
 		
 		var mergeTimes = _(24).chain().
 		    range().
-		    map(function(i){return {};}).
+		    map(function(val,key){return [key,template()];}).
+		    toObject().
 		    extend(stuff).
-		    kv().
-		    reduce(function(sum,cur){
-			       var time = _.first(cur);
-			       var obj = _.second(cur);
-			       sum[formatTime(time)] = _.extend({},template(),obj);
-			       return sum;
-			   },{})
-		    .value();
+		    map$(function(val,time){
+			    return [formatTime(time),val];
+			 }).
+		    value();
 		runAfter(null,mergeTimes);	  
 	    });
 };
