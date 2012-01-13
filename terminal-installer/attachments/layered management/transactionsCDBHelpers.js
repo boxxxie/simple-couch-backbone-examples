@@ -417,40 +417,29 @@ function todaysHourlySalesFetcher(view,db,id,runAfter){
 		    concat(report.refunds.rows,
 			   report.sales.rows).
 		    map(function(item){return {type:type(item),time:time(item),value:salesAmount(item),count:numSales(item)};}).
-		    groupBy(function(item){return item.time;}).kv().
-		    map(function(pair){
-			    var time = _.first(pair);
-			    var sale_refund = _.second(pair);
+		    groupBy(function(item){return item.time;}).
+		    map$(function(val,time){
+			    var sale_refund = val;
 			    var sales = _(sale_refund).chain().filter(isSale).first().value();
 			    var refunds = _(sale_refund).chain().filter(isRefund).first().value();
 			    var summary = transactionSummary(sales,refunds);
 			    
 			    var timeForKey = {};
 			    timeForKey[time] = summary;
-			    return timeForKey;
+			    return [time,summary];
 			}).
-		    reduce(function(sum,cur){
-			       var pair = _.first(_.kv(cur));
-			       var time = _.first(pair);
-			       sum[time] = _.second(pair);
-			       return sum;
-			   },{}).
 		    value();
 
 		var mergeTimes = _(24).chain().
 		    range().
-		    map(function(i){return {};}).
+		    map(function(val,key){return [key,template()];}).
+		    toObject().
 		    extend(stuff).
-		    kv().
-		    reduce(function(sum,cur){
-			       var time = _.first(cur);
-			       var obj = _.second(cur);
-			       sum[formatTime(time)] = _.extend({},template(),obj);
-			       return sum;
-			   },{})
-		    .value();
-
-		runAfter(null,mergeTimes);	  
+		    map$(function(val,time){
+			    return [formatTime(time),val];
+			 }).
+		    value();
+		runAfter(null,mergeTimes);
 	    });
 };
 
