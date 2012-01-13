@@ -57,13 +57,6 @@ function currency_format(num){
     return num;
 }
 
-function addPropertiesTogether(addTo,addFrom){
-    for (var prop in addFrom) {
-	(addTo[prop] !== undefined && _.isNumber(addFrom[prop])) ? addTo[prop] += addFrom[prop]: addTo[prop] = addFrom[prop];
-    }
-    return addTo;
-};
-
 function isValidDate(d){
     if ( Object.prototype.toString.call(d) !== "[object Date]" )
 	return false;
@@ -894,7 +887,7 @@ function taxReportTransactionsFetcher(terminal,startIndex,endIndex,callback){
 	    var totalsTaxData = 
 		_(transactionsTaxData)
 		.chain()
-		.reduce(addPropertiesTogether,{})
+		.reduce(_.addPropertiesTogether,{})
 		.value();
 	    var safeTotalsTaxData = _(defaultTotalsData).chain().extend(totalsTaxData).applyToValues(toFixed(2)).value();
 

@@ -5,14 +5,7 @@ function identity(o){
 function sum(sum,cur){
     return sum + cur;
 }
-function addPropertiesTogether(addTo,addFrom){
-    if(addTo == {}){return addFrom;}
-    for (var prop in addFrom) {
-	if(addTo[prop] == undefined){addTo[prop] = addFrom[prop];}
-	else{addTo[prop] += addFrom[prop];}
-    };
-    return addTo;
-}
+
 function jodaDateParser(dateString){
     if(_.isDate(dateString)){return dateString;}
     var dateMatch = /(\d{2,4})/g;
@@ -512,7 +505,7 @@ function electronicPaymentsReportFetcher(terminals,startDate,endDate){
     return function(callback){
 	async.parallel({
 			   paymentList: processedTransactionsFromCashouts(terminals,startDate,endDate)(electronicPaymentsIndexRangeFetcher_F,paymentMap(terminals)),
-			   totals: mapReduceTransactionsFromCashouts(terminals,startDate,endDate)(electronicPaymentsTotalsIndexRangeFetcher_F,identity,addPropertiesTogether)
+			   totals: mapReduceTransactionsFromCashouts(terminals,startDate,endDate)(electronicPaymentsTotalsIndexRangeFetcher_F,identity,_.addPropertiesTogether)
 		       },
 		       callback);
     };

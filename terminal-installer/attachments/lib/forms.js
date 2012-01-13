@@ -1,12 +1,21 @@
 //relies on jquery.js, underscore.js
 
+function toNumber(obj){
+    var num = Number(obj);
+    if(_.isNaN(num) || _.isUndefined(obj) || !_.isNumber(num)){
+	return obj;
+    }
+    return num;
+}
+
 function jsPather(pathStr){
     //converts js obj notation into a path array
     // "obj.var.var1" -> ["obj","var","var1"]
-    return pathStr
+    return _(pathStr
 	.replace(/\[/g,'.')
 	.replace(/\]/g,'')
-	.split(".");
+	.split("."))
+	.map(toNumber);
 };
 
 function assignFromPath(obj,travel,assignVal){
@@ -17,7 +26,10 @@ function assignFromPath(obj,travel,assignVal){
 	obj = assignVal;
 	return obj;
     }
-    else if(obj && !obj[prop]){
+    else if(obj && _.isUndefined(obj[prop]) && _.isNumber(prop) && !_.isArray(obj)){
+	obj = [];
+    }
+    else if(obj && _.isUndefined(obj[prop])){
 	obj[prop] = {};
     }
     if(!obj){return null;}

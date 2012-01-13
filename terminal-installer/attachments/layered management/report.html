@@ -1558,6 +1558,45 @@
     
     
     <!---------------------------------- INVENTORY REPORTS ------------------------------------------------>
+    
+    <script id="menuReportsInventory_GenericFooter_P" type="text/html" class="partial">
+      	  <tr>
+	    <th align="center">Total</th>
+	    <th align="right">{{sales.quantity}}</th>
+	    <th align="right">{{sales.price}}</th>
+	    <th align="right">{{refunds.quantity}}</th>
+	    <th align="right">{{refunds.price}}</th>
+	    <th align="right">{{totals.quantity}}</th>
+	    <th align="right">{{totals.price}}</th>
+	    <th align="right">{{typedSalesPercentage}}</th>
+	    <th align="right">{{totalSalesPercentage}}</th>
+	  </tr>
+    </script>
+
+    <script id="menuReportsInventory_GenericHeaderEnd_P" type="text/html" class="partial">
+	    <th>Description</th>
+	    <th>Qty</th>
+	    <th>Sales</th>
+	    <th>Qty</th>
+	    <th>Refunds</th>
+	    <th>Qty Total</th>
+	    <th>Total</th>
+	    <th>% of Set Sales</th>
+	    <th>% of Total Sales</th>
+    </script>
+
+    <script id="menuReportsInventory_GenericBodyEnd_P" type="text/html" class="partial">
+      <td align="center">{{label}}</td>
+      <td align="right">{{sales.quantity}}</td>
+      <td align="right">{{sales.price}}</td>
+      <td align="right">{{refunds.quantity}}</td>
+      <td align="right">{{refunds.price}}</td>
+      <td align="right">{{totals.quantity}}</td>
+      <td align="right">{{totals.price}}</td>
+      <td align="right">{{typedSalesPercentage}}</td>
+      <td align="right">{{totalSalesPercentage}}</td>
+    </script>
+
     <script id="inventoryDropdownbox_P" class="partial" type="text/html">
       <ul style="list-style-type: none; padding-left: 0px; margin: 0px">
 	<li style="display: inline;">Category : 
@@ -1580,44 +1619,18 @@
       <table class="reportstable">
 	<thead>
 	  <tr>
-	    <th>Description</th>
-	    <th>Qty</th>
-	    <th>Sales</th>
-	    <th>Qty</th>
-	    <th>Refunds</th>
-	    <th>Total Qty</th>
-	    <th>Total Sales</th>
-	    <th>% of Menu Sales</th>
-	    <th>% of Total Sales</th>
+	    {{>menuReportsInventory_GenericHeaderEnd_P}}
 	  </tr>
 	</thead>
 	<tfoot>
 	  {{#menu_list_totals}}
-	  <tr>
-	    <th colspan="1" align="center">Total</th>
-	    <th align="right">{{sales.quantity}}</th>
-	    <th align="right">{{sales.price}}</th>
-	    <th align="right">{{refunds.quantity}}</th>
-	    <th align="right">{{refunds.price}}</th>
-	    <th align="right">{{totals.quantity}}</th>
-	    <th align="right">{{totals.price}}</th>
-	    <th align="right">{{typedSalesPercentage}}</th>
-	    <th align="right">{{totalSalesPercentage}}</th>
-	  </tr>
+	  {{>menuReportsInventory_GenericFooter_P}}
 	  {{/menu_list_totals}}
 	</tfoot>
 	<tbody>
 	  {{#menu_sales_list}}
 	  <tr>
-	    <td align="center">{{label}}</td>
-	    <td align="right">{{sales.quantity}}</td>
-	    <td align="right">{{sales.price}}</td>
-	    <td align="right">{{refunds.quantity}}</td>
-	    <td align="right">{{refunds.price}}</td>
-	    <td align="right">{{totals.quantity}}</td>
-	    <td align="right">{{totals.price}}</td>
-	    <td align="right">{{typedSalesPercentage}}</td>
-	    <td align="right">{{totalSalesPercentage}}</td>
+	    {{>menuReportsInventory_GenericBodyEnd_P}}
 	  </tr>
 	  {{/menu_sales_list}}
 	</tbody>
@@ -1633,38 +1646,24 @@
 	<thead>
 	  <tr>
 	    <th>SKU</th>
-	    <th>Description</th>
-	    <th>Qty Sold</th>
-	    <th>Total Sales</th>
-	    <th>% of Scan Sales</th>
-	    <th>% of Total Sales</th>
+	    {{>menuReportsInventory_GenericHeaderEnd_P}}
 	  </tr>
 	</thead>
 	<tfoot>
 	  {{#scan_list_totals}}
-	  <tr>
-	    <th colspan="3" align="center">Total</th>
-	    <th align="right">{{price}}</th>
-   	    <th align="right">{{typedSalesPercentage}}</th>
-	    <th align="right">{{totalSalesPercentage}}</th>
-	  </tr>
+	  {{>menuReportsInventory_GenericFooter_P}}
 	  {{/scan_list_totals}}
 	</tfoot>
 	<tbody>
 	  {{#scan_sales_list}}
 	  <tr>
 	    <td align="center">{{upc}}</td>
-	    <td align="center">{{description}}</td>
-	    <td align="right">{{quantity}}</td>
-	    <td align="right">{{price}}</td>
-   	    <td align="right">{{typedSalesPercentage}}</td>
-	    <td align="right">{{totalSalesPercentage}}</td>
+	    {{>menuReportsInventory_GenericBodyEnd_P}}
 	  </tr>
 	  {{/scan_sales_list}}
 	</tbody>
       </table>
     </script>
-    
     
     <script id="menuReportsInventoryEcrTabel_TMP" type="text/html">
       {{#ecr_sales}}
@@ -1675,49 +1674,28 @@
       <table class="reportstable">
 	<thead>
 	  <tr>
-	    <th>Open Item</th>
-	    <th>Qty Sold</th>
-	    <th>Total Sales</th>
-	    <th>% of ECR Sales</th>
-	    <th>% of Total Sales</th>
+	   {{>menuReportsInventory_GenericHeaderEnd_P}}
 	  </tr>
 	</thead>
 	<tfoot>
 	  {{#ecr_list_totals}}
-	  <tr>
-	    <th colspan="2" align="center">Total</th>
-	    <th align="right">{{price}}</th>
-	    <th align="right">{{typedSalesPercentage}}</th>
-	    <th align="right">{{totalSalesPercentage}}</th>
-	  </tr>
+	  {{>menuReportsInventory_GenericFooter_P}}
 	  {{/ecr_list_totals}}
 	</tfoot>
 	<tbody>
 	  {{#department_sales_list}}
 	  <tr>
-	    <td align="center">{{label}}</td>
-	    <td align="right">{{quantity}}</td>
-	    <td align="right">{{price}}</td>
-	    <td align="right">{{typedSalesPercentage}}</td>
-	    <td align="right">{{totalSalesPercentage}}</td>
+	    {{>menuReportsInventory_GenericBodyEnd_P}}
 	  </tr>
 	  {{/department_sales_list}}
 	  {{#scale_sales_list}}
 	  <tr>
-	    <td align="center">{{label}}</td>
-	    <td align="right">{{quantity}}</td>
-	    <td align="right">{{price}}</td>
-	    <td align="right">{{typedSalesPercentage}}</td>
-	    <td align="right">{{totalSalesPercentage}}</td>
+	    {{>menuReportsInventory_GenericBodyEnd_P}}
 	  </tr>
 	  {{/scale_sales_list}}
 	  {{#ecr_sales_list}}
 	  <tr>
-	    <td align="center">{{label}}</td>
-	    <td align="right">{{quantity}}</td>
-	    <td align="right">{{price}}</td>
-	    <td align="right">{{typedSalesPercentage}}</td>	
-	    <td align="right">{{totalSalesPercentage}}</td>
+	    {{>menuReportsInventory_GenericBodyEnd_P}}
 	  </tr>
 	  {{/ecr_sales_list}}
 	</tbody>

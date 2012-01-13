@@ -234,3 +234,32 @@ _.mixin({
 	    }
 	});
 
+_.mixin({
+	    //fn({a:1},{a:1}) -> {a:2}
+	    //make recursive
+	    //fn({a:{b:1},c:1},{a:{b:1},c:1}) -> {a:{b:2},c:2}
+	    addPropertiesTogether:function(addTo,addFrom){
+		function addPropertiesTogether_helper(addTo,addFrom){
+		    var addToClone = _.clone(addTo);
+		    for (var prop in addFrom) {
+			if(!_.isUndefined(addToClone[prop])){
+			    if(_.isNumber(addFrom[prop])){
+				addToClone[prop] += addFrom[prop];
+				continue;
+			    }
+			    else if(_.isObject(addFrom[prop])){
+				addToClone[prop] = addPropertiesTogether_helper(addToClone[prop],addFrom[prop]);
+				continue;
+			    }
+			}
+			addToClone[prop] = addFrom[prop];
+		    }
+		    return addToClone;
+		}
+		return addPropertiesTogether_helper(addTo,addFrom);
+	    }});
+
+_.mixin({
+	    isObject:function(obj){
+		return typeof(obj) === 'object';
+	    }});

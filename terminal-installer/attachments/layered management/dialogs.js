@@ -215,9 +215,9 @@ function menuInventoryApplyStoresViewDialog (html,options) {
 		 }
 		 else if(checkedStores.length != stores.length) {
 		     var store_ids_to_update = _(checkedStores)
-										 .map(function(item){
-										 	return item.id;
-										 });
+			 .map(function(item){
+				  return item.id;
+			      });
 		     console.log("The price change will be applied to selected stores");
 		     console.log(store_ids_to_update);
 		     options.makeButtons(store_ids_to_update);
