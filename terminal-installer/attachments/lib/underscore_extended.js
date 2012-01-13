@@ -28,17 +28,8 @@ _.mixin({
 	     * ({a:'a',b:'b'},['a']) -> {a:'a'}
 	     */
 	    selectKeys:function (obj,keys){
-		return  _(obj).chain()
-		    .kv()
-		    .filter(function(kv){return _.contains(keys,_.first(kv));})
-		    .toObject()
-		    .value();
-	    }});
-
-_.mixin({
-	    /*create an object with only the keys in the selected keys array arg
-	     * ({a:'a',b:'b'},['a']) -> {a:'a'}
-	     */
+		return  _(obj).filter$(function(val,key){return _.contains(keys,key);});
+	    },
 	    selectKeys_F:function (keys){
 		return function(obj){
 		    return  _(obj).chain()
@@ -47,7 +38,18 @@ _.mixin({
 			.toObject()
 			.value();
 		};
-	    }});
+	    },
+	    selectKeysIf:function (obj,keys,filterFn){
+		return  _(obj).chain()
+		    .kv()
+		    .filter(function(kv){
+				return _.contains(keys,_.first(kv)) && filterFn(_.second(kv));
+			    })
+		    .toObject()
+		    .value();
+	    }
+});
+
 	
 _.mixin({
 	    /*create an object without the keys in the selected keys array arg
@@ -263,3 +265,36 @@ _.mixin({
 	    isObject:function(obj){
 		return typeof(obj) === 'object';
 	    }});
+
+_.mixin({
+	    log:function(logText){
+		return function(obj){
+		    console.log(logText);
+		    console.log(obj);
+		    return obj;
+		};
+	    }});
+
+_.mixin({
+	    filter$:function(obj,iterator){
+		if(_.isObject(obj)){
+		    function iteratorWrapper(value, index, list){
+			//in this case the value would look like ['a',1]
+			//index would look like 0
+			//we want the value to look like '1' and index to look like 'a'
+			return iterator(_.second(value), _.first(value), list);
+		    }
+		    return _(obj).chain()
+		    .kv()
+		    .filter(iteratorWrapper)
+		    .toObject()
+		    .value();
+		}
+		else if(_.isArray(obj)){
+		    return _.filter(obj,iterator);
+		}
+		else{
+		    return obj;
+		}
+	    }
+	});

@@ -33,19 +33,22 @@ function login() {
 
     var $form = $("#ids_form");
     var formEntries = varFormGrabber($form);
-    console.log("form entries");
-    console.log(formEntries);
+    _.log("form entries")(formEntries);
     var location_key = _(formEntries).chain()
-	.selectKeys(['company','group','store'])
-	.kv()
-	.reject(isValueEmpty)
-	.map(valuesToLowerCase)
-	.toObject()
+	.selectKeysIf(_.isNotEmpty,['company','group','store'])
+//	.log("selectKeysIf")
+	//.reject(function(val,key){return _.isEmpty)
+    //	.log()
+//	.toObject()
+//	.log()
+//	.map(valuesToLowerCase)
+//	.toObject()
+//	.log()
 	.value();
     var user_pass_key = _.selectKeys(formEntries,['user','password']);
     var login_key = _.extend(location_key,user_pass_key);
-    console.log("login_key");
-    console.log(login_key);
+    _.log("login_key")(login_key);
+    _.log("user_pass_key")(user_pass_key);
     
     var db_install = cdb.db("api",{},true);
     var user_passwordView = appView("user_pass2");
