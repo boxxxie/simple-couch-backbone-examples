@@ -26,26 +26,15 @@ var reportLoginView = Backbone.View.extend(
     });
 
 function login() {
-    function valuesToLowerCase(pair){
-	pair[1] = pair[1].toLowerCase();return pair;
-    }
-    var isValueEmpty = _.isLastEmpty;
-
     var $form = $("#ids_form");
     var formEntries = varFormGrabber($form);
-    console.log("form entries");
-    console.log(formEntries);
-    var location_key = _(formEntries).chain()
-	.selectKeys(['company','group','store'])
-	.kv()
-	.reject(isValueEmpty)
-	.map(valuesToLowerCase)
-	.toObject()
-	.value();
+    _.log("form entries")(formEntries);
+    var location_key = _.selectKeysIf(formEntries,['company','group','store'],_.isNotEmpty);
     var user_pass_key = _.selectKeys(formEntries,['user','password']);
     var login_key = _.extend(location_key,user_pass_key);
-    console.log("login_key");
-    console.log(login_key);
+    _.log('location_key')(location_key);
+    _.log("login_key")(login_key);
+    _.log("user_pass_key")(user_pass_key);
     
     var db_install = cdb.db("api",{},true);
     var user_passwordView = appView("user_pass");

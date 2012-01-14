@@ -12,12 +12,12 @@ var menuSetMenusRouter =
 	      },
 	      menuSetMenusGroup:function() {
 		  console.log("menuSetMenusGroup  ");
-		  alert("Company can access this menu.");
+		  alert("Company can't access this menu.");
 		  window.history.go(-1);
 	      },
 	      menuSetMenusStore:function() {
 		  console.log("menuSetMenusStore  ");
-		  alert("Company can access this menu.");
+		  alert("Company can't access this menu.");
 		  window.history.go(-1);
 	      }
 	     }));
@@ -45,7 +45,7 @@ var menuSetMenusView =
 		  //     function(){
 		//	   console.log("menuReportsView, route:menuSetMenusGroup");
 		//	   //view.renderMenuSetMenusCompany();
-		//	   alert("Company can access this menu.");
+		//	   alert("Company can't access this menu.");
 		//	   window.history.go(-1);
 		 //      });
 		//menuSetMenusRouter
@@ -53,7 +53,7 @@ var menuSetMenusView =
 		  //     function(){
 		//	   console.log("menuReportsView, route:menuSetMenusStore");
 		//	   //view.renderMenuSetMenusCompany();
-		//	   alert("Company can access this menu.");
+		//	   alert("Company can't access this menu.");
 		//	   window.history.go(-1);
 		 //      });
 	 },
