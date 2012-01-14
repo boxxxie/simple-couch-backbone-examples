@@ -781,17 +781,10 @@ function hourlyReportFetcher(id,runAfter){
 	     totalSales:function(callback){todaysHourlySalesFetcher(transactionsTotalView,transaction_db,id,function(err,data){callback(null, data);});}
 	    },
 	    function(err,report){
-		
-		var templateData = _([]).chain().
-		    concat(_.kv(report.originSales),_.kv(report.totalSales)).
-		    groupBy(function(pair){return _.first(pair);}). //group by time
-		    toArray().
-		    map(function(pair){
-			    var time = _.first(_.first(pair));
-			    var merged = _(pair).chain().map(_.second).merge().applyToValues(toFixed(2)).value();
-			    return _.extend({},{timerange:time},merged);
-			}).
-		    value();
+		var templateData = _(_.extend_r(report.originSales,report.totalSales)).
+		    map(function(mergedVals,time){
+			    return _.extend({},{timerange:time},mergedVals);
+			});
 
 		runAfter(templateData);	  
 	    });

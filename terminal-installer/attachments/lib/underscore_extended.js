@@ -3,7 +3,7 @@ _.mixin({
 	    /* Retrieve the keys and values of an object's properties.
 	     {a:'a',b:'b'} -> [[a,'a'],[b,'b']]
 	    */
-	    kv:function (obj) {
+	    pairs:function (obj) {
 		return _.map(obj,function(val,key){
 				 return [key,val];
 			     });}});
@@ -19,8 +19,6 @@ _.mixin({
 					total[key] = val;
 					return total;
 				    },{});}});
-
-
 
 _.mixin({
 	    /*create an object with only the keys in the selected keys array arg
@@ -48,13 +46,8 @@ _.mixin({
 	     * ({a:'a',b:'b'},['a']) -> {b:'b'}
 	     */
 	    removeKeys:function (obj,keys){
-		return _(obj).chain()
-		    .kv()
-		    .reject(function(kv){return _.contains(keys,_.first(kv));})
-		    .toObject()
-		    .value();
+		return _.filter$(obj,function(val,key){return !_.contains(keys,key);});
 	    }});
-
 
 // unEscape a string for HTML interpolation.
 _.mixin({
@@ -133,15 +126,32 @@ _.mixin({mapRenameKeys:function (list,fieldMap){
 _.mixin({merge:function (objArray){
 	     //merges all of the objects in an array into one object
 	     //probably can be done via apply.extend([...])
-	     return _.reduce(objArray,function(sum,cur){return _.extend(sum,cur);},{});
+	     return _.reduce(objArray,function(sum,cur){return _.extend({},sum,cur);},{});
 	 },
-	 mapMerge:function(list){
-	     return _.map(list,_.merge);
+	 mapMerge:function(lists){
+	     return _.map(lists,_.merge);
 	 },
 	 zipMerge:function (){
 	     return _.map(_.zip.apply(null,arguments),
                           function(zipped){return _.merge(zipped);});
 	 }});
+
+_.mixin({extend_r:function (obj1,obj2){
+	     //recursive extend
+	     function mergeRecursive(obj1, obj2) {
+		 for (var p in obj2) {
+		     if (_.isObject(obj2[p])) {
+			 obj1[p] = mergeRecursive(obj1[p], obj2[p]);
+		     } else {
+			 obj1[p] = obj2[p];
+		     }
+		 }
+		 return obj1;
+	     }
+	     return mergeRecursive(obj1, obj2);
+	 }
+	});
+
 
 
 //TODO: add walk to lib, or make an underscore_walk lib
@@ -181,11 +191,7 @@ _.mixin({
 		    return pre_walk(obj,fn);
 		}
 		else{
-		    return _(obj).chain()
-			.kv()
-			.map(function(pair){pair[1] = fn(pair[1]);return pair;})
-			.toObject()
-			.value();
+		    return _.map$(obj,function(val,key){return [key,fn(val)];});
 		}
 	    }});
 
@@ -209,8 +215,6 @@ _.mixin({
 		    return _.groupBy(list,iterator);
 		};
 	    }});
-
-
 _.mixin({
 	    //fn({a:1,b:2,c:3},['a','b'],'field') -> {field:{a:1,b:2},c:3}
 	    nest:function(obj,selectedKeysList,newFieldName){
@@ -265,12 +269,7 @@ _.mixin({
 		    console.log(obj);
 		    return obj;
 		};
-	    }/*,
-	    log:function(obj,logText){
-		console.log(logText);
-		console.log(obj);
-		return obj;
-	    }*/
+	    }
 	});
 
 _.mixin({
@@ -286,7 +285,7 @@ _.mixin({
 		    }
 		    return _(obj)
 			.chain()
-			.kv()
+			.pairs()
 			.filter(iteratorWrapper)
 			.toObject()
 			.value();
