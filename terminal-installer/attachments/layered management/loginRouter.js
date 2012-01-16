@@ -40,6 +40,23 @@ function login() {
     var user_passwordView = appView("user_pass");
     var branch_show = appShow("branch");
 
+	//FIXME : key non-sensitive, perhaps walk or other things will be better
+	if(!_.isEmpty(login_key.company)) {
+		login_key.company = login_key.company.toLowerCase();
+	}
+	if(!_.isEmpty(login_key.group)) {
+		login_key.group = login_key.group.toLowerCase();
+	}
+	if(!_.isEmpty(login_key.store)) {
+		login_key.store = login_key.store.toLowerCase();
+	}
+	if(!_.isEmpty(login_key.user)) {
+		login_key.user = login_key.user.toLowerCase();
+	}
+	if(!_.isEmpty(login_key.password)) {
+		login_key.password = login_key.password.toLowerCase();
+	}
+	
     keyQuery(user_passwordView, db_install, login_key)
     (function (resp){
 	 console.log(resp);

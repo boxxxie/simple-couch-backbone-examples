@@ -1573,6 +1573,20 @@
 	  </tr>
     </script>
 
+	<script id="menuReportsInventory_ScanSalesfooter_P" type="text/html" class="partial">
+      	  <tr>
+	    <th align="center" colspan="2">Total</th>
+	    <th align="right">{{sales.quantity}}</th>
+	    <th align="right">{{sales.price}}</th>
+	    <th align="right">{{refunds.quantity}}</th>
+	    <th align="right">{{refunds.price}}</th>
+	    <th align="right">{{totals.quantity}}</th>
+	    <th align="right">{{totals.price}}</th>
+	    <th align="right">{{typedSalesPercentage}}</th>
+	    <th align="right">{{totalSalesPercentage}}</th>
+	  </tr>
+    </script>	
+	
     <script id="menuReportsInventory_GenericHeaderEnd_P" type="text/html" class="partial">
 	    <th>Description</th>
 	    <th>Qty</th>
@@ -1651,7 +1665,7 @@
 	</thead>
 	<tfoot>
 	  {{#scan_list_totals}}
-	  {{>menuReportsInventory_GenericFooter_P}}
+	  {{>menuReportsInventory_ScanSalesfooter_P}}
 	  {{/scan_list_totals}}
 	</tfoot>
 	<tbody>
