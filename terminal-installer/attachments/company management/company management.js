@@ -377,9 +377,10 @@ function doc_setup(){
 	     var view = this;
 	     var company = Companies.getModelById(id);
 	     var companyJSON = company.toJSON();
-	     $("#main").html(ich.modify_company_page_TMP(_.extend({company:companyJSON,
+	     var html = ich.modify_company_page_TMP(_.extend({company:companyJSON,
 								   company_id:id},
-								  breadCrumb(id))));
+								  breadCrumb(id)));
+	     $("#main").html(html);
 	     $('#form').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.companyInputDialog_TMP({title:"Edit the Company",
 								company:companyJSON}));

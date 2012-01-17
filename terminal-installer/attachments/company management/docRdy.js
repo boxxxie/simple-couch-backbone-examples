@@ -23,6 +23,8 @@ function jodaDateFormatter(dateString){
 function jodaDatePartFormatter(dateString){
     return datePartFormatter(jodaDateParser(dateString));
 }
+
+
 $(document)
     .ready(function() {
 	       //this is for IE7
