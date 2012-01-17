@@ -97,6 +97,32 @@ var _async = {
 	    return function(callback){queryF(view,db)(options)(returnQuery(callback));};
 	};
     },
+    generalKeyReduceQuery:function(view,db){
+	return function(key){
+	    var startKey = ([]).concat(key);
+	    var endKey = ([]).concat(key).concat({});
+	    var options = {
+		reduce:true,
+		startkey:startKey,
+		endkey:endKey
+	    };
+	    return function(callback){queryF(view,db)(options)(returnQuery(callback));};
+	};
+    },
+    generalKeyGroupQuery:function(view,db){
+	return function(groupLevel){
+	    return function(key){
+		var startKey = ([]).concat(key);
+		var endKey = ([]).concat(key).concat({});
+		var options = {
+		    group_level:groupLevel,
+		    startkey:startKey,
+		    endkey:endKey
+		};
+		return function(callback){queryF(view,db)(options)(returnQuery(callback));};
+	    };
+	};
+    },
     map:function(array,fn,runAfter){
 	/*
 	 * fn() must return a function of the form fn(err,response)

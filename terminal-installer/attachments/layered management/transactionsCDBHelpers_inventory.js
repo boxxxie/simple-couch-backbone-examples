@@ -5,6 +5,18 @@ function negate(num){
     return num;
 }
 
+function currentInventoryFor(id){
+    var view = cdb.view('app','id_upc_latestDate');
+    var db = cdb.db('inventory',{},true);
+//http://localhost:5984/inventory/_design/app/_view/id_upc_latestDate?group_level=2&startkey=["a205198b-001a-bc4c-34d5-89347e924bce"]&endkey=["a205198b-001a-bc4c-34d5-89347e924bce",{}]
+    var query = _async.generalKeyGroupQuery(view,db)(2)(id);
+    return function(callback){
+	query(function(err,response){
+		  var inventory = _.pluck(response.rows,'value');
+		  callback(err,inventory);
+	      });
+    };
+}
 function inventoryTotalsRangeFetcher_F(id){
     var view = cdb.view('reporting','inventory_report');
     var db = cdb.db('cashedout_transactions',{},true);

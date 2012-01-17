@@ -15,6 +15,7 @@ ddoc.rewrites = [
     {from: "transactions/*", to: "../../../transactions/*"},
     {from: "cashedout_transactions/*", to: "../../../cashedout_transactions/*"},
     {from: "inventory_rt7/*", to: "../../../inventory_rt7/*"},
+    {from: "inventory/*", to: "../../../inventory/*"},
     {from: "menus_corp/*", to: "../../../menus_corp/*"},
     {from: "menu_buttons/*", to: "../../../menu_buttons/*"},
     {from: "rewards_rt7/*", to: "../../../rewards_rt7/*"},
