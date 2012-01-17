@@ -4,12 +4,12 @@
     <title>Company Management</title>
     <link href="../layout.css" rel="stylesheet" type="text/css">
     <link href="../css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css">
-  
+    
     <script language="javascript" type="text/javascript" src="../lib/jquery-1.7.1.js"></script>
 
     <script language="javascript" type="text/javascript" src="../lib/json2.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/date.js"></script>
-  
+    
     <script language="javascript" type="text/javascript" src="../lib/jquery-ui-1.8.16.custom.min.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/jquery.couch.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/couchDBhelpers.js"></script>
@@ -21,9 +21,9 @@
     <script language="javascript" type="text/javascript" src="../lib/backbone.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/mustache.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/ICanHaz.js"></script>
-  
+    
     <script language="javascript" type="text/javascript" src="../site.js"></script>
-  
+    
     <script language="javascript" type="text/javascript" src="../lib/couch-backbone.js"></script>
 
     <script language="javascript" type="text/javascript" src="../company management/sample_terminal.js"></script>
@@ -48,8 +48,8 @@
       .ui-dialog .ui-state-error { padding: .3em; }
       .validateTips { border: 1px solid transparent; padding: 0.3em; }
     </style>
-  
-  
+    
+    
     <!--------------------------------------------------------GENERAL--------------------------------------------------->
     <script id="userpass_P" class="partial" type="text/html">
       <label for="user">Master User ID</label>
@@ -57,7 +57,7 @@
       <label for="password">Master Password</label>
       <input type="text"  id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
     </script>
-  
+    
     <script id="addressFields_P" class="partial" type="text/html">
       {{#address}}
       <dl>
@@ -79,7 +79,7 @@
       </dl>
       {{/address}}
     </script>
-  
+    
     <script id="contactFields_P" class="partial" type="text/html">
       {{#contact}}
       <dl>
@@ -99,7 +99,7 @@
       </dl>
       {{/contact}}
     </script>
-  
+    
     <script id="breadcrumb_P" class="partial" type="text/html">
       <h2>{{#companyName}}
 	<i>Company</i> {{companyName}}
@@ -125,24 +125,24 @@
 	<span class="ui-button-text">Back</span>
       </button>
     </script>
-  
+    
     <script id="menuButton_P" class="partial" type="text/html">
       <button  class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
 	       onClick="javascript:window.location.href ='../mainMenus.html';">
 	<span class="ui-button-text">Menus</span>
       </button>
     </script>
-  
+    
     <script id="createButton_P" class="partial" type="text/html">
       <button id="create-thing">{{createButtonLabel}}</button>
     </script>
-  
+    
     <script id="editButton_P" class="partial" type="text/html">
       <button id="edit-thing">
 	Edit
       </button>
     </script>
-  
+    
     <script id="quickViewButton_P" class="partial" type="text/html">
       <button onclick=quickView("{{template}}","{{company_id}}","{{group_id}}","{{store_id}}","{{terminal_id}}") class="ui-state-default ui-corner-all">
 	<span class="ui-button-text">
@@ -150,7 +150,7 @@
 	</span>
       </button>
     </script>
-  
+    
     <script id="deleteButton_P" class="partial" type="text/html">
       <button onclick=deleteThing("{{company_id}}","{{group_id}}","{{store_id}}") class="ui-state-default ui-corner-all">
 	<span class="ui-button-text">
@@ -158,21 +158,21 @@
 	</span>
       </button>
     </script>
-  
+    
     <script id="quickViewHook_P" class="partial" type="text/html">
       <div id="dialog-quickView" title="QuickView"></div>
     </script>
-  
+    
     <script id="createDialogHook_P" class="partial" type="text/html">
       <div id="create-dialog"></div>
     </script>
-  
+    
     <script id="managementTableHook_P" class="partial" type="text/html">
       <div id="list-things"></div>
     </script>
     
     <!--------------------------------------------------------DIALOG--------------------------------------------------->
-  
+    
     <script id="tips_TMP" type="text/html">
       <ol>
 	{{#tips}}
@@ -180,9 +180,9 @@
 	{{/tips}}
       </ol>
     </script>
-  
+    
     <!--------------------------------------------------------COMPANY--------------------------------------------------->
-  
+    
     <script id="companiesTabel_TMP" type="text/html">
       <table border="1">
 	<tr>
@@ -210,7 +210,7 @@
       </table>
       {{>quickViewHook_P}}
     </script>
-  
+    
     <script id="company_management_page_TMP" type="text/html">
       <h1>Company Management</h1>
       {{>createButton_P}}
@@ -223,41 +223,45 @@
     <script id="companyForm_P" class="partial" type="text/html">
       {{#company}}
       <form id="form">
-	  <label for="company-name">Company name</label>
-	  <input type="text" id="company-name" value="{{companyName}}" class="text ui-widget-content ui-corner-all" />
-	  <label for="operationalname">Operational Name</label>
-	  <input type="text" id="operationalname" value="{{operationalname}}" class="text ui-widget-content ui-corner-all" />
-	  {{>userpass_P}}
-	  {{>addressFields_P}}
-	  {{>contactFields_P}}
+	<label for="company-name">Company name</label>
+	<input type="text" id="company-name" value="{{companyName}}" class="text ui-widget-content ui-corner-all" />
+	<label for="operationalname">Operational Name</label>
+	<input type="text" id="operationalname" value="{{operationalname}}" class="text ui-widget-content ui-corner-all" />
+	{{>userpass_P}}
+	{{>addressFields_P}}
+	{{>contactFields_P}}
       </form>
       {{/company}}
     </script>
-  
+
+    <script id="companyForm_TMP" type="text/html">
+      {{>companyForm_P}}
+    </script>
+    
     <script id="companyInputDialog_TMP" type="text/html">
       <div id="dialog-form" title="{{title}}">
 	<p class="validateTips"></p>
 	{{>companyForm_P}}
       </div>	
     </script>
-  
-  
-  	<script id="companyModifyRewardsDialog_TMP" type="text/html">
-  		<div id="dialog-form-forRewards">
-  			<form id="form_forRewards">
-			{{#MobQredits}}
-			<input type="hidden" style="border: 0" class="menuButtonToggle" var="use_mobqredits" id="use_mobqredits" {{#use_mobqredits}}checked=true{{/use_mobqredits}} />
-			<label for="mobqredits_conversion">MobQredits Conversion: </label>			
-			<input type="text" maxlength="10" size="10" var="mobqredits_conversion" id="mobqredits_conversion" value="{{mobqredits_conversion}}"/>  
-			
-			<input type="hidden" style="border: 0" class="menuButtonToggle" var="use_qriket" id="use_qriket" {{#use_qriket}}checked=true{{/use_qriket}} />
-			<label for="qriket_conversion">Qriket Conversion: </label>			
-			<input type="text" maxlength="10" size="10" var="qriket_conversion" id="qriket_conversion" value="{{qriket_conversion}}"/>
-		  	{{/MobQredits}}
-		      </form>
-  		</div>
-  	</script>
-  	
+    
+    
+    <script id="companyModifyRewardsDialog_TMP" type="text/html">
+      <div id="dialog-form-forRewards">
+  	<form id="form_forRewards">
+	  {{#MobQredits}}
+	  <input type="hidden" style="border: 0" class="menuButtonToggle" var="use_mobqredits" id="use_mobqredits" {{#use_mobqredits}}checked=true{{/use_mobqredits}} />
+	  <label for="mobqredits_conversion">MobQredits Conversion: </label>			
+	  <input type="text" maxlength="10" size="10" var="mobqredits_conversion" id="mobqredits_conversion" value="{{mobqredits_conversion}}"/>  
+	  
+	  <input type="hidden" style="border: 0" class="menuButtonToggle" var="use_qriket" id="use_qriket" {{#use_qriket}}checked=true{{/use_qriket}} />
+	  <label for="qriket_conversion">Qriket Conversion: </label>			
+	  <input type="text" maxlength="10" size="10" var="qriket_conversion" id="qriket_conversion" value="{{qriket_conversion}}"/>
+	  {{/MobQredits}}
+	</form>
+      </div>
+    </script>
+    
     <script id="modify_company_page_TMP" type="text/html">
       <table border="1">
 	<h1>Modify Company</h1>
@@ -273,14 +277,13 @@
 	{{>backButton_P}}
 	{{>menuButton_P}}
 	{{>companyForm_P}}
-	
       </table>
       <div id="dialog-hook"></div>
       <div id="dialog-hook-forRewards"></div>
     </script>   
-  
+    
     <!--------------------------------------------------------GROUP--------------------------------------------------->
-  
+    
     <script id="groupsTabel_TMP" type="text/html">
       <table border="1">
 	<tr>
@@ -304,7 +307,7 @@
       </table>
       {{>quickViewHook_P}}
     </script>
-  
+    
     <script id="group_management_page_TMP" type="text/html">
       <h1>Group Management</h1>
       {{>breadcrumb_P}}
@@ -315,26 +318,30 @@
       
       {{>createDialogHook_P}}
     </script>
-  
+    
     <script id="groupForm_P" class="partial" type="text/html">
       {{#group}}
       <form id="form">
-	  <label for="group-name">Group Name</label>
-	  <input type="text" id="group-name" value="{{groupName}}" class="text ui-widget-content ui-corner-all" />
-	  {{>userpass_P}}
-	  {{>addressFields_P}}
-	  {{>contactFields_P}}
+	<label for="group-name">Group Name</label>
+	<input type="text" id="group-name" value="{{groupName}}" class="text ui-widget-content ui-corner-all" />
+	{{>userpass_P}}
+	{{>addressFields_P}}
+	{{>contactFields_P}}
       </form>
       {{/group}}
     </script>
-  
+
+    <script id="groupForm_TMP" type="text/html">
+      {{>groupForm_P}}
+    </script>
+
     <script id="groupInputDialog_TMP" type="text/html">
       <div id="dialog-form" title="{{title}}">
 	<p class="validateTips"></p>
 	{{>groupForm_P}}
       </div>
     </script>
-  
+    
     <script id="modify_group_page_TMP" type="text/html">
       <table border="1">
 	<h1>Modify Group</h1>
@@ -352,23 +359,27 @@
       </table>
       <div id="dialog-hook"></div>
     </script>   
-  
+    
     <!--------------------------------------------------------STORES--------------------------------------------------->
-  
+    
     <script id="storeForm_P" class="partial" type="text/html">
       {{#store}}
       <form id="form">
-	  <label for="store-name">Store Name</label>
-	  <input type="text" id="store-name" value="{{storeName}}" class="text ui-widget-content ui-corner-all" />
-	  <label for="store-num">Store Number</label>
-	  <input type="text" id="store-num" value="{{number}}" class="text ui-widget-content ui-corner-all" />
-	  {{>userpass_P}}
-	  {{>addressFields_P}}
-	  {{>contactFields_P}}
+	<label for="store-name">Store Name</label>
+	<input type="text" id="store-name" value="{{storeName}}" class="text ui-widget-content ui-corner-all" />
+	<label for="store-num">Store Number</label>
+	<input type="text" id="store-num" value="{{number}}" class="text ui-widget-content ui-corner-all" />
+	{{>userpass_P}}
+	{{>addressFields_P}}
+	{{>contactFields_P}}
       </form>
       {{/store}}
     </script>
-  
+
+    <script id="storeForm_TMP" type="text/html">
+      {{>storeForm_P}}
+    </script>
+    
     <script id="storesTabel_TMP" type="text/html">
       <table border="1">
 	<tr>
@@ -392,14 +403,14 @@
       </table>
       {{>quickViewHook_P}}
     </script>
-  
+    
     <script id="storeInputDialog_TMP" type="text/html">
       <div id="dialog-form" title="{{title}}">
 	<p class="validateTips"></p>
 	{{>storeForm_P}}
       </div>
     </script>  
-  
+    
     <script id="store_management_page_TMP" type="text/html">
       <h1>Stores Management</h1>
       {{>breadcrumb_P}}
@@ -410,7 +421,7 @@
       
       {{>createDialogHook_P}}
     </script>
-  
+    
     <script id="modify_store_page_TMP" type="text/html">
       <table border="1">
 	<h1>Modify Store</h1>
@@ -428,36 +439,40 @@
       </table>
       <div id="dialog-hook"></div>
     </script>   
-  
+    
     <!--------------------------------------------------------TERMINALS--------------------------------------------------->
-  
-    <script id="terminalFrom_P" class="partial" type="text/html">
+    
+    <script id="terminalForm_P" class="partial" type="text/html">
       {{#terminal}}	
       <form id="form">
-	  <label for="terminal-id">Terminal ID</label>
-	  <input type="text" id="terminal-id" value="{{terminal_label}}" class="text ui-widget-content ui-corner-all" />
-	  <label for="companyCode">Company Code</label>
-	  <input type="text" id="companyCode" value="{{companyCode}}" class="text ui-widget-content ui-corner-all" />
-	  <label for="storeCode">Store Code</label>
-	  <input type="text" id="storeCode" value="{{storeCode}}" class="text ui-widget-content ui-corner-all" />
-	  <label for="areaCode">Area Code</label>
-	  <input type="text" id="areaCode" value="{{areaCode}}" class="text ui-widget-content ui-corner-all" />
-	  <label for="cityCode">City Code</label>
-	  <input type="text" id="cityCode" value="{{cityCode}}"  class="text ui-widget-content ui-corner-all" />
-	  <label for="countryCode">Country Code</label>
-	  <input type="text" id="countryCode" value="{{countryCode}}" class="text ui-widget-content ui-corner-all" />
-	  <label for="postalCode">Postal Code</label>
-	  <input type="text" id="postalCode" value="{{postalCode}}" class="text ui-widget-content ui-corner-all" />
-	  <!--<label for="centrallycontrolmenus">Centrally Controled Menus</label>
-	  <input type="checkbox" id="centrallycontrolmenus" {{#centrallycontrolmenus}}checked=true{{/centrallycontrolmenus}} />
-	  <label for="usingautomatedpayment">Using Automated Payments</label>
-	  <input type="checkbox" id="usingautomatedpayment" {{#usingautomatedpayment}}checked=true{{/usingautomatedpayment}} />
-	  <label for="usingmobqredits">Using mobQRedits</label>
-	  <input type="checkbox" id="usingmobqredits" {{#usingmobqredits}}checked=true{{/usingmobqredits}} />-->
+	<label for="terminal-id">Terminal ID</label>
+	<input type="text" id="terminal-id" value="{{terminal_label}}" class="text ui-widget-content ui-corner-all" />
+	<label for="companyCode">Company Code</label>
+	<input type="text" id="companyCode" value="{{companyCode}}" class="text ui-widget-content ui-corner-all" />
+	<label for="storeCode">Store Code</label>
+	<input type="text" id="storeCode" value="{{storeCode}}" class="text ui-widget-content ui-corner-all" />
+	<label for="areaCode">Area Code</label>
+	<input type="text" id="areaCode" value="{{areaCode}}" class="text ui-widget-content ui-corner-all" />
+	<label for="cityCode">City Code</label>
+	<input type="text" id="cityCode" value="{{cityCode}}"  class="text ui-widget-content ui-corner-all" />
+	<label for="countryCode">Country Code</label>
+	<input type="text" id="countryCode" value="{{countryCode}}" class="text ui-widget-content ui-corner-all" />
+	<label for="postalCode">Postal Code</label>
+	<input type="text" id="postalCode" value="{{postalCode}}" class="text ui-widget-content ui-corner-all" />
+	<!--<label for="centrallycontrolmenus">Centrally Controled Menus</label>
+		   <input type="checkbox" id="centrallycontrolmenus" {{#centrallycontrolmenus}}checked=true{{/centrallycontrolmenus}} />
+		   <label for="usingautomatedpayment">Using Automated Payments</label>
+		   <input type="checkbox" id="usingautomatedpayment" {{#usingautomatedpayment}}checked=true{{/usingautomatedpayment}} />
+		   <label for="usingmobqredits">Using mobQRedits</label>
+		   <input type="checkbox" id="usingmobqredits" {{#usingmobqredits}}checked=true{{/usingmobqredits}} />-->
       </form>
       {{/terminal}}
     </script>
-  
+
+    <script id="terminalForm_TMP" type="text/html">
+      {{>terminalForm_P}}
+    </script>
+    
     <script id="terminalsTabel_TMP" type="text/html">
       <table border="1">
 	<tr>
@@ -477,14 +492,14 @@
       </table>
       {{>quickViewHook_P}}
     </script>
-  
+    
     <script id="terminalInputDialog_TMP" type="text/html">
       <div id="dialog-form" title="{{title}}">
 	<p class="validateTips"></p>
-	{{>terminalFrom_P}}
+	{{>terminalForm_P}}
       </div>
     </script>
-  
+    
     <script id="terminal_management_page_TMP" type="text/html">
       <h1>Terminals Management</h1>
       {{>breadcrumb_P}}
@@ -495,7 +510,7 @@
       
       {{>createDialogHook_P}}
     </script>
-  
+    
     <script id="modify_terminal_page_TMP" type="text/html">
       <table border="1">
 	<h1>Modify Terminal</h1>
@@ -507,7 +522,7 @@
 	{{>editButton_P}}
 	{{>backButton_P}}
 	{{>menuButton_P}}
-	{{>terminalFrom_P}}
+	{{>terminalForm_P}}
 	
 	
       </table>
@@ -515,6 +530,6 @@
     </script> 
   </head>
   <body>
-	<div id="main"></div>
+    <div id="main"></div>
   </body>
 </html>

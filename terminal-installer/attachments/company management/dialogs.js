@@ -465,9 +465,8 @@ function TerminalInputDialog (attachTo,options) {
 };
 
 function quickViewDialog (html,options) {
-    var form = $(html).find('form')[0];
     var d = $("#dialog-quickView");    	
-    d.html(form);
+    d.html(html);
     d.find('input').attr('disabled',true);
     var dialogOptions = _.extend(
 	{autoOpen: false,
