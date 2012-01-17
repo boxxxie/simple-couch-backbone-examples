@@ -403,11 +403,6 @@ function doc_setup(){
 	    	      var html = ich.companyModifyRewardsDialog_TMP({MobQredits:rewardsJson.MobQredits});
 				companyModifyRewardsViewDialog(html,{title:"Modify Rewards Program",
 													saveRewardsProgram:saveRewardsProgram()});
-	    	      
-	    	      //$("#dialog-hook").html(ich.companyInputDialog_TMP({title:"Modify Rewards Program",
-				//				company:companyJSON}));
-		      
-		      	console.log("rendered menus for inventory");
 		      });
 		});
 		
