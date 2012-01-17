@@ -27,7 +27,6 @@
     <script language="javascript" type="text/javascript" src="../lib/couch-backbone.js"></script>
 
     <script language="javascript" type="text/javascript" src="../company management/sample_terminal.js"></script>
-    <!--<script language="javascript" type="text/javascript" src="../company management/heroburger_terminal.js"></script>-->
     <script language="javascript" type="text/javascript" src="../lib/Company.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/Rewards.js"></script>
     <script language="javascript" type="text/javascript" src="../company management/rewards_helpers.js"></script>
@@ -185,28 +184,32 @@
     
     <script id="companiesTabel_TMP" type="text/html">
       <table border="1">
-	<tr>
-	  <th>Name</th>
-	  <th>Operational Name</th>
-	  <th># of Groups</th>
-	  <th># of Stores</th>
-	  <th># of Terminals</th>
-	  <th>Creation Date</th>
-	  <th>Detail</th>
-	  <th>Delete</th>
-	</tr>
-	{{#list}}
-	<tr>
-	  <td><a href="#/company/{{company_id}}">{{companyName}}</a></td>
-	  <td>{{operationalname}}</td>
-	  <td>{{group_num}}</td>
-	  <td>{{store_num}}</td>
-	  <td>{{terminal_num}}</td>
-	  <td>{{creationdate}}</td>
-	  <td>{{>quickViewButton_P}}</td>
-	  <td>{{>deleteButton_P}}</td>
-	</tr>
-	{{/list}}
+	<thead>
+	  <tr>
+	    <th>Name</th>
+	    <th>Operational Name</th>
+	    <th># of Groups</th>
+	    <th># of Stores</th>
+	    <th># of Terminals</th>
+	    <th>Creation Date</th>
+	    <th>Detail</th>
+	    <th>Delete</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  {{#list}}
+	  <tr>
+	    <td><a href="#/company/{{company_id}}">{{companyName}}</a></td>
+	    <td>{{operationalname}}</td>
+	    <td>{{group_num}}</td>
+	    <td>{{store_num}}</td>
+	    <td>{{terminal_num}}</td>
+	    <td>{{creationdate}}</td>
+	    <td>{{>quickViewButton_P}}</td>
+	    <td>{{>deleteButton_P}}</td>
+	  </tr>
+	  {{/list}}
+	</tbody>
       </table>
       {{>quickViewHook_P}}
     </script>
@@ -276,8 +279,8 @@
 	</button>
 	{{>backButton_P}}
 	{{>menuButton_P}}
-	{{>companyForm_P}}
       </table>
+      {{>companyForm_P}}
       <div id="dialog-hook"></div>
       <div id="dialog-hook-forRewards"></div>
     </script>   
@@ -286,24 +289,28 @@
     
     <script id="groupsTabel_TMP" type="text/html">
       <table border="1">
-	<tr>
-	  <th>Name</th>
-	  <th># of Stores</th>
-	  <th># of Terminals</th>
-	  <th>Creation Date</th>
-	  <th>Details</th>
-	  <th>Delete</th>
-	</tr>
-	{{#list}}
-	<tr>
-	  <td><a href="#/company/{{company_id}}/groups/{{group_id}}">{{groupName}}</a></td>
-	  <td>{{store_num}}</td>
-	  <td>{{terminal_num}}</td>
-	  <td>{{creationdate}}</td>
-	  <td>{{>quickViewButton_P}}</td>
-	  <td>{{>deleteButton_P}}</td>
-	</tr>
-	{{/list}}
+	<thead>
+	  <tr>
+	    <th>Name</th>
+	    <th># of Stores</th>
+	    <th># of Terminals</th>
+	    <th>Creation Date</th>
+	    <th>Details</th>
+	    <th>Delete</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  {{#list}}
+	  <tr>
+	    <td><a href="#/company/{{company_id}}/groups/{{group_id}}">{{groupName}}</a></td>
+	    <td>{{store_num}}</td>
+	    <td>{{terminal_num}}</td>
+	    <td>{{creationdate}}</td>
+	    <td>{{>quickViewButton_P}}</td>
+	    <td>{{>deleteButton_P}}</td>
+	  </tr>
+	  {{/list}}
+	</tbody>
       </table>
       {{>quickViewHook_P}}
     </script>
@@ -353,10 +360,8 @@
 	{{>editButton_P}}
 	{{>backButton_P}}
 	{{>menuButton_P}}
-	{{>groupForm_P}}
-	
-	
       </table>
+      {{>groupForm_P}}
       <div id="dialog-hook"></div>
     </script>   
     
@@ -382,24 +387,28 @@
     
     <script id="storesTabel_TMP" type="text/html">
       <table border="1">
-	<tr>
-	  <th>Name</th>
-	  <th>Number</th>
-	  <th># of Terminals</th>
-	  <th>Creation Date</th>
-	  <th>Details</th>
-	  <th>Delete</th>
-	</tr>
-	{{#list}}
-	<tr>
-	  <td><a href="#/company/{{company_id}}/groups/{{group_id}}/stores/{{store_id}}">{{storeName}}</a></td>
-	  <td>{{number}}</td>
-	  <td>{{terminal_num}}</td>
-	  <td>{{creationdate}}</td>
-	  <td>{{>quickViewButton_P}}</td>
-	  <td>{{>deleteButton_P}}</td>
-	</tr>
-	{{/list}}
+	<thead>
+	  <tr>
+	    <th>Name</th>
+	    <th>Number</th>
+	    <th># of Terminals</th>
+	    <th>Creation Date</th>
+	    <th>Details</th>
+	    <th>Delete</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  {{#list}}
+	  <tr>
+	    <td><a href="#/company/{{company_id}}/groups/{{group_id}}/stores/{{store_id}}">{{storeName}}</a></td>
+	    <td>{{number}}</td>
+	    <td>{{terminal_num}}</td>
+	    <td>{{creationdate}}</td>
+	    <td>{{>quickViewButton_P}}</td>
+	    <td>{{>deleteButton_P}}</td>
+	  </tr>
+	  {{/list}}
+	</tbody>
       </table>
       {{>quickViewHook_P}}
     </script>
@@ -433,10 +442,8 @@
 	{{>editButton_P}}
 	{{>backButton_P}}
 	{{>menuButton_P}}
-	{{>storeForm_P}}
-	
-	
       </table>
+      {{>storeForm_P}}
       <div id="dialog-hook"></div>
     </script>   
     
@@ -475,20 +482,24 @@
     
     <script id="terminalsTabel_TMP" type="text/html">
       <table border="1">
-	<tr>
-	  <th>ID</th>
-	  <th>Installed</th>
-	  <th>Creation Date</th>
-	  <th>Details</th>
-	</tr>
-	{{#list}}
-	<tr>
-	  <td><a href="#/company/{{company_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals/{{terminal_id}}">{{terminal_label}}</a></td>
-	  <td>{{installed}}</td>
-	  <td>{{creationdate}}</td>
-	  <td>{{>quickViewButton_P}}</td>
-	</tr>
-	{{/list}}
+	<thead>
+	  <tr>
+	    <th>ID</th>
+	    <th>Installed</th>
+	    <th>Creation Date</th>
+	    <th>Details</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  {{#list}}
+	  <tr>
+	    <td><a href="#/company/{{company_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals/{{terminal_id}}">{{terminal_label}}</a></td>
+	    <td>{{installed}}</td>
+	    <td>{{creationdate}}</td>
+	    <td>{{>quickViewButton_P}}</td>
+	  </tr>
+	  {{/list}}
+	</tbody>
       </table>
       {{>quickViewHook_P}}
     </script>
@@ -522,10 +533,8 @@
 	{{>editButton_P}}
 	{{>backButton_P}}
 	{{>menuButton_P}}
-	{{>terminalForm_P}}
-	
-	
       </table>
+      {{>terminalForm_P}}
       <div id="dialog-hook"></div>
     </script> 
   </head>
