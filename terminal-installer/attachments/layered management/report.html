@@ -1558,33 +1558,29 @@
     
     
     <!---------------------------------- INVENTORY REPORTS ------------------------------------------------>
-    
+    <script id="menuReportsInventory_GenericFooter_properties_P" type="text/html" class="partial">
+      <th align="right">{{sales.quantity}}</th>
+      <th align="right">{{sales.price}}</th>
+      <th align="right">{{refunds.quantity}}</th>
+      <th align="right">{{refunds.price}}</th>
+      <th align="right">{{totals.quantity}}</th>
+      <th align="right">{{totals.price}}</th>
+      <th align="right">{{typedSalesPercentage}}</th>
+      <th align="right">{{totalSalesPercentage}}</th>
+    </script>
+
     <script id="menuReportsInventory_GenericFooter_P" type="text/html" class="partial">
       	  <tr>
 	    <th align="center">Total</th>
-	    <th align="right">{{sales.quantity}}</th>
-	    <th align="right">{{sales.price}}</th>
-	    <th align="right">{{refunds.quantity}}</th>
-	    <th align="right">{{refunds.price}}</th>
-	    <th align="right">{{totals.quantity}}</th>
-	    <th align="right">{{totals.price}}</th>
-	    <th align="right">{{typedSalesPercentage}}</th>
-	    <th align="right">{{totalSalesPercentage}}</th>
+	    {{>menuReportsInventory_GenericFooter_properties_P}}
 	  </tr>
     </script>
 
-	<script id="menuReportsInventory_ScanSalesfooter_P" type="text/html" class="partial">
-      	  <tr>
-	    <th align="center" colspan="2">Total</th>
-	    <th align="right">{{sales.quantity}}</th>
-	    <th align="right">{{sales.price}}</th>
-	    <th align="right">{{refunds.quantity}}</th>
-	    <th align="right">{{refunds.price}}</th>
-	    <th align="right">{{totals.quantity}}</th>
-	    <th align="right">{{totals.price}}</th>
-	    <th align="right">{{typedSalesPercentage}}</th>
-	    <th align="right">{{totalSalesPercentage}}</th>
-	  </tr>
+    <script id="menuReportsInventory_ScanSalesfooter_P" type="text/html" class="partial">
+      <tr>
+	<th align="center" colspan="2">Total</th>
+	{{>menuReportsInventory_GenericFooter_properties_P}}
+      </tr>
     </script>	
 	
     <script id="menuReportsInventory_GenericHeaderEnd_P" type="text/html" class="partial">

@@ -138,35 +138,47 @@ function inventoryTotalsRangeFetcher_F(id){
 
 		    var scan_sales_totals = _.reduce(scan_sales_list,_.addPropertiesTogether,{});
 		    
-		    var ecr_sales_list =totals_list(resp.all_ecr_sales,resp.all_ecr_refunds,ecr_sales.price,totalSales);
-		    var department_sales_list=totals_list(resp.all_department_sales,resp.all_department_refunds,ecr_sales.price,totalSales);
-		    var scale_sales_list=totals_list(resp.all_scale_sales,resp.all_scale_refunds,ecr_sales.price,totalSales);
+		    var ecr_sales_list =totals_list(resp.all_ecr_sales,
+						    resp.all_ecr_refunds,
+						    ecr_sales.price,totalSales);
+		    var department_sales_list=totals_list(resp.all_department_sales,
+							  resp.all_department_refunds,
+							  ecr_sales.price,totalSales);
+		    var scale_sales_list=totals_list(resp.all_scale_sales,
+						     resp.all_scale_refunds,
+						     ecr_sales.price,totalSales);
 
-		    var ecr_sales_totals = _.reduce(ecr_sales_list.concat(department_sales_list).concat(scale_sales_list),_.addPropertiesTogether,{});
+		    var ecr_sales_totals = _.reduce(ecr_sales_list.concat(department_sales_list).concat(scale_sales_list),
+						    _.addPropertiesTogether,{});
 		    
-		    var scale_sales_list_formatted = //prewalk(scale_sales_list,
-		    								pre_walk(scale_sales_list,
-							     function(obj){
-								 if(obj.quantity){
-								     return _.extend(obj,{quantity:obj.quantity.toFixed(3)});
-								 }	 
-								 return obj;
-							     });
-							     
+		    var scale_sales_list_formatted = pre_walk(scale_sales_list,
+							      function(obj){
+								  if(obj.quantity){
+								      return _.extend(obj,{quantity:obj.quantity.toFixed(3)});
+								  }	 
+								  return obj;
+							      });
+		    function applyDefaultSalesFields(list){
+			function applyDefault_sales_refunds(item){
+			    return _.defaults(item,{sales:{price:0,quantity:0},refunds:{price:0,quantity:0}});
+			}
+			return _.map(list,applyDefault_sales_refunds);
+		    }
+		    
 		    var forTMP = { 
-			menu_sales_list: menu_sales_list,
+			menu_sales_list: applyDefaultSalesFields(menu_sales_list),
 			menu_list_totals:menu_sales_totals,
 			menu_sales:menu_sales,
 
-			scan_sales_list:scan_sales_list,
+			scan_sales_list:applyDefaultSalesFields(scan_sales_list),
 			scan_list_totals:scan_sales_totals,
 			scan_sales:scan_sales,
 			
-			department_sales_list:department_sales_list,
+			department_sales_list:applyDefaultSalesFields(department_sales_list),
 			
-			scale_sales_list:scale_sales_list_formatted,
+			scale_sales_list:applyDefaultSalesFields(scale_sales_list_formatted),
 
-			ecr_sales_list:ecr_sales_list,
+			ecr_sales_list:applyDefaultSalesFields(ecr_sales_list),
 			ecr_list_totals:ecr_sales_totals,
 
 			ecr_sales:ecr_sales
