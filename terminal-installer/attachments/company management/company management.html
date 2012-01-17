@@ -29,6 +29,8 @@
     <script language="javascript" type="text/javascript" src="../company management/sample_terminal.js"></script>
     <!--<script language="javascript" type="text/javascript" src="../company management/heroburger_terminal.js"></script>-->
     <script language="javascript" type="text/javascript" src="../lib/Company.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/Rewards.js"></script>
+    <script language="javascript" type="text/javascript" src="../company management/rewards_helpers.js"></script>
     <script language="javascript" type="text/javascript" src="../company management/company management.js"></script>
     <script language="javascript" type="text/javascript" src="../company management/installTerminal.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/Menu.js"></script>
@@ -239,6 +241,23 @@
       </div>	
     </script>
   
+  
+  	<script id="companyModifyRewardsDialog_TMP" type="text/html">
+  		<div id="dialog-form-forRewards">
+  			<form id="form_forRewards">
+			{{#MobQredits}}
+			<input type="hidden" style="border: 0" class="menuButtonToggle" var="use_mobqredits" id="use_mobqredits" {{#use_mobqredits}}checked=true{{/use_mobqredits}} />
+			<label for="mobqredits_conversion">MobQredits Conversion: </label>			
+			<input type="text" maxlength="10" size="10" var="mobqredits_conversion" id="mobqredits_conversion" value="{{mobqredits_conversion}}"/>  
+			
+			<input type="hidden" style="border: 0" class="menuButtonToggle" var="use_qriket" id="use_qriket" {{#use_qriket}}checked=true{{/use_qriket}} />
+			<label for="qriket_conversion">Qriket Conversion: </label>			
+			<input type="text" maxlength="10" size="10" var="qriket_conversion" id="qriket_conversion" value="{{qriket_conversion}}"/>
+		  	{{/MobQredits}}
+		      </form>
+  		</div>
+  	</script>
+  	
     <script id="modify_company_page_TMP" type="text/html">
       <table border="1">
 	<h1>Modify Company</h1>
@@ -248,15 +267,16 @@
 	  <span class="ui-button-text">Group Manager</span>
 	</button>
 	{{>editButton_P}}
+	<button id="btnModifyRewards" class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+	  <span class="ui-button-text">Modify Rewards</span>
+	</button>
 	{{>backButton_P}}
 	{{>menuButton_P}}
-	
 	{{>companyForm_P}}
-	
-	
 	
       </table>
       <div id="dialog-hook"></div>
+      <div id="dialog-hook-forRewards"></div>
     </script>   
   
     <!--------------------------------------------------------GROUP--------------------------------------------------->

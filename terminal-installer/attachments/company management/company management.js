@@ -1,4 +1,5 @@
 var Companies;
+var rewardsModel;
 
 function guidGenerator() {
     var S4 = function() {
@@ -99,6 +100,7 @@ function editCompany(company){
 	    validator : function(resp) {
 		return validateCompany(resp,company.toJSON());}
 	   };};
+
 function deleteCompany(companyID) {
     var company = Companies.getModelById(companyID);
     var groups = company.get('hierarchy').groups;;
@@ -380,6 +382,30 @@ function doc_setup(){
 	     $('#form').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.companyInputDialog_TMP({title:"Edit the Company",
 								company:companyJSON}));
+		
+		$("#btnModifyRewards").click(function(){
+			console.log("rewards!!");
+			function saveRewardsProgram() {
+				return function(mobqreditsconversion, qriketconversion) {
+					var rewardsJson = rewardsModel.toJSON();
+					rewardsModel.save({MobQredits:{use_mobqredits:rewardsJson.MobQredits.use_mobqredits,
+													mobqredits_conversion:mobqreditsconversion,
+													use_qriket:rewardsJson.MobQredits.use_qriket,
+													qriket_conversion:qriketconversion}});
+				}	
+			};
+			
+			fetch_company_rewards(companyJSON._id)
+		     (function(err,rewards){
+	    	      console.log(rewards);
+	    	      rewardsModel = rewards;
+	    	      var rewardsJson = rewardsModel.toJSON();
+	    	      var html = ich.companyModifyRewardsDialog_TMP({MobQredits:rewardsJson.MobQredits});
+				companyModifyRewardsViewDialog(html,{title:"Modify Rewards Program",
+													saveRewardsProgram:saveRewardsProgram()});
+		      });
+		});
+		
 	     CompanyModifyDialog("edit-thing",editCompany(company));
 	     console.log("companiesView renderModifyPage " + id);
 	     return this;

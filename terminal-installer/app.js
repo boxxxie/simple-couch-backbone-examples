@@ -6,6 +6,7 @@ ddoc = { _id:'_design/app'};
 ddoc.rewrites = [
     {from: "downloads", to: "posdownload\/downloads.html"},
     {from: "admin", to: "login.html"},
+    {from: "admin2", to: "backoffice admin/login.html"},
     {from: "login", to: "layered management/report.html"},
     {from: "new/*", to: "../../../*", method : "PUT"},
     {from: "terminals_rt7/*", to: "../../../terminals_rt7/*"},
@@ -16,6 +17,7 @@ ddoc.rewrites = [
     {from: "inventory_rt7/*", to: "../../../inventory_rt7/*"},
     {from: "menus_corp/*", to: "../../../menus_corp/*"},
     {from: "menu_buttons/*", to: "../../../menu_buttons/*"},
+    {from: "rewards_rt7/*", to: "../../../rewards_rt7/*"},
     {from: "/", to:'index.html'},
     {from: "/api", to:'../../'},
     {from: "/api/*", to:'../../*'},
