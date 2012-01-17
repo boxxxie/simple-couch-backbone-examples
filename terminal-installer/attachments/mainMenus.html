@@ -2,6 +2,8 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>RT7 RMS v2</title>
+    <link href="../layout.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css"/>
     <script language="javascript" type="text/javascript">
       function login() {
       var id = document.getElementById('userID').value;
@@ -23,15 +25,29 @@
     </script>
   </head>
   <body>
+      <div style="width:1000px;margin:20px auto;padding:0px;background-color:transparent;font-size:13px;font-weight:bold;text-align:center;">
+	<img src="../images/logo.png"/>
+      </div>
+      <div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
     <form>
-      <h1>RT7 BACKOFFICE Main Menus</h1>
-      <p></p><p></p>
-      <a href="company management/company management.html"> 1. COMPANY MANAGEMENT </a><p></p>
-      <a href="inventory management/inventory management.html"> 2. INVENTORY MANAGEMENT </a><p></p>
-      <a href=""> 3. BACKOFFICE ADMINISTRATION USER INFO </a><p></p>
-      <a href=""> 4. REPORTS </a><p></p>
-      <a href=""> 5. INSTALL A TERMINAL/DEACTIVATE A TERMINAL </a><p></p>
-      <a href="admin"> 6. LOGOUT </a><p></p>
+      <h1>RT7 Backoffice Main Menu</h1>
+      <a href="company management/company management.html"><div class="report-menu"><img src="../images/admin/company.png" class="report-menu-icon" border="0"/>Company Management</div></a>
+      <a href="inventory management/inventory management.html"><div class="report-menu"><img src="../images/admin/inventory.png" class="report-menu-icon" border="0"/>Inventory Management</div></a>
+      <a href=""><div class="report-menu"><img src="../images/admin/user.png" class="report-menu-icon" border="0"/>Backoffice Admin User Info</div></a>
+      <a href=""><div class="report-menu"><img src="../images/admin/reports.png" class="report-menu-icon" border="0"/>Reports</div></a>
+      <a href=""><div class="report-menu"><img src="../images/admin/terminal.png" class="report-menu-icon" border="0"/>Install / Deactivate a Terminal</div></a>
+      <a href="login.html"><div class="report-menu"><img src="../images/admin/logout.png" class="report-menu-icon" border="0"/>Logout</div></a>
+      <div style="clear:both"></div>
     </form>
+    </div>
+    <div style="width:1000px;margin:0 auto; color:#666;text-align:center;">
+      <script>document.write(Date()+".")</script>
+    </div>
+    <div class="footer">
+      <div class="footerin">
+	&copy; 2012 RT7 Incorporated.
+	<img src="../images/rt7.png" style="float:right;"/>
+      </div>
+    </div>
   </body>
 </html>

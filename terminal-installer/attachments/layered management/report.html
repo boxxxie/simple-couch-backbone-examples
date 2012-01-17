@@ -1,6 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
     <!--<script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>-->
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -104,10 +103,7 @@
     </script>
 
     <script id="loginButton_P" class="partial" type="text/html">
-      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
-	      onClick="login()">
-	<span class="ui-button-text">Login</span>
-      </button>
+	  <input type="button" value="Login" onClick="login()" class="btn"/>
     </script>
 
     <script id="logoutButton_P" class="partial" type="text/html">
@@ -140,6 +136,10 @@
     </script>
     
     <script id="main_navigation_buttons_P" class="partial" type="text/html">
+      <div style="width:1000px;margin:20px auto;padding:0px;background-color:transparent;font-size:13px;font-weight:bold;text-align:center;">
+	<img src="../images/logo.png"/>
+      </div>
+      <div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
       <div id="nav-menu">
 	<ul>
 	  <li>{{>homeButton_P}}</li>
@@ -1558,29 +1558,33 @@
     
     
     <!---------------------------------- INVENTORY REPORTS ------------------------------------------------>
-    <script id="menuReportsInventory_GenericFooter_properties_P" type="text/html" class="partial">
-      <th align="right">{{sales.quantity}}</th>
-      <th align="right">{{sales.price}}</th>
-      <th align="right">{{refunds.quantity}}</th>
-      <th align="right">{{refunds.price}}</th>
-      <th align="right">{{totals.quantity}}</th>
-      <th align="right">{{totals.price}}</th>
-      <th align="right">{{typedSalesPercentage}}</th>
-      <th align="right">{{totalSalesPercentage}}</th>
-    </script>
-
+    
     <script id="menuReportsInventory_GenericFooter_P" type="text/html" class="partial">
       	  <tr>
 	    <th align="center">Total</th>
-	    {{>menuReportsInventory_GenericFooter_properties_P}}
+	    <th align="right">{{sales.quantity}}</th>
+	    <th align="right">{{sales.price}}</th>
+	    <th align="right">{{refunds.quantity}}</th>
+	    <th align="right">{{refunds.price}}</th>
+	    <th align="right">{{totals.quantity}}</th>
+	    <th align="right">{{totals.price}}</th>
+	    <th align="right">{{typedSalesPercentage}}</th>
+	    <th align="right">{{totalSalesPercentage}}</th>
 	  </tr>
     </script>
 
-    <script id="menuReportsInventory_ScanSalesfooter_P" type="text/html" class="partial">
-      <tr>
-	<th align="center" colspan="2">Total</th>
-	{{>menuReportsInventory_GenericFooter_properties_P}}
-      </tr>
+	<script id="menuReportsInventory_ScanSalesfooter_P" type="text/html" class="partial">
+      	  <tr>
+	    <th align="center" colspan="2">Total</th>
+	    <th align="right">{{sales.quantity}}</th>
+	    <th align="right">{{sales.price}}</th>
+	    <th align="right">{{refunds.quantity}}</th>
+	    <th align="right">{{refunds.price}}</th>
+	    <th align="right">{{totals.quantity}}</th>
+	    <th align="right">{{totals.price}}</th>
+	    <th align="right">{{typedSalesPercentage}}</th>
+	    <th align="right">{{totalSalesPercentage}}</th>
+	  </tr>
     </script>	
 	
     <script id="menuReportsInventory_GenericHeaderEnd_P" type="text/html" class="partial">
@@ -1821,7 +1825,6 @@
       </table>
     </script>
     
-    
     <!-------------------------------------------------- Menu SET MENUS --------------------------------------->
     
     <script id="menuSetMenus_Left_TMP" type="text/html">
@@ -2034,17 +2037,54 @@
     <!------------------------------------------------------- LAYER LOGIN------------------------------------------>
     <script id="layerLogin_TMP" type="text/html">
       <div class="loginwrapper2">
+	 <div style="z-index:101;position: absolute;left: 22px;top: 240px; width:181px; height:88px; font-size:12px; font-weight:bold;">
+	 <img src="../images/ssm.png">
+	 </div>
+	 
+	 <div style="z-index:101;position: absolute;left: 612px;top: 260px; width:181px; height:88px; font-size:12px; font-weight:bold;">
+	 <img src="../images/mrp.png">
+	 </div>
+
+	 <div style="z-index:101;position: absolute;left: 80px;top: 430px; width:181px; height:88px; font-size:12px; font-weight:bold;">
+	 <img src="../images/ipp.png">
+	 </div>
+
+	 <div style="z-index:101;position: absolute;left: 516px;top: 430px; width:181px; height:88px; font-size:12px; font-weight:bold;">
+	 <img src="../images/pos.png">
+	 </div>
+	 
 	<div class="loginbox2">
 	  <form id="ids_form" style="margin-top: 90px;">
 	    <center>
-	      <input class="login" type="text" var="company" autofocus="autofocus" value="Lettieri Espresso + Bar"/>
-	      <input class="login" type="text" var="group" placeholder="Group ID"/>
-	      <input class="login" type="text" var="store" placeholder="Store ID"/>
-	      <input class="login" type="text" var="user" value="c" placeholder="User ID"/>
-	      <input class="login" type="password" var="password" id="layeredloginpassword" value="c" placeholder="Password"/>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="right">Company Name:</td>
+    <td><input class="login" type="text" var="company" autofocus="autofocus" value="Lettieri Espresso + Bar" placeholder="Company Name"//></td>
+  </tr>
+  <tr>
+    <td align="right">Group ID:</td>
+    <td><input class="login" type="text" var="group" placeholder="Group ID"/></td>
+  </tr>
+  <tr>
+    <td align="right">Store ID:</td>
+    <td><input class="login" type="text" var="store" placeholder="Store ID"/></td>
+  </tr>
+  <tr>
+    <td align="right">User ID:</td>
+    <td><input class="login" type="text" var="user" value="c" placeholder="User ID"/></td>
+  </tr>
+  <tr>
+    <td align="right">Password:</td>
+    <td><input class="login" type="password" var="password" id="layeredloginpassword" value="c" placeholder="Password"/></td>
+  </tr>
+</table>
 	    </center>
 	  </form>
-	  <span style="margin-left:220px;">{{>loginButton_P}}</span>
+	  {{>loginButton_P}}
 	</div>
       </div>
       <center><img src="../images/v1login.png"/></center>
@@ -2206,15 +2246,8 @@
   </head>
 
   <body>
-    <div>
-      <div style="width:1000px;margin:20px auto;padding:0px;background-color:transparent;font-size:13px;font-weight:bold;text-align:center;">
-	<img src="../images/logo.png"/>
-      </div>
-      <div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
 	<div id="main"></div>
       </div>
-    </div>
-    <div id="main2"></div>
     <div style="width:1000px;margin:0 auto; color:#666;text-align:center;">
       <script>document.write(Date()+".")</script>
     </div>
