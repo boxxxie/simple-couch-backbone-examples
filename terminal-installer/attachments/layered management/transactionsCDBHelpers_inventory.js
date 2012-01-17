@@ -133,7 +133,7 @@ function inventoryTotalsRangeFetcher_F(id){
 				 var labels = scan.label.split('-');
 				 var upc = _.str.trim(_.first(labels));
 				 var description =  _.str.trim(_.second(labels));
-				 return _.extend({upc: upc, label:description},scan);
+				 return _.extend({},scan,{upc: upc, label:description});
 			     });
 
 		    var scan_sales_totals = _.reduce(scan_sales_list,_.addPropertiesTogether,{});
