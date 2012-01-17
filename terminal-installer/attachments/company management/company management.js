@@ -197,7 +197,8 @@ function quickView(template,companyID,groupID,storeID,terminalID){
     } else{
 	for_TMP = {company:companyJSON};
     }
-    quickViewDialog(ich[template](for_TMP));
+    var html = ich[template](for_TMP)
+    quickViewDialog(html);
 }
 
 function doc_setup(){
@@ -364,7 +365,7 @@ function doc_setup(){
 			       var date = companyClone.creationdate;
 			       _.extend(companyClone,{creationdate:jodaDatePartFormatter(date)});
 			       var companyStats = view.collection.get(company._id).companyStats();
-			       var quickViewArgs = {template:"modify_company_page_TMP",
+			       var quickViewArgs = {template:"companyForm_TMP",
 						    company_id:company._id};
 			       return _.extend(companyClone,companyStats,quickViewArgs);})};
 	     var html = ich.companiesTabel_TMP(forTMP_w_stats);
@@ -443,7 +444,7 @@ function doc_setup(){
 			       var date = groupClone.creationdate;
 			       _.extend(groupClone,{creationdate:jodaDatePartFormatter(date)});
 			       var companyStats = view.model.companyStats(group.group_id);
-			       var quickViewArgs = {template:"modify_group_page_TMP",
+			       var quickViewArgs = {template:"groupForm_TMP",
 						    company_id:companyID,
 						    group_id:group.group_id};
 			       return _.extend(groupClone,companyStats,quickViewArgs);})};
@@ -504,7 +505,7 @@ function doc_setup(){
 				 var date = storeClone.creationdate;
 				 _.extend(storeClone,{creationdate:jodaDatePartFormatter(date)});
 				 var companyStats = view.model.companyStats(groupID,store.store_id);
-				 var quickViewArgs = {template:"modify_store_page_TMP",
+				 var quickViewArgs = {template:"storeForm_TMP",
 						      company_id:companyID, 
 						      group_id:groupID,
 						      store_id:store.store_id};
@@ -564,7 +565,7 @@ function doc_setup(){
 					  var clonedTerminal = _.clone(terminal);
 					  var date = clonedTerminal.creationdate;
 					  _.extend(clonedTerminal,{creationdate:jodaDatePartFormatter(date)});
-					  var quickViewArgs = {template:"modify_terminal_page_TMP",
+					  var quickViewArgs = {template:"terminalForm_TMP",
 							       company_id:companyID, 
 							       group_id:groupID, 
 							       store_id:storeID,
