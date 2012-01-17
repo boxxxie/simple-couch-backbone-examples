@@ -490,8 +490,8 @@ function quickViewDialog (html,options) {
 /************************************************* rewards program dialog *************************************/
 function companyModifyRewardsViewDialog (html,options) {
     //var stores = options.stores;
-    var form = $(html).filter('#dialog-form');
-    var d = $("#dialog-hook");    	
+    var form = $(html).filter('#dialog-form-forRewards');
+    var d = $("#dialog-hook-forRewards");    	
     d.html(form);
 
     var dialogOptions = _.extend(

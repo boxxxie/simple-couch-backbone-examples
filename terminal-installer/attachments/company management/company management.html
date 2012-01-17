@@ -243,8 +243,8 @@
   
   
   	<script id="companyModifyRewardsDialog_TMP" type="text/html">
-  		<div id="dialog-form">
-  			<form id="form">
+  		<div id="dialog-form-forRewards">
+  			<form id="form_forRewards">
 			{{#MobQredits}}
 			<input type="hidden" style="border: 0" class="menuButtonToggle" var="use_mobqredits" id="use_mobqredits" {{#use_mobqredits}}checked=true{{/use_mobqredits}} />
 			<label for="mobqredits_conversion">MobQredits Conversion: </label>			
@@ -276,6 +276,7 @@
 	
       </table>
       <div id="dialog-hook"></div>
+      <div id="dialog-hook-forRewards"></div>
     </script>   
   
     <!--------------------------------------------------------GROUP--------------------------------------------------->
