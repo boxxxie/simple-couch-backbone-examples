@@ -5,14 +5,14 @@ var Rewards = couchDoc.extend(
     {
 	urlRoot:urlBase + db_rewards,
 	set_default_rewards:function(id) {
-	    this.set({MobQredits :{mobqredits_conversion: 0, 
+	    this.set({mobqredits_conversion: 0, 
 				   use_mobqredits:false,
 				   qriket_conversion: 0,
-				   use_qriket:false}});
+				   use_qriket:false});
 	    return this;
 	},
 	set_rewards: function(rewards) {
-	    this.set({MobQredits:rewards});
+	    this.set(rewards);
 	    return this;
 	}
     });

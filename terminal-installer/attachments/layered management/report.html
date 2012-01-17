@@ -1792,6 +1792,36 @@
       </div>
     </script>
     
+    <script id="menuInventoryScanItemPriceChanges_TMP" type="text/html">
+      {{>main_navigation_buttons_P}}
+      <h1>SCAN Item Price Changes</h1>
+      <h2>{{>breadcrumb_P}}</h2>
+      <div id='menuinventoryscanpricechangetable'></div>	
+      {{>backButton_P}}
+    </script>
+    
+    <script id="menuInventoryScanPriceTabel_TMP" type="text/html">
+      <table class="reportstable">
+	<thead>
+	  <tr>
+	   <th>SKU</th>
+	    <th>Description</th>
+	    <th>Current Price</th>
+	    <th>New Price</th>
+	    <th>Apply Stores</th>
+	  </tr>
+	</thead>
+	<tbody>
+		{{#list}}
+			<td>{{upccode}}</td>
+			<td>{{description}}</td>
+			<td>{{upc}}</td>
+		{{/list}}
+	</tbody>
+      </table>
+    </script>
+    
+    
     <!-------------------------------------------------- Menu SET MENUS --------------------------------------->
     
     <script id="menuSetMenus_Left_TMP" type="text/html">
