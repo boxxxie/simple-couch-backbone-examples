@@ -39,7 +39,6 @@
       label, input { display:block; }
       input.text { margin-bottom:12px; width:95%; padding: .4em; }
       fieldset { padding:0; border:0; margin-top:25px; }
-      h1 { font-size: 1.2em; margin: .6em 0; }
       i {color: gray;}
       div#users-contain { width: 350px; margin: 20px 0; }
       div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
@@ -59,9 +58,7 @@
     
     <script id="addressFields_P" class="partial" type="text/html">
       {{#address}}
-      <dl>
-	<dt>Address</dt>
-	<dd>
+	  <h2>Address</h2>
 	  <label for="address.street0">Address 1</label>
 	  <input type="text" id="address.street0" value="{{street0}}" class="text ui-widget-content ui-corner-all" />
 	  <label for="address.street1">Address 2</label>
@@ -70,32 +67,26 @@
 	  <input type="text" id="address.city" value="{{city}}" class="text ui-widget-content ui-corner-all" />
 	  <label for="address.province">State/Province</label>
 	  <input type="text" id="address.province" value="{{province}}" class="text ui-widget-content ui-corner-all" />
+	  <label for="address.postalcode">Postal Code</label>
+	  <input type="text" id="address.postalcode" value="{{postalcode}}" class="text ui-widget-content ui-corner-all" />
 	  <label for="address.country">Country</label>
 	  <input type="text" id="address.country" value="{{country}}" class="text ui-widget-content ui-corner-all" />
-	  <label for="address.postalcode">Postal code</label>
-	  <input type="text" id="address.postalcode" value="{{postalcode}}" class="text ui-widget-content ui-corner-all" />
-	</dd>
-      </dl>
       {{/address}}
     </script>
     
     <script id="contactFields_P" class="partial" type="text/html">
       {{#contact}}
-      <dl>
-	<dt>Contact</dt>
-	<dd>
+	  <h2>Contact</h2>
 	  <label for="contact.firstname">First Name</label>
 	  <input type="text" id="contact.firstname" value="{{firstname}}" class="text ui-widget-content ui-corner-all" />
 	  <label for="contact.lastname">Last Name</label>
 	  <input type="text" id="contact.lastname" value="{{lastname}}" class="text ui-widget-content ui-corner-all" />
-	  <label for="contact.website">Web site</label>
+	  <label for="contact.website">Website</label>
 	  <input type="text" id="contact.website" value="{{website}}" class="text ui-widget-content ui-corner-all" />
-	  <label for="contact.email">e-mail</label>
+	  <label for="contact.email">E-mail</label>
 	  <input type="text" id="contact.email" value="{{email}}" class="text ui-widget-content ui-corner-all" />
-	  <label for="contact.phone">phone</label>
+	  <label for="contact.phone">Phone</label>
 	  <input type="text" id="contact.phone" value="{{phone}}" class="text ui-widget-content ui-corner-all" />
-	</dd>
-      </dl>
       {{/contact}}
     </script>
     
@@ -128,7 +119,7 @@
     <script id="menuButton_P" class="partial" type="text/html">
       <button  class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
 	       onClick="javascript:window.location.href ='../mainMenus.html';">
-	<span class="ui-button-text">Menus</span>
+	<span class="ui-button-text">Main Menu</span>
       </button>
     </script>
     
@@ -183,33 +174,33 @@
     <!--------------------------------------------------------COMPANY--------------------------------------------------->
     
     <script id="companiesTabel_TMP" type="text/html">
-      <table border="1">
-	<thead>
-	  <tr>
-	    <th>Name</th>
-	    <th>Operational Name</th>
-	    <th># of Groups</th>
-	    <th># of Stores</th>
-	    <th># of Terminals</th>
-	    <th>Creation Date</th>
-	    <th>Detail</th>
-	    <th>Delete</th>
-	  </tr>
-	</thead>
-	<tbody>
-	  {{#list}}
-	  <tr>
-	    <td><a href="#/company/{{company_id}}">{{companyName}}</a></td>
-	    <td>{{operationalname}}</td>
-	    <td>{{group_num}}</td>
-	    <td>{{store_num}}</td>
-	    <td>{{terminal_num}}</td>
-	    <td>{{creationdate}}</td>
-	    <td>{{>quickViewButton_P}}</td>
-	    <td>{{>deleteButton_P}}</td>
-	  </tr>
-	  {{/list}}
-	</tbody>
+      <table class="reportstable">
+<tfoot>
+	<tr>
+	  <th>Name</th>
+	  <th>Operational Name</th>
+	  <th># of Groups</th>
+	  <th># of Stores</th>
+	  <th># of Terminals</th>
+	  <th>Creation Date</th>
+	  <th>Detail</th>
+	  <th>Delete</th>
+	</tr>
+</tfoot>
+<tbody>
+	{{#list}}
+	<tr>
+	  <td><a href="#/company/{{company_id}}">{{companyName}}</a></td>
+	  <td>{{operationalname}}</td>
+	  <td>{{group_num}}</td>
+	  <td>{{store_num}}</td>
+	  <td>{{terminal_num}}</td>
+	  <td>{{creationdate}}</td>
+	  <td>{{>quickViewButton_P}}</td>
+	  <td>{{>deleteButton_P}}</td>
+	</tr>
+	{{/list}}
+</tbody>
       </table>
       {{>quickViewHook_P}}
     </script>
@@ -218,6 +209,7 @@
       <h1>Company Management</h1>
       {{>createButton_P}}
       {{>menuButton_P}}
+	  <hr/>
       {{>createDialogHook_P}}
       {{>managementTableHook_P}}
       
@@ -226,13 +218,20 @@
     <script id="companyForm_P" class="partial" type="text/html">
       {{#company}}
       <form id="form">
+	  <h2>Company Info</h2>
 	<label for="company-name">Company name</label>
 	<input type="text" id="company-name" value="{{companyName}}" class="text ui-widget-content ui-corner-all" />
 	<label for="operationalname">Operational Name</label>
 	<input type="text" id="operationalname" value="{{operationalname}}" class="text ui-widget-content ui-corner-all" />
 	{{>userpass_P}}
-	{{>addressFields_P}}
-	{{>contactFields_P}}
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tbody>
+  <tr>
+    <td valign="top">{{>addressFields_P}}</td>
+    <td valign="top">{{>contactFields_P}}</td>
+  </tr>
+</tbody>
+</table>
       </form>
       {{/company}}
     </script>
@@ -266,7 +265,7 @@
     </script>
     
     <script id="modify_company_page_TMP" type="text/html">
-      <table border="1">
+      <table class="reportstable">
 	<h1>Modify Company</h1>
 	{{>breadcrumb_P}}
 	<button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all"
@@ -288,29 +287,29 @@
     <!--------------------------------------------------------GROUP--------------------------------------------------->
     
     <script id="groupsTabel_TMP" type="text/html">
-      <table border="1">
-	<thead>
-	  <tr>
-	    <th>Name</th>
-	    <th># of Stores</th>
-	    <th># of Terminals</th>
-	    <th>Creation Date</th>
-	    <th>Details</th>
-	    <th>Delete</th>
-	  </tr>
-	</thead>
-	<tbody>
-	  {{#list}}
-	  <tr>
-	    <td><a href="#/company/{{company_id}}/groups/{{group_id}}">{{groupName}}</a></td>
-	    <td>{{store_num}}</td>
-	    <td>{{terminal_num}}</td>
-	    <td>{{creationdate}}</td>
-	    <td>{{>quickViewButton_P}}</td>
-	    <td>{{>deleteButton_P}}</td>
-	  </tr>
-	  {{/list}}
-	</tbody>
+      <table class="reportstable">
+<thead>
+	<tr>
+	  <th>Name</th>
+	  <th># of Stores</th>
+	  <th># of Terminals</th>
+	  <th>Creation Date</th>
+	  <th>Details</th>
+	  <th>Delete</th>
+	</tr>
+</thead>
+<tbody>
+	{{#list}}
+	<tr>
+	  <td><a href="#/company/{{company_id}}/groups/{{group_id}}">{{groupName}}</a></td>
+	  <td>{{store_num}}</td>
+	  <td>{{terminal_num}}</td>
+	  <td>{{creationdate}}</td>
+	  <td>{{>quickViewButton_P}}</td>
+	  <td>{{>deleteButton_P}}</td>
+	</tr>
+	{{/list}}
+</tbody>
       </table>
       {{>quickViewHook_P}}
     </script>
@@ -321,8 +320,8 @@
       {{>createButton_P}}
       {{>backButton_P}}
       {{>menuButton_P}}
+	  <hr/>
       {{>managementTableHook_P}}
-      
       {{>createDialogHook_P}}
     </script>
     
@@ -332,8 +331,12 @@
 	<label for="group-name">Group Name</label>
 	<input type="text" id="group-name" value="{{groupName}}" class="text ui-widget-content ui-corner-all" />
 	{{>userpass_P}}
-	{{>addressFields_P}}
-	{{>contactFields_P}}
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td valign="top">{{>addressFields_P}}</td>
+    <td valign="top">{{>contactFields_P}}</td>
+  </tr>
+</table>
       </form>
       {{/group}}
     </script>
@@ -350,7 +353,7 @@
     </script>
     
     <script id="modify_group_page_TMP" type="text/html">
-      <table border="1">
+      <table class="reportstable">
 	<h1>Modify Group</h1>
 	{{>breadcrumb_P}}
 	<button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all"
@@ -375,8 +378,14 @@
 	<label for="store-num">Store Number</label>
 	<input type="text" id="store-num" value="{{number}}" class="text ui-widget-content ui-corner-all" />
 	{{>userpass_P}}
-	{{>addressFields_P}}
-	{{>contactFields_P}}
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tbody>
+  <tr>
+    <td valign="top">{{>addressFields_P}}</td>
+    <td valign="top">{{>contactFields_P}}</td>
+  </tr>
+</tbody>
+</table>
       </form>
       {{/store}}
     </script>
@@ -386,29 +395,29 @@
     </script>
     
     <script id="storesTabel_TMP" type="text/html">
-      <table border="1">
-	<thead>
-	  <tr>
-	    <th>Name</th>
-	    <th>Number</th>
-	    <th># of Terminals</th>
-	    <th>Creation Date</th>
-	    <th>Details</th>
-	    <th>Delete</th>
-	  </tr>
-	</thead>
-	<tbody>
-	  {{#list}}
-	  <tr>
-	    <td><a href="#/company/{{company_id}}/groups/{{group_id}}/stores/{{store_id}}">{{storeName}}</a></td>
-	    <td>{{number}}</td>
-	    <td>{{terminal_num}}</td>
-	    <td>{{creationdate}}</td>
-	    <td>{{>quickViewButton_P}}</td>
-	    <td>{{>deleteButton_P}}</td>
-	  </tr>
-	  {{/list}}
-	</tbody>
+      <table class="reportstable">
+<thead>
+	<tr>
+	  <th>Name</th>
+	  <th>Number</th>
+	  <th># of Terminals</th>
+	  <th>Creation Date</th>
+	  <th>Details</th>
+	  <th>Delete</th>
+	</tr>
+</thead>
+<tbody>
+	{{#list}}
+	<tr>
+	  <td><a href="#/company/{{company_id}}/groups/{{group_id}}/stores/{{store_id}}">{{storeName}}</a></td>
+	  <td>{{number}}</td>
+	  <td>{{terminal_num}}</td>
+	  <td>{{creationdate}}</td>
+	  <td>{{>quickViewButton_P}}</td>
+	  <td>{{>deleteButton_P}}</td>
+	</tr>
+	{{/list}}
+</tbody>
       </table>
       {{>quickViewHook_P}}
     </script>
@@ -426,13 +435,14 @@
       {{>createButton_P}}
       {{>backButton_P}}
       {{>menuButton_P}}
+	  <hr/>
       {{>managementTableHook_P}}
       
       {{>createDialogHook_P}}
     </script>
     
     <script id="modify_store_page_TMP" type="text/html">
-      <table border="1">
+      <table class="reportstable">
 	<h1>Modify Store</h1>
 	{{>breadcrumb_P}}
 	<button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all"
@@ -481,25 +491,25 @@
     </script>
     
     <script id="terminalsTabel_TMP" type="text/html">
-      <table border="1">
-	<thead>
-	  <tr>
-	    <th>ID</th>
-	    <th>Installed</th>
-	    <th>Creation Date</th>
-	    <th>Details</th>
-	  </tr>
-	</thead>
-	<tbody>
-	  {{#list}}
-	  <tr>
-	    <td><a href="#/company/{{company_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals/{{terminal_id}}">{{terminal_label}}</a></td>
-	    <td>{{installed}}</td>
-	    <td>{{creationdate}}</td>
-	    <td>{{>quickViewButton_P}}</td>
-	  </tr>
-	  {{/list}}
-	</tbody>
+      <table class="reportstable">
+<thead>
+	<tr>
+	  <th>ID</th>
+	  <th>Installed</th>
+	  <th>Creation Date</th>
+	  <th>Details</th>
+	</tr>
+</thead>
+<tbody>
+	{{#list}}
+	<tr>
+	  <td><a href="#/company/{{company_id}}/groups/{{group_id}}/stores/{{store_id}}/terminals/{{terminal_id}}">{{terminal_label}}</a></td>
+	  <td>{{installed}}</td>
+	  <td>{{creationdate}}</td>
+	  <td>{{>quickViewButton_P}}</td>
+	</tr>
+	{{/list}}
+</tbody>
       </table>
       {{>quickViewHook_P}}
     </script>
@@ -517,13 +527,14 @@
       {{>createButton_P}}
       {{>backButton_P}}
       {{>menuButton_P}}
+	  <hr/>
       {{>managementTableHook_P}}
       
       {{>createDialogHook_P}}
     </script>
     
     <script id="modify_terminal_page_TMP" type="text/html">
-      <table border="1">
+      <table class="reportstable">
 	<h1>Modify Terminal</h1>
 	{{>breadcrumb_P}}
 	<button id="install_terminal" class="{{>commonButtonClasses_P}}"
@@ -539,6 +550,20 @@
     </script> 
   </head>
   <body>
+      <div style="width:1000px;margin:20px auto;padding:0px;background-color:transparent;font-size:13px;font-weight:bold;text-align:center;">
+	<img src="../images/logo.png"/>
+      </div>
+      <div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
     <div id="main"></div>
+    </div>
+    <div style="width:1000px;margin:0 auto; color:#666;text-align:center;">
+      <script>document.write(Date()+".")</script>
+    </div>
+    <div class="footer">
+      <div class="footerin">
+	&copy; 2012 RT7 Incorporated.
+	<img src="../images/rt7.png" style="float:right;"/>
+      </div>
+    </div>
   </body>
 </html>

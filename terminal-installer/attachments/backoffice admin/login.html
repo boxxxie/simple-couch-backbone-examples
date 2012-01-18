@@ -1,17 +1,12 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <script language="javascript" type="text/javascript" src="../lib/jquery-1.6.4.js"></script>
-    <script language="javascript" type="text/javascript" src="../lib/jquery.timers-1.0.0.js.txt"></script>
-    <script language="javascript" type="text/javascript" src="../lib/underscore.js"></script>
-    <script language="javascript" type="text/javascript" src="../lib/underscore.string.js"></script>
-    <script language="javascript" type="text/javascript" src="../lib/underscore_extended.js"></script>
-    <script language="javascript" type="text/javascript" src="../backoffice admin/backofficeadmin.js"></script>
-    <script language="javascript" type="text/javascript" src="../backoffice admin/docRdy.js"></script>
+    <script language="javascript" type="text/javascript" src="lib/jquery-1.6.4.js"></script>
+    <script language="javascript" type="text/javascript" src="lib/jquery.timers-1.0.0.js.txt"></script>
     <title>RT7 RMS v2</title>
 
   </head>
-  <body>
+  <body onload="getDate()">
     <form name="formLogin">
       <h1>RT7 BACKOFFICE</h1>
       <dl>
@@ -33,5 +28,32 @@
       
     </form>
     
+    <script language="javascript" type="text/javascript">
+    function login() {
+	var id = document.getElementById('userID').value;
+	var pw = document.getElementById('password').value;
+	if(id=="admin" && pw=="1") {
+	    location.href = "mainMenus.html"
+	} else {
+	    alert("wrong")
+	}
+    }
+
+function getDate() {
+    $(document).everyTime("1s", function(){
+	var date = new Date();
+	$("#txtDate").val(date.toLocaleDateString());
+	$("#txtTime").val(date.toLocaleTimeString());
+    }, 0);
+    
+}
+$("#password")
+    .keyup(function(event){
+	if(event.keyCode == 13){
+	    login();
+	}
+    });
+$("#userID").focus();
+    </script>
   </body>
 </html>

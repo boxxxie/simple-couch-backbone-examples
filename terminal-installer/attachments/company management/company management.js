@@ -390,10 +390,10 @@ function doc_setup(){
 			function saveRewardsProgram() {
 				return function(mobqreditsconversion, qriketconversion) {
 					var rewardsJson = rewardsModel.toJSON();
-					rewardsModel.save({MobQredits:{use_mobqredits:rewardsJson.MobQredits.use_mobqredits,
+					rewardsModel.save({use_mobqredits:rewardsJson.use_mobqredits,
 													mobqredits_conversion:mobqreditsconversion,
-													use_qriket:rewardsJson.MobQredits.use_qriket,
-													qriket_conversion:qriketconversion}});
+													use_qriket:rewardsJson.use_qriket,
+													qriket_conversion:qriketconversion});
 				}	
 			};
 			
@@ -402,7 +402,7 @@ function doc_setup(){
 	    	      console.log(rewards);
 	    	      rewardsModel = rewards;
 	    	      var rewardsJson = rewardsModel.toJSON();
-	    	      var html = ich.companyModifyRewardsDialog_TMP({MobQredits:rewardsJson.MobQredits});
+	    	      var html = ich.companyModifyRewardsDialog_TMP({MobQredits:rewardsJson});
 				companyModifyRewardsViewDialog(html,{title:"Modify Rewards Program",
 													saveRewardsProgram:saveRewardsProgram()});
 		      });

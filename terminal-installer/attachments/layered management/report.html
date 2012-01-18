@@ -104,10 +104,7 @@
     </script>
 
     <script id="loginButton_P" class="partial" type="text/html">
-      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
-	      onClick="login()">
-	<span class="ui-button-text">Login</span>
-      </button>
+	  <input type="button" value="Login" onClick="login()" class="btn"/>
     </script>
 
     <script id="logoutButton_P" class="partial" type="text/html">
@@ -150,8 +147,6 @@
 	  <li><a href="#" onClick="logout()">Logout</a></li>
 	</ul>
       </div>
-      <!-- this is an open div, need to reorganize the code 
-	   <div style="clear:both;"></div>-->
     </script>
     
     <script id="AIR_Buttons_P" class="partial" type="text/html">
@@ -1792,6 +1787,35 @@
       </div>
     </script>
     
+    <script id="menuInventoryScanItemPriceChanges_TMP" type="text/html">
+      {{>main_navigation_buttons_P}}
+      <h1>SCAN Item Price Changes</h1>
+      <h2>{{>breadcrumb_P}}</h2>
+      <div id='menuinventoryscanpricechangetable'></div>	
+      {{>backButton_P}}
+    </script>
+    
+    <script id="menuInventoryScanPriceTabel_TMP" type="text/html">
+      <table class="reportstable">
+	<thead>
+	  <tr>
+	   <th>SKU</th>
+	    <th>Description</th>
+	    <th>Current Price</th>
+	    <th>New Price</th>
+	    <th>Apply Stores</th>
+	  </tr>
+	</thead>
+	<tbody>
+		{{#list}}
+			<td>{{upccode}}</td>
+			<td>{{description}}</td>
+			<td>{{upc}}</td>
+		{{/list}}
+	</tbody>
+      </table>
+    </script>
+    
     <!-------------------------------------------------- Menu SET MENUS --------------------------------------->
     
     <script id="menuSetMenus_Left_TMP" type="text/html">
@@ -2004,17 +2028,54 @@
     <!------------------------------------------------------- LAYER LOGIN------------------------------------------>
     <script id="layerLogin_TMP" type="text/html">
       <div class="loginwrapper2">
+	 <div style="z-index:101;position: absolute;left: 22px;top: 240px; width:181px; height:88px; font-size:12px; font-weight:bold;">
+	 <img src="../images/ssm.png">
+	 </div>
+	 
+	 <div style="z-index:101;position: absolute;left: 612px;top: 260px; width:181px; height:88px; font-size:12px; font-weight:bold;">
+	 <img src="../images/mrp.png">
+	 </div>
+
+	 <div style="z-index:101;position: absolute;left: 80px;top: 430px; width:181px; height:88px; font-size:12px; font-weight:bold;">
+	 <img src="../images/ipp.png">
+	 </div>
+
+	 <div style="z-index:101;position: absolute;left: 516px;top: 430px; width:181px; height:88px; font-size:12px; font-weight:bold;">
+	 <img src="../images/pos.png">
+	 </div>
+	 
 	<div class="loginbox2">
 	  <form id="ids_form" style="margin-top: 90px;">
 	    <center>
-	      <input class="login" type="text" var="company" autofocus="autofocus" value="Lettieri Espresso + Bar"/>
-	      <input class="login" type="text" var="group" placeholder="Group ID"/>
-	      <input class="login" type="text" var="store" placeholder="Store ID"/>
-	      <input class="login" type="text" var="user" value="c" placeholder="User ID"/>
-	      <input class="login" type="password" var="password" id="layeredloginpassword" value="c" placeholder="Password"/>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="right">Company Name:</td>
+    <td><input class="login" type="text" var="company" autofocus="autofocus" value="Lettieri Espresso + Bar" placeholder="Company Name"//></td>
+  </tr>
+  <tr>
+    <td align="right">Group ID:</td>
+    <td><input class="login" type="text" var="group" placeholder="Group ID"/></td>
+  </tr>
+  <tr>
+    <td align="right">Store ID:</td>
+    <td><input class="login" type="text" var="store" placeholder="Store ID"/></td>
+  </tr>
+  <tr>
+    <td align="right">User ID:</td>
+    <td><input class="login" type="text" var="user" value="c" placeholder="User ID"/></td>
+  </tr>
+  <tr>
+    <td align="right">Password:</td>
+    <td><input class="login" type="password" var="password" id="layeredloginpassword" value="c" placeholder="Password"/></td>
+  </tr>
+</table>
 	    </center>
 	  </form>
-	  <span style="margin-left:220px;">{{>loginButton_P}}</span>
+	  {{>loginButton_P}}
 	</div>
       </div>
       <center><img src="../images/v1login.png"/></center>

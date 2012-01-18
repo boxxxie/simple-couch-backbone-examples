@@ -66,8 +66,8 @@ font-weight: normal;
     margin:0 auto;
 }
 .loginwrapper {
-	width:720px;
-	height:575px;
+	width:797px;
+	height:542px;
 	margin:40px auto;
 	font-size: 12px;
 	background-image: url(images/cloud-login.png);
@@ -79,31 +79,42 @@ font-weight: normal;
 	height:542px;
 	margin:40px auto;
 	font-size: 12px;
-	background-image: url(images/cloud.png);
+	position:relative;
+	background-image: url(images/cloud2.png);
 	background-repeat: no-repeat;
 	background-position: center center;
 }
 .loginbox {
-    width:720px;
+    width:340px;
     margin:0px;
-    padding-top:90px;
+    padding-top:220px;
     padding-bottom:0px;
+	position: relative;
+	left:240px;
     font-size: 12px;
 }
 .loginbox2 {
     width:340px;
     margin:0px;
-    padding-top:70px;
+    padding-top:50px;
     padding-bottom:0px;
 	position:relative;
 	left:240px;
     font-size: 12px;
 }
+hr {
+border: 0;
+color: #ccc;
+background-color: #ccc;
+height: 1px;
+width: 100%;
+text-align: left;
+}
 h1 {
     font-size: 30px;
     padding-bottom: 10px;
     margin-bottom: 10px;
-    margin-top: 20px;
+    margin-top: 0px;
     text-align: left;
     font-weight: bold;
     color: #F36D4C;
@@ -113,6 +124,7 @@ h1 {
     font-family: Arial, Helvetica, sans-serif;
 	text-shadow: #F4F4F4 1px -1px 1px;
 }
+
 
 h2 {
     font-size: 20px;
@@ -130,18 +142,34 @@ h2 {
 
 input.login {
     font-size: 14px;
-    margin: 10px auto;
+    margin: 4px auto;
     padding: 10px;
     text-align: left;
     color: #666;
     border: 1px solid #ccc;
-    width:320px;;
+    width:210px;;
 	outline:none;
     display:block;
     border-radius:10px;
 	background-color:#f4f4f4;
 	background-image: url(images/table-bg.png);
 }
+
+input.btn {
+    font-size: 14px;
+    margin: 4px auto;
+    padding: 10px;
+	font-weight:bold;
+    text-align: center;
+    color: #FFF;
+    border: 1px solid #ccc;
+    width:210px;;
+	outline:none;
+    display:block;
+    border-radius:10px;
+	background-color:#4e505b;
+}
+
 
 input.menuButtonToggle {
     width:13px;
@@ -280,8 +308,8 @@ font-weight:normal;
 border:1px solid #4B545E;
 padding-top:10px;
 padding-bottom:10px;
-padding-right:0px;
-padding-left:0px;
+padding-right:4px;
+padding-left:4px;
 background-color:#f4f4f4;
 background-image: url(images/table-bg.png);
 }
@@ -291,8 +319,8 @@ font-size:12px;
 font-weight:normal;
 padding-top:10px;
 padding-bottom:10px;
-padding-right:0px;
-padding-left:0px;
+padding-right:4px;
+padding-left:4px;
 background-color:#4B545E;
 border:1px solid #CCC;
 color:#ffffff;
