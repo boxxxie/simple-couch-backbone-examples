@@ -1,13 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <!--<script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>-->
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="../layout.css" rel="stylesheet" type="text/css"/>
     <link href="../css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" media="screen" href="../css/colorpicker.css" type="text/css" />
-    <!--<link rel="stylesheet" media="screen" href="../css/colorpickerlayout.css" type="text/css" />-->
 
     <script language="javascript" type="text/javascript" src="../lib/format.20110630-1100.min.js"></script>
 
@@ -104,7 +102,7 @@
     </script>
 
     <script id="loginButton_P" class="partial" type="text/html">
-	  <input type="button" value="Login" onClick="login()" class="btn"/>
+      <input type="button" value="Login" onClick="login()" class="btn"/>
     </script>
 
     <script id="logoutButton_P" class="partial" type="text/html">
@@ -184,48 +182,45 @@
 
     <script id="quickReportViewButtonImage_P" class="partial" type="text/html">
       {{#quickViewArgs}}
-      <a onclick="quickReportView('{{id}}','{{title}}');" style="cursor: pointer;"><img src="../images/details.png"></a>
-	{{/quickViewArgs}}
-      </script>
+      <a onclick="quickReportView('{{id}}','{{title}}');" style="cursor: pointer;"><img src="../images/details.png"/></a>
+      {{/quickViewArgs}}
+    </script>
 
-      <script id="quickDetailsViewButton_P" class="partial" type="text/html">
-	<center><button id='{{_id}}'>Details</button></center>
-      </script>
-      
-      <script id="generalGoButton_P" class="partial" type="text/html">
-	<div style="margin-top:20px;margin-bottom:20px;padding-bottom:20px;border-bottom: 4px dotted #ccc;">
-	  <button id='generalgobtn'>Generate Report</button></div>
-      </script>
-      
-      <script id="quickReportViewHook_P" class="partial" type="text/html">
-	<div id="dialog-quickView" title="{{title}}"></div>
-      </script>
-      
-      <script id="salesFields_P" class="partial" type="text/html">
-	<table class="reportstable">
-	  <thead>
-	    <tr>
-	      <th width="25%">Yesterday's Sales:</td>
-	      <th width="25%">MTD Sales:</td>
-	      <th width="25%">YTD Sales:</td>
-	      <th width="25%" align="center">More Details</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	    <tr>
-	      {{#sales}}
-	      <td align="center"><span style="font-size:26px;">${{yesterdaysales}}</span></td>
-	      <td align="center"><span style="font-size:26px;">${{mtdsales}}</span></td>
-	      <td align="center"><span style="font-size:26px;">${{ytdsales}}</span></td>
-              {{/sales}}
-	      <td width="25%" align="center">{{>quickReportViewButtonImage_P}}</td>
-	      
-	    </tr>
-	  </tbody>
-	</table>
-      </br>
+    <script id="quickDetailsViewButton_P" class="partial" type="text/html">
+      <center><button id='{{_id}}'>Details</button></center>
+    </script>
+    
+    <script id="generalGoButton_P" class="partial" type="text/html">
+      <div style="margin-top:20px;margin-bottom:20px;padding-bottom:20px;border-bottom: 4px dotted #ccc;">
+	<button id='generalgobtn'>Generate Report</button></div>
+    </script>
+    
+    <script id="quickReportViewHook_P" class="partial" type="text/html">
+      <div id="dialog-quickView" title="{{title}}"></div>
+    </script>
+    
+    <script id="salesFields_P" class="partial" type="text/html">
+      <table class="reportstable">
+	<thead>
+	  <tr>
+	    <th width="25%">Yesterday's Sales:</td>
+	    <th width="25%">MTD Sales:</td>
+	    <th width="25%">YTD Sales:</td>
+	    <th width="25%" align="center">More Details</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr>
+	    {{#sales}}
+	    <td align="center"><span style="font-size:26px;">${{yesterdaysales}}</span></td>
+	    <td align="center"><span style="font-size:26px;">${{mtdsales}}</span></td>
+	    <td align="center"><span style="font-size:26px;">${{ytdsales}}</span></td>
+            {{/sales}}
+	    <td width="25%" align="center">{{>quickReportViewButtonImage_P}}</td>
+	  </tr>
+	</tbody>
+      </table>
       <h2>More Reports:</h2>
-
     </script>
     
     <script id="numberOfGroupsFields_P" class="partial" type="text/html">
@@ -271,8 +266,8 @@
 	<td colspan="2" align="right">{{processtime}}</td>    		
       </tr>
       <tr>
-    	<td>User Name</td>
-    	<td colspan="2" align="right">{{username}}</td>
+	<td>User Name</td>
+	<td colspan="2" align="right">{{username}}</td>
       </tr>
     </script>
     
@@ -442,7 +437,7 @@
 	<td colspan="3">Sales by Category(No taxes)</td>
       </tr>
       <tr>
-      	<td></td>
+	<td></td>
 	<td align="right">Amount</td>
 	<td align="right">%</td>
       </tr>
@@ -556,7 +551,7 @@
     <!-------------------------------------- menureports cashout quickview dialog tmp -------------------->
     <script id="menuReportsCashoutQuickViewDialog_TMP" type="text/html">
       <div id='menucashoutdialog'>
-      	<table>
+	<table>
   	  {{>cashoutheader_P}}
 	  <!-- FIXME: maybe use some css dotted line here -->
   	  <tr><td colspan="3">----------------------------------------------------------------------</td></tr>
@@ -577,14 +572,14 @@
 	  {{>transactionDetails_P}}
 	  <tr><td colspan="3">===================================</td></tr>
 	  {{>salesByCategory_P}}
-      	</table>
+	</table>
       </div>
     </script>
     
     <!-------------------------------------- general transaction quickview dialog tmp -------------------->
     <script id="generalTransactionQuickViewDialog_TMP" type="text/html">
       <div id="transactiondialog">
-      	<table>
+	<table>
       	  <tr>
       	    <td colspan="2" align="left">Store ID: {{storename}}</td>
       	    <td colspan="2" align="right">{{processday}}</td>
@@ -742,7 +737,7 @@
   	  </tr>
   	  
   	  {{/payments}}
-      	</table>
+	</table>
       </div>
     </script>
     
@@ -915,12 +910,12 @@
 	  {{#list}}
 	  <tr>
 	    <!--<td rowspan="3">
-		<ul>
-		  <li><strong>{{date}}</strong></li>
-		  <li>Group: {{groupName}}</li>
-		  <li>Store: {{storeName}}</li>
-		  <li>Store #: {{storeNumber}}</li>
-		</ul>
+		    <ul>
+		      <li><strong>{{date}}</strong></li>
+		      <li>Group: {{groupName}}</li>
+		      <li>Store: {{storeName}}</li>
+		      <li>Store #: {{storeNumber}}</li>
+		    </ul>
 	    </td>-->
 	    <td rowspan="3">{{date}}</td>
 	    <td rowspan="3">{{groupName}}</td>
@@ -1278,7 +1273,7 @@
   	  <th>Sale</th>
   	  <th>Refund</th>
   	  <th>Declined</th>
-  	</thead>
+	</thead>
 	<tbody>
 	  <tr><td>Debit</td><td align="right">{{debit_sale}}</td><td align="right">{{debit_refund}}</td><td align="right">{{debit_declined}}</td></tr>
 	  <tr><td>Visa</td><td align="right">{{visa_sale}}</td><td align="right">{{visa_refund}}</td><td align="right">{{visa_declined}}</td></tr>
@@ -1565,10 +1560,10 @@
     </script>
 
     <script id="menuReportsInventory_GenericFooter_P" type="text/html" class="partial">
-      	  <tr>
-	    <th align="center">Total</th>
-	    {{>menuReportsInventory_GenericFooter_properties_P}}
-	  </tr>
+      <tr>
+	<th align="center">Total</th>
+	{{>menuReportsInventory_GenericFooter_properties_P}}
+      </tr>
     </script>
 
     <script id="menuReportsInventory_ScanSalesfooter_P" type="text/html" class="partial">
@@ -1577,17 +1572,17 @@
 	{{>menuReportsInventory_GenericFooter_properties_P}}
       </tr>
     </script>	
-	
+    
     <script id="menuReportsInventory_GenericHeaderEnd_P" type="text/html" class="partial">
-	    <th>Description</th>
-	    <th>Qty</th>
-	    <th>Sales</th>
-	    <th>Qty</th>
-	    <th>Refunds</th>
-	    <th>Qty Total</th>
-	    <th>Total</th>
-	    <th>% of Set Sales</th>
-	    <th>% of Total Sales</th>
+      <th>Description</th>
+      <th>Qty</th>
+      <th>Sales</th>
+      <th>Qty</th>
+      <th>Refunds</th>
+      <th>Qty Total</th>
+      <th>Total</th>
+      <th>% of Set Sales</th>
+      <th>% of Total Sales</th>
     </script>
 
     <script id="menuReportsInventory_GenericBodyEnd_P" type="text/html" class="partial">
@@ -1679,7 +1674,7 @@
       <table class="reportstable">
 	<thead>
 	  <tr>
-	   {{>menuReportsInventory_GenericHeaderEnd_P}}
+	    {{>menuReportsInventory_GenericHeaderEnd_P}}
 	  </tr>
 	</thead>
 	<tfoot>
@@ -1764,7 +1759,7 @@
     
     <script id="menuInventoryApplyStoresQuickViewDialog_TMP" type="text/html">
       <div id="menuinventoryapplystoresdialog">
-      	<form id="formInventoryApplystores">
+	<form id="formInventoryApplystores">
 	  <table class="reportstable">
 	    <thead>
 	      <tr>
@@ -1791,7 +1786,7 @@
       {{>main_navigation_buttons_P}}
       <h1>SCAN Item Price Changes</h1>
       <h2>{{>breadcrumb_P}}</h2>
-      <div id='menuinventoryscanpricechangetable'></div>	
+      <div id='priceChangeTable'></div>	
       {{>backButton_P}}
     </script>
     
@@ -1799,19 +1794,19 @@
       <table class="reportstable">
 	<thead>
 	  <tr>
-	   <th>SKU</th>
+	    <th>SKU</th>
 	    <th>Description</th>
 	    <th>Current Price</th>
 	    <th>New Price</th>
-	    <th>Apply Stores</th>
 	  </tr>
 	</thead>
 	<tbody>
-		{{#list}}
-			<td>{{upccode}}</td>
-			<td>{{description}}</td>
-			<td>{{upc}}</td>
-		{{/list}}
+	  {{#list}}
+	  <td>{{upccode}}</td>
+	  <td>{{description}}</td>
+	  <td>{{price.selling_price}}</td>
+	  <td><input type="text"/></td>
+	  {{/list}}
 	</tbody>
       </table>
     </script>
@@ -1852,19 +1847,19 @@
     </script>
     
     <script id="menuSetMenus_Bottom_TMP" type="text/html">
-    <table cellpadding="0" cellspacing="0">
-    	<tr>
-		      {{#menuButtonHeaders}}
-		  <td>
-		      <div style="border-top: 4px solid #666;float:left;width:168px;padding-top:10px;padding-bottom:10px;margin:0px;" id="menubuttonheader{{menu_id}}">
-			{{#description1}}{{description1}}{{/description1}} 
-			{{#description2}}{{description2}}{{/description2}} 
-			{{#description3}}{{description3}}{{/description3}}
-		      </div>
-		  </td>
-		      {{/menuButtonHeaders}}
-		</tr>
-    </table>
+      <table cellpadding="0" cellspacing="0">
+	<tr>
+	  {{#menuButtonHeaders}}
+	  <td>
+	    <div style="border-top: 4px solid #666;float:left;width:168px;padding-top:10px;padding-bottom:10px;margin:0px;" id="menubuttonheader{{menu_id}}">
+	      {{#description1}}{{description1}}{{/description1}} 
+	      {{#description2}}{{description2}}{{/description2}} 
+	      {{#description3}}{{description3}}{{/description3}}
+	    </div>
+	  </td>
+	  {{/menuButtonHeaders}}
+	</tr>
+      </table>
     </script>
 
     <script id="menuSetMenuHeader_TMP" type="text/html">
@@ -1882,11 +1877,7 @@
 	  <tr>
 	    <td><label for="description3">Line 3:</label></td>
 	    <td><input class="menuEditInput" type="text" maxlength="10" size="10" var="description3" id="description3" value="{{description3}}"/></td>
-	  </tr>
-	  <!--<tr>
-	      <td><label for="displayColor"> Color :</label></td>
-	      <td><input class="menuEditInput" type="text" maxlength="10" size="10" id="displayColor" var="color"  value="{{color}}" /></td>
-	  </tr>-->	
+	  </tr>	
 	</table>
 	<input type="hidden" var="menu_id" var_type="number" value="{{menu_id}}" />
 	<input type="hidden" var="defaultImage" value="{{defaultImage}}" />
@@ -1894,9 +1885,6 @@
       </form>
       <ul style="list-style-type:none; float: left;">
 	<li>
-	  <!--<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="clearEditHeader();">
-	      <span class="ui-button-text">Clear</span>
-	  </button>-->
 	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="saveEditHeader();">
 	    <span class="ui-button-text">Save</span>
 	  </button>
@@ -1984,7 +1972,7 @@
       <ul style="list-style-type:none; float: left;">
 	<li>
 	  <!--<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="clearEditMenu();">
-	      <span class="ui-button-text">Clear</span>
+		      <span class="ui-button-text">Clear</span>
 	  </button>-->
 	  <button id="btnMenuSave" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false"> <!--onClick="saveEditMenu();"-->
 	    <span class="ui-button-text">Save</span>
@@ -1992,7 +1980,7 @@
 	  <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="closeEditMenu();">
 	    <span class="ui-button-text">Close</span>
 	  </button>
-      	</li>
+	</li>
       </ul>
       <div style="width:300px;height:60px;"></div>
     </script>
@@ -2028,51 +2016,51 @@
     <!------------------------------------------------------- LAYER LOGIN------------------------------------------>
     <script id="layerLogin_TMP" type="text/html">
       <div class="loginwrapper2">
-	 <div style="z-index:101;position: absolute;left: 22px;top: 240px; width:181px; height:88px; font-size:12px; font-weight:bold;">
-	 <img src="../images/ssm.png">
-	 </div>
-	 
-	 <div style="z-index:101;position: absolute;left: 612px;top: 260px; width:181px; height:88px; font-size:12px; font-weight:bold;">
-	 <img src="../images/mrp.png">
-	 </div>
+	<div style="z-index:101;position: absolute;left: 22px;top: 240px; width:181px; height:88px; font-size:12px; font-weight:bold;">
+	  <img src="../images/ssm.png"/>
+	</div>
+	
+	<div style="z-index:101;position: absolute;left: 612px;top: 260px; width:181px; height:88px; font-size:12px; font-weight:bold;">
+	  <img src="../images/mrp.png"/>
+	</div>
 
-	 <div style="z-index:101;position: absolute;left: 80px;top: 430px; width:181px; height:88px; font-size:12px; font-weight:bold;">
-	 <img src="../images/ipp.png">
-	 </div>
+	<div style="z-index:101;position: absolute;left: 80px;top: 430px; width:181px; height:88px; font-size:12px; font-weight:bold;">
+	  <img src="../images/ipp.png"/>
+	</div>
 
-	 <div style="z-index:101;position: absolute;left: 516px;top: 430px; width:181px; height:88px; font-size:12px; font-weight:bold;">
-	 <img src="../images/pos.png">
-	 </div>
-	 
+	<div style="z-index:101;position: absolute;left: 516px;top: 430px; width:181px; height:88px; font-size:12px; font-weight:bold;">
+	  <img src="../images/pos.png"/>
+	</div>
+	
 	<div class="loginbox2">
 	  <form id="ids_form" style="margin-top: 90px;">
 	    <center>
-		<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td align="right">Company Name:</td>
-    <td><input class="login" type="text" var="company" autofocus="autofocus" value="Lettieri Espresso + Bar" placeholder="Company Name"//></td>
-  </tr>
-  <tr>
-    <td align="right">Group ID:</td>
-    <td><input class="login" type="text" var="group" placeholder="Group ID"/></td>
-  </tr>
-  <tr>
-    <td align="right">Store ID:</td>
-    <td><input class="login" type="text" var="store" placeholder="Store ID"/></td>
-  </tr>
-  <tr>
-    <td align="right">User ID:</td>
-    <td><input class="login" type="text" var="user" value="c" placeholder="User ID"/></td>
-  </tr>
-  <tr>
-    <td align="right">Password:</td>
-    <td><input class="login" type="password" var="password" id="layeredloginpassword" value="c" placeholder="Password"/></td>
-  </tr>
-</table>
+	      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+		<tr>
+		  <td>&nbsp;</td>
+		  <td>&nbsp;</td>
+		</tr>
+		<tr>
+		  <td align="right">Company Name:</td>
+		  <td><input class="login" type="text" var="company" autofocus="autofocus" value="aa" placeholder="Company Name"//></td>
+		</tr>
+		<tr>
+		  <td align="right">Group ID:</td>
+		  <td><input class="login" type="text" var="group" placeholder="Group ID"/></td>
+		</tr>
+		<tr>
+		  <td align="right">Store ID:</td>
+		  <td><input class="login" type="text" var="store" placeholder="Store ID"/></td>
+		</tr>
+		<tr>
+		  <td align="right">User ID:</td>
+		  <td><input class="login" type="text" var="user" value="aa" placeholder="User ID"/></td>
+		</tr>
+		<tr>
+		  <td align="right">Password:</td>
+		  <td><input class="login" type="password" var="password" id="layeredloginpassword" value="aa" placeholder="Password"/></td>
+		</tr>
+	      </table>
 	    </center>
 	  </form>
 	  {{>loginButton_P}}
