@@ -11,16 +11,34 @@ function inventoryChangeLog(id){
     return function(callback){
 	query(function(err,response){
 		  //needs to be sorted by date, and filter out all items that don't have a price change
-		  var inventoryChangeLog = 
-		      _.chain(response.rows)
-		      .pluck('value')
-		      /*.groupBy('upccode')
-		      .map(function(invItems,upc){
-			       //sort by date, if there are two items with the same price on adjacent dates then remove
-			   })*/
-		      .value();
+		  var inventoryChangeLog = _(response.rows).pluck('value');
 		  callback(err,inventoryChangeLog);
 	      });
+    };
+}
+function inventoryPriceChangeLog(id){
+    function date(item){
+	return (new Date(item.date)).getTime();}
+    function samePrice(item1,item2){
+	return (item1.price.selling_price == item2.price.selling_price);
+    }    
+    return function(callback){
+	inventoryChangeLog(id)
+	(function(err,inventoryChangeLogResp){
+	     var inventoryPriceChangeLog = _.chain(inventoryChangeLogResp)
+		 .groupBy('upccode')
+		 .map(function(invItems){
+			  return _.chain(invItems)
+			      .sortBy(date)
+			      .compress(samePrice)
+			      .value();
+		      })
+		 .flatten()
+		 .sortBy(date)
+		 .reverse()
+		 .value();
+	     callback(err,inventoryPriceChangeLog);
+	 });
     };
 }
 function currentInventoryFor(id){

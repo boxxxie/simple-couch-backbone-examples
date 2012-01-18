@@ -348,3 +348,21 @@ _.mixin({
 		return _.filter(list,_.search(searchObj));
 	    }
 	});
+
+_.mixin({
+	    compress:function(list,filterFn){
+		function compressor(compareFn){
+		    //this filters sorted lists by comparing the elements that are adjacent to each other
+		    return function(list,cur){
+			if(_.isEmpty(list)){return [cur];}
+			else if(compareFn(cur, _.last(list))){
+			    return list;
+			}
+			else{
+			    return list.concat(cur);
+			}
+		    };
+		}
+		return _.reduce(list,compressor(filterFn),[]);
+	    }
+	});
