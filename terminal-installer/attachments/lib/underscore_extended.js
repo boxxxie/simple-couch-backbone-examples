@@ -319,7 +319,7 @@ _.mixin({
 _.mixin({
 	    /* 
 	     * like _.any, but will recursively search the array/object 
-	     * 
+	     * _.search(1)([[{a:{b:1}}]]) -> true
 	     */
 	    search:function(searchObj){
 		return function(objToBeSearched){
@@ -341,6 +341,9 @@ _.mixin({
 		    }
 		};
 	    },
+	    /*
+	     * _.filterSearch([{a:{b:1}},{a:{b:2}}],1) -> [{a:{b:1}}]
+	     */
 	    filterSearch:function(list,searchObj){
 		return _.filter(list,_.search(searchObj));
 	    }
