@@ -314,3 +314,34 @@ _.mixin({
 		}
 	    }
 	});
+
+
+_.mixin({
+	    /* 
+	     * like _.any, but will recursively search the array/object 
+	     * 
+	     */
+	    search:function(searchObj){
+		return function(objToBeSearched){
+		    if(_.isEqual(searchObj,objToBeSearched)){
+			return true;
+		    }else{
+			return _.any(objToBeSearched,
+				     function(val){
+					 if(_.isEqual(searchObj,val)){
+					     return true;
+					 }
+					 else if (_.isObject(val)||_.isArray(val)){
+					     return _.search(searchObj)(val);
+					 }
+					 else{
+					     return false;   
+					 }
+				     });
+		    }
+		};
+	    },
+	    filterSearch:function(list,searchObj){
+		return _.filter(list,_.search(searchObj));
+	    }
+});
