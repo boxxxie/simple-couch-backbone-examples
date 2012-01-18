@@ -47,12 +47,10 @@ var menuInventoryscanPriceChangeView =
 		       });
 	 },
 	 renderMenuInventoryCompanyscanPriceChange: function() {
-	     alert("Sorry, we're working on this menu.");
-	     window.history.go(-1);
-	     //var html = ich.menuInventory_TMP({startPage:"companyReport", 
-	     //				       breadCrumb:breadCrumb(ReportData.company.companyName),
-	     //				       showMenuPriceChange:true});
-	     //$(this.el).html(html);
+	     var html = ich.menuInventory_TMP({startPage:"companyReport", 
+	     				       breadCrumb:breadCrumb(ReportData.company.companyName),
+	     				       showMenuPriceChange:true});
+	     $(this.el).html(html);
 	 },
 	 renderMenuInventoryGroupscanPriceChange: function() {
 	     alert("Sorry, we're working on this menu.");
