@@ -16,30 +16,36 @@ function inventoryChangeLog(id){
 	      });
     };
 }
-function inventoryPriceChangeLog(id){
-    function date(item){
+function inventoryChangeLogCompressedBy(id,compressFn){
+     function date(item){
 	return (new Date(item.date)).getTime();}
-    function samePrice(item1,item2){
-	return (item1.price.selling_price == item2.price.selling_price);
-    }    
     return function(callback){
 	inventoryChangeLog(id)
 	(function(err,inventoryChangeLogResp){
-	     var inventoryPriceChangeLog = _.chain(inventoryChangeLogResp)
+	     var compressedInventoryChangeLog = 
+		 _.chain(inventoryChangeLogResp)
 		 .groupBy('upccode')
 		 .map(function(invItems){
 			  return _.chain(invItems)
 			      .sortBy(date)
-			      .compress(samePrice)
+			      .compress(compressFn)
 			      .value();
 		      })
 		 .flatten()
 		 .sortBy(date)
 		 .reverse()
 		 .value();
-	     callback(err,inventoryPriceChangeLog);
+	     callback(err,compressedInventoryChangeLog);
 	 });
     };
+}
+function inventoryTaxChangeLog(id){
+   function sameTaxes(item1,item2){return (_.isEqual(item1.apply_taxes, item2.apply_taxes));}
+    return inventoryChangeLogCompressedBy(id,sameTaxes);
+}
+function inventoryPriceChangeLog(id){
+    function samePrice(item1,item2){return (item1.price.selling_price == item2.price.selling_price);}
+    return inventoryChangeLogCompressedBy(id,samePrice);
 }
 function currentInventoryFor(id){
     var view = cdb.view('app','id_upc_latestDate');
