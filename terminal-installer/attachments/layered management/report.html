@@ -1833,6 +1833,42 @@
       </div>
     </script>
     
+    
+    <script id="menuInventoryScanPriceLog_TMP" type="text/html">
+      {{>main_navigation_buttons_P}}
+      <h1>Price Change Log</h1>
+      <h2>{{>breadcrumb_P}}</h2>
+      <div id='scanPriceChangeLogTable'></div>	
+      {{>backButton_P}}
+    </script>
+    
+    <script id="menuInventoryScanPriceLogTabel_TMP" type="text/html">
+      <div style="margin-bottom:30px">
+	<table class="reportstable">
+	  <thead>
+	    <tr>
+	      <th>Date</th>
+	      <th>SKU</th>
+	      <th>Description</th>
+	      <th>Price</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    {{#list}}
+	    <td align="center">{{date}}</td>
+	    <td align="center">{{upccode}}</td>
+	    <td align="center">{{description}}</td>
+	    <td align="right">{{price.selling_price}}</td>
+	    {{/list}}
+	    {{^list}}
+	    <td colspan=4 align='center'>There are no logs</td>
+            {{/list}}
+	  </tbody>
+	</table>
+      </div>
+    </script>
+    
+    
     <!-------------------------------------------------- Menu SET MENUS --------------------------------------->
     
     <script id="menuSetMenus_Left_TMP" type="text/html">
@@ -2063,8 +2099,8 @@
 		  <td>&nbsp;</td>
 		</tr>
 		<tr>
-		  <td align="right">Company Name:</td>
-		  <td><input class="login" type="text" var="company" autofocus="autofocus" value="aa" placeholder="Company Name"//></td>
+		  <td align="right">Company ID:</td>
+		  <td><input class="login" type="text" var="company" autofocus="autofocus" placeholder="Company Name"//></td>
 		</tr>
 		<tr>
 		  <td align="right">Group ID:</td>
@@ -2076,11 +2112,11 @@
 		</tr>
 		<tr>
 		  <td align="right">User ID:</td>
-		  <td><input class="login" type="text" var="user" value="aa" placeholder="User ID"/></td>
+		  <td><input class="login" type="text" var="user" placeholder="User ID"/></td>
 		</tr>
 		<tr>
 		  <td align="right">Password:</td>
-		  <td><input class="login" type="password" var="password" id="layeredloginpassword" value="aa" placeholder="Password"/></td>
+		  <td><input class="login" type="password" var="password" id="layeredloginpassword" placeholder="Password"/></td>
 		</tr>
 	      </table>
 	    </center>
