@@ -233,8 +233,8 @@ function save_button_into_db() {
     var editDialog = $("#editMenuButton");
 
     var newButtonItemData = varFormGrabber(editDialog);
-    var allStore_ids = _.pluck(extractStores(ReportData),'id');
-    var company_id = ReportData.company._id;
+    var allStoreIDs = _.pluck(extractStores(ReportData),'id');
+    var companyID = ReportData.company._id;
 
     function extractStores(obj){
 	var stores = [];
@@ -264,9 +264,6 @@ function save_button_into_db() {
 					       (function(err,storeMenuButtonsResp){
 						    var allButtons =  storeMenuButtonsResp.rows.concat(company_response.rows);
 						    var sparseStoreMenu = constructMenu_keyValue(allButtons);
-
-						    //var constructedStoreMenu = (new Menu()).set_empty_menu().set_buttons(storeMenu);
-
 						    var currentStoreMenu = new Menu({_id:store_id});
 						    currentStoreMenu.fetch({success:function(model, response){
 										model.set_buttons(sparseStoreMenu);
@@ -298,37 +295,45 @@ function save_button_into_db() {
 			 .sortBy(function(item){return item.date;})
 			 .last()
 			 .value();
-		     //return [location,mostRecentMenuButton.menuButton];
 		     return mostRecentMenuButton.menuButton;
 		 })
 	    .value();
     }
-    
-    var isAllStore = confirm("Apply Stores : All?\n*Cancel:Select Stores");
-    
-    function makeButtons(newButtonItemData){
+    function makeButtons(newButtonItemData,company_id,allStore_ids){
 	return function(ids){
-	    _.each(ids,function(id){
-   		       var button = new MenuButton({menuButton:newButtonItemData, date: (new Date()).toString(), id:id});
-		       button.save();});
-		       
-	    if(_.isNotEmpty(ids)){
-			rebuildMenus(company_id, ids);
+	    if(_.isEmpty(ids)){
+		var button = new MenuButton({menuButton:newButtonItemData, date: (new Date()).toString(), id:company_id});
+		button.save({},{success:function(){
+				 rebuildMenus(company_id, allStore_ids);
+			     }});
 	    }
 	    else{
-			rebuildMenus(company_id, allStore_ids);
+		async.forEach
+		(ids,
+		 function(id,callback){
+   		     var button = new MenuButton({menuButton:newButtonItemData, date: (new Date()).toString(), id:id});
+		     button.save({},{success:function(){
+					 callback();
+				     },error:function(){
+					 callback(true);
+				     }});},
+		 function(err){
+		     if(err){
+			 console.log("an error happened when trying to save the button");
+		     }
+		     rebuildMenus(company_id, allStore_ids);
+		 });
 	    }
 	};
     }
-
-    if(isAllStore) {
-		makeButtons(newButtonItemData)(allStore_ids);
+    if(confirm("Apply Stores : All?\n*Cancel:Select Stores")) {
+	makeButtons(newButtonItemData,companyID,allStoreIDs)([]);
     } else {
     	var stores = extractStores(ReportData);
-		var html = ich.menuInventoryApplyStoresQuickViewDialog_TMP({items:stores});
-		menuInventoryApplyStoresViewDialog(html,{title:"Apply Price - new Price : $ " + 
-														currency_format(newButtonItemData.foodItem.price), 
-												 stores:stores,
-												 makeButtons:makeButtons(newButtonItemData)});
+	var html = ich.menuInventoryApplyStoresQuickViewDialog_TMP({items:stores});
+	menuInventoryApplyStoresViewDialog(html,{title:"Apply Price - new Price : $ " + 
+						 currency_format(newButtonItemData.foodItem.price), 
+						 stores:stores,
+						 makeButtons:makeButtons(newButtonItemData,companyID,allStoreIDs)});
     }
 };

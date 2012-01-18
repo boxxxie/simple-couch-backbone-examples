@@ -5,6 +5,18 @@ function negate(num){
     return num;
 }
 
+/* todo. make some insane search function over values
+function search(searchObj){
+    return function(objToBeSeached){
+	var foundString = true;
+	_.each(obj,function(val){
+		   if(_.isEqual(searchObj,objToBeSearched))
+		   if(_.isObject(val)){
+		       return search(val);   
+		   }
+	       });
+    }*/
+
 function currentInventoryFor(id){
     var view = cdb.view('app','id_upc_latestDate');
     var db = cdb.db('inventory',{},true);
