@@ -11,17 +11,41 @@ function inventoryChangeLog(id){
     return function(callback){
 	query(function(err,response){
 		  //needs to be sorted by date, and filter out all items that don't have a price change
-		  var inventoryChangeLog = 
-		      _.chain(response.rows)
-		      .pluck('value')
-		      /*.groupBy('upccode')
-		      .map(function(invItems,upc){
-			       //sort by date, if there are two items with the same price on adjacent dates then remove
-			   })*/
-		      .value();
+		  var inventoryChangeLog = _(response.rows).pluck('value');
 		  callback(err,inventoryChangeLog);
 	      });
     };
+}
+function inventoryChangeLogCompressedBy(id,compressFn){
+     function date(item){
+	return (new Date(item.date)).getTime();}
+    return function(callback){
+	inventoryChangeLog(id)
+	(function(err,inventoryChangeLogResp){
+	     var compressedInventoryChangeLog = 
+		 _.chain(inventoryChangeLogResp)
+		 .groupBy('upccode')
+		 .map(function(invItems){
+			  return _.chain(invItems)
+			      .sortBy(date)
+			      .compress(compressFn)
+			      .value();
+		      })
+		 .flatten()
+		 .sortBy(date)
+		 .reverse()
+		 .value();
+	     callback(err,compressedInventoryChangeLog);
+	 });
+    };
+}
+function inventoryTaxChangeLog(id){
+   function sameTaxes(item1,item2){return (_.isEqual(item1.apply_taxes, item2.apply_taxes));}
+    return inventoryChangeLogCompressedBy(id,sameTaxes);
+}
+function inventoryPriceChangeLog(id){
+    function samePrice(item1,item2){return (item1.price.selling_price == item2.price.selling_price);}
+    return inventoryChangeLogCompressedBy(id,samePrice);
 }
 function currentInventoryFor(id){
     var view = cdb.view('app','id_upc_latestDate');
