@@ -46,11 +46,25 @@ var menuInventoryscanPriceChangeView =
 			   view.renderMenuInventoryStorescanPriceChange();
 		       });
 	 },
-	 renderMenuInventoryCompanyscanPriceChange: function() {
-	     var html = ich.menuInventory_TMP({startPage:"companyReport", 
-	     				       breadCrumb:breadCrumb(ReportData.company.companyName),
-	     				       showMenuPriceChange:true});
-	     $(this.el).html(html);
+	 renderMenuInventoryCompanyscanPriceChange: function(searchQuery) {
+	     var view = this;
+	     var html = ich.menuInventoryScanItemPriceChanges_TMP({startPage:"companyReport", 
+	     							   breadCrumb:breadCrumb(ReportData.company.companyName)});
+	     $(view.el).html(html);
+
+	     var companyID = ReportData.company._id;
+
+	     currentInventoryFor(companyID)
+	     (function(err,inventory){
+		  var filteredInv = (_.isDefined(searchQuery))?_.filterSearch(inventory,searchQuery):inventory;
+		  var html =  ich.menuInventoryScanPriceTabel_TMP({filter:[searchQuery],list:filteredInv});
+		  $(view.el).find("#priceChangeTable").html(html);
+		  $("#filterInv").change(function(){view.renderMenuInventoryCompanyscanPriceChange($(this).val());});
+		  $("#submitPriceChanges").button().click(function(){
+							      //show some dialog for submitting price changes
+							  });
+		  
+	      });
 	 },
 	 renderMenuInventoryGroupscanPriceChange: function() {
 	     alert("Sorry, we're working on this menu.");

@@ -4,11 +4,28 @@ function negate(num){
     }
     return num;
 }
-
+function inventoryChangeLog(id){
+    var view = cdb.view('app','change_log');
+    var db = cdb.db('inventory',{},true);
+    var query = _async.generalKeyQuery_noDocs(view,db)(id);
+    return function(callback){
+	query(function(err,response){
+		  //needs to be sorted by date, and filter out all items that don't have a price change
+		  var inventoryChangeLog = 
+		      _.chain(response.rows)
+		      .pluck('value')
+		      /*.groupBy('upccode')
+		      .map(function(invItems,upc){
+			       //sort by date, if there are two items with the same price on adjacent dates then remove
+			   })*/
+		      .value();
+		  callback(err,inventoryChangeLog);
+	      });
+    };
+}
 function currentInventoryFor(id){
     var view = cdb.view('app','id_upc_latestDate');
     var db = cdb.db('inventory',{},true);
-//http://localhost:5984/inventory/_design/app/_view/id_upc_latestDate?group_level=2&startkey=["a205198b-001a-bc4c-34d5-89347e924bce"]&endkey=["a205198b-001a-bc4c-34d5-89347e924bce",{}]
     var query = _async.generalKeyGroupQuery(view,db)(2)(id);
     return function(callback){
 	query(function(err,response){

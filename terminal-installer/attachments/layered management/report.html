@@ -1791,24 +1791,46 @@
     </script>
     
     <script id="menuInventoryScanPriceTabel_TMP" type="text/html">
-      <table class="reportstable">
-	<thead>
-	  <tr>
-	    <th>SKU</th>
-	    <th>Description</th>
-	    <th>Current Price</th>
-	    <th>New Price</th>
-	  </tr>
-	</thead>
-	<tbody>
-	  {{#list}}
-	  <td>{{upccode}}</td>
-	  <td>{{description}}</td>
-	  <td>{{price.selling_price}}</td>
-	  <td><input type="text"/></td>
-	  {{/list}}
-	</tbody>
-      </table>
+      <div style="margin-bottom:30px">
+	{{#list}}
+ 	<div>
+	  blank fields in the new price column will not be submitted
+	  <span  style="float:right;">
+	    {{/list}}
+	    {{#filter}}
+	    Current Filter = {{.}}
+	    {{/filter}}
+	    {{#list}}
+	    <label for"filterInv">Search</label>
+	    <input id="filterInv" type=text/>
+	  </span>
+	</div>
+	{{/list}} 
+	<table class="reportstable">
+	  <thead>
+	    <tr>
+	      <th>SKU</th>
+	      <th>Description</th>
+	      <th>Current Price</th>
+	      <th>New Price</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    {{#list}}
+	    <td align="center">{{upccode}}</td>
+	    <td align="center">{{description}}</td>
+	    <td align="right">{{price.selling_price}}</td>
+	    <td align="center"><input type="text"/></td>
+	    {{/list}}
+	    {{^list}}
+	    <td colspan=4 align='center'>There are no scanable items</td>
+            {{/list}}
+	  </tbody>
+	</table>
+	{{#list}}
+	<button style="float:right;" id="submitPriceChanges">Submit Price Changes</button>
+	{{/list}}
+      </div>
     </script>
     
     <!-------------------------------------------------- Menu SET MENUS --------------------------------------->

@@ -59,6 +59,15 @@ var _async = {
 		return function(callback){queryF(view,db)(options)(returnQuery(callback));};
 	    };
     },
+    generalKeyQuery_noDocs:function(view,db){
+		    return function(key){
+		var options = {
+		    reduce: false,
+		    key: key
+		};
+		return function(callback){queryF(view,db)(options)(returnQuery(callback));};
+	    };
+    },
     transactionRangeQuery:function(start,end){
 	return function(view,db,base){
 	    var startKey = base.concat(start);

@@ -2,7 +2,7 @@ _.mixin({
 	    //depricated! can use .map(function(value,key){return [key,value];});
 	    /* Retrieve the keys and values of an object's properties.
 	     {a:'a',b:'b'} -> [[a,'a'],[b,'b']]
-	    */
+	     */
 	    pairs:function (obj) {
 		return _.map(obj,function(val,key){
 				 return [key,val];
@@ -14,11 +14,11 @@ _.mixin({
 	     */
 	    toObject:function(pairs){
 		return _(pairs).reduce(function(total,cur){
-					var key = _.first(cur),
-					val = _.last(cur);
-					total[key] = val;
-					return total;
-				    },{});}});
+					   var key = _.first(cur),
+					   val = _.last(cur);
+					   total[key] = val;
+					   return total;
+				       },{});}});
 
 _.mixin({
 	    /*create an object with only the keys in the selected keys array arg
@@ -40,7 +40,7 @@ _.mixin({
 	    }
 	});
 
-	
+
 _.mixin({
 	    /*create an object without the keys in the selected keys array arg
 	     * ({a:'a',b:'b'},['a']) -> {b:'b'}
@@ -64,27 +64,27 @@ _.mixin({
 
 _.mixin({isNotEmpty:function (obj){
 	     return !_.isEmpty(obj);
-	 }});
-
-_.mixin({isLastEmpty:function (array){
+	 },
+	 isLastEmpty:function (array){
 	     return _.isEmpty(_.last(array));
-	 }});
-
-_.mixin({isFirstEmpty:function (array){
+	 },
+	 isFirstEmpty:function (array){
 	     return _.isEmpty(_.first(array));
-	 }});
-
-_.mixin({isFirstNotEmpty:function (array){
+	 },
+	 isFirstNotEmpty:function (array){
 	     return !_.isEmpty(_.first(array));
-	 }});
-
-_.mixin({isLastNotEmpty:function (array){
+	 },
+	 isLastNotEmpty:function (array){
 	     return !_.isEmpty(_.last(array));
-	 }});
-
-_.mixin({second:function (array){
+	 },
+	 second:function (array){
 	     return _.first(_.rest(array));
-	 }});
+	 },
+	 isDefined:function(obj){
+	     return !_.isUndefined(obj);
+	 }
+	});
+
 
 _.mixin({renameKeys:function (toEdit,fieldMap){
 	     //usage _.renameKeys({a:'b',c:'d'},{a:'ba'})  -> {ba:'b',c:'d'}
@@ -347,4 +347,4 @@ _.mixin({
 	    filterSearch:function(list,searchObj){
 		return _.filter(list,_.search(searchObj));
 	    }
-});
+	});
