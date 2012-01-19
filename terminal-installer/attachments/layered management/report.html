@@ -604,7 +604,15 @@
   	  </tr>
   	  {{#order}}
   	  <tr>
-  	    <td>{{description}}</td>
+  	    <!--<td>{{description}}</td>-->
+  	    <ul style="list-style-type: none; padding-left: 0px; margin: 0px">
+	<li style="display: inline;">Category :
+  	    <td>
+  	    	<ul style="list-style-type: none; padding-left: 0px; margin: 0px">
+				{{#description}}<li>{{description}}</li>{{/description}}
+				{{#upccode}}<li>{{upccode}}</li>{{/upccode}}
+  	    	</ul>
+  	    </td>
   	    <td align="right">{{quantity}}</td>
   	    <td align="right">{{price}}</td>
   	    <td align="right">{{orderamount}}</td>
