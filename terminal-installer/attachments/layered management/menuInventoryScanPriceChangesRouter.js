@@ -46,8 +46,9 @@ var menuInventoryscanPriceChangeView =
 			   view.renderMenuInventoryStorescanPriceChange();
 		       });
 	 },
-	 renderMenuInventoryCompanyscanPriceChange: function(searchQuery) {
+	 renderMenuInventoryCompanyscanPriceChange: function(searchQueryString) {
 	     var view = this;
+	     var searchQuery = (_.isDefined(searchQueryString) && _.isNotEmpty(searchQueryString))?searchQueryString:undefined;
 	     var html = ich.menuInventoryScanItemPriceChanges_TMP({startPage:"companyReport", 
 	     							   breadCrumb:breadCrumb(ReportData.company.companyName)});
 	     $(view.el).html(html);
@@ -56,10 +57,15 @@ var menuInventoryscanPriceChangeView =
 
 	     currentInventoryFor(companyID)
 	     (function(err,inventory){
-		  var filteredInv = (_.isDefined(searchQuery))?_.filterSearch(inventory,searchQuery):inventory;
-		  var html =  ich.menuInventoryScanPriceTabel_TMP({filter:[searchQuery],list:filteredInv});
+		  var filteredInv = (searchQuery)?_.filterSearchSubStr(inventory,searchQuery):inventory;
+		  var html =  ich.menuInventoryScanPriceTabel_TMP({filter:searchQuery,list:filteredInv});
 		  $(view.el).find("#priceChangeTable").html(html);
-		  $("#filterInv").change(function(){view.renderMenuInventoryCompanyscanPriceChange($(this).val());});
+		  $("#filterInv").keypress(
+		      function(e){
+			  var code = (e.keyCode ? e.keyCode : e.which), enterCode = 13;
+			  if (code == enterCode){
+			      view.renderMenuInventoryCompanyscanPriceChange($(this).val());}
+			  });
 		  $("#submitPriceChanges").button().click(function(){
 							      //show some dialog for submitting price changes
 							  });

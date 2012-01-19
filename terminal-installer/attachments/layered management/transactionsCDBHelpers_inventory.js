@@ -10,7 +10,6 @@ function inventoryChangeLog(id){
     var query = _async.generalKeyQuery_noDocs(view,db)(id);
     return function(callback){
 	query(function(err,response){
-		  //needs to be sorted by date, and filter out all items that don't have a price change
 		  var inventoryChangeLog = _(response.rows).pluck('value');
 		  callback(err,inventoryChangeLog);
 	      });

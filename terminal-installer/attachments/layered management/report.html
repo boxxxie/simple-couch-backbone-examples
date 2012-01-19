@@ -1791,21 +1791,18 @@
     </script>
     
     <script id="menuInventoryScanPriceTabel_TMP" type="text/html">
-      <div style="margin-bottom:30px">
-	{{#list}}
+      <div style="margin-bottom:40px">
  	<div>
 	  blank fields in the new price column will not be submitted
 	  <span  style="float:right;">
-	    {{/list}}
-	    {{#filter}}
-	    Current Filter = {{.}}
+	    {{#filter}}Current Filter = {{filter}}{{/filter}}
+	    {{^filter}}
+	    Showing all Inventory Items
 	    {{/filter}}
-	    {{#list}}
 	    <label for"filterInv">Search</label>
 	    <input id="filterInv" type=text/>
 	  </span>
 	</div>
-	{{/list}} 
 	<table class="reportstable">
 	  <thead>
 	    <tr>
