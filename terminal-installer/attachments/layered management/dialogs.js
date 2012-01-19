@@ -196,12 +196,21 @@ function quickmenuReportsTransactionViewDialog (html,options) {
 };
 
 /**************************************** menuInventory - apply stores dialog ****************************/
-function menuInventoryApplyStoresViewDialog (html,options) {
+function menuInventoryApplyStoresViewDialog (dialog_html,options) {
     var stores = options.stores;
-    var form = $(html).filter('#menuinventoryapplystoresdialog');
+    var form = $(dialog_html).find("#formInventoryApplystores");
     var d = $("#dialog-quickView");    	
-    d.html(form);
-
+    d.html(dialog_html);
+    d.find("#applyToAll").change(
+	function(){
+	    if($(this).is(":checked")){
+		$(form).find("input").attr('disabled',true);
+	    }
+	    else{
+		$(form).find("input").removeAttr('disabled');
+	    }
+	});
+    
     var dialogOptions = _.extend(
 	{autoOpen: false,
 	 height: 450,
@@ -210,8 +219,13 @@ function menuInventoryApplyStoresViewDialog (html,options) {
 	 buttons: {
 	     "Apply" : function() {
 		 var checkedStores = form.find("input:checked").toArray();
-		 if(_.isEmpty(checkedStores)){
-		     
+		 var applyToAllStores =  $("#applyToAll").is(":checked");
+		 if(_.isEmpty(checkedStores) && !applyToAllStores){
+		     //user clicked apply and there was nothing selected... do nothing
+		 }
+		 else if (checkedStores.length == stores.length  || applyToAllStores){
+		     console.log("The price change will be applied to all stores in this company");
+		     options.makeButtons(_.pluck(stores,'id'));
 		 }
 		 else if(checkedStores.length != stores.length) {
 		     var store_ids_to_update = _(checkedStores)
@@ -221,9 +235,6 @@ function menuInventoryApplyStoresViewDialog (html,options) {
 		     console.log("The price change will be applied to selected stores");
 		     console.log(store_ids_to_update);
 		     options.makeButtons(store_ids_to_update);
-		 } else if (checkedStores.length == stores.length){
-		     console.log("The price change will be applied to all stores in this company");
-		     options.makeButtons([]);
 		 }
 		 d.dialog('close');
 	     },

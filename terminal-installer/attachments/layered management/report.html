@@ -40,7 +40,9 @@
     
     <script language="javascript" type="text/javascript" src="../lib/MenuButton.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/Menu.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/Inventory.js"></script>
 
+    <script language="javascript" type="text/javascript" src="../layered management/misc_helpers.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menu_helpers.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/dialogs.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/transactionsCDBHelpers.js"></script>
@@ -195,7 +197,7 @@
       <div style="margin-top:20px;margin-bottom:20px;padding-bottom:20px;border-bottom: 4px dotted #ccc;">
 	<button id='generalgobtn'>Generate Report</button></div>
     </script>
-    
+     
     <script id="quickReportViewHook_P" class="partial" type="text/html">
       <div id="dialog-quickView" title="{{title}}"></div>
     </script>
@@ -1839,6 +1841,7 @@
     
     <script id="menuInventoryApplyStoresQuickViewDialog_TMP" type="text/html">
       <div id="menuinventoryapplystoresdialog">
+	<input type="checkbox" id="applyToAll"/><label for="applyToAll">Apply To All</label>
 	<form id="formInventoryApplystores">
 	  <table class="reportstable">
 	    <thead>
@@ -1868,6 +1871,7 @@
       <h2>{{>breadcrumb_P}}</h2>
       <div id='priceChangeTable'></div>	
       {{>backButton_P}}
+      {{>quickReportViewHook_P}}
     </script>
     
     <script id="menuInventoryScanPriceTabel_TMP" type="text/html">
@@ -1883,7 +1887,7 @@
 	    <input id="filterInv" type=text/>
 	  </span>
 	</div>
-	<table class="reportstable">
+	<table style="margin-bottom:20px;" class="reportstable">
 	  <thead>
 	    <tr>
 	      <th>SKU</th>
@@ -1895,10 +1899,10 @@
 	  <tbody>
 	    {{#list}}
 	    <tr>
-	    <td align="center">{{upccode}}</td>
-	    <td align="center">{{description}}</td>
-	    <td align="right">{{price.selling_price}}</td>
-	    <td align="center"><input type="text"/></td>
+	      <td align="center">{{upccode}}</td>
+	      <td align="center">{{description}}</td>
+	      <td align="right">{{price.selling_price}}</td>
+	      <td align="center"><input var="upc-{{upccode}}" type="text"/></td>
 	    </tr>
 	    {{/list}}
 	    {{^list}}
@@ -1908,9 +1912,7 @@
             {{/list}}
 	  </tbody>
 	</table>
-	{{#list}}
 	<button style="float:right;" id="submitPriceChanges">Submit Price Changes</button>
-	{{/list}}
       </div>
     </script>
     
@@ -2428,7 +2430,6 @@
 	<div id="main"></div>
       </div>
     </div>
-    <div id="main2"></div>
     <div style="width:1000px;margin:0 auto; color:#666;text-align:center;">
       <script>document.write(Date()+".")</script>
     </div>
