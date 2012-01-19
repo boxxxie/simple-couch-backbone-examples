@@ -1817,13 +1817,17 @@
 	  </thead>
 	  <tbody>
 	    {{#list}}
+	    <tr>
 	    <td align="center">{{upccode}}</td>
 	    <td align="center">{{description}}</td>
 	    <td align="right">{{price.selling_price}}</td>
 	    <td align="center"><input type="text"/></td>
+	    </tr>
 	    {{/list}}
 	    {{^list}}
+	    <tr>
 	    <td colspan=4 align='center'>There are no scanable items</td>
+	    </tr>
             {{/list}}
 	  </tbody>
 	</table>
@@ -1863,7 +1867,9 @@
 	    </tr>
 	    {{/list}}
 	    {{^list}}
+	    <tr>
 	    <td colspan=4 align='center'>There are no logs</td>
+	    </tr>
             {{/list}}
 	  </tbody>
 	</table>
