@@ -56,9 +56,10 @@ ddoc.views.user_pass = {
 					  var sName = store.number.toLowerCase();
 					  var user = store.user.toLowerCase();
 					  var store_emit_value = _.extend({store:store.store_id, storeName:store.storeName, storeNumber:store.number},group_emit_value);
-					  var store_emit_key = {company:opName, group:gpName, store:sName, user:user, password:store.password};
+					  var store_emit_key = {company:opName, group:gpName, store:sName, user:user, password:store.password}; 
+					  var store_emit_key2 = {company:opName, store:sName, user:user, password:store.password};
 					  emit(store_emit_key,store_emit_value);
-					  emit(store_emit_key,store_emit_value);
+					  emit(store_emit_key2,store_emit_value);
 				      });
 		     });
     }
