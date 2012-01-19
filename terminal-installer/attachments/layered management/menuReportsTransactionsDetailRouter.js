@@ -214,6 +214,7 @@ function renderTransactionsDetailTable() {
 	
 	console.log(ids);
 	
+	
 	/*
 	canceledTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)
 	(function(err,data_TMP){

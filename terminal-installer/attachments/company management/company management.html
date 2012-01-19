@@ -49,6 +49,12 @@
     
     
     <!--------------------------------------------------------GENERAL--------------------------------------------------->
+    
+    <script id="commonClasses_P" class="partial" type="text/html">
+      text ui-widget-content ui-corner-all
+    </script>
+    
+    
     <script id="userpass_P" class="partial" type="text/html">
       <label for="user">Master User ID</label>
       <input type="text" id="user" value="{{user}}" class="text ui-widget-content ui-corner-all" />
@@ -175,7 +181,7 @@
     
     <script id="companiesTabel_TMP" type="text/html">
       <table class="reportstable">
-<tfoot>
+<thead>
 	<tr>
 	  <th>Name</th>
 	  <th>Operational Name</th>
@@ -186,7 +192,7 @@
 	  <th>Detail</th>
 	  <th>Delete</th>
 	</tr>
-</tfoot>
+</thead>
 <tbody>
 	{{#list}}
 	<tr>
@@ -210,9 +216,8 @@
       {{>createButton_P}}
       {{>menuButton_P}}
 	  <hr/>
-      {{>createDialogHook_P}}
       {{>managementTableHook_P}}
-      
+      {{>createDialogHook_P}}
     </script>	   
     
     <script id="companyForm_P" class="partial" type="text/html">
@@ -247,23 +252,6 @@
       </div>	
     </script>
     
-    
-    <script id="companyModifyRewardsDialog_TMP" type="text/html">
-      <div id="dialog-form-forRewards">
-  	<form id="form_forRewards">
-	  {{#MobQredits}}
-	  <input type="hidden" style="border: 0" class="menuButtonToggle" var="use_mobqredits" id="use_mobqredits" {{#use_mobqredits}}checked=true{{/use_mobqredits}} />
-	  <label for="mobqredits_conversion">MobQredits Conversion: </label>			
-	  <input type="text" maxlength="10" size="10" var="mobqredits_conversion" id="mobqredits_conversion" value="{{mobqredits_conversion}}"/>  
-	  
-	  <input type="hidden" style="border: 0" class="menuButtonToggle" var="use_qriket" id="use_qriket" {{#use_qriket}}checked=true{{/use_qriket}} />
-	  <label for="qriket_conversion">Qriket Conversion: </label>			
-	  <input type="text" maxlength="10" size="10" var="qriket_conversion" id="qriket_conversion" value="{{qriket_conversion}}"/>
-	  {{/MobQredits}}
-	</form>
-      </div>
-    </script>
-    
     <script id="modify_company_page_TMP" type="text/html">
       <table class="reportstable">
 	<h1>Modify Company</h1>
@@ -283,6 +271,38 @@
       <div id="dialog-hook"></div>
       <div id="dialog-hook-forRewards"></div>
     </script>   
+    
+    <!----------------------------- company : modify reward -------------------------------------->
+    
+    <script id="modifyRewardDropdownbox_P" class="partial" type="text/html">
+      <ul>
+	<li>Reward Program :  
+	  <select id="rewardsdown" class="{{>commonClasses_P}}">
+	    <option value = "none" selected>     </option>
+	    <option value = "mobqredits">MobQredits</option>
+	    <option value = "qriket">Qriket</option>
+	  </select>
+	</li>
+      </ul>
+    </script>
+    
+    <script id="companyModifyRewardsDialog_TMP" type="text/html">
+      <div id="dialog-form-forRewards">
+  	<form id="form_forRewards">
+	  {{>modifyRewardDropdownbox_P}}
+	  <hr />
+	  {{#MobQredits}}
+	  <input type="hidden" style="border: 0" class="menuButtonToggle" var="use_mobqredits" id="use_mobqredits" {{#use_mobqredits}}checked=true{{/use_mobqredits}} />
+	  <label for="mobqredits_conversion">MobQredits Conversion: </label>			
+	  <input type="text" maxlength="10" size="10" var="mobqredits_conversion" id="mobqredits_conversion" value="{{mobqredits_conversion}}"/>  
+	  
+	  <input type="hidden" style="border: 0" class="menuButtonToggle" var="use_qriket" id="use_qriket" {{#use_qriket}}checked=true{{/use_qriket}} />
+	  <label for="qriket_conversion">Qriket Conversion: </label>			
+	  <input type="text" maxlength="10" size="10" var="qriket_conversion" id="qriket_conversion" value="{{qriket_conversion}}"/>
+	  {{/MobQredits}}
+	</form>
+      </div>
+    </script>
     
     <!--------------------------------------------------------GROUP--------------------------------------------------->
     
