@@ -47,28 +47,66 @@ var menuInventorytaxChangeLogView =
 		       });
 	 },
 	 renderMenuInventoryCompanytaxChangeLog: function() {
-	     alert("Sorry, we're working on this menu.");
-	     window.history.go(-1);
-	     //var html = ich.menuInventory_TMP({startPage:"companyReport", 
-	     //				       breadCrumb:breadCrumb(ReportData.company.companyName)});
-	     //$(this.el).html(html);
+	     var view = this;
+	     var html = ich.menuInventoryScanTaxLog_TMP({startPage:"companyReport", 
+	     							   breadCrumb:breadCrumb(ReportData.company.companyName)});
+	     $(view.el).html(html);
+
+	     var companyID = ReportData.company._id;
+
+	     inventoryTaxChangeLog(companyID)
+	     (function(err,resp){
+		  	console.log(resp);
+		  	resp = _.map(resp, function(item){
+		  		item.date = dateFormatter(new Date(item.date));
+		  		return item;
+		  	});
+		  	var html =  ich.menuInventoryScanTaxLogTabel_TMP({list:resp});
+		  	$(view.el).find("#scanTaxChangeLogTable").html(html);
+		  			  
+	      });
 	 },
 	 renderMenuInventoryGrouptaxChangeLog: function() {
-	     alert("Sorry, we're working on this menu.");
-	     window.history.go(-1);
-	     //var html = ich.menuInventory_TMP({startPage:"groupReport", 
-	 	//			       breadCrumb:breadCrumb(ReportData.companyName,
-	 	//				     		     ReportData.group.groupName)});
-	     //$(this.el).html(html);
+	     var view = this;
+	     var html = ich.menuInventoryScanPriceLog_TMP({startPage:"groupReport", 
+	     							   breadCrumb:breadCrumb(ReportData.companyName, ReportData.group.groupName)});
+	     $(view.el).html(html);
+
+	     var groupID = ReportData.group.group_id;
+	     
+	     inventoryTaxChangeLog(groupID)
+	     (function(err,resp){
+		  	console.log(resp);
+		  	resp = _.map(resp, function(item){
+		  		item.date = dateFormatter(new Date(item.date));
+		  		return item;
+		  	});
+		  	var html =  ich.menuInventoryScanTaxLogTabel_TMP({list:resp});
+		  	$(view.el).find("#scanTaxChangeLogTable").html(html);
+		  			  
+	      });
 	 },
 	 renderMenuInventoryStoretaxChangeLog: function() {
-	     alert("Sorry, we're working on this menu.");
-	     window.history.go(-1);
-	   //  var html = ich.menuInventory_TMP({startPage:"storeReport", 
-	 	//			       breadCrumb:breadCrumb(ReportData.companyName,
-	 	//				     		     ReportData.groupName,
-	 	//				     		     ReportData.store.storeName,
-	 	//				     		     ReportData.store.number)});
-	     //$(this.el).html(html);
+	     var view = this;
+	     var html = ich.menuInventoryScanPriceLog_TMP({startPage:"groupReport", 
+	     							   breadCrumb:breadCrumb(ReportData.companyName, 
+	     							   						ReportData.groupName,
+	     							   						ReportData.store.storeName,
+	     							   						ReportData.store.number)});
+	     $(view.el).html(html);
+
+	     var storeID = ReportData.store.store_id;
+	     
+	     inventoryTaxChangeLog(storeID)
+	     (function(err,resp){
+		  	console.log(resp);
+		  	resp = _.map(resp, function(item){
+		  		item.date = dateFormatter(new Date(item.date));
+		  		return item;
+		  	});
+		  	var html =  ich.menuInventoryScanTaxLogTabel_TMP({list:resp});
+		  	$(view.el).find("#scanTaxChangeLogTable").html(html);
+		  			  
+	      });
 	 }
 	});
