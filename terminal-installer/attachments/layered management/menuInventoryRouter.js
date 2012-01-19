@@ -236,18 +236,6 @@ function save_button_into_db() {
     var allStoreIDs = _.pluck(extractStores(ReportData),'id');
     var companyID = ReportData.company._id;
 
-    function extractStores(obj){
-	var stores = [];
-	pre_walk(obj,function(o){
-		     if(o.stores){
-			 stores = stores.concat(o.stores);
-		     }
-		     return o;
-		 });
-	return stores.map(function(store){
-			      return {type:'store',id:store.store_id,name:store.storeName,number:store.number};
-			  });
-    };
     function rebuildMenus(company_id,store_ids){
 	console.log("company id"); console.log(company_id);
 	console.log("stores to update menus for"); console.log(store_ids);
