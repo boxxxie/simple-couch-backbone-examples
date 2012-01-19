@@ -321,31 +321,55 @@ _.mixin({
 	     * like _.any, but will recursively search the array/object 
 	     * _.search(1)([[{a:{b:1}}]]) -> true
 	     */
-	    search:function(searchObj){
-		return function(objToBeSearched){
-		    if(_.isEqual(searchObj,objToBeSearched)){
-			return true;
-		    }else{
-			return _.any(objToBeSearched,
-				     function(val){
-					 if(_.isEqual(searchObj,val)){
-					     return true;
-					 }
-					 else if (_.isObject(val)||_.isArray(val)){
-					     return _.search(searchObj)(val);
-					 }
-					 else{
-					     return false;   
-					 }
-				     });
-		    }
+	    search:function(compareFn){
+		return function(searchObj){
+		    return function(objToBeSearched){
+			if(compareFn(searchObj,objToBeSearched)){
+			    return true;
+			}else{
+			    return _.any(objToBeSearched,
+					 function(val){
+					     if(compareFn(searchObj,val)){
+						 return true;
+					     }
+					     else if (_.isObject(val) || _.isArray(val)){
+						 return _.search(compareFn)(searchObj)(val);
+					     }
+					     else{
+						 return false;   
+					     }
+					 });
+			}
+		    };
 		};
-	    },
+	    }});
+_.mixin({
+	    search_Eq:_.search(_.isEqual),
+	    search_Str:_.search(function(str,o){
+				    if(_.isString(o)){
+					return str.toLowerCase() == o.toLowerCase();
+				    }
+				    return false;}),
+	    search_SubStr:_.search(function(str,o){
+				    if(_.isString(o)){
+					return (o.toLowerCase().indexOf(str.toLowerCase()) != -1);
+				    }
+				    return false;}),
 	    /*
 	     * _.filterSearch([{a:{b:1}},{a:{b:2}}],1) -> [{a:{b:1}}]
 	     */
 	    filterSearch:function(list,searchObj){
-		return _.filter(list,_.search(searchObj));
+		return _.filter(list,_.search_Eq(searchObj));
+	    },
+	    filterSearchStr:function(list,searchStr){
+		//_.filterSearchStr([{a:{b:'i'}},{a:{b:'r'}}],'I') -> [{a:{b:'i'}}]
+		//todo, string stuff before running filter to make it run faster
+		return _.filter(list,_.search_Str(searchStr));
+	    },
+	    filterSearchSubStr:function(list,searchStr){
+		//_.filterSearchStr([{a:{b:'ik'}},{a:{b:'r'}}],'I') -> [{a:{b:'ik'}}]
+		//todo, string stuff before running filter to make it run faster
+		return _.filter(list,_.search_SubStr(searchStr));
 	    }
 	});
 
