@@ -85,7 +85,8 @@ var menuReportsSalesSummaryView =
 									     }).flatten().value();
 	     
 	     _.each(stores, function(store) {
-	 		dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
+	 		dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
+	 																	 + "(" + store.number + ")" + '</option>');
 	 	    });
 	     
 	     var btn = $('#generalgobtn')
@@ -132,7 +133,8 @@ var menuReportsSalesSummaryView =
 	     dropdownGroup.attr('disabled','disabled');
 	     
 	     _.each(ReportData.group.stores, function(store) {
- 			dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
+ 			dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
+ 																		 + "(" + store.number + ")" + '</option>');
 	 	    });
 	     
 	     var btn = $('#generalgobtn')
@@ -181,7 +183,8 @@ var menuReportsSalesSummaryView =
 	     
 	     dropdownGroup.append('<option>'+ReportData.groupName+ '</option>');
 	     dropdownGroup.attr('disabled','disabled');
-	     dropdownStore.append('<option value="">'+ReportData.store.storeName+ '</option>');
+	     dropdownStore.append('<option value="">'+ReportData.store.storeName
+	     										 + "(" + ReportData.store.number + ")" + '</option>');
 	     dropdownStore.attr('disabled','disabled');
 	     
 	     var btn = $('#generalgobtn')
@@ -208,13 +211,15 @@ function updateStoreDropdown() {
 					   }).flatten().value();
 	
 	_.each(stores, function(store) {
-	 	   dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
+	 	   dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
+	 	   																+ "(" + store.number + ")" + '</option>');
 	       });		
     } else {
 	var group = _.filter(groups, function(group){ return group.group_id==dropdownGroup.val();});
 	var stores = group[0].stores;
 	_.each(stores, function(store) {
-	 	   dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
+	 	   dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
+	 	   																+ "(" + store.number + ")" + '</option>');
 	       }); 
     }
 };

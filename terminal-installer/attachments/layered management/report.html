@@ -58,6 +58,7 @@
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsHourlyActivityRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsTaxCollectedRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsCashOutsRouter.js"></script>
+    <script language="javascript" type="text/javascript" src="../layered management/menuReportsTransactionsDetailRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsCancelledTransactionsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsRefundsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../layered management/menuReportsDiscountsRouter.js"></script>
@@ -753,6 +754,7 @@
       <a href='#menuReports/{{startPage}}ElectronicPayments'><div class="report-menu"><img src="../images/reports/epayment.png" border="0" class="report-menu-icon"/>Electronic Payments</div></a>
       <a href='#menuReports/{{startPage}}TaxCollected'><div class="report-menu"><img src="../images/reports/tax.png" border="0" class="report-menu-icon"/>Tax Collected</div></a>
       <a href='#menuReports/{{startPage}}CashOuts'><div class="report-menu"><img src="../images/reports/cashouts.png" border="0" class="report-menu-icon"/>Cash Outs</div></a>
+      <a href='#menuReports/{{startPage}}TransactionsDetail'><div class="report-menu"><img src="../images/reports/transactionsdetails.png" border="0" class="report-menu-icon"/>Transactions Detail</div></a>
       <a href='#menuReports/{{startPage}}Cancelled'><div class="report-menu"><img src="../images/reports/cancelledtransactions.png" border="0" class="report-menu-icon"/>Cancelled Transactions</div></a>
       <a href='#menuReports/{{startPage}}Refunds'><div class="report-menu"><img src="../images/reports/refunds.png" border="0" class="report-menu-icon"/>Refunds</div></a>
       <a href='#menuReports/{{startPage}}Discounts'><div class="report-menu"><img src="../images/reports/discounts.png" border="0" class="report-menu-icon"/>Discounts</div></a>
@@ -1344,6 +1346,76 @@
       {{>backButton_P}}
     </script>
     
+    <!------------------------------------ Transactions Detail --------------------------------------->
+    
+    <script id="transactionsDetailTabel_TMP" type="text/html">
+      <table class="reportstable">
+	<thead>
+	  <tr>
+	    <th>Date</th>
+	    <th>Time</th>
+	    <th>Terminal</th>
+	    <th>Trans. No.</th>
+	    <th>Type</th>
+	    <th>Net</th>
+	    <th>Tax 1</th>
+	    <th>Tax 3</th>
+	    <th>Total</th>
+	    <th>Detail</th>
+	  </tr>
+	</thead>
+	<tfoot>
+	  <tr>
+	    {{#totalrow}}
+	    <th align="center" colspan="5">TOTAL</th>
+	    <th align="right">{{totalsales}}</th>
+	    <th align="right">{{totaltax1}}</th>
+	    <th align="right">{{totaltax3}}</th>
+	    <th align="right">{{totaltotalsales}}</th>
+	    <th></th>
+	    {{/totalrow}}
+	  </tr>
+	</tfoot>
+	<tbody>
+	  {{#items}}
+	  <tr>
+	    <td>{{transdate}}</td>
+	    <td>{{transtime}}</td>
+	    <td>{{terminal_label}}</td>
+	    <td>{{trnasnumber}}</td>
+	    <td>{{type}}</td>
+	    <td align="right">{{subTotal}}</td>
+	    <td align="right">{{tax1and2}}</td>
+	    <td align="right">{{tax3}}</td>
+	    <td align="right">{{total}}</td>
+	    <td align="right">{{>quickDetailsViewButton_P}}</td>
+	  </tr>
+	  {{/items}}
+	  {{^items}}
+	  <tr>
+	    <td align='center' colspan='11'>
+	      There are no stores registered for this company/group
+	    </td>
+	  </tr>
+	  {{/items}}
+	</tbody>
+      </table>
+      {{>quickReportViewHook_P}}
+    </script> 
+
+    <script id="transactionsDetailReports_TMP" type="text/html">
+      {{>main_navigation_buttons_P}}
+      <h1>Transactions Detail Report</h1>
+      <h2>{{>breadcrumb_P}}</h2>
+      {{>groupDropdownbox_P}}
+      {{>dateRangePicker_P}}
+      {{>generalGoButton_P}}			
+      <div id='transactionsdetailtable'></div>		
+      {{>backButton_P}}
+    </script>
+    
+    
+    
     <!--------------------------- CANCELLED TRANSACTIONS REPORTS ---------------------------------->
     <script id="menuReportsCancelledTabel_TMP" type="text/html">
       <table class="reportstable">
@@ -1732,7 +1804,7 @@
 	<a href='#menuInventory/{{startPage}}priceChangeLog'><div class="report-menu"><img src="../images/reports/pricelog.png" border="0" class="report-menu-icon"/>Price Change Log</div></a>
 	<a href='#menuInventory/{{startPage}}taxChangeLog'><div class="report-menu"><img src="../images/reports/taxlog.png" border="0" class="report-menu-icon"/>Tax Change Log</div></a>
 	{{#showMenuPriceChange}}
-	<a href='#menuInventory/{{startPage}}menuPriceChange'><div class="report-menu"><img src="../images/reports/pricelog.png" border="0" class="report-menu-icon"/>Menu Price Change</div></a>
+	<a href='#menuInventory/{{startPage}}menuPriceChange'><div class="report-menu"><img src="../images/reports/menupricechange.png" border="0" class="report-menu-icon"/>Menu Price Change</div></a>
 	{{/showMenuPriceChange}}
       </div>
       <div style="clear: both;"></div>
