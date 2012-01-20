@@ -24,11 +24,18 @@ function dateFormatter(date){
 function datePartFormatter(date){
     return date.toString("yyyy-MM-dd");
 }
+function timePartFormatter(date){
+    return date.toString("HH:mm:ss");
+}
+
 function jodaDateFormatter(dateString){
     return dateFormatter(jodaDateParser(dateString));
 }
 function jodaDatePartFormatter(dateString){
     return datePartFormatter(jodaDateParser(dateString));
+}
+function jodaTimePartFormatter(dateString){
+    return timePartFormatter(jodaDateParser(dateString));
 }
 
 function applyReceiptInfo(templateData){

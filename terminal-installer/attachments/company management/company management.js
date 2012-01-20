@@ -417,7 +417,6 @@ function doc_setup(){
 	    	      rewardsModel = rewards;
 	    	      var rewardsJson = rewardsModel.toJSON();
 	    	      
-	    	      //FIXME
 	    	      var html = ich.companyModifyRewardsDialog_TMP({MobQredits:rewardsJson});
 	    	      
 				companyModifyRewardsViewDialog(html,{title:"Modify Rewards Program",
