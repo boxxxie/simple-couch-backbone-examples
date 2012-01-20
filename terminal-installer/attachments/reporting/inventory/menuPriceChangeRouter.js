@@ -314,14 +314,11 @@ function save_button_into_db() {
 	    }
 	};
     }
-    if(confirm("Apply Stores : All?\n*Cancel:Select Stores")) {
-	makeButtons(newButtonItemData,companyID,allStoreIDs)([]);
-    } else {
-    	var stores = extractStores(ReportData);
-	var html = ich.menuInventoryApplyStoresQuickViewDialog_TMP({items:stores});
-	menuInventoryApplyStoresViewDialog(html,{title:"Apply Price - new Price : $ " + 
-						 currency_format(newButtonItemData.foodItem.price), 
-						 stores:stores,
-						 makeButtons:makeButtons(newButtonItemData,companyID,allStoreIDs)});
-    }
+    var stores = extractStores(ReportData);
+    var html = ich.menuInventoryApplyStoresQuickViewDialog_TMP({items:stores});
+    menuInventoryApplyStoresViewDialog(html,{title:"Apply Price - new Price : $ " + 
+					     currency_format(newButtonItemData.foodItem.price), 
+					     stores:stores,
+					     makeButtons:makeButtons(newButtonItemData,companyID,allStoreIDs)});
+    
 };
