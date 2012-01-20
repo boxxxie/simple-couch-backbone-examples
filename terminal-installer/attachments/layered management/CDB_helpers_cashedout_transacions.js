@@ -30,9 +30,8 @@ function transactionsReportFetcher(start,end){
 			      .defaults({tax1and2:0,subTotal:0,tax3:0,total:0})
 			      .value();
 		      }
-		      //todo, needs to be grouped by day
 		      var transactions = _.chain(response.rows)
-			  .groupBy(function(resp_item){
+			  .groupBy(function(resp_item){ //group by day
 				       return _.chain(resp_item.key)
 					   .slice(1,4)
 					   .join("-")
