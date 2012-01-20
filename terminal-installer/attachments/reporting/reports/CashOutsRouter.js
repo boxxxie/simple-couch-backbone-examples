@@ -276,13 +276,8 @@ function rendermenuReportsCashOutsTable() {
 				  return _.extend(item, {dialogtitle:dialogtitle});
 			      });
 
-	     var html;
-	     if(_.isEmpty(data_TMP)){
-		 html = "<p>There are no cashouts for this time period</p>";	 
-	     }
-	     else{
-		 	html = ich.menuReportsCashOutsTabel_TMP({items:data_TMP, numofcashout:numofcashout});
-	     }
+	     var html = ich.menuReportsCashOutsTabel_TMP({items:data_TMP, numofcashout:numofcashout});
+	     
 	     $("#cashoutstable").html(html);
 	     
 	     _.each(data_TMP, function(item){	

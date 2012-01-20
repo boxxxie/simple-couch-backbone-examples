@@ -232,23 +232,16 @@ function renderInventoryReportTable() {
 			     ecr_sales_list:for_TMP.ecr_sales_list,
 			     ecr_list_totals:for_TMP.ecr_list_totals};
 	     
-	     if(_.isEmpty(menuParam.menu_sales_list)){
-		 var html = "<p>There are no menu sales for this time frame</p>";
-	     }
-	     else{var html = ich.menuReportsInventoryMenuTabel_TMP(menuParam);}
-	     $("#inventorymenutable").html(html);
+
+	     var menuhtml = ich.menuReportsInventoryMenuTabel_TMP(menuParam);
+		
+	     $("#inventorymenutable").html(menuhtml);
 	     
-	     if(_.isEmpty(scanParam.scan_sales_list)){
-		 var html = "<p>There are no inventory sales for this time frame</p>";
-	     }
-	     else{var html = ich.menuReportsInventoryScanTabel_TMP(scanParam);}
-	     $("#inventoryscantable").html(html);
+	     scanhtml = ich.menuReportsInventoryScanTabel_TMP(scanParam);
+	     $("#inventoryscantable").html(scanhtml);
 	     
-	     if(_.all([ecrParam.scale_sales_list,ecrParam.ecr_sales_list,ecrParam.department_sales_list],_.isEmpty)){
-		 var html = "<p>There are no ECR sales for this time frame</p>";
-	     }
-	     else{var html = ich.menuReportsInventoryEcrTabel_TMP(ecrParam);}
-	     $("#inventoryecrtable").html(html);
+	     else{var ecrhtml = ich.menuReportsInventoryEcrTabel_TMP(ecrParam);
+	     $("#inventoryecrtable").html(ecrhtml);
 	     
 	     var cate_drop = $('#inventorydown');
 	     

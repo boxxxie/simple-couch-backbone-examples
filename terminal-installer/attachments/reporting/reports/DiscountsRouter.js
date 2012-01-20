@@ -325,18 +325,6 @@ function renderDiscountsTable() {
 			      });
 	     
 	     
-	     if(_.isEmpty(data_TMP)){
-		 var html = "<p>There are no discounts for this time period</p>";	 
-	     }
-	     else{
-	     	 //data_TMP = _.map(data_TMP, function(item){
-	     	//		      item.subTotal = currency_format(item.subTotal);
-	     	//		      item.totaldiscount = currency_format(item.totaldiscount);
-	     	//		      item.tax1and2 = currency_format(item.tax1and2);
-	     	//		      item.tax3 = currency_format(item.tax3);
-	     	//		      item.total = currency_format(item.total);
-	     	//		      return item;
-	     	//		  });
 	     	data_TMP = 
 		     _.applyToValues(data_TMP, function(obj){
 					 var strObj = obj+"";
@@ -354,7 +342,7 @@ function renderDiscountsTable() {
 				     return obj;
 				 }, true);
 		 var html = ich.menuReportsDiscountsTabel_TMP({items:data_TMP, totalrow:totalrow});
-	     }
+	     
 	     $("#discountstable").html(html);
 	     
 	     _.each(data_TMP, function(item){	
