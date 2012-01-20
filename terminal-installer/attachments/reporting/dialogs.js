@@ -68,14 +68,12 @@ function quickReportView(id, title){
     		       for_TMP.ytd.noofrefund=ytd_noofrefund;
     		       
     		       var yesterdayPropsToChange = _.selectKeys(for_TMP.yesterday,['netsalestotal', 'netrefundtotal', 'netsaleactivity', 'avgpayment', 'avgrefund' , 'cashtotal' , 'allDiscount', 'cancelledtotal','avgcancelled','menusalesamount', 'scansalesamount','ecrsalesamount']);
-		       yesterdayPropsToChange =_(yesterdayPropsToChange).chain()
-			   .map(function(val,key){
+		       yesterdayPropsToChange =_(yesterdayPropsToChange)
+			   .map$(function(val,key){
 				    if(val.indexOf('-')>=0) { val = val.replace('-',''); val = "-$ " +val;}
 				    else {val = "$ " +val;}
 				    return [key,val];
-				})
-			   .toObject()
-			   .value();
+				});
 		       var yesterdayCashoutForm = _.extend({},for_TMP.yesterday,yesterdayPropsToChange);
 		       
 		       var mtdPropsToChange = _.selectKeys(for_TMP.mtd,['netsalestotal', 'netrefundtotal', 'netsaleactivity', 'avgpayment', 'avgrefund' , 'cashtotal' , 'allDiscount', 'cancelledtotal','avgcancelled','menusalesamount', 'scansalesamount','ecrsalesamount']);
@@ -194,58 +192,3 @@ function quickmenuReportsTransactionViewDialog (html,options) {
     d.dialog(dialogOptions);
     d.dialog("open");
 };
-
-/**************************************** menuInventory - apply stores dialog ****************************/
-function menuInventoryApplyStoresViewDialog (dialog_html,options) {
-    var stores = options.stores;
-    var form = $(dialog_html).find("#formInventoryApplystores");
-    var d = $("#dialog-quickView");    	
-    d.html(dialog_html);
-    d.find("#applyToAll").change(
-	function(){
-	    if($(this).is(":checked")){
-		$(form).find("input").attr('disabled',true);
-	    }
-	    else{
-		$(form).find("input").removeAttr('disabled');
-	    }
-	});
-    
-    var dialogOptions = _.extend(
-	{autoOpen: false,
-	 height: 450,
-	 width: 424,
-	 modal: true,
-	 buttons: {
-	     "Apply" : function() {
-		 var checkedStores = form.find("input:checked").toArray();
-		 var applyToAllStores =  d.find("#applyToAll").is(":checked");
-		 if(_.isEmpty(checkedStores) && !applyToAllStores){
-		     //user clicked apply and there was nothing selected... do nothing
-		 }
-		 else if (checkedStores.length == stores.length  || applyToAllStores){
-		     console.log("The price change will be applied to all stores in this company");
-		     options.makeButtons(_.pluck(stores,'id'));
-		 }
-		 else if(checkedStores.length != stores.length) {
-		     var store_ids_to_update = _(checkedStores)
-			 .map(function(item){
-				  return item.id;
-			      });
-		     console.log("The price change will be applied to selected stores");
-		     console.log(store_ids_to_update);
-		     options.makeButtons(store_ids_to_update);
-		 }
-		 d.dialog('close');
-	     },
-	     "Cancel" : function() {
-		 d.dialog('close');
-	     }
-	 },
-	 title:options.title
-	},_.clone(options));
-    
-    d.dialog(dialogOptions);
-    d.dialog("open");
-};
-

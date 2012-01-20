@@ -310,15 +310,7 @@ function renderTaxCollectedTable() {
 				       });
 			     data_TMP = _.applyToValues(data_TMP,toFixed(2),true);
 			     
-			     if(_.isEmpty(data_TMP)){
-				 var html = "<p>There are no taxes collected for this time period</p>";	 
-			     }
-			     else{
-			     	 /*data_TMP = _.map(data_TMP, function(item){
-			     	  item.firstindex = Number(item.firstindex)+"";
-			     	  item.lastindex = Number(item.lastindex)+"";
-			     	  return item;
-			     	  });*/
+
 			     	 _.applyToValues(data_TMP, function(obj){
 						     var strObj = obj+"";
 						     if(strObj.indexOf(".")>=0) {
@@ -337,7 +329,7 @@ function renderTaxCollectedTable() {
 				data_TMP = appendGroupStoreInfoFromTerminalID(data_TMP);
 				
 				 var html = ich.taxCollectedTabel_TMP({items:data_TMP, totalrow:totalrow});
-			     }
+			     
 
 			     $("#taxcollectedtable").html(html);
 			     _.each(data_TMP, function(item){	

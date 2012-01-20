@@ -1,56 +1,54 @@
-var menuReportsDiscountsRouter = 
+var menuReportsCashOutsRouter = 
     new (Backbone.Router.extend(
 	     {routes: {
-		  "menuReports/companyReportDiscounts":"menuReportsCompanyDiscounts",
-		  "menuReports/groupReportDiscounts":"menuReportsGroupDiscounts",
-		  "menuReports/storeReportDiscounts":"menuReportsStoreDiscounts"
+	     	  "menuReports/companyReportCashOuts":"menuReportsCompanyCashouts",
+	     	  "menuReports/groupReportCashOuts":"menuReportsGroupCashouts",
+		  "menuReports/storeReportCashOuts":"menuReportsStoreCashouts"
 	      },
-	      menuReportsCompanyDiscounts:function() {
-		  console.log("menuReportsCompanyDiscounts  ");
+	      menuReportsCompanyCashouts:function() {
+		  console.log("menuReportsCompanyCashouts  ");
 	      },
-	      menuReportsGroupDiscounts:function() {
-		  console.log("menuReportsGroupDiscounts  ");
+	      menuReportsGroupCashouts:function() {
+		  console.log("menuReportsGroupCashouts  ");
 	      },
-	      menuReportsStoreDiscounts:function() {
-		  console.log("menuReportsStoreDiscounts  ");
+	      menuReportsStoreCashouts:function() {
+		  console.log("menuReportsStoreCashouts  ");
 	      }
 	     }));
 
-var menuReportsDiscountsView = 
+var menuReportsCashOutsView = 
     Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
 	     view.el = $("#main");
 	     
 	     _.bindAll(view, 
-		       'renderMenuReportsCompanyDiscounts',
-		       'renderMenuReportsGroupDiscounts',
-		       'renderMenuReportsStoreDiscounts');
-	     menuReportsDiscountsRouter
-		 .bind('route:menuReportsCompanyDiscounts', 
+		       'renderMenuReportsCompanyCashouts',
+		       'renderMenuReportsGroupCashouts',
+		       'renderMenuReportsStoreCashouts');
+	     menuReportsCashOutsRouter
+		 .bind('route:menuReportsCompanyCashouts', 
 		       function(){
-			   console.log("menuReportsView, route:menuReportsCompanyDiscounts");
-			   view.renderMenuReportsCompanyDiscounts();
+			   console.log("menuReportsView, route:menuReportsCompanyCashouts");
+			   view.renderMenuReportsCompanyCashouts();
 		       });
-	     
-	     menuReportsDiscountsRouter
-		 .bind('route:menuReportsGroupDiscounts', 
+	     menuReportsCashOutsRouter
+		 .bind('route:menuReportsGroupCashouts', 
 		       function(){
-			   console.log("menuReportsView, route:menuReportsGroupDiscounts");
-			   view.renderMenuReportsGroupDiscounts();
+			   console.log("menuReportsView, route:menuReportsGroupCashouts");
+			   view.renderMenuReportsGroupCashouts();
 		       });
-	     
-	     menuReportsDiscountsRouter
-		 .bind('route:menuReportsStoreDiscounts', 
+	     menuReportsCashOutsRouter
+		 .bind('route:menuReportsStoreCashouts', 
 		       function(){
-			   console.log("menuReportsView, route:menuReportsStoreDiscounts");
-			   view.renderMenuReportsStoreDiscounts();
+			   console.log("menuReportsView, route:menuReportsStoreCashouts");
+			   view.renderMenuReportsStoreCashouts();
 		       });
 	 },
-	 renderMenuReportsCompanyDiscounts: function() {
+	 renderMenuReportsCompanyCashouts: function() {
 	     
-	     var html = ich.menuReportsDiscountsReports_TMP({startPage:"companyReport", 
-	     						     breadCrumb:breadCrumb(ReportData.company.companyName)});
+	     var html = ich.menuReportsCashOutsReports_TMP({startPage:"companyReport", 
+	     						    breadCrumb:breadCrumb(ReportData.company.companyName)});
 	     $(this.el).html(html);
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )
@@ -106,15 +104,15 @@ var menuReportsDiscountsView =
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
-			    renderDiscountsTable();
+			    rendermenuReportsCashOutsTable();
 			});
 	     
 	     console.log("rendered general report");
 	 },
-	 renderMenuReportsGroupDiscounts: function() {
+	 renderMenuReportsGroupCashouts: function() {
 	     
-	     var html = ich.menuReportsDiscountsReports_TMP({startPage:"groupReport", 
-	     						     breadCrumb:breadCrumb(ReportData.companyName, ReportData.group.groupName)});
+	     var html = ich.menuReportsCashOutsReports_TMP({startPage:"groupReport", 
+	     						    breadCrumb:breadCrumb(ReportData.companyName, ReportData.group.groupName)});
 	     $(this.el).html(html);
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )
@@ -147,7 +145,7 @@ var menuReportsDiscountsView =
 	     dropdownGroup.attr('disabled','disabled');
 	     
 	     _.each(ReportData.group.stores, function(store) {
- 			dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName 
+ 			dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
  																		 + "(" + store.number + ")" + '</option>');
 	 	    });
 	     
@@ -166,15 +164,15 @@ var menuReportsDiscountsView =
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
-			    renderDiscountsTable();
+			    rendermenuReportsCashOutsTable();
 			});
 	     
 	     console.log("rendered general report");
 	 },
-	 renderMenuReportsStoreDiscounts: function() {
+	 renderMenuReportsStoreCashouts: function() {
 	     
-	     var html = ich.menuReportsDiscountsReports_TMP({startPage:"storeReport", 
-	     						     breadCrumb:breadCrumb(ReportData.companyName, ReportData.groupName, ReportData.store.storeName, ReportData.store.number)});
+	     var html = ich.menuReportsCashOutsReports_TMP({startPage:"storeReport", 
+	     						    breadCrumb:breadCrumb(ReportData.companyName, ReportData.groupName, ReportData.store.storeName, ReportData.store.number)});
 	     $(this.el).html(html);
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )
@@ -225,7 +223,7 @@ var menuReportsDiscountsView =
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
-			    renderDiscountsTable();
+			    rendermenuReportsCashOutsTable();
 			});
 	     
 	     console.log("rendered general report");
@@ -233,8 +231,8 @@ var menuReportsDiscountsView =
 	});
 
 /******************************************** helper functions ************************************/
-function renderDiscountsTable() {
-    console.log("renderDiscountsTable");
+function rendermenuReportsCashOutsTable() {
+    console.log("renderCashOutsTable");
     
     var dropdownGroup = $("#groupsdown");
     var dropdownStore = $("#storesdown");
@@ -244,9 +242,12 @@ function renderDiscountsTable() {
 	var startDate = new Date($("#dateFrom").val());
 	var endDate = new Date($("#dateTo").val());
 	var endDateForQuery = new Date($("#dateTo").val());
+	var today = (new Date()).toString("MM/dd/yyyy");
+	
 	endDateForQuery.addDays(1);
 	
-	//TODO
+	var ids;
+	
 	if(dropdownTerminal.val()=="ALL") {
 	    ids = _($('option', dropdownTerminal)).chain()
 	    	.filter(function(item){ return item.value!=="ALL";})
@@ -258,144 +259,55 @@ function renderDiscountsTable() {
 	    var sd = $("#terminalsdown option:selected");
 	    ids =[{id:sd.val(), name:sd.text()}];
 	}
+	
 	console.log(ids);
 	
-	discountTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)
-	(function(err,data_TMP){
-	     //data_TMP = _.reject(data_TMP, function(item){return item.discount<=0});
-	     data_TMP = appendGroupStoreInfoFromStoreID(data_TMP);
-	     
-	     var totalrow = {};
-	     totalrow.numofdiscount = data_TMP.length + "";
-	     totalrow.sales = (_.reduce(data_TMP, function(init, item){
-					    return init + Number(item.sales);
-					}, 0)).toFixed(2);
-	     totalrow.discount = (_.reduce(data_TMP, function(init, item){
-					       return init + Number(item.discount);
-					   }, 0)).toFixed(2);
-	     totalrow.tax1and2 = (_.reduce(data_TMP, function(init, item){
-					       return init + Number(item.tax1and2);
-					   }, 0)).toFixed(2);
-	     totalrow.tax3 = (_.reduce(data_TMP, function(init, item){
-					   return init + Number(item.tax3);
-				       }, 0)).toFixed(2);
-	     totalrow.total = (_.reduce(data_TMP, function(init, item){
-					    return init + Number(item.total);
-					}, 0)).toFixed(2);
-							
-	     totalrow.percentdiscount = (Number(totalrow.discount)/Number(totalrow.sales)*100).toFixed(2);
-	     
-	     data_TMP= applyReceiptInfo(data_TMP);
-	     
+	cashoutReportFetcher(ids,startDate,endDateForQuery)
+	(function(data_TMP){
+		data_TMP = _.map(data_TMP, function(item){
+			return _.extend({},item,{store_id:item.cashout.store_id});
+		});
+		data_TMP = appendGroupStoreInfoFromStoreID(data_TMP);
+		
+	     var numofcashout = data_TMP.length+"";
 	     data_TMP = _.map(data_TMP, function(item){
-	     			  item.totaldiscount = item.discount;
-	     			  if(_.isNumber(item.totaldiscount)) {
-	     			      item.totaldiscount = (item.totaldiscount>0)? "-"+currency_format(item.totaldiscount):currency_format(item.totaldiscount);
-	     			  }
-	     			  return item; 
+				  var dialogtitle=getDialogTitle(ReportData,item);
+				  item._id = item.id;
+				  return _.extend(item, {dialogtitle:dialogtitle});
 			      });
+
+	     var html = ich.menuReportsCashOutsTabel_TMP({items:data_TMP, numofcashout:numofcashout});
 	     
-	     data_TMP = _.applyToValues(data_TMP, function(obj){
-					    if(obj && obj.discount==0){
-						obj.discount=null;
-					    }
-					    if(obj && obj.quantity){
-						obj.orderamount = toFixed(2)(obj.price * obj.quantity);
-						obj.quantity+="";
-						if(obj.discount) {
-						    obj.discountamount = toFixed(2)(obj.discount * obj.quantity);
-						}
-					    }
-					    return toFixed(2)(obj);
-					}, true);
-	     
-	     data_TMP = _.map(data_TMP, function(item){
-				  if(item.payments) {
-				      item.payments = _.map(item.payments, function(payment){
-								if(payment.paymentdetail) {
-								    payment.paymentdetail.crt = payment.type;
-								}
-								if(payment.paymentdetail && payment.paymentdetail.errmsg) {
-								    payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace(/<br>/g," ");
-								}
-								return payment;
-							    }); 
-				  }
-				  return item;
-			      });
-	     
-	     
-	     if(_.isEmpty(data_TMP)){
-		 var html = "<p>There are no discounts for this time period</p>";	 
-	     }
-	     else{
-	     	 //data_TMP = _.map(data_TMP, function(item){
-	     	//		      item.subTotal = currency_format(item.subTotal);
-	     	//		      item.totaldiscount = currency_format(item.totaldiscount);
-	     	//		      item.tax1and2 = currency_format(item.tax1and2);
-	     	//		      item.tax3 = currency_format(item.tax3);
-	     	//		      item.total = currency_format(item.total);
-	     	//		      return item;
-	     	//		  });
-	     	data_TMP = 
-		     _.applyToValues(data_TMP, function(obj){
-					 var strObj = obj+"";
-					 if(strObj.indexOf(".")>=0 && strObj.indexOf("$")<0) {
-					     obj = currency_format(Number(obj));
-					 }
-					 return obj;
-				     }, true);
-				     
-	     	 _.applyToValues(totalrow, function(obj){
-				     var strObj = obj+"";
-				     if(strObj.indexOf(".")>=0) {
-					 obj = currency_format(Number(obj));
-				     }
-				     return obj;
-				 }, true);
-		 var html = ich.menuReportsDiscountsTabel_TMP({items:data_TMP, totalrow:totalrow});
-	     }
-	     $("#discountstable").html(html);
+	     $("#cashoutstable").html(html);
 	     
 	     _.each(data_TMP, function(item){	
-			var item = _.clone(item);
-			
-			var dialogtitle=getDialogTitle(ReportData,item);
-
-
-			
 			var btn = $('#'+item._id)
 			    .button()
 			    .click(function(){
-				       var btnData = item;
-				       _.applyToValues(ReportData,
-						       function(o){
-							   if(o.store_id==btnData.store_id){
-							       btnData.storename = o.storeName;
+				       var data = item.cashout;
+				       _.applyToValues(data, function(obj){
+							   var strObj = obj+"";
+							   if(strObj.indexOf(".")>=0) {
+						     	       obj = currency_format(Number(obj));
 							   }
-							   return o;
-						       }
-						       ,true);
-				       btnData.discount=null;
-				       btnData.order = _.map(btnData.order, function(orderitem){
-				       				 if(orderitem.discount) {
-				       				     orderitem.discount = (Number(orderitem.discount)*Number(orderitem.quantity)).toFixed(2);
-				       				 }
-				       				 return orderitem;
-							     });
-				       
-				       //_.applyToValues(btnData, function(obj){
-					//		   var strObj = obj+"";
-					//		   if(strObj.indexOf(".")>=0) {
-					//	     	       obj = currency_format(obj);
-					//		   }
-					//		   return obj;
-					//	       }, true);
-				       
-				       var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
-				       quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
+							   return obj;
+						       }, true);
+						
+						 var propsToChange = _.selectKeys(data,['netsalestotal', 'netrefundtotal', 'netsaleactivity', 'avgpayment', 'avgrefund' , 'cashtotal' , 'allDiscount', 'cancelledtotal','avgcancelled','menusalesamount', 'scansalesamount','ecrsalesamount']);
+						 propsToChange =_(propsToChange).chain()
+								      .map(function(val,key){
+									       if(val.indexOf('-')>=0) { val = val.replace('-',''); val = "-$ " +val;}
+									       else {val = "$ " +val;}
+									       return [key,val];
+									   })
+								      .toObject()
+								      .value();
+					   var cashoutData = _.extend({},data,propsToChange); 
+						
+				       var html = ich.menuReportsCashoutQuickViewDialog_TMP(cashoutData);
+				       quickmenuReportsCashoutViewDialog(html, {title:item.dialogtitle});
 				   });
-		    });
+		    });		
 	 });
 	
     } else {
