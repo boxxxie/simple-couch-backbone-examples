@@ -223,20 +223,12 @@ function renderTransactionsDetailTable() {
 		resp.transactionsForDates = pre_walk(resp.transactionsForDates, function(obj) {
 			if(obj.totalsForDate) {
 				obj.totalsForDate = _.extend({},{date:obj.date},obj.totalsForDate);
-			}
-			
-			if(obj.transactions) {
-				obj.transactions = pre_walk(obj.transactions, function(obj2) {
-					if(obj2.time && obj2.time.start) {
-						obj2 = _.extend({},obj2,{transtime:jodaTimePartFormatter(obj2.time.start),
-												transdate:jodaDatePartFormatter(obj2.time.start),
-												transactionNumber:Number(obj2.transactionNumber)+""});
+				return obj;
+			} else if(obj.time && obj.time.start) {
+				obj = _.extend({},obj,{transtime:jodaTimePartFormatter(obj.time.start),
+												transdate:jodaDatePartFormatter(obj.time.start),
+												transactionNumber:Number(obj.transactionNumber)+""});
 						
-						return obj2; 
-					} else {
-						return obj2;
-					}
-				});
 				return obj;
 			} else {
 				return obj;
