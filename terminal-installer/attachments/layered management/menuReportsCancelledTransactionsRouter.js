@@ -312,7 +312,7 @@ function renderCancelledTransactionsTable() {
 	     
 	     
 	     if(_.isEmpty(data_TMP)){
-		 var html = "<p>There are no cancelled transactions for this time period</p>";	 
+		 	var html = "<p>There are no cancelled transactions for this time period</p>";	 
 	     }
 	     else{
 	     	 //data_TMP = _.map(data_TMP, function(item){

@@ -198,6 +198,7 @@ var menuReportsTransactionsDetailView =
 /******************************************** helper functions ************************************/
 function renderTransactionsDetailTable() {
     console.log("renderTransactionsDetailTable");
+    
 
     var dropdownGroup = $("#groupsdown");
     var dropdownStore = $("#storesdown");
@@ -214,7 +215,38 @@ function renderTransactionsDetailTable() {
 	
 	console.log(ids);
 	
+	startDate = startDate.toArray().slice(0,3);
+	endDateForQuery = endDateForQuery.toArray().slice(0,3);
 	
+	transactionsReportFetcher(startDate,endDateForQuery)([_.first(ids).id])(function(err,resp){
+		var re = resp;
+		console.log(re);
+		resp.transactionsForDates = pre_walk(resp.transactionsForDates, function(obj) {
+			if(obj.totalsForDate) {
+				obj.totalsForDate = _.extend({},{date:obj.date},obj.totalsForDate);
+			}
+			
+			if(obj.transactions) {
+				obj.transactions = pre_walk(obj.transactions, function(obj2) {
+					if(obj2.time && obj2.time.start) {
+						obj2 = _.extend({},obj2,{transtime:jodaTimePartFormatter(obj2.time.start),
+												transdate:jodaDatePartFormatter(obj2.time.start),
+												transactionNumber:Number(obj2.transactionNumber)+""});
+						
+						return obj2; 
+					} else {
+						return obj2;
+					}
+				});
+				return obj;
+			} else {
+				return obj;
+			}
+		});
+		 var html = ich.transactionsDetailTabel_TMP(resp);
+	     $("#transactionsdetailtable").html(html);
+		
+	});
 	/*
 	canceledTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)
 	(function(err,data_TMP){

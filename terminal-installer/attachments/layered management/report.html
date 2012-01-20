@@ -608,8 +608,6 @@
   	  {{#order}}
   	  <tr>
   	    <!--<td>{{description}}</td>-->
-  	    <ul style="list-style-type: none; padding-left: 0px; margin: 0px">
-	<li style="display: inline;">Category :
   	    <td>
   	    	<ul style="list-style-type: none; padding-left: 0px; margin: 0px">
 				{{#description}}<li>{{description}}</li>{{/description}}
@@ -1377,38 +1375,50 @@
 	</thead>
 	<tfoot>
 	  <tr>
-	    {{#totalrow}}
+	    {{#total}}
 	    <th align="center" colspan="5">TOTAL</th>
-	    <th align="right">{{totalsales}}</th>
-	    <th align="right">{{totaltax1}}</th>
-	    <th align="right">{{totaltax3}}</th>
-	    <th align="right">{{totaltotalsales}}</th>
+	    <th align="right">{{subTotal}}</th>
+	    <th align="right">{{tax1and2}}</th>
+	    <th align="right">{{tax3}}</th>
+	    <th align="right">{{total}}</th>
 	    <th></th>
-	    {{/totalrow}}
+	    {{/total}}
 	  </tr>
 	</tfoot>
 	<tbody>
-	  {{#items}}
-	  <tr>
-	    <td>{{transdate}}</td>
-	    <td>{{transtime}}</td>
-	    <td>{{terminal_label}}</td>
-	    <td>{{trnasnumber}}</td>
-	    <td>{{type}}</td>
-	    <td align="right">{{subTotal}}</td>
-	    <td align="right">{{tax1and2}}</td>
-	    <td align="right">{{tax3}}</td>
-	    <td align="right">{{total}}</td>
-	    <td align="right">{{>quickDetailsViewButton_P}}</td>
-	  </tr>
-	  {{/items}}
-	  {{^items}}
+	  {{#transactionsForDates}}
+	  	{{#transactions}}
+		  <tr>
+		    <td>{{transdate}}</td>
+		    <td>{{transtime}}</td>
+		    <td>{{name}}</td>
+		    <td>{{receipt_id}}-{{transactionNumber}}</td>
+		    <td>{{type}}</td>
+		    <td align="right">{{subTotal}}</td>
+		    <td align="right">{{tax1and2}}</td>
+		    <td align="right">{{tax3}}</td>
+		    <td align="right">{{total}}</td>
+		    <td align="right">{{>quickDetailsViewButton_P}}</td>
+		  </tr>
+		{{/transactions}}
+		{{#totalsForDate}}
+		  <tr>
+		  	<td colspan="5">{{date}}</td>
+		  	<td align="right">{{subTotal}}</td>
+		    <td align="right">{{tax1and2}}</td>
+		    <td align="right">{{tax3}}</td>
+		    <td align="right">{{total}}</td>
+		    <td></td>
+		  </tr>
+		{{/totalsForDate}}
+	  {{/transactionsForDates}}
+	  {{^transactionsForDates}}
 	  <tr>
 	    <td align='center' colspan='11'>
-	      There are no stores registered for this company/group
+	      There are no transactions
 	    </td>
 	  </tr>
-	  {{/items}}
+	  {{/transactionsForDates}}
 	</tbody>
       </table>
       {{>quickReportViewHook_P}}
