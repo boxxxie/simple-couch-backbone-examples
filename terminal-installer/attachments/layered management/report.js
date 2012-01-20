@@ -29,6 +29,7 @@ function doc_setup() {
     var MenuReportsTaxCollcetedDisplay = new menuReportsTaxCollectedView();
     var MenuReportsElectronicPaymentsDisplay = new menuReportsElectronicPaymentsView();
     var MenuReportsCashOutsDisplay = new menuReportsCashOutsView();
+    var MenuReportsTransactionsDetailDisplay = new menuReportsTransactionsDetailView();
     var MenuReportsCancelledDisplay = new menuReportsCancelledTransactionsView();
     var MenuReportsRefundsDisplay = new menuReportsRefundsView();
     var MenuReportsDiscountsDisplay = new menuReportsDiscountsView();

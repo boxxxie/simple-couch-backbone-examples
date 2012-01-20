@@ -93,7 +93,7 @@ var menuReportsTaxCollectedView =
 	 		dropdownStore.append('<option value=' + 
 					     store.store_id + '>' + 
 					     store.storeName + 
-					     '</option>');
+					     "(" + store.number + ")" + '</option>');
 	 	    });
 	     
 	     var terminals = _(stores).chain().map(function(store) {
@@ -161,7 +161,7 @@ var menuReportsTaxCollectedView =
  			dropdownStore.append('<option value=' + 
 					     store.store_id + '>' + 
 					     store.storeName + 
-					     '</option>');
+					     "(" + store.number + ")" + '</option>');
 	 	    });
 	     
 	     var terminals = _(ReportData.group.stores)
@@ -229,7 +229,7 @@ var menuReportsTaxCollectedView =
 	     dropdownStore.append('<option value='
 				  +ReportData.store.store_id+'>'+
 				  ReportData.store.storeName+ 
-				  '</option>');
+				  "(" + ReportData.store.number + ")" + '</option>');
 
 	     dropdownStore.attr('disabled','disabled');
 	     

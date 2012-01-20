@@ -86,7 +86,8 @@ var menuReportsRefundsView =
 									     }).flatten().value();
 	     
 	     _.each(stores, function(store) {
-	 		dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
+	 		dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName 
+	 																	 + "(" + store.number + ")" + '</option>');
 	 	    });
 	     
 	     var terminals = _(stores).chain().map(function(store) {
@@ -145,7 +146,8 @@ var menuReportsRefundsView =
 	     dropdownGroup.attr('disabled','disabled');
 	     
 	     _.each(ReportData.group.stores, function(store) {
- 			dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
+ 			dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
+ 																		 + "(" + store.number + ")" + '</option>');
 	 	    });
 	     
 	     var terminals = _(ReportData.group.stores).chain().map(function(store) {
@@ -206,7 +208,8 @@ var menuReportsRefundsView =
 	     
 	     dropdownGroup.append('<option value=="">'+ReportData.groupName+ '</option>');
 	     dropdownGroup.attr('disabled','disabled');
-	     dropdownStore.append('<option value='+ReportData.store.store_id+'>'+ReportData.store.storeName+ '</option>');
+	     dropdownStore.append('<option value='+ReportData.store.store_id+'>'+ReportData.store.storeName
+	     																	+ "(" + ReportData.store.number + ")" + '</option>');
 	     dropdownStore.attr('disabled','disabled');
 	     
 	     var terminals = ReportData.store.terminals?ReportData.store.terminals:[];

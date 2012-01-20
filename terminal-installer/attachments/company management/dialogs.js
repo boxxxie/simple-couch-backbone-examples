@@ -492,6 +492,19 @@ function companyModifyRewardsViewDialog (html,options) {
     var form = $(html).filter('#dialog-form-forRewards');
     var d = $("#dialog-hook-forRewards");    	
     d.html(form);
+	
+	var MobQredits = options.MobQredits;
+	var rewardsdown = $("#rewardsdown");
+	  var optlist = $('option', rewardsdown);
+	  
+	  if(MobQredits.use_mobqredits) {
+	  	optlist[1].selected=true;	
+	  } else if(MobQredits.use_qriket) {
+	  	optlist[2].selected=true;
+	  } else {
+	  	optlist[0].selected=true;
+	  }
+
 
     var dialogOptions = _.extend(
 	{autoOpen: false,
@@ -531,7 +544,7 @@ function companyModifyRewardsViewDialog (html,options) {
 			 d.dialog('close');
 	     },
 	     "Cancel" : function() {
-		 d.dialog('close');
+		 	d.dialog('close');
 	     }
 	 },
 	 title:options.title

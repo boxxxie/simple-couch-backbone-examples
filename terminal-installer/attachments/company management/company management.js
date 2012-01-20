@@ -390,6 +390,20 @@ function doc_setup(){
 			function saveRewardsProgram() {
 				return function(mobqreditsconversion, qriketconversion) {
 					var rewardsJson = rewardsModel.toJSON();
+					var rewardsdown = $("#rewardsdown");
+					var opt = rewardsdown.val();
+					
+					if(opt=="none") {
+						rewardsJson.use_mobqredits = false;
+						rewardsJson.use_qriket = false;
+					} else if(opt=="mobqredits") {
+						rewardsJson.use_mobqredits = true;
+						rewardsJson.use_qriket = false;
+					} else {
+						rewardsJson.use_mobqredits = false;
+						rewardsJson.use_qriket = true;
+					}
+					
 					rewardsModel.save({use_mobqredits:rewardsJson.use_mobqredits,
 													mobqredits_conversion:mobqreditsconversion,
 													use_qriket:rewardsJson.use_qriket,
@@ -402,9 +416,12 @@ function doc_setup(){
 	    	      console.log(rewards);
 	    	      rewardsModel = rewards;
 	    	      var rewardsJson = rewardsModel.toJSON();
+	    	      
 	    	      var html = ich.companyModifyRewardsDialog_TMP({MobQredits:rewardsJson});
+	    	      
 				companyModifyRewardsViewDialog(html,{title:"Modify Rewards Program",
-													saveRewardsProgram:saveRewardsProgram()});
+													saveRewardsProgram:saveRewardsProgram(),
+													MobQredits:rewardsJson});
 		      });
 		});
 		

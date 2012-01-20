@@ -219,7 +219,7 @@ function menuInventoryApplyStoresViewDialog (dialog_html,options) {
 	 buttons: {
 	     "Apply" : function() {
 		 var checkedStores = form.find("input:checked").toArray();
-		 var applyToAllStores =  $("#applyToAll").is(":checked");
+		 var applyToAllStores =  d.find("#applyToAll").is(":checked");
 		 if(_.isEmpty(checkedStores) && !applyToAllStores){
 		     //user clicked apply and there was nothing selected... do nothing
 		 }
