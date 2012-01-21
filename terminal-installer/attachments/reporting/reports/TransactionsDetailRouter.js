@@ -238,7 +238,7 @@ function renderTransactionsDetailTable() {
 				return obj;
 			}
 		});
-		 var html = ich.transactionsDetailTabel_TMP(resp);
+		 var html = ich.transactionsDetailTable_TMP(resp);
 	     $("#transactionsdetailtable").html(html);
 		
 	});

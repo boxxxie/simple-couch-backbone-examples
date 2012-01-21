@@ -2244,102 +2244,9 @@
       <div style="width:300px;height:60px;"></div>
     </script>
     
+      
+    
     <script id="menuSetMenus_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Set Menus</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      <div style='float:left;width:680px;'>
-	<div id='menusetmenuscenter'></div>
-	<div id='menusetmenusbottom'></div>
-	<div style='float:left;width:170px;'><button id="menueditheader1" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	    <span id="menueditheader1" class="ui-button-text">Edit Menu 1 Header</span>
-	</button></div>
-	<div style='float:left;width:170px;'><button id="menueditheader2" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	    <span class="ui-button-text">Edit Menu 2 Header</span>
-	</button></div>
-	<div style='float:left;width:170px;'><button id="menueditheader3" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	    <span class="ui-button-text">Edit Menu 3 Header</span>
-	</button></div>
-	<div style='float:left;width:170px;'><button id="menueditheader4" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	    <span class="ui-button-text">Edit Menu 4 Header</span>
-	</button></div>
-      </div>
-      <div style='float:right;width:300px;'>
-	<div id='menusetmenusleft'></div>
-	<div id='menusetmenusright'></div>
-      </div>
-      <div style='clear:both'></div>
-    </script>
-    
-    
-    <!------------------------------------------------------- LAYER LOGIN------------------------------------------>
-    <script id="layerLogin_TMP" type="text/html">
-      <div class="loginwrapper2">
-	<div style="z-index:101;position: absolute;left: 22px;top: 240px; width:181px; height:88px; font-size:12px; font-weight:bold;">
-	  <img src="../images/ssm.png"/>
-	</div>
-	
-	<div style="z-index:101;position: absolute;left: 612px;top: 260px; width:181px; height:88px; font-size:12px; font-weight:bold;">
-	  <img src="../images/mrp.png"/>
-	</div>
-
-	<div style="z-index:101;position: absolute;left: 80px;top: 430px; width:181px; height:88px; font-size:12px; font-weight:bold;">
-	  <img src="../images/ipp.png"/>
-	</div>
-
-	<div style="z-index:101;position: absolute;left: 516px;top: 430px; width:181px; height:88px; font-size:12px; font-weight:bold;">
-	  <img src="../images/pos.png"/>
-	</div>
-	
-	<div class="loginbox2">
-	  <form id="ids_form" style="margin-top: 90px;">
-	    <center>
-	      <table width="100%" border="0" cellspacing="0" cellpadding="0">
-		<tr>
-		  <td>&nbsp;</td>
-		  <td>&nbsp;</td>
-		</tr>
-		<tr>
-		  <td align="right">Company ID:</td>
-		  <td><input class="login" type="text" var="company" autofocus="autofocus" placeholder="Company ID"//></td>
-		</tr>
-		<tr>
-		  <td align="right">Group ID:</td>
-		  <td><input class="login" type="text" var="group" placeholder="Group ID"/></td>
-		</tr>
-		<tr>
-		  <td align="right">Store ID:</td>
-		  <td><input class="login" type="text" var="store" placeholder="Store ID"/></td>
-		</tr>
-		<tr>
-		  <td align="right">User ID:</td>
-		  <td><input class="login" type="text" var="user" placeholder="User ID"/></td>
-		</tr>
-		<tr>
-		  <td align="right">Password:</td>
-		  <td><input class="login" type="password" var="password" id="layeredloginpassword" placeholder="Password"/></td>
-		</tr>
-	      </table>
-	    </center>
-	  </form>
-<<<<<<< HEAD
-	  <ul style="list-style-type:none; float: left;">
-	    <li>
-	      <!--<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="clearEditMenu();">
-			  <span class="ui-button-text">Clear</span>
-	      </button>-->
-	      <button id="btnMenuSave" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false"> <!--onClick="saveEditMenu();"-->
-		<span class="ui-button-text">Save</span>
-	      </button>
-	      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="closeEditMenu();">
-		<span class="ui-button-text">Close</span>
-	      </button>
-	    </li>
-	  </ul>
-	  <div style="width:300px;height:60px;"></div>
-	</script>
-	
-	<script id="menuSetMenus_TMP" type="text/html">
 	  {{>main_navigation_buttons_P}}
 	  <h1>Set Menus</h1>
 	  <h2>{{>breadcrumb_P}}</h2>
@@ -2365,8 +2272,8 @@
 	  </div>
 	  <div style='clear:both'></div>
 	</script>
-	
-	
+    
+   	
 	<!------------------------------------------------------- LAYER LOGIN------------------------------------------>
 	<!--<script id="layerLogin_TMP" type="text/html">
 	  <div class="loginwrapper2">
@@ -2422,6 +2329,7 @@
 	  </div>
 	  <center><img src="../images/v1login.png"/></center>
 	</script>-->
+	
 	<script id="layerLogin_TMP" type="text/html">
       <div class="loginwrapper2">
 	 <div style="z-index:101;position: absolute;left: 22px;top: 240px; width:181px; height:88px; font-size:12px; font-weight:bold;">
@@ -2449,8 +2357,8 @@
     <td>&nbsp;</td>
   </tr>
   <tr>
-    <td align="right">Company Name:</td>
-    <td><input class="login" type="text" var="company" autofocus="autofocus" value="Lettieri Espresso + Bar" placeholder="Company Name"//></td>
+    <td align="right">Company ID:</td>
+    <td><input class="login" type="text" var="company" autofocus="autofocus" placeholder="Company Name"//></td>
   </tr>
   <tr>
     <td align="right">Group ID:</td>
@@ -2462,11 +2370,11 @@
   </tr>
   <tr>
     <td align="right">User ID:</td>
-    <td><input class="login" type="text" var="user" value="c" placeholder="User ID"/></td>
+    <td><input class="login" type="text" var="user" placeholder="User ID"/></td>
   </tr>
   <tr>
     <td align="right">Password:</td>
-    <td><input class="login" type="password" var="password" id="layeredloginpassword" value="c" placeholder="Password"/></td>
+    <td><input class="login" type="password" var="password" id="layeredloginpassword" placeholder="Password"/></td>
   </tr>
 </table>
 	    </center>
