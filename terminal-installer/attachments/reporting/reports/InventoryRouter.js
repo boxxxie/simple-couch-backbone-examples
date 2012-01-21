@@ -240,7 +240,7 @@ function renderInventoryReportTable() {
 	     scanhtml = ich.menuReportsInventoryScanTabel_TMP(scanParam);
 	     $("#inventoryscantable").html(scanhtml);
 	     
-	     else{var ecrhtml = ich.menuReportsInventoryEcrTabel_TMP(ecrParam);
+	     var ecrhtml = ich.menuReportsInventoryEcrTabel_TMP(ecrParam);
 	     $("#inventoryecrtable").html(ecrhtml);
 	     
 	     var cate_drop = $('#inventorydown');
