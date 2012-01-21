@@ -380,7 +380,7 @@ function renderElectronicPaymentsTable() {
 		     .value();
 	     }
 	     
-	     var html = ich.electronicPaymentsTabel_TMP({items:data,totals:formatted_totals});
+	     var html = ich.electronicPaymentstable_TMP({items:data,totals:formatted_totals});
 	     $("#reporttable").html(html);
 	     
 	     _.each(data_TMP, function(item){

@@ -95,7 +95,7 @@ var menuInventoryscanPriceChangeView =
 						  }
 						  return item;
 					      });
-		  var html =  ich.menuInventoryScanPriceTabel_TMP({filter:searchQuery,list:formattedInv});
+		  var html =  ich.menuInventoryScanPricetable_TMP({filter:searchQuery,list:formattedInv});
 		  $(view.el).find("#priceChangeTable").html(html);
 		  $("#filterInv").keypress(
 		      function(e){

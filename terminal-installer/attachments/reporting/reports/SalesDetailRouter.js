@@ -263,7 +263,7 @@ function renderSalesDetailReportTable() {
 	      	      
 	      	      var data_TMP = extractSalesDetailTableInfo(for_TMP);
 	      	      
-	      	      var html = ich.salesDetailTabel_TMP(data_TMP);
+	      	      var html = ich.salesDetailtable_TMP(data_TMP);
 		      $("#salesdetailtable").html(html);
 		  });
     } else {

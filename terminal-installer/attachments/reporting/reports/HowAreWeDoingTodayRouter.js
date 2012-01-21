@@ -210,7 +210,7 @@ function renderHowAreWeGroupsTable(view, startPage) {
 									.concat("/stores")
 								       });
 					      });
-					var html = ich.generalTabel_HowAreWeToday_TMP(_.extend(param,{namefield:"Group"}));
+					var html = ich.generaltable_HowAreWeToday_TMP(_.extend(param,{namefield:"Group"}));
 					$(view.el).html(html);
 				    });
 };
@@ -275,7 +275,7 @@ function renderHowAreWeStoresTable(view, startPage, group_id) {
 								       });
 					      });
 					
-					var html = ich.generalTabel_HowAreWeToday_TMP(_.extend(param,{namefield:"Store"}));
+					var html = ich.generaltable_HowAreWeToday_TMP(_.extend(param,{namefield:"Store"}));
 					$(view.el).html(html);
 				    });
 };
@@ -346,7 +346,7 @@ function renderHowAreWeTerminalsTable(view, startPage, store_id) {
 								     });
 						param.cancelledtransactions = Number(param.cancelledtransactions)+"";
 						for_TMP = _.applyToValues(for_TMP,toFixed(2),true);
-						var html = ich.generalTabel_HowAreWeToday_TMP(_.extend(param,{namefield:"Terminal"}));
+						var html = ich.generaltable_HowAreWeToday_TMP(_.extend(param,{namefield:"Terminal"}));
 						$(view.el).html(html);
 					    });
 };

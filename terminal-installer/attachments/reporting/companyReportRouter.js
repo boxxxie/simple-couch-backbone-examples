@@ -107,12 +107,12 @@ var companyReportView =
 		  console.log("companyReportView rendercompanymanagement");});
 	 },
 	 renderGroupsTable: function() {
-	     generalReportRenderer(this,getGroupsTableParam(),'groupsTabel_TMP','group_id')(log("companyReportView renderGroupsTable"));
+	     generalReportRenderer(this,getGroupsTableParam(),'groupstable_TMP','group_id')(log("companyReportView renderGroupsTable"));
 	 },
 	 renderStoresTable: function(id) {
-	     generalReportRenderer(this,getStoresTableParam(id),'storesTabel_TMP','store_id')(log("companyReportView renderStoresTable"));
+	     generalReportRenderer(this,getStoresTableParam(id),'storestable_TMP','store_id')(log("companyReportView renderStoresTable"));
 	 },
 	 renderTerminalsTable : function(id) {
-	     generalReportRenderer(this,getTerminalsTableParam(id),'terminalsTabel_TMP','terminal_id')(log("companyReportView renderTerminalsTable"));
+	     generalReportRenderer(this,getTerminalsTableParam(id),'terminalstable_TMP','terminal_id')(log("companyReportView renderTerminalsTable"));
 	 }
 	});

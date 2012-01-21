@@ -328,7 +328,7 @@ function renderTaxCollectedTable() {
 				
 				data_TMP = appendGroupStoreInfoFromTerminalID(data_TMP);
 				
-				 var html = ich.taxCollectedTabel_TMP({items:data_TMP, totalrow:totalrow});
+				 var html = ich.taxCollectedtable_TMP({items:data_TMP, totalrow:totalrow});
 			     
 
 			     $("#taxcollectedtable").html(html);

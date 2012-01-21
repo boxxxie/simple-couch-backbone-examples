@@ -58,10 +58,10 @@ var groupReportView =
 		  console.log("groupReportView renderGroupManagement");});
 	 },
 	 renderStoresTable : function(group_id) {
-	     generalReportRenderer(this,getStoresTableParam(group_id),'storesTabel_TMP','store_id')(log("groupReportView renderStoresTable"));
+	     generalReportRenderer(this,getStoresTableParam(group_id),'storestable_TMP','store_id')(log("groupReportView renderStoresTable"));
 	 },
 	 renderTerminalsTable:function(store_id) {
-	     generalReportRenderer(this,getTerminalsTableParam(store_id),'terminalsTabel_TMP','terminal_id')(log("groupReportView renderTerminalsTable"));
+	     generalReportRenderer(this,getTerminalsTableParam(store_id),'terminalstable_TMP','terminal_id')(log("groupReportView renderTerminalsTable"));
 	 }
 	 
 	});

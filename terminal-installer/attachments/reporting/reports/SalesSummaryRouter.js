@@ -251,7 +251,7 @@ function renderSalesSummaryReportTable() {
 	      			  console.log(for_TMP);
 	      			  var data_TMP = extractSalesSummaryTableInfo(for_TMP);
 	      			  
-	      			  var html = ich.salesSummaryTabel_TMP(data_TMP);
+	      			  var html = ich.salesSummarytable_TMP(data_TMP);
 				  $("#summarytable").html(html);
 			      });
     } else {

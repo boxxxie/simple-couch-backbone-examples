@@ -61,7 +61,7 @@ var menuInventorytaxChangeLogView =
 		  		item.date = dateFormatter(new Date(item.date));
 		  		return item;
 		  	});
-		  	var html =  ich.menuInventoryScanTaxLogTabel_TMP({list:resp});
+		  	var html =  ich.menuInventoryScanTaxLogtable_TMP({list:resp});
 		  	$(view.el).find("#scanTaxChangeLogTable").html(html);
 		  			  
 	      });
@@ -81,7 +81,7 @@ var menuInventorytaxChangeLogView =
 		  		item.date = dateFormatter(new Date(item.date));
 		  		return item;
 		  	});
-		  	var html =  ich.menuInventoryScanTaxLogTabel_TMP({list:resp});
+		  	var html =  ich.menuInventoryScanTaxLogtable_TMP({list:resp});
 		  	$(view.el).find("#scanTaxChangeLogTable").html(html);
 		  			  
 	      });
@@ -104,7 +104,7 @@ var menuInventorytaxChangeLogView =
 		  		item.date = dateFormatter(new Date(item.date));
 		  		return item;
 		  	});
-		  	var html =  ich.menuInventoryScanTaxLogTabel_TMP({list:resp});
+		  	var html =  ich.menuInventoryScanTaxLogtable_TMP({list:resp});
 		  	$(view.el).find("#scanTaxChangeLogTable").html(html);
 		  			  
 	      });

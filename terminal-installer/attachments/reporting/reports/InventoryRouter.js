@@ -233,14 +233,14 @@ function renderInventoryReportTable() {
 			     ecr_list_totals:for_TMP.ecr_list_totals};
 	     
 
-	     var menuhtml = ich.menuReportsInventoryMenuTabel_TMP(menuParam);
+	     var menuhtml = ich.menuReportsInventoryMenutable_TMP(menuParam);
 		
 	     $("#inventorymenutable").html(menuhtml);
 	     
-	     scanhtml = ich.menuReportsInventoryScanTabel_TMP(scanParam);
+	     scanhtml = ich.menuReportsInventoryScantable_TMP(scanParam);
 	     $("#inventoryscantable").html(scanhtml);
 	     
-	     var ecrhtml = ich.menuReportsInventoryEcrTabel_TMP(ecrParam);
+	     var ecrhtml = ich.menuReportsInventoryEcrtable_TMP(ecrParam);
 	     $("#inventoryecrtable").html(ecrhtml);
 	     
 	     var cate_drop = $('#inventorydown');

@@ -276,7 +276,7 @@ function rendermenuReportsCashOutsTable() {
 				  return _.extend(item, {dialogtitle:dialogtitle});
 			      });
 
-	     var html = ich.menuReportsCashOutsTabel_TMP({items:data_TMP, numofcashout:numofcashout});
+	     var html = ich.menuReportsCashOutstable_TMP({items:data_TMP, numofcashout:numofcashout});
 	     
 	     $("#cashoutstable").html(html);
 	     

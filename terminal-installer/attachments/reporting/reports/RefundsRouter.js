@@ -320,7 +320,7 @@ function renderRefundsTable() {
 					 }
 					 return obj;
 				     }, true);
-		 var html = ich.menuReportsRefundsTabel_TMP({items:data_TMP, totalrow:totalrow});
+		 var html = ich.menuReportsRefundstable_TMP({items:data_TMP, totalrow:totalrow});
 	     
 
 	     $("#refundstable").html(html);

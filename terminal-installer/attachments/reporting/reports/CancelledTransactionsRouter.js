@@ -319,7 +319,7 @@ function renderCancelledTransactionsTable() {
 					 }
 					 return obj;
 				     }, true);
-		 var html = ich.menuReportsCancelledTabel_TMP({items:data_TMP, totalrow:totalrow});
+		 var html = ich.menuReportsCancelledtable_TMP({items:data_TMP, totalrow:totalrow});
 	     
 
 	     $("#cancelledtable").html(html);

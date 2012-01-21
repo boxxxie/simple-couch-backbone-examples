@@ -341,7 +341,7 @@ function renderDiscountsTable() {
 				     }
 				     return obj;
 				 }, true);
-		 var html = ich.menuReportsDiscountsTabel_TMP({items:data_TMP, totalrow:totalrow});
+		 var html = ich.menuReportsDiscountstable_TMP({items:data_TMP, totalrow:totalrow});
 	     
 	     $("#discountstable").html(html);
 	     

@@ -62,7 +62,7 @@ var menuInventorypriceChangeLogView =
 		  		   item.price.selling_price = currency_format(item.price.selling_price);
 		  		   return item;
 		  	       });
-		  var html =  ich.menuInventoryScanPriceLogTabel_TMP({list:resp});
+		  var html =  ich.menuInventoryScanPriceLogtable_TMP({list:resp});
 		  $(view.el).find("#scanPriceChangeLogTable").html(html);
 		  
 	      });	 	
@@ -84,7 +84,7 @@ var menuInventorypriceChangeLogView =
 		  		   item.price.selling_price = currency_format(item.price.selling_price);
 		  		   return item;
 		  	       });
-		  var html =  ich.menuInventoryScanPriceLogTabel_TMP({list:resp});
+		  var html =  ich.menuInventoryScanPriceLogtable_TMP({list:resp});
 		  $(view.el).find("#scanPriceChangeLogTable").html(html);
 		  
 	      });
@@ -108,7 +108,7 @@ var menuInventorypriceChangeLogView =
 		  		   item.price.selling_price = currency_format(item.price.selling_price);
 		  		   return item;
 		  	       });
-		  var html =  ich.menuInventoryScanPriceLogTabel_TMP({list:resp});
+		  var html =  ich.menuInventoryScanPriceLogtable_TMP({list:resp});
 		  $(view.el).find("#scanPriceChangeLogTable").html(html);
 		  
 	      });
