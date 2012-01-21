@@ -49,6 +49,6 @@ var storeReportView = Backbone.View.extend(
 	      console.log("storeReportView renderStoreManagement");});
      },
      renderTerminalsTable: function() {
-	 generalReportRenderer(this,getTerminalsTableParam(),'terminalsTabel_TMP','terminal_id')(log("storeReportView renderTerminalsTable"));
+	 generalReportRenderer(this,getTerminalsTableParam(),'terminalstable_TMP','terminal_id')(log("storeReportView renderTerminalsTable"));
      }
     });

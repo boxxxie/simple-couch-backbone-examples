@@ -1,11 +1,18 @@
 function transactionFormattingWalk(obj){
     if(obj.quantity){
 	if(obj.origin == "SCALE"){
-	    return _.extend(obj,{quantity:toFixed(3)(obj.quantity)});
+	    obj.quantity = toFixed(3)(obj.quantity);
 	}
 	else{
-	    return _.extend(obj,{quantity:obj.quantity+""});
+	    obj.quantity += "";
 	}
+    }
+    if(obj.transactionNumber){
+	obj.transactionNumber += "";
+    }
+    if(obj.time && obj.time.start) {
+	_.extend(obj,{transtime:jodaTimePartFormatter(obj2.time.start),
+		      transdate:jodaDatePartFormatter(obj2.time.start)});
     }
     return currency_format(obj);
 }

@@ -252,7 +252,7 @@ function renderHourlyActivityTable() {
 				    totalrow.total = Number(totalrow.total)>=0?currency_format(Number(totalrow.total)):"-"+currency_format(Number(totalrow.total)*-1);
     			    
     			    var data = {items:data_param, totalrow:totalrow};
-			    var html = ich.hourlyActivityTabel_TMP(data);
+			    var html = ich.hourlyActivitytable_TMP(data);
     			    $("#hourlytable").html(html);    	
 			});
 };
