@@ -7,7 +7,7 @@ ddoc.rewrites = [
     {from: "downloads", to: "posdownload\/downloads.html"},
     {from: "admin", to: "login.html"},
     {from: "admin2", to: "backoffice admin/login.html"},
-    {from: "login", to: "layered management/report.html"},
+    {from: "login", to: "reporting/report.html"},
     {from: "new/*", to: "../../../*", method : "PUT"},
     {from: "terminals_rt7/*", to: "../../../terminals_rt7/*"},
     {from: "terminals_corp/*", to: "../../../terminals_corp/*"},

@@ -3,7 +3,7 @@ var menuReportsTransactionsDetailRouter =
 	     {routes: {
 	     	  "menuReports/companyReportTransactionsDetail":"menuReportsCompanyTransactionsDetail",
 	     	  "menuReports/groupReportTransactionsDetail":"menuReportsGroupTransactionsDetail",
-	  		  "menuReports/storeReportTransactionsDetail":"menuReportsStoreTransactionsDetail"
+	  	  "menuReports/storeReportTransactionsDetail":"menuReportsStoreTransactionsDetail"
 	      },
 	      menuReportsCompanyTransactionsDetail:function() {
 		  console.log("menuReportsCompanyTransactionsDetail  ");
@@ -48,7 +48,7 @@ var menuReportsTransactionsDetailView =
 	 renderMenuReportsCompanyTransactionsDetail: function() {
 	     
 	     var html = ich.transactionsDetailReports_TMP({startPage:"companyReport", 
-	     						     breadCrumb:breadCrumb(ReportData.company.companyName)});
+	     						   breadCrumb:breadCrumb(ReportData.company.companyName)});
 	     $(this.el).html(html);
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )
@@ -87,7 +87,7 @@ var menuReportsTransactionsDetailView =
 	     $('option', dropdownStore).remove();
 	     _.each(stores, function(store) {
 	 		dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
-	 																	 + "(" + store.number + ")" + '</option>');
+	 				     + "(" + store.number + ")" + '</option>');
 	 	    });
 	     
 	     var btn = $('#generalgobtn')
@@ -101,7 +101,8 @@ var menuReportsTransactionsDetailView =
 	 renderMenuReportsGroupTransactionsDetail: function() {
 	     
 	     var html = ich.menuReportsCancelledReports_TMP({startPage:"groupReport", 
-	     						     breadCrumb:breadCrumb(ReportData.companyName, ReportData.group.groupName)});
+	     						     breadCrumb:breadCrumb(ReportData.companyName, 
+										   ReportData.group.groupName)});
 	     $(this.el).html(html);
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )
@@ -135,7 +136,7 @@ var menuReportsTransactionsDetailView =
 	     $('option', dropdownStore).remove();
 	     _.each(ReportData.group.stores, function(store) {
  			dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName 
- 																		 + "(" + store.number + ")" + '</option>');
+ 					     + "(" + store.number + ")" + '</option>');
 	 	    });
 	     
 	     var btn = $('#generalgobtn')
@@ -149,7 +150,10 @@ var menuReportsTransactionsDetailView =
 	 renderMenuReportsStoreTransactionsDetail: function() {
 	     
 	     var html = ich.menuReportsCancelledReports_TMP({startPage:"storeReport", 
-	     						     breadCrumb:breadCrumb(ReportData.companyName, ReportData.groupName, ReportData.store.storeName, ReportData.store.number)});
+	     						     breadCrumb:breadCrumb(ReportData.companyName, 
+										   ReportData.groupName, 
+										   ReportData.store.storeName, 
+										   ReportData.store.number)});
 	     $(this.el).html(html);
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )
@@ -182,7 +186,7 @@ var menuReportsTransactionsDetailView =
 	     dropdownGroup.append('<option value=="">'+ReportData.groupName+ '</option>');
 	     dropdownGroup.attr('disabled','disabled');
 	     dropdownStore.append('<option value='+ReportData.store.store_id+'>'+ReportData.store.storeName
-     																		+ "(" + ReportData.store.number + ")" + '</option>');
+     				  + "(" + ReportData.store.number + ")" + '</option>');
 	     dropdownStore.attr('disabled','disabled');
 	     
 	     var btn = $('#generalgobtn')
@@ -208,45 +212,32 @@ function renderTransactionsDetailTable() {
 	var endDateForQuery = new Date($("#dateTo").val());
 	endDateForQuery.addDays(1);
 	
-	//TODO
+	//TODO?????????
 	var sd = $("#storesdown option:selected");
-    ids =[{id:sd.val(), name:sd.text()}];
+	ids =[{id:sd.val(), name:sd.text()}];
 	
 	console.log(ids);
 	
 	startDate = startDate.toArray().slice(0,3);
 	endDateForQuery = endDateForQuery.toArray().slice(0,3);
 	
-	transactionsReportFetcher(startDate,endDateForQuery)([_.first(ids).id])(function(err,resp){
-		var re = resp;
-		console.log(re);
-		resp.transactionsForDates = pre_walk(resp.transactionsForDates, function(obj) {
-			if(obj.totalsForDate) {
-				obj.totalsForDate = _.extend({},{date:obj.date},obj.totalsForDate);
-			}
-			
-			if(obj.transactions) {
-				obj.transactions = pre_walk(obj.transactions, function(obj2) {
-					if(obj2.time && obj2.time.start) {
-						obj2 = _.extend({},obj2,{transtime:jodaTimePartFormatter(obj2.time.start),
-												transdate:jodaDatePartFormatter(obj2.time.start),
-												transactionNumber:Number(obj2.transactionNumber)+""});
-						
-						return obj2; 
-					} else {
-						return obj2;
-					}
-				});
-				return obj;
-			} else {
-				return obj;
-			}
-		});
-		 var html = ich.transactionsDetailtable_TMP(resp);
-	     $("#transactionsdetailtable").html(html);
-		
-	});
+	transactionsReportFetcher(startDate,endDateForQuery)
+	([_.first(ids).id])
+	(function(err,resp){
+	     var re = resp;
+	     console.log(re);
+	     resp.transactionsForDates = 
+		 pre_walk(resp.transactionsForDates, 
+			  function(obj) {
+			      if(obj.totalsForDate) {
+				  obj.totalsForDate = _.extend({date:obj.date},obj.totalsForDate);
+			      }
+			      return obj;
+			  });
+	     var html = ich.transactionsDetailTable_TMP(resp);
+	     $("#transactionsdetailtable").html(html); 
+	 });
     } else {
-   		alert("Input Date");
+   	alert("Input Date");
     }
 };

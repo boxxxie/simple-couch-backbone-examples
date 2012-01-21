@@ -11,8 +11,8 @@ function transactionFormattingWalk(obj){
 	obj.transactionNumber += "";
     }
     if(obj.time && obj.time.start) {
-	_.extend(obj,{transtime:jodaTimePartFormatter(obj2.time.start),
-		      transdate:jodaDatePartFormatter(obj2.time.start)});
+	_.extend(obj,{transtime:jodaTimePartFormatter(obj.time.start),
+		      transdate:jodaDatePartFormatter(obj.time.start)});
     }
     return currency_format(obj);
 }
