@@ -27,7 +27,8 @@ function menuInventoryApplyStoresViewDialog (dialog_html,options) {
 		 }
 		 else if (checkedStores.length == stores.length  || applyToAllStores){
 		     console.log("The price change will be applied to all stores in this company");
-		     options.makeButtons(_.pluck(stores,'id'));
+		     //options.makeButtons(_.pluck(stores,'id'));
+		     options.makeButtons();
 		 }
 		 else if(checkedStores.length != stores.length) {
 		     var store_ids_to_update = _(checkedStores)
