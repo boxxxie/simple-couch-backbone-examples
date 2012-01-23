@@ -1,4 +1,4 @@
-if(!_ && require != 'undefined'){var _ = require("./underscore");}
+//if(!_ && require != 'undefined'){var _ = require("./underscore");}
 
 _.mixin({
 	    walk_demo:function(node){
