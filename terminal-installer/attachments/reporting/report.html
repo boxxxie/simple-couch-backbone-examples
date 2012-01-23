@@ -67,6 +67,7 @@
     <script language="javascript" type="text/javascript" src="../reporting/reports/ElectronicPaymentsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/reports/InventoryRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/menuRouter.js"></script>
+    <script language="javascript" type="text/javascript" src="../reporting/inventory/dialogs.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/inventory/menuPriceChangeRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/inventory/ScanPriceChangesRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/inventory/ScanTaxChangesRouter.js"></script>
@@ -78,17 +79,18 @@
     <script language="javascript" type="text/javascript" src="../reporting/docRdy.js"></script>
     
     <!-- =============================================== GENERAL ================================================= -->
-	<!-- from : this is mark's html for login -->
-	<script id="mainheader" class="partial" type="text/html">
+    <!-- from : this is mark's html for login -->
+    <script id="mainheader" class="partial" type="text/html">
       <div style="width:1000px;margin:20px auto;padding:0px;background-color:transparent;font-size:13px;font-weight:bold;text-align:center;" id="logo">
 	<img src="../images/logo.png"/>
       </div>
       <div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
-    </script>
+      </script>
+      
       <script id="mainfooter" class="partial" type="text/html">
-	</div>
-   </script>
-   <!-- to : this is mark's html for login -->
+      </div>
+    </script>
+    <!-- to : this is mark's html for login -->
 
 
     <script id="breadcrumb_P" class="partial" type="text/html">
@@ -150,6 +152,7 @@
     </script>
     
     <script id="main_navigation_buttons_P" class="partial" type="text/html">
+    	{{>mainheader}}
       <div id="nav-menu">
 	<ul>
 	  <li>{{>homeButton_P}}</li>
@@ -973,12 +976,12 @@
 	  {{#list}}
 	  <tr>
 	    <!--<td rowspan="3">
-		    <ul>
-		      <li><strong>{{date}}</strong></li>
-		      <li>Group: {{groupName}}</li>
-		      <li>Store: {{storeName}}</li>
-		      <li>Store #: {{storeNumber}}</li>
-		    </ul>
+		<ul>
+		  <li><strong>{{date}}</strong></li>
+		  <li>Group: {{groupName}}</li>
+		  <li>Store: {{storeName}}</li>
+		  <li>Store #: {{storeNumber}}</li>
+		</ul>
 	    </td>-->
 	    <td rowspan="3">{{date}}</td>
 	    <td rowspan="3">{{groupName}}</td>
@@ -2231,7 +2234,7 @@
       <ul style="list-style-type:none; float: left;">
 	<li>
 	  <!--<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="clearEditMenu();">
-		      <span class="ui-button-text">Clear</span>
+	      <span class="ui-button-text">Clear</span>
 	  </button>-->
 	  <button id="btnMenuSave" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false"> <!--onClick="saveEditMenu();"-->
 	    <span class="ui-button-text">Save</span>
@@ -2244,333 +2247,333 @@
       <div style="width:300px;height:60px;"></div>
     </script>
     
-      
+    
     
     <script id="menuSetMenus_TMP" type="text/html">
-	  {{>main_navigation_buttons_P}}
-	  <h1>Set Menus</h1>
-	  <h2>{{>breadcrumb_P}}</h2>
-	  <div style='float:left;width:680px;'>
-	    <div id='menusetmenuscenter'></div>
-	    <div id='menusetmenusbottom'></div>
-	    <div style='float:left;width:170px;'><button id="menueditheader1" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-		<span id="menueditheader1" class="ui-button-text">Edit Menu 1 Header</span>
-	    </button></div>
-	    <div style='float:left;width:170px;'><button id="menueditheader2" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-		<span class="ui-button-text">Edit Menu 2 Header</span>
-	    </button></div>
-	    <div style='float:left;width:170px;'><button id="menueditheader3" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-		<span class="ui-button-text">Edit Menu 3 Header</span>
-	    </button></div>
-	    <div style='float:left;width:170px;'><button id="menueditheader4" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-		<span class="ui-button-text">Edit Menu 4 Header</span>
-	    </button></div>
-	  </div>
-	  <div style='float:right;width:300px;'>
-	    <div id='menusetmenusleft'></div>
-	    <div id='menusetmenusright'></div>
-	  </div>
-	  <div style='clear:both'></div>
-	</script>
-    
-   	
-	<!------------------------------------------------------- LAYER LOGIN------------------------------------------>
-	<!--<script id="layerLogin_TMP" type="text/html">
-	  <div class="loginwrapper2">
-	    <div style="z-index:101;position: absolute;left: 22px;top: 240px; width:181px; height:88px; font-size:12px; font-weight:bold;">
-	      <img src="../images/ssm.png"/>
-	    </div>
-	    
-	    <div style="z-index:101;position: absolute;left: 612px;top: 260px; width:181px; height:88px; font-size:12px; font-weight:bold;">
-	      <img src="../images/mrp.png"/>
-	    </div>
-
-	    <div style="z-index:101;position: absolute;left: 80px;top: 430px; width:181px; height:88px; font-size:12px; font-weight:bold;">
-	      <img src="../images/ipp.png"/>
-	    </div>
-
-	    <div style="z-index:101;position: absolute;left: 516px;top: 430px; width:181px; height:88px; font-size:12px; font-weight:bold;">
-	      <img src="../images/pos.png"/>
-	    </div>
-	    
-	    <div class="loginbox2">
-	      <form id="ids_form" style="margin-top: 90px;">
-		<center>
-		  <table width="100%" border="0" cellspacing="0" cellpadding="0">
-		    <tr>
-		      <td>&nbsp;</td>
-		      <td>&nbsp;</td>
-		    </tr>
-		    <tr>
-		      <td align="right">Company ID:</td>
-		      <td><input class="login" type="text" var="company" autofocus="autofocus" placeholder="Company ID"//></td>
-		    </tr>
-		    <tr>
-		      <td align="right">Group ID:</td>
-		      <td><input class="login" type="text" var="group" placeholder="Group ID"/></td>
-		    </tr>
-		    <tr>
-		      <td align="right">Store ID:</td>
-		      <td><input class="login" type="text" var="store" placeholder="Store ID"/></td>
-		    </tr>
-		    <tr>
-		      <td align="right">User ID:</td>
-		      <td><input class="login" type="text" var="user" placeholder="User ID"/></td>
-		    </tr>
-		    <tr>
-		      <td align="right">Password:</td>
-		      <td><input class="login" type="password" var="password" id="layeredloginpassword" placeholder="Password"/></td>
-		    </tr>
-		  </table>
-		</center>
-	      </form>
-	      {{>loginButton_P}}
-	    </div>
-	  </div>
-	  <center><img src="../images/v1login.png"/></center>
-	</script>-->
-	
-	<script id="layerLogin_TMP" type="text/html">
-      <div class="loginwrapper2">
-	 <div style="z-index:101;position: absolute;left: 22px;top: 240px; width:181px; height:88px; font-size:12px; font-weight:bold;">
-	 <img src="../images/ssm.png">
-	 </div>
-	 
-	 <div style="z-index:101;position: absolute;left: 612px;top: 260px; width:181px; height:88px; font-size:12px; font-weight:bold;">
-	 <img src="../images/mrp.png">
-	 </div>
-
-	 <div style="z-index:101;position: absolute;left: 80px;top: 410px; width:181px; height:112px; font-size:12px; font-weight:bold;">
-	 <img src="../images/emv.png">
-	 </div>
-
-	 <div style="z-index:101;position: absolute;left: 516px;top: 430px; width:181px; height:88px; font-size:12px; font-weight:bold;">
-	 <img src="../images/pos.png">
-	 </div>
-	 
-	<div class="loginbox2">
-	  <form id="ids_form" style="margin-top: 90px;">
-	    <center>
-		<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td align="right">Company ID:</td>
-    <td><input class="login" type="text" var="company" autofocus="autofocus" placeholder="Company Name"//></td>
-  </tr>
-  <tr>
-    <td align="right">Group ID:</td>
-    <td><input class="login" type="text" var="group" placeholder="Group ID"/></td>
-  </tr>
-  <tr>
-    <td align="right">Store ID:</td>
-    <td><input class="login" type="text" var="store" placeholder="Store ID"/></td>
-  </tr>
-  <tr>
-    <td align="right">User ID:</td>
-    <td><input class="login" type="text" var="user" placeholder="User ID"/></td>
-  </tr>
-  <tr>
-    <td align="right">Password:</td>
-    <td><input class="login" type="password" var="password" id="layeredloginpassword" placeholder="Password"/></td>
-  </tr>
-</table>
-	    </center>
-	  </form>
-	  {{>loginButton_P}}
-	</div>
+      {{>main_navigation_buttons_P}}
+      <h1>Set Menus</h1>
+      <h2>{{>breadcrumb_P}}</h2>
+      <div style='float:left;width:680px;'>
+	<div id='menusetmenuscenter'></div>
+	<div id='menusetmenusbottom'></div>
+	<div style='float:left;width:170px;'><button id="menueditheader1" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
+	    <span id="menueditheader1" class="ui-button-text">Edit Menu 1 Header</span>
+	</button></div>
+	<div style='float:left;width:170px;'><button id="menueditheader2" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
+	    <span class="ui-button-text">Edit Menu 2 Header</span>
+	</button></div>
+	<div style='float:left;width:170px;'><button id="menueditheader3" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
+	    <span class="ui-button-text">Edit Menu 3 Header</span>
+	</button></div>
+	<div style='float:left;width:170px;'><button id="menueditheader4" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
+	    <span class="ui-button-text">Edit Menu 4 Header</span>
+	</button></div>
       </div>
-      <center><span style="color:#4ac3c8; font-weight:bold;">Contact | About | Partners</span><br><img src="../images/v1login.png" style="padding-top:20px;padding-bottom:20px;"/></center>
+      <div style='float:right;width:300px;'>
+	<div id='menusetmenusleft'></div>
+	<div id='menusetmenusright'></div>
+      </div>
+      <div style='clear:both'></div>
+    </script>
+    
+    
+    <!------------------------------------------------------- LAYER LOGIN------------------------------------------>
+    <!--<script id="layerLogin_TMP" type="text/html">
+	<div class="loginwrapper2">
+	  <div style="z-index:101;position: absolute;left: 22px;top: 240px; width:181px; height:88px; font-size:12px; font-weight:bold;">
+	    <img src="../images/ssm.png"/>
+	  </div>
+	  
+	  <div style="z-index:101;position: absolute;left: 612px;top: 260px; width:181px; height:88px; font-size:12px; font-weight:bold;">
+	    <img src="../images/mrp.png"/>
+	  </div>
+
+	  <div style="z-index:101;position: absolute;left: 80px;top: 430px; width:181px; height:88px; font-size:12px; font-weight:bold;">
+	    <img src="../images/ipp.png"/>
+	  </div>
+
+	  <div style="z-index:101;position: absolute;left: 516px;top: 430px; width:181px; height:88px; font-size:12px; font-weight:bold;">
+	    <img src="../images/pos.png"/>
+	  </div>
+	  
+	  <div class="loginbox2">
+	    <form id="ids_form" style="margin-top: 90px;">
+	      <center>
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+		  <tr>
+		    <td>&nbsp;</td>
+		    <td>&nbsp;</td>
+		  </tr>
+		  <tr>
+		    <td align="right">Company ID:</td>
+		    <td><input class="login" type="text" var="company" autofocus="autofocus" placeholder="Company ID"//></td>
+		  </tr>
+		  <tr>
+		    <td align="right">Group ID:</td>
+		    <td><input class="login" type="text" var="group" placeholder="Group ID"/></td>
+		  </tr>
+		  <tr>
+		    <td align="right">Store ID:</td>
+		    <td><input class="login" type="text" var="store" placeholder="Store ID"/></td>
+		  </tr>
+		  <tr>
+		    <td align="right">User ID:</td>
+		    <td><input class="login" type="text" var="user" placeholder="User ID"/></td>
+		  </tr>
+		  <tr>
+		    <td align="right">Password:</td>
+		    <td><input class="login" type="password" var="password" id="layeredloginpassword" placeholder="Password"/></td>
+		  </tr>
+		</table>
+	      </center>
+	    </form>
+	    {{>loginButton_P}}
+	    </div>
+</div>
+<center><img src="../images/v1login.png"/></center>
+</script>-->
+    
+    <script id="layerLogin_TMP" type="text/html">
+      <div class="loginwrapper2">
+	<div style="z-index:101;position: absolute;left: 22px;top: 240px; width:181px; height:88px; font-size:12px; font-weight:bold;">
+	  <img src="../images/ssm.png">
+	  </div>
+	  
+	  <div style="z-index:101;position: absolute;left: 612px;top: 260px; width:181px; height:88px; font-size:12px; font-weight:bold;">
+	    <img src="../images/mrp.png">
+	    </div>
+
+	    <div style="z-index:101;position: absolute;left: 80px;top: 410px; width:181px; height:112px; font-size:12px; font-weight:bold;">
+	      <img src="../images/emv.png">
+	      </div>
+
+	      <div style="z-index:101;position: absolute;left: 516px;top: 430px; width:181px; height:88px; font-size:12px; font-weight:bold;">
+		<img src="../images/pos.png">
+		</div>
+		
+		<div class="loginbox2">
+		  <form id="ids_form" style="margin-top: 90px;">
+		    <center>
+		      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+			  <td>&nbsp;</td>
+			  <td>&nbsp;</td>
+			</tr>
+			<tr>
+			  <td align="right">Company ID:</td>
+			  <td><input class="login" type="text" var="company" autofocus="autofocus" placeholder="Company ID"//></td>
+			</tr>
+			<tr>
+			  <td align="right">Group ID:</td>
+			  <td><input class="login" type="text" var="group" placeholder="Group ID"/></td>
+			</tr>
+			<tr>
+			  <td align="right">Store ID:</td>
+			  <td><input class="login" type="text" var="store" placeholder="Store ID"/></td>
+			</tr>
+			<tr>
+			  <td align="right">User ID:</td>
+			  <td><input class="login" type="text" var="user" placeholder="User ID"/></td>
+			</tr>
+			<tr>
+			  <td align="right">Password:</td>
+			  <td><input class="login" type="password" var="password" id="layeredloginpassword" placeholder="Password"/></td>
+			</tr>
+		      </table>
+		    </center>
+		  </form>
+		  {{>loginButton_P}}
+		</div>
+	      </div>
+	      <center><span style="color:#4ac3c8; font-weight:bold;">Contact | About | Partners</span><br><img src="../images/v1login.png" style="padding-top:20px;padding-bottom:20px;"/></center>
 	      </script>
 
-    <!------------------------------------  company management page TMP ------------------------------->
-    <script id="companyManagementPage_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <!--{{>logoutButton_P}}-->
-      <h1>Company Management</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      {{>salesFields_P}}
-      {{>numberOfGroupsFields_P}}
-      {{>numberOfStoresFields_P}}
-      {{>numberOfTerminalsFields_P}}
-      <div style="clear:both;"></div>
-      {{>quickReportViewHook_P}}
-    </script>
+	      <!------------------------------------  company management page TMP ------------------------------->
+	      <script id="companyManagementPage_TMP" type="text/html">
+		{{>main_navigation_buttons_P}}
+		<!--{{>logoutButton_P}}-->
+		<h1>Company Management</h1>
+		<h2>{{>breadcrumb_P}}</h2>
+		{{>salesFields_P}}
+		{{>numberOfGroupsFields_P}}
+		{{>numberOfStoresFields_P}}
+		{{>numberOfTerminalsFields_P}}
+		<div style="clear:both;"></div>
+		{{>quickReportViewHook_P}}
+	      </script>
 
 
-    <!------------------------------------  group management page TMP ------------------------------->
-    <script id="groupManagementPage_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Group Management</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      {{>salesFields_P}}
-      {{>numberOfStoresFields_P}}
-      {{>numberOfTerminalsFields_P}}
-      <div style="clear:both;"></div>
-      {{>quickReportViewHook_P}}
-    </script>
+	      <!------------------------------------  group management page TMP ------------------------------->
+	      <script id="groupManagementPage_TMP" type="text/html">
+		{{>main_navigation_buttons_P}}
+		<h1>Group Management</h1>
+		<h2>{{>breadcrumb_P}}</h2>
+		{{>salesFields_P}}
+		{{>numberOfStoresFields_P}}
+		{{>numberOfTerminalsFields_P}}
+		<div style="clear:both;"></div>
+		{{>quickReportViewHook_P}}
+	      </script>
 
-    <!------------------------------------  store management page TMP ------------------------------->
-    <script id="storeManagementPage_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Store Management</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      {{>salesFields_P}}
-      {{>numberOfTerminalsFields_P}}
-      <div style="clear:both;"></div>
-      {{>quickReportViewHook_P}}
-    </script>
+	      <!------------------------------------  store management page TMP ------------------------------->
+	      <script id="storeManagementPage_TMP" type="text/html">
+		{{>main_navigation_buttons_P}}
+		<h1>Store Management</h1>
+		<h2>{{>breadcrumb_P}}</h2>
+		{{>salesFields_P}}
+		{{>numberOfTerminalsFields_P}}
+		<div style="clear:both;"></div>
+		{{>quickReportViewHook_P}}
+	      </script>
 
-    <!------------------------------------- groups table TMP -------------------------------------------->
-    <script id="groupstable_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Groups Table</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      <table class="reportstable">
-	<thead>
-	  <tr>
-	    <th>Company Name</th>
-	    <th>Group Name</th>
-	    <th># of Stores</th>
-	    <th># of Terminals</th>
-	    <th>Yesterday Sales</th>
-	    <th>MTD Sales</th>
-	    <th>YTD Sales</th>
-	    <th>Details</th>
-	  </tr>
-	</thead>
-	<tbody>
-	  {{#list}}
-	  <tr>
-	    <td>{{companyName}}</td>
-	    <td><a href="#{{startPage}}/group/{{group_id}}/stores">{{groupName}}</a></td>
-	    <td>{{numberOfStores}}</td>
-	    <td>{{numberOfTerminals}}</td>
-	    <td align="right">{{yesterdaysales}}</td>
-	    <td align="right">{{mtdsales}}</td>
-	    <td align="right">{{ytdsales}}</td>
-	    <td>{{>quickReportViewButton_P}}</td>
-	  </tr>
-	  {{/list}}
-	</tbody>
-      </table>
-      {{>quickReportViewHook_P}}
-      {{>backButton_P}}
-    </script>
+	      <!------------------------------------- groups table TMP -------------------------------------------->
+	      <script id="groupstable_TMP" type="text/html">
+		{{>main_navigation_buttons_P}}
+		<h1>Groups Table</h1>
+		<h2>{{>breadcrumb_P}}</h2>
+		<table class="reportstable">
+		  <thead>
+		    <tr>
+		      <th>Company Name</th>
+		      <th>Group Name</th>
+		      <th># of Stores</th>
+		      <th># of Terminals</th>
+		      <th>Yesterday Sales</th>
+		      <th>MTD Sales</th>
+		      <th>YTD Sales</th>
+		      <th>Details</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    {{#list}}
+		    <tr>
+		      <td>{{companyName}}</td>
+		      <td><a href="#{{startPage}}/group/{{group_id}}/stores">{{groupName}}</a></td>
+		      <td>{{numberOfStores}}</td>
+		      <td>{{numberOfTerminals}}</td>
+		      <td align="right">{{yesterdaysales}}</td>
+		      <td align="right">{{mtdsales}}</td>
+		      <td align="right">{{ytdsales}}</td>
+		      <td>{{>quickReportViewButton_P}}</td>
+		    </tr>
+		    {{/list}}
+		  </tbody>
+		</table>
+		{{>quickReportViewHook_P}}
+		{{>backButton_P}}
+	      </script>
 
-    <!------------------------------------- stores table TMP -------------------------------------------->
-    <script id="storestable_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Stores Table</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      <table class="reportstable">
-	<thead>
-	  <tr>
-	    <th>Company Name</th>
-	    <th>Group Name</th>
-	    <th>Store Name</th>
-	    <th>Store Number</th>
-	    <th># of Terminals</th>
-	    <th>Yesterday Sales</th>
-	    <th>MTD Sales</th>
-	    <th>YTD Sales</th>
-	    <th>Details</th>
-	  </tr>
-	</thead>
-	<tbody>
-	  {{#list}}
-	  <tr>
-	    <td>{{companyName}}</td>
-	    <td>{{groupName}}</td>
-	    <td><a href="#{{startPage}}/store/{{store_id}}/terminals">{{storeName}}</a></td>
-	    <td>{{storeNumber}}</td>
-	    <td>{{numberOfTerminals}}</td>
-	    <td align="right">{{yesterdaysales}}</td>
-	    <td align="right">{{mtdsales}}</td>
-	    <td align="right">{{ytdsales}}</td>
-	    <td>{{>quickReportViewButton_P}}</td>
-	  </tr>
-	  {{/list}}
-	</tbody>
-      </table>
-      {{>quickReportViewHook_P}}
-      {{>backButton_P}}
-    </script> 
+	      <!------------------------------------- stores table TMP -------------------------------------------->
+	      <script id="storestable_TMP" type="text/html">
+		{{>main_navigation_buttons_P}}
+		<h1>Stores Table</h1>
+		<h2>{{>breadcrumb_P}}</h2>
+		<table class="reportstable">
+		  <thead>
+		    <tr>
+		      <th>Company Name</th>
+		      <th>Group Name</th>
+		      <th>Store Name</th>
+		      <th>Store Number</th>
+		      <th># of Terminals</th>
+		      <th>Yesterday Sales</th>
+		      <th>MTD Sales</th>
+		      <th>YTD Sales</th>
+		      <th>Details</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    {{#list}}
+		    <tr>
+		      <td>{{companyName}}</td>
+		      <td>{{groupName}}</td>
+		      <td><a href="#{{startPage}}/store/{{store_id}}/terminals">{{storeName}}</a></td>
+		      <td>{{storeNumber}}</td>
+		      <td>{{numberOfTerminals}}</td>
+		      <td align="right">{{yesterdaysales}}</td>
+		      <td align="right">{{mtdsales}}</td>
+		      <td align="right">{{ytdsales}}</td>
+		      <td>{{>quickReportViewButton_P}}</td>
+		    </tr>
+		    {{/list}}
+		  </tbody>
+		</table>
+		{{>quickReportViewHook_P}}
+		{{>backButton_P}}
+	      </script> 
 
-    <!------------------------------------- terminals table TMP -------------------------------------------->
-    <script id="terminalstable_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Terminals Table</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      <table class="reportstable">
-	<thead>
-	  <tr>
-	    <th>Company Name</th>
-	    <th>Group Name</th>
-	    <th>Store Name</th>
-	    <th>Store Number</th>
-	    <th>Terminal Number</th>
-	    <th>Yesterday Sales</th>
-	    <th>MTD Sales</th>
-	    <th>YTD Sales</th>
-	    <th>Details</th>
-	  </tr>
-	</thead>
-	<tbody>
-	  {{#list}}
-	  <tr>
-	    <td>{{companyName}}</td>
-	    <td>{{groupName}}</td>
-	    <td>{{storeName}}</td>
-	    <td>{{storeNumber}}</td>
-	    <td>{{terminalName}}</td>
-	    <td align="right">{{yesterdaysales}}</td>
-	    <td align="right">{{mtdsales}}</td>
-	    <td align="right">{{ytdsales}}</td>
-	    <td>{{>quickReportViewButton_P}}</td>
-	  </tr>
-	  {{/list}}
-	</tbody>
-      </table>
-      {{>quickReportViewHook_P}}
-      {{>backButton_P}}
-    </script>
+	      <!------------------------------------- terminals table TMP -------------------------------------------->
+	      <script id="terminalstable_TMP" type="text/html">
+		{{>main_navigation_buttons_P}}
+		<h1>Terminals Table</h1>
+		<h2>{{>breadcrumb_P}}</h2>
+		<table class="reportstable">
+		  <thead>
+		    <tr>
+		      <th>Company Name</th>
+		      <th>Group Name</th>
+		      <th>Store Name</th>
+		      <th>Store Number</th>
+		      <th>Terminal Number</th>
+		      <th>Yesterday Sales</th>
+		      <th>MTD Sales</th>
+		      <th>YTD Sales</th>
+		      <th>Details</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    {{#list}}
+		    <tr>
+		      <td>{{companyName}}</td>
+		      <td>{{groupName}}</td>
+		      <td>{{storeName}}</td>
+		      <td>{{storeNumber}}</td>
+		      <td>{{terminalName}}</td>
+		      <td align="right">{{yesterdaysales}}</td>
+		      <td align="right">{{mtdsales}}</td>
+		      <td align="right">{{ytdsales}}</td>
+		      <td>{{>quickReportViewButton_P}}</td>
+		    </tr>
+		    {{/list}}
+		  </tbody>
+		</table>
+		{{>quickReportViewHook_P}}
+		{{>backButton_P}}
+	      </script>
 
-  </head>
+	    </head>
 
-      <body>
-	<!--<div>
-	  <div style="width:1000px;margin:20px auto;padding:0px;background-color:transparent;font-size:13px;font-weight:bold;text-align:center;">
-	    <img src="../images/logo.png"/>
-	  </div>
-	  <div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
-	    <div id="main"></div>
-	  </div>
-	</div>
-	<div style="width:1000px;margin:0 auto; color:#666;text-align:center;">
-	  <script>document.write(Date()+".")</script>
-	</div>
-	<div class="footer">
-	  <div class="footerin">
-	    &copy; 2012 RT7 Incorporated.
-	    <img src="../images/rt7.png" style="float:right;"/>
-	  </div>
-	</div>-->
-	
-	
-	<!-- from : this is mark's html for login -->
-	<div id="main"></div>
-        <div style="width:1000px;margin:0 auto; color:#666;text-align:center;">
-      <script>document.write(Date()+".")</script>
-    </div>
-    <div class="footer">
-      <div class="footerin">
-	&copy; 2012 RT7 Incorporated.
-	<img src="../images/rt7.png" style="float:right;"/>
-      </div>
-    </div>
-    <!-- to : this is mark's html for login -->
-      </body>
-    </html>
+	    <body>
+	      <!--<div>
+		  <div style="width:1000px;margin:20px auto;padding:0px;background-color:transparent;font-size:13px;font-weight:bold;text-align:center;">
+		    <img src="../images/logo.png"/>
+		  </div>
+		  <div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+		    <div id="main"></div>
+		  </div>
+	      </div>
+	      <div style="width:1000px;margin:0 auto; color:#666;text-align:center;">
+		<script>document.write(Date()+".")</script>
+	      </div>
+	      <div class="footer">
+		<div class="footerin">
+		  &copy; 2012 RT7 Incorporated.
+		  <img src="../images/rt7.png" style="float:right;"/>
+		</div>
+	      </div>-->
+	      
+	      
+	      <!-- from : this is mark's html for login -->
+	      <div id="main"></div>
+              <div style="width:1000px;margin:0 auto; color:#666;text-align:center;">
+		<script>document.write(Date()+".")</script>
+	      </div>
+	      <div class="footer">
+		<div class="footerin">
+		  &copy; 2012 RT7 Incorporated.
+		  <img src="../images/rt7.png" style="float:right;"/>
+		</div>
+	      </div>
+	      <!-- to : this is mark's html for login -->
+	    </body>
+	  </html>
