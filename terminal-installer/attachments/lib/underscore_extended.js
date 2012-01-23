@@ -1,4 +1,3 @@
-if(!_ && require != 'undefined'){var _ = require("./underscore");}
 _.mixin({
 	    /* Retrieve the keys and values of an object's properties.
 	     {a:'a',b:'b'} -> [[a,'a'],[b,'b']]

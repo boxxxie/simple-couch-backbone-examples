@@ -1,5 +1,3 @@
-if(!_ && require != 'undefined'){var _ = require("./underscore");}
-
 _.mixin({
 	    /* 
 	     * like _.any, but will recursively search the array/object 
