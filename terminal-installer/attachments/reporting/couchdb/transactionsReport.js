@@ -29,7 +29,7 @@ function transactionsReportFetcher(start,end){
 			      .groupBy('type')
 			      .filter$(function(transactions,type){return (type == "SALE" || type == "REFUND");})
 			      .map(function(transactions,type){
-				       if(type == "REFUND"){return pre_walk(transactions, negate);}
+				       if(type == "REFUND"){return _.walk_pre(transactions, negate);}
 				       return transactions;
 				   })
 			      .flatten()
@@ -60,7 +60,7 @@ function transactionsReportFetcher(start,end){
 									      .flatten()
 									      .value());
 		      var result = {transactionsForDates:transactions,total:totalOverAllDates};
-		      var formattedResult = pre_walk(result,transactionFormattingWalk);
+		      var formattedResult = _.walk_pre(result,transactionFormattingWalk);
 		      callback(err,formattedResult);
 		  });
 	};

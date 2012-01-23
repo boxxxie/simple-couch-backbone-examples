@@ -227,7 +227,7 @@ function renderTransactionsDetailTable() {
 	     var re = resp;
 	     console.log(re);
 	     resp.transactionsForDates = 
-		 pre_walk(resp.transactionsForDates, 
+		 _.walk_pre(resp.transactionsForDates, 
 			  function(obj) {
 			      if(obj.totalsForDate) {
 				  obj.totalsForDate = _.extend({date:obj.date},obj.totalsForDate);
