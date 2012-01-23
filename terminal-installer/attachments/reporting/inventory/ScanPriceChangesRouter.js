@@ -77,9 +77,12 @@ var menuInventoryscanPriceChangeView =
 		 };
 	     }
 	     var view = this;
-	     var searchQuery = (_.isDefined(searchQueryString) && _.isNotEmpty(searchQueryString))?searchQueryString:undefined;
-	     var html = ich.menuInventoryScanItemPriceChanges_TMP({startPage:"companyReport", 
-	     							   breadCrumb:breadCrumb(ReportData.company.companyName)});
+	     var searchQuery = (_.isDefined(searchQueryString) && 
+				_.isNotEmpty(searchQueryString))
+		 ?searchQueryString:undefined;
+	     var html = 
+		 ich.menuInventoryScanItemPriceChanges_TMP({startPage:"companyReport", 
+	     						    breadCrumb:breadCrumb(ReportData.company.companyName)});
 	     $(view.el).html(html);
 
 	     var companyID = ReportData.company._id;
@@ -88,13 +91,16 @@ var menuInventoryscanPriceChangeView =
 	     currentInventoryFor(companyID)
 	     (function(err,inventory){
 		  var filteredInv = (searchQuery)?_.filterSearchSubStr(inventory,searchQuery):inventory;
-		  var formattedInv = _.walk_pre(filteredInv,
-					      function(item){
-						  if(item.selling_price){
-						      return _.extend({},item,{selling_price:currency_format(item.selling_price)});
-						  }
-						  return item;
-					      });
+		  var formattedInv = _.walk_pre(
+		      filteredInv,
+		      function(item){
+			  if(item.selling_price){
+			      return _.extend({},
+					      item,
+					      {selling_price:currency_format(item.selling_price)});
+			  }
+			  return item;
+		      });
 		  var html =  ich.menuInventoryScanPricetable_TMP({filter:searchQuery,list:formattedInv});
 		  $(view.el).find("#priceChangeTable").html(html);
 		  $("#filterInv").keypress(
@@ -117,15 +123,13 @@ var menuInventoryscanPriceChangeView =
 			  if(_.isEmpty(newInvList)){alert("there were no price changes made");return;}
 
 			  var html = ich.menuInventoryApplyStoresQuickViewDialog_TMP({items:storeIDs});
-			  menuInventoryApplyStoresViewDialog(html,
-							     {title:"Apply price changes to stores", 
-							      stores:storeIDs,
-							      makeButtons:saveNewInvItems(newInvList,companyID,storeIDs)
-							      (function(){view.renderMenuInventoryCompanyscanPriceChange(searchQuery);})});
+			  menuInventoryApplyStoresViewDialog(
+			      html,
+			      {title:"Apply price changes to stores", 
+			       stores:storeIDs,
+			       makeButtons:saveNewInvItems(newInvList,companyID,storeIDs)
+			       (function(){view.renderMenuInventoryCompanyscanPriceChange(searchQuery);})});
 		      });
-		  //redraw screen (prob means we need to use async for saving
-		  
-		  
 	      });
 	 },
 	 renderMenuInventoryGroupscanPriceChange: function() {
