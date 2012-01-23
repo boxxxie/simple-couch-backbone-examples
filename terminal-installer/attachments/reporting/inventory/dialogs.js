@@ -23,7 +23,7 @@ function menuInventoryApplyStoresViewDialog (dialog_html,options) {
 		 var checkedStores = form.find("input:checked").toArray();
 		 var applyToAllStores =  d.find("#applyToAll").is(":checked");
 		 if(_.isEmpty(checkedStores) && !applyToAllStores){
-		     //user clicked apply and there was nothing selected... do nothing
+		     //user clicked apply button and there was nothing selected... do nothing
 		 }
 		 else if (checkedStores.length == stores.length  || applyToAllStores){
 		     console.log("The price change will be applied to all stores in this company");

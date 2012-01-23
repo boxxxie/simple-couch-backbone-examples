@@ -201,8 +201,20 @@ var menuReportsTransactionsDetailView =
 
 /******************************************** helper functions ************************************/
 function renderTransactionsDetailTable() {
+    function getTerminalLabel(terminal_id) {
+    	var terminal_label = "";
+    	_.walk_pre(ReportData, 
+			  function(obj) {
+			      if(obj.terminal_id == terminal_id) {
+				  	terminal_label = obj.terminal_label;
+			      }
+			      return obj;
+			  });
+		return terminal_label;	
+    };
+    
     console.log("renderTransactionsDetailTable");
-
+	
     var dropdownGroup = $("#groupsdown");
     var dropdownStore = $("#storesdown");
     
@@ -234,8 +246,119 @@ function renderTransactionsDetailTable() {
 			      }
 			      return obj;
 			  });
+		
+		resp.transactionsForDates = _.map(resp.transactionsForDates, function(item) {
+			item.transactions = _.map(item.transactions, function(item) {
+				var terminal_label = getTerminalLabel(item.terminal_id);
+				return _.extend(item,{name:terminal_label, date:item.time.start});
+			});
+			
+			return item;
+		});
+			
 	     var html = ich.transactionsDetailTable_TMP(resp);
-	     $("#transactionsdetailtable").html(html); 
+	     $("#transactionsdetailtable").html(html);
+	     
+	     
+	     _.each(resp.transactionsForDates, function(item) {
+	     	item.transactions = applyReceiptInfo(item.transactions);
+	     	
+	     	
+	     	item.transactions = _.applyToValues(item.transactions, function(obj){
+					    if(obj && obj.discount==0){
+						obj.discount=null;
+					    }
+					    if(obj && obj.quantity){
+						obj.orderamount = toFixed(2)(obj.price * obj.quantity);
+						obj.quantity+="";
+						if(obj.discount) {
+						    obj.discountamount = toFixed(2)(obj.discount * obj.quantity);
+						}
+					    }
+					    return toFixed(2)(obj);
+					}, true);
+	     
+	     item.transactions = _.map(item.transactions, function(item){
+				  if(item.payments) {
+				      item.payments = _.map(item.payments, function(payment){
+								if(payment.paymentdetail) {
+								    payment.paymentdetail.crt = payment.type;
+								}
+								if(payment.paymentdetail && payment.paymentdetail.errmsg) {
+								    payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace("<br>"," ");
+								}
+								return payment;
+							    });
+				  }
+				  return item;
+			      });
+	     
+
+	     	item.transactions = 
+		     _.applyToValues(item.transactions, function(obj){
+					 var strObj = obj+"";
+					 if(strObj.indexOf(".")>=0 && strObj.indexOf("$")<0) {
+					     obj = currency_format(Number(obj));
+					 }
+					 return obj;
+				     }, true);
+	     	
+	     	
+			_.each(item.transactions, function(item) {
+				var item = _.clone(item);
+			
+				var dialogtitle=getDialogTitle(ReportData,item);
+				
+				var btn = $('#'+item._id)
+				    .each(function(){
+					      $(this).button()
+				    		  .click(function(){
+							     var btnData = item;
+							     btnData.discount=null;
+							     //TODO use walk
+							     _.applyToValues(ReportData,
+									     function(o){
+										 if(o.store_id==btnData.store_id){
+										     btnData.storename = o.storeName;
+										 }
+										 return o;
+									     }
+									     ,true);
+							     
+							     var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
+							     quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
+							 });
+					  });
+			});
+		});
+		
+	     /* _.each(data_TMP, function(item){	
+			var item = _.clone(item);
+			
+			var dialogtitle=getDialogTitle(ReportData,item);
+			
+			var btn = $('#'+item._id)
+			    .each(function(){
+				      $(this).button()
+			    		  .click(function(){
+						     var btnData = item;
+						     btnData.discount=null;
+						     //TODO use walk
+						     _.applyToValues(ReportData,
+								     function(o){
+									 if(o.store_id==btnData.store_id){
+									     btnData.storename = o.storeName;
+									 }
+									 return o;
+								     }
+								     ,true);
+						     
+						     var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
+						     quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
+						 });
+				  });		    
+		    }); */
+		     
 	 });
     } else {
     }

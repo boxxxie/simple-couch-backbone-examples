@@ -59,9 +59,9 @@ function transactionsReportFetcher(start,end){
 									      .pluck('transactions')
 									      .flatten()
 									      .value());
-		      var result = {transactionsForDates:transactions,total:totalOverAllDates};
-		      var formattedResult = _.walk_pre(result,transactionFormattingWalk);
-		      callback(err,formattedResult);
+		      var result = {transactionsForDates:transactions,total:_.walk_pre(totalOverAllDates,currency_format)};
+		      //var formattedResult = _.walk_pre(result,transactionFormattingWalk);
+		      callback(err,result);
 		  });
 	};
     };
