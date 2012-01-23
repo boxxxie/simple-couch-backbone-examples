@@ -88,7 +88,7 @@ var menuInventoryscanPriceChangeView =
 	     currentInventoryFor(companyID)
 	     (function(err,inventory){
 		  var filteredInv = (searchQuery)?_.filterSearchSubStr(inventory,searchQuery):inventory;
-		  var formattedInv = pre_walk(filteredInv,
+		  var formattedInv = _.walk_pre(filteredInv,
 					      function(item){
 						  if(item.selling_price){
 						      return _.extend({},item,{selling_price:currency_format(item.selling_price)});

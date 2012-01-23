@@ -1,8 +1,3 @@
-var BD = require("/bigdecimal");
-//bigdecimal.RoundingMode
-//"jl"
-
-
 $(document)
     .ready(function() {
 	       //this is for IE7

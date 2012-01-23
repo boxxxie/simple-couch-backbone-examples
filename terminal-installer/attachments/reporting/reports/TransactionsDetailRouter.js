@@ -221,27 +221,22 @@ function renderTransactionsDetailTable() {
 	startDate = startDate.toArray().slice(0,3);
 	endDateForQuery = endDateForQuery.toArray().slice(0,3);
 	
-	transactionsReportFetcher(startDate,endDateForQuery)([_.first(ids).id])(function(err,resp){
-		var re = resp;
-		console.log(re);
-		resp.transactionsForDates = pre_walk(resp.transactionsForDates, function(obj) {
-			if(obj.totalsForDate) {
-				obj.totalsForDate = _.extend({},{date:obj.date},obj.totalsForDate);
-				return obj;
-			} else if(obj.time && obj.time.start) {
-				obj = _.extend({},obj,{transtime:jodaTimePartFormatter(obj.time.start),
-												transdate:jodaDatePartFormatter(obj.time.start),
-												transactionNumber:Number(obj.transactionNumber)+""});
-						
-				return obj;
-			} else {
-				return obj;
-			}
-		});
-		 var html = ich.transactionsDetailTable_TMP(resp);
-	     $("#transactionsdetailtable").html(html);
-		
-	});
+	transactionsReportFetcher(startDate,endDateForQuery)
+	([_.first(ids).id])
+	(function(err,resp){
+	     var re = resp;
+	     console.log(re);
+	     resp.transactionsForDates = 
+		 _.walk_pre(resp.transactionsForDates, 
+			  function(obj) {
+			      if(obj.totalsForDate) {
+				  obj.totalsForDate = _.extend({date:obj.date},obj.totalsForDate);
+			      }
+			      return obj;
+			  });
+	     var html = ich.transactionsDetailTable_TMP(resp);
+	     $("#transactionsdetailtable").html(html); 
+	 });
     } else {
     }
 };

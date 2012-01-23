@@ -1,7 +1,7 @@
 //obj is supposed to be from ReportData global
 function extractStores(obj){
     var stores = [];
-    pre_walk(obj,function(o){
+    _.walk_pre(obj,function(o){
 		 if(o.stores){
 		     stores = stores.concat(o.stores);
 		 }
