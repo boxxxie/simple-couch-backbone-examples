@@ -236,8 +236,7 @@ function renderTransactionsDetailTable() {
 	transactionsReportFetcher(startDate,endDateForQuery)
 	([_.first(ids).id])
 	(function(err,resp){
-	     var re = resp;
-	     console.log(re);
+		var respForBtn = _.extend({},resp);
 	     resp.transactionsForDates = 
 		 _.walk_pre(resp.transactionsForDates, 
 			  function(obj) {
@@ -248,9 +247,24 @@ function renderTransactionsDetailTable() {
 			  });
 		
 		resp.transactionsForDates = _.map(resp.transactionsForDates, function(item) {
+			item.totalsForDate = 
+		     _.applyToValues(item.totalsForDate, function(obj){
+					 if(_.isNumber(obj)) {
+					     obj = currency_format(obj);
+					 }
+					 return obj;
+				     }, true);
+			
 			item.transactions = _.map(item.transactions, function(item) {
 				var terminal_label = getTerminalLabel(item.terminal_id);
-				return _.extend(item,{name:terminal_label, date:item.time.start});
+				return _.extend(item,{name:terminal_label} 
+									,{date:item.time.start}
+									,{transdate:jodaDatePartFormatter(item.time.start)}
+									,{transtime:jodaTimePartFormatter(item.time.start)}
+									,{subTotal:currency_format(item.subTotal)}
+									,{tax1and2:currency_format(item.tax1and2)}
+									,{tax3:currency_format(item.tax3)}
+									,{total:currency_format(item.total)});
 			});
 			
 			return item;
@@ -259,10 +273,18 @@ function renderTransactionsDetailTable() {
 	     var html = ich.transactionsDetailTable_TMP(resp);
 	     $("#transactionsdetailtable").html(html);
 	     
-	     
-	     _.each(resp.transactionsForDates, function(item) {
+	     respForBtn.transactionsForDates = _.map(respForBtn.transactionsForDates, function(item) {
+			item.transactions = _.map(item.transactions, function(item) {
+				var terminal_label = getTerminalLabel(item.terminal_id);
+				return _.extend(item,{name:terminal_label} 
+									,{date:item.time.start});
+			});
+			
+			return item;
+		});
+		
+	     _.each(respForBtn.transactionsForDates, function(item) {
 	     	item.transactions = applyReceiptInfo(item.transactions);
-	     	
 	     	
 	     	item.transactions = _.applyToValues(item.transactions, function(obj){
 					    if(obj && obj.discount==0){
