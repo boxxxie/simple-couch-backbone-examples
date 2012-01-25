@@ -1,7 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="../layout.css" rel="stylesheet" type="text/css"/>
     <link href="../css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css"/>
@@ -25,7 +24,6 @@
     <script language="javascript" type="text/javascript" src="../lib/underscore_search.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/underscore_walk.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/backbone.js"></script>
-    <!--<script language="javascript" type="text/javascript" src="../lib/backbone-events-logger.js"></script>-->
     <script language="javascript" type="text/javascript" src="../lib/mustache.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/ICanHaz-no-mustache.js"></script>
 
@@ -76,7 +74,7 @@
     <script language="javascript" type="text/javascript" src="../reporting/reports/DiscountsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/reports/ElectronicPaymentsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/reports/InventoryRouter.js"></script>
-   <!-- <script language="javascript" type="text/javascript" src="../reporting/reports/dialogs.js"></script>-->
+    <!-- <script language="javascript" type="text/javascript" src="../reporting/reports/dialogs.js"></script>-->
 
 
     <script language="javascript" type="text/javascript" src="../reporting/inventory/menuPriceChangeRouter.js"></script>
@@ -90,6 +88,19 @@
     <script language="javascript" type="text/javascript" src="../reporting/docRdy.js"></script>
     
     <!-- =============================================== GENERAL ================================================= -->
+    <!-- from : this is mark's html for login -->
+    <script id="mainheader" class="partial" type="text/html">
+      <div style="width:1000px;margin:20px auto;padding:0px;background-color:transparent;font-size:13px;font-weight:bold;text-align:center;" id="logo">
+	<img src="../images/logo.png"/>
+      </div>
+      <div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+      </script>
+      
+      <script id="mainfooter" class="partial" type="text/html">
+      </div>
+    </script>
+    <!-- to : this is mark's html for login -->
+
 
     <script id="breadcrumb_P" class="partial" type="text/html">
       {{#breadCrumb}}
@@ -150,6 +161,7 @@
     </script>
     
     <script id="main_navigation_buttons_P" class="partial" type="text/html">
+      {{>mainheader}}
       <div id="nav-menu">
 	<ul>
 	  <li>{{>homeButton_P}}</li>
@@ -618,7 +630,6 @@
   	  </tr>
   	  {{#order}}
   	  <tr>
-	    Category :
   	    <td>
   	      <ul style="list-style-type: none; padding-left: 0px; margin: 0px">
 		{{#description}}<li>{{description}}</li>{{/description}}
@@ -973,14 +984,6 @@
 	<tbody>
 	  {{#list}}
 	  <tr>
-	    <!--<td rowspan="3">
-		    <ul>
-		      <li><strong>{{date}}</strong></li>
-		      <li>Group: {{groupName}}</li>
-		      <li>Store: {{storeName}}</li>
-		      <li>Store #: {{storeNumber}}</li>
-		    </ul>
-	    </td>-->
 	    <td rowspan="3">{{date}}</td>
 	    <td rowspan="3">{{groupName}}</td>
 	    <td rowspan="3">{{storeName}}</td>
@@ -2232,7 +2235,7 @@
       <ul style="list-style-type:none; float: left;">
 	<li>
 	  <!--<button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="clearEditMenu();">
-		      <span class="ui-button-text">Clear</span>
+	      <span class="ui-button-text">Clear</span>
 	  </button>-->
 	  <button id="btnMenuSave" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false"> <!--onClick="saveEditMenu();"-->
 	    <span class="ui-button-text">Save</span>
@@ -2284,8 +2287,8 @@
 	  <img src="../images/mrp.png"/>
 	</div>
 
-	<div style="z-index:101;position: absolute;left: 80px;top: 430px; width:181px; height:88px; font-size:12px; font-weight:bold;">
-	  <img src="../images/ipp.png"/>
+	<div style="z-index:101;position: absolute;left: 80px;top: 410px; width:181px; height:112px; font-size:12px; font-weight:bold;">
+	  <img src="../images/emv.png"/>
 	</div>
 
 	<div style="z-index:101;position: absolute;left: 516px;top: 430px; width:181px; height:88px; font-size:12px; font-weight:bold;">
@@ -2302,7 +2305,7 @@
 		</tr>
 		<tr>
 		  <td align="right">Company ID:</td>
-		  <td><input class="login" type="text" var="company" autofocus="autofocus" placeholder="Company ID" value="hero burgers"/></td>
+		  <td><input class="login" type="text" var="company" autofocus="autofocus" placeholder="Company ID"//></td>
 		</tr>
 		<tr>
 		  <td align="right">Group ID:</td>
@@ -2314,11 +2317,11 @@
 		</tr>
 		<tr>
 		  <td align="right">User ID:</td>
-		  <td><input class="login" type="text" var="user" placeholder="User ID" value="admin"/></td>
+		  <td><input class="login" type="text" var="user" placeholder="User ID"/></td>
 		</tr>
 		<tr>
 		  <td align="right">Password:</td>
-		  <td><input class="login" type="password" var="password" id="layeredloginpassword" placeholder="Password" value="1"/></td>
+		  <td><input class="login" type="password" var="password" id="layeredloginpassword" placeholder="Password"/></td>
 		</tr>
 	      </table>
 	    </center>
@@ -2326,7 +2329,11 @@
 	  {{>loginButton_P}}
 	</div>
       </div>
-      <center><img src="../images/v1login.png"/></center>
+      <center>
+	<span style="color:#4ac3c8; font-weight:bold;">Contact | About | Partners</span>
+	<br/>
+	<img src="../images/v1login.png" style="padding-top:20px;padding-bottom:20px;"/>
+      </center>
     </script>
 
     <!------------------------------------  company management page TMP ------------------------------->
@@ -2485,13 +2492,13 @@
   </head>
 
   <body>
-    <div>
-      <div style="width:1000px;margin:20px auto;padding:0px;background-color:transparent;font-size:13px;font-weight:bold;text-align:center;">
-	<img src="../images/logo.png"/>
-      </div>
-      <div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
-	<div id="main"></div>
-      </div>
+    <!--<div>
+	<div style="width:1000px;margin:20px auto;padding:0px;background-color:transparent;font-size:13px;font-weight:bold;text-align:center;">
+	  <img src="../images/logo.png"/>
+	</div>
+	<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	  <div id="main"></div>
+	</div>
     </div>
     <div style="width:1000px;margin:0 auto; color:#666;text-align:center;">
       <script>document.write(Date()+".")</script>
@@ -2501,6 +2508,20 @@
 	&copy; 2012 RT7 Incorporated.
 	<img src="../images/rt7.png" style="float:right;"/>
       </div>
+    </div>-->
+    
+    
+    <!-- from : this is mark's html for login -->
+    <div id="main"></div>
+    <div style="width:1000px;margin:0 auto; color:#666;text-align:center;">
+      <script>document.write(Date()+".")</script>
     </div>
+    <div class="footer">
+      <div class="footerin">
+	&copy; 2012 RT7 Incorporated.
+	<img src="../images/rt7.png" style="float:right;"/>
+      </div>
+    </div>
+    <!-- to : this is mark's html for login -->
   </body>
 </html>
