@@ -192,3 +192,23 @@ function quickmenuReportsTransactionViewDialog (html,options) {
     d.dialog(dialogOptions);
     d.dialog("open");
 };
+
+function detailsDialog (html,options) {
+    var d = $("#detailsDialog");    	
+    d.html(html);
+    var dialogOptions = _.extend(
+	{autoOpen: false,
+	 height: 450,
+	 width: 424,
+	 modal: true,
+	 buttons: {
+	     "Close": function() {
+		 d.dialog('close');
+	     }
+	 },
+	 title:options.title
+	},options);
+    
+    d.dialog(dialogOptions);
+    d.dialog("open");
+};
