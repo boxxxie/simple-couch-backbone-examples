@@ -10,7 +10,7 @@ Date.prototype.toArray = function(){
 };
 
 function doc_setup() {
-
+	updateDate();
     var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
     var db_install = 'install';
     var Company = couchDoc.extend({urlRoot:urlBase+db_install});
@@ -50,7 +50,14 @@ function doc_setup() {
 	    login();
 	  }
 	});
-
 };
 
+function updateDate() {
+      var ts = $("#timespace");
+      $(document).everyTime("1s", function(){
+      var date = new Date();
+      ts.empty();
+      ts.append(date.toLocaleDateString() + " / " + date.toLocaleTimeString());
+      }, 0);
+};
 

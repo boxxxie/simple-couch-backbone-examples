@@ -6,7 +6,7 @@
     <link href="../css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css">
     
     <script language="javascript" type="text/javascript" src="../lib/jquery-1.7.1.js"></script>
-
+	<script language="javascript" type="text/javascript" src="../lib/jquery.timers-1.0.0.js.txt"></script>
     <script language="javascript" type="text/javascript" src="../lib/json2.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/date.js"></script>
     
@@ -569,8 +569,8 @@
       <div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
     <div id="main"></div>
     </div>
-    <div style="width:1000px;margin:0 auto; color:#666;text-align:center;">
-      <script>document.write(Date()+".")</script>
+    <div id="timespace" style="width:1000px;margin:0 auto; color:#666;text-align:center;">
+    	<script>document.write((new Date()).toLocaleDateString() + " / " + (new Date()).toLocaleTimeString())</script>
     </div>
     <div class="footer">
       <div class="footerin">

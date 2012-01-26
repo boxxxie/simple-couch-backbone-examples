@@ -202,7 +202,13 @@ function quickView(template,companyID,groupID,storeID,terminalID){
 }
 
 function doc_setup(){
-    
+    var ts = $("#timespace");
+	  $(document).everyTime("1s", function(){
+	  var date = new Date();
+	  ts.empty();
+	  ts.append(date.toLocaleDateString() + " / " + date.toLocaleTimeString());
+	  }, 0);
+      
     var companiesView;
     var companiesViewTest;
     var groupsView;

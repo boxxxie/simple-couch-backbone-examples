@@ -4,6 +4,8 @@
     <title>RT7 RMS v2</title>
     <link href="../layout.css" rel="stylesheet" type="text/css"/>
     <link href="../css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css"/>
+    <script language="javascript" type="text/javascript" src="lib/jquery-1.7.1.js"></script>
+    <script language="javascript" type="text/javascript" src="lib/jquery.timers-1.0.0.js.txt"></script>
     <script language="javascript" type="text/javascript">
       function login() {
       var id = document.getElementById('userID').value;
@@ -21,10 +23,18 @@
       window.open('','_self');
       window.close();
       }
-
+		
+	  function getDate() {
+      var ts = $("#timespace");
+      $(document).everyTime("1s", function(){
+      var date = new Date();
+      ts.empty();
+      ts.append(date.toLocaleDateString() + " / " + date.toLocaleTimeString());
+      }, 0);
+      }
     </script>
   </head>
-  <body>
+  <body onload="getDate()">
       <div style="width:1000px;margin:20px auto;padding:0px;background-color:transparent;font-size:13px;font-weight:bold;text-align:center;">
 	<img src="../images/logo.png"/>
       </div>
@@ -40,8 +50,8 @@
       <div style="clear:both"></div>
     </form>
     </div>
-    <div style="width:1000px;margin:0 auto; color:#666;text-align:center;">
-      <script>document.write(Date()+".")</script>
+    <div id="timespace" style="width:1000px;margin:0 auto; color:#666;text-align:center;">
+    	<script>document.write((new Date()).toLocaleDateString() + " / " + (new Date()).toLocaleTimeString())</script>
     </div>
     <div class="footer">
       <div class="footerin">
