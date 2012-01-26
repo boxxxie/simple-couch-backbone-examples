@@ -1996,6 +1996,7 @@
 	      <th>SKU</th>
 	      <th>Description</th>
 	      <th>Price</th>
+	      <th>Locations Changed</th>
 	    </tr>
 	  </thead>
 	  <tbody>
@@ -2005,6 +2006,13 @@
 	      <td align="center">{{upccode}}</td>
 	      <td align="center">{{description}}</td>
 	      <td align="right">{{price.selling_price}}</td>
+	      <td id="details" align="right">
+		{{#locations}}
+		<li>
+		  {{label}}
+		</li>
+		{{/locations}}
+	      </td>
 	    </tr>
 	    {{/list}}
 	    {{^list}}
@@ -2038,6 +2046,7 @@
 	      <th>Apply Tax2</th>
 	      <th>Apply Tax3</th>
 	      <th>Apply Exemption</th>
+	      <th>Locations Changed</th>
 	    </tr>
 	  </thead>
 	  <tbody>
@@ -2060,6 +2069,13 @@
 	    	<input type="checkbox" style="border: 0" disabled="true" var="apply_taxes.exemption" id="exemption" {{#exemption}}checked=true{{/exemption}} />
 	      </td>
 	      {{/apply_taxes}}
+	      <td id="details" align="right">
+		{{#locations}}
+		<li>
+		  {{label}}
+		</li>
+		{{/locations}}
+	      </td>
 	    </tr>
 	    {{/list}}
 	    {{^list}}

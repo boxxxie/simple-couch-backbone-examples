@@ -2,6 +2,30 @@ function breadCrumb(companyName,groupName,storeName,storeNumber,terminalName){
     return {companyName:companyName,groupName:groupName,storeName:storeName,storeNumber:storeNumber,terminalName:terminalName};
 };
 
+function smartBreadCrumb(ReportData){
+    if(ReportData.store){
+	return {breadCrumb:breadCrumb(ReportData.companyName, 
+	     			      ReportData.groupName,
+	     			      ReportData.store.storeName,
+	     			      ReportData.store.number)};
+    }
+    else if(ReportData.group){
+	return {breadCrumb:breadCrumb(ReportData.companyName, 
+				      ReportData.group.groupName)};
+    }
+    else if(ReportData.company){
+	return {breadCrumb:breadCrumb(ReportData.company.companyName)};
+    }
+    else{
+	return {};
+    }
+
+}
+
+function autoBreadCrumb(){
+	return smartBreadCrumb(ReportData);
+}
+
 function dialogTitle(companyName, groupName, numGroups, storeName, numStores, terminalName, numTerminals){
     var title = "Company: " + companyName;
     if(groupName) title = title.concat(" , Group: " + groupName);

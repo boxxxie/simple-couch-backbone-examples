@@ -46,71 +46,32 @@ var menuInventorypriceChangeLogView =
 			   view.renderMenuInventoryStorepriceChangeLog();
 		       });
 	 },
-	 renderMenuInventoryCompanypriceChangeLog: function() {
+	 _renderInventoryPriceChangesLog : function(id,startPageStr){
 	     var view = this;
-	     var html = ich.menuInventoryScanPriceLog_TMP({startPage:"companyReport", 
-	     						   breadCrumb:breadCrumb(ReportData.company.companyName)});
+	     var html = ich.menuInventoryScanPriceLog_TMP(_.extend({startPage:startPageStr},autoBreadCrumb()));
 	     $(view.el).html(html);
-
-	     var companyID = ReportData.company._id;
-
-	     inventoryPriceChangeLog(companyID)
+	     inventoryPriceChangeLog(id)
 	     (function(err,resp){
 		  console.log(resp);
-		  resp = _.map(resp, function(item){
+		  resp = _.map(resp, function(aitem){
+				   var item = _.clone(aitem);
 		  		   item.date = dateFormatter(new Date(item.date));
 		  		   item.price.selling_price = currency_format(item.price.selling_price);
+				   item.locations = _.filter(item.locations,_.has_F('label'));
 		  		   return item;
 		  	       });
 		  var html =  ich.menuInventoryScanPriceLogtable_TMP({list:resp});
 		  $(view.el).find("#scanPriceChangeLogTable").html(html);
-		  
-	      });	 	
+	      });
+	 },
+	 renderMenuInventoryCompanypriceChangeLog: function() {
+	     this._renderInventoryPriceChangesLog(ReportData.company._id,"companyReport");
 	 },
 	 renderMenuInventoryGrouppriceChangeLog: function() {
-	     var view = this;
-	     var html = ich.menuInventoryScanPriceLog_TMP({startPage:"groupReport", 
-	     						   breadCrumb:breadCrumb(ReportData.companyName, 
-										 ReportData.group.groupName)});
-	     $(view.el).html(html);
-
-	     var groupID = ReportData.group.group_id;
-
-	     inventoryPriceChangeLog(groupID)
-	     (function(err,resp){
-		  console.log(resp);
-		  resp = _.map(resp, function(item){
-		  		   item.date = dateFormatter(new Date(item.date));
-		  		   item.price.selling_price = currency_format(item.price.selling_price);
-		  		   return item;
-		  	       });
-		  var html =  ich.menuInventoryScanPriceLogtable_TMP({list:resp});
-		  $(view.el).find("#scanPriceChangeLogTable").html(html);
-		  
-	      });
+	     this._renderInventoryPriceChangesLog(ReportData.group.group_id,"groupReport");
 	 },
 	 renderMenuInventoryStorepriceChangeLog: function() {
-	     var view = this;
-	     var html = ich.menuInventoryScanPriceLog_TMP({startPage:"groupReport", 
-	     						   breadCrumb:breadCrumb(ReportData.companyName, 
-	     							   		 ReportData.groupName,
-	     							   		 ReportData.store.storeName,
-	     							   		 ReportData.store.number)});
-	     $(view.el).html(html);
-
-	     var storeID = ReportData.store.store_id;
-
-	     inventoryPriceChangeLog(storeID)
-	     (function(err,resp){
-		  console.log(resp);
-		  resp = _.map(resp, function(item){
-		  		   item.date = dateFormatter(new Date(item.date));
-		  		   item.price.selling_price = currency_format(item.price.selling_price);
-		  		   return item;
-		  	       });
-		  var html =  ich.menuInventoryScanPriceLogtable_TMP({list:resp});
-		  $(view.el).find("#scanPriceChangeLogTable").html(html);
-		  
-	      });
+	     this._renderInventoryPriceChangesLog(ReportData.store.store_id,"storeReport");
 	 }
+	 
 	});

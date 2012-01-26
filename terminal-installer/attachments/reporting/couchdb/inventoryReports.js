@@ -6,11 +6,11 @@ function negate(num){
 }
 function inventoryChangeLog(id){
     var view = cdb.view('app','change_log');
-    var db = cdb.db('inventory',{},true);
-    var query = _async.generalKeyQuery_noDocs(view,db)(id);
+    var db = cdb.db('inventory_changes',{},true);
+    var query = _async.generalKeyQuery(view,db)(id);
     return function(callback){
 	query(function(err,response){
-		  var inventoryChangeLog = _(response.rows).pluck('value');
+		  var inventoryChangeLog = _(response.rows).pluck('doc').map(function(item){return _.extend({},item.inventory, {locations:item.ids},{_id:item._id});});
 		  callback(err,inventoryChangeLog);
 	      });
     };
