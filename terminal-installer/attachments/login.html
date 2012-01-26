@@ -18,14 +18,9 @@
       }
 
       function getDate() {
-      //var date = new Date();
-      //document.formLogin.txtDate.value = date;
-      //return date;
       var ts = $("#timespace");
       $(document).everyTime("1s", function(){
       var date = new Date();
-      //$("#txtDate").val(date.toLocaleDateString());
-      //$("#txtTime").val(date.toLocaleTimeString());
       ts.empty();
       ts.append(date.toLocaleDateString() + " / " + date.toLocaleTimeString());
       }, 0);
@@ -57,12 +52,6 @@
 	      <td><input type="button" id="btnLogin" value="Login" onClick="login()" class="btn"/></td>
 	    </tr>
 	  </table>
-	  <div style="visibility:hidden;">
-	    <label id="date">Date</label>
-	    <input type="text" id="txtDate" disabled="true"/>
-	    <label id="time">Time</label>
-	    <input type="text" id="txtTime" disabled="true"/>
-	  </div>
 	</form>
       </div>
     </div>
