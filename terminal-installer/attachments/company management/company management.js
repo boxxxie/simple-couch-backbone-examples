@@ -219,7 +219,7 @@ function doc_setup(){
     var terminalsViewTest;
 
     function breadCrumb(companyID,groupID,storeID,terminalID){
-	var companyName,groupName,storeName,terminalName;
+	var companyName,groupName,storeName,storeNumber,terminalName;
 	var company;
 	if(companyID){
 	    company = Companies.getModelById(companyID);
@@ -230,11 +230,12 @@ function doc_setup(){
 	}
 	if(storeID){
 	    storeName = company.getStore(groupID,storeID).storeName;
+	    storeNumber = company.getStore(groupID,storeID).number;
 	}
 	if(terminalID){
 	    terminalName = company.getTerminal(groupID,storeID,terminalID).id;
 	}
-	return {companyName:companyName,groupName:groupName,storeName:storeName,terminalName:terminalName};
+	return {companyName:companyName,groupName:groupName,storeName:storeName,storeNumber:storeNumber,terminalName:terminalName};
     }
 
 function smartBreadCrumb(ReportData){
