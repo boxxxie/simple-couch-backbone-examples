@@ -36,10 +36,7 @@ var Menu = couchDoc.extend(
 	    		      return menubutton;
 	    		  }
 		      });
-	    
-	    //console.log("buttonToChange : ");
-	    //console.log(this.find_button(newMenuButtons,screen,position));	    
-	    
+    
 	    this.set({menuButtons:newMenuButtons},button);
 	    return this;
 	},

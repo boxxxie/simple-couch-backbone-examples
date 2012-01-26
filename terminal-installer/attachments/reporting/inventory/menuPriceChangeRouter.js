@@ -257,8 +257,6 @@ function save_button_into_db() {
 			      var currentStoreMenu = new Menu({_id:store_id});
 			      currentStoreMenu.fetch(
 				  {success:function(model, response){
-				  	console.log("sparse Store menu");
-				  	console.log(sparseStoreMenu);
 				       model.set_buttons(sparseStoreMenu);
 				       model.save();
 				       callback();

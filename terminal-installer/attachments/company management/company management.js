@@ -231,6 +231,30 @@ function doc_setup(){
 	return {companyName:companyName,groupName:groupName,storeName:storeName,terminalName:terminalName};
     }
 
+function smartBreadCrumb(ReportData){
+    if(ReportData.store){
+	return {breadCrumb:breadCrumb(ReportData.companyName, 
+	     			      ReportData.groupName,
+	     			      ReportData.store.storeName,
+	     			      ReportData.store.number)};
+    }
+    else if(ReportData.group){
+	return {breadCrumb:breadCrumb(ReportData.companyName, 
+				      ReportData.group.groupName)};
+    }
+    else if(ReportData.company){
+	return {breadCrumb:breadCrumb(ReportData.company.companyName)};
+    }
+    else{
+	return {};
+    }
+
+}
+
+function autoBreadCrumb(){
+	return smartBreadCrumb(ReportData);
+}
+
     Companies = 
 	new (couchCollection(
 		 {db:'install'},

@@ -24,20 +24,17 @@ function menuInventoryApplyStoresViewDialog (dialog_html,options) {
 		 var applyToAllStores =  d.find("#applyToAll").is(":checked");
 		 if(_.isEmpty(checkedStores) && !applyToAllStores){
 		     //user clicked apply button and there was nothing selected... do nothing
+		     console.log("The price change will not be applied to any stores in this company");
 		 }
-		 else if (checkedStores.length == stores.length  || applyToAllStores){
+		 else if (applyToAllStores){
 		     console.log("The price change will be applied to all stores in this company");
-		     //options.makeButtons(_.pluck(stores,'id'));
-		     options.makeButtons();
+		     options.makeButtons(stores);
 		 }
-		 else if(checkedStores.length != stores.length) {
-		     var store_ids_to_update = _(checkedStores)
-			 .map(function(item){
-				  return item.id;
-			      });
+		 else{
+		     var stores_to_update = _.chain(checkedStores).pluck('id').matchTo(stores,'id').value();
 		     console.log("The price change will be applied to selected stores");
-		     console.log(store_ids_to_update);
-		     options.makeButtons(store_ids_to_update);
+		     console.log(stores_to_update);
+		     options.makeButtons(stores_to_update);
 		 }
 		 d.dialog('close');
 	     },
