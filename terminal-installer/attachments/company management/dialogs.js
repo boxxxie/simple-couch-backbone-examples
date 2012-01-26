@@ -523,22 +523,6 @@ function companyModifyRewardsViewDialog (html,options) {
 	     	if(_.isEmpty(qriketconversion)){
 	     		qriketconversion = "0";
 	     	}  
-//		 var checkedStores = form.find("input:checked").toArray();
-//		 if(_.isEmpty(checkedStores)){
-//		     
-//		 }
-//		 else if(checkedStores.length != stores.length) {
-//		     var store_ids_to_update = _(checkedStores)
-//			 .map(function(item){
-//				  return item.id;
-//			      });
-//		     console.log("The price change will be applied to selected stores");
-//		     console.log(store_ids_to_update);
-//		     options.makeButtons(store_ids_to_update);
-//		 } else if (checkedStores.length == stores.length){
-//		     console.log("The price change will be applied to all stores in this company");
-//		     options.makeButtons([]);
-//		 }
 			options.saveRewardsProgram(Number(mobqreditsconversion), Number(qriketconversion));
 			console.log("conversion saved; mobqredit: " + Number(mobqreditsconversion) + ", qriket: " + Number(qriketconversion));
 			 d.dialog('close');
