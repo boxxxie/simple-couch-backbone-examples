@@ -2014,6 +2014,73 @@
     </script>
     
     
+    <script id="menuInventoryScanItemTaxChanges_TMP" type="text/html">
+      {{>main_navigation_buttons_P}}
+      <h1>SCAN Item Tax Changes</h1>
+      <h2>{{>breadcrumb_P}}</h2>
+      <div id='taxChangeTable'></div>	
+      {{>backButton_P}}
+      {{>quickReportViewHook_P}}
+    </script>
+    
+    <script id="menuInventoryScanTaxtable_TMP" type="text/html">
+      <div style="margin-bottom:40px">
+ 	<div>
+	  disabled row will not be submitted
+	  <span  style="float:right;">
+	    {{#filter}}Current Filter = {{filter}}{{/filter}}
+	    {{^filter}}
+	    Showing all Inventory Items
+	    {{/filter}}
+	    <label for"filterInv">Search</label>
+	    <input id="filterInv" type=text/>
+	  </span>
+	</div>
+	<table style="margin-bottom:20px;" class="reportstable">
+	  <thead>
+	    <tr>
+	      <th>SKU</th>
+	      <th>Description</th>
+	      <th>Tax1</th>
+	      <th>Tax2</th>
+	      <th>Tax3</th>
+	      <th>Exemption</th>
+	      <th>Apply</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    {{#list}}
+	    <tr>
+	      <td align="center">{{upccode}}</td>
+	      <td align="center">{{description}}</td>
+	      <td align="center">												
+	    	<input type="checkbox" style="border: 0" disabled="true" var="upc-{{upccode}}.apply_taxes.tax1" id="{{upccode}}-tax1" {{#apply_taxes.tax1}}checked=true{{/apply_taxes.tax1}} />
+	      </td>
+	      <td align="center">
+	    	<input type="checkbox" style="border: 0" disabled="true" var="upc-{{upccode}}.apply_taxes.tax2" id="{{upccode}}-tax2" {{#apply_taxes.tax2}}checked=true{{/apply_taxes.tax2}} />
+	      </td>
+	      <td align="center">
+	    	<input type="checkbox" style="border: 0" disabled="true" var="upc-{{upccode}}.apply_taxes.tax3" id="{{upccode}}-tax3" {{#apply_taxes.tax3}}checked=true{{/apply_taxes.tax3}} />
+	      </td>
+	      <td align="center">
+	    	<input type="checkbox" style="border: 0" disabled="true" var="upc-{{upccode}}.apply_taxes.exemption" id="{{upccode}}-exemption" {{#exemption}}checked=true{{/exemption}} />
+	      </td>
+	      <td align="center">
+			<button id="{{upccode}}">Enable</button>
+	      </td>
+	    </tr>
+	    {{/list}}
+	    {{^list}}
+	    <tr>
+	      <td colspan="7" align='center'>There are no scanable items</td>
+	    </tr>
+	    {{/list}}
+	  </tbody>
+	</table>
+	<button style="float:right;" id="submitTaxChanges">Submit Tax Changes</button>
+      </div>
+    </script>
+    
     <script id="menuInventoryScanTaxLog_TMP" type="text/html">
       {{>main_navigation_buttons_P}}
       <h1>Tax Change Log</h1>

@@ -61,7 +61,7 @@ var menuInventoryscanPriceChangeView =
 
 	     currentInventoryFor(companyID)
 	     (function(err,inventory){
-		  var filteredInv = (searchQuery)?_.filterSearchSubStr(inventory,searchQuery):inventory;
+		  var filteredInv = (searchQuery)?_.filterSearch_SubStr(inventory,searchQuery):inventory;
 		  var formattedInv = _.walk_pre(
 		      filteredInv,
 		      function(item){
