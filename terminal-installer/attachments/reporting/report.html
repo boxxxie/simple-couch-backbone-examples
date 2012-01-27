@@ -1979,25 +1979,42 @@
       {{>backButton_P}}
     </script>
     
+    <script id="ScanLogtable_general_head_P" class="partial" type="text/html">
+      <th>Date</th>
+      <th>SKU</th>
+      <th>Description</th>
+    </script>
+    
+    <script id="ScanLogtable_general_body_P" class="partial" type="text/html">
+      <td align="center">{{date}}</td>
+      <td align="center">{{upccode}}</td>
+      <td align="center">{{description}}</td>
+    </script>
+    
+    <script id="ScanPriceLogtable_general_head_P" class="partial" type="text/html">
+      {{>ScanLogtable_general_head_P}}
+      <th>Price</th>
+    </script>
+    
+    <script id="ScanPriceLogtable_general_body_P" class="partial" type="text/html">
+    	{{>ScanLogtable_general_body_P}}
+      <td align="right">{{price.selling_price}}</td>
+    </script>
+    
+    
     <script id="menuInventoryScanPriceLogtable_TMP" type="text/html">
       <div style="margin-bottom:30px">
 	<table class="reportstable">
 	  <thead>
 	    <tr>
-	      <th>Date</th>
-	      <th>SKU</th>
-	      <th>Description</th>
-	      <th>Price</th>
+	      {{>ScanPriceLogtable_general_head_P}}
 	      <th>Details</th>
 	    </tr>
 	  </thead>
 	  <tbody>
 	    {{#list}}
 	    <tr>
-	      <td align="center">{{date}}</td>
-	      <td align="center">{{upccode}}</td>
-	      <td align="center">{{description}}</td>
-	      <td align="right">{{price.selling_price}}</td>
+	      {{>ScanPriceLogtable_general_body_P}}
 	      <td align="center">
 		<button id="{{_id}}">Details</button>
 	      </td>
@@ -2014,6 +2031,30 @@
       <div id="detailsDialog"></div>
     </script>
     
+    <script id="menuInventoryScanPriceLogtable_store_TMP" type="text/html">
+      <div style="margin-bottom:30px">
+	<table class="reportstable">
+	  <thead>
+	    <tr>
+	      {{>ScanPriceLogtable_general_head_P}}
+	    </tr>
+	  </thead>
+	  <tbody>
+	    {{#list}}
+	    <tr>
+	      {{>ScanPriceLogtable_general_body_P}}
+	    </tr>
+	    {{/list}}
+	    {{^list}}
+	    <tr>
+	      <td colspan="4" align='center'>There are no logs</td>
+	    </tr>
+	    {{/list}}
+	  </tbody>
+	</table>
+      </div>
+      <div id="detailsDialog"></div>
+    </script>
     
     <script id="menuInventoryScanItemTaxChanges_TMP" type="text/html">
       {{>main_navigation_buttons_P}}
@@ -2064,7 +2105,7 @@
 	    	<input type="checkbox" style="border: 0" disabled="true" var="upc-{{upccode}}.apply_taxes.tax3" id="{{upccode}}-tax3" {{#apply_taxes.tax3}}checked=true{{/apply_taxes.tax3}} />
 	      </td>
 	      <td align="center">
-	    	<input type="checkbox" style="border: 0" disabled="true" var="upc-{{upccode}}.apply_taxes.exemption" id="{{upccode}}-exemption" {{#exemption}}checked=true{{/exemption}} />
+	    	<input type="checkbox" style="border: 0" disabled="true" var="upc-{{upccode}}.apply_taxes.exemption" id="{{upccode}}-exemption" {{#apply_taxes.exemption}}checked=true{{/apply_taxes.exemption}} />
 	      </td>
 	      <td align="center">
 			<button id="{{upccode}}">Enable</button>
@@ -2090,28 +2131,17 @@
       {{>backButton_P}}
     </script>
     
-    <script id="menuInventoryScanTaxLogtable_TMP" type="text/html">
-      <div style="margin-bottom:30px">
-	<table class="reportstable">
-	  <thead>
-	    <tr>
-	      <th>Date</th>
-	      <th>SKU</th>
-	      <th>Description</th>
-	      <th>Apply Tax1</th>
-	      <th>Apply Tax2</th>
-	      <th>Apply Tax3</th>
-	      <th>Apply Exemption</th>
-	      <th>Locations Changed</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	    {{#list}}
-	    <tr>
-	      <td align="center">{{date}}</td>
-	      <td align="center">{{upccode}}</td>
-	      <td align="center">{{description}}</td>
-	      {{#apply_taxes}}
+    <script id="ScanTaxLogtable_general_head_P" class="partial" type="text/html">
+      {{>ScanLogtable_general_head_P}}
+      <th>Apply Tax1</th>
+	  <th>Apply Tax2</th>
+	  <th>Apply Tax3</th>
+	  <th>Apply Exemption</th>
+    </script>
+    
+    <script id="ScanTaxLogtable_general_body_P" class="partial" type="text/html">
+    	{{>ScanLogtable_general_body_P}}
+    	{{#apply_taxes}}
 	      <td align="center">
 	    	<input type="checkbox" style="border: 0" disabled="true" var="apply_taxes.tax1" id="tax1" {{#tax1}}checked=true{{/tax1}} />
 	      </td>
@@ -2125,13 +2155,28 @@
 	    	<input type="checkbox" style="border: 0" disabled="true" var="apply_taxes.exemption" id="exemption" {{#exemption}}checked=true{{/exemption}} />
 	      </td>
 	      {{/apply_taxes}}
+    </script>
+    
+    <script id="menuInventoryScanTaxLogtable_TMP" type="text/html">
+      <div style="margin-bottom:30px">
+	<table class="reportstable">
+	  <thead>
+	    <tr>
+	      {{>ScanTaxLogtable_general_head_P}}
+	      <th>Locations Changed</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    {{#list}}
+	    <tr>
+	      {{>ScanTaxLogtable_general_body_P}}
 	      <td align="center">
 		<button id="{{_id}}">Details</button>
 	      </td>
 	    </tr>
 	    {{/list}}
 	    {{^list}}
-	    <td colspan=4 align='center'>There are no logs</td>
+	    <td colspan="8" align='center'>There are no logs</td>
 	    {{/list}}
 	  </tbody>
 	</table>
@@ -2139,6 +2184,29 @@
       <div id="detailsDialog"></div>
     </script>
 
+	<script id="menuInventoryScanTaxLogtable_store_TMP" type="text/html">
+      <div style="margin-bottom:30px">
+	<table class="reportstable">
+	  <thead>
+	    <tr>
+	      {{>ScanTaxLogtable_general_head_P}}
+	    </tr>
+	  </thead>
+	  <tbody>
+	    {{#list}}
+	    <tr>
+	      {{>ScanTaxLogtable_general_body_P}}
+	    </tr>
+	    {{/list}}
+	    {{^list}}
+	    <td colspan="7" align='center'>There are no logs</td>
+	    {{/list}}
+	  </tbody>
+	</table>
+      </div>
+      <div id="detailsDialog"></div>
+    </script>
+	
     <script id="simpleList_TMP" type="text/html">
       <!--<ul>
 	{{#items}}

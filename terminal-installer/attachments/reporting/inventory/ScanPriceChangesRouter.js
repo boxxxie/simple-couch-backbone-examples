@@ -56,10 +56,10 @@ var menuInventoryscanPriceChangeView =
 	     							    autoBreadCrumb()));
 	     $(view.el).html(html);
 
-	     var companyID = ReportData.company._id;
+	     var companyData = {id:ReportData.company._id, type:"company", label:ReportData.company.companyName};
 	     var storeIDs = extractStores(ReportData);
 
-	     currentInventoryFor(companyID)
+	     currentInventoryFor(companyData.id)
 	     (function(err,inventory){
 		  var filteredInv = (searchQuery)?_.filterSearch_SubStr(inventory,searchQuery):inventory;
 		  var formattedInv = _.walk_pre(
@@ -98,27 +98,121 @@ var menuInventoryscanPriceChangeView =
 			      html,
 			      {title:"Apply changes to stores", 
 			       stores:storeIDs,
-			       makeButtons:inv_helpers.saveNewInvItems(newInvList,companyID,storeIDs)
+			       makeButtons:inv_helpers.saveNewInvItems(newInvList,companyData,storeIDs)
 			       (function(){view.renderMenuInventoryCompanyscanPriceChange(searchQuery);})});
 		      });
 	      });
 	 },
-	 renderMenuInventoryGroupscanPriceChange: function() {
-	     alert("Sorry, we're working on this menu.");
-	     window.history.go(-1);
-	     //var html = ich.menuInventory_TMP({startPage:"groupReport", 
-	 	//			       breadCrumb:breadCrumb(ReportData.companyName,
-	 	//				     		     ReportData.group.groupName)});
-	     //$(this.el).html(html);
+	 renderMenuInventoryGroupscanPriceChange: function(searchQueryString) {
+	     var view = this;
+	     var searchQuery = (_.isDefined(searchQueryString) && 
+				_.isNotEmpty(searchQueryString))
+		 ?searchQueryString:undefined;
+	     var html = 
+		 ich.menuInventoryScanItemPriceChanges_TMP(_.extend({startPage:"groupReport"}, 
+	     							    autoBreadCrumb()));
+	     $(view.el).html(html);
+
+	     var groupData = {id:ReportData.group.group_id, type:"group", label:ReportData.group.groupName};
+	     var storeIDs = extractStores(ReportData);
+
+	     currentInventoryFor(groupData.id)
+	     (function(err,inventory){
+		  var filteredInv = (searchQuery)?_.filterSearch_SubStr(inventory,searchQuery):inventory;
+		  var formattedInv = _.walk_pre(
+		      filteredInv,
+		      function(item){
+			  if(item.selling_price){
+			      return _.extend({},
+					      item,
+					      {selling_price:currency_format(item.selling_price)});
+			  }
+			  return item;
+		      });
+		  var html =  ich.menuInventoryScanPricetable_TMP({filter:searchQuery,list:formattedInv});
+		  $(view.el).find("#priceChangeTable").html(html);
+		  $("#filterInv").keypress(
+		      function(e){
+			  var code = (e.keyCode ? e.keyCode : e.which), enterCode = 13;
+			  if (code == enterCode){
+			      view.renderMenuInventoryGroupscanPriceChange($(this).val());}
+			  });
+		  $("#submitPriceChanges").button().click(
+		      function(){
+			  var newInvList = _.chain(varFormGrabber($("#priceChangeTable"))).
+			      filter$(_.isNotEmpty).	  
+			      map(function(price,strUPC){
+				      var upc = strUPC.replace("upc-","");
+				      var invItem = _.find(filteredInv,function(val,key){return upc==val.upccode;});
+				      invItem.price.selling_price = Number(price);
+				      return invItem;
+				  })
+			      .value();
+			  if(_.isEmpty(newInvList)){alert("there were no changes made");return;}
+
+			  var html = ich.menuInventoryApplyStoresQuickViewDialog_TMP({items:storeIDs});
+			  menuInventoryApplyStoresViewDialog(
+			      html,
+			      {title:"Apply changes to stores", 
+			       stores:storeIDs,
+			       makeButtons:inv_helpers.saveNewInvItems(newInvList,groupData,storeIDs)
+			       (function(){view.renderMenuInventoryGroupscanPriceChange(searchQuery);})});
+		      });
+	      });
 	 },
-	 renderMenuInventoryStorescanPriceChange: function() {
-	     alert("Sorry, we're working on this menu.");
-	     window.history.go(-1);
-	   //  var html = ich.menuInventory_TMP({startPage:"storeReport", 
-	 	//			       breadCrumb:breadCrumb(ReportData.companyName,
-	 	//				     		     ReportData.groupName,
-	 	//				     		     ReportData.store.storeName,
-	 	//				     		     ReportData.store.number)});
-	     //$(this.el).html(html);
+	 renderMenuInventoryStorescanPriceChange: function(searchQueryString) {
+	     var view = this;
+	     var searchQuery = (_.isDefined(searchQueryString) && 
+				_.isNotEmpty(searchQueryString))
+		 ?searchQueryString:undefined;
+	     var html = 
+		 ich.menuInventoryScanItemPriceChanges_TMP(_.extend({startPage:"storeReport"}, 
+	     							    autoBreadCrumb()));
+	     $(view.el).html(html);
+
+	     var storeData = {id:ReportData.store.store_id, type:"store", label:(ReportData.store.number+":"+ReportData.store.storeName)};
+	     var storeIDs = [{type:'store',
+					     id:ReportData.store.store_id,
+					     name:ReportData.store.storeName,
+					     number:ReportData.store.number}];
+
+	     currentInventoryFor(storeData.id)
+	     (function(err,inventory){
+		  var filteredInv = (searchQuery)?_.filterSearch_SubStr(inventory,searchQuery):inventory;
+		  var formattedInv = _.walk_pre(
+		      filteredInv,
+		      function(item){
+			  if(item.selling_price){
+			      return _.extend({},
+					      item,
+					      {selling_price:currency_format(item.selling_price)});
+			  }
+			  return item;
+		      });
+		  var html =  ich.menuInventoryScanPricetable_TMP({filter:searchQuery,list:formattedInv});
+		  $(view.el).find("#priceChangeTable").html(html);
+		  $("#filterInv").keypress(
+		      function(e){
+			  var code = (e.keyCode ? e.keyCode : e.which), enterCode = 13;
+			  if (code == enterCode){
+			      view.renderMenuInventoryStorescanPriceChange($(this).val());}
+			  });
+		  $("#submitPriceChanges").button().click(
+		      function(){
+			  var newInvList = _.chain(varFormGrabber($("#priceChangeTable"))).
+			      filter$(_.isNotEmpty).	  
+			      map(function(price,strUPC){
+				      var upc = strUPC.replace("upc-","");
+				      var invItem = _.find(filteredInv,function(val,key){return upc==val.upccode;});
+				      invItem.price.selling_price = Number(price);
+				      return invItem;
+				  })
+			      .value();
+			  if(_.isEmpty(newInvList)){alert("there were no changes made");return;}
+
+			  inv_helpers.saveNewInvItems(newInvList,storeData,storeIDs)
+  		       (function(){view.renderMenuInventoryStorescanPriceChange(searchQuery);})(storeIDs);
+		      });
+	      });
 	 }
 	});

@@ -17,10 +17,15 @@ var inv_helpers =
 	      _.each(resp,function(item){
 			 $("#"+item._id).button().click(
 			     function(){
-			     	item.locations =_.map(item.locations, function(item){
-			     		var tmp = item.label.split(":");
-			     		return _.extend({},item,{storeName:tmp[1], storeNumber:tmp[0]});
-			     	});
+					item.locations =_(item.locations).chain()
+										.filter(function(item){
+											return item.label.indexOf(":")>0;
+										})
+										.map(function(item){
+			     							var tmp = item.label.split(":");
+			     							return _.extend({},item,{storeName:tmp[1], storeNumber:tmp[0]});
+			     						})
+			     						.value();
 				 detailsDialog(ich.simpleList_TMP({items:item.locations}),
 					       {title:"changes applied to these locations"});
 			     });
@@ -28,18 +33,19 @@ var inv_helpers =
 	  });
      },
      renderTaxChangesLog : function(view,id,startPageStr){
-	 this.renderChangesLog(view,id,startPageStr,
+	 		this.renderChangesLog(view,id,startPageStr,
 			       "menuInventoryScanTaxLog_TMP",
-			       "menuInventoryScanTaxLogtable_TMP",
+			       (startPageStr.indexOf("store")<0)?"menuInventoryScanTaxLogtable_TMP":"menuInventoryScanTaxLogtable_store_TMP",
 			       inventoryTaxChangeLog);
      },
      renderPriceChangesLog : function(view,id,startPageStr){
-	 this.renderChangesLog(view,id,startPageStr,
+	 		this.renderChangesLog(view,id,startPageStr,
 			       "menuInventoryScanPriceLog_TMP",
-			       "menuInventoryScanPriceLogtable_TMP",
+			       (startPageStr.indexOf("store")<0)?"menuInventoryScanPriceLogtable_TMP":"menuInventoryScanPriceLogtable_store_TMP",
 			       inventoryPriceChangeLog);
      },
-     saveNewInvItems:function(newItemList,company_id,allStore_ids){
+     //saveNewInvItems:function(newItemList,company_id,allStore_ids){
+     	saveNewInvItems:function(newItemList,origin,allStore_ids){
 	 function pushItemForIDs(runAfter){
 	     return function(ids){
 		 return function(inv_doc){
@@ -63,10 +69,11 @@ var inv_helpers =
 				       //in this case the ids array is probably going to be a length of 1, but we'll be safe and use a search function
 				       var changeIds = _.chain(idsToSave)
 					   .map(function(id){return {location_id:id.id, type:"store", label : id.number + " : " + id.name};})
-					   .concat({location_id:company_id})
+					   //.concat({location_id:company_id})
+					   .concat({location_id:origin.id, type:origin.type, label:origin.label})
 					   .value();
 				       if(wholeCompanyUpdate){
-					   var invData = _.extend({},generalInvItemData,{locid:company_id}); //if we are dealing witha  company wide change, then we make our company's inv item here 
+					   var invData = _.extend({},generalInvItemData,{locid:origin.id}); //if we are dealing witha  company wide change, then we make our company's inv item here 
 					   var newInv = new InventoryDoc(invData);
 					   var newInvChange = new InventoryChangesDoc({inventory : generalInvItemData,
 										       ids : changeIds});
@@ -92,7 +99,7 @@ var inv_helpers =
 	     return function(ids){
 		 if(_.isEmpty(ids)){}
 		 else if(ids.length == allStore_ids.length){
-		     _.each(newItemList,pushItemForIDs(runAfter)(company_id));
+		     _.each(newItemList,pushItemForIDs(runAfter)(origin.id));
 		 }
 		 else{
 		     _.each(newItemList,pushItemForIDs(runAfter)(ids));
