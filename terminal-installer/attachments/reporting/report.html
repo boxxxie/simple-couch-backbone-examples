@@ -247,15 +247,15 @@
     </script>
     
     <script id="numberOfGroupsFields_P" class="partial" type="text/html">
-      <a href="#{{startPage}}/groups"><div class="report-menu"><img src="../images/reports/groups.png" class="report-menu-icon" border="0"/>Number of Groups: {{numberOfGroups}}</div></a>
+      <div class="report-menu"><a href="#{{startPage}}/groups"><img src="../images/reports/groups.png" class="report-menu-icon" border="0"/>Number of Groups: {{numberOfGroups}}</a></div>
     </script>
 
     <script id="numberOfStoresFields_P" class="partial" type="text/html">
-      <a href="#{{startPage}}/stores"><div class="report-menu"><img src="../images/reports/stores.png" class="report-menu-icon" border="0"/>Number of Stores: {{numberOfStores}}</div></a>
+      <div class="report-menu"><a href="#{{startPage}}/stores"><img src="../images/reports/stores.png" class="report-menu-icon" border="0"/>Number of Stores: {{numberOfStores}}</a></div>
     </script>
 
     <script id="numberOfTerminalsFields_P" class="partial" type="text/html">
-      <a href="#{{startPage}}/terminals"><div class="report-menu"><img src="../images/reports/terminals.png" class="report-menu-icon" border="0"/>Number of Terminals: {{numberOfTerminals}}</div></a>
+      <div class="report-menu"><a href="#{{startPage}}/terminals"><img src="../images/reports/terminals.png" class="report-menu-icon" border="0"/>Number of Terminals: {{numberOfTerminals}}</a></div>
     </script>
     
     <script id="dateRangePicker_P" class="partial" type="text/html">
@@ -773,61 +773,62 @@
       {{>main_navigation_buttons_P}}
       <h1>Reports</h1>
       <h2>{{>breadcrumb_P}}</h2>
-      <a href='#menuReports/{{startPage}}SalesSummary'>
 	<div class="report-menu">
+	<a href='#menuReports/{{startPage}}SalesSummary'>
 	  <img src="../images/reports/salessummary.png" border="0" class="report-menu-icon"/>Sales Summary
+	</a>
 	</div>
-      </a>
-      <a href='#menuReports/{{startPage}}SalesDetail'>
 	<div class="report-menu">
+	<a href='#menuReports/{{startPage}}SalesDetail'>
 	  <img src="../images/reports/salesdetails.png" border="0" class="report-menu-icon"/>Sales Detail
+	</a>
 	</div>
-      </a>
-      <a href='#menuReports/{{startPage}}HowAreWe'>
 	<div class="report-menu">
+	<a href='#menuReports/{{startPage}}HowAreWe'>
 	  <img src="../images/reports/howarewedoingtoday.png" border="0" class="report-menu-icon"/>How Are We Doing Today?
+	</a>
 	</div>
-      </a>
-      <a href='#menuReports/{{startPage}}HourlyActivity'>
 	<div class="report-menu">
+	<a href='#menuReports/{{startPage}}HourlyActivity'>
 	  <img src="../images/reports/hourlyactivity.png" border="0" class="report-menu-icon"/>Hourly Activity
+	</a>
 	</div>
-      </a>
-      <a href='#menuReports/{{startPage}}ElectronicPayments'>
 	<div class="report-menu">
+	<a href='#menuReports/{{startPage}}ElectronicPayments'>
 	  <img src="../images/reports/epayment.png" border="0" class="report-menu-icon"/>Electronic Payments
+	</a>
 	</div>
-      </a>
-      <a href='#menuReports/{{startPage}}TaxCollected'>
 	<div class="report-menu">
+	<a href='#menuReports/{{startPage}}TaxCollected'>
 	  <img src="../images/reports/tax.png" border="0" class="report-menu-icon"/>Tax Collected
+	</a>
 	</div>
-      </a>
-      <a href='#menuReports/{{startPage}}CashOuts'>
 	<div class="report-menu">
+	<a href='#menuReports/{{startPage}}CashOuts'>
 	  <img src="../images/reports/cashouts.png" border="0" class="report-menu-icon"/>Cash Outs
+	</a>
 	</div>
-      </a>
-      <a href='#menuReports/{{startPage}}TransactionsDetail'>
 	<div class="report-menu">
+	<a href='#menuReports/{{startPage}}TransactionsDetail'>
 	  <img src="../images/reports/transactionsdetails.png" border="0" class="report-menu-icon"/>Transactions Detail
+	</a>
 	</div>
-      </a>
-      <a href='#menuReports/{{startPage}}Cancelled'>
 	<div class="report-menu">
+	<a href='#menuReports/{{startPage}}Cancelled'>
 	  <img src="../images/reports/cancelledtransactions.png" border="0" class="report-menu-icon"/>Cancelled Transactions
+	</a>
 	</div>
-      </a>
-      <a href='#menuReports/{{startPage}}Refunds'>
 	<div class="report-menu">
+	<a href='#menuReports/{{startPage}}Refunds'>
 	  <img src="../images/reports/refunds.png" border="0" class="report-menu-icon"/>Refunds
+	</a>
 	</div>
-      </a>
-      <a href='#menuReports/{{startPage}}Discounts'>
 	<div class="report-menu">
+	<a href='#menuReports/{{startPage}}Discounts'>
 	  <img src="../images/reports/discounts.png" border="0" class="report-menu-icon"/>Discounts
+	</a>
 	</div>
-      </a>
+      
       <div style="clear: both;"></div>
     </script>
     
@@ -1860,14 +1861,14 @@
       <h1>Inventory</h1>
       <h2>{{>breadcrumb_P}}</h2>
       <div style="height:200px;">
-	<a href='#menuReports/{{startPage}}Inventory'><div class="report-menu"><img src="../images/reports/inventorysold.png" border="0" class="report-menu-icon"/>Inventory Sold Report</div></a>
-	<a href='#menuInventory/{{startPage}}scanPriceChange'><div class="report-menu"><img src="../images/reports/scanprice.png" border="0" class="report-menu-icon"/>SCAN Item Price Changes</div></a>
-	<a href='#menuInventory/{{startPage}}scanTaxChange'><div class="report-menu"><img src="../images/reports/scantax.png" border="0" class="report-menu-icon"/>SCAN Sales Tax Changes</div></a>
-	<a href='#menuInventory/{{startPage}}addScanItem'><div class="report-menu"><img src="../images/reports/scanaddnew.png" border="0" class="report-menu-icon"/>Add New Inventory SCAN Items</div></a>
-	<a href='#menuInventory/{{startPage}}priceChangeLog'><div class="report-menu"><img src="../images/reports/pricelog.png" border="0" class="report-menu-icon"/>Price Change Log</div></a>
-	<a href='#menuInventory/{{startPage}}taxChangeLog'><div class="report-menu"><img src="../images/reports/taxlog.png" border="0" class="report-menu-icon"/>Tax Change Log</div></a>
+	<div class="report-menu"><a href='#menuReports/{{startPage}}Inventory'><img src="../images/reports/inventorysold.png" border="0" class="report-menu-icon"/>Inventory Sold Report</a></div>
+	<div class="report-menu"><a href='#menuInventory/{{startPage}}scanPriceChange'><img src="../images/reports/scanprice.png" border="0" class="report-menu-icon"/>SCAN Item Price Changes</a></div>
+	<div class="report-menu"><a href='#menuInventory/{{startPage}}scanTaxChange'><img src="../images/reports/scantax.png" border="0" class="report-menu-icon"/>SCAN Sales Tax Changes</a></div>
+	<div class="report-menu"><a href='#menuInventory/{{startPage}}addScanItem'><img src="../images/reports/scanaddnew.png" border="0" class="report-menu-icon"/>Add New Inventory SCAN Items</a></div>
+	<div class="report-menu"><a href='#menuInventory/{{startPage}}priceChangeLog'><img src="../images/reports/pricelog.png" border="0" class="report-menu-icon"/>Price Change Log</a></div>
+	<div class="report-menu"><a href='#menuInventory/{{startPage}}taxChangeLog'><img src="../images/reports/taxlog.png" border="0" class="report-menu-icon"/>Tax Change Log</a></div>
 	{{#showMenuPriceChange}}
-	<a href='#menuInventory/{{startPage}}menuPriceChange'><div class="report-menu"><img src="../images/reports/menupricechange.png" border="0" class="report-menu-icon"/>Menu Price Change</div></a>
+	<div class="report-menu"><a href='#menuInventory/{{startPage}}menuPriceChange'><img src="../images/reports/menupricechange.png" border="0" class="report-menu-icon"/>Menu Price Change</a></div>
 	{{/showMenuPriceChange}}
       </div>
       <div style="clear: both;"></div>
