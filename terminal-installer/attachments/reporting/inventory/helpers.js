@@ -17,6 +17,10 @@ var inv_helpers =
 	      _.each(resp,function(item){
 			 $("#"+item._id).button().click(
 			     function(){
+			     	item.locations =_.map(item.locations, function(item){
+			     		var tmp = item.label.split(":");
+			     		return _.extend({},item,{storeName:tmp[1], storeNumber:tmp[0]});
+			     	});
 				 detailsDialog(ich.simpleList_TMP({items:item.locations}),
 					       {title:"changes applied to these locations"});
 			     });

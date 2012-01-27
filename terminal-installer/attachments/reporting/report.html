@@ -2139,13 +2139,25 @@
     </script>
 
     <script id="simpleList_TMP" type="text/html">
-      <ul>
+      <!--<ul>
 	{{#items}}
 	<li>
 	  {{label}}
 	</li>
 	{{/items}}
-      </ul>
+      </ul>-->
+      <table border="1">
+      	<tr>
+      		<th align="center">Store Name</th>
+      		<th align="center">Store Number</th>
+      	</tr>
+      	{{#items}}
+      	<tr>
+      		<td align="center">{{storeName}}</td>
+      		<td align="center">{{storeNumber}}</td>
+      	</tr>
+      	{{/items}}
+      </table>
     </script>
     
     <!-------------------------------------------------- Menu SET MENUS --------------------------------------->

@@ -6,10 +6,6 @@
 @import url("reset.css");
 */
 
-div {
-zoom: 1;
-}
-
 body {
 	margin: 0;
 	padding: 0;
@@ -64,7 +60,7 @@ font-weight: normal;
 }
 .footerin {
     padding-top:0px;
-    width:800px;
+    width:1000px;
     text-align:left;
     color: #c0ac98;
     margin:0 auto;
@@ -131,18 +127,17 @@ h1 {
 
 
 h2 {
-	font-size: 20px;
-	padding-bottom: 10px;
-	margin-bottom: 10px;
-	margin-top: 10px;
-	text-align: left;
-	font-weight: bold;
-	color: #444;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #ccc;
-	font-family: Arial, Helvetica, sans-serif;
-	text-transform: capitalize;
+    font-size: 20px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    text-align: left;
+    font-weight: bold;
+    color: #444;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #ccc;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 input.login {
@@ -152,7 +147,7 @@ input.login {
     text-align: left;
     color: #666;
     border: 1px solid #ccc;
-    width:210px;
+    width:210px;;
 	outline:none;
     display:block;
     border-radius:10px;
@@ -166,32 +161,14 @@ input.btn {
     padding: 10px;
 	font-weight:bold;
     text-align: center;
-    color: #fff;
+    color: #FFF;
     border: 1px solid #ccc;
-    width:230px;
+    width:210px;;
 	outline:none;
     display:block;
     border-radius:10px;
-	background-color:#fb8360;
-	cursor:pointer;
+	background-color:#4e505b;
 }
-
-
-input.btn:hover {
-    font-size: 14px;
-    margin: 4px auto;
-    padding: 10px;
-	font-weight:bold;
-    text-align: center;
-    color: #fff;
-    border: 1px solid #ccc;
-    width:230px;
-	outline:none;
-    display:block;
-    border-radius:10px;
-	background-color:#4dccd2;
-}
-
 
 
 input.menuButtonToggle {
@@ -238,8 +215,7 @@ margin: 0;
 #nav-menu li
 {
 float: left;
-margin-right:6px;
-margin-bottom:10px;
+margin: 0 0.30em;
 }
 
 #nav-menu li a
@@ -275,7 +251,7 @@ float: none
 #nav-menu
 {
 width:1000px;
-margin:0px auto;
+margin:0 auto;
 text-align:center;
 }
 
