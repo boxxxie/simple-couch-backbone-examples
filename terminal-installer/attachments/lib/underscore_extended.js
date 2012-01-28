@@ -23,7 +23,8 @@ _.mixin({
 	    /*create an object with only the keys in the selected keys array arg
 	     * ({a:'a',b:'b'},['a']) -> {a:'a'}
 	     */
-	    selectKeys:function (obj,keys){
+	    selectKeys:function (obj){
+		var keys = _.flatten(_.rest(arguments)); //do flatten because of older array notation, in which we can get an array in an array.
 		return  _(obj).filter$(function(val,key){return _.contains(keys,key);});
 	    },
 	    selectKeys_F:function (keys){

@@ -38,7 +38,7 @@ function doc_setup() {
     var MenuInventoryDisplay = new menuInventoryView();
     var MenuInventoryScanPriceChangeDisplay = new menuInventoryscanPriceChangeView();
     var MenuInventoryScanTaxChangeDisplay = new menuInventoryscanTaxChangeView();
-    var MenuInventoryAddScanItemDisplay = new menuInventoryaddScanItemView();
+//    var MenuInventoryAddScanItemDisplay = new menuInventoryaddScanItemView();
 //    var MenuInventoryPriceChangeLogDisplay = new menuInventorypriceChangeLogView();
 //    var MenuInventoryTaxChangeLogDisplay = new menuInventorytaxChangeLogView();
     var MenuAdministrationDisplay = new menuAdministrationView();
