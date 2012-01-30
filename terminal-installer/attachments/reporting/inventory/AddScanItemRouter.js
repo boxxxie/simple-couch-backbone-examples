@@ -75,9 +75,10 @@ var inv_display_view =
 		else{
 		    $("#addItemToCompany").button().click(
 			function(){
+				var companyData = {id:ReportData.company._id, type:"company", label:ReportData.company.companyName};
 			    var inv = _.extend(varFormGrabber($("#inv_form")),{upccode:$("#upc").val()});
 			    var allStores = extractStores(ReportData);
-			    inv_helpers.saveNewInvItems([inv],ReportData.company._id,allStores)
+			    inv_helpers.saveNewInvItems([inv],companyData,allStores)
 			    (function(){alert("finished saving items");})
 			    (allStores);
 			});
