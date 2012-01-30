@@ -41,7 +41,7 @@
     <script language="javascript" type="text/javascript" src="../lib/Menu.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/Inventory.js"></script>
 
-	<script language="javascript" type="text/javascript" src="lib/jquery.timers-1.0.0.js.txt"></script>
+    <script language="javascript" type="text/javascript" src="lib/jquery.timers-1.0.0.js.txt"></script>
 
     <script language="javascript" type="text/javascript" src="../reporting/misc_helpers.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/menu_helpers.js"></script>
@@ -93,11 +93,11 @@
       <div style="width:1000px;margin:20px auto;padding:0px;background-color:transparent;font-size:13px;font-weight:bold;text-align:center;" id="logo">
 	<img src="../images/logo.png"/>
       </div>
-      <div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
-      </script>
-      
-      <script id="mainfooter" class="partial" type="text/html">
-      </div>
+      <!--<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">-->
+    </script>
+    
+    <script id="mainfooter" class="partial" type="text/html">
+      <!--</div>-->
     </script>
 
     <script id="breadcrumb_P" class="partial" type="text/html">
@@ -130,8 +130,7 @@
     </script>
 
     <script id="logoutButton_P" class="partial" type="text/html">
-      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
-	      onClick="logout()">
+      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="logout()">
 	<span class="ui-button-text">Logout</span>
       </button>
     </script>
@@ -157,7 +156,7 @@
     </script>
     
     <script id="main_navigation_buttons_P" class="partial" type="text/html">
-      {{>mainheader}}
+      
       <div id="nav-menu">
 	<ul>
 	  <li>{{>homeButton_P}}</li>
@@ -187,8 +186,7 @@
     </script>
     
     <script id="menuButton_P" class="partial" type="text/html">
-      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
-	      onClick="javascript:window.location.href = '#{{startPage}}/';">
+      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="javascript:window.location.href = '#{{startPage}}/';">
 	<span class="ui-button-text">Home</span>
       </button>
     </script>
@@ -196,7 +194,7 @@
     <script id="quickReportViewButton_P" class="partial" type="text/html">
       {{#quickViewArgs}}
       <button onclick="quickReportView('{{id}}','{{title}}');" class="ui-state-default ui-corner-all">
-      	{{/quickViewArgs}}
+	{{/quickViewArgs}}
 	<span class="ui-button-text">
 	  Details
 	</span>
@@ -226,9 +224,9 @@
       <table class="reportstable">
 	<thead>
 	  <tr>
-	    <th width="25%">Yesterday's Sales:</td>
-	    <th width="25%">MTD Sales:</td>
-	    <th width="25%">YTD Sales:</td>
+	    <th width="25%">Yesterday's Sales:</th>
+	    <th width="25%">MTD Sales:</th>
+	    <th width="25%">YTD Sales:</th>
 	    <th width="25%" align="center">More Details</th>
 	  </tr>
 	</thead>
@@ -770,66 +768,68 @@
     
     <!-------------------------------------------- MENU REPORTS ------------------------------------------------>
     <script id="menuReports_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Reports</h1>
-      <h2>{{>breadcrumb_P}}</h2>
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>Reports</h1>
+	<h2>{{>breadcrumb_P}}</h2>
 	<div class="report-menu">
-	<a href='#menuReports/{{startPage}}SalesSummary'>
-	  <img src="../images/reports/salessummary.png" border="0" class="report-menu-icon"/>Sales Summary
-	</a>
+	  <a href='#menuReports/{{startPage}}SalesSummary'>
+	    <img src="../images/reports/salessummary.png" border="0" class="report-menu-icon"/>Sales Summary
+	  </a>
 	</div>
 	<div class="report-menu">
-	<a href='#menuReports/{{startPage}}SalesDetail'>
-	  <img src="../images/reports/salesdetails.png" border="0" class="report-menu-icon"/>Sales Detail
-	</a>
+	  <a href='#menuReports/{{startPage}}SalesDetail'>
+	    <img src="../images/reports/salesdetails.png" border="0" class="report-menu-icon"/>Sales Detail
+	  </a>
 	</div>
 	<div class="report-menu">
-	<a href='#menuReports/{{startPage}}HowAreWe'>
-	  <img src="../images/reports/howarewedoingtoday.png" border="0" class="report-menu-icon"/>How Are We Doing Today?
-	</a>
+	  <a href='#menuReports/{{startPage}}HowAreWe'>
+	    <img src="../images/reports/howarewedoingtoday.png" border="0" class="report-menu-icon"/>How Are We Doing Today?
+	  </a>
 	</div>
 	<div class="report-menu">
-	<a href='#menuReports/{{startPage}}HourlyActivity'>
-	  <img src="../images/reports/hourlyactivity.png" border="0" class="report-menu-icon"/>Hourly Activity
-	</a>
+	  <a href='#menuReports/{{startPage}}HourlyActivity'>
+	    <img src="../images/reports/hourlyactivity.png" border="0" class="report-menu-icon"/>Hourly Activity
+	  </a>
 	</div>
 	<div class="report-menu">
-	<a href='#menuReports/{{startPage}}ElectronicPayments'>
-	  <img src="../images/reports/epayment.png" border="0" class="report-menu-icon"/>Electronic Payments
-	</a>
+	  <a href='#menuReports/{{startPage}}ElectronicPayments'>
+	    <img src="../images/reports/epayment.png" border="0" class="report-menu-icon"/>Electronic Payments
+	  </a>
 	</div>
 	<div class="report-menu">
-	<a href='#menuReports/{{startPage}}TaxCollected'>
-	  <img src="../images/reports/tax.png" border="0" class="report-menu-icon"/>Tax Collected
-	</a>
+	  <a href='#menuReports/{{startPage}}TaxCollected'>
+	    <img src="../images/reports/tax.png" border="0" class="report-menu-icon"/>Tax Collected
+	  </a>
 	</div>
 	<div class="report-menu">
-	<a href='#menuReports/{{startPage}}CashOuts'>
-	  <img src="../images/reports/cashouts.png" border="0" class="report-menu-icon"/>Cash Outs
-	</a>
+	  <a href='#menuReports/{{startPage}}CashOuts'>
+	    <img src="../images/reports/cashouts.png" border="0" class="report-menu-icon"/>Cash Outs
+	  </a>
 	</div>
 	<div class="report-menu">
-	<a href='#menuReports/{{startPage}}TransactionsDetail'>
-	  <img src="../images/reports/transactionsdetails.png" border="0" class="report-menu-icon"/>Transactions Detail
-	</a>
+	  <a href='#menuReports/{{startPage}}TransactionsDetail'>
+	    <img src="../images/reports/transactionsdetails.png" border="0" class="report-menu-icon"/>Transactions Detail
+	  </a>
 	</div>
 	<div class="report-menu">
-	<a href='#menuReports/{{startPage}}Cancelled'>
-	  <img src="../images/reports/cancelledtransactions.png" border="0" class="report-menu-icon"/>Cancelled Transactions
-	</a>
+	  <a href='#menuReports/{{startPage}}Cancelled'>
+	    <img src="../images/reports/cancelledtransactions.png" border="0" class="report-menu-icon"/>Cancelled Transactions
+	  </a>
 	</div>
 	<div class="report-menu">
-	<a href='#menuReports/{{startPage}}Refunds'>
-	  <img src="../images/reports/refunds.png" border="0" class="report-menu-icon"/>Refunds
-	</a>
+	  <a href='#menuReports/{{startPage}}Refunds'>
+	    <img src="../images/reports/refunds.png" border="0" class="report-menu-icon"/>Refunds
+	  </a>
 	</div>
 	<div class="report-menu">
-	<a href='#menuReports/{{startPage}}Discounts'>
-	  <img src="../images/reports/discounts.png" border="0" class="report-menu-icon"/>Discounts
-	</a>
+	  <a href='#menuReports/{{startPage}}Discounts'>
+	    <img src="../images/reports/discounts.png" border="0" class="report-menu-icon"/>Discounts
+	  </a>
 	</div>
-      
-      <div style="clear: both;"></div>
+	
+	<div style="clear: both;"></div>
+      </div>
     </script>
     
     <!----------------------------------------------- SALES SUMMARY REPORTS -------------------------------------------->
@@ -918,14 +918,16 @@
     </script> 
 
     <script id="salesSummaryReports_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Sales Summary Report</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      {{>groupDropdownbox_P}}
-      {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}			
-      <div id='summarytable'></div>		
-      {{>backButton_P}}
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>Sales Summary Report</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	{{>groupDropdownbox_P}}
+	{{>dateRangePicker_P}}
+	{{>generalGoButton_P}}			
+	<div id='summarytable'></div>		
+	{{>backButton_P}}
+      </div>
     </script>	
 
 
@@ -1026,110 +1028,114 @@
     </script> 
 
     <script id="salesDetailReports_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Sales Detail Report</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      {{>groupDropdownbox_P}}
-      {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}		
-      <div id='salesdetailtable'></div>		
-      {{>backButton_P}}
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>Sales Detail Report</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	{{>groupDropdownbox_P}}
+	{{>dateRangePicker_P}}
+	{{>generalGoButton_P}}		
+	<div id='salesdetailtable'></div>		
+	{{>backButton_P}}
+      </div>
     </script>
 
 
     <!------------------------------------- HowAreWeTodayTable TMP -------------------------------------------->
     <script id="generaltable_HowAreWeToday_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>How Are We Doing Today</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      <table class="reportstable">
-	<thead>
-	  <tr>
-	    <th rowspan="2">{{namefield}}</th>
-	    <th colspan="5">Net Sales (No Taxes)</th>
-	    <th colspan="5">Net Refunds (No Taxes)</th>
-	    <th rowspan="2">Net Total</th>
-	    <th rowspan="2">AVG Sale</th>
-	  </tr>
-	  <tr>
-	    <th># of Trans</th>
-	    <th>Menu</th>
-	    <th>Scan</th>
-	    <th>ECR</th>
-	    <th>Total</th>
-	    <th># of Trans</th>
-	    <th>Menu</th>
-	    <th>Scan</th>
-	    <th>ECR</th>
-	    <th>Total</th>
-	  </tr>
-	</thead>
-	<tfoot>
-	  <tr>
-	    <th>Total</th>
-	    {{#total}}
-	    <th align="right">{{transactions}}</th>
-	    {{#origin_sales}}
-	    <th align="right">{{menu}}</th>
-	    <th align="right">{{scan}}</th>
-	    <th align="right">{{ecr}}</th>
-	    <th align="right">{{origintotal}}</th>
-	    {{/origin_sales}}
-	    <th align="right">{{refunds}}</th>
-	    {{#origin_refunds}}
-	    <th align="right">{{menu}}</th>
-	    <th align="right">{{scan}}</th>
-	    <th align="right">{{ecr}}</th>
-	    <th align="right">{{origintotal}}</th>
-	    {{/origin_refunds}}
-	    <th align="right">{{sales_minus_refunds}}</th>
-	    <th align="right">{{avgsale}}</th>
-	    {{/total}}
-	  </tr>
-	</tfoot>
-	<tbody>
-	  {{#items}}
-	  <tr>
-	    <td>
-	      {{#linkaddress}}
-	      <a href="{{linkaddress}}">
-		{{/linkaddress}}
-		{{name}}
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>How Are We Doing Today</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	<table class="reportstable">
+	  <thead>
+	    <tr>
+	      <th rowspan="2">{{namefield}}</th>
+	      <th colspan="5">Net Sales (No Taxes)</th>
+	      <th colspan="5">Net Refunds (No Taxes)</th>
+	      <th rowspan="2">Net Total</th>
+	      <th rowspan="2">AVG Sale</th>
+	    </tr>
+	    <tr>
+	      <th># of Trans</th>
+	      <th>Menu</th>
+	      <th>Scan</th>
+	      <th>ECR</th>
+	      <th>Total</th>
+	      <th># of Trans</th>
+	      <th>Menu</th>
+	      <th>Scan</th>
+	      <th>ECR</th>
+	      <th>Total</th>
+	    </tr>
+	  </thead>
+	  <tfoot>
+	    <tr>
+	      <th>Total</th>
+	      {{#total}}
+	      <th align="right">{{transactions}}</th>
+	      {{#origin_sales}}
+	      <th align="right">{{menu}}</th>
+	      <th align="right">{{scan}}</th>
+	      <th align="right">{{ecr}}</th>
+	      <th align="right">{{origintotal}}</th>
+	      {{/origin_sales}}
+	      <th align="right">{{refunds}}</th>
+	      {{#origin_refunds}}
+	      <th align="right">{{menu}}</th>
+	      <th align="right">{{scan}}</th>
+	      <th align="right">{{ecr}}</th>
+	      <th align="right">{{origintotal}}</th>
+	      {{/origin_refunds}}
+	      <th align="right">{{sales_minus_refunds}}</th>
+	      <th align="right">{{avgsale}}</th>
+	      {{/total}}
+	    </tr>
+	  </tfoot>
+	  <tbody>
+	    {{#items}}
+	    <tr>
+	      <td>
 		{{#linkaddress}}
-	      </a>
-	      {{/linkaddress}}
-	    </td>
-	    <td align="right">{{transactions}}</td>
-	    {{#origin_sales}}
-	    <td align="right">{{menu}}</td>
-	    <td align="right">{{scan}}</td>
-	    <td align="right">{{ecr}}</td>
-	    <td align="right">{{origintotal}}</td>
-	    {{/origin_sales}}
-	    <td align="right">{{refunds}}</td>
-	    {{#origin_refunds}}
-	    <td align="right">{{menu}}</td>
-	    <td align="right">{{scan}}</td>
-	    <td align="right">{{ecr}}</td>
-	    <td align="right">{{origintotal}}</td>
-	    {{/origin_refunds}}
-	    <td align="right">{{sales_minus_refunds}}</td>
-	    <td align="right">{{avgsale}}</td>
-	  </tr>
-	  {{/items}}
-	  {{^items}}
-	  <tr>
-	    <td colspan="13" align="center">
-	      there are no terminals installed for this/these location(s)
-	    </td>
-	  </tr>
-	  {{/items}}
-	</tbody>
-      </table>
-      {{#cancelledtransactions}}
-      <p>Number of Cancelled Transactions : {{cancelledtransactions}}</p>
-      {{/cancelledtransactions}}
-      {{>backButton_P}}
+		<a href="{{linkaddress}}">
+		  {{/linkaddress}}
+		  {{name}}
+		  {{#linkaddress}}
+		</a>
+		{{/linkaddress}}
+	      </td>
+	      <td align="right">{{transactions}}</td>
+	      {{#origin_sales}}
+	      <td align="right">{{menu}}</td>
+	      <td align="right">{{scan}}</td>
+	      <td align="right">{{ecr}}</td>
+	      <td align="right">{{origintotal}}</td>
+	      {{/origin_sales}}
+	      <td align="right">{{refunds}}</td>
+	      {{#origin_refunds}}
+	      <td align="right">{{menu}}</td>
+	      <td align="right">{{scan}}</td>
+	      <td align="right">{{ecr}}</td>
+	      <td align="right">{{origintotal}}</td>
+	      {{/origin_refunds}}
+	      <td align="right">{{sales_minus_refunds}}</td>
+	      <td align="right">{{avgsale}}</td>
+	    </tr>
+	    {{/items}}
+	    {{^items}}
+	    <tr>
+	      <td colspan="13" align="center">
+		there are no terminals installed for this/these location(s)
+	      </td>
+	    </tr>
+	    {{/items}}
+	  </tbody>
+	</table>
+	{{#cancelledtransactions}}
+	<p>Number of Cancelled Transactions : {{cancelledtransactions}}</p>
+	{{/cancelledtransactions}}
+	{{>backButton_P}}
+      </div>
     </script>
 
     <!----------------------------------------------- HOURLY ACTIVITY REPORTS -------------------------------------------->
@@ -1202,13 +1208,15 @@
     </script> 
     
     <script id="hourlyActivityReports_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Hourly Activity Report</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      {{>dropdownHourlyActiviy_P}} 
-      {{>generalGoButton_P}}
-      <div id='hourlytable'></div>		
-      {{>backButton_P}}
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>Hourly Activity Report</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	{{>dropdownHourlyActiviy_P}} 
+	{{>generalGoButton_P}}
+	<div id='hourlytable'></div>		
+	{{>backButton_P}}
+      </div>
     </script>	
     
     
@@ -1261,14 +1269,16 @@
     </script> 
     
     <script id="taxCollectedReports_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Tax Collected</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      {{>dropdownHourlyActiviy_P}}
-      {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}	
-      <div id='taxcollectedtable'></div>	
-      {{>backButton_P}}
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>Tax Collected</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	{{>dropdownHourlyActiviy_P}}
+	{{>dateRangePicker_P}}
+	{{>generalGoButton_P}}	
+	<div id='taxcollectedtable'></div>	
+	{{>backButton_P}}
+      </div>
     </script>
 
     <!----------------------------------------------- ELECTRONIC PAYMENTS REPORTS -------------------------------------------->
@@ -1344,14 +1354,16 @@
     </script> 
     
     <script id="electronicPaymentsReports_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Electronic Payments</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      {{>dropdownHourlyActiviy_P}}
-      {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}		
-      <div id="reporttable"></div>	
-      {{>backButton_P}}
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>Electronic Payments</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	{{>dropdownHourlyActiviy_P}}
+	{{>dateRangePicker_P}}
+	{{>generalGoButton_P}}		
+	<div id="reporttable"></div>	
+	{{>backButton_P}}
+      </div>
     </script>
     
     <!----------------------------------------------- CASHOUTS REPORTS -------------------------------------------->
@@ -1389,14 +1401,16 @@
     </script> 
     
     <script id="menuReportsCashOutsReports_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>CashOuts</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      {{>dropdownHourlyActiviy_P}}
-      {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}		
-      <div id='cashoutstable'></div>	
-      {{>backButton_P}}
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>CashOuts</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	{{>dropdownHourlyActiviy_P}}
+	{{>dateRangePicker_P}}
+	{{>generalGoButton_P}}		
+	<div id='cashoutstable'></div>	
+	{{>backButton_P}}
+      </div>
     </script>
     
     <!------------------------------------ Transactions Detail --------------------------------------->
@@ -1469,14 +1483,16 @@
     </script>
 
     <script id="transactionsDetailReports_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Transactions Detail Report</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      {{>groupDropdownbox_P}}
-      {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}
-      <div id='transactionsdetailtable'></div>
-      {{>backButton_P}}
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>Transactions Detail Report</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	{{>groupDropdownbox_P}}
+	{{>dateRangePicker_P}}
+	{{>generalGoButton_P}}
+	<div id='transactionsdetailtable'></div>
+	{{>backButton_P}}
+      </div>
     </script>
     
     
@@ -1535,14 +1551,16 @@
     </script> 
     
     <script id="menuReportsCancelledReports_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Cancelled Transactions</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      {{>dropdownHourlyActiviy_P}}
-      {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}	
-      <div id='cancelledtable'></div>	
-      {{>backButton_P}}
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>Cancelled Transactions</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	{{>dropdownHourlyActiviy_P}}
+	{{>dateRangePicker_P}}
+	{{>generalGoButton_P}}	
+	<div id='cancelledtable'></div>	
+	{{>backButton_P}}
+      </div>
     </script>
     
     <!--------------------------- REFUNDS REPORTS ---------------------------------->
@@ -1600,14 +1618,16 @@
     </script> 
     
     <script id="menuReportsRefundsReports_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Refunds Transactions</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      {{>dropdownHourlyActiviy_P}}
-      {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}		
-      <div id='refundstable'></div>	
-      {{>backButton_P}}
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>Refunds Transactions</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	{{>dropdownHourlyActiviy_P}}
+	{{>dateRangePicker_P}}
+	{{>generalGoButton_P}}		
+	<div id='refundstable'></div>	
+	{{>backButton_P}}
+      </div>
     </script>
     
     
@@ -1672,14 +1692,16 @@
     </script> 
     
     <script id="menuReportsDiscountsReports_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Discounts Transactions</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      {{>dropdownHourlyActiviy_P}}
-      {{>dateRangePicker_P}}
-      {{>generalGoButton_P}}		
-      <div id='discountstable'></div>	
-      {{>backButton_P}}
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>Discounts Transactions</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	{{>dropdownHourlyActiviy_P}}
+	{{>dateRangePicker_P}}
+	{{>generalGoButton_P}}		
+	<div id='discountstable'></div>	
+	{{>backButton_P}}
+      </div>
     </script>
     
     
@@ -1839,58 +1861,64 @@
     </script>
     
     <script id="inventoryReports_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Inventory Sold Report</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      <div>
-	{{>groupDropdownbox_P}}
-	{{>dateRangePicker_P}}
-	{{>generalGoButton_P}}
-	{{>inventoryDropdownbox_P}}
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>Inventory Sold Report</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	<div>
+	  {{>groupDropdownbox_P}}
+	  {{>dateRangePicker_P}}
+	  {{>generalGoButton_P}}
+	  {{>inventoryDropdownbox_P}}
+	</div>
+	<div id='inventorymenutable' style="margin-bottom:30px;"></div>
+	<div id='inventoryscantable' style="margin-bottom:30px;"></div>
+	<div id='inventoryecrtable' style="margin-bottom:30px;"></div>
+	{{>backButton_P}}
       </div>
-      <div id='inventorymenutable' style="margin-bottom:30px;"></div>
-      <div id='inventoryscantable' style="margin-bottom:30px;"></div>
-      <div id='inventoryecrtable' style="margin-bottom:30px;"></div>
-      {{>backButton_P}}
     </script>
     
     
     <!------------------------------------------------ Menu Inventory ----------------------------------------->
     <script id="menuInventory_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Inventory</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      <div style="height:200px;">
-	<div class="report-menu"><a href='#menuReports/{{startPage}}Inventory'><img src="../images/reports/inventorysold.png" border="0" class="report-menu-icon"/>Inventory Sold Report</a></div>
-	<div class="report-menu"><a href='#menuInventory/{{startPage}}scanPriceChange'><img src="../images/reports/scanprice.png" border="0" class="report-menu-icon"/>SCAN Item Price Changes</a></div>
-	<div class="report-menu"><a href='#menuInventory/{{startPage}}scanTaxChange'><img src="../images/reports/scantax.png" border="0" class="report-menu-icon"/>SCAN Sales Tax Changes</a></div>
-	<div class="report-menu"><a href='#menuInventory/{{startPage}}addScanItem'><img src="../images/reports/scanaddnew.png" border="0" class="report-menu-icon"/>Add New Inventory SCAN Items</a></div>
-	<div class="report-menu"><a href='#menuInventory/{{startPage}}priceChangeLog'><img src="../images/reports/pricelog.png" border="0" class="report-menu-icon"/>Price Change Log</a></div>
-	<div class="report-menu"><a href='#menuInventory/{{startPage}}taxChangeLog'><img src="../images/reports/taxlog.png" border="0" class="report-menu-icon"/>Tax Change Log</a></div>
-	{{#showMenuPriceChange}}
-	<div class="report-menu"><a href='#menuInventory/{{startPage}}menuPriceChange'><img src="../images/reports/menupricechange.png" border="0" class="report-menu-icon"/>Menu Price Change</a></div>
-	{{/showMenuPriceChange}}
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>Inventory</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	<div style="height:200px;">
+	  <div class="report-menu"><a href='#menuReports/{{startPage}}Inventory'><img src="../images/reports/inventorysold.png" border="0" class="report-menu-icon"/>Inventory Sold Report</a></div>
+	  <div class="report-menu"><a href='#menuInventory/{{startPage}}scanPriceChange'><img src="../images/reports/scanprice.png" border="0" class="report-menu-icon"/>SCAN Item Price Changes</a></div>
+	  <div class="report-menu"><a href='#menuInventory/{{startPage}}scanTaxChange'><img src="../images/reports/scantax.png" border="0" class="report-menu-icon"/>SCAN Sales Tax Changes</a></div>
+	  <div class="report-menu"><a href='#menuInventory/{{startPage}}addScanItem'><img src="../images/reports/scanaddnew.png" border="0" class="report-menu-icon"/>Add New Inventory SCAN Items</a></div>
+	  <div class="report-menu"><a href='#menuInventory/{{startPage}}priceChangeLog'><img src="../images/reports/pricelog.png" border="0" class="report-menu-icon"/>Price Change Log</a></div>
+	  <div class="report-menu"><a href='#menuInventory/{{startPage}}taxChangeLog'><img src="../images/reports/taxlog.png" border="0" class="report-menu-icon"/>Tax Change Log</a></div>
+	  {{#showMenuPriceChange}}
+	  <div class="report-menu"><a href='#menuInventory/{{startPage}}menuPriceChange'><img src="../images/reports/menupricechange.png" border="0" class="report-menu-icon"/>Menu Price Change</a></div>
+	  {{/showMenuPriceChange}}
+	</div>
+	<div style="clear: both;"></div>
+	{{>backButton_P}}
       </div>
-      <div style="clear: both;"></div>
-      {{>backButton_P}}
     </script>
     
     <script id="menuInventorymenuPriceChange_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Menu Price Change</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      <div style='float:left;width:680px;'>
-	<div id='menusetmenuscenter'></div>
-	<div id='menusetmenusbottom'></div>
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>Menu Price Change</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	<div style='float:left;width:680px;'>
+	  <div id='menusetmenuscenter'></div>
+	  <div id='menusetmenusbottom'></div>
+	</div>
+	<div style='float:right;width:300px;'>
+	  <div id='menusetmenusleft'></div>
+	  <div id='menusetmenusright'></div>
+	</div>
+	<!--<div style='clear:both'></div>-->
+	{{>quickReportViewHook_P}}
+	<div style="clear: both;"></div>
+	{{>backButton_P}}
       </div>
-      <div style='float:right;width:300px;'>
-	<div id='menusetmenusleft'></div>
-	<div id='menusetmenusright'></div>
-      </div>
-      <!--<div style='clear:both'></div>-->
-      {{>quickReportViewHook_P}}
-      <div style="clear: both;"></div>
-      {{>backButton_P}}
     </script>
     
     <script id="menuInventoryApplyStoresQuickViewDialog_TMP" type="text/html">
@@ -1920,17 +1948,19 @@
     </script>
     
     <script id="menuInventoryScanItemPriceChanges_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>SCAN Item Price Changes</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      <div id='priceChangeTable'></div>	
-      {{>backButton_P}}
-      {{>quickReportViewHook_P}}
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>SCAN Item Price Changes</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	<div id='priceChangeTable'></div>	
+	{{>backButton_P}}
+	{{>quickReportViewHook_P}}
+      </div>
     </script>
     
     <script id="menuInventoryScanPricetable_TMP" type="text/html">
       <div style="margin-bottom:40px">
- 	<div>
+	<div>
 	  blank fields in the new price column will not be submitted
 	  <span  style="float:right;">
 	    {{#filter}}Current Filter = {{filter}}{{/filter}}
@@ -1972,11 +2002,13 @@
     
     
     <script id="menuInventoryScanPriceLog_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Price Change Log</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      <div id='changeLogTable'></div>	
-      {{>backButton_P}}
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>Price Change Log</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	<div id='changeLogTable'></div>	
+	{{>backButton_P}}
+      </div>
     </script>
     
     <script id="ScanLogtable_general_head_P" class="partial" type="text/html">
@@ -1997,7 +2029,7 @@
     </script>
     
     <script id="ScanPriceLogtable_general_body_P" class="partial" type="text/html">
-    	{{>ScanLogtable_general_body_P}}
+      {{>ScanLogtable_general_body_P}}
       <td align="right">{{price.selling_price}}</td>
     </script>
     
@@ -2057,17 +2089,19 @@
     </script>
     
     <script id="menuInventoryScanItemTaxChanges_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>SCAN Item Tax Changes</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      <div id='taxChangeTable'></div>	
-      {{>backButton_P}}
-      {{>quickReportViewHook_P}}
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>SCAN Item Tax Changes</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	<div id='taxChangeTable'></div>	
+	{{>backButton_P}}
+	{{>quickReportViewHook_P}}
+      </div>
     </script>
     
     <script id="menuInventoryScanTaxtable_TMP" type="text/html">
       <div style="margin-bottom:40px">
- 	<div>
+	<div>
 	  disabled row will not be submitted
 	  <span  style="float:right;">
 	    {{#filter}}Current Filter = {{filter}}{{/filter}}
@@ -2096,19 +2130,19 @@
 	      <td align="center">{{upccode}}</td>
 	      <td align="center">{{description}}</td>
 	      <td align="center">												
-	    	<input type="checkbox" style="border: 0" disabled="true" var="upc-{{upccode}}.apply_taxes.tax1" id="{{upccode}}-tax1" {{#apply_taxes.tax1}}checked=true{{/apply_taxes.tax1}} />
+		<input type="checkbox" style="border: 0" disabled="true" var="upc-{{upccode}}.apply_taxes.tax1" id="{{upccode}}-tax1" {{#apply_taxes.tax1}}checked=true{{/apply_taxes.tax1}} />
 	      </td>
 	      <td align="center">
-	    	<input type="checkbox" style="border: 0" disabled="true" var="upc-{{upccode}}.apply_taxes.tax2" id="{{upccode}}-tax2" {{#apply_taxes.tax2}}checked=true{{/apply_taxes.tax2}} />
+		<input type="checkbox" style="border: 0" disabled="true" var="upc-{{upccode}}.apply_taxes.tax2" id="{{upccode}}-tax2" {{#apply_taxes.tax2}}checked=true{{/apply_taxes.tax2}} />
 	      </td>
 	      <td align="center">
-	    	<input type="checkbox" style="border: 0" disabled="true" var="upc-{{upccode}}.apply_taxes.tax3" id="{{upccode}}-tax3" {{#apply_taxes.tax3}}checked=true{{/apply_taxes.tax3}} />
+		<input type="checkbox" style="border: 0" disabled="true" var="upc-{{upccode}}.apply_taxes.tax3" id="{{upccode}}-tax3" {{#apply_taxes.tax3}}checked=true{{/apply_taxes.tax3}} />
 	      </td>
 	      <td align="center">
-	    	<input type="checkbox" style="border: 0" disabled="true" var="upc-{{upccode}}.apply_taxes.exemption" id="{{upccode}}-exemption" {{#apply_taxes.exemption}}checked=true{{/apply_taxes.exemption}} />
+		<input type="checkbox" style="border: 0" disabled="true" var="upc-{{upccode}}.apply_taxes.exemption" id="{{upccode}}-exemption" {{#apply_taxes.exemption}}checked=true{{/apply_taxes.exemption}} />
 	      </td>
 	      <td align="center">
-			<button id="{{upccode}}">Enable</button>
+		<button id="{{upccode}}">Enable</button>
 	      </td>
 	    </tr>
 	    {{/list}}
@@ -2124,37 +2158,39 @@
     </script>
     
     <script id="menuInventoryScanTaxLog_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Tax Change Log</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      <div id='changeLogTable'></div>	
-      {{>backButton_P}}
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>Tax Change Log</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	<div id='changeLogTable'></div>	
+	{{>backButton_P}}
+      </div>
     </script>
     
     <script id="ScanTaxLogtable_general_head_P" class="partial" type="text/html">
       {{>ScanLogtable_general_head_P}}
       <th>Apply Tax1</th>
-	  <th>Apply Tax2</th>
-	  <th>Apply Tax3</th>
-	  <th>Apply Exemption</th>
+      <th>Apply Tax2</th>
+      <th>Apply Tax3</th>
+      <th>Apply Exemption</th>
     </script>
     
     <script id="ScanTaxLogtable_general_body_P" class="partial" type="text/html">
-    	{{>ScanLogtable_general_body_P}}
-    	{{#apply_taxes}}
-	      <td align="center">
-	    	<input type="checkbox" style="border: 0" disabled="true" var="apply_taxes.tax1" id="tax1" {{#tax1}}checked=true{{/tax1}} />
-	      </td>
-	      <td align="center">
-	    	<input type="checkbox" style="border: 0" disabled="true" var="apply_taxes.tax2" id="tax2" {{#tax2}}checked=true{{/tax2}} />
-	      </td>
-	      <td align="center">
-	    	<input type="checkbox" style="border: 0" disabled="true" var="apply_taxes.tax3" id="tax3" {{#tax3}}checked=true{{/tax3}} />
-	      </td>
-	      <td align="center">
-	    	<input type="checkbox" style="border: 0" disabled="true" var="apply_taxes.exemption" id="exemption" {{#exemption}}checked=true{{/exemption}} />
-	      </td>
-	      {{/apply_taxes}}
+      {{>ScanLogtable_general_body_P}}
+      {{#apply_taxes}}
+      <td align="center">
+	<input type="checkbox" style="border: 0" disabled="true" var="apply_taxes.tax1" id="tax1" {{#tax1}}checked=true{{/tax1}} />
+      </td>
+      <td align="center">
+	<input type="checkbox" style="border: 0" disabled="true" var="apply_taxes.tax2" id="tax2" {{#tax2}}checked=true{{/tax2}} />
+      </td>
+      <td align="center">
+	<input type="checkbox" style="border: 0" disabled="true" var="apply_taxes.tax3" id="tax3" {{#tax3}}checked=true{{/tax3}} />
+      </td>
+      <td align="center">
+	<input type="checkbox" style="border: 0" disabled="true" var="apply_taxes.exemption" id="exemption" {{#exemption}}checked=true{{/exemption}} />
+      </td>
+      {{/apply_taxes}}
     </script>
     
     <script id="menuInventoryScanTaxLogtable_TMP" type="text/html">
@@ -2184,7 +2220,7 @@
       <div id="detailsDialog"></div>
     </script>
 
-	<script id="menuInventoryScanTaxLogtable_store_TMP" type="text/html">
+    <script id="menuInventoryScanTaxLogtable_store_TMP" type="text/html">
       <div style="margin-bottom:30px">
 	<table class="reportstable">
 	  <thead>
@@ -2206,26 +2242,26 @@
       </div>
       <div id="detailsDialog"></div>
     </script>
-	
+    
     <script id="simpleList_TMP" type="text/html">
       <!--<ul>
-	{{#items}}
-	<li>
-	  {{label}}
-	</li>
-	{{/items}}
+	  {{#items}}
+	  <li>
+	    {{label}}
+	  </li>
+	  {{/items}}
       </ul>-->
       <table class="reportstable">
-      	<tr>
-      		<th align="center">Store Name</th>
-      		<th align="center">Store Number</th>
-      	</tr>
-      	{{#items}}
-      	<tr>
-      		<td align="center">{{storeName}}</td>
-      		<td align="center">{{storeNumber}}</td>
-      	</tr>
-      	{{/items}}
+	<tr>
+      	  <th align="center">Store Name</th>
+      	  <th align="center">Store Number</th>
+	</tr>
+	{{#items}}
+	<tr>
+      	  <td align="center">{{storeName}}</td>
+      	  <td align="center">{{storeNumber}}</td>
+	</tr>
+	{{/items}}
       </table>
     </script>
     
@@ -2401,30 +2437,32 @@
     </script>
     
     <script id="menuSetMenus_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Set Menus</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      <div style='float:left;width:680px;'>
-	<div id='menusetmenuscenter'></div>
-	<div id='menusetmenusbottom'></div>
-	<div style='float:left;width:170px;'><button id="menueditheader1" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	    <span id="menueditheader1" class="ui-button-text">Edit Menu 1 Header</span>
-	</button></div>
-	<div style='float:left;width:170px;'><button id="menueditheader2" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	    <span class="ui-button-text">Edit Menu 2 Header</span>
-	</button></div>
-	<div style='float:left;width:170px;'><button id="menueditheader3" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	    <span class="ui-button-text">Edit Menu 3 Header</span>
-	</button></div>
-	<div style='float:left;width:170px;'><button id="menueditheader4" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
-	    <span class="ui-button-text">Edit Menu 4 Header</span>
-	</button></div>
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>Set Menus</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	<div style='float:left;width:680px;'>
+	  <div id='menusetmenuscenter'></div>
+	  <div id='menusetmenusbottom'></div>
+	  <div style='float:left;width:170px;'><button id="menueditheader1" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
+	      <span id="menueditheader1" class="ui-button-text">Edit Menu 1 Header</span>
+	  </button></div>
+	  <div style='float:left;width:170px;'><button id="menueditheader2" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
+	      <span class="ui-button-text">Edit Menu 2 Header</span>
+	  </button></div>
+	  <div style='float:left;width:170px;'><button id="menueditheader3" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
+	      <span class="ui-button-text">Edit Menu 3 Header</span>
+	  </button></div>
+	  <div style='float:left;width:170px;'><button id="menueditheader4" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
+	      <span class="ui-button-text">Edit Menu 4 Header</span>
+	  </button></div>
+	</div>
+	<div style='float:right;width:300px;'>
+	  <div id='menusetmenusleft'></div>
+	  <div id='menusetmenusright'></div>
+	</div>
+	<div style='clear:both'></div>
       </div>
-      <div style='float:right;width:300px;'>
-	<div id='menusetmenusleft'></div>
-	<div id='menusetmenusright'></div>
-      </div>
-      <div style='clear:both'></div>
     </script>
     
     
@@ -2484,161 +2522,177 @@
       <center>
 	<span style="color:#4ac3c8; font-weight:bold;">Contact | About | Partners</span>
 	<br/>
-	<img src="../images/v1login.png" style="padding-top:20px;padding-bottom:20px;"/>
+	<img src="../images/v1login.png" alt="" border="0" usemap="#Map" style="padding-top:20px;padding-bottom:20px;"/>
+	<map name="Map" id="Map">
+	  <area shape="rect" coords="12,52,130,99" href="http://www.ivaleo.net/to.asp" target="_blank" alt="Toronto" />
+	  <area shape="rect" coords="138,51,257,104" href="http://www.ivaleo.net/ny.asp" target="_blank" alt="NYC" />
+	</map>    
       </center>
     </script>
 
     <!------------------------------------  company management page TMP ------------------------------->
     <script id="companyManagementPage_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <!--{{>logoutButton_P}}-->
-      <h1>Company Management</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      {{>salesFields_P}}
-      {{>numberOfGroupsFields_P}}
-      {{>numberOfStoresFields_P}}
-      {{>numberOfTerminalsFields_P}}
-      <div style="clear:both;"></div>
-      {{>quickReportViewHook_P}}
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<!--{{>logoutButton_P}}-->
+	<h1>Company Management</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	{{>salesFields_P}}
+	{{>numberOfGroupsFields_P}}
+	{{>numberOfStoresFields_P}}
+	{{>numberOfTerminalsFields_P}}
+	<div style="clear:both;"></div>
+	{{>quickReportViewHook_P}}
+      </div>
     </script>
 
 
     <!------------------------------------  group management page TMP ------------------------------->
     <script id="groupManagementPage_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Group Management</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      {{>salesFields_P}}
-      {{>numberOfStoresFields_P}}
-      {{>numberOfTerminalsFields_P}}
-      <div style="clear:both;"></div>
-      {{>quickReportViewHook_P}}
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>Group Management</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	{{>salesFields_P}}
+	{{>numberOfStoresFields_P}}
+	{{>numberOfTerminalsFields_P}}
+	<div style="clear:both;"></div>
+	{{>quickReportViewHook_P}}
+      </div>
     </script>
 
     <!------------------------------------  store management page TMP ------------------------------->
     <script id="storeManagementPage_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Store Management</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      {{>salesFields_P}}
-      {{>numberOfTerminalsFields_P}}
-      <div style="clear:both;"></div>
-      {{>quickReportViewHook_P}}
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>Store Management</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	{{>salesFields_P}}
+	{{>numberOfTerminalsFields_P}}
+	<div style="clear:both;"></div>
+	{{>quickReportViewHook_P}}
+      </div>
     </script>
 
     <!------------------------------------- groups table TMP -------------------------------------------->
     <script id="groupstable_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Groups Table</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      <table class="reportstable">
-	<thead>
-	  <tr>
-	    <th>Company Name</th>
-	    <th>Group Name</th>
-	    <th># of Stores</th>
-	    <th># of Terminals</th>
-	    <th>Yesterday Sales</th>
-	    <th>MTD Sales</th>
-	    <th>YTD Sales</th>
-	    <th>Details</th>
-	  </tr>
-	</thead>
-	<tbody>
-	  {{#list}}
-	  <tr>
-	    <td>{{companyName}}</td>
-	    <td><a href="#{{startPage}}/group/{{group_id}}/stores">{{groupName}}</a></td>
-	    <td>{{numberOfStores}}</td>
-	    <td>{{numberOfTerminals}}</td>
-	    <td align="right">{{yesterdaysales}}</td>
-	    <td align="right">{{mtdsales}}</td>
-	    <td align="right">{{ytdsales}}</td>
-	    <td>{{>quickReportViewButton_P}}</td>
-	  </tr>
-	  {{/list}}
-	</tbody>
-      </table>
-      {{>quickReportViewHook_P}}
-      {{>backButton_P}}
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>Groups Table</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	<table class="reportstable">
+	  <thead>
+	    <tr>
+	      <th>Company Name</th>
+	      <th>Group Name</th>
+	      <th># of Stores</th>
+	      <th># of Terminals</th>
+	      <th>Yesterday Sales</th>
+	      <th>MTD Sales</th>
+	      <th>YTD Sales</th>
+	      <th>Details</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    {{#list}}
+	    <tr>
+	      <td>{{companyName}}</td>
+	      <td><a href="#{{startPage}}/group/{{group_id}}/stores">{{groupName}}</a></td>
+	      <td>{{numberOfStores}}</td>
+	      <td>{{numberOfTerminals}}</td>
+	      <td align="right">{{yesterdaysales}}</td>
+	      <td align="right">{{mtdsales}}</td>
+	      <td align="right">{{ytdsales}}</td>
+	      <td>{{>quickReportViewButton_P}}</td>
+	    </tr>
+	    {{/list}}
+	  </tbody>
+	</table>
+	{{>quickReportViewHook_P}}
+	{{>backButton_P}}
+      </div>
     </script>
 
     <!------------------------------------- stores table TMP -------------------------------------------->
     <script id="storestable_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Stores Table</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      <table class="reportstable">
-	<thead>
-	  <tr>
-	    <th>Company Name</th>
-	    <th>Group Name</th>
-	    <th>Store Name</th>
-	    <th>Store Number</th>
-	    <th># of Terminals</th>
-	    <th>Yesterday Sales</th>
-	    <th>MTD Sales</th>
-	    <th>YTD Sales</th>
-	    <th>Details</th>
-	  </tr>
-	</thead>
-	<tbody>
-	  {{#list}}
-	  <tr>
-	    <td>{{companyName}}</td>
-	    <td>{{groupName}}</td>
-	    <td><a href="#{{startPage}}/store/{{store_id}}/terminals">{{storeName}}</a></td>
-	    <td>{{storeNumber}}</td>
-	    <td>{{numberOfTerminals}}</td>
-	    <td align="right">{{yesterdaysales}}</td>
-	    <td align="right">{{mtdsales}}</td>
-	    <td align="right">{{ytdsales}}</td>
-	    <td>{{>quickReportViewButton_P}}</td>
-	  </tr>
-	  {{/list}}
-	</tbody>
-      </table>
-      {{>quickReportViewHook_P}}
-      {{>backButton_P}}
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>Stores Table</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	<table class="reportstable">
+	  <thead>
+	    <tr>
+	      <th>Company Name</th>
+	      <th>Group Name</th>
+	      <th>Store Name</th>
+	      <th>Store Number</th>
+	      <th># of Terminals</th>
+	      <th>Yesterday Sales</th>
+	      <th>MTD Sales</th>
+	      <th>YTD Sales</th>
+	      <th>Details</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    {{#list}}
+	    <tr>
+	      <td>{{companyName}}</td>
+	      <td>{{groupName}}</td>
+	      <td><a href="#{{startPage}}/store/{{store_id}}/terminals">{{storeName}}</a></td>
+	      <td>{{storeNumber}}</td>
+	      <td>{{numberOfTerminals}}</td>
+	      <td align="right">{{yesterdaysales}}</td>
+	      <td align="right">{{mtdsales}}</td>
+	      <td align="right">{{ytdsales}}</td>
+	      <td>{{>quickReportViewButton_P}}</td>
+	    </tr>
+	    {{/list}}
+	  </tbody>
+	</table>
+	{{>quickReportViewHook_P}}
+	{{>backButton_P}}
+      </div>
     </script> 
 
     <!------------------------------------- terminals table TMP -------------------------------------------->
     <script id="terminalstable_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Terminals Table</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      <table class="reportstable">
-	<thead>
-	  <tr>
-	    <th>Company Name</th>
-	    <th>Group Name</th>
-	    <th>Store Name</th>
-	    <th>Store Number</th>
-	    <th>Terminal Number</th>
-	    <th>Yesterday Sales</th>
-	    <th>MTD Sales</th>
-	    <th>YTD Sales</th>
-	    <th>Details</th>
-	  </tr>
-	</thead>
-	<tbody>
-	  {{#list}}
-	  <tr>
-	    <td>{{companyName}}</td>
-	    <td>{{groupName}}</td>
-	    <td>{{storeName}}</td>
-	    <td>{{storeNumber}}</td>
-	    <td>{{terminalName}}</td>
-	    <td align="right">{{yesterdaysales}}</td>
-	    <td align="right">{{mtdsales}}</td>
-	    <td align="right">{{ytdsales}}</td>
-	    <td>{{>quickReportViewButton_P}}</td>
-	  </tr>
-	  {{/list}}
-	</tbody>
-      </table>
-      {{>quickReportViewHook_P}}
-      {{>backButton_P}}
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>Terminals Table</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	<table class="reportstable">
+	  <thead>
+	    <tr>
+	      <th>Company Name</th>
+	      <th>Group Name</th>
+	      <th>Store Name</th>
+	      <th>Store Number</th>
+	      <th>Terminal Number</th>
+	      <th>Yesterday Sales</th>
+	      <th>MTD Sales</th>
+	      <th>YTD Sales</th>
+	      <th>Details</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    {{#list}}
+	    <tr>
+	      <td>{{companyName}}</td>
+	      <td>{{groupName}}</td>
+	      <td>{{storeName}}</td>
+	      <td>{{storeNumber}}</td>
+	      <td>{{terminalName}}</td>
+	      <td align="right">{{yesterdaysales}}</td>
+	      <td align="right">{{mtdsales}}</td>
+	      <td align="right">{{ytdsales}}</td>
+	      <td>{{>quickReportViewButton_P}}</td>
+	    </tr>
+	    {{/list}}
+	  </tbody>
+	</table>
+	{{>quickReportViewHook_P}}
+	{{>backButton_P}}
+      </div>
     </script>
 
     <!-------------------------------------------------ADD INVENTORY --------------------------------------------------------->
@@ -2683,18 +2737,19 @@
     </script>
 
     <script id="inventoryManagementHome_TMP" type="text/html">
-      {{>main_navigation_buttons_P}}
-      <h1>Add a Scan Inventory Item</h1>
-      <h2>{{>breadcrumb_P}}</h2>
-      {{>upcInput_P}}
-      <div id="item_display"></div>
-      {{>backButton_P}}
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>Add a Scan Inventory Item</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	{{>upcInput_P}}
+	<div id="item_display"></div>
+	{{>backButton_P}}
+      </div>
     </script>
 
   </head>
 
   <body>
-    
     
     <div id="main"></div>
     <div id="timespace" style="width:1000px;margin:0 auto; color:#666;text-align:center;">
