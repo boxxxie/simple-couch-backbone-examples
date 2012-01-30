@@ -7,10 +7,16 @@ function extractStores(obj){
 		   }
 		   return o;
 	       });
+	
+	if(_.isEmpty(stores) && obj.store) {
+		stores = [obj.store];
+	}
+	
     return _.map(stores,function(store){
 		     return {type:'store',
 			     id:store.store_id,
 			     name:store.storeName,
-			     number:store.number};
+			     number:store.number,
+			     label : store.number + " : " + store.storeName};
 		 });
 };

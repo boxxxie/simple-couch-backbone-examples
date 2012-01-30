@@ -209,10 +209,7 @@ var menuInventoryscanTaxChangeView =
 	     $(view.el).html(html);
 
 	     var storeData = {id:ReportData.store.store_id, type:"store", label:(ReportData.store.number+":"+ReportData.store.storeName)};
-	     var storeIDs = [{type:'store',
-					     id:ReportData.store.store_id,
-					     name:ReportData.store.storeName,
-					     number:ReportData.store.number}];
+	     var storeIDs = extractStores(ReportData);
 
 	     currentInventoryFor(storeData.id)
 	     (function(err,inventory){

@@ -98,7 +98,7 @@ var menuInventoryscanPriceChangeView =
 			      html,
 			      {title:"Apply changes to stores", 
 			       stores:storeIDs,
-			       makeButtons:inv_helpers.saveNewInvItems(newInvList,companyData,storeIDs)
+			       makeButtons:inv_helpers.saveNewInvItems(newInvList,[companyData],storeIDs)
 			       (function(){view.renderMenuInventoryCompanyscanPriceChange(searchQuery);})});
 		      });
 	      });
@@ -113,6 +113,7 @@ var menuInventoryscanPriceChangeView =
 	     							    autoBreadCrumb()));
 	     $(view.el).html(html);
 
+		 var companyData = {id:ReportData.company_id, type:"company", label:ReportData.companyName};
 	     var groupData = {id:ReportData.group.group_id, type:"group", label:ReportData.group.groupName};
 	     var storeIDs = extractStores(ReportData);
 
@@ -155,7 +156,7 @@ var menuInventoryscanPriceChangeView =
 			      html,
 			      {title:"Apply changes to stores", 
 			       stores:storeIDs,
-			       makeButtons:inv_helpers.saveNewInvItems(newInvList,groupData,storeIDs)
+			       makeButtons:inv_helpers.saveNewInvItems(newInvList,[companyData,groupData],storeIDs)
 			       (function(){view.renderMenuInventoryGroupscanPriceChange(searchQuery);})});
 		      });
 	      });
@@ -170,11 +171,10 @@ var menuInventoryscanPriceChangeView =
 	     							    autoBreadCrumb()));
 	     $(view.el).html(html);
 
+	     var companyData = {id:ReportData.company_id, type:"company", label:ReportData.companyName};
+	     var groupData = {id:ReportData.group_id, type:"group", label:ReportData.groupName};
 	     var storeData = {id:ReportData.store.store_id, type:"store", label:(ReportData.store.number+":"+ReportData.store.storeName)};
-	     var storeIDs = [{type:'store',
-					     id:ReportData.store.store_id,
-					     name:ReportData.store.storeName,
-					     number:ReportData.store.number}];
+	     var storeIDs = extractStores(ReportData);
 
 	     currentInventoryFor(storeData.id)
 	     (function(err,inventory){
@@ -210,7 +210,7 @@ var menuInventoryscanPriceChangeView =
 			      .value();
 			  if(_.isEmpty(newInvList)){alert("there were no changes made");return;}
 
-			  inv_helpers.saveNewInvItems(newInvList,storeData,storeIDs)
+			  inv_helpers.saveNewInvItems(newInvList,[companyData,groupData,storeData],storeIDs)
   		       (function(){view.renderMenuInventoryStorescanPriceChange(searchQuery);})(storeIDs);
 		      });
 	      });

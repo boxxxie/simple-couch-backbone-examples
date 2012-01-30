@@ -109,11 +109,23 @@ _.mixin({renameKeys:function (toEdit,fieldMap){
 	 },
 	 renameKeys_F:function (fieldMap){
 	     return function(toEdit){
-		 return _.renameKeys(toEdit,fieldMap);
+		 function transformArrayIntoFieldMap(arr){
+		     return _.chain(arr).flatten().partition(2).toObject().value();
+		 }
+		 if(_.isArray(fieldMap)){
+		     var fMap = transformArrayIntoFieldMap(fieldMap);
+		 }
+		 else if (_.isObject(fieldMap)){
+		     var fMap = fieldMap;
+		 }
+		 else{
+		     var fMap = transformArrayIntoFieldMap(_.rest(arguments));
+		 }
+		 return _.renameKeys(toEdit,fMap);
 	     };
 	 },
-	 mapRenameKeys:function (list,fieldMap){
-	     return _.map(list,_.renameKeys_F(fieldMap));    
+	 mapRenameKeys:function (list){
+	     return _.map(list,_.renameKeys_F(_.rest(arguments)));    
 	 }
 });
 
