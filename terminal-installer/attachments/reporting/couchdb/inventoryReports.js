@@ -10,7 +10,7 @@ function inventoryChangeLog(id){
     var query = _async.generalKeyQuery(view,db)(id);
     return function(callback){
 	query(function(err,response){
-		  var inventoryChangeLog = _(response.rows).pluck('doc').map(function(item){return _.extend({},item.inventory, {locations:item.ids},{_id:item._id});});
+		  var inventoryChangeLog = _.chain(response.rows).pluck('doc').map(function(item){return _.extend({},item.inventory, {locations:item.ids},{_id:item._id});}).value();
 		  callback(err,inventoryChangeLog);
 	      });
     };

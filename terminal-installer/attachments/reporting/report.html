@@ -2641,6 +2641,56 @@
       {{>backButton_P}}
     </script>
 
+    <!-------------------------------------------------ADD INVENTORY --------------------------------------------------------->
+    <script id="inventoryForm_P" class="partial" type="text/html">
+      <form id="inv_form">
+	<label>Description</label>
+	<input type="text" var="description" value="{{description}}" class="{{>commonClasses_P}}" />
+	<dl>
+	  <dt>Apply Taxes</dt>
+	  <dd>
+	    <label>Tax 1</label>
+	    <input type="checkbox" var="apply_taxes.tax1" {{#apply_taxes.tax1}}checked=true{{/apply_taxes.tax1}} class="{{>commonClasses_P}}" />
+	    <label>Tax 2</label>
+	    <input type="checkbox" var="apply_taxes.tax2" {{#apply_taxes.tax2}}checked=true{{/apply_taxes.tax2}} class="{{>commonClasses_P}}" />
+	    <label>Tax 3</label>
+	    <input type="checkbox" var="apply_taxes.tax3" {{#apply_taxes.tax3}}checked=true{{/apply_taxes.tax3}} class="{{>commonClasses_P}}" />
+	    <label>Exemption</label>
+	    <input type="checkbox" var="apply_taxes.exemption" {{#apply_taxes.exemption}}checked=true{{/apply_taxes.exemption}} class="{{>commonClasses_P}}" />
+	  </dd>
+	</dl>
+	<dl>
+	  <dt>Price</dt>
+	  <dd>
+	    <label>Selling Price</label>
+	    <input type="text" var="price.selling_price" value="{{price.selling_price}}" class="{{>commonClasses_P}}" />
+	    <label>Standard price</label>
+	    <input type="text" var="price.standard_price" value="{{price.standard_price}}" class="{{>commonClasses_P}}" />
+	  </dd>
+	</dl>
+      </form>
+      <button id="addItemToCompany">Add To Company</button>
+    </script>
+
+    <script id="inventoryForm_TMP" type="text/html">
+      {{>inventoryForm_P}}
+    </script>
+
+    <script id="upcInput_P" class="partial" type="text/html">
+      <label>UPC-code: (enter a upc code to inspect or add an inventory item)</label>
+      <input id="upc" type="text" value="{{_id}}" />
+      <button id="search">search</button>
+    </script>
+
+    <script id="inventoryManagementHome_TMP" type="text/html">
+      {{>main_navigation_buttons_P}}
+      <h1>Add a Scan Inventory Item</h1>
+      <h2>{{>breadcrumb_P}}</h2>
+      {{>upcInput_P}}
+      <div id="item_display"></div>
+      {{>backButton_P}}
+    </script>
+
   </head>
 
   <body>
