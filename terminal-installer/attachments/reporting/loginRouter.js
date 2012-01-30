@@ -69,11 +69,11 @@ function login() {
 			      success:function(data){
 				  if(_.isNotEmpty(account.loginTo.store)) {
 				  	  
-				      ReportData = {store:data, companyName:account.loginTo.companyName, groupName:account.loginTo.groupName};
+				      ReportData = {store:data, companyName:account.loginTo.companyName, company_id:account.loginTo.company, groupName:account.loginTo.groupName, group_id:account.loginTo.group};
 				      window.location.href = "#storeReport/";
 				  }
 				  else if(_.isNotEmpty(account.loginTo.group)) {
-				      ReportData = {group:data, companyName:account.loginTo.companyName};
+				      ReportData = {group:data, companyName:account.loginTo.companyName, company_id:account.loginTo.company};
 				      window.location.href = "#groupReport/";
 				  } 
 				  else if(_.isNotEmpty(account.loginTo.company)) {
