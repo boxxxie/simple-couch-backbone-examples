@@ -102,6 +102,7 @@ var menuInventoryscanTaxChangeView =
 				      var upc = strUPC.replace("upc-","");
 				      var invItem = _.find(filteredInv,function(val,key){return upc==val.upccode;});
 				      invItem.apply_taxes = item.apply_taxes;
+				      invItem.price = null;
 				      return invItem;
 				  })
 			      .filter(function(item){
@@ -178,6 +179,7 @@ var menuInventoryscanTaxChangeView =
 				      var upc = strUPC.replace("upc-","");
 				      var invItem = _.find(filteredInv,function(val,key){return upc==val.upccode;});
 				      invItem.apply_taxes = item.apply_taxes;
+				      invItem.price = null;
 				      return invItem;
 				  })
 			      .filter(function(item){
@@ -254,6 +256,7 @@ var menuInventoryscanTaxChangeView =
 				      var upc = strUPC.replace("upc-","");
 				      var invItem = _.find(filteredInv,function(val,key){return upc==val.upccode;});
 				      invItem.apply_taxes = item.apply_taxes;
+				      invItem.price = null;
 				      return invItem;
 				  })
 			      .filter(function(item){
