@@ -87,8 +87,9 @@ var menuInventoryscanPriceChangeView =
 			      map(function(price,strUPC){
 				      var upc = strUPC.replace("upc-","");
 				      var invItem = _.find(filteredInv,function(val,key){return upc==val.upccode;});
-				      invItem.price.selling_price = Number(price);
-				      invItem.apply_taxes = null;
+				      var invItemReturn = _.selectKeys(invItem,"price","date","description","locid","upccode");
+                      invItemReturn.price.selling_price = Number(price);
+                      return invItemReturn;
 				      return invItem;
 				  })
 			      .value();
@@ -146,8 +147,9 @@ var menuInventoryscanPriceChangeView =
 			      map(function(price,strUPC){
 				      var upc = strUPC.replace("upc-","");
 				      var invItem = _.find(filteredInv,function(val,key){return upc==val.upccode;});
-				      invItem.price.selling_price = Number(price);
-				      invItem.apply_taxes = null;
+				      var invItemReturn = _.selectKeys(invItem,"price","date","description","locid","upccode");
+                      invItemReturn.price.selling_price = Number(price);
+                      return invItemReturn;
 				      return invItem;
 				  })
 			      .value();
@@ -206,9 +208,10 @@ var menuInventoryscanPriceChangeView =
 			      map(function(price,strUPC){
 				      var upc = strUPC.replace("upc-","");
 				      var invItem = _.find(filteredInv,function(val,key){return upc==val.upccode;});
-				      invItem.price.selling_price = Number(price);
-				      invItem.apply_taxes = null;
-				      return invItem;
+				      
+				      var invItemReturn = _.selectKeys(invItem,"price","date","description","locid","upccode");
+				      invItemReturn.price.selling_price = Number(price);
+				      return invItemReturn;
 				  })
 			      .value();
 			  if(_.isEmpty(newInvList)){alert("there were no changes made");return;}

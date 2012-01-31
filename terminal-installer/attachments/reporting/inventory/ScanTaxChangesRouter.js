@@ -101,9 +101,9 @@ var menuInventoryscanTaxChangeView =
 			      map(function(item,strUPC){
 				      var upc = strUPC.replace("upc-","");
 				      var invItem = _.find(filteredInv,function(val,key){return upc==val.upccode;});
-				      invItem.apply_taxes = item.apply_taxes;
-				      invItem.price = null;
-				      return invItem;
+				      var invItemReturn = _.selectKeys(invItem,"apply_taxes","date","description","locid","upccode");
+                      invItemReturn.apply_taxes = item.apply_taxes;
+                      return invItemReturn;
 				  })
 			      .filter(function(item){
 				  	  return $("#"+item.upccode).html() == "Disable";
@@ -178,9 +178,9 @@ var menuInventoryscanTaxChangeView =
 			      map(function(item,strUPC){
 				      var upc = strUPC.replace("upc-","");
 				      var invItem = _.find(filteredInv,function(val,key){return upc==val.upccode;});
-				      invItem.apply_taxes = item.apply_taxes;
-				      invItem.price = null;
-				      return invItem;
+				      var invItemReturn = _.selectKeys(invItem,"apply_taxes","date","description","locid","upccode");
+                      invItemReturn.apply_taxes = item.apply_taxes;
+                      return invItemReturn;
 				  })
 			      .filter(function(item){
 				  	  return $("#"+item.upccode).html() == "Disable";
@@ -255,9 +255,9 @@ var menuInventoryscanTaxChangeView =
 			      map(function(item,strUPC){
 				      var upc = strUPC.replace("upc-","");
 				      var invItem = _.find(filteredInv,function(val,key){return upc==val.upccode;});
-				      invItem.apply_taxes = item.apply_taxes;
-				      invItem.price = null;
-				      return invItem;
+				      var invItemReturn = _.selectKeys(invItem,"apply_taxes","date","description","locid","upccode");
+                      invItemReturn.apply_taxes = item.apply_taxes;
+                      return invItemReturn;
 				  })
 			      .filter(function(item){
 				  	  return $("#"+item.upccode).html() == "Disable";

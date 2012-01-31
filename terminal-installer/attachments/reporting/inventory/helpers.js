@@ -44,13 +44,11 @@ var inv_helpers =
 			       (startPageStr.indexOf("store")<0)?"menuInventoryScanPriceLogtable_TMP":"menuInventoryScanPriceLogtable_store_TMP",
 			       inventoryPriceChangeLog);
      },
-     //saveNewInvItems:function(newItemList,company_id,allStore_ids){
      saveNewInvItems:function(newItemList,origins,allStore_ids){
 	 function pushItemForIDs(runAfter){
 	     return function(idsToSave){
 		 return function(inv_doc){
-		     var generalInvItemData = _.extend(_.removeKeys(inv_doc,['_id','_rev']),
-						       {date: (new Date()).toString()}); 
+		     var generalInvItemData = _.extend({},inv_doc,{date: (new Date()).toString()}); 
 		     var itemsToSave = _.chain(idsToSave)
 			 .concat(origins)
 			 .mapRenameKeys("id","location_id")
@@ -78,7 +76,6 @@ var inv_helpers =
 						     return newInv;
 						 });
 
-		     //TODO : generalInvItemData doesn't have locid, is it ok?!
 		     var newInvChange = new InventoryChangesDoc({inventory : generalInvItemData,
 								 ids : itemsToSave});
 
