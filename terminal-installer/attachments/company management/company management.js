@@ -203,12 +203,12 @@ function quickView(template,companyID,groupID,storeID,terminalID){
 
 function doc_setup(){
     var ts = $("#timespace");
-	  $(document).everyTime("1s", function(){
-	  var date = new Date();
-	  ts.empty();
-	  ts.append(date.toLocaleDateString() + " / " + date.toLocaleTimeString());
-	  }, 0);
-      
+    $(document).everyTime("1s", function(){
+			      var date = new Date();
+			      ts.empty();
+			      ts.append(date.toLocaleDateString() + " / " + date.toLocaleTimeString());
+			  }, 0);
+    
     var companiesView;
     var companiesViewTest;
     var groupsView;
@@ -238,29 +238,29 @@ function doc_setup(){
 	return {companyName:companyName,groupName:groupName,storeName:storeName,storeNumber:storeNumber,terminalName:terminalName};
     }
 
-function smartBreadCrumb(ReportData){
-    if(ReportData.store){
-	return {breadCrumb:breadCrumb(ReportData.companyName, 
-	     			      ReportData.groupName,
-	     			      ReportData.store.storeName,
-	     			      ReportData.store.number)};
-    }
-    else if(ReportData.group){
-	return {breadCrumb:breadCrumb(ReportData.companyName, 
-				      ReportData.group.groupName)};
-    }
-    else if(ReportData.company){
-	return {breadCrumb:breadCrumb(ReportData.company.companyName)};
-    }
-    else{
-	return {};
+    function smartBreadCrumb(ReportData){
+	if(ReportData.store){
+	    return {breadCrumb:breadCrumb(ReportData.companyName, 
+	     				  ReportData.groupName,
+	     				  ReportData.store.storeName,
+	     				  ReportData.store.number)};
+	}
+	else if(ReportData.group){
+	    return {breadCrumb:breadCrumb(ReportData.companyName, 
+					  ReportData.group.groupName)};
+	}
+	else if(ReportData.company){
+	    return {breadCrumb:breadCrumb(ReportData.company.companyName)};
+	}
+	else{
+	    return {};
+	}
+
     }
 
-}
-
-function autoBreadCrumb(){
+    function autoBreadCrumb(){
 	return smartBreadCrumb(ReportData);
-}
+    }
 
     Companies = 
 	new (couchCollection(
@@ -409,53 +409,53 @@ function autoBreadCrumb(){
 	     var company = Companies.getModelById(id);
 	     var companyJSON = company.toJSON();
 	     var html = ich.modify_company_page_TMP(_.extend({company:companyJSON,
-								   company_id:id},
-								  breadCrumb(id)));
+							      company_id:id},
+							     breadCrumb(id)));
 	     $("#main").html(html);
 	     $('#form').find('input').attr("disabled",true);
 	     $("#dialog-hook").html(ich.companyInputDialog_TMP({title:"Edit the Company",
 								company:companyJSON}));
-		
-		$("#btnModifyRewards").click(function(){
-			console.log("rewards!!");
-			function saveRewardsProgram() {
-				return function(mobqreditsconversion, qriketconversion) {
-					var rewardsJson = rewardsModel.toJSON();
-					var rewardsdown = $("#rewardsdown");
-					var opt = rewardsdown.val();
-					
-					if(opt=="none") {
-						rewardsJson.use_mobqredits = false;
-						rewardsJson.use_qriket = false;
-					} else if(opt=="mobqredits") {
-						rewardsJson.use_mobqredits = true;
-						rewardsJson.use_qriket = false;
-					} else {
-						rewardsJson.use_mobqredits = false;
-						rewardsJson.use_qriket = true;
-					}
-					
-					rewardsModel.save({use_mobqredits:rewardsJson.use_mobqredits,
-													mobqredits_conversion:mobqreditsconversion,
-													use_qriket:rewardsJson.use_qriket,
-													qriket_conversion:qriketconversion});
-				}	
-			};
-			
-			fetch_company_rewards(companyJSON._id)
-		     (function(err,rewards){
-	    	      console.log(rewards);
-	    	      rewardsModel = rewards;
-	    	      var rewardsJson = rewardsModel.toJSON();
-	    	      
-	    	      var html = ich.companyModifyRewardsDialog_TMP({MobQredits:rewardsJson});
-	    	      
-				companyModifyRewardsViewDialog(html,{title:"Modify Rewards Program",
-													saveRewardsProgram:saveRewardsProgram(),
-													MobQredits:rewardsJson});
-		      });
-		});
-		
+	     
+	     $("#btnModifyRewards").click(function(){
+					      console.log("rewards!!");
+					      function saveRewardsProgram() {
+						  return function(mobqreditsconversion, qriketconversion) {
+						      var rewardsJson = rewardsModel.toJSON();
+						      var rewardsdown = $("#rewardsdown");
+						      var opt = rewardsdown.val();
+						      
+						      if(opt=="none") {
+							  rewardsJson.use_mobqredits = false;
+							  rewardsJson.use_qriket = false;
+						      } else if(opt=="mobqredits") {
+							  rewardsJson.use_mobqredits = true;
+							  rewardsJson.use_qriket = false;
+						      } else {
+							  rewardsJson.use_mobqredits = false;
+							  rewardsJson.use_qriket = true;
+						      }
+						      
+						      rewardsModel.save({use_mobqredits:rewardsJson.use_mobqredits,
+									 mobqredits_conversion:mobqreditsconversion,
+									 use_qriket:rewardsJson.use_qriket,
+									 qriket_conversion:qriketconversion});
+						  }	
+					      };
+					      
+					      fetch_company_rewards(companyJSON._id)
+					      (function(err,rewards){
+	    					   console.log(rewards);
+	    					   rewardsModel = rewards;
+	    					   var rewardsJson = rewardsModel.toJSON();
+	    					   
+	    					   var html = ich.companyModifyRewardsDialog_TMP({MobQredits:rewardsJson});
+	    					   
+						   companyModifyRewardsViewDialog(html,{title:"Modify Rewards Program",
+											saveRewardsProgram:saveRewardsProgram(),
+											MobQredits:rewardsJson});
+					       });
+					  });
+	     
 	     CompanyModifyDialog("edit-thing",editCompany(company));
 	     console.log("companiesView renderModifyPage " + id);
 	     return this;
@@ -566,7 +566,7 @@ function autoBreadCrumb(){
 	     console.log("renderManagementPage store rendered");
 	 },
 	 renderModifyPage:function(companyID,groupID,storeID){
-	 	//var view = this;
+	     //var view = this;
 	     var company = Companies.getModelById(companyID);
 	     var group = company.getGroup(groupID);
 	     var storeToEdit = company.getStore(groupID,storeID);

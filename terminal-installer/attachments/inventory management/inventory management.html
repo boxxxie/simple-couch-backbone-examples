@@ -45,18 +45,18 @@
 	<span class="ui-button-text">Back</span>
       </button>
     </script>
-  
+    
     <script id="menuButton_P" class="partial" type="text/html">
       <button  class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
 	       onClick="javascript:window.location.href ='../mainMenus.html';">
 	<span class="ui-button-text">Menus</span>
       </button>
     </script>
-  
+    
     <script id="createButton_P" class="partial" type="text/html">
       <button id="create-thing">{{createButtonLabel}}</button>
     </script>
-  
+    
     <script id="editButton_P" class="partial" type="text/html">
       <button id="edit-thing">
 	Edit
@@ -72,48 +72,48 @@
       </form>
     </script>
     <script id="inventoryForm_user_P" class="partial" type="text/html">
-	<form>
-	  <input type="hidden" var="_id" value="{{_id}}" class="{{>commonClasses_P}}" />
-	  {{#location}}
-	  <dl>
-	    <dt>Location</dt>
-	    <dd>
-	      <label>Company</label>
-	      <input type="text" var="location.company" value="{{company}}" class="{{>commonClasses_P}}" />
-	      <label>Group</label>
-	      <input type="text" var="location.group" value="{{group}}" class="{{>commonClasses_P}}" />
-	      <label>Store</label>
-	      <input type="text" var="location.store" value="{{store}}" class="{{>commonClasses_P}}" />
-	    </dd>
-	  </dl>
-	  {{/location}}
-	  {{#apply_taxes}}
-	  <dl>
-	    <dt>Apply Taxes</dt>
-	    <dd>
-	      <label>Tax 1</label>
-	      <input type="checkbox" var="apply_taxes.tax1" {{#tax1}}checked=true{{/tax1}} class="{{>commonClasses_P}}" />
-	      <label>Tax 2</label>
-	      <input type="checkbox" var="apply_taxes.tax2" {{#tax2}}checked=true{{/tax2}} class="{{>commonClasses_P}}" />
-	      <label>Tax 3</label>
-	      <input type="checkbox" var="apply_taxes.tax3" {{#tax3}}checked=true{{/tax3}} class="{{>commonClasses_P}}" />
-	      <label>Exemption</label>
-	      <input type="checkbox" var="apply_taxes.exemption" {{#exemption}}checked=true{{/exemption}} class="{{>commonClasses_P}}" />
-	    </dd>
-	  </dl>
-	  {{/apply_taxes}}
-	  {{#price}}
-	  <dl>
-	    <dt>Price</dt>
-	    <dd>
-	      <label>Selling Price</label>
-	      <input type="text" var="price.selling_price" value="{{selling_price}}" class="{{>commonClasses_P}}" />
-	      <label>Standard price</label>
-	      <input type="text" var="price.standard_price" value="{{standard_price}}" class="{{>commonClasses_P}}" />
-	    </dd>
-	  </dl>
-	  {{/price}}
-	</form>
+      <form>
+	<input type="hidden" var="_id" value="{{_id}}" class="{{>commonClasses_P}}" />
+	{{#location}}
+	<dl>
+	  <dt>Location</dt>
+	  <dd>
+	    <label>Company</label>
+	    <input type="text" var="location.company" value="{{company}}" class="{{>commonClasses_P}}" />
+	    <label>Group</label>
+	    <input type="text" var="location.group" value="{{group}}" class="{{>commonClasses_P}}" />
+	    <label>Store</label>
+	    <input type="text" var="location.store" value="{{store}}" class="{{>commonClasses_P}}" />
+	  </dd>
+	</dl>
+	{{/location}}
+	{{#apply_taxes}}
+	<dl>
+	  <dt>Apply Taxes</dt>
+	  <dd>
+	    <label>Tax 1</label>
+	    <input type="checkbox" var="apply_taxes.tax1" {{#tax1}}checked=true{{/tax1}} class="{{>commonClasses_P}}" />
+	    <label>Tax 2</label>
+	    <input type="checkbox" var="apply_taxes.tax2" {{#tax2}}checked=true{{/tax2}} class="{{>commonClasses_P}}" />
+	    <label>Tax 3</label>
+	    <input type="checkbox" var="apply_taxes.tax3" {{#tax3}}checked=true{{/tax3}} class="{{>commonClasses_P}}" />
+	    <label>Exemption</label>
+	    <input type="checkbox" var="apply_taxes.exemption" {{#exemption}}checked=true{{/exemption}} class="{{>commonClasses_P}}" />
+	  </dd>
+	</dl>
+	{{/apply_taxes}}
+	{{#price}}
+	<dl>
+	  <dt>Price</dt>
+	  <dd>
+	    <label>Selling Price</label>
+	    <input type="text" var="price.selling_price" value="{{selling_price}}" class="{{>commonClasses_P}}" />
+	    <label>Standard price</label>
+	    <input type="text" var="price.standard_price" value="{{standard_price}}" class="{{>commonClasses_P}}" />
+	  </dd>
+	</dl>
+	{{/price}}
+      </form>
     </script>
 
     <script id="inventoryForm_TMP" type="text/html">

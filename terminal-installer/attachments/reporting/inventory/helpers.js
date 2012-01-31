@@ -52,17 +52,33 @@ var inv_helpers =
 		     var generalInvItemData = _.extend(_.removeKeys(inv_doc,['_id','_rev']),
 						       {date: (new Date()).toString()}); 
 		     var itemsToSave = _.chain(idsToSave)
-			     .concat(origins)
-			     .mapRenameKeys("id","location_id")
-			     .value();
-			     
-		     var invModelsToSave = _.map(itemsToSave,
-					       function(item){
-						   var invData = _.extend({},generalInvItemData,{locid:item.location_id});
-						   var newInv = new InventoryDoc(invData);
-						   return newInv;
-					       });
+			 .concat(origins)
+			 .mapRenameKeys("id","location_id")
+			 .value();
 
+		     // if specific stores only being changed, company shouldn't be changed
+		     // TODO : if inventory is new, should be added on inventory_rt7
+		     var storesInItems = _(itemsToSave).chain()
+                         .filter(function(item){ 
+                                     return item.type=="store"; 
+                                 })
+                         .value();
+		     var sizeStores = storesInItems.length;
+                     
+		     if(sizeStores == allStore_ids.length) {
+			 var itemsToInventory =  itemsToSave; // include parent
+		     } else {
+			 var itemsToInventory = storesInItems;
+		     }
+                     
+		     var invModelsToSave = _.map(itemsToInventory,
+						 function(item){
+						     var invData = _.extend({},generalInvItemData,{locid:item.location_id});
+						     var newInv = new InventoryDoc(invData);
+						     return newInv;
+						 });
+
+		     //TODO : generalInvItemData doesn't have locid, is it ok?!
 		     var newInvChange = new InventoryChangesDoc({inventory : generalInvItemData,
 								 ids : itemsToSave});
 

@@ -13,9 +13,9 @@ function PostValidator($node,tips,validationResults) {
     }
     var tag_fieldname_field = tagFieldName($node,'fieldname');
     function displayTip(tips,message){
-	    $(tips).html(message);
-	    $(tips).addClass(genericHighlightClass);
-	    setTimeout(function() {$(tips).removeClass(genericHighlightClass, 1500 );}, 500 ); 
+	$(tips).html(message);
+	$(tips).addClass(genericHighlightClass);
+	setTimeout(function() {$(tips).removeClass(genericHighlightClass, 1500 );}, 500 ); 
     };
     
     clearErrorsAndTips();
@@ -238,8 +238,8 @@ function GroupInputDialog (attachTo,options) {
 		 var newGroupData_w_options = _.clone(newGroupData);
 
 		 if(options.isCreate) {
-			_.extend(newGroupData, {creationdate:new Date()});
-			_.extend(newGroupData_w_options, {isCreate:options.isCreate});
+		     _.extend(newGroupData, {creationdate:new Date()});
+		     _.extend(newGroupData_w_options, {isCreate:options.isCreate});
 		 }
 		 var validationResults = options.validator(newGroupData_w_options);
 
@@ -248,8 +248,8 @@ function GroupInputDialog (attachTo,options) {
 		 allFields.removeClass(genericErrorClass);
 
 		 if(passedValidation) {
-			 options.success(newGroupData);
-			 allFields.val("");
+		     options.success(newGroupData);
+		     allFields.val("");
 		     d.dialog("close");
 		 }
 		 else{
@@ -290,7 +290,7 @@ function StoreInputDialog (attachTo,options) {
     country = d.find("#address\\.country"),
     postalcode = d.find("#address\\.postalcode"),
     
-   
+    
     allFields = $([])
 	.add(user)
 	.add(storeName)
@@ -320,21 +320,21 @@ function StoreInputDialog (attachTo,options) {
 
 		    var newStoreData = 
 			{user:user.val(),
-			    password:password.val(),
-			    contact:{firstname : firstname.val(),
-				     lastname : lastname.val(),
-				     website : website.val(),
-				     email : email.val(),
-				     phone : phone.val()},
-			    address:{street0:street0.val(),
-				     street1:street1.val(),
-				     street2:street2.val(),
-				     city:city.val(),
-				     country:country.val(),
-				     province:province.val(),
-				     postalcode:postalcode.val()},
-			    storeName:storeName.val(),
-			    number:storeNum.val()};
+			 password:password.val(),
+			 contact:{firstname : firstname.val(),
+				  lastname : lastname.val(),
+				  website : website.val(),
+				  email : email.val(),
+				  phone : phone.val()},
+			 address:{street0:street0.val(),
+				  street1:street1.val(),
+				  street2:street2.val(),
+				  city:city.val(),
+				  country:country.val(),
+				  province:province.val(),
+				  postalcode:postalcode.val()},
+			 storeName:storeName.val(),
+			 number:storeNum.val()};
 
 		    var newStoreData_w_options = _.clone(newStoreData);
 
@@ -416,24 +416,24 @@ function TerminalInputDialog (attachTo,options) {
 	 buttons: {
 	     "Submit": function() {
 		 var newTerminalData = {
-			     terminal_label:label.val(),
-			     areaCode:areaCode.val(),
-			     postalCode:postalCode.val(),
-			     countryCode:countryCode.val(),
-			     cityCode:cityCode.val(),
-			     storeCode:storeCode.val(),
-			     companyCode:companyCode.val(),
-			     usingautomatedpayment:usingautomatedpayment.is(":checked"),
-			     usingmobqredits:usingmobqredits.is(":checked"),
-			     centrallycontrolmenus:centrallycontrolmenus.is(":checked"),
-			     usingautomatedpayment:usingautomatedpayment.is(":checked")
-			     
-			 };
+		     terminal_label:label.val(),
+		     areaCode:areaCode.val(),
+		     postalCode:postalCode.val(),
+		     countryCode:countryCode.val(),
+		     cityCode:cityCode.val(),
+		     storeCode:storeCode.val(),
+		     companyCode:companyCode.val(),
+		     usingautomatedpayment:usingautomatedpayment.is(":checked"),
+		     usingmobqredits:usingmobqredits.is(":checked"),
+		     centrallycontrolmenus:centrallycontrolmenus.is(":checked"),
+		     usingautomatedpayment:usingautomatedpayment.is(":checked")
+		     
+		 };
 
-		var newTerminalData_w_options = _.clone(newTerminalData);
+		 var newTerminalData_w_options = _.clone(newTerminalData);
 		 if(options.isCreate) {
-			_.extend(newTerminalData, {creationdate:new Date(), installed:false});
-			_.extend(newTerminalData_w_options, {isCreate:options.isCreate});
+		     _.extend(newTerminalData, {creationdate:new Date(), installed:false});
+		     _.extend(newTerminalData_w_options, {isCreate:options.isCreate});
 		 }
 
 
@@ -457,8 +457,8 @@ function TerminalInputDialog (attachTo,options) {
 	     }
 	 }
 	});
-	
-	
+    
+    
     $("#"+attachTo).button().click(function() {
 				       d.dialog("open");
 				   });
@@ -492,18 +492,18 @@ function companyModifyRewardsViewDialog (html,options) {
     var form = $(html).filter('#dialog-form-forRewards');
     var d = $("#dialog-hook-forRewards");    	
     d.html(form);
-	
-	var MobQredits = options.MobQredits;
-	var rewardsdown = $("#rewardsdown");
-	  var optlist = $('option', rewardsdown);
-	  
-	  if(MobQredits.use_mobqredits) {
-	  	optlist[1].selected=true;	
-	  } else if(MobQredits.use_qriket) {
-	  	optlist[2].selected=true;
-	  } else {
-	  	optlist[0].selected=true;
-	  }
+    
+    var MobQredits = options.MobQredits;
+    var rewardsdown = $("#rewardsdown");
+    var optlist = $('option', rewardsdown);
+    
+    if(MobQredits.use_mobqredits) {
+	optlist[1].selected=true;	
+    } else if(MobQredits.use_qriket) {
+	optlist[2].selected=true;
+    } else {
+	optlist[0].selected=true;
+    }
 
 
     var dialogOptions = _.extend(
@@ -513,22 +513,22 @@ function companyModifyRewardsViewDialog (html,options) {
 	 modal: true,
 	 buttons: {
 	     "Apply" : function() {
-	     	var mobqreditsconversion = form.find("#mobqredits_conversion").val();
-	     	var qriketconversion = form.find("#qriket_conversion").val();
-	     	
-	     	if(_.isEmpty(mobqreditsconversion)){
-	     		mobqreditsconversion = "0";
-	     	}
-	     	
-	     	if(_.isEmpty(qriketconversion)){
-	     		qriketconversion = "0";
-	     	}  
-			options.saveRewardsProgram(Number(mobqreditsconversion), Number(qriketconversion));
-			console.log("conversion saved; mobqredit: " + Number(mobqreditsconversion) + ", qriket: " + Number(qriketconversion));
-			 d.dialog('close');
+	     	 var mobqreditsconversion = form.find("#mobqredits_conversion").val();
+	     	 var qriketconversion = form.find("#qriket_conversion").val();
+	     	 
+	     	 if(_.isEmpty(mobqreditsconversion)){
+	     	     mobqreditsconversion = "0";
+	     	 }
+	     	 
+	     	 if(_.isEmpty(qriketconversion)){
+	     	     qriketconversion = "0";
+	     	 }  
+		 options.saveRewardsProgram(Number(mobqreditsconversion), Number(qriketconversion));
+		 console.log("conversion saved; mobqredit: " + Number(mobqreditsconversion) + ", qriket: " + Number(qriketconversion));
+		 d.dialog('close');
 	     },
 	     "Cancel" : function() {
-		 	d.dialog('close');
+		 d.dialog('close');
 	     }
 	 },
 	 title:options.title

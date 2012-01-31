@@ -5,28 +5,28 @@ _.mixin({
 	     */
 	    search:function(compareFn){
 		return function(searchFor,searchIn){
-			if(compareFn(searchFor,searchIn)){
-			    return true;
-			}else{
-			    return _.any(searchIn,
-					 function(val){
-					     if(compareFn(searchFor,val)){
-						 return true;
-					     }
-					     else if (_.isObject(val) || _.isArray(val)){
-						 return _.search(compareFn)(searchFor,val);
-					     }
-					     else{
-						 return false;   
-					     }
-					 });
-			}
-		    };
+		    if(compareFn(searchFor,searchIn)){
+			return true;
+		    }else{
+			return _.any(searchIn,
+				     function(val){
+					 if(compareFn(searchFor,val)){
+					     return true;
+					 }
+					 else if (_.isObject(val) || _.isArray(val)){
+					     return _.search(compareFn)(searchFor,val);
+					 }
+					 else{
+					     return false;   
+					 }
+				     });
+		    }
+		};
 	    }});
 _.mixin({
 	    search_Eq:_.search(_.isEqual),
 	    search_Str:_.search(function(str,o){
-				    if(_.isString(o)){
+                    if(_.isString(o)){
 					return str.toLowerCase() == o.toLowerCase();
 				    }
 				    return false;}),

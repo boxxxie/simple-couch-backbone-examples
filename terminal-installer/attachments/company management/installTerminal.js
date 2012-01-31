@@ -15,47 +15,47 @@ function installTerminal(companyID,groupID,storeID,terminalID){
     }
     function terminal_install_properties(company,group,store,terminal,sample_terminal){
 	return {terminal_id:terminal.terminal_id,
-	   terminal_label:terminal.terminal_label,
-	   store_id:store.store_id,
-	   store_label:store.storeName,
-	   group_id:group.group_id,
-	   group_label:group.groupName,
-	   company_id:company.get('_id'),
-	   company_label:company.get('companyName'),
-	   location:_.selectKeys(terminal,["postalCode","areaCode","storeCode","companyCode","cityCode","countryCode"]),
-	   creationDate:terminal.creationdate,
-	   receipt_id:terminal.receipt_id,
-	   
-	   printers:sample_terminal.printers,
-	   departments:sample_terminal.departments,
-	   menuButtonHeaders:sample_terminal.menuButtonHeaders,
-	   menuButtons:sample_terminal.menuButtons,
-	   scales:sample_terminal.scales,
-	   showMobQRedits:terminal.usingmobqredits,
-	   locally_modifiable:false, //!terminal.centrallycontrolmenus,
-	   automatedPayment:terminal.usingautomatedpayment,
-	   
-	   creditPayment:sample_terminal.creditPayment,
-	   debitPayment:sample_terminal.debitPayment,
-	   mobilePayment:sample_terminal.mobilePayment,
-	   paymentGateway:sample_terminal.paymentGateway,
-	   
-	   receiptHeaders:sample_terminal.receiptHeaders,
-	   cardserver:sample_terminal.cardserver,
-	   cardserverport:sample_terminal.cardserverport,
-	   cardterminalid:sample_terminal.cardterminalid,
-	   connectiontimeout:sample_terminal.connectiontimeout,
-	   store_address:{
-	       country:store.address.country,
-	       state_prov:store.address.province,
-	       city:store.address.city,
-	       zip_postal:store.address.postalcode,
-	       street:[store.address.street0,store.address.street1],
-	       phones:[store.contact.phone],
-	       emails:[store.contact.email]
-	   },
-	   store_number:store.number
-	  };
+		terminal_label:terminal.terminal_label,
+		store_id:store.store_id,
+		store_label:store.storeName,
+		group_id:group.group_id,
+		group_label:group.groupName,
+		company_id:company.get('_id'),
+		company_label:company.get('companyName'),
+		location:_.selectKeys(terminal,["postalCode","areaCode","storeCode","companyCode","cityCode","countryCode"]),
+		creationDate:terminal.creationdate,
+		receipt_id:terminal.receipt_id,
+		
+		printers:sample_terminal.printers,
+		departments:sample_terminal.departments,
+		menuButtonHeaders:sample_terminal.menuButtonHeaders,
+		menuButtons:sample_terminal.menuButtons,
+		scales:sample_terminal.scales,
+		showMobQRedits:terminal.usingmobqredits,
+		locally_modifiable:false, //!terminal.centrallycontrolmenus,
+		automatedPayment:terminal.usingautomatedpayment,
+		
+		creditPayment:sample_terminal.creditPayment,
+		debitPayment:sample_terminal.debitPayment,
+		mobilePayment:sample_terminal.mobilePayment,
+		paymentGateway:sample_terminal.paymentGateway,
+		
+		receiptHeaders:sample_terminal.receiptHeaders,
+		cardserver:sample_terminal.cardserver,
+		cardserverport:sample_terminal.cardserverport,
+		cardterminalid:sample_terminal.cardterminalid,
+		connectiontimeout:sample_terminal.connectiontimeout,
+		store_address:{
+		    country:store.address.country,
+		    state_prov:store.address.province,
+		    city:store.address.city,
+		    zip_postal:store.address.postalcode,
+		    street:[store.address.street0,store.address.street1],
+		    phones:[store.contact.phone],
+		    emails:[store.contact.email]
+		},
+		store_number:store.number
+	       };
     }
     
 

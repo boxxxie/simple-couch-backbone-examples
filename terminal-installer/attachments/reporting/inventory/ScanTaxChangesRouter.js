@@ -53,7 +53,7 @@ var menuInventoryscanTaxChangeView =
 		 ?searchQueryString:undefined;
 	     var html = 
 		 ich.menuInventoryScanItemTaxChanges_TMP(_.extend({startPage:"companyReport"}, 
-	     							    autoBreadCrumb()));
+	     							  autoBreadCrumb()));
 	     $(view.el).html(html);
 
 	     var companyData = {id:ReportData.company._id, type:"company", label:ReportData.company.companyName};
@@ -76,25 +76,25 @@ var menuInventoryscanTaxChangeView =
 		  $(view.el).find("#taxChangeTable").html(html);
 		  
 		  _.each(formattedInv, function(item){
-		  	var tg = $("#"+item.upccode);
-		  	tg.click(function(){
-		  		var row = $(this).parent().parent().find("input");
-		  		if((_.first(row)).disabled) {
-		  			$(this).html("Disable");
-		  			_.each(row,function(item){item.disabled=false});
-		  		} else {
-		  			$(this).html("Enable");
-		  			_.each(row,function(item){item.disabled=true});
-		  		}
-		  	});
-		  });
+		  	     var tg = $("#"+item.upccode);
+		  	     tg.click(function(){
+		  			  var row = $(this).parent().parent().find("input");
+		  			  if((_.first(row)).disabled) {
+		  			      $(this).html("Disable");
+		  			      _.each(row,function(item){item.disabled=false;});
+		  			  } else {
+		  			      $(this).html("Enable");
+		  			      _.each(row,function(item){item.disabled=true;});
+		  			  }
+		  		      });
+			 });
 		  
 		  $("#filterInv").keypress(
 		      function(e){
 			  var code = (e.keyCode ? e.keyCode : e.which), enterCode = 13;
 			  if (code == enterCode){
 			      view.renderMenuInventoryCompanyscanTaxChange($(this).val());}
-			  });
+		      });
 		  $("#submitTaxChanges").button().click(
 		      function(){
 			  var newInvList = _.chain(varFormGrabber($("#taxChangeTable"))).
@@ -104,12 +104,12 @@ var menuInventoryscanTaxChangeView =
 				      invItem.apply_taxes = item.apply_taxes;
 				      return invItem;
 				  })
-				  .filter(function(item){
-				  	return $("#"+item.upccode).html() == "Disable";
-				  })
+			      .filter(function(item){
+				  	  return $("#"+item.upccode).html() == "Disable";
+				      })
 			      .value();
-		      console.log(newInvList);
-		      
+			  console.log(newInvList);
+			  
 			  if(_.isEmpty(newInvList)){alert("there were no changes made");return;}
 
 			  var html = ich.menuInventoryApplyStoresQuickViewDialog_TMP({items:storeIDs});
@@ -129,7 +129,7 @@ var menuInventoryscanTaxChangeView =
 		 ?searchQueryString:undefined;
 	     var html = 
 		 ich.menuInventoryScanItemTaxChanges_TMP(_.extend({startPage:"groupReport"}, 
-	     							    autoBreadCrumb()));
+	     							  autoBreadCrumb()));
 	     $(view.el).html(html);
 
 	     var groupData = {id:ReportData.group.group_id, type:"group", label:ReportData.group.groupName};
@@ -152,25 +152,25 @@ var menuInventoryscanTaxChangeView =
 		  $(view.el).find("#taxChangeTable").html(html);
 		  
 		  _.each(formattedInv, function(item){
-		  	var tg = $("#"+item.upccode);
-		  	tg.click(function(){
-		  		var row = $(this).parent().parent().find("input");
-		  		if((_.first(row)).disabled) {
-		  			$(this).html("Disable");
-		  			_.each(row,function(item){item.disabled=false});
-		  		} else {
-		  			$(this).html("Enable");
-		  			_.each(row,function(item){item.disabled=true});
-		  		}
-		  	});
-		  });
+		  	     var tg = $("#"+item.upccode);
+		  	     tg.click(function(){
+		  			  var row = $(this).parent().parent().find("input");
+		  			  if((_.first(row)).disabled) {
+		  			      $(this).html("Disable");
+		  			      _.each(row,function(item){item.disabled=false;});
+		  			  } else {
+		  			      $(this).html("Enable");
+		  			      _.each(row,function(item){item.disabled=true;});
+		  			  }
+		  		      });
+			 });
 		  
 		  $("#filterInv").keypress(
 		      function(e){
 			  var code = (e.keyCode ? e.keyCode : e.which), enterCode = 13;
 			  if (code == enterCode){
 			      view.renderMenuInventoryGroupscanTaxChange($(this).val());}
-			  });
+		      });
 		  $("#submitTaxChanges").button().click(
 		      function(){
 			  var newInvList = _.chain(varFormGrabber($("#taxChangeTable"))).
@@ -180,12 +180,12 @@ var menuInventoryscanTaxChangeView =
 				      invItem.apply_taxes = item.apply_taxes;
 				      return invItem;
 				  })
-				  .filter(function(item){
-				  	return $("#"+item.upccode).html() == "Disable";
-				  })
+			      .filter(function(item){
+				  	  return $("#"+item.upccode).html() == "Disable";
+				      })
 			      .value();
-		      console.log(newInvList);
-		      
+			  console.log(newInvList);
+			  
 			  if(_.isEmpty(newInvList)){alert("there were no changes made");return;}
 
 			  var html = ich.menuInventoryApplyStoresQuickViewDialog_TMP({items:storeIDs});
@@ -205,7 +205,7 @@ var menuInventoryscanTaxChangeView =
 		 ?searchQueryString:undefined;
 	     var html = 
 		 ich.menuInventoryScanItemTaxChanges_TMP(_.extend({startPage:"groupReport"}, 
-	     							    autoBreadCrumb()));
+	     							  autoBreadCrumb()));
 	     $(view.el).html(html);
 
 	     var storeData = {id:ReportData.store.store_id, type:"store", label:(ReportData.store.number+":"+ReportData.store.storeName)};
@@ -228,25 +228,25 @@ var menuInventoryscanTaxChangeView =
 		  $(view.el).find("#taxChangeTable").html(html);
 		  
 		  _.each(formattedInv, function(item){
-		  	var tg = $("#"+item.upccode);
-		  	tg.click(function(){
-		  		var row = $(this).parent().parent().find("input");
-		  		if((_.first(row)).disabled) {
-		  			$(this).html("Disable");
-		  			_.each(row,function(item){item.disabled=false});
-		  		} else {
-		  			$(this).html("Enable");
-		  			_.each(row,function(item){item.disabled=true});
-		  		}
-		  	});
-		  });
+		  	     var tg = $("#"+item.upccode);
+		  	     tg.click(function(){
+		  			  var row = $(this).parent().parent().find("input");
+		  			  if((_.first(row)).disabled) {
+		  			      $(this).html("Disable");
+		  			      _.each(row,function(item){item.disabled=false;});
+		  			  } else {
+		  			      $(this).html("Enable");
+		  			      _.each(row,function(item){item.disabled=true;});
+		  			  }
+		  		      });
+			 });
 		  
 		  $("#filterInv").keypress(
 		      function(e){
 			  var code = (e.keyCode ? e.keyCode : e.which), enterCode = 13;
 			  if (code == enterCode){
 			      view.renderMenuInventoryGroupscanTaxChange($(this).val());}
-			  });
+		      });
 		  $("#submitTaxChanges").button().click(
 		      function(){
 			  var newInvList = _.chain(varFormGrabber($("#taxChangeTable"))).
@@ -256,16 +256,16 @@ var menuInventoryscanTaxChangeView =
 				      invItem.apply_taxes = item.apply_taxes;
 				      return invItem;
 				  })
-				  .filter(function(item){
-				  	return $("#"+item.upccode).html() == "Disable";
-				  })
+			      .filter(function(item){
+				  	  return $("#"+item.upccode).html() == "Disable";
+				      })
 			      .value();
-		      console.log(newInvList);
-		      
+			  console.log(newInvList);
+			  
 			  if(_.isEmpty(newInvList)){alert("there were no changes made");return;}
 
 			  inv_helpers.saveNewInvItems(newInvList,storeData,storeIDs)
-  		       (function(){view.renderMenuInventoryStorescanPriceChange(searchQuery);})(storeIDs);
+  			  (function(){view.renderMenuInventoryStorescanPriceChange(searchQuery);})(storeIDs);
 		      });
 	      });
 	 }

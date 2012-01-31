@@ -79,7 +79,7 @@ var menuInventoryscanPriceChangeView =
 			  var code = (e.keyCode ? e.keyCode : e.which), enterCode = 13;
 			  if (code == enterCode){
 			      view.renderMenuInventoryCompanyscanPriceChange($(this).val());}
-			  });
+		      });
 		  $("#submitPriceChanges").button().click(
 		      function(){
 			  var newInvList = _.chain(varFormGrabber($("#priceChangeTable"))).
@@ -113,7 +113,7 @@ var menuInventoryscanPriceChangeView =
 	     							    autoBreadCrumb()));
 	     $(view.el).html(html);
 
-		 var companyData = {id:ReportData.company_id, type:"company", label:ReportData.companyName};
+	     var companyData = {id:ReportData.company_id, type:"company", label:ReportData.companyName};
 	     var groupData = {id:ReportData.group.group_id, type:"group", label:ReportData.group.groupName};
 	     var storeIDs = extractStores(ReportData);
 
@@ -137,7 +137,7 @@ var menuInventoryscanPriceChangeView =
 			  var code = (e.keyCode ? e.keyCode : e.which), enterCode = 13;
 			  if (code == enterCode){
 			      view.renderMenuInventoryGroupscanPriceChange($(this).val());}
-			  });
+		      });
 		  $("#submitPriceChanges").button().click(
 		      function(){
 			  var newInvList = _.chain(varFormGrabber($("#priceChangeTable"))).
@@ -196,7 +196,7 @@ var menuInventoryscanPriceChangeView =
 			  var code = (e.keyCode ? e.keyCode : e.which), enterCode = 13;
 			  if (code == enterCode){
 			      view.renderMenuInventoryStorescanPriceChange($(this).val());}
-			  });
+		      });
 		  $("#submitPriceChanges").button().click(
 		      function(){
 			  var newInvList = _.chain(varFormGrabber($("#priceChangeTable"))).
@@ -211,7 +211,7 @@ var menuInventoryscanPriceChangeView =
 			  if(_.isEmpty(newInvList)){alert("there were no changes made");return;}
 
 			  inv_helpers.saveNewInvItems(newInvList,[companyData,groupData,storeData],storeIDs)
-  		       (function(){view.renderMenuInventoryStorescanPriceChange(searchQuery);})(storeIDs);
+  			  (function(){view.renderMenuInventoryStorescanPriceChange(searchQuery);})(storeIDs);
 		      });
 	      });
 	 }

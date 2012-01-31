@@ -87,23 +87,23 @@ var inv_display_view =
 		else{
 		    $("#addItemToCompany").button().click(
 			function(){
-				function getParentsInfo(ReportData) {
-					//if(ReportData.company) { return _.extend({},{id:ReportData.company._id, label:ReportData.company.companyName, type:"company"});}
-					//else if(ReportData.group) { return _.extend(temp,{id:ReportData.company_id, label:ReportData.companyName});}
-					var parentInfo={};
-					if(ReportData.company) { _.extend(parentInfo,{company:{id:ReportData.company._id, label:ReportData.company.companyName, type:"company"}});}
-					else {
-						_.extend(parentInfo,{company:{id:ReportData.company_id, label:ReportData.companyName, type:"company"}});
-						if(ReportData.group) {
-							_.extend(parentInfo,{group:{id:ReportData.group.group_id, label:ReportData.group.groupName, type:"group"}});
-						} else {
-							_.extend(parentInfo,{group:{id:ReportData.group_id, label:ReportData.groupName, type:"group"}});
-						}
-					}
-					return parentInfo;
-				};
-				
-				var inv = _.extend(varFormGrabber($("#inv_form")),{upccode:$("#upc").val()});
+			    function getParentsInfo(ReportData) {
+				//if(ReportData.company) { return _.extend({},{id:ReportData.company._id, label:ReportData.company.companyName, type:"company"});}
+				//else if(ReportData.group) { return _.extend(temp,{id:ReportData.company_id, label:ReportData.companyName});}
+				var parentInfo={};
+				if(ReportData.company) { _.extend(parentInfo,{company:{id:ReportData.company._id, label:ReportData.company.companyName, type:"company"}});}
+				else {
+				    _.extend(parentInfo,{company:{id:ReportData.company_id, label:ReportData.companyName, type:"company"}});
+				    if(ReportData.group) {
+					_.extend(parentInfo,{group:{id:ReportData.group.group_id, label:ReportData.group.groupName, type:"group"}});
+				    } else {
+					_.extend(parentInfo,{group:{id:ReportData.group_id, label:ReportData.groupName, type:"group"}});
+				    }
+				}
+				return parentInfo;
+			    };
+			    
+			    var inv = _.extend(varFormGrabber($("#inv_form")),{upccode:$("#upc").val()});
 			    var allStores = extractStores(ReportData);
 			    inv_helpers.saveNewInvItems([inv],_(getParentsInfo(ReportData)).values(),allStores)
 			    (function(){alert("finished saving items");})(allStores);

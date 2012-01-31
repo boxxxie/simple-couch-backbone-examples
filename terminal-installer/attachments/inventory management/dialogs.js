@@ -38,9 +38,9 @@ function PostValidator($node,tips,validationResults) {
     }
     var tag_fieldname_field = tagFieldName($node,'fieldname');
     function displayTip(tips,message){
-	    $(tips).html(message);
-	    $(tips).addClass(genericHighlightClass);
-	    setTimeout(function() {$(tips).removeClass(genericHighlightClass, 1500 );}, 500 ); 
+	$(tips).html(message);
+	$(tips).addClass(genericHighlightClass);
+	setTimeout(function() {$(tips).removeClass(genericHighlightClass, 1500 );}, 500 ); 
     };
     
     clearErrorsAndTips();
