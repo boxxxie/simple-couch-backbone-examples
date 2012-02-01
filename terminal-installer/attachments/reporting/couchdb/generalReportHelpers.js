@@ -76,7 +76,7 @@ function relative_dates(){
 	yesterday : _.first(Date.today().addDays(-1).toArray(),3),
 	yesterday_h : _.first(Date.today().addDays(-1).toArray(),4),
 	startOfMonth : _.first(Date.today().moveToFirstDayOfMonth().toArray(),3),
-	startOfYear : (Date.today().getMonth>0)? _.first(Date.today().moveToMonth(0,-1).moveToFirstDayOfMonth().toArray(),3):_.first(Date.today().moveToFirstDayOfMonth().toArray(),3)
+	startOfYear : (Date.today().getMonth()>0)? _.first(Date.today().moveToMonth(0,-1).moveToFirstDayOfMonth().toArray(),3):_.first(Date.today().moveToFirstDayOfMonth().toArray(),3)
     };
 };
 
