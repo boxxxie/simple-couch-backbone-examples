@@ -68,7 +68,7 @@ var menuInventoryscanPriceChangeView =
 			  if(item.selling_price){
 			      return _.extend({},
 					      item,
-					      {selling_price:currency_format(item.selling_price)});
+					      {selling_price:currency_format(Number(item.selling_price))});
 			  }
 			  return item;
 		      });
@@ -88,7 +88,7 @@ var menuInventoryscanPriceChangeView =
 				      var upc = strUPC.replace("upc-","");
 				      var invItem = _.find(filteredInv,function(val,key){return upc==val.upccode;});
 				      var invItemReturn = _.selectKeys(invItem,"price","date","description","locid","upccode");
-                      invItemReturn.price.selling_price = Number(price);
+                      invItemReturn.price.selling_price = price;
                       return invItemReturn;
 				      return invItem;
 				  })
@@ -128,7 +128,7 @@ var menuInventoryscanPriceChangeView =
 			  if(item.selling_price){
 			      return _.extend({},
 					      item,
-					      {selling_price:currency_format(item.selling_price)});
+					      {selling_price:currency_format(Number(item.selling_price))});
 			  }
 			  return item;
 		      });
@@ -148,7 +148,7 @@ var menuInventoryscanPriceChangeView =
 				      var upc = strUPC.replace("upc-","");
 				      var invItem = _.find(filteredInv,function(val,key){return upc==val.upccode;});
 				      var invItemReturn = _.selectKeys(invItem,"price","date","description","locid","upccode");
-                      invItemReturn.price.selling_price = Number(price);
+                      invItemReturn.price.selling_price = price;
                       return invItemReturn;
 				      return invItem;
 				  })
@@ -189,7 +189,7 @@ var menuInventoryscanPriceChangeView =
 			  if(item.selling_price){
 			      return _.extend({},
 					      item,
-					      {selling_price:currency_format(item.selling_price)});
+					      {selling_price:currency_format(Number(item.selling_price))});
 			  }
 			  return item;
 		      });
@@ -210,7 +210,7 @@ var menuInventoryscanPriceChangeView =
 				      var invItem = _.find(filteredInv,function(val,key){return upc==val.upccode;});
 				      
 				      var invItemReturn = _.selectKeys(invItem,"price","date","description","locid","upccode");
-				      invItemReturn.price.selling_price = Number(price);
+				      invItemReturn.price.selling_price = price;
 				      return invItemReturn;
 				  })
 			      .value();

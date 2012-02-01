@@ -15,7 +15,7 @@ function inventoryChangeLog(id){
 	      });
     };
 }
-function inventoryChangeLogCompressedBy(id,compressFn){
+function inventoryChangeLogCompressedBy(id,field,compressFn){
      function date(item){
 	return (new Date(item.date)).getTime();}
     return function(callback){
@@ -31,6 +31,7 @@ function inventoryChangeLogCompressedBy(id,compressFn){
 			      .value();
 		      })
 		 .flatten()
+		 .filter(_.has_F(field))
 		 .sortBy(date)
 		 .reverse()
 		 .value();
@@ -39,12 +40,20 @@ function inventoryChangeLogCompressedBy(id,compressFn){
     };
 }
 function inventoryTaxChangeLog(id){
-   function sameTaxes(item1,item2){return (_.isEqual(item1.apply_taxes, item2.apply_taxes));}
-    return inventoryChangeLogCompressedBy(id,sameTaxes);
+   function sameTaxes(item1,item2){
+        return (_.isDefined(item1.apply_taxes) 
+            && _.isDefined(item2.apply_taxes) 
+            && _.isEqual(item1.apply_taxes, item2.apply_taxes));
+       }
+    return inventoryChangeLogCompressedBy(id,"apply_taxes",sameTaxes);
 }
 function inventoryPriceChangeLog(id){
-    function samePrice(item1,item2){return (item1.price.selling_price == item2.price.selling_price);}
-    return inventoryChangeLogCompressedBy(id,samePrice);
+    function samePrice(item1,item2){
+        return (_.isDefined(item1.price) 
+            && _.isDefined(item2.pric) 
+            && item1.price.selling_price == item2.price.selling_price);
+        }
+    return inventoryChangeLogCompressedBy(id,"price",samePrice);
 }
 function currentInventoryFor(id){
     var view = cdb.view('app','id_upc_latestDate');

@@ -206,7 +206,7 @@ var menuInventoryscanTaxChangeView =
 				_.isNotEmpty(searchQueryString))
 		 ?searchQueryString:undefined;
 	     var html = 
-		 ich.menuInventoryScanItemTaxChanges_TMP(_.extend({startPage:"groupReport"}, 
+		 ich.menuInventoryScanItemTaxChanges_TMP(_.extend({startPage:"storeReport"}, 
 	     							  autoBreadCrumb()));
 	     $(view.el).html(html);
 

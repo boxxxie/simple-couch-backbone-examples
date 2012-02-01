@@ -2121,7 +2121,7 @@
 	      <th>Tax2</th>
 	      <th>Tax3</th>
 	      <th>Exemption</th>
-	      <th>Apply</th>
+	      <th>Enable Row</th>
 	    </tr>
 	  </thead>
 	  <tbody>
@@ -2374,7 +2374,7 @@
 	  {{#foodItem}}
 	  <tr>
 	    <td><label>Price : </label></td>
-	    <td><input class="menuEditInput" type="text" var="foodItem.price"  value="{{price}}" var_type="number" var_default="0"/></td>
+	    <td><input class="menuEditInput" type="text" var="foodItem.price"  value="{{price}}" var_type="number" id="editmenuprice" var_default="0"/></td>
 	  </tr>
 	  {{/foodItem}}
 	  <tr>

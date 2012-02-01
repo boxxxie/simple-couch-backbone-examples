@@ -213,10 +213,12 @@ function renderEditMenuPrice(num,position) {
 	var txtLine1 = $("#editmenudescription0");
 	var txtLine2 = $("#editmenudescription1");
 	var txtLine3 = $("#editmenudescription2");
+	var txtPrice = $("#editmenuprice");
 	
 	txtLine1.attr('disabled',true);
 	txtLine2.attr('disabled',true);
 	txtLine3.attr('disabled',true);
+	txtPrice.val("");
 	
 	var btn = $("#btnMenuSave")
 	    .click(function(){

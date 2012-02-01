@@ -7,10 +7,13 @@ var inv_helpers =
 	      var resp = _.map(resp_raw, function(aitem){
 				   var item = _.clone(aitem);
 		  		   item.date = dateFormatter(new Date(item.date));
-		  		   item.price.selling_price = currency_format(item.price.selling_price);
+  		           if(_.isDefined(item.price)) {
+		  		       item.price.selling_price = currency_format(Number(item.price.selling_price));
+		  		   }
 				   item.locations = _.filter(item.locations,_.has_F('label'));
 		  		   return item;
 		  	       });
+		  	       
 	      var html =  ich[tableTMP]({list:resp});
 	      $(view.el).find("#changeLogTable").html(html);
 	      //set the buttons to open a dialog list of the stores that apply to each price change
@@ -19,7 +22,7 @@ var inv_helpers =
 			     function(){
 				 item.locations =_(item.locations).chain()
 				     .filter(function(item){
-						 return item.label.indexOf(":")!=-1;
+						 return (item.label.indexOf(":")!=-1);
 					     })
 				     .map(function(item){
 			     		      var tmp = item.label.split(":");
@@ -48,25 +51,41 @@ var inv_helpers =
 	 function pushItemForIDs(runAfter){
 	     return function(idsToSave){
 		 return function(inv_doc){
-		     var generalInvItemData = _.extend({},inv_doc,{date: (new Date()).toString()}); 
-		     var itemsToSave = _.chain(idsToSave)
-			 .concat(origins)
-			 .mapRenameKeys("id","location_id")
-			 .value();
+		     // idsToSave ; {type:"..", location_id:"..", name:"..", number:"..", label:".."}
+             // origins ; {type:"..", label:"..", location_id:".."}
+		     var generalInvItemData = _.extend({},inv_doc,{date: (new Date()).toString()});
+		     var storesInOrigin = _(origins).chain()
+                                     .filter(function(item){ 
+                                                 return (item.type=="store"); 
+                                             })
+                                     .value();
+                         
+            if(storesInOrigin.length>0) {
+                var itemsToSave = _.chain(origins)
+                                 .mapRenameKeys("id","location_id")
+                                 .value();                
+            } else {
+                var itemsToSave = _.chain(idsToSave)
+                                 .concat(origins)
+                                 .mapRenameKeys("id","location_id")
+                                 .value();
+            }
+                          
 
 		     // if specific stores only being changed, company shouldn't be changed
 		     // TODO : if inventory is new, should be added on inventory_rt7
 		     var storesInItems = _(itemsToSave).chain()
                          .filter(function(item){ 
-                                     return item.type=="store"; 
+                                     return (item.type=="store"); 
                                  })
                          .value();
+            
 		     var sizeStores = storesInItems.length;
                      
 		     if(sizeStores == allStore_ids.length) {
-			 var itemsToInventory =  itemsToSave; // include parent
+                var itemsToInventory =  itemsToSave; // include parent		             
 		     } else {
-			 var itemsToInventory = storesInItems;
+			     var itemsToInventory = storesInItems;
 		     }
                      
 		     var invModelsToSave = _.map(itemsToInventory,
