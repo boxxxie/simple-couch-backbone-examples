@@ -97,7 +97,8 @@ var inv_display_view =
 				    if(ReportData.group) {
 					_.extend(parentInfo,{group:{id:ReportData.group.group_id, label:ReportData.group.groupName, type:"group"}});
 				    } else {
-					_.extend(parentInfo,{group:{id:ReportData.group_id, label:ReportData.groupName, type:"group"}});
+					_.extend(parentInfo,{group:{id:ReportData.group_id, label:ReportData.groupName, type:"group"}}
+					                   ,{store:{id:ReportData.store.store_id, label:(ReportData.store.number+":"+ReportData.store.storeName), type:"store"}});
 				    }
 				}
 				return parentInfo;
