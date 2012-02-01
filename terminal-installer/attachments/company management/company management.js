@@ -206,7 +206,7 @@ function doc_setup(){
     $(document).everyTime("1s", function(){
 			      var date = new Date();
 			      ts.empty();
-			      ts.append(date.toLocaleDateString() + " / " + date.toLocaleTimeString());
+			      ts.append(date.toDateString() + " / " + date.toLocaleTimeString());
 			  }, 0);
     
     var companiesView;

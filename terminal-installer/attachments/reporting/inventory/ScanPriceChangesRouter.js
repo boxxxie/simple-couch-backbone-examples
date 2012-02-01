@@ -90,7 +90,6 @@ var menuInventoryscanPriceChangeView =
 				      var invItemReturn = _.selectKeys(invItem,"price","date","description","locid","upccode");
                       invItemReturn.price.selling_price = price;
                       return invItemReturn;
-				      return invItem;
 				  })
 			      .value();
 			  if(_.isEmpty(newInvList)){alert("there were no changes made");return;}
