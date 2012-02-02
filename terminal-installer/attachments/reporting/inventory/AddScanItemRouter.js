@@ -12,8 +12,8 @@ function getParentsInfo(reportData){
 	if(reportData.group) {
 	    _.extend(parentInfo,{group:{id:reportData.group.group_id, label:reportData.group.groupName, type:"group"}});
 	} else {
-	    _.extend(parentInfo,{group:{id:reportData.group_id, label:reportData.groupName, type:"group"}
-				,{store:{id:reportData.store.store_id, label:(ReportData.store.number+":"+reportData.store.storeName), type:"store"}});
+	    _.extend(parentInfo,{group:{id:reportData.group_id, label:reportData.groupName, type:"group"}}
+	                       ,{store:{id:reportData.store.store_id, label:(reportData.store.number+":"+reportData.store.storeName),type:"store"}});
 	}
     }
     return parentInfo;
