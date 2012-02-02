@@ -47,6 +47,10 @@ var inv_helpers =
 			       (startPageStr.indexOf("store")<0)?"menuInventoryScanPriceLogtable_TMP":"menuInventoryScanPriceLogtable_store_TMP",
 			       inventoryPriceChangeLog);
      },
+
+//TODO newItemList should be a backbone collection
+//inv_doc should be a backbone model.
+//remove allStore_ids
      saveNewInvItems:function(newItemList,origins,allStore_ids){
 	 function pushItemForIDs(runAfter){
 	     return function(idsToSave){
@@ -79,11 +83,11 @@ var inv_helpers =
                                      return (item.type=="store"); 
                                  })
                          .value();
-            
-		     var sizeStores = storesInItems.length;
+		     var sizeStores = _.size(storesInItems);
+		     var sizeOfAllStores = _.size(allStore_ids);
                      
-		     if(sizeStores == allStore_ids.length) {
-                var itemsToInventory =  itemsToSave; // include parent		             
+		     if(sizeStores == sizeOfAllStores) {
+			 var itemsToInventory =  itemsToSave; // include parent
 		     } else {
 			     var itemsToInventory = storesInItems;
 		     }

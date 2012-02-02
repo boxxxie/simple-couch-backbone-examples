@@ -2,6 +2,15 @@ _.mixin({
 	    /* Retrieve the keys and values of an object's properties.
 	     {a:'a',b:'b'} -> [[a,'a'],[b,'b']]
 	     */
+	    isObj:function (obj) {
+		return _.isObject(obj) && !_.isArray(obj);
+	    }
+	});
+
+_.mixin({
+	    /* Retrieve the keys and values of an object's properties.
+	     {a:'a',b:'b'} -> [[a,'a'],[b,'b']]
+	     */
 	    pairs:function (obj) {
 		return _.map(obj,function(val,key){
 				 return [key,val];
@@ -87,52 +96,50 @@ _.mixin({isNotEmpty:function (obj){
 	});
 
 
-_.mixin({renameKeys:function (toEdit,fieldMap){
+_.mixin({renameKeys:function (toEdit){
+	     //TODO: extract this function for converting args into object
+	     var fieldMap = _.flatten(_.rest(arguments));
 	     function transformArrayIntoFieldMap(arr){
-		 return _.chain(arr).flatten().partition(2).toObject().value();
+		 return _.chain(arr).partition(2).toObject().value();
 	     }
-	     if(_.isArray(fieldMap)){
-		 var fMap = transformArrayIntoFieldMap(fieldMap);
+
+	     var mergedFields = _.merge(fieldMap);
+
+	     if(_.isObj(mergedFields)){
+		 var fMap = mergedFields;
 	     }
-	     else if (_.isObject(fieldMap)){
-		 var fMap = fieldMap;
+	     else if (_.isArray(mergedFields)){
+		 var fMap = transformArrayIntoFieldMap(mergedFields);
 	     }
 	     else{
-		 var fMap = transformArrayIntoFieldMap(_.rest(arguments));
+		 return toEdit;	 
 	     }
-	     return _.map$(toEdit,function(val,key){
+	     return _.map$(toEdit,
+			   function(val,key){
 			       if(_.isDefined(fMap[key])){
 				   return [fMap[key],val];
 			       }
 			       else return [key,val];
 			   });
 	 },
-	 renameKeys_F:function (fieldMap){
-	     return function(toEdit){
-		 function transformArrayIntoFieldMap(arr){
-		     return _.chain(arr).flatten().partition(2).toObject().value();
-		 }
-		 if(_.isArray(fieldMap)){
-		     var fMap = transformArrayIntoFieldMap(fieldMap);
-		 }
-		 else if (_.isObject(fieldMap)){
-		     var fMap = fieldMap;
-		 }
-		 else{
-		     var fMap = transformArrayIntoFieldMap(_.rest(arguments));
-		 }
-		 return _.renameKeys(toEdit,fMap);
-	     };
-	 },
 	 mapRenameKeys:function (list){
-	     return _.map(list,_.renameKeys_F(_.rest(arguments)));    
+	     var nameChanges = _.rest(arguments);
+	     return _.map(list,
+			  function(item){
+			      return _.renameKeys.apply(null,[item,nameChanges]);
+			  });    
 	 }
-});
+	});
 
 _.mixin({merge:function (objArray){
 	     //merges all of the objects in an array into one object
 	     //probably can be done via apply.extend([...])
-	     return _.reduce(objArray,function(sum,cur){return _.extend(sum,cur);},{});
+	     if(_.every(objArray,_.isObj)){
+		 return _.reduce(objArray,function(sum,cur){return _.extend(sum,cur);},{});
+	     }
+	     else{
+		 return objArray;
+	     }
 	 },
 	 mapMerge:function(lists){
 	     return _.map(lists,_.merge);
@@ -142,25 +149,54 @@ _.mixin({merge:function (objArray){
                           function(zipped){return _.merge(zipped);});
 	 }});
 
-_.mixin({extend_r:function (obj1,obj2){
-	     //recursive extend
-	     function mergeRecursive(obj1, obj2) {
-		 for (var p in obj2) {
-		     if (_.isObject(obj2[p])) {
-			 obj1[p] = mergeRecursive(obj1[p], obj2[p]);
+_.mixin({extend_r:function (extendTo,extendFrom){
+	     var isObject = function(obj) {
+		 return obj === Object(obj) && !(obj instanceof Array);
+	     };
+	     function mergeRecursive(extendTo, extendFrom) {
+		 for (var p in extendFrom) {
+		     if (isObject(extendFrom[p])) {
+			 extendTo[p] = mergeRecursive({}, extendFrom[p]);
 		     } else {
-			 obj1[p] = obj2[p];
+			 extendTo[p] = extendFrom[p];
 		     }
 		 }
-		 return obj1;
+		 return extendTo;
 	     }
-	     return mergeRecursive(obj1, obj2);
+	     return mergeRecursive(extendTo, extendFrom);
+	 }
+	});
+
+//i don't think this is any different than defaults. was made to be used in couchDB. it is recursive, which extend, and i believe defaults, is not.
+_.mixin({fill:function (fillIn,fillFrom){
+	     var isObject = function(obj) {
+		 return obj === Object(obj) && !(obj instanceof Array);
+	     };
+	     function mergeRecursive(fillIn, fillFrom) {
+	//	 console.log("fillIn");console.log(fillIn);
+	//	 console.log("fillFrom");console.log(fillFrom);
+		 for (var p in fillFrom) {
+		     if (isObject(fillFrom[p])) {
+			 if(fillIn[p] === undefined){
+			     fillIn[p] = mergeRecursive({}, fillFrom[p]);
+			 }
+			 else{
+			     fillIn[p] = mergeRecursive(fillIn[p], fillFrom[p]);
+			 }
+		     } 
+		     else if(fillIn[p] === undefined){
+			 fillIn[p] = fillFrom[p];
+		     }
+		 }
+		 return fillIn;
+	     }
+	     return mergeRecursive(fillIn, fillFrom);
 	 }
 	});
 
 
 
-//TODO: add walk to lib, or make an underscore_walk lib
+//FIXME: remove this (at least the walk part)
 _.mixin({
 	    /*applies a function over the values of an object*/
 	    applyToValues:function(obj,fn,recursive){
