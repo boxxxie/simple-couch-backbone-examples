@@ -7,13 +7,13 @@ var inv_helpers =
 	      var resp = _.map(resp_raw, function(aitem){
 				   var item = _.clone(aitem);
 		  		   item.date = dateFormatter(new Date(item.date));
-  		           if(_.isDefined(item.price)) {
+  				   if(_.isDefined(item.price)) {
 		  		       item.price.selling_price = currency_format(Number(item.price.selling_price));
 		  		   }
 				   item.locations = _.filter(item.locations,_.has_F('label'));
 		  		   return item;
 		  	       });
-		  	       
+	      
 	      var html =  ich[tableTMP]({list:resp});
 	      $(view.el).find("#changeLogTable").html(html);
 	      //set the buttons to open a dialog list of the stores that apply to each price change
@@ -48,56 +48,26 @@ var inv_helpers =
 			       inventoryPriceChangeLog);
      },
 
-//TODO newItemList should be a backbone collection
-//inv_doc should be a backbone model.
-//remove allStore_ids
-     saveNewInvItems:function(newItemList,origins,allStore_ids){
+     //TODO newItemList should be a backbone collection
+     //inv_doc should be a backbone model.
+     //remove allStore_ids
+     saveNewInvItems:function(newItemList,origins){
 	 function pushItemForIDs(runAfter){
 	     return function(idsToSave){
 		 return function(inv_doc){
 		     // idsToSave ; {type:"..", location_id:"..", name:"..", number:"..", label:".."}
-             // origins ; {type:"..", label:"..", location_id:".."}
+		     // origins ; {type:"..", label:"..", location_id:".."}
 		     var generalInvItemData = _.extend({},inv_doc,{date: (new Date()).toString()});
-		     var storesInOrigin = _(origins).chain()
-                                     .filter(function(item){ 
-                                                 return (item.type=="store"); 
-                                             })
-                                     .value();
-                         
-            if(storesInOrigin.length>0) {
-                var itemsToSave = _.chain(origins)
-                                 .mapRenameKeys("id","location_id")
-                                 .value();                
-            } else {
-                var itemsToSave = _.chain(idsToSave)
-                                 .concat(origins)
-                                 .mapRenameKeys("id","location_id")
-                                 .value();
-            }
-                          
-
-		     // if specific stores only being changed, company shouldn't be changed
-		     // TODO : if inventory is new, should be added on inventory_rt7
-		     var storesInItems = _(itemsToSave).chain()
-                         .filter(function(item){ 
-                                     return (item.type=="store"); 
-                                 })
+		     
+		     var itemModelsToSave = _.chain(idsToSave)
+                         .concat(origins)
+			 .unique(false,function(item){return either(item.id,item.location_id);})
+                         .mapRenameKeys("id","location_id")
+			 .map(function(item){
+				  var invData = _.extend({},generalInvItemData,{locid:item.location_id});
+				  return new InventoryDoc(invData);
+			      })
                          .value();
-		     var sizeStores = _.size(storesInItems);
-		     var sizeOfAllStores = _.size(allStore_ids);
-                     
-		     if(sizeStores == sizeOfAllStores) {
-			 var itemsToInventory =  itemsToSave; // include parent
-		     } else {
-			     var itemsToInventory = storesInItems;
-		     }
-                     
-		     var invModelsToSave = _.map(itemsToInventory,
-						 function(item){
-						     var invData = _.extend({},generalInvItemData,{locid:item.location_id});
-						     var newInv = new InventoryDoc(invData);
-						     return newInv;
-						 });
 
 		     var newInvChange = new InventoryChangesDoc({inventory : generalInvItemData,
 								 ids : itemsToSave});
@@ -113,12 +83,43 @@ var inv_helpers =
 	     };
 	 }
 	 return function(runAfter){
-	     return function(ids){
-		 if(_.isEmpty(ids)){}
-		 else{
+	     return function(ids){ //this list of ids probably isn't needed if we are sending models to the fn
+		 if(_.isNotEmpty(ids)){
 		     _.each(newItemList,pushItemForIDs(runAfter)(ids));
 		 }
 	     };
+	 };
+     },
+     modelsFromIds:function(attrs,idsToSaveTo){
+	 //idsToSaveTo is a list of group/company/store with .id where the item is going to be changed
+	 //attrs are the changes made to the inv doc
+	 return function(callback){
+	     
+	     var upc = attrs.upccode;
+	     
+	     //var models =  _.map(idsToSaveTo,function(id){return new InventoryDoc({_id: id+"-"+upc});});
+	     var models = async.map(idsToSaveTo,function(id,fetchced){
+					(new InventoryDoc({_id: id+"-"+upc}))
+					    .fetch(
+						{
+						    success:function(model){
+							fetched(null,model.set(attrs,{silent:true}));
+						    },
+						    error:returnQuery(fetched)
+						});
+				    },callback);
+	     
+	     var generalInvItemData = _.extend({},inv_doc,{date: (new Date()).toString()});
+
+	     
+	     
+	     var itemModelsToSave = _.chain(idsToSaveTo)
+		 .unique(false,function(item){return item.id;})
+		 .map(function(item){
+			  var invData = _.extend({},generalInvItemData,{locid:item.id});
+			  return new InventoryDoc(invData);
+		      })
+		 .value();
 	 };
      }
     };
