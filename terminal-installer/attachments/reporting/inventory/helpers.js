@@ -90,36 +90,23 @@ var inv_helpers =
 	     };
 	 };
      },
-     modelsFromIds:function(attrs,idsToSaveTo){
+};
+   /*  modelsFromIds:function(attrs,idsToSaveTo){
 	 //idsToSaveTo is a list of group/company/store with .id where the item is going to be changed
 	 //attrs are the changes made to the inv doc
 	 return function(callback){
 	     
 	     var upc = attrs.upccode;
-	     
-	     //var models =  _.map(idsToSaveTo,function(id){return new InventoryDoc({_id: id+"-"+upc});});
+	     var generalInvItemData = _.extend({},attrs,{date: (new Date()).toString()});
 	     var models = async.map(idsToSaveTo,function(id,fetchced){
 					(new InventoryDoc({_id: id+"-"+upc}))
 					    .fetch(
 						{
 						    success:function(model){
-							fetched(null,model.set(attrs,{silent:true}));
+							fetched(null,model.set(_.extend({},generalInvItemData,{locid:item.id}),{silent:true}));
 						    },
 						    error:returnQuery(fetched)
 						});
 				    },callback);
-	     
-	     var generalInvItemData = _.extend({},inv_doc,{date: (new Date()).toString()});
-
-	     
-	     
-	     var itemModelsToSave = _.chain(idsToSaveTo)
-		 .unique(false,function(item){return item.id;})
-		 .map(function(item){
-			  var invData = _.extend({},generalInvItemData,{locid:item.id});
-			  return new InventoryDoc(invData);
-		      })
-		 .value();
 	 };
-     }
-    };
+     };*/

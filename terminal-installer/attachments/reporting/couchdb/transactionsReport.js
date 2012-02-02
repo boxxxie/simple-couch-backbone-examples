@@ -60,9 +60,20 @@ function transactionsReportFetcher(start,end){
 									      .flatten()
 									      .value());
 		      var result = {transactionsForDates:transactions,total:_.walk_pre(totalOverAllDates,currency_format)};
-		      //var formattedResult = _.walk_pre(result,transactionFormattingWalk);
 		      callback(err,result);
 		  });
 	};
     };
 }
+function transactionsReportDaySummaryFetcher(start,end){
+    return function(id){
+	var view = cdb.view('reporting','id_date_sale_refund_summary');
+	var db = cdb.db('cashedout_transactions',{},true);
+	return function(callback){
+	    _async.transactionRangeGroupLevelQuery(start,end,4)(view,db,id)
+	    (function(err,resp){
+		 callback(err,resp.rows);
+	     });
+	};
+    };
+};

@@ -101,6 +101,18 @@ var _async = {
 	    return function(callback){queryF(view,db)(options)(returnQuery(callback));};
 	};
     },
+    transactionRangeGroupLevelQuery:function(start,end,group_level){
+	return function(view,db,base){
+	    var startKey = base.concat(start);
+	    var endKey = base.concat(end).concat({});
+	    var options = {
+		group_level:group_level,
+		startkey:startKey,
+		endkey:endKey
+	    };
+	    return function(callback){queryF(view,db)(options)(returnQuery(callback));};
+	};
+    },
     typedTransactionQuery:function(start,end){
 	return function(view,db,base){
 	    var startKey = base.concat(start);
