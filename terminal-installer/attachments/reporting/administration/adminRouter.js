@@ -1,4 +1,3 @@
-var RetailerUsers;
 
 var menuAdministrationRouter = 
     new (Backbone.Router.extend(
@@ -7,17 +6,44 @@ var menuAdministrationRouter =
 		  "menuAdministration/groupReport":"menuAdministrationGroup",
 		  "menuAdministration/storeReport":"menuAdministrationStore"
 	      },
+	      _setup:function(startPage, id){
+	          fetchRetailerUserCollection(id)(function(err,collection){
+                 console.log(collection);
+                 $("#main").html(ich.adminManagement_TMP(_.extend({startPage:startPage},autoBreadCrumb())));
+                 this.view = new menuAdminUsersView({collection:collection});
+                 
+                 /*
+                 $("#main").html(ich.inventoryManagementHome_TMP(_.extend({startPage:startPage},autoBreadCrumb())));
+                  var invItem = new InventoryDoc();
+                  var id = getTopLevelId(ReportData);
+                  invItem.cid = id;
+                  this.views = [ 
+                      new upc_code_input_view({model:invItem}).setElement("#upc"),
+                      new inv_display_view({model:invItem}).setElement("#item_display")
+                  ];
+                  */
+             });
+          
+          },
 	      menuAdministrationCompany:function() {
+          this._setup("companyReport",ReportData.company._id);
 		  console.log("menuAdministrationCompany");
 	      },
 	      menuAdministrationGroup:function() {
+          this._setup("companyReport",ReportData.group.group_id);
 		  console.log("menuAdministrationGroup");
 	      },
 	      menuAdministrationStore:function() {
+	      this._setup("companyReport",ReportData.store.store_id);
 		  console.log("menuAdministrationStore");
 	      }
 	     }));
 
+var menuAdminUsersView = Backbone.View.extend({
+        initialize:function() {
+            alert("aaa");
+        }
+});
 
 var menuAdministrationView = 
     Backbone.View.extend(
@@ -49,10 +75,7 @@ var menuAdministrationView =
 		       });
 	 },
 	 renderMenuAdministrationCompany: function() {
-	     fetchRetailerUserCollection(ReportData.company._id)(function(err,collection){
-	         RetailerUsers = collection;
-	         console.log(collection);
-	     });
+	     
 	     
 	     //var html = ich.menuInventory_TMP({startPage:"companyReport", 
 	     //				       breadCrumb:breadCrumb(ReportData.company.companyName)});

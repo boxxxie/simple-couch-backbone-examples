@@ -212,6 +212,14 @@
       <center><button id='{{_id}}'>Details</button></center>
     </script>
     
+    <script id="quickEditViewButton_P" class="partial" type="text/html">
+      <center><button id='edit-{{_id}}'>Edit</button></center>
+    </script>
+    
+    <script id="quickDeleteViewButton_P" class="partial" type="text/html">
+      <center><button id='del-{{_id}}'>Delete</button></center>
+    </script>
+    
     <script id="generalGoButton_P" class="partial" type="text/html">
       <div style="margin-top:20px;margin-bottom:20px;padding-bottom:20px;border-bottom: 4px dotted #ccc;">
 	<button id='generalgobtn'>Generate Report</button></div>
@@ -764,6 +772,43 @@
   	  </tr>
   	  {{/payments}}
 	</table>
+      </div>
+    </script>
+    
+    <!----------------------------------------- MENU ADMINISTRATION ------------------------------------------>
+    <script id="adminManagement_TMP" type="text/html">
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+    {{>main_navigation_buttons_P}}
+    <h1>Administration</h1>
+    <h2>{{>breadcrumb_P}}</h2>
+    <div id='usersInfoTable'></div>   
+    {{>backButton_P}}
+      </div>
+    </script>
+    
+    <script id="adminUsersInfotable_TMP" type="text/html">
+      <div style="margin-bottom:40px">
+    <table style="margin-bottom:20px;" class="reportstable">
+      <thead>
+        <tr>
+          <th>USER</th>
+          <th>PASSWORD</th>
+          <th>EDIT PW</th>
+          <th>DELETE</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#list}}
+        <tr>
+          <td align="center">{{upccode}}</td>
+          <td align="center">{{description}}</td>
+          <td>{{>quickEditViewButton_P}}</td>
+          <td>{{>quickDeleteViewButton_P}}</td>
+        </tr>
+        {{/list}}
+      </tbody>
+    </table>
+    <button style="float:right;" id="addusers">Add User</button>
       </div>
     </script>
     

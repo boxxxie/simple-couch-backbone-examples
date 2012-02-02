@@ -85,6 +85,7 @@ var upc_code_input_view =
 	    }
 	}
     );
+    
 var inv_display_view = 
     Backbone.View.extend(
 	{
@@ -116,7 +117,7 @@ var inv_display_view =
 		    });
 	    },
 	    displayItem:function(model){
-		this._renderItem(model,"you can not add this item to your inventory, it probably already exists in it");
+		this._renderItem(model,"you can not add this item to your inventory, it already exists in it");
 		this._disableSubmitButton();
 	    }
 	}
