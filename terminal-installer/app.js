@@ -20,6 +20,7 @@ ddoc.rewrites = [
     {from: "menus_corp/*", to: "../../../menus_corp/*"},
     {from: "menu_buttons/*", to: "../../../menu_buttons/*"},
     {from: "rewards_rt7/*", to: "../../../rewards_rt7/*"},
+    {from: "layered_login_users/*", to: "../../../layered_login_users/*"},
     {from: "/", to:'index.html'},
     {from: "/api", to:'../../'},
     {from: "/api/*", to:'../../*'},
