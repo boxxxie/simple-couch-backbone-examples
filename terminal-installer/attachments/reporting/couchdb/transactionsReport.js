@@ -64,6 +64,7 @@ function transactionsReportFetcher(start,end){
 		  });
 	};
     };
+}
 function transactionsReportDaySummaryFetcher(start,end){
     return function(id){
 	var view = cdb.view('reporting','id_date_summary');
@@ -74,4 +75,5 @@ function transactionsReportDaySummaryFetcher(start,end){
 		 callback(err,resp.rows);
 	     });
 	};
+    };
 };

@@ -90,7 +90,8 @@ var inv_helpers =
 	     };
 	 };
      },
-     modelsFromIds:function(attrs,idsToSaveTo){
+};
+   /*  modelsFromIds:function(attrs,idsToSaveTo){
 	 //idsToSaveTo is a list of group/company/store with .id where the item is going to be changed
 	 //attrs are the changes made to the inv doc
 	 return function(callback){
@@ -107,5 +108,5 @@ var inv_helpers =
 						    error:returnQuery(fetched)
 						});
 				    },callback);
-     };
-    };
+	 };
+     };*/
