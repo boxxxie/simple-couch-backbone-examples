@@ -793,23 +793,27 @@
         <tr>
           <th>USER</th>
           <th>PASSWORD</th>
-          <th>EDIT PW</th>
-          <th>DELETE</th>
+          <!--<th>EDIT PW</th>
+          <th>DELETE</th>-->
         </tr>
       </thead>
       <tbody>
         {{#list}}
         <tr>
-          <td align="center">{{upccode}}</td>
-          <td align="center">{{description}}</td>
-          <td>{{>quickEditViewButton_P}}</td>
-          <td>{{>quickDeleteViewButton_P}}</td>
+          <td align="center">{{user}}</td>
+          <td align="center">{{password}}</td>
+          <!--<td>{{>quickEditViewButton_P}}</td>
+          <td>{{>quickDeleteViewButton_P}}</td>-->
         </tr>
         {{/list}}
       </tbody>
     </table>
     <button style="float:right;" id="addusers">Add User</button>
       </div>
+    </script>
+    
+    <script id="inputUserInfo_TMP" type="text/html">
+        
     </script>
     
     <!-------------------------------------------- MENU REPORTS ------------------------------------------------>

@@ -41,7 +41,7 @@ function doc_setup() {
 //    var MenuInventoryAddScanItemDisplay = new menuInventoryaddScanItemView();
 //    var MenuInventoryPriceChangeLogDisplay = new menuInventorypriceChangeLogView();
 //    var MenuInventoryTaxChangeLogDisplay = new menuInventorytaxChangeLogView();
-    var MenuAdministrationDisplay = new menuAdministrationView();
+//    var MenuAdministrationDisplay = new menuAdministrationView();
     
     Backbone.history.start();
 

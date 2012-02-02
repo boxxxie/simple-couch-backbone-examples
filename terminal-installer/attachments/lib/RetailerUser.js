@@ -1,7 +1,12 @@
 var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
 var RetailerUserDoc = couchDoc.extend({urlRoot:urlBase + "layered_login_users"});
 var RetailerUserCollection = Backbone.Collection.extend({
-    model : RetailerUserDoc
+    model : RetailerUserDoc,
+    //if(collection.findUser("Admin")===undefined) {console.log("Not Found");} else {console.log("Found")}
+    findUser : function(userName) {
+        var list = this.toJSON();
+        return _.find(list,function(item){return (item.user).toLowerCase() == userName.toLowerCase();});
+    }
 });
 
 function fetchRetailerUserCollection(id) {
@@ -17,3 +22,4 @@ function fetchRetailerUserCollection(id) {
              });
     };
 };
+

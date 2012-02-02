@@ -41,7 +41,11 @@ var menuAdministrationRouter =
 var menuAdminUsersView = Backbone.View.extend({
         initialize:function() {
             console.log(this.collection);
-            console.log((this.collection).toJSON());
+            (this.collection).on("change",function(){this._renderTable();});
+            this._renderTable();
+        },
+        _renderTable:function() {
+            $("#usersInfoTable").html(ich.adminUsersInfotable_TMP({list:(this.collection).toJSON()}));
         }
 });
 
