@@ -8,7 +8,6 @@ var menuAdministrationRouter =
 	      },
 	      _setup:function(startPage, id){
 	          fetchRetailerUserCollection(id)(function(err,collection){
-                 console.log(collection);
                  $("#main").html(ich.adminManagement_TMP(_.extend({startPage:startPage},autoBreadCrumb())));
                  this.view = new menuAdminUsersView({collection:collection});
                  
@@ -38,10 +37,11 @@ var menuAdministrationRouter =
 		  console.log("menuAdministrationStore");
 	      }
 	     }));
-
+ 
 var menuAdminUsersView = Backbone.View.extend({
         initialize:function() {
-            alert("aaa");
+            console.log(this.collection);
+            console.log((this.collection).toJSON());
         }
 });
 
