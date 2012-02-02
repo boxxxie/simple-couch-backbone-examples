@@ -125,17 +125,45 @@
       <input id="upc" type="text" value="{{_id}}" />
     </script>
 
-    <script id="inventoryManagementHome_TMP" type="text/html">
-      <header>
-	<h1>Inventory Management</h1>
+    <script id="addInventoryPage_TMP" type="text/html">
+      <div id="header">
+	<h1>Add/View Inventory Items</h1>
 	{{>upcInput_P}}
-      </header>
-      <main></main>
-      <footer>
+      </div>
+      <div id="main"></div>
+      <div id="footer">
 	{{>backButton_P}}
 	{{>menuButton_P}}
 	<div id="dialog-hook"></div>
-      </footer>
+      </div>
+    </script>
+
+    <script id="reviewInventoryPage_TMP" type="text/html">
+      <div id="header">
+	<h1>Review Inventory Items</h1>
+	{{>upcInput_P}}
+      </div>
+      <div id="main"></div>
+      <div id="footer">
+	{{>backButton_P}}
+	{{>menuButton_P}}
+	<div id="dialog-hook"></div>
+      </div>
+    </script>
+
+    <script id="inventoryManagementHome_TMP" type="text/html">
+      <div id="main">
+	<h1>Inventory Management</h1>
+	<div id="subbody">
+	  <a id="review">Review Inventory Items</a>
+	  <a id="add_view">Add/View Inventory Items</a>
+	</div>
+      </div>
+      <div id="footer">
+	{{>backButton_P}}
+	{{>menuButton_P}}
+	<div id="dialog-hook"></div>
+      </div>
     </script>
 
     <script id="inventoryViewPage_TMP" type="text/html">

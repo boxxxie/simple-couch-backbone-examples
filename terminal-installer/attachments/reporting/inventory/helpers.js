@@ -44,6 +44,10 @@ var inv_helpers =
 			       (startPageStr.indexOf("store")<0)?"menuInventoryScanPriceLogtable_TMP":"menuInventoryScanPriceLogtable_store_TMP",
 			       inventoryPriceChangeLog);
      },
+
+//TODO newItemList should be a backbone collection
+//inv_doc should be a backbone model.
+//remove allStore_ids
      saveNewInvItems:function(newItemList,origins,allStore_ids){
 	 function pushItemForIDs(runAfter){
 	     return function(idsToSave){
@@ -53,17 +57,15 @@ var inv_helpers =
 			 .concat(origins)
 			 .mapRenameKeys("id","location_id")
 			 .value();
-
-		     // if specific stores only being changed, company shouldn't be changed
-		     // TODO : if inventory is new, should be added on inventory_rt7
 		     var storesInItems = _(itemsToSave).chain()
                          .filter(function(item){ 
                                      return item.type=="store"; 
                                  })
                          .value();
-		     var sizeStores = storesInItems.length;
+		     var sizeStores = _.size(storesInItems);
+		     var sizeOfAllStores = _.size(allStore_ids);
                      
-		     if(sizeStores == allStore_ids.length) {
+		     if(sizeStores == sizeOfAllStores) {
 			 var itemsToInventory =  itemsToSave; // include parent
 		     } else {
 			 var itemsToInventory = storesInItems;

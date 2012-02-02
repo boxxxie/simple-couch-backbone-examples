@@ -149,22 +149,48 @@ _.mixin({merge:function (objArray){
                           function(zipped){return _.merge(zipped);});
 	 }});
 
-_.mixin({extend_r:function (obj1,obj2){
+_.mixin({extend_r:function (extendTo,extendFrom){
 	     var isObject = function(obj) {
-		 return obj === Object(obj);
+		 return obj === Object(obj) && !(obj instanceof Array);
 	     };
-	     function mergeRecursive(obj1, obj2) {
-		 for (var p in obj2) {
-		     if (isObject(obj2[p])) {
-			 obj1[p] = {};
-			 obj1[p] = mergeRecursive(obj1[p], obj2[p]);
+	     function mergeRecursive(extendTo, extendFrom) {
+		 for (var p in extendFrom) {
+		     if (isObject(extendFrom[p])) {
+			 extendTo[p] = mergeRecursive({}, extendFrom[p]);
 		     } else {
-			 obj1[p] = obj2[p];
+			 extendTo[p] = extendFrom[p];
 		     }
 		 }
-		 return obj1;
+		 return extendTo;
 	     }
-	     return mergeRecursive(obj1, obj2);
+	     return mergeRecursive(extendTo, extendFrom);
+	 }
+	});
+
+//i don't think this is any different than defaults. was made to be used in couchDB. it is recursive, which extend, and i believe defaults, is not.
+_.mixin({fill:function (fillIn,fillFrom){
+	     var isObject = function(obj) {
+		 return obj === Object(obj) && !(obj instanceof Array);
+	     };
+	     function mergeRecursive(fillIn, fillFrom) {
+	//	 console.log("fillIn");console.log(fillIn);
+	//	 console.log("fillFrom");console.log(fillFrom);
+		 for (var p in fillFrom) {
+		     if (isObject(fillFrom[p])) {
+			 if(fillIn[p] === undefined){
+			     fillIn[p] = mergeRecursive({}, fillFrom[p]);
+			 }
+			 else{
+			     fillIn[p] = mergeRecursive(fillIn[p], fillFrom[p]);
+			 }
+		     } 
+		     else if(fillIn[p] === undefined){
+			 fillIn[p] = fillFrom[p];
+		     }
+		 }
+		 return fillIn;
+	     }
+	     return mergeRecursive(fillIn, fillFrom);
 	 }
 	});
 
