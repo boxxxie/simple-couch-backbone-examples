@@ -149,49 +149,52 @@ _.mixin({merge:function (objArray){
                           function(zipped){return _.merge(zipped);});
 	 }});
 
-_.mixin({extend_r:function (extendTo,extendFrom){
-	     var isObject = function(obj) {
-		 return obj === Object(obj) && !(obj instanceof Array);
-	     };
-	     function mergeRecursive(extendTo, extendFrom) {
-		 for (var p in extendFrom) {
-		     if (isObject(extendFrom[p])) {
-			 extendTo[p] = mergeRecursive({}, extendFrom[p]);
-		     } else {
-			 extendTo[p] = extendFrom[p];
-		     }
-		 }
-		 return extendTo;
-	     }
-	     return mergeRecursive(extendTo, extendFrom);
-	 }
+//recursive _.extend
+//designed to work stand alone in couchdb
+_.mixin({
+	    extend_r:function(extendTo,extendFrom){
+		function isObject(obj) {
+		    return obj === Object(obj) && !(obj instanceof Array);
+		};
+		function mergeRecursive(extendTo, extendFrom) {
+		    for (var p in extendFrom) {
+			if (isObject(extendFrom[p])) {
+			    extendTo[p] = mergeRecursive({}, extendFrom[p]);
+			} else {
+			    extendTo[p] = extendFrom[p];
+			}
+		    }
+		    return extendTo;
+		}
+		return mergeRecursive(extendTo, extendFrom);
+	    }
 	});
 
-//i don't think this is any different than defaults. was made to be used in couchDB. it is recursive, which extend, and i believe defaults, is not.
-_.mixin({fill:function (fillIn,fillFrom){
-	     var isObject = function(obj) {
-		 return obj === Object(obj) && !(obj instanceof Array);
-	     };
-	     function mergeRecursive(fillIn, fillFrom) {
-	//	 console.log("fillIn");console.log(fillIn);
-	//	 console.log("fillFrom");console.log(fillFrom);
-		 for (var p in fillFrom) {
-		     if (isObject(fillFrom[p])) {
-			 if(fillIn[p] === undefined){
-			     fillIn[p] = mergeRecursive({}, fillFrom[p]);
-			 }
-			 else{
-			     fillIn[p] = mergeRecursive(fillIn[p], fillFrom[p]);
-			 }
-		     } 
-		     else if(fillIn[p] === undefined){
-			 fillIn[p] = fillFrom[p];
-		     }
-		 }
-		 return fillIn;
-	     }
-	     return mergeRecursive(fillIn, fillFrom);
-	 }
+//recursive _.defaults
+//designed to work stand alone in couchdb
+_.mixin({
+	    fill:function(fillIn,fillFrom){
+		function isObject(obj) {
+		    return obj === Object(obj) && !(obj instanceof Array);
+		};
+		function mergeRecursive(fillIn, fillFrom) {
+		    for (var p in fillFrom) {
+			if (isObject(fillFrom[p])) {
+			    if(fillIn[p] === undefined){
+				fillIn[p] = mergeRecursive({}, fillFrom[p]);
+			    }
+			    else{
+				fillIn[p] = mergeRecursive(fillIn[p], fillFrom[p]);
+			    }
+			} 
+			else if(fillIn[p] === undefined){
+			    fillIn[p] = fillFrom[p];
+			}
+		    }
+		    return fillIn;
+		}
+		return mergeRecursive(fillIn, fillFrom);
+	    }
 	});
 
 
@@ -365,22 +368,22 @@ _.mixin({
 
 
 _.mixin({
-	    join:function(list,listToJoin,field){
+	    joinOn:function(list,listToJoin,field){
 		var lists = list.concat(listToJoin);
 		var fieldsToJoinOn = _.chain(list).pluck(field).map(function(o){return o.toString();}).value();
 		return _.chain(lists)
 		    .groupBy(field)
 		    .filter(function(val,key){
-				 return _.contains(fieldsToJoinOn,key);	 
-			     })
+				return _.contains(fieldsToJoinOn,key);	 
+			    })
 		    .mapMerge()
 		    .flatten()
 		    .value();
 	    }
 	});
 
-//like join, but works on a primative array and an obj array
-//not like join in that anything that isn't in both arrays is removed
+//like joinOn, but works on a primative array and an obj array
+//not like joinOn in that anything that isn't in both arrays is removed
 _.mixin({
 	    matchTo:function(primativeList,listToMatchOn,field){
 		var matchingFields = _.chain(listToMatchOn).pluck(field).intersection(primativeList).value();
@@ -394,5 +397,15 @@ _.mixin({
 		return function(obj){
 		    return _.has(obj,field);
 		};
+	    },
+	    filterHas:function(list,field){
+		return _.filter(list,_.has_F(field));
 	    }
 	});
+
+_.mixin({
+	    either:function(){
+		return _.chain(arguments).compact().first().value();
+	    }
+	});
+

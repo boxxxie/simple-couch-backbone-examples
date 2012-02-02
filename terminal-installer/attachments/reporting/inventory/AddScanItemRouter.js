@@ -101,6 +101,7 @@ var inv_display_view =
 	    _disableSubmitButton:function(){
 		this.$el.find("input,button").attr("disabled", true); 
 	    },
+	    //todo, need to be able to add to the review DB if the item isn't in rt7 DB
 	    addItem:function(model){
 		this._renderItem(model,"you can add this item to your inventory");
 		$("#addItemToCompany").button().click(
@@ -108,10 +109,9 @@ var inv_display_view =
 			var formObj = varFormGrabber($("#inv_form"));
 			var inv = _.extend(formObj,{upccode:$("#upc").val()});
 			var allStores = extractStores(ReportData);
-			inv_helpers.saveNewInvItems([inv],
-						    _.values(getParentsInfo(ReportData)))
-			(function(){alert("finished saving item to company/stores");})
-			(allStores);
+			var modelsToSave = inv_helpers.modelsFromIds(inv,allStores);
+			//inv_helpers.saveNewInvItems([inv], _.values(getParentsInfo(ReportData)))
+			//(function(){alert("finished saving item to company/stores");});
 			
 		    });
 	    },
