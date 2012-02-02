@@ -67,7 +67,7 @@ function transactionsReportFetcher(start,end){
 }
 function transactionsReportDaySummaryFetcher(start,end){
     return function(id){
-	var view = cdb.view('reporting','id_date_summary');
+	var view = cdb.view('reporting','id_date_sale_refund_summary');
 	var db = cdb.db('cashedout_transactions',{},true);
 	return function(callback){
 	    _async.transactionRangeGroupLevelQuery(start,end,4)(view,db,id)
