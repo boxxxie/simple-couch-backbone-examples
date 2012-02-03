@@ -50,6 +50,7 @@ var menuReportsTransactionsDetailView =
 	     var html = ich.transactionsDetailReports_TMP({startPage:"companyReport", 
 	     						   breadCrumb:breadCrumb(ReportData.company.companyName)});
 	     $(this.el).html(html);
+	     $("#btnBack2").hide();
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )
 		 .datepicker({
@@ -104,6 +105,7 @@ var menuReportsTransactionsDetailView =
 	     						     breadCrumb:breadCrumb(ReportData.companyName, 
 										   ReportData.group.groupName)});
 	     $(this.el).html(html);
+	     $("#btnBack2").hide();
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )
 		 .datepicker({
@@ -155,6 +157,7 @@ var menuReportsTransactionsDetailView =
 										   ReportData.store.storeName, 
 										   ReportData.store.number)});
 	     $(this.el).html(html);
+	     $("#btnBack2").hide();
 	     
 	     var selectedDates = $( "#dateFrom, #dateTo" )
 		 .datepicker({
@@ -212,6 +215,148 @@ function renderTransactionsDetailTable() {
 			  });
 		return terminal_label;	
     };
+    function renderTransactionDetail(startDate, endDateForQuery, option) {
+        transactionsReportFetcher(startDate,endDateForQuery)
+        ([option.id])
+        (function(err,resp){
+            var respForBtn = _.extend({},resp);
+             resp.transactionsForDates = 
+             _.walk_pre(resp.transactionsForDates, 
+                  function(obj) {
+                      if(obj.totalsForDate) {
+                      obj.totalsForDate = _.extend({date:obj.date},obj.totalsForDate);
+                      }
+                      return obj;
+                  });
+            
+            resp.transactionsForDates = _.map(resp.transactionsForDates, function(item) {
+                item.totalsForDate = 
+                 _.applyToValues(item.totalsForDate, function(obj){
+                         if(_.isNumber(obj)) {
+                             obj = currency_format(obj);
+                         }
+                         return obj;
+                         }, true);
+                
+                item.transactions = _.map(item.transactions, function(item) {
+                    var terminal_label = getTerminalLabel(item.terminal_id);
+                    return _.extend(item,{name:terminal_label} 
+                                        ,{date:item.time.start}
+                                        ,{transdate:jodaDatePartFormatter(item.time.start)}
+                                        ,{transtime:jodaTimePartFormatter(item.time.start)}
+                                        ,{subTotal:currency_format(item.subTotal)}
+                                        ,{tax1and2:currency_format(item.tax1and2)}
+                                        ,{tax3:currency_format(item.tax3)}
+                                        ,{total:currency_format(item.total)});
+                });
+                
+                return item;
+            });
+             
+             var html = ich.transactionsDetailTable_TMP(resp);
+             $("#transactionsdetailtable").html(html);
+             
+             $("#transactionssummarytable").hide();             
+             $("#ulGroupDropDown").hide();
+             $("#dateRangePicker").hide();
+             $("#generalgobtn").hide();
+             $("#btnBackHistory").hide();
+             $("#btnBack2").show();
+             
+             $("#btnBack2").click(function(){
+                 $("#transactionsdetailtable").html({});
+                 $("#transactionssummarytable").show();
+                 $("#ulGroupDropDown").show();
+                 $("#dateRangePicker").show();
+                 $("#generalgobtn").show();
+                 $("#btnBackHistory").show();
+                 $("#btnBack2").hide();
+             });
+             
+             
+             respForBtn.transactionsForDates = _.map(respForBtn.transactionsForDates, function(item) {
+                item.transactions = _.map(item.transactions, function(item) {
+                    var terminal_label = getTerminalLabel(item.terminal_id);
+                    return _.extend(item,{name:terminal_label} 
+                                        ,{date:item.time.start});
+                });
+                
+                return item;
+            });
+            
+             _.each(respForBtn.transactionsForDates, function(item) {
+                item.transactions = applyReceiptInfo(item.transactions);
+                
+                item.transactions = _.applyToValues(item.transactions, function(obj){
+                            if(obj && obj.discount==0){
+                            obj.discount=null;
+                            }
+                            if(obj && obj.quantity){
+                            obj.orderamount = toFixed(2)(obj.price * obj.quantity);
+                            obj.quantity+="";
+                            if(obj.discount) {
+                                obj.discountamount = toFixed(2)(obj.discount * obj.quantity);
+                            }
+                            }
+                            return toFixed(2)(obj);
+                        }, true);
+             
+             item.transactions = _.map(item.transactions, function(item){
+                      if(item.payments) {
+                          item.payments = _.map(item.payments, function(payment){
+                                    if(payment.paymentdetail) {
+                                        payment.paymentdetail.crt = payment.type;
+                                    }
+                                    if(payment.paymentdetail && payment.paymentdetail.errmsg) {
+                                        payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace("<br>"," ");
+                                    }
+                                    return payment;
+                                    });
+                      }
+                      return item;
+                      });
+             
+    
+                item.transactions = 
+                 _.applyToValues(item.transactions, function(obj){
+                         var strObj = obj+"";
+                         if(strObj.indexOf(".")>=0 && strObj.indexOf("$")<0) {
+                             obj = currency_format(Number(obj));
+                         }
+                         return obj;
+                         }, true);
+                
+                
+                _.each(item.transactions, function(item) {
+                    var item = _.clone(item);
+                
+                    var dialogtitle=getDialogTitle(ReportData,item);
+                    
+                    var btn = $('#'+item._id)
+                        .each(function(){
+                              $(this).button()
+                                  .click(function(){
+                                     var btnData = item;
+                                     btnData.discount=null;
+                                     //TODO use walk
+                                     _.applyToValues(ReportData,
+                                             function(o){
+                                             if(o.store_id==btnData.store_id){
+                                                 btnData.storename = o.storeName;
+                                             }
+                                             return o;
+                                             }
+                                             ,true);
+                                     
+                                     var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
+                                     quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
+                                 });
+                          });
+                });
+            });
+                         
+         });
+        };
     
     console.log("renderTransactionsDetailTable");
     var dropdownGroup = $("#groupsdown");
@@ -223,7 +368,6 @@ function renderTransactionsDetailTable() {
 	var endDateForQuery = new Date($("#dateTo").val());
 	endDateForQuery.addDays(1);
 	
-	//TODO?????????
 	var sd = $("#storesdown option:selected");
 	ids =[{id:sd.val(), name:sd.text()}];
 	
@@ -232,128 +376,40 @@ function renderTransactionsDetailTable() {
 	startDate = startDate.toArray().slice(0,3);
 	endDateForQuery = endDateForQuery.toArray().slice(0,3);
 	
-	transactionsReportFetcher(startDate,endDateForQuery)
+	transactionsReportDaySummaryFetcher(startDate,endDateForQuery)
 	([_.first(ids).id])
 	(function(err,resp){
-		var respForBtn = _.extend({},resp);
-	     resp.transactionsForDates = 
-		 _.walk_pre(resp.transactionsForDates, 
-			  function(obj) {
-			      if(obj.totalsForDate) {
-				  obj.totalsForDate = _.extend({date:obj.date},obj.totalsForDate);
-			      }
-			      return obj;
-			  });
-		
-		resp.transactionsForDates = _.map(resp.transactionsForDates, function(item) {
-			item.totalsForDate = 
-		     _.applyToValues(item.totalsForDate, function(obj){
-					 if(_.isNumber(obj)) {
-					     obj = currency_format(obj);
-					 }
-					 return obj;
-				     }, true);
-			
-			item.transactions = _.map(item.transactions, function(item) {
-				var terminal_label = getTerminalLabel(item.terminal_id);
-				return _.extend(item,{name:terminal_label} 
-									,{date:item.time.start}
-									,{transdate:jodaDatePartFormatter(item.time.start)}
-									,{transtime:jodaTimePartFormatter(item.time.start)}
-									,{subTotal:currency_format(item.subTotal)}
-									,{tax1and2:currency_format(item.tax1and2)}
-									,{tax3:currency_format(item.tax3)}
-									,{total:currency_format(item.total)});
-			});
-			
-			return item;
-		});
-			
-	     var html = ich.transactionsDetailTable_TMP(resp);
-	     $("#transactionsdetailtable").html(html);
-	     
-	     respForBtn.transactionsForDates = _.map(respForBtn.transactionsForDates, function(item) {
-			item.transactions = _.map(item.transactions, function(item) {
-				var terminal_label = getTerminalLabel(item.terminal_id);
-				return _.extend(item,{name:terminal_label} 
-									,{date:item.time.start});
-			});
-			
-			return item;
-		});
-		
-	     _.each(respForBtn.transactionsForDates, function(item) {
-	     	item.transactions = applyReceiptInfo(item.transactions);
-	     	
-	     	item.transactions = _.applyToValues(item.transactions, function(obj){
-					    if(obj && obj.discount==0){
-						obj.discount=null;
-					    }
-					    if(obj && obj.quantity){
-						obj.orderamount = toFixed(2)(obj.price * obj.quantity);
-						obj.quantity+="";
-						if(obj.discount) {
-						    obj.discountamount = toFixed(2)(obj.discount * obj.quantity);
-						}
-					    }
-					    return toFixed(2)(obj);
-					}, true);
-	     
-	     item.transactions = _.map(item.transactions, function(item){
-				  if(item.payments) {
-				      item.payments = _.map(item.payments, function(payment){
-								if(payment.paymentdetail) {
-								    payment.paymentdetail.crt = payment.type;
-								}
-								if(payment.paymentdetail && payment.paymentdetail.errmsg) {
-								    payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace("<br>"," ");
-								}
-								return payment;
-							    });
-				  }
-				  return item;
-			      });
-	     
-
-	     	item.transactions = 
-		     _.applyToValues(item.transactions, function(obj){
-					 var strObj = obj+"";
-					 if(strObj.indexOf(".")>=0 && strObj.indexOf("$")<0) {
-					     obj = currency_format(Number(obj));
-					 }
-					 return obj;
-				     }, true);
-	     	
-	     	
-			_.each(item.transactions, function(item) {
-				var item = _.clone(item);
-			
-				var dialogtitle=getDialogTitle(ReportData,item);
-				
-				var btn = $('#'+item._id)
-				    .each(function(){
-					      $(this).button()
-				    		  .click(function(){
-							     var btnData = item;
-							     btnData.discount=null;
-							     //TODO use walk
-							     _.applyToValues(ReportData,
-									     function(o){
-										 if(o.store_id==btnData.store_id){
-										     btnData.storename = o.storeName;
-										 }
-										 return o;
-									     }
-									     ,true);
-							     
-							     var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
-							     quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
-							 });
-					  });
-			});
-		});
-				     
-	 });
+	    console.log(resp);
+	    var data = _.map(resp,function(item){
+	        var date = item.key[1]+"-"+item.key[2]+"-"+item.key[3];
+	        var val = {};
+	        _.extend(val,{date:date},item.value);
+	        val.count = val.count+"";
+	        
+	        val = _.applyToValues(val, function(obj){
+                     if(_.isNumber(obj)) {
+                         obj = currency_format(obj);
+                     }
+                     return obj;
+                     }, true);
+            return val;
+	    });
+	    console.log(data);
+	    $("#transactionssummarytable").html(ich.transactionsSummaryTable_TMP({list:data}));
+	    
+	    _.each(data,function(item){
+	        var row = $("#"+item.date);
+	        row.mouseover(function(){$(this).css('cursor', 'pointer');});
+	        row.click(function(){
+	            var startDate = new Date((item.date).split("-").join("/"));
+	            var endDateForQuery = new Date((item.date).split("-").join("/"));
+	            startDate = startDate.toArray().slice(0,3);
+	            endDateForQuery = endDateForQuery.addDays(1).toArray().slice(0,3);
+	            renderTransactionDetail(startDate,endDateForQuery,{id:_.first(ids).id});
+	        });
+	    });
+	});
+	
     } else {
     }
 };
