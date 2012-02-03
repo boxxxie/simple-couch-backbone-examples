@@ -781,7 +781,7 @@ function hourlyReportFetcher(id,runAfter){
 	     totalSales:function(callback){todaysHourlySalesFetcher(transactionsTotalView,transaction_db,id,function(err,data){callback(null, data);});}
 	    },
 	    function(err,report){
-		var templateData = _(_.extend_r(report.originSales,report.totalSales)).
+		var templateData = _(_.fill(report.originSales,report.totalSales)).
 		    map(function(mergedVals,time){
 			    return _.extend({},{timerange:time},mergedVals);
 			});
