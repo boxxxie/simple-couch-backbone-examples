@@ -1,4 +1,7 @@
 function transactionFormattingWalk(obj){
+    if(obj.count){
+	return _.extend(obj,{count:obj.count+""});
+    }
     if(obj.quantity){
 	if(obj.origin == "SCALE"){
 	    obj.quantity = toFixed(3)(obj.quantity);
@@ -72,8 +75,16 @@ function transactionsReportDaySummaryFetcher(start,end){
 	return function(callback){
 	    _async.transactionRangeGroupLevelQuery(start,end,4)(view,db,id)
 	    (function(err,resp){
-		 callback(err,resp.rows);
-	     });
+		 var transactions = 
+		     _.map(resp.rows,
+			   function(item){
+			       return _.extend({},
+					       item.value,
+					       {date : _.rest(item.key)},
+					       {dateString : item.key[1]+"-"+item.key[2]+"-"+item.key[3]});
+			       });
+
+		 callback(err,transactions);});
 	};
     };
-};
+}
