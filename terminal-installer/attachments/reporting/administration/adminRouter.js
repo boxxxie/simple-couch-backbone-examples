@@ -10,7 +10,9 @@ var menuAdministrationRouter =
 	          fetchRetailerUserCollection(id)(function(err,collection){
                  $("#main").html(ich.adminManagement_TMP(_.extend({startPage:startPage},autoBreadCrumb())));
                  this.view = new menuAdminUsersView({collection:collection});
-                 
+                 $("#main").button().click(function(){
+                     
+                 });
                  /*
                  $("#main").html(ich.inventoryManagementHome_TMP(_.extend({startPage:startPage},autoBreadCrumb())));
                   var invItem = new InventoryDoc();

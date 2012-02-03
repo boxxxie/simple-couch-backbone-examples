@@ -4,7 +4,7 @@ var couchDoc = Backbone.Model.extend(
 	parse : function(resp, xhr) {
 	    //xhr.statusText: "Created"
 	    //resp -> "{"ok":true,"id":"80e3124756c1e5241a6665b683003c86","rev":"1-a013d28d19cf9ffc14b6a76f596fb7d4"}"
-	    if(xhr.statusText == "Created"){ //this seems to take care of creating and editing docs, i'm not sure if this is the right solution, though
+	    if(xhr && xhr.statusText == "Created"){ //this seems to take care of creating and editing docs, i'm not sure if this is the right solution, though
 		return {_rev:resp.rev,_id:resp.id};
 	    }
 	    return resp;
