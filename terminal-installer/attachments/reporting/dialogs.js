@@ -108,6 +108,53 @@ function quickReportView(id, title){
 }
 
 
+/********************************* menu Administration *****************************************/
+function quickInputUserInfoDialog(html,options) {
+    var userCollection = options.collection;
+    var defaultData = options.defaultData;
+    
+    var d = $("#dialog-quickView");
+    d.html(html);
+    
+    var dialogOptions = _.extend(
+    {autoOpen: false,
+     height: 450,
+     width: 424,
+     modal: true,
+     buttons: {
+         "Submit": function() {
+             var f = $("#form");
+             var user_pass = varFormGrabber(f);
+             if(_.isEmpty(user_pass.user) || _.isEmpty(user_pass.password)) {
+                 alert("Please, fill user/password");
+             } else {
+                 if(!(userCollection.findUser(user_pass.user.trim().toLowerCase())===undefined)) {
+                     alert("User already exists");
+                 } else {
+                     var userData = _.extend({},defaultData,user_pass);
+                     var userDoc = new RetailerUserDoc();
+                     userDoc.save(userData,{success:function(resp){
+                                                console.log("success");
+                                                userCollection.add(resp);
+                                                userCollection.trigger("change",userCollection);
+                                            }, 
+                                            error:function(){
+                                                console.log("fail");
+                                            }});
+                     d.dialog('close');
+                 }
+             }
+         },
+         "Close": function() {
+         d.dialog('close');
+         }
+     },
+     title:options.title
+    },_.clone(options));
+    
+    d.dialog(dialogOptions);
+    d.dialog("open");
+};
 
 
 /******************************* menuReports - tax collected quick view dialog ************************/

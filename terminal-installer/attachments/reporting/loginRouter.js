@@ -37,6 +37,7 @@ function login() {
     _.log("user_pass_key")(user_pass_key);
     
     var db_install = cdb.db("api",{},true);
+    var db_user = cdb.db("layered_login_users");
     var user_passwordView = appView("user_pass");
     var branch_show = appShow("branch");
 
@@ -53,16 +54,15 @@ function login() {
 	if(!_.isEmpty(login_key.user)) {
 		login_key.user = login_key.user.toLowerCase();
 	}
-	if(!_.isEmpty(login_key.password)) {
-		login_key.password = login_key.password.toLowerCase();
-	}
 	
-    keyQuery(user_passwordView, db_install, login_key)
+    keyQuery(user_passwordView, db_user, login_key)
+    //keyQuery(user_passwordView, db_install, login_key)
     (function (resp){
 	 console.log(resp);
 	 var accountMatches = resp.rows;
 	 if(_.isNotEmpty(accountMatches)) {
-	     var account = {company_id:_.first(resp.rows).id,loginTo:_.first(resp.rows).value};
+	     var account = {company_id:_.first(resp.rows).value.company,loginTo:_.first(resp.rows).value};
+	     //var account = {company_id:_.first(resp.rows).id,loginTo:_.first(resp.rows).value};
 	     db_install.show(branch_show,
 			     account.company_id,
 			     {data : account.loginTo,

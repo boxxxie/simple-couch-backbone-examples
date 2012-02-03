@@ -101,7 +101,7 @@ var menuReportsTransactionsDetailView =
 	 },
 	 renderMenuReportsGroupTransactionsDetail: function() {
 	     
-	     var html = ich.menuReportsCancelledReports_TMP({startPage:"groupReport", 
+	     var html = ich.transactionsDetailReports_TMP({startPage:"groupReport", 
 	     						     breadCrumb:breadCrumb(ReportData.companyName, 
 										   ReportData.group.groupName)});
 	     $(this.el).html(html);
@@ -151,7 +151,7 @@ var menuReportsTransactionsDetailView =
 	 },
 	 renderMenuReportsStoreTransactionsDetail: function() {
 	     
-	     var html = ich.menuReportsCancelledReports_TMP({startPage:"storeReport", 
+	     var html = ich.transactionsDetailReports_TMP({startPage:"storeReport", 
 	     						     breadCrumb:breadCrumb(ReportData.companyName, 
 										   ReportData.groupName, 
 										   ReportData.store.storeName, 
