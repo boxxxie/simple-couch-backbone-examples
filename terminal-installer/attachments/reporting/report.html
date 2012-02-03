@@ -1495,12 +1495,12 @@
     <tfoot>
       <tr>
         {{#total}}
-        <th align="center" colspan="5">TOTAL</th>
+        <th align="center">TOTAL</th>
+        <th align="right">{{count}}</th>
         <th align="right">{{subTotal}}</th>
         <th align="right">{{tax1and2}}</th>
         <th align="right">{{tax3}}</th>
         <th align="right">{{total}}</th>
-        <th></th>
         {{/total}}
       </tr>
     </tfoot>
@@ -1556,7 +1556,6 @@
 	</tfoot>
 	<tbody>
 	  {{#transactions}}
-	  <!--{{#transactions}}-->
 	  <tr>
 	    <td>{{transdate}}</td>
 	    <td>{{transtime}}</td>
@@ -1569,17 +1568,6 @@
 	    <td align="right">{{total}}</td>
 	    <td align="right">{{>quickDetailsViewButton_P}}</td>
 	  </tr>
-	 <!-- {{/transactions}}-->
-	  <!--{{#totalsForDate}}
-	  <tr>
-	    <td colspan="5">{{date}}</td>
-	    <td align="right">{{subTotal}}</td>
-	    <td align="right">{{tax1and2}}</td>
-	    <td align="right">{{tax3}}</td>
-	    <td align="right">{{total}}</td>
-	    <td></td>
-	  </tr>
-	  {{/totalsForDate}}-->
 	  {{/transactions}}
 	  {{^transactions}}
 	  <tr>

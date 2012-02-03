@@ -233,44 +233,6 @@ function renderTransactionsDetailTable() {
                                         ,{total:currency_format(item.total)});
                 });
                 
-            /*
-             resp.transactionsForDates = 
-             _.walk_pre(resp.transactionsForDates, 
-                  function(obj) {
-                      if(obj.totalsForDate) {
-                      obj.totalsForDate = _.extend({date:obj.date},obj.totalsForDate);
-                      }
-                      return obj;
-                  });
-            */
-            /*
-            resp.transactionsForDates = _.map(resp.transactionsForDates, function(item) {
-                item.totalsForDate = 
-                 _.applyToValues(item.totalsForDate, function(obj){
-                         if(_.isNumber(obj)) {
-                             obj = currency_format(obj);
-                         }
-                         return obj;
-                         }, true);
-              
-               
-                item.transactions = _.map(item.transactions, function(item) {
-                    var terminal_label = getTerminalLabel(item.terminal_id);
-                    return _.extend(item,{name:terminal_label} 
-                                        ,{date:item.time.start}
-                                        ,{transdate:jodaDatePartFormatter(item.time.start)}
-                                        ,{transtime:jodaTimePartFormatter(item.time.start)}
-                                        ,{subTotal:currency_format(item.subTotal)}
-                                        ,{tax1and2:currency_format(item.tax1and2)}
-                                        ,{tax3:currency_format(item.tax3)}
-                                        ,{total:currency_format(item.total)});
-                });
-                
-                return item;
-            });
-             */
-            
-            
              var html = ich.transactionsDetailTable_TMP(resp);
              $("#transactionsdetailtable").html(html);
              
@@ -292,60 +254,54 @@ function renderTransactionsDetailTable() {
              });
              
              
-             respForBtn.transactionsForDates = _.map(respForBtn.transactionsForDates, function(item) {
-                item.transactions = _.map(item.transactions, function(item) {
-                    var terminal_label = getTerminalLabel(item.terminal_id);
-                    return _.extend(item,{name:terminal_label} 
-                                        ,{date:item.time.start});
-                });
-                
-                return item;
-            });
+             respForBtn.transactions = _.map(respForBtn.transactions, function(item) {
+                                            var terminal_label = getTerminalLabel(item.terminal_id);
+                                                return _.extend(item,{name:terminal_label} 
+                                                                    ,{date:item.time.start});
+                                        });
             
-             _.each(respForBtn.transactionsForDates, function(item) {
-                item.transactions = applyReceiptInfo(item.transactions);
+            respForBtn.transactions = applyReceiptInfo(respForBtn.transactions);
                 
-                item.transactions = _.applyToValues(item.transactions, function(obj){
-                            if(obj && obj.discount==0){
-                            obj.discount=null;
-                            }
-                            if(obj && obj.quantity){
-                            obj.orderamount = toFixed(2)(obj.price * obj.quantity);
-                            obj.quantity+="";
-                            if(obj.discount) {
-                                obj.discountamount = toFixed(2)(obj.discount * obj.quantity);
-                            }
-                            }
-                            return toFixed(2)(obj);
-                        }, true);
-             
-             item.transactions = _.map(item.transactions, function(item){
-                      if(item.payments) {
-                          item.payments = _.map(item.payments, function(payment){
-                                    if(payment.paymentdetail) {
-                                        payment.paymentdetail.crt = payment.type;
-                                    }
-                                    if(payment.paymentdetail && payment.paymentdetail.errmsg) {
-                                        payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace("<br>"," ");
-                                    }
-                                    return payment;
-                                    });
-                      }
-                      return item;
-                      });
-             
-    
-                item.transactions = 
-                 _.applyToValues(item.transactions, function(obj){
+            respForBtn.transactions = _.applyToValues(respForBtn.transactions, function(obj){
+                                        if(obj && obj.discount==0){
+                                        obj.discount=null;
+                                        }
+                                        if(obj && obj.quantity){
+                                        obj.orderamount = toFixed(2)(obj.price * obj.quantity);
+                                        obj.quantity+="";
+                                        if(obj.discount) {
+                                            obj.discountamount = toFixed(2)(obj.discount * obj.quantity);
+                                        }
+                                        }
+                                        return toFixed(2)(obj);
+                                    }, true);
+            
+            respForBtn.transactions = _.map(respForBtn.transactions, function(item){
+                                      if(item.payments) {
+                                          item.payments = _.map(item.payments, function(payment){
+                                                    if(payment.paymentdetail) {
+                                                        payment.paymentdetail.crt = payment.type;
+                                                    }
+                                                    if(payment.paymentdetail && payment.paymentdetail.errmsg) {
+                                                        payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace("<br>"," ");
+                                                    }
+                                                    return payment;
+                                                    });
+                                      }
+                                      return item;
+                                      });
+            
+            
+             respForBtn.transactions = 
+                 _.applyToValues(respForBtn.transactions, function(obj){
                          var strObj = obj+"";
                          if(strObj.indexOf(".")>=0 && strObj.indexOf("$")<0) {
                              obj = currency_format(Number(obj));
                          }
                          return obj;
                          }, true);
-                
-                
-                _.each(item.transactions, function(item) {
+            
+            _.each(respForBtn.transactions, function(item) {
                     var item = _.clone(item);
                 
                     var dialogtitle=getDialogTitle(ReportData,item);
@@ -371,8 +327,6 @@ function renderTransactionsDetailTable() {
                                  });
                           });
                 });
-            });
-                         
          });
         };
     
@@ -397,22 +351,17 @@ function renderTransactionsDetailTable() {
 	transactionsReportDaySummaryFetcher(startDate,endDateForQuery)
 	([_.first(ids).id])
 	(function(err,resp){
-	    console.log(resp);
-	    $("#transactionssummarytable").html(ich.transactionsSummaryTable_TMP({list:resp}));
+	    var formattedTemplateData = _.walk_pre(resp,transactionFormattingWalk);
+	    $("#transactionssummarytable").html(ich.transactionsSummaryTable_TMP({list:formattedTemplateData.transactions,total:formattedTemplateData.total}));
 	    
-	    _.each(data,function(item){
-	        var row = $("#"+item.date);
-	        row.mouseover(function(){$(this).css('cursor', 'pointer');});
+	    _.each(resp.transactions,function(item){
+	        var row = $("#"+item.dateString);
 	        row.click(function(){
-	            var startDate = new Date((item.date).split("-").join("/"));
-	            var endDateForQuery = new Date((item.date).split("-").join("/"));
-	            startDate = startDate.toArray().slice(0,3);
-	            endDateForQuery = endDateForQuery.addDays(1).toArray().slice(0,3);
-	            renderTransactionDetail(startDate,endDateForQuery,{id:_.first(ids).id});
+	            var startDate = item.date;
+                var endDate = date_array.inc_day(startDate);
+                renderTransactionDetail(startDate,endDate,{id:_.first(ids).id});
 	        });
 	    });
 	});
-	
-    } else {
-    }
+    } 
 };

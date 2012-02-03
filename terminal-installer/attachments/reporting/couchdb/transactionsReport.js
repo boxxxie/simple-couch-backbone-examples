@@ -46,32 +46,6 @@ function transactionsReportFetcher(start,end){
 		      
 		      var transactions = _.chain(response.rows).pluck('doc').sortBy(startTime).reverse().value();
 		      
-		      /*
-		      var transactions = _.chain(response.rows)
-			  .groupBy(function(resp_item){ //group by day
-				       return _.chain(resp_item.key)
-					   .slice(1,4)
-					   .join("-")
-					   .value();
-				   })
-			  .map(function(items,date){
-				   function startTime(transaction){
-				       return (new Date(transaction.time.start)).getTime();
-				   }
-				   var transactionsForDate = 
-				       _.chain(items).pluck('doc').sortBy(startTime).reverse().value();
-				   
-				   var totals = calculateTotalsOverTransactions(transactionsForDate);
-				   return {date:date,transactions:transactionsForDate,totalsForDate:totals};
-			       })
-			  .value();
-			  */
-		      /*
-		      var totalOverAllDates = calculateTotalsOverTransactions(_.chain(transactions)
-									      .pluck('transactions')
-									      .flatten()
-									      .value());
-		      */
 		     var totalOverAllDates = calculateTotalsOverTransactions(transactions);
 		      var result = {transactions:transactions,total:_.walk_pre(totalOverAllDates,currency_format)};
 		      callback(err,result);
@@ -94,8 +68,9 @@ function transactionsReportDaySummaryFetcher(start,end){
 					       {date : _.rest(item.key)},
 					       {dateString : item.key[1]+"-"+item.key[2]+"-"+item.key[3]});
 			       });
-
-		 callback(err,transactions);});
+	      var total = _.reduce(transactions,_.addPropertiesTogether,{});
+         var result = {transactions:transactions,total:total};
+		 callback(err, result);});
 	};
     };
 }
