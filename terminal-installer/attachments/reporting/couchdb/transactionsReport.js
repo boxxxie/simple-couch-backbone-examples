@@ -40,6 +40,13 @@ function transactionsReportFetcher(start,end){
 			      .defaults({tax1and2:0,subTotal:0,tax3:0,total:0})
 			      .value();
 		      }
+		      function startTime(transaction){
+                                       return (new Date(transaction.time.start)).getTime();
+                               };
+		      
+		      var transactions = _.chain(response.rows).pluck('doc').sortBy(startTime).reverse().value();
+		      
+		      /*
 		      var transactions = _.chain(response.rows)
 			  .groupBy(function(resp_item){ //group by day
 				       return _.chain(resp_item.key)
@@ -58,11 +65,15 @@ function transactionsReportFetcher(start,end){
 				   return {date:date,transactions:transactionsForDate,totalsForDate:totals};
 			       })
 			  .value();
+			  */
+		      /*
 		      var totalOverAllDates = calculateTotalsOverTransactions(_.chain(transactions)
 									      .pluck('transactions')
 									      .flatten()
 									      .value());
-		      var result = {transactionsForDates:transactions,total:_.walk_pre(totalOverAllDates,currency_format)};
+		      */
+		     var totalOverAllDates = calculateTotalsOverTransactions(transactions);
+		      var result = {transactions:transactions,total:_.walk_pre(totalOverAllDates,currency_format)};
 		      callback(err,result);
 		  });
 	};
