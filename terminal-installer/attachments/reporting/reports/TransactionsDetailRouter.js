@@ -398,22 +398,7 @@ function renderTransactionsDetailTable() {
 	([_.first(ids).id])
 	(function(err,resp){
 	    console.log(resp);
-	    var data = _.map(resp,function(item){
-	        var date = item.key[1]+"-"+item.key[2]+"-"+item.key[3];
-	        var val = {};
-	        _.extend(val,{date:date},item.value);
-	        val.count = val.count+"";
-	        
-	        val = _.applyToValues(val, function(obj){
-                     if(_.isNumber(obj)) {
-                         obj = currency_format(obj);
-                     }
-                     return obj;
-                     }, true);
-            return val;
-	    });
-	    console.log(data);
-	    $("#transactionssummarytable").html(ich.transactionsSummaryTable_TMP({list:data}));
+	    $("#transactionssummarytable").html(ich.transactionsSummaryTable_TMP({list:resp}));
 	    
 	    _.each(data,function(item){
 	        var row = $("#"+item.date);
