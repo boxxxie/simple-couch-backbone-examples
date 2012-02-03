@@ -1,4 +1,16 @@
-var date = { toArray : { until : { day : function(date){return _.first(date.toArray(),3);}}}};
+//FIXME BAD NAMESPACE!!!!!
+var date = {
+    toArray : { until : { day : function(date){return _.first(date.toArray(),3);}}}
+  
+};
+
+var date_array = {
+        inc_day :  function (dateArray){
+	var newDate = _.clone(dateArray);
+	newDate[2] = newDate[2]+1;
+	return newDate;
+    }  
+};
 function identity(o){
     return o;
 }

@@ -5,23 +5,31 @@ function getTopLevelId(reportData){
     else {return undefined;}
 };
 function getParentsInfo(reportData){
-    var parentInfo={};
-    if(reportData.company) { _.extend(parentInfo,{company:{id:reportData.company._id, label:reportData.company.companyName, type:"company"}});}
-    else {
-	_.extend(parentInfo,{company:{id:reportData.company_id, label:reportData.companyName, type:"company"}});
-	if(reportData.group) {
-	    _.extend(parentInfo,{group:{id:reportData.group.group_id, label:reportData.group.groupName, type:"group"}});
-	} else {
-	    _.extend(parentInfo,{group:{id:reportData.group_id, label:reportData.groupName, type:"group"}}
-	                       ,{store:{id:reportData.store.store_id, label:(reportData.store.number+":"+reportData.store.storeName),type:"store"}});
-	}
-    }
-    return parentInfo;
+    //makes an object that looks like {company:,group:}
+    var company = {
+	id:_.either(reportData.company._id,reportData.company_id), 
+	label:_either(reportData.company.companyName,reportData.companyName), 
+	type:"company"
+    };
+
+    var group = {
+	id:_.either(reportData.group.group_id,reportData.group_id), 
+	label:_.either(reportData.group.groupName, reportData.groupName),
+	type:"group"
+    };
+/*
+    var store = {
+	id:reportData.store.store_id, 
+	label:reportData.store.number+":"+reportData.store.storeName,
+	number:reportData.store.storeName,
+	type:"store"
+    };
+*/
+    return _.filter$({company:company,group:group},_.has_F('id'));
 };
 var menuInventoryaddScanItemRouter = 
     new (Backbone.Router.extend(
 	     {routes: {
-		  //login#menuInventory/companyReportaddScanItem
 		  "menuInventory/companyReportaddScanItem":"menuInventoryCompanyaddScanItem",
 		  "menuInventory/groupReportaddScanItem":"menuInventoryGroupaddScanItem",
 		  "menuInventory/storeReportaddScanItem":"menuInventoryStoreaddScanItem"
@@ -85,7 +93,7 @@ var upc_code_input_view =
 	    }
 	}
     );
-    
+
 var inv_display_view = 
     Backbone.View.extend(
 	{
@@ -110,7 +118,8 @@ var inv_display_view =
 			var formObj = varFormGrabber($("#inv_form"));
 			var inv = _.extend(formObj,{upccode:$("#upc").val()});
 			var allStores = extractStores(ReportData);
-			var modelsToSave = inv_helpers.modelsFromIds(inv,allStores);
+			var parents = _.values(getParentsInfo(ReportData));
+			var modelsToSave = inv_helpers.modelsFromIds(inv,allStores.concat(parents));
 			//inv_helpers.saveNewInvItems([inv], _.values(getParentsInfo(ReportData)))
 			//(function(){alert("finished saving item to company/stores");});
 			

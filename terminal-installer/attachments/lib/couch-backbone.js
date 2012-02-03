@@ -14,8 +14,8 @@ var couchDoc = Backbone.Model.extend(
 	    var model = this;
 	    var success = options.success;
 	    if(_.isUndefined(this.id)){
-		//get uuid from couchdb and set the model's id to it
-		var id = $.couch.newUUID();
+		//get uuid from couchdb and set the model's id to it, this may not work properly with many requests in a short time span
+		var id = $.couch.newUUID(); //fixme: test this more on firefox
 		var idObj = {};
 		idObj[this.idAttribute] = id;
 		this.set(idObj,{silent:true});

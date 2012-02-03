@@ -787,8 +787,7 @@
     {{>main_navigation_buttons_P}}
     <h1>Administration</h1>
     <h2>{{>breadcrumb_P}}</h2>
-    <div id='usersInfoTable'></div>
-    {{>quickReportViewHook_P}}   
+    <div id='usersInfoTable'></div>   
     {{>backButton_P}}
       </div>
     </script>
@@ -820,20 +819,20 @@
     </script>
     
     <script id="inputUserInfo_TMP" type="text/html">
-        <div id="dialog-form" title="{{title}}">
-        <form id="form">
-          <ul>
-          <li>              
-          <label for="user">User  ID</label>
-          <input type="text" id="txtUser" var="user" class="text ui-widget-content ui-corner-all" />
-          </li>
-          <li>
-          <label for="password">Password</label>
-          <input type="text" id="txtPassword" var="password" class="text ui-widget-content ui-corner-all" />
-          </li>
-          </ul>
-        </form>
-        </div>
+        <table style="margin-bottom:20px;" class="reportstable">
+      <thead>
+        <tr>
+          <th>USER</th>
+          <th>PASSWORD</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td align="center">{{user}}</td>
+          <td align="center">{{password}}</td>
+        </tr>
+      </tbody>
+    </table>
     </script>
     
     <!-------------------------------------------- MENU REPORTS ------------------------------------------------>
@@ -1483,7 +1482,7 @@
       </div>
     </script>
     
-    <!------------------------------------ Transactions Detail --------------------------------------->
+    <!------------------------------------ TRANSACTIONS DETAILS REPORT --------------------------------------->
     
     <script id="transactionsSummaryTable_TMP" type="text/html">
       <table class="reportstable">
@@ -1512,7 +1511,7 @@
     <tbody>
       {{#list}}
       <tr>
-        <td><a id="{{date}}">{{date}}</a></td>
+        <td><a id="{{dateString}}" style="text-decoration:underline; color:#0000FF;">{{dateString}}</a></td>
         <td align="right">{{count}}</td>
         <td align="right">{{subTotal}}</td>
         <td align="right">{{tax1and2}}</td>
