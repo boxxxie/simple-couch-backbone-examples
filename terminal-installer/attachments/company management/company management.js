@@ -90,7 +90,8 @@ function validateCompany(newCompany_w_options, previous) {
 
 function addCompany(collection){
     return {success: function(resp){
-		collection.create(resp);},
+        //newCom.save(resp,{success:function(model){collection.add(model);console.log(model);},error:function(a,b){console.log([a,b]);}});
+		collection.create(resp,{success:function(model){console.log(model); collection.trigger("sync",model);},error:function(a,b){console.log([a,b]);}});},
 	    validator : function(resp) {
 		return validateCompany(resp,null);}
 	   };};
@@ -372,9 +373,7 @@ function doc_setup(){
 	{initialize:function(){
 	     var view = this;
 	     _.bindAll(view, 'renderManagementPage','renderModifyPage'); 
-	     this.collection.bind('reset',view.renderManagementPage);
-	     this.collection.bind('add',view.renderManagementPage);
-	     this.collection.bind('remove', view.renderManagementPage);
+	     this.collection.bind('reset sync remove',view.renderManagementPage);
 	     AppRouter.bind('route:companyManagementHome', function(){
 				console.log('companiesView:route:companyManagementHome');
 				view.el =_.first($("#list-things"));
