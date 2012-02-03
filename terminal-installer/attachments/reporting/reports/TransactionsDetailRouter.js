@@ -102,7 +102,7 @@ var menuReportsTransactionsDetailView =
 	 },
 	 renderMenuReportsGroupTransactionsDetail: function() {
 	     
-	     var html = ich.menuReportsCancelledReports_TMP({startPage:"groupReport", 
+	     var html = ich.transactionsDetailReports_TMP({startPage:"groupReport", 
 	     						     breadCrumb:breadCrumb(ReportData.companyName, 
 										   ReportData.group.groupName)});
 	     $(this.el).html(html);
@@ -152,7 +152,7 @@ var menuReportsTransactionsDetailView =
 	 },
 	 renderMenuReportsStoreTransactionsDetail: function() {
 	     
-	     var html = ich.menuReportsCancelledReports_TMP({startPage:"storeReport", 
+	     var html = ich.transactionsDetailReports_TMP({startPage:"storeReport", 
 	     						     breadCrumb:breadCrumb(ReportData.companyName, 
 										   ReportData.groupName, 
 										   ReportData.store.storeName, 
@@ -386,16 +386,16 @@ function renderTransactionsDetailTable() {
 	transactionsReportDaySummaryFetcher(startDate,endDateForQuery)
 	([_.first(ids).id])
 	(function(err,resp){
-	     var formattedTemplateData = _.map(resp,transactionFormattingWalk);
+	     var formattedTemplateData = _.walk_pre(resp,transactionFormattingWalk);
 	     console.log("formattedTemplateData");
 	     console.log(formattedTemplateData);
 	     $("#transactionssummarytable").html(ich.transactionsSummaryTable_TMP({list:formattedTemplateData}));
 	     
-	     _.each(data,function(item){
-			var row = $("#"+item.date);
+	     _.each(resp,function(item){
+			var row = $("#"+item.dateString);
 			row.click(function(){
 				      var startDate = item.date;
-				      var endDate = date_arrayinc_day(startDate);
+				      var endDate = date_array.inc_day(startDate);
 				      renderTransactionDetail(startDate,endDate,{id:_.first(ids).id});
 				  });
 		    });
