@@ -14,7 +14,7 @@ var menuAdministrationRouter =
                  /*
                  $("#main").html(ich.inventoryManagementHome_TMP(_.extend({startPage:startPage},autoBreadCrumb())));
                   var invItem = new InventoryDoc();
-                  var id = getTopLevelId(ReportData);
+                  var id = topLevelEntity(ReportData).id;
                   invItem.cid = id;
                   this.views = [ 
                       new upc_code_input_view({model:invItem}).setElement("#upc"),

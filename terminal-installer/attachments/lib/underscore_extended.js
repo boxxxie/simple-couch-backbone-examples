@@ -340,6 +340,7 @@ _.mixin({
 		    return _.map(obj,iterator);
 		}
 		else if(_.isObject(obj)){
+	//todo: if iterator only has 1 arg, then wrap it so that it doesn't need to return an array ie. [key,val]
 		    return _(_.map(obj,iterator)).toObject();
 		}
 		else{

@@ -46,13 +46,88 @@ var menuInventoryscanPriceChangeView =
 			   view.renderMenuInventoryStorescanPriceChange();
 		       });
 	 },
+	 renderScanPriceChange: function(searchQueryString) {
+	     var view = this;
+	     
+	     if(_.isDefined(searchQueryString) && _.isNotEmpty(searchQueryString)){
+		 var searchQuery = searchQueryString;}
+	     else{
+		 var searchQuery = undefined;
+	     }
+	     
+	     var html = 
+		 ich.menuInventoryScanItemPriceChanges_TMP(
+		     _.extend({startPage:ReportData.startPage}, 
+	     		      autoBreadCrumb()));
+	     
+	     $(view.el).html(html);
+
+	     var storeIDs = extractStores(ReportData);
+	     var parents = _.values(getParentsInfo(ReportData));
+	     var userLevel = topLevelEntity(ReportData);
+
+	     currentInventoryFor(userLevel.id)
+	     (function(err,inventory){
+		  var filteredInv = (searchQuery)?_.filterSearch_SubStr(inventory,searchQuery):inventory;
+		  var formattedInv = _.walk_pre(
+		      filteredInv,
+		      function(item){
+			  if(item.selling_price){
+			      return _.extend({},
+					      item,
+					      {selling_price:currency_format(Number(item.selling_price))});
+			  }
+			  return item;
+		      });
+
+		  var html =  ich.menuInventoryScanPricetable_TMP({filter:searchQuery,list:formattedInv});
+		  $(view.el).find("#priceChangeTable").html(html);
+
+		  $("#filterInv").keypress(
+		      function(e){
+			  var code = (e.keyCode ? e.keyCode : e.which), enterCode = 13;
+			  if (code == enterCode){
+			      view.renderScanPriceChange($(this).val());}
+		      });
+
+		  $("#submitPriceChanges").button().click(
+		      function(){
+			  var newInvList = _.chain(varFormGrabber($("#priceChangeTable"))).
+			      filter$(_.isNotEmpty).	  
+			      map(function(price,strUPC){
+				      var upc = strUPC.replace("upc-","");
+				      var invItem = _.find(filteredInv,function(val,key){return upc==val.upccode;});
+				      var invItemReturn = _.selectKeys(invItem,"price","date","description","locid","upccode");
+				      invItemReturn.price.selling_price = price;
+				      return invItemReturn;
+				  })
+			      .value();
+			  if(_.isEmpty(newInvList)){alert("there were no changes made");return;}
+			  if(userLevel.type == 'store'){
+			      inv_helpers.saveNewInvItems(newInvList,parents,storeIDs)
+  			      (function(){view.renderScanPriceChange(searchQuery);})
+			      (storeIDs);
+			  }
+			  else{
+			      var html = ich.menuInventoryApplyStoresQuickViewDialog_TMP({items:storeIDs});
+			      menuInventoryApplyStoresViewDialog(
+				  html,
+				  {title:"Apply changes to stores", 
+				   stores:storeIDs,
+				   makeButtons:inv_helpers.saveNewInvItems(newInvList,parents,storeIDs)
+				   (function(){view.renderScanPriceChange(searchQuery);})});
+			      
+			  }
+		      });
+	      });
+	 },
 	 renderMenuInventoryCompanyscanPriceChange: function(searchQueryString) {
 	     var view = this;
 	     var searchQuery = (_.isDefined(searchQueryString) && 
 				_.isNotEmpty(searchQueryString))
 		 ?searchQueryString:undefined;
 	     var html = 
-		 ich.menuInventoryScanItemPriceChanges_TMP(_.extend({startPage:"companyReport"}, 
+		 ich.menuInventoryScanItemPriceChanges_TMP(_.extend({startPage:ReportData.startPage}, 
 	     							    autoBreadCrumb()));
 	     $(view.el).html(html);
 
@@ -88,8 +163,8 @@ var menuInventoryscanPriceChangeView =
 				      var upc = strUPC.replace("upc-","");
 				      var invItem = _.find(filteredInv,function(val,key){return upc==val.upccode;});
 				      var invItemReturn = _.selectKeys(invItem,"price","date","description","locid","upccode");
-                      invItemReturn.price.selling_price = price;
-                      return invItemReturn;
+				      invItemReturn.price.selling_price = price;
+				      return invItemReturn;
 				  })
 			      .value();
 			  if(_.isEmpty(newInvList)){alert("there were no changes made");return;}
@@ -147,8 +222,8 @@ var menuInventoryscanPriceChangeView =
 				      var upc = strUPC.replace("upc-","");
 				      var invItem = _.find(filteredInv,function(val,key){return upc==val.upccode;});
 				      var invItemReturn = _.selectKeys(invItem,"price","date","description","locid","upccode");
-                      invItemReturn.price.selling_price = price;
-                      return invItemReturn;
+				      invItemReturn.price.selling_price = price;
+				      return invItemReturn;
 				      return invItem;
 				  })
 			      .value();
