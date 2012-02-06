@@ -405,7 +405,7 @@ _.mixin({
 
 _.mixin({
 	    either:function(){
-		return _.chain(arguments).compact().first().value();
+		return _.chain(arguments).find(_.isDefined).value();
 	    }
 	});
 

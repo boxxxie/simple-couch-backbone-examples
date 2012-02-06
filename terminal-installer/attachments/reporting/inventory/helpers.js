@@ -61,7 +61,7 @@ var inv_helpers =
 		     
 		     var itemModelsToSave = _.chain(idsToSave)
                          .concat(origins)
-			 .unique(false,function(item){return either(item.id,item.location_id);})
+			 .unique(false,function(item){return _.either(item.id,item.location_id);})
                          .mapRenameKeys("id","location_id")
 			 .map(function(item){
 				  var invData = _.extend({},generalInvItemData,{locid:item.location_id});
@@ -90,23 +90,44 @@ var inv_helpers =
 	     };
 	 };
      },
-};
-   /*  modelsFromIds:function(attrs,idsToSaveTo){
+
+     modelsFromIds:function(attrs,idsToSaveTo){
 	 //idsToSaveTo is a list of group/company/store with .id where the item is going to be changed
 	 //attrs are the changes made to the inv doc
 	 return function(callback){
 	     
 	     var upc = attrs.upccode;
 	     var generalInvItemData = _.extend({},attrs,{date: (new Date()).toString()});
-	     var models = async.map(idsToSaveTo,function(id,fetchced){
-					(new InventoryDoc({_id: id+"-"+upc}))
-					    .fetch(
-						{
-						    success:function(model){
-							fetched(null,model.set(_.extend({},generalInvItemData,{locid:item.id}),{silent:true}));
-						    },
-						    error:returnQuery(fetched)
-						});
-				    },callback);
+	     var models = async.map(idsToSaveTo,
+				    function(item,fetched){
+					var inv = new InventoryDoc({_id: item.id+"-"+upc});
+					inv.fetch(
+					    {
+						success:function(model){
+						    fetched(null,
+							    model.set(_.extend({},generalInvItemData,{locid:item.id}),{silent:true}));
+						},
+						error:function(){
+						    fetched(null,inv.set(_.extend({},generalInvItemData,{locid:item.id}),{silent:true}));
+						}
+					    });
+				    },
+				    function(err,resp){
+					callback(null,resp);
+				    });
 	 };
-     };*/
+     },
+     changesLogFromModels:function(invChange,locationsUpdated){
+	 return function(callback){
+	     var itemToSave = _.chain(locationsUpdated)
+		 .unique(false,function(item){return _.either(item.id,item.location_id);})
+                 .mapRenameKeys("id","location_id")
+		 .map(function(item){return _.extend(item,{date:(new Date()).toString()});})
+                 .value();
+
+	     var newInvChange = new InventoryChangesDoc({inventory : invChange,
+							 ids : itemToSave});
+	     callback(null,newInvChange);
+	 };
+     }
+};

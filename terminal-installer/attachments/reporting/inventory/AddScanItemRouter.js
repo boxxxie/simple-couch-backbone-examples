@@ -8,15 +8,17 @@ function getParentsInfo(reportData){
     //makes an object that looks like {company:,group:}
     var company = {
 	id:_.either(reportData.company._id,reportData.company_id), 
-	label:_either(reportData.company.companyName,reportData.companyName), 
+	label:_.either(reportData.company.companyName,reportData.companyName), 
 	type:"company"
     };
-
-    var group = {
-	id:_.either(reportData.group.group_id,reportData.group_id), 
-	label:_.either(reportData.group.groupName, reportData.groupName),
-	type:"group"
-    };
+    
+    if(reportData.group || reportData.group_id){
+	var group = {
+	    id:_.either(reportData.group_id, reportData.group.group_id), 
+	    label:_.either(reportData.group.groupName, reportData.groupName),
+	    type:"group"
+	};
+    }
 /*
     var store = {
 	id:reportData.store.store_id, 
@@ -25,7 +27,7 @@ function getParentsInfo(reportData){
 	type:"store"
     };
 */
-    return _.filter$({company:company,group:group},_.has_F('id'));
+    return _.filter$({company:company,group:group},_.isNotEmpty);
 };
 var menuInventoryaddScanItemRouter = 
     new (Backbone.Router.extend(
@@ -73,10 +75,8 @@ var upc_code_input_view =
 		    .set({_id:model.cid+"-"+upc},{silent:true})
 		    .fetch(
 			{
-			    success:function(){
-				var item  = _.first(response.rows).value;
-				model.set(_.removeKeys(item,"_id","_rev"),{silent:true});
-				model.trigger("item_already_in_company",model);
+			    success:function(resp_model){
+				model.trigger("item_already_in_company",resp_model);
 			    },
 			    error:function(){
 				(new InventoryRT7Doc({_id:upc}))
@@ -118,11 +118,19 @@ var inv_display_view =
 			var formObj = varFormGrabber($("#inv_form"));
 			var inv = _.extend(formObj,{upccode:$("#upc").val()});
 			var allStores = extractStores(ReportData);
+			var allGroups = extractGroups(ReportData);
 			var parents = _.values(getParentsInfo(ReportData));
-			var modelsToSave = inv_helpers.modelsFromIds(inv,allStores.concat(parents));
-			//inv_helpers.saveNewInvItems([inv], _.values(getParentsInfo(ReportData)))
-			//(function(){alert("finished saving item to company/stores");});
-			
+			var locationsToSaveTo = allStores.concat(parents,allGroups);
+			//maybe this should be abstracted to a save function
+			async.parallel([inv_helpers.modelsFromIds(inv,locationsToSaveTo),
+					inv_helpers.changesLogFromModels(inv,locationsToSaveTo)],
+				       function(err,modelsToSave){
+					   async.forEach(_.flatten(modelsToSave),
+							 function(model,cb){
+							     model.save({},{success:function(){cb();},error:function(){cb();}});
+							 },
+							 function(){alert("The Item has been added");});
+				       });
 		    });
 	    },
 	    displayItem:function(model){
