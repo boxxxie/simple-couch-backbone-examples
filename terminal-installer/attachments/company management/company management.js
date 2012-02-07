@@ -1,6 +1,8 @@
 var Companies;
 var rewardsModel;
 
+
+
 function guidGenerator() {
 	var S4 = function() {
 		return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
@@ -124,7 +126,15 @@ function validateCompany(newCompany_w_options, previous) {
 function addCompany(collection) {
 	return {
 		success : function(resp) {
-			collection.create(resp);
+			collection.create(resp,{success:function(model){
+                var newUser = new RetailerUserDoc({_id:model.id, 
+                                                   companyName:model.get("companyName"),
+                                                   company_id:model.id,
+                                                   user:model.get("user"),
+                                                   password:model.get("password")});
+                newUser.save();
+                model.collection.trigger("sync",model.collection);			    
+			}});
 		},
 		validator : function(resp) {
 			return validateCompany(resp, null);
@@ -135,7 +145,23 @@ function addCompany(collection) {
 function editCompany(company) {
 	return {
 		success : function(resp) {
-			company.save(resp);
+			company.save(resp, {success:function(model){
+                fetchRetailerUserCollection_All(model.id)(function(err,collection){
+                    console.log(collection);
+                    var companyName = model.get("companyName");
+                    var user = model.get("user");
+                    var pass = model.get("password");
+                    collection.each(function(model){
+                        if(model.id==model.get("company_id")) {
+                            model.save({companyName:companyName,
+                                        user:user,
+                                        password:pass});
+                        } else {
+                            model.save({companyName:companyName});
+                        }
+                    });
+                });
+			}});
 		},
 		validator : function(resp) {
 			return validateCompany(resp, company.toJSON());
@@ -148,7 +174,16 @@ function deleteCompany(companyID) {
 	var groups = company.get('hierarchy').groups;
 	;
 	if(_.isEmpty(groups)) {
-		company.destroy();
+		company.destroy({success:function(model){
+		    fetchRetailerUserCollection(model.id)(function(err,collection){
+                    var models = collection.map(function(model){
+                        return model;
+                    });
+                    _.each(models,function(model){
+                       model.destroy(); 
+                    });
+                });
+		}});
 	} else {
 		alert("can't delete. this company has group(s).");
 	}
@@ -158,7 +193,15 @@ function addGroup(companyID) {
 	var company = Companies.getModelById(companyID);
 	return {
 		success : function(resp) {
-			company.addGroup(resp);
+			var newGroup = company.addGroup(resp);
+			var newUser = new RetailerUserDoc({_id:newGroup.group_id, 
+                                               companyName:company.get("companyName"),
+                                               company_id:company.get("_id"),
+                                               groupName:newGroup.groupName,
+                                               group_id:newGroup.group_id,
+                                               user:newGroup.user,
+                                               password:newGroup.password});
+            newUser.save();
 		},
 		validator : function(resp) {
 			return company.validateGroup(resp, null);
@@ -171,7 +214,24 @@ function editGroup(companyID, groupID) {
 	var previousGroup = company.getGroup(groupID);
 	return {
 		success : function(resp) {
-			company.editGroup(resp, groupID);
+			var newGroup = company.editGroup(resp, groupID);
+			if(_.isNotEmpty(newGroup)) {
+			fetchRetailerUserCollection_All(newGroup.group_id)(function(err,collection){
+                    console.log(collection);
+                    var groupName = newGroup.groupName;
+                    var user = newGroup.user;
+                    var pass = newGroup.password;
+                    collection.each(function(model){
+                        if(model.id==model.get("group_id")) {
+                            model.save({groupName:groupName,
+                                        user:user,
+                                        password:pass});
+                        } else {
+                            model.save({groupName:groupName});
+                        }
+                    });
+                });
+            }
 		},
 		validator : function(resp) {
 			return company.validateGroup(resp, previousGroup);
@@ -181,15 +241,39 @@ function editGroup(companyID, groupID) {
 
 function deleteGroup(companyID, groupID) {
 	var company = Companies.getModelById(companyID);
-	return company.deleteGroup(groupID);
+	var delGroup = company.deleteGroup(groupID);
+	if(_.isNotEmpty(delGroup)) {
+	    fetchRetailerUserCollection(delGroup.group_id)(function(err,collection){
+                    var models = collection.map(function(model){
+                        return model;
+                    });
+                    _.each(models,function(model){
+                       model.destroy(); 
+                    });
+                });
+	}
+	
+	//return company.deleteGroup(groupID);
 }
 
 function addStore(companyID, groupID) {
 	var company = Companies.getModelById(companyID);
+	var group = company.getGroup(groupID);
 	var comparisonStores = company.getStores(groupID);
 	return {
 		success : function(resp) {
-			company.addStore(groupID, resp);
+			var newStore = company.addStore(groupID, resp);
+			var newUser = new RetailerUserDoc({_id:newStore.store_id, 
+                                               companyName:company.get("companyName"),
+                                               company_id:company.get("_id"),
+                                               groupName:group.groupName,
+                                               group_id:group.group_id,
+                                               store_id:newStore.store_id,
+                                               storeName:newStore.storeName,
+                                               storeNumber:newStore.number,
+                                               user:newStore.user,
+                                               password:newStore.password});
+            newUser.save();
 		},
 		validator : function(resp) {
 			return company.validateStore(resp, null, comparisonStores);
@@ -203,7 +287,26 @@ function editStore(companyID, groupID, storeID) {
 	var comparisonStores = company.getStores(groupID);
 	return {
 		success : function(resp) {
-			company.editStore(groupID, storeID, resp);
+			var newStore = company.editStore(groupID, storeID, resp);
+			if(_.isNotEmpty(newStore)) {
+            fetchRetailerUserCollection_All(newStore.store_id)(function(err,collection){
+                    var storeName = newStore.storeName;
+                    var storeNumber = newStore.number;
+                    var user = newStore.user;
+                    var pass = newStore.password;
+                    collection.each(function(model){
+                        if(model.id==model.get("store_id")) {
+                            model.save({storeName:storeName,
+                                        storeNumber:storeNumber,
+                                        user:user,
+                                        password:pass});
+                        } else {
+                            model.save({storeName:storeName,
+                                        storeNumber:storeNumber});
+                        }
+                    });
+                });
+            }
 		},
 		validator : function(resp) {
 			return company.validateStore(resp, previousStore, comparisonStores);
@@ -213,7 +316,18 @@ function editStore(companyID, groupID, storeID) {
 
 function deleteStore(companyID, groupID, storeID) {
 	var company = Companies.getModelById(companyID);
-	return company.deleteStore(groupID, storeID);
+	var delStore = company.deleteStore(groupID, storeID);
+    if(_.isNotEmpty(delStore)) {
+        fetchRetailerUserCollection(delStore.store_id)(function(err,collection){
+                    var models = collection.map(function(model){
+                        return model;
+                    });
+                    _.each(models,function(model){
+                       model.destroy(); 
+                    });
+                });
+    }
+	//return company.deleteStore(groupID, storeID);
 }
 
 function addTerminal(companyID, groupID, storeID) {

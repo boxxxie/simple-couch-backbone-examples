@@ -783,7 +783,8 @@
     {{>main_navigation_buttons_P}}
     <h1>Administration</h1>
     <h2>{{>breadcrumb_P}}</h2>
-    <div id='usersInfoTable'></div>   
+    <div id='usersInfoTable'></div>
+    {{>quickReportViewHook_P}}   
     {{>backButton_P}}
       </div>
     </script>
@@ -815,6 +816,7 @@
     </script>
     
     <script id="inputUserInfo_TMP" type="text/html">
+        <form id="form">
         <table style="margin-bottom:20px;" class="reportstable">
       <thead>
         <tr>
@@ -824,11 +826,12 @@
       </thead>
       <tbody>
         <tr>
-          <td align="center">{{user}}</td>
-          <td align="center">{{password}}</td>
+          <td><input type="text" var="user"  id="txtinputuser" /></td>
+          <td><input type="text" var="password"  id="txtinputpassword" /></td>
         </tr>
       </tbody>
     </table>
+    </form>
     </script>
     
     <!-------------------------------------------- MENU REPORTS ------------------------------------------------>
