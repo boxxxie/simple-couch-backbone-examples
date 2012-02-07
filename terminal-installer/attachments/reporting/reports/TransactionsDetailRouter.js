@@ -235,18 +235,49 @@ function renderTransactionsDetailTable() {
                 
              var html = ich.transactionsDetailTable_TMP(resp);
              $("#transactionsdetailtable").html(html);
+             $("#printdetail").click(function(){
+                 if(_(resp.transactions).size()>0) {
+                     var form = $("#transactionsdetailtable");
+                     form.find("#detail").hide();
+                     form.find("#printdetail").hide();
+                     var exBorder = form.find("table").attr("border");
+                     form.find("table").attr("border",1);
+                     
+                     var w = window.open();
+                     if(_.isEmpty(ReportData.company)) {
+                        w.document.write("Company : " + ReportData.companyName );    
+                     } else {
+                        w.document.write("Company : " + ReportData.company.companyName);
+                     }
+                     w.document.write(" , Store : " + $("#storesdown option:selected").text());
+                     
+                     w.document.write(form.html());
+                     w.document.close();
+                     w.focus();
+                     w.print();
+                     w.close();
+                     
+                     
+                     form.find("#detail").show();
+                     form.find("#printdetail").show();
+                     form.find("table").attr("border",exBorder);
+                 } else {
+                     alert("No transactions to save.");
+                 }
+             });
+             
              
              $("#transactionssummarytable").hide();             
-             $("#ulGroupDropDown").hide();
+             $("#ulGroupDropDown").find("select").attr("disabled",true);
              $("#dateRangePicker").hide();
              $("#generalgobtn").hide();
              $("#btnBackHistory").hide();
              $("#btnBack2").show();
              
              $("#btnBack2").click(function(){
-                 $("#transactionsdetailtable").html({});
                  $("#transactionssummarytable").show();
-                 $("#ulGroupDropDown").show();
+                 $("#transactionsdetailtable").html({});
+                 $("#ulGroupDropDown").find("select").attr("disabled",false);
                  $("#dateRangePicker").show();
                  $("#generalgobtn").show();
                  $("#btnBackHistory").show();

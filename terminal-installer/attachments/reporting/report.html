@@ -188,6 +188,12 @@
       </button>
     </script>
     
+    <script id="printDetailButton_P" class="partial" type="text/html">
+      <button id="printdetail" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
+    <span class="ui-button-text">Print</span>
+      </button>
+    </script>
+    
     <script id="menuButton_P" class="partial" type="text/html">
       <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="javascript:window.location.href = '#{{startPage}}/';">
 	<span class="ui-button-text">Home</span>
@@ -1542,7 +1548,7 @@
 	    <th>Tax 1</th>
 	    <th>Tax 3</th>
 	    <th>Total</th>
-	    <th>Detail</th>
+	    <th id="detail">Detail</th>
 	  </tr>
 	</thead>
 	<tfoot>
@@ -1553,7 +1559,7 @@
 	    <th align="right">{{tax1and2}}</th>
 	    <th align="right">{{tax3}}</th>
 	    <th align="right">{{total}}</th>
-	    <th></th>
+	    <th id="detail"></th>
 	    {{/total}}
 	  </tr>
 	</tfoot>
@@ -1569,7 +1575,7 @@
 	    <td align="right">{{tax1and2}}</td>
 	    <td align="right">{{tax3}}</td>
 	    <td align="right">{{total}}</td>
-	    <td align="right">{{>quickDetailsViewButton_P}}</td>
+	    <td id="detail" align="right">{{>quickDetailsViewButton_P}}</td>
 	  </tr>
 	  {{/transactions}}
 	  {{^transactions}}
@@ -1582,6 +1588,7 @@
 	</tbody>
       </table>
       {{>quickReportViewHook_P}}
+      {{>printDetailButton_P}}
     </script>
     
     <script id="transactionsDetailReports_TMP" type="text/html">
