@@ -257,7 +257,6 @@ function renderTransactionsDetailTable() {
                      w.print();
                      w.close();
                      
-                     
                      form.find("#detail").show();
                      form.find("#printdetail").show();
                      form.find("table").attr("border",exBorder);
