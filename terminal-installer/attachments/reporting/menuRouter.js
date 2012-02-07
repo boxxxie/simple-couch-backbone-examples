@@ -61,8 +61,13 @@ var menuSetMenusView =
 	     var view = this;
 	     fetch_company_menu(ReportData.company._id)
 	     (function(err,menu){
+	         if(!err) {
 	    	  console.log(menu);
 	    	  menuModel = menu;
+	    	 }  else {
+              menuModel = new Menu({_id:ReportData.company._id});
+              menuModel.set_empty_menu();
+             }
 	    	  
 	    	  var html = ich.menuSetMenus_TMP({startPage:"companyReport", 
 	     					   breadCrumb:breadCrumb(ReportData.company.companyName)});
@@ -101,7 +106,8 @@ var menuSetMenusView =
 		  menuModel.bind("change:menuButtonHeaders",view.renderMenuHeaderPartial);
 		  menuModel.bind("change:menuButtons", view.renderMenuScreenPartial);
 		  
-		  console.log("rendered set menus");	
+		  console.log("rendered set menus");
+		 
 	      }); 
 	     
 	 },

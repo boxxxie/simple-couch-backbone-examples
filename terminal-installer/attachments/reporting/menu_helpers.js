@@ -10,8 +10,8 @@ function fetch_company_menu(companyID){
 	     },
 	     error:function(model){
 		 //return an empty menu
-		 model.set_empty_menu();
-		 callback(true, model);
+		 //model.set_empty_menu();
+		 callback(true);
 	     }});
     };
 };
