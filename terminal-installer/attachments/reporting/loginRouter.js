@@ -5,7 +5,7 @@ var loginRouter =
 	      },
 	      reportLogin:function(){
 		  console.log("reportLogin");
-		  var html = ich.layerLogin_TMP();
+		  var html = ich.layerLogin_TMP({});
 		  $("#main").html(html);
 	      }}));    
 

@@ -23,7 +23,7 @@ function doc_setup() {
 	     },
 	     inventoryManagementHome:function(){
 		 console.log("inventoryManagementHome");
-		 var html = ich.inventoryManagementHome_TMP();
+		 var html = ich.inventoryManagementHome_TMP({});
 		 $("body").html(html);
 		 $("#upc").focus();
 		 $("#upc")
