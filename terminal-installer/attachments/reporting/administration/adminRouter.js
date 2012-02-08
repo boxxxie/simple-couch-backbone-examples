@@ -29,11 +29,11 @@ var menuAdministrationRouter =
 		  console.log("menuAdministrationCompany");
 	      },
 	      menuAdministrationGroup:function() {
-          this._setup("companyReport",ReportData.group.group_id);
+          this._setup("groupReport",ReportData.group.group_id);
 		  console.log("menuAdministrationGroup");
 	      },
 	      menuAdministrationStore:function() {
-	      this._setup("companyReport",ReportData.store.store_id);
+	      this._setup("storeReport",ReportData.store.store_id);
 		  console.log("menuAdministrationStore");
 	      }
 	     }));

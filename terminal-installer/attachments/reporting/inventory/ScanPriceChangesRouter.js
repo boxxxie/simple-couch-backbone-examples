@@ -44,10 +44,9 @@ var menuInventoryscanPriceChangeView =
 		     var formattedInv = _.walk_pre(
 			 filteredInv,
 			 function(item){
-			     if(item.selling_price){
-				 return _.extend({},
-						 item,
-						 {selling_price:currency_format(Number(item.selling_price))});
+			     if(_.isDefined(item.selling_price)){
+				 return _.combine(item,
+						      {selling_price:currency_format(Number(item.selling_price))});
 			     }
 			     return item;
 			 });

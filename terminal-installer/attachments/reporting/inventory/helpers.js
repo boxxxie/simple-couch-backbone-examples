@@ -21,16 +21,12 @@ var inv_helpers =
 	      _.each(resp,function(item){
 			 $("#"+item._id).button().click(
 			     function(){
-				 item.locations =_(item.locations).chain()
-				     .filter(function(item){
-						 return (item.label.indexOf(":")!=-1);
-					     })
-				     .map(function(item){
-			     		      var tmp = item.label.split(":");
-			     		      return _.extend({},item,{storeName:tmp[1], storeNumber:tmp[0]});
-			     		  })
-			     	     .value();
-				 detailsDialog(ich.simpleList_TMP({items:item.locations}),
+			     var newLocations = _(extractStores(ReportData)).chain()
+			                             .pluck("id")
+			                             .matchTo(item.locations,"location_id")
+			                             .mapRenameKeys("name","storeName","number","storeNumber")
+			                             .value();
+				 detailsDialog(ich.simpleList_TMP({items:newLocations}),
 					       {title:"changes applied to these locations"});
 			     });
 		     });
