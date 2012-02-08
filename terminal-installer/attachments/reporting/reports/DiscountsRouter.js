@@ -283,7 +283,7 @@ function renderDiscountsTable() {
 					    return init + Number(item.total);
 					}, 0)).toFixed(2);
 							
-	     totalrow.percentdiscount = (Number(totalrow.discount)/Number(totalrow.sales)*100).toFixed(2);
+	     totalrow.percentdiscount = (Number(totalrow.sales)>0)?(Number(totalrow.discount)/Number(totalrow.sales)*100).toFixed(2):(Number(0)).toFixed(2);
 	     
 	     data_TMP= applyReceiptInfo(data_TMP);
 	     
