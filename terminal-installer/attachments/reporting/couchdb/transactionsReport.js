@@ -1,5 +1,5 @@
 function transactionFormattingWalk(obj){
-    if(obj.count){
+    if(obj.count || obj.count==0){
 	return _.extend(obj,{count:obj.count+""});
     }
     if(obj.quantity){
@@ -69,6 +69,10 @@ function transactionsReportDaySummaryFetcher(start,end){
 					       {dateString : item.key[1]+"-"+item.key[2]+"-"+item.key[3]});
 			       });
 	      var total = _.reduce(transactions,_.addPropertiesTogether,{});
+	      if(_.isEmpty(total)) {
+	          total = {};
+	          _.extend(total,{count:0, subTotal:0, tax1and2:0, tax3:0, total:0});
+	      }
          var result = {transactions:transactions,total:total};
 		 callback(err, result);});
 	};
