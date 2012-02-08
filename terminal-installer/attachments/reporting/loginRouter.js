@@ -28,7 +28,7 @@ function login() {
     var $form = $("#ids_form");
     var formEntries = varFormGrabber($form);
     _.log("form entries")(formEntries);
-    var location_key = _.selectKeysIf(formEntries,['company','group','store'],_.isNotEmpty);
+    var location_key = _.chain(formEntries).selectKeys('company','group','store').removeEmptyKeys().value();
     var user_pass_key = _.selectKeys(formEntries,['user','password']);
     var login_key_form_raw = _.extend(location_key,user_pass_key);
     _.log('location_key')(location_key);

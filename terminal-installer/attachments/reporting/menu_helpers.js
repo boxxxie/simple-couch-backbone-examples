@@ -5,13 +5,12 @@ function fetch_company_menu(companyID){
 	terminal_menu.fetch(
 	    {success:function(model){
 		 //return use the menu set up by the company.		     
-		 //callback(_.selectKeys(model.toJSON(),['menuButtons','menuButtonHeaders']));
 		 callback(false, model);
 	     },
-	     error:function(model){
+	     error:function(){
 		 //return an empty menu
-		 model.set_empty_menu();
-		 callback(true, model);
+		 terminal_menu.set_empty_menu();
+		 callback(true, terminal_menu);
 	     }});
     };
 };

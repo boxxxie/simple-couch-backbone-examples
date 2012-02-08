@@ -1,7 +1,8 @@
 var inv_helpers = 
-    {renderChangesLog : function(view,id,startPageStr,mainTMP,tableTMP,fetcher){
-	 var html = ich[mainTMP](_.extend({startPage:startPageStr},autoBreadCrumb()));
+    {renderChangesLog : function(view,mainTMP,tableTMP,fetcher){
+	 var html = ich[mainTMP](_.extend({startPage:ReportData.startPage},autoBreadCrumb()));
 	 $(view.el).html(html);
+	 var id = topLevelEntity(ReportData).id;
 	 fetcher(id)
 	 (function(err,resp_raw){
 	      var resp = _.map(resp_raw, function(aitem){
@@ -35,58 +36,41 @@ var inv_helpers =
 		     });
 	  });
      },
-     renderTaxChangesLog : function(view,id,startPageStr){
-	 this.renderChangesLog(view,id,startPageStr,
-			       "menuInventoryScanTaxLog_TMP",
-			       (startPageStr.indexOf("store")<0)?"menuInventoryScanTaxLogtable_TMP":"menuInventoryScanTaxLogtable_store_TMP",
-			       inventoryTaxChangeLog);
-     },
-     renderPriceChangesLog : function(view,id,startPageStr){
-	 this.renderChangesLog(view,id,startPageStr,
-			       "menuInventoryScanPriceLog_TMP",
-			       (startPageStr.indexOf("store")<0)?"menuInventoryScanPriceLogtable_TMP":"menuInventoryScanPriceLogtable_store_TMP",
-			       inventoryPriceChangeLog);
+     _mainChangeLogTemplate:function(templateType){
+	  if(topLevelEntity(ReportData).type == 'store'){
+	     return "menuInventoryScan"+templateType+"Logtable_store_TMP";
+	 }
+	 else{
+	     return "menuInventoryScan"+templateType+"Logtable_TMP";
+	 }
      },
 
      //TODO newItemList should be a backbone collection
      //inv_doc should be a backbone model.
      //remove allStore_ids
-     saveNewInvItems:function(newItemList,origins){
-	 function pushItemForIDs(runAfter){
-	     return function(idsToSave){
-		 return function(inv_doc){
-		     // idsToSave ; {type:"..", location_id:"..", name:"..", number:"..", label:".."}
-		     // origins ; {type:"..", label:"..", location_id:".."}
-		     var generalInvItemData = _.extend({},inv_doc,{date: (new Date()).toString()});
-		     
-		     var itemModelsToSave = _.chain(idsToSave)
-                         .concat(origins)
-			 .unique(false,function(item){return _.either(item.id,item.location_id);})
-                         .mapRenameKeys("id","location_id")
-			 .map(function(item){
-				  var invData = _.extend({},generalInvItemData,{locid:item.location_id});
-				  return new InventoryDoc(invData);
-			      })
-                         .value();
-
-		     var newInvChange = new InventoryChangesDoc({inventory : generalInvItemData,
-								 ids : itemsToSave});
-
-		     var allModels = invModelsToSave.concat(newInvChange);
-
-		     async.forEach(allModels,
-				   function(model,callback){
-				       model.save({},{success:function(){callback();}});
-				   },
-				   runAfter);
-		 };
-	     };
-	 }
+     //fixme: depricated
+     saveNewInvItems:function(newItemList,origins,stores,groups){
 	 return function(runAfter){
-	     return function(ids){ //this list of ids probably isn't needed if we are sending models to the fn
-		 if(_.isNotEmpty(ids)){
-		     _.each(newItemList,pushItemForIDs(runAfter)(ids));
-		 }
+	     return function(locationsToSaveTo){ //this list of ids probably isn't needed if we are sending models to the fn
+
+		 var entitys = origins.concat(stores).concat(groups);
+		 var group_ids_to_save_to = _.chain(locationsToSaveTo)
+		     .map(function(store){
+				 return groupFromStoreID(ReportData,store.id);
+			     })
+		     .unique()
+		     .value();
+		 
+		 var locationsToReportTo = _.chain([origins,locationsToSaveTo])
+		     .flatten()
+		     .pluck('id')
+		     .concat(group_ids_to_save_to)
+		     .unique()
+		     .matchTo(entitys,'id')
+		     .value();
+
+		 inv_helpers.saveManyInvItems(newItemList,locationsToSaveTo,locationsToReportTo)(runAfter);
+		 
 	     };
 	 };
      },
@@ -97,7 +81,8 @@ var inv_helpers =
 	 return function(callback){
 	     
 	     var upc = attrs.upccode;
-	     var generalInvItemData = _.extend({},attrs,{date: (new Date()).toString()});
+	     var generalInvItemData =  attrs;
+
 	     var models = async.map(idsToSaveTo,
 				    function(item,fetched){
 					var inv = new InventoryDoc({_id: item.id+"-"+upc});
@@ -105,10 +90,16 @@ var inv_helpers =
 					    {
 						success:function(model){
 						    fetched(null,
-							    model.set(_.extend({},generalInvItemData,{locid:item.id}),{silent:true}));
+							    model.set(_.extend({},
+									       generalInvItemData,
+									       {locid:item.id}),
+								      {silent:true}));
 						},
 						error:function(){
-						    fetched(null,inv.set(_.extend({},generalInvItemData,{locid:item.id}),{silent:true}));
+						    fetched(null,inv.set(_.extend({},
+										  generalInvItemData,
+										  {locid:item.id}),
+									 {silent:true}));
 						}
 					    });
 				    },
@@ -122,12 +113,49 @@ var inv_helpers =
 	     var itemToSave = _.chain(locationsUpdated)
 		 .unique(false,function(item){return _.either(item.id,item.location_id);})
                  .mapRenameKeys("id","location_id")
-		 .map(function(item){return _.extend(item,{date:(new Date()).toString()});})
                  .value();
 
 	     var newInvChange = new InventoryChangesDoc({inventory : invChange,
 							 ids : itemToSave});
 	     callback(null,newInvChange);
 	 };
-     }
+     },
+     saveOneInvItem :function(attrs,locationsToSaveTo,locationsToReport){
+	 if(locationsToReport === undefined){
+	     locationsToReport = locationsToSaveTo;
+	 }
+	 return function(callback){
+	     async.parallel(
+		 [inv_helpers.modelsFromIds(attrs,locationsToSaveTo), //fetch needed models
+		  inv_helpers.changesLogFromModels(attrs,locationsToReport)], //create change log
+		 //save all of the models
+		 function(err,modelsToSave){
+		     async.forEach(_.flatten(modelsToSave),
+				   function(model,cb){
+				       model.save({},{
+						      success:function(){
+							  cb();
+						      },
+						      error:function(){
+							  console.log("there was an error saving this model");
+							  console.log(arguments);
+							  cb();}
+						  });
+				   },
+				   function(err){
+				       callback(err,attrs);
+				   }
+				  );
+		 });
+	 };
+     },
+     saveManyInvItems : function(items,locationsToSaveTo,locationsToReport){
+	 return function (callback){
+	      async.forEach(items,
+			    function(item,callback){
+				inv_helpers.saveOneInvItem(item,locationsToSaveTo,locationsToReport)(callback);
+			    },
+			    callback);
+	 };
+    }
 };

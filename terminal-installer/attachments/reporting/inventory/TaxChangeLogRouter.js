@@ -1,20 +1,16 @@
 var menuInventorytaxChangeLogRouter = 
     new (Backbone.Router.extend(
 	     {routes: {
-		  "menuInventory/companyReporttaxChangeLog":"menuInventoryCompanytaxChangeLog",
-		  "menuInventory/groupReporttaxChangeLog":"menuInventoryGrouptaxChangeLog",
-		  "menuInventory/storeReporttaxChangeLog":"menuInventoryStoretaxChangeLog"
+		  "menuInventory/companyReporttaxChangeLog":"menuInventoryTaxChangeLog",
+		  "menuInventory/groupReporttaxChangeLog":"menuInventoryTaxChangeLog",
+		  "menuInventory/storeReporttaxChangeLog":"menuInventoryTaxChangeLog"
 	      },
-	      menuInventoryCompanytaxChangeLog:function() {
-		  inv_helpers.renderTaxChangesLog({el: $("#main")}, ReportData.company._id, "companyReport");
+	      menuInventoryTaxChangeLog:function() {
+		  //inv_helpers.renderTaxChangesLog({el: $("#main")}, ReportData.company._id, "companyReport");
 		  console.log("menuInventoryCompanytaxChangeLog");
-	      },
-	      menuInventoryGrouptaxChangeLog:function() {
-		  inv_helpers.renderTaxChangesLog({el: $("#main")}, ReportData.group.group_id, "groupReport");
-		  console.log("menuInventoryGroupaddiItem");
-	      },
-	      menuInventoryStoretaxChangeLog:function() {
-		  inv_helpers.renderTaxChangesLog({el: $("#main")},ReportData.store.store_id, "storeReport");
-		  console.log("menuInventoryStoretaxChangeLog");
+		  inv_helpers.renderChangesLog({el: $("#main")},
+					       "menuInventoryScanTaxLog_TMP",
+					       inv_helpers._mainChangeLogTemplate("Tax"),
+					       inventoryTaxChangeLog_fetch);
 	      }
 	     }));

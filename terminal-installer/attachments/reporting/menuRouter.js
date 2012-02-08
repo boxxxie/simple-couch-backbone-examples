@@ -40,22 +40,6 @@ var menuSetMenusView =
 			   console.log("menuReportsView, route:menuSetMenusCompany");
 			   view.renderMenuSetMenusCompany();
 		       });
-		//menuSetMenusRouter
-		 //.bind('route:menuSetMenusGroup', 
-		  //     function(){
-		//	   console.log("menuReportsView, route:menuSetMenusGroup");
-		//	   //view.renderMenuSetMenusCompany();
-		//	   alert("Company can't access this menu.");
-		//	   window.history.go(-1);
-		 //      });
-		//menuSetMenusRouter
-		 //.bind('route:menuSetMenusStore', 
-		  //     function(){
-		//	   console.log("menuReportsView, route:menuSetMenusStore");
-		//	   //view.renderMenuSetMenusCompany();
-		//	   alert("Company can't access this menu.");
-		//	   window.history.go(-1);
-		 //      });
 	 },
 	 renderMenuSetMenusCompany: function() {
 	     var view = this;

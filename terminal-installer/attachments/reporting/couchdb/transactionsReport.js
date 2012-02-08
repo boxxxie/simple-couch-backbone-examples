@@ -28,7 +28,7 @@ function transactionsReportFetcher(start,end){
 	    query(function(err,response){
 		      function calculateTotalsOverTransactions(transactions){
 			  return _.chain(transactions)
-			      .map(_.selectKeys_F(['type','tax1and2','subTotal','tax3','total']))
+			      .mapSelectKeys('type','tax1and2','subTotal','tax3','total')
 			      .groupBy('type')
 			      .filter$(function(transactions,type){return (type == "SALE" || type == "REFUND");})
 			      .map(function(transactions,type){

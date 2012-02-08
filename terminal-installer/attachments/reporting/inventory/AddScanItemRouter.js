@@ -5,7 +5,7 @@ var menuInventoryaddScanItemRouter =
 	      },
 	      _setup:function(){
 		  console.log("add scan item page");
-		  $("#main").html(ich.inventoryManagementHome_TMP(autoBreadCrumb()));
+		  $("#main").html(ich.inventoryManagementHome_TMP(_.extend({startPage:ReportData.startPage},autoBreadCrumb())));
 		  var invItem = new InventoryDoc();
 		  var id = topLevelEntity(ReportData).id;
 		  invItem.cid = id;
@@ -66,61 +66,58 @@ var inv_display_view =
 	    _disableSubmitButton:function(){
 		this.$el.find("input,button").attr("disabled", true); 
 	    },
-	    _saveItemsAndLog:function(){
-		return function(runAfter){
-		    $("#addItemToCompany").button().click(
-			function(){
-			    var formObj = varFormGrabber($("#inv_form"));
-			    var upc = $("#upc").val();
-			    var attrs = _.extend(formObj,{upccode:upc});
-			    var allStores = extractStores(ReportData);
-			    var allGroups = extractGroups(ReportData);
-			    var parents = _.values(getParentsInfo(ReportData));
-			    var locationsToSaveTo = allStores.concat(parents,allGroups);
-			    //create all of the models for the inv objects
-			    async.parallel([inv_helpers.modelsFromIds(attrs,locationsToSaveTo),
-					    inv_helpers.changesLogFromModels(attrs,locationsToSaveTo)],
-					   //save all of the models
-					   function(err,modelsToSave){
-					       async.forEach(_.flatten(modelsToSave),
-							     function(model,cb){
-								 model.save({},{
-										success:function(){cb();},
-										error:function(){console.log("there was an error saving this model");
-												 console.log(arguments);
-												 cb();}
-									    });
-							     },
-							     function(){runAfter(attrs);}
-							    );
-					   });
-			});
-		};
+	    _saveItemsAndLog:function(callback){
+		return _.once(
+		    function(){
+			//extract model values from form/textbox
+			var formObj = varFormGrabber($("#inv_form"));
+			var upc = $("#upc").val();
+			var invObj = _.extend(formObj,{upccode:upc,
+						       date:new Date()});
+
+			var allStores = extractStores(ReportData);
+			var allGroups = extractGroups(ReportData);
+			var parents = _.values(getParentsInfo(ReportData));
+			var locationsToSaveTo = allStores.concat(parents,allGroups);
+			//create all of the models for the inv objects (all stores and groups and the company)
+
+			inv_helpers.saveOneInvItem(invObj,locationsToSaveTo)
+			(callback);
+		    });
 	    },
 	    _submitButtonClick:function(fn){
 		$("#addItemToCompany")
 		    .button()
-		    .click(fn);
+		    .click(
+			function(){
+			    $(this).attr('disabled',true);
+			    fn();
+			});
 	    },
 	    addItemTo_company:function(model){
 	    	this._renderItem(model,"you can add this item to your inventory, it has a suggested description");
 		this._submitButtonClick(
-		    this._saveItemsAndLog(model)
-		    (function(attrs){alert(attrs.description + " has been added");})
+		    this._saveItemsAndLog
+		    (function(err,savedInv){
+			 alert(savedInv.description + " has been added");
+		     })
 		);
 	    },
 	    addItemTo_company_and_reviewDB:function(model){
 	    	this._renderItem(model,"you can add this item to your inventory");
 		this._submitButtonClick(
-		    this._saveItemsAndLog(model)
-		    (function(attrs){
-			 (new InventoryReviewDoc(
-			      {
-				  _id:attrs.upccode, 
-				  date:(new Date()).toString(), 
-				  description:attrs.description
-			      })).save();
-			 alert(attrs.description + " has been added");
+		    this._saveItemsAndLog
+		    (function(err,savedInv){
+			 var invItemForReview = 
+			     new InventoryReviewDoc(
+				 _.chain(savedInv)
+				     .selectKeys('date','upccode','description')
+				     .renameKeys('upccode','_id')
+				     .value());
+			 invItemForReview.save({},
+					       {success:function(){
+						    alert(savedInv.description + " has been added");
+						}});
 		     })
 		);
 	    },
