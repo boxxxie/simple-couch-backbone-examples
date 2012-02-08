@@ -8,10 +8,10 @@ function fetch_company_menu(companyID){
 		 //callback(_.selectKeys(model.toJSON(),['menuButtons','menuButtonHeaders']));
 		 callback(false, model);
 	     },
-	     error:function(model){
+	     error:function(resp){
 		 //return an empty menu
-		 //model.set_empty_menu();
-		 callback(true);
+		 terminal_menu.set_empty_menu();
+		 callback(true, terminal_menu);
 	     }});
     };
 };

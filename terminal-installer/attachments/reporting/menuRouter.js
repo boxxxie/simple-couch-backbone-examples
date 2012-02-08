@@ -61,16 +61,11 @@ var menuSetMenusView =
 	     var view = this;
 	     fetch_company_menu(ReportData.company._id)
 	     (function(err,menu){
-	         if(!err) {
-	    	  console.log(menu);
-	    	  menuModel = menu;
-	    	 }  else {
-              menuModel = new Menu({_id:ReportData.company._id});
-              menuModel.set_empty_menu();
-             }
-	    	  
-	    	  var html = ich.menuSetMenus_TMP({startPage:"companyReport", 
-	     					   breadCrumb:breadCrumb(ReportData.company.companyName)});
+    	  console.log(menu);
+    	  menuModel = menu;
+    	  
+    	  var html = ich.menuSetMenus_TMP({startPage:"companyReport", 
+     					   breadCrumb:breadCrumb(ReportData.company.companyName)});
 		  $(view.el).html(html);
 		  
 		  
