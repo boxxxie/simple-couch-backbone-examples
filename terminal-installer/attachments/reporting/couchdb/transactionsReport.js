@@ -1,5 +1,5 @@
 function transactionFormattingWalk(obj){
-    if(obj.count){
+    if(obj.count || obj.count==0){
 	return _.extend(obj,{count:obj.count+""});
     }
     if(obj.quantity){
@@ -40,29 +40,14 @@ function transactionsReportFetcher(start,end){
 			      .defaults({tax1and2:0,subTotal:0,tax3:0,total:0})
 			      .value();
 		      }
-		      var transactions = _.chain(response.rows)
-			  .groupBy(function(resp_item){ //group by day
-				       return _.chain(resp_item.key)
-					   .slice(1,4)
-					   .join("-")
-					   .value();
-				   })
-			  .map(function(items,date){
-				   function startTime(transaction){
-				       return (new Date(transaction.time.start)).getTime();
-				   }
-				   var transactionsForDate = 
-				       _.chain(items).pluck('doc').sortBy(startTime).reverse().value();
-				   
-				   var totals = calculateTotalsOverTransactions(transactionsForDate);
-				   return {date:date,transactions:transactionsForDate,totalsForDate:totals};
-			       })
-			  .value();
-		      var totalOverAllDates = calculateTotalsOverTransactions(_.chain(transactions)
-									      .pluck('transactions')
-									      .flatten()
-									      .value());
-		      var result = {transactionsForDates:transactions,total:_.walk_pre(totalOverAllDates,currency_format)};
+		      function startTime(transaction){
+                                       return (new Date(transaction.time.start)).getTime();
+                               };
+		      
+		      var transactions = _.chain(response.rows).pluck('doc').sortBy(startTime).reverse().value();
+		      
+		     var totalOverAllDates = calculateTotalsOverTransactions(transactions);
+		      var result = {transactions:transactions,total:_.walk_pre(totalOverAllDates,currency_format)};
 		      callback(err,result);
 		  });
 	};
@@ -83,8 +68,13 @@ function transactionsReportDaySummaryFetcher(start,end){
 					       {date : _.rest(item.key)},
 					       {dateString : item.key[1]+"-"+item.key[2]+"-"+item.key[3]});
 			       });
-
-		 callback(err,transactions);});
+	      var total = _.reduce(transactions,_.addPropertiesTogether,{});
+	      if(_.isEmpty(total)) {
+	          total = {};
+	          _.extend(total,{count:0, subTotal:0, tax1and2:0, tax3:0, total:0});
+	      }
+         var result = {transactions:transactions,total:total};
+		 callback(err, result);});
 	};
     };
 }

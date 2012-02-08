@@ -188,6 +188,12 @@
       </button>
     </script>
     
+    <script id="printDetailButton_P" class="partial" type="text/html">
+      <button id="printdetail" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
+    <span class="ui-button-text">Print</span>
+      </button>
+    </script>
+    
     <script id="menuButton_P" class="partial" type="text/html">
       <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="javascript:window.location.href = '#{{startPage}}/';">
 	<span class="ui-button-text">Home</span>
@@ -783,7 +789,8 @@
     {{>main_navigation_buttons_P}}
     <h1>Administration</h1>
     <h2>{{>breadcrumb_P}}</h2>
-    <div id='usersInfoTable'></div>   
+    <div id='usersInfoTable'></div>
+    {{>quickReportViewHook_P}}   
     {{>backButton_P}}
       </div>
     </script>
@@ -815,6 +822,7 @@
     </script>
     
     <script id="inputUserInfo_TMP" type="text/html">
+        <form id="form">
         <table style="margin-bottom:20px;" class="reportstable">
       <thead>
         <tr>
@@ -824,11 +832,12 @@
       </thead>
       <tbody>
         <tr>
-          <td align="center">{{user}}</td>
-          <td align="center">{{password}}</td>
+          <td><input type="text" var="user"  id="txtinputuser" /></td>
+          <td><input type="text" var="password"  id="txtinputpassword" /></td>
         </tr>
       </tbody>
     </table>
+    </form>
     </script>
     
     <!-------------------------------------------- MENU REPORTS ------------------------------------------------>
@@ -1457,6 +1466,13 @@
 	    <td>{{>quickDetailsViewButton_P}}</td>
 	  </tr>
 	  {{/items}}
+	  {{^items}}
+      <tr>
+        <td align='center' colspan='7'>
+          There are no Cashouts.
+        </td>
+      </tr>
+      {{/items}}
 	</tbody>
       </table>
       {{#numofcashout}}
@@ -1495,19 +1511,19 @@
     <tfoot>
       <tr>
         {{#total}}
-        <th align="center" colspan="5">TOTAL</th>
+        <th align="center">TOTAL</th>
+        <th align="right">{{count}}</th>
         <th align="right">{{subTotal}}</th>
         <th align="right">{{tax1and2}}</th>
         <th align="right">{{tax3}}</th>
         <th align="right">{{total}}</th>
-        <th></th>
         {{/total}}
       </tr>
     </tfoot>
     <tbody>
       {{#list}}
       <tr>
-        <td><a id="{{dateString}}" style="text-decoration:underline; color:#0000FF;">{{dateString}}</a></td>
+        <td><a id="{{dateString}}" style="text-decoration:underline; color:#0000FF; cursor:pointer;">{{dateString}}</a></td>
         <td align="right">{{count}}</td>
         <td align="right">{{subTotal}}</td>
         <td align="right">{{tax1and2}}</td>
@@ -1539,7 +1555,7 @@
 	    <th>Tax 1</th>
 	    <th>Tax 3</th>
 	    <th>Total</th>
-	    <th>Detail</th>
+	    <th id="detail">Detail</th>
 	  </tr>
 	</thead>
 	<tfoot>
@@ -1550,12 +1566,11 @@
 	    <th align="right">{{tax1and2}}</th>
 	    <th align="right">{{tax3}}</th>
 	    <th align="right">{{total}}</th>
-	    <th></th>
+	    <th id="detail"></th>
 	    {{/total}}
 	  </tr>
 	</tfoot>
 	<tbody>
-	  {{#transactionsForDates}}
 	  {{#transactions}}
 	  <tr>
 	    <td>{{transdate}}</td>
@@ -1567,30 +1582,20 @@
 	    <td align="right">{{tax1and2}}</td>
 	    <td align="right">{{tax3}}</td>
 	    <td align="right">{{total}}</td>
-	    <td align="right">{{>quickDetailsViewButton_P}}</td>
+	    <td id="detail" align="right">{{>quickDetailsViewButton_P}}</td>
 	  </tr>
 	  {{/transactions}}
-	  {{#totalsForDate}}
-	  <tr>
-	    <td colspan="5">{{date}}</td>
-	    <td align="right">{{subTotal}}</td>
-	    <td align="right">{{tax1and2}}</td>
-	    <td align="right">{{tax3}}</td>
-	    <td align="right">{{total}}</td>
-	    <td></td>
-	  </tr>
-	  {{/totalsForDate}}
-	  {{/transactionsForDates}}
-	  {{^transactionsForDates}}
+	  {{^transactions}}
 	  <tr>
 	    <td align='center' colspan='11'>
 	      There are no transactions
 	    </td>
 	  </tr>
-	  {{/transactionsForDates}}
+	  {{/transactions}}
 	</tbody>
       </table>
       {{>quickReportViewHook_P}}
+      {{>printDetailButton_P}}
     </script>
     
     <script id="transactionsDetailReports_TMP" type="text/html">
@@ -1655,6 +1660,13 @@
 	    <td align="right">{{>quickDetailsViewButton_P}}</td>
 	  </tr>
 	  {{/items}}
+	  {{^items}}
+      <tr>
+        <td align='center' colspan='11'>
+          There are no Cancelled Transactions.
+        </td>
+      </tr>
+      {{/items}}
 	</tbody>
       </table>
       {{#totalrow}}
@@ -1722,6 +1734,13 @@
 	    <td align="right">{{>quickDetailsViewButton_P}}</td>
 	  </tr>
 	  {{/items}}
+	  {{^items}}
+      <tr>
+        <td align='center' colspan='11'>
+          There are no Refunds Transactions.
+        </td>
+      </tr>
+      {{/items}}
 	</tbody>
       </table>
       {{#totalrow}}
@@ -1796,6 +1815,13 @@
 	    <td align="right">{{>quickDetailsViewButton_P}}</td>
 	  </tr>
 	  {{/items}}
+	  {{^items}}
+      <tr>
+        <td align='center' colspan='11'>
+          There are no Discounts Transactions.
+        </td>
+      </tr>
+      {{/items}}
 	</tbody>
       </table>
       {{#totalrow}}

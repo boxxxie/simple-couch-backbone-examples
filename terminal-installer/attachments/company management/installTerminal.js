@@ -90,8 +90,8 @@ function installTerminal(companyID,groupID,storeID,terminalID){
 	var terminalToInstall_rt7 = new Terminal_rt7(terminal_properties);
 	var terminalToInstall_corp = new Terminal_corp(terminal_properties);
 	terminalToInstall_rt7.save({},
-				   {success:function(__,_,resp){
-					terminalToInstall_corp.set({_id:resp.id});
+				   {success:function(model,resp){
+					terminalToInstall_corp.set({_id:model.id});
 					terminalToInstall_corp.save(
 					    {},{success:function(){
 						    alert("The terminal is now ready to be Installed");

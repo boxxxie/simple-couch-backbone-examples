@@ -55,17 +55,19 @@ var Company = couchDoc.extend(
 	 var oldHierarchy = this.get('hierarchy');
 	 var groups = oldHierarchy.groups;
 	 groups || (groups = []);
-	 var newGroups = groups.concat(_.extend(group,{group_id:guidGenerator()}));
+	 var newGroup = _.extend(group,{group_id:guidGenerator()});
+	 var newGroups = groups.concat(newGroup);
 	 var newHierarchy = {groups : newGroups};
 	 this.set({hierarchy:newHierarchy});
 	 this.save();
 	 this.trigger("add:group"); //triggers go last
-
+     return newGroup;
      },
      editGroup:function(group,groupID){
 	 var groupToMod = this.getGroup(groupID);
 	 _.extend(groupToMod,group);
 	 this.save();
+	 return groupToMod;
      },
      validateGroup : function (newGroup,previous) {
 	 function userExists(groups,user){
@@ -104,12 +106,14 @@ var Company = couchDoc.extend(
      	 if((typeof stores === "undefined") || stores.length==0) {
      	     var oldHierarchy = this.get('hierarchy');
 	     var groups = oldHierarchy.groups;
+	     var groupToDel = _.find(groups, function(group) {return group.group_id==groupID;});
 	     var newGroups = _.reject(groups, function(group) {return group.group_id==groupID;});
 	     var newHierarchy = {groups : newGroups};
 	     this.set({hierarchy:newHierarchy});
 	     this.save();
 	     this.trigger("delete:group"); //triggers go last
 	     console.log("delete completed");
+	     return groupToDel;
      	 } else {
      	     alert("Can't delete group, group has store(s)");
      	 }
@@ -121,10 +125,12 @@ var Company = couchDoc.extend(
 	 stores || (stores = []);
 	 //this is supposed to check if we are adding a dup store number to this group of stores
 	 if(!_(stores).chain().pluck('number').contains(storeToAdd.number).value()) {
-	     var newStores = stores.concat(_.extend(storeToAdd,{store_id:guidGenerator()}));
+	     var newStore = _.extend(storeToAdd,{store_id:guidGenerator()});
+	     var newStores = stores.concat(newStore);
 	     groupToAddTo.stores = sortStores(newStores);
 	     this.save();
 	     this.trigger("add:store"); //triggers go last
+	     return newStore;
 	 } else {
 	     alert("The store you tried to add had the same number as one already in this group, please choose a different store number");
 	 }
@@ -135,6 +141,7 @@ var Company = couchDoc.extend(
 	 _.extend(storeToMod,store);
 	 groupToAddTo.stores = sortStores(groupToAddTo.stores);
 	 this.save();
+	 return storeToMod;
      },
      validateStore : function (newStore,previous,stores) {
 	 function userExists(stores,user){
@@ -180,11 +187,13 @@ var Company = couchDoc.extend(
      	 if((typeof terminals === "undefined") || terminals.length==0) {
      	     var groupToDelTo = this.getGroup(groupID);
 	     //var stores = this.getStores(groupID);
+	     var delToStore = _.find(groupToDelTo.stores, function(store) {return store.store_id==storeID;});
 	     var newStores = _.reject(groupToDelTo.stores, function(store) {return store.store_id==storeID;});
 	     groupToDelTo.stores = newStores;
 	     this.save();
 	     this.trigger("delete:store"); //triggers go last
 	     console.log("delete completed");
+	     return delToStore;
      	 } else {
      	     alert("Can't delete store, store has terminal(s)");
      	 }

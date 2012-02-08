@@ -1,4 +1,3 @@
-//todo : refactor. inforce constants
 var menuReportsTransactionsDetailRouter = 
     new (Backbone.Router.extend(
 	     {routes: {
@@ -208,162 +207,158 @@ function renderTransactionsDetailTable() {
     function getTerminalLabel(terminal_id) {
     	var terminal_label = "";
     	_.walk_pre(ReportData, 
-		   function(obj) {
-		       if(obj.terminal_id == terminal_id) {
-			   terminal_label = obj.terminal_label;
-		       }
-		       return obj;
-		   });
-	return terminal_label;	
+			  function(obj) {
+			      if(obj.terminal_id == terminal_id) {
+				  	terminal_label = obj.terminal_label;
+			      }
+			      return obj;
+			  });
+		return terminal_label;	
     };
     function renderTransactionDetail(startDate, endDateForQuery, option) {
         transactionsReportFetcher(startDate,endDateForQuery)
         ([option.id])
         (function(err,resp){
-             var respForBtn = _.extend({},resp);
-             resp.transactionsForDates = 
-		 _.walk_pre(resp.transactionsForDates, 
-			    function(obj) {
-				if(obj.totalsForDate) {
-				    obj.totalsForDate = _.extend({date:obj.date},obj.totalsForDate);
-				}
-				return obj;
-			    });
-             
-             resp.transactionsForDates = 
-		 _.map(resp.transactionsForDates, function(item) {
-			   item.totalsForDate = 
-			       _.applyToValues(item.totalsForDate, function(obj){
-						   if(_.isNumber(obj)) {
-						       obj = currency_format(obj);
-						   }
-						   return obj;
-					       }, true);
-			   
-			   item.transactions = 
-			       _.map(item.transactions, function(item) {
-					 var terminal_label = getTerminalLabel(item.terminal_id);
-					 return _.extend(item,{name:terminal_label}, 
-							 {date:item.time.start},
-							 {transdate:jodaDatePartFormatter(item.time.start)},
-							 {transtime:jodaTimePartFormatter(item.time.start)},
-							 {subTotal:currency_format(item.subTotal)},
-							 {tax1and2:currency_format(item.tax1and2)},
-							 {tax3:currency_format(item.tax3)},
-							 {total:currency_format(item.total)});
-				     });
-			   
-			   return item;
-		       });
-             
+            var respForBtn = _.extend({},resp);
+            
+            resp.transactions = _.map(resp.transactions, function(item) {
+                    var terminal_label = getTerminalLabel(item.terminal_id);
+                    return _.extend(item,{name:terminal_label} 
+                                        ,{date:item.time.start}
+                                        ,{transdate:jodaDatePartFormatter(item.time.start)}
+                                        ,{transtime:jodaTimePartFormatter(item.time.start)}
+                                        ,{subTotal:currency_format(item.subTotal)}
+                                        ,{tax1and2:currency_format(item.tax1and2)}
+                                        ,{tax3:currency_format(item.tax3)}
+                                        ,{total:currency_format(item.total)});
+                });
+                
              var html = ich.transactionsDetailTable_TMP(resp);
              $("#transactionsdetailtable").html(html);
+             $("#printdetail").click(function(){
+                 if(_(resp.transactions).size()>0) {
+                     var form = $("#transactionsdetailtable");
+                     form.find("#detail").hide();
+                     form.find("#printdetail").hide();
+                     var exBorder = form.find("table").attr("border");
+                     form.find("table").attr("border",1);
+                     
+                     var w = window.open();
+                     if(_.isEmpty(ReportData.company)) {
+                        w.document.write("Company : " + ReportData.companyName );    
+                     } else {
+                        w.document.write("Company : " + ReportData.company.companyName);
+                     }
+                     w.document.write(" , Store : " + $("#storesdown option:selected").text());
+                     
+                     w.document.write(form.html());
+                     w.document.close();
+                     w.focus();
+                     w.print();
+                     w.close();
+                     
+                     form.find("#detail").show();
+                     form.find("#printdetail").show();
+                     form.find("table").attr("border",exBorder);
+                 } else {
+                     alert("No transactions to save.");
+                 }
+             });
+             
              
              $("#transactionssummarytable").hide();             
-             $("#ulGroupDropDown").hide();
+             $("#ulGroupDropDown").find("select").attr("disabled",true);
              $("#dateRangePicker").hide();
              $("#generalgobtn").hide();
              $("#btnBackHistory").hide();
              $("#btnBack2").show();
              
-             $("#btnBack2").click(
-		 function(){
-		     $("#transactionsdetailtable").html({});
-		     $("#transactionssummarytable").show();
-		     $("#ulGroupDropDown").show();
-		     $("#dateRangePicker").show();
-		     $("#generalgobtn").show();
-		     $("#btnBackHistory").show();
-		     $("#btnBack2").hide();
-		 });
+             $("#btnBack2").click(function(){
+                 $("#transactionssummarytable").show();
+                 $("#transactionsdetailtable").html({});
+                 $("#ulGroupDropDown").find("select").attr("disabled",false);
+                 $("#dateRangePicker").show();
+                 $("#generalgobtn").show();
+                 $("#btnBackHistory").show();
+                 $("#btnBack2").hide();
+             });
              
              
-             respForBtn.transactionsForDates = _.map(respForBtn.transactionsForDates, 
-						     function(item) {
-							 item.transactions = 
-							     _.map(item.transactions, 
-								   function(item) {
-								       var terminal_label = getTerminalLabel(item.terminal_id);
-								       return _.extend(item,{name:terminal_label} 
-										       ,{date:item.time.start});
-								   });
-							 
-							 return item;
-						     });
-             
-             _.each(respForBtn.transactionsForDates, function(item) {
-			item.transactions = applyReceiptInfo(item.transactions);
-			
-			item.transactions = _.applyToValues(item.transactions, function(obj){
-								if(obj && obj.discount==0){
-								    obj.discount=null;
-								}
-								if(obj && obj.quantity){
-								    obj.orderamount = toFixed(2)(obj.price * obj.quantity);
-								    obj.quantity+="";
-								    if(obj.discount) {
-									obj.discountamount = toFixed(2)(obj.discount * obj.quantity);
-								    }
-								}
-								return toFixed(2)(obj);
-							    }, true);
-			
-			item.transactions = _.map(item.transactions, function(item){
-						      if(item.payments) {
-							  item.payments = _.map(item.payments, function(payment){
-										    if(payment.paymentdetail) {
-											payment.paymentdetail.crt = payment.type;
-										    }
-										    if(payment.paymentdetail && payment.paymentdetail.errmsg) {
-											payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace("<br>"," ");
-										    }
-										    return payment;
-										});
-						      }
-						      return item;
-						  });
-			
-			
-			item.transactions = 
-			    _.applyToValues(item.transactions, function(obj){
-						var strObj = obj+"";
-						if(strObj.indexOf(".")>=0 && strObj.indexOf("$")<0) {
-						    obj = currency_format(Number(obj));
-						}
-						return obj;
-					    }, true);
-			
-			
-			_.each(item.transactions, function(item) {
-				   var item = _.clone(item);
-				   
-				   var dialogtitle=getDialogTitle(ReportData,item);
-				   
-				   var btn = $('#'+item._id)
-				       .each(function(){
-						 $(this).button()
-						     .click(function(){
-								var btnData = item;
-								btnData.discount=null;
-								//TODO use walk
-								_.applyToValues(ReportData,
-										function(o){
-										    if(o.store_id==btnData.store_id){
-											btnData.storename = o.storeName;
-										    }
-										    return o;
-										}
-										,true);
-								
-								var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
-								quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
-							    });
-					     });
-			       });
-		    });
-             
+             respForBtn.transactions = _.map(respForBtn.transactions, function(item) {
+                                            var terminal_label = getTerminalLabel(item.terminal_id);
+                                                return _.extend(item,{name:terminal_label} 
+                                                                    ,{date:item.time.start});
+                                        });
+            
+            respForBtn.transactions = applyReceiptInfo(respForBtn.transactions);
+                
+            respForBtn.transactions = _.applyToValues(respForBtn.transactions, function(obj){
+                                        if(obj && obj.discount==0){
+                                        obj.discount=null;
+                                        }
+                                        if(obj && obj.quantity){
+                                        obj.orderamount = toFixed(2)(obj.price * obj.quantity);
+                                        obj.quantity+="";
+                                        if(obj.discount) {
+                                            obj.discountamount = toFixed(2)(obj.discount * obj.quantity);
+                                        }
+                                        }
+                                        return toFixed(2)(obj);
+                                    }, true);
+            
+            respForBtn.transactions = _.map(respForBtn.transactions, function(item){
+                                      if(item.payments) {
+                                          item.payments = _.map(item.payments, function(payment){
+                                                    if(payment.paymentdetail) {
+                                                        payment.paymentdetail.crt = payment.type;
+                                                    }
+                                                    if(payment.paymentdetail && payment.paymentdetail.errmsg) {
+                                                        payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace("<br>"," ");
+                                                    }
+                                                    return payment;
+                                                    });
+                                      }
+                                      return item;
+                                      });
+            
+            
+             respForBtn.transactions = 
+                 _.applyToValues(respForBtn.transactions, function(obj){
+                         var strObj = obj+"";
+                         if(strObj.indexOf(".")>=0 && strObj.indexOf("$")<0) {
+                             obj = currency_format(Number(obj));
+                         }
+                         return obj;
+                         }, true);
+            
+            _.each(respForBtn.transactions, function(item) {
+                    var item = _.clone(item);
+                
+                    var dialogtitle=getDialogTitle(ReportData,item);
+                    
+                    var btn = $('#'+item._id)
+                        .each(function(){
+                              $(this).button()
+                                  .click(function(){
+                                     var btnData = item;
+                                     btnData.discount=null;
+                                     //TODO use walk
+                                     _.applyToValues(ReportData,
+                                             function(o){
+                                             if(o.store_id==btnData.store_id){
+                                                 btnData.storename = o.storeName;
+                                             }
+                                             return o;
+                                             }
+                                             ,true);
+                                     
+                                     var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
+                                     quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
+                                 });
+                          });
+                });
          });
-    };
+        };
     
     console.log("renderTransactionsDetailTable");
     var dropdownGroup = $("#groupsdown");
@@ -376,7 +371,7 @@ function renderTransactionsDetailTable() {
 	endDateForQuery.addDays(1);
 	
 	var sd = $("#storesdown option:selected");
-	var ids =[{id:sd.val(), name:sd.text()}];
+	ids =[{id:sd.val(), name:sd.text()}];
 	
 	console.log(ids);
 	
@@ -386,19 +381,17 @@ function renderTransactionsDetailTable() {
 	transactionsReportDaySummaryFetcher(startDate,endDateForQuery)
 	([_.first(ids).id])
 	(function(err,resp){
-	     var formattedTemplateData = _.walk_pre(resp,transactionFormattingWalk);
-	     console.log("formattedTemplateData");
-	     console.log(formattedTemplateData);
-	     $("#transactionssummarytable").html(ich.transactionsSummaryTable_TMP({list:formattedTemplateData}));
-	     
-	     _.each(resp,function(item){
-			var row = $("#"+item.dateString);
-			row.click(function(){
-				      var startDate = item.date;
-				      var endDate = date_array.inc_day(startDate);
-				      renderTransactionDetail(startDate,endDate,{id:_.first(ids).id});
-				  });
-		    });
-	 });	
-    }
+	    var formattedTemplateData = _.walk_pre(resp,transactionFormattingWalk);
+	    $("#transactionssummarytable").html(ich.transactionsSummaryTable_TMP({list:formattedTemplateData.transactions,total:formattedTemplateData.total}));
+	    
+	    _.each(resp.transactions,function(item){
+	        var row = $("#"+item.dateString);
+	        row.click(function(){
+	            var startDate = item.date;
+                var endDate = date_array.inc_day(startDate);
+                renderTransactionDetail(startDate,endDate,{id:_.first(ids).id});
+	        });
+	    });
+	});
+    } 
 };

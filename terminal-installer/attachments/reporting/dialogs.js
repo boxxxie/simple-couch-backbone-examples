@@ -229,8 +229,16 @@ function quickmenuReportsTransactionViewDialog (html,options) {
 	 width: 424,
 	 modal: true,
 	 buttons: {
+	     "Print": function() {
+	         var w = window.open();
+	         w.document.write($("#dialog-quickView").html());
+	         w.document.close();
+             w.focus();
+	         w.print();
+	         w.close();
+	     },
 	     "Close": function() {
-		 d.dialog('close');
+		     d.dialog('close');
 	     }
 	 },
 	 title:options.title

@@ -8,11 +8,11 @@ function fetch_company_rewards(companyID){
 	    {success:function(model){
 		 callback(false, model);
 	     },
-	     error:function(model){
+	     error:function(resp){
 		 //return and save an empty Rewards profile to the rewards db
-		 model.set_default_rewards(companyID);
-		 model.save();
-		 callback(true, model);
+		 terminal_rewards.set_default_rewards(companyID);
+		 //model.save();
+		 callback(true,terminal_rewards);
 	     }});
     };
 };

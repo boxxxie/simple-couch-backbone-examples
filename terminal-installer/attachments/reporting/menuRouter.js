@@ -45,11 +45,11 @@ var menuSetMenusView =
 	     var view = this;
 	     fetch_company_menu(ReportData.company._id)
 	     (function(err,menu){
-	    	  console.log(menu);
-	    	  menuModel = menu;
-	    	  
-	    	  var html = ich.menuSetMenus_TMP({startPage:"companyReport", 
-	     					   breadCrumb:breadCrumb(ReportData.company.companyName)});
+    	  console.log(menu);
+    	  menuModel = menu;
+    	  
+    	  var html = ich.menuSetMenus_TMP({startPage:"companyReport", 
+     					   breadCrumb:breadCrumb(ReportData.company.companyName)});
 		  $(view.el).html(html);
 		  
 		  
@@ -85,7 +85,8 @@ var menuSetMenusView =
 		  menuModel.bind("change:menuButtonHeaders",view.renderMenuHeaderPartial);
 		  menuModel.bind("change:menuButtons", view.renderMenuScreenPartial);
 		  
-		  console.log("rendered set menus");	
+		  console.log("rendered set menus");
+		 
 	      }); 
 	     
 	 },

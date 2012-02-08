@@ -6,7 +6,7 @@ var date = {
 
 var date_array = {
         inc_day :  function (dateArray){
-	    var dateToInc = new Date(dateArray.join("-"));
+	    var dateToInc = new Date(dateArray.join("/"));
 	    dateToInc.addDays(1);
 	    return date.toArray.until.day(dateToInc);
     }  
