@@ -102,6 +102,7 @@ var menuInventoryscanPriceChangeView =
 				     html,
 				     {title:"Apply changes to stores", 
 				      stores:stores,
+				      groups:groups,
 				      parents:parents,
 				      makeButtons:inv_helpers.saveNewInvItems(newInvList,parents,stores,groups)
 				      (function(){

@@ -135,5 +135,39 @@ function groupFromStoreID(reportData,storeID){
 	      })
 	.value();
 
-    return foundGroup.group_id;
+    if(foundGroup){
+	return foundGroup.group_id;
+    }
+    return undefined;
+}
+
+//this function will return a group obj if the stores list includes all of the stores that belong to the group
+function groupsFromStoreSets(stores,groups,reportData){
+    function groupID_stores_count_string(stores,groupID){
+	return groupID+"?"+_.size(stores);
+    }
+    var groups_and_matched_store_size =
+	_.chain(stores)
+	.pluck('id')
+	.matchTo(reportDataToArray(reportData),'store_id')
+	.groupBy('group_id')
+	.map(groupID_stores_count_string)
+	.value();
+
+    var groups_and_store_size = 
+	_.chain(reportDataToArray(reportData))
+	.unique(false,function(item){return item.store_id;})
+	.groupBy('group_id')
+	.map(groupID_stores_count_string)
+	.value();
+
+    var groupsToSave = _.chain(groups_and_store_size)
+	.intersection(groups_and_matched_store_size)
+	.map(function(group_size_str){
+		 return group_size_str.split("?")[0];
+	     })
+	.matchTo(groups,'id')
+	.value();
+    
+    return groupsToSave;
 }
