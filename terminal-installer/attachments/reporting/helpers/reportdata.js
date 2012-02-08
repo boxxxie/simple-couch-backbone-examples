@@ -1,24 +1,30 @@
 //obj is supposed to be from ReportData global
-function extractStores(obj){
-    var stores = extractItems(obj,"stores");
-    return _.map(stores,function(store){
-		     return {type:'store',
-			     id:store.store_id,
-			     name:store.storeName,
-			     number:store.number,
-			     label : store.number + " : " + store.storeName};
-		 });
-};
+var extractStores =  _.memoize(
+    function extractStores(obj){
+	var stores = extractItems(obj,"stores");
+	return _.map(stores,function(store){
+			 return {type:'store',
+				 id:store.store_id,
+				 name:store.storeName,
+				 number:store.number,
+				 label : store.number + " : " + store.storeName};
+		     });
+    },
+    reportDataHash
+);
 //obj is supposed to be from ReportData global
-function extractGroups(obj){
-    var groups = extractItems(obj,"groups");
-    return _.map(groups,function(group){
-		     return {type:'group',
-			     id:group.group_id,
-			     name:group.groupName,
-			     label:group.groupName};
-		 });
-};
+var extractGroups = _.memoize(
+    function extractGroups(obj){
+	var groups = extractItems(obj,"groups");
+	return _.map(groups,function(group){
+			 return {type:'group',
+				 id:group.group_id,
+				 name:group.groupName,
+				 label:group.groupName};
+		     });
+    },
+    reportDataHash
+);
 
 function extractItems(obj,field){
     var items = [];
@@ -41,48 +47,53 @@ function topLevelEntity(reportData){
     else if(ReportData.store && ReportData.store.store_id){return {id:ReportData.store.store_id,type:"store"};}
     else {return {id:undefined,type:undefined};}
 };
-function getParentsInfo(reportData){
-    //makes an object that looks like {company:,group:}
-    if(reportData.company){
-	var company = {
-	    id:reportData.company._id, 
-	    label:reportData.company.companyName,
-	    type : "company"
-	};
-    }
-    else if(reportData.company_id){
-	var company = {
-	    id:reportData.company_id, 
-	    label:reportData.companyName,
-	    type : "company" 
-	};
-    }
-    if(reportData.group){
-	var group = {
-	    id:reportData.group.group_id, 
-	    label:reportData.group.groupName,
-	    type : group
-	};
-    }
-    else if(reportData.group_id){
-	var group = {
-	    id:reportData.group_id, 
-	    label:reportData.groupName,
-	    type : "group"
-	};
-    }
 
-    if(reportData.store){
-	var store = {
-	    id:reportData.store.store_id, 
-	    label:reportData.store.number+":"+reportData.store.storeName,
-	    number:reportData.store.storeName,
-	    type:"store"
-	};
-    }
+var getParentsInfo = _.memoize(
+    function getParentsInfo(reportData){
+	//makes an object that looks like {company:,group:}
+	if(reportData.company){
+	    var company = {
+		id:reportData.company._id, 
+		label:reportData.company.companyName,
+		type : "company"
+	    };
+	}
+	else if(reportData.company_id){
+	    var company = {
+		id:reportData.company_id, 
+		label:reportData.companyName,
+		type : "company" 
+	    };
+	}
+	if(reportData.group){
+	    var group = {
+		id:reportData.group.group_id, 
+		label:reportData.group.groupName,
+		type : group
+	    };
+	}
+	else if(reportData.group_id){
+	    var group = {
+		id:reportData.group_id, 
+		label:reportData.groupName,
+		type : "group"
+	    };
+	}
 
-    return _.removeEmptyKeys({company:company,group:group,store:store});
-};
+	if(reportData.store){
+	    var store = {
+		id:reportData.store.store_id, 
+		label:reportData.store.number+":"+reportData.store.storeName,
+		number:reportData.store.storeName,
+		type:"store"
+	    };
+	}
+
+	return _.removeEmptyKeys({company:company,group:group,store:store});
+    },
+    reportDataHash
+);
+    
 
 //woo memoize, hash function is crap by whatever
 var reportDataToArray = _.memoize(
@@ -122,11 +133,12 @@ var reportDataToArray = _.memoize(
 	    .value();
 
     },
-    function(reportData){
-	return topLevelEntity(reportData).id;
-    }
+    reportDataHash
 );
 
+function reportDataHash(reportData){
+    return topLevelEntity(reportData).id;
+}
 
 function groupFromStoreID(reportData,storeID){
    var foundGroup =  _(reportDataToArray(reportData)).chain()
