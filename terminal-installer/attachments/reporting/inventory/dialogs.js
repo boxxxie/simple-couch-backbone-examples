@@ -1,5 +1,5 @@
 function menuInventoryApplyStoresViewDialog (dialog_html,options) {
-    var stores = options.stores;
+
     var form = $(dialog_html).find("#formInventoryApplystores");
     var d = $("#dialog-quickView");    	
     d.html(dialog_html);
@@ -22,18 +22,27 @@ function menuInventoryApplyStoresViewDialog (dialog_html,options) {
 	     "Apply" : function() {
 		 var checkedStores = form.find("input:checked").toArray();
 		 var applyToAllStores =  d.find("#applyToAll").is(":checked");
+		 var stores = options.stores;
+		 var parents = options.parents;
 		 if(_.isEmpty(checkedStores) && !applyToAllStores){
 		     //user clicked apply button and there was nothing selected... do nothing
 		     console.log("The price change will not be applied to any stores in this company");
 		 }
-		 else if (applyToAllStores){
+		 else if (applyToAllStores || 
+			  _.size(checkedStores) == _.size(stores)){
 		     console.log("The price change will be applied to all stores in this company");
+		     //options.makeButtons(stores.concat(parents));
 		     options.makeButtons(stores);
 		 }
 		 else{
-		     var stores_to_update = _.chain(checkedStores).pluck('id').matchTo(stores,'id').value();
+		     var stores_to_update = _.chain(checkedStores)
+			 .pluck('id')
+			 .matchTo(stores,'id')
+			 .value();
+
 		     console.log("The price change will be applied to selected stores");
 		     console.log(stores_to_update);
+
 		     options.makeButtons(stores_to_update);
 		 }
 		 d.dialog('close');

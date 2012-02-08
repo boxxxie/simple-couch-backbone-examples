@@ -1,20 +1,16 @@
 var menuInventorypriceChangeLogRouter = 
     new (Backbone.Router.extend(
 	     {routes: {
-		  "menuInventory/companyReportpriceChangeLog":"menuInventoryCompanypriceChangeLog",
-		  "menuInventory/groupReportpriceChangeLog":"menuInventoryGrouppriceChangeLog",
-		  "menuInventory/storeReportpriceChangeLog":"menuInventoryStorepriceChangeLog"
+		  "menuInventory/companyReportpriceChangeLog":"menuInventoryPriceChangeLog",
+		  "menuInventory/groupReportpriceChangeLog":"menuInventoryPriceChangeLog",
+		  "menuInventory/storeReportpriceChangeLog":"menuInventoryPriceChangeLog"
 	      },
-	      menuInventoryCompanypriceChangeLog:function() {
-		  inv_helpers.renderPriceChangesLog({el: $("#main")},ReportData.company._id, "companyReport");
-		  console.log("menuInventoryCompanypriceChangeLog");
-	      },
-	      menuInventoryGrouppriceChangeLog:function() {
-		  inv_helpers.renderPriceChangesLog({el: $("#main")},ReportData.group.group_id,"groupReport");
-		  console.log("menuInventoryGroupaddiItem");
-	      },
-	      menuInventoryStorepriceChangeLog:function() {
-		  inv_helpers.renderPriceChangesLog({el: $("#main")},ReportData.store.store_id,"storeReport");
-		  console.log("menuInventoryStorepriceChangeLog");
+	      menuInventoryPriceChangeLog:function() {
+		  //inv_helpers.renderPriceChangesLog({el: $("#main")});
+		  inv_helpers.renderChangesLog({el: $("#main")},
+					       "menuInventoryScanPriceLog_TMP",
+					       inv_helpers._mainChangeLogTemplate("Price"),
+					       inventoryPriceChangeLog_fetch);
+		  console.log("menuInventory priceChangeLog");
 	      }
 	     }));

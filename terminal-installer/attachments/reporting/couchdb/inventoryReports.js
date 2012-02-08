@@ -10,13 +10,20 @@ function inventoryChangeLog(id){
     var query = _async.generalKeyQuery(view,db)(id);
     return function(callback){
 	query(function(err,response){
-		  var inventoryChangeLog = _.chain(response.rows).pluck('doc').map(function(item){return _.extend({},item.inventory, {locations:item.ids},{_id:item._id});}).value();
+		  var inventoryChangeLog = _.chain(response.rows)
+		      .pluck('doc')
+		      .map(function(item){
+			       return _.extend({},
+					       item.inventory, //todo, make a helper function that is the inverse of nest
+					       {locations:item.ids},
+					       {_id:item._id});})
+		      .value();
 		  callback(err,inventoryChangeLog);
 	      });
     };
 }
 function inventoryChangeLogCompressedBy(id,field,compressFn){
-     function date(item){
+    function date(item){
 	return (new Date(item.date)).getTime();}
     return function(callback){
 	inventoryChangeLog(id)
@@ -39,20 +46,20 @@ function inventoryChangeLogCompressedBy(id,field,compressFn){
 	 });
     };
 }
-function inventoryTaxChangeLog(id){
-   function sameTaxes(item1,item2){
+function inventoryTaxChangeLog_fetch(id){
+    function sameTaxes(item1,item2){
         return (_.isDefined(item1.apply_taxes) 
-            && _.isDefined(item2.apply_taxes) 
-            && _.isEqual(item1.apply_taxes, item2.apply_taxes));
-       }
+		&& _.isDefined(item2.apply_taxes) 
+		&& _.isEqual(item1.apply_taxes, item2.apply_taxes));
+    }
     return inventoryChangeLogCompressedBy(id,"apply_taxes",sameTaxes);
 }
-function inventoryPriceChangeLog(id){
+function inventoryPriceChangeLog_fetch(id){
     function samePrice(item1,item2){
         return (_.isDefined(item1.price) 
-            && _.isDefined(item2.pric) 
-            && item1.price.selling_price == item2.price.selling_price);
-        }
+		&& _.isDefined(item2.pric) 
+		&& item1.price.selling_price == item2.price.selling_price);
+    }
     return inventoryChangeLogCompressedBy(id,"price",samePrice);
 }
 function currentInventoryFor(id){
@@ -108,7 +115,7 @@ function inventoryTotalsRangeFetcher_F(id){
 			function reduceValue(val,key){
 			    var reducedVal = _(val).
 				chain().
-				map(_.selectKeys_F(['price','quantity'])).
+				mapSelectKeys('price','quantity').
 				reduce(_.addPropertiesTogether,{}).
 				value();
 			    return _.extend({label:key},reducedVal);
@@ -213,12 +220,12 @@ function inventoryTotalsRangeFetcher_F(id){
 						    _.addPropertiesTogether,{});
 		    
 		    var scale_sales_list_formatted = _.walk_pre(scale_sales_list,
-							      function(obj){
-								  if(obj.quantity){
-								      return _.extend(obj,{quantity:obj.quantity.toFixed(3)});
-								  }	 
-								  return obj;
-							      });
+								function(obj){
+								    if(obj.quantity){
+									return _.extend(obj,{quantity:obj.quantity.toFixed(3)});
+								    }	 
+								    return obj;
+								});
 		    function applyDefaultSalesFields(list){
 			function applyDefault_sales_refunds(item){
 			    return _.defaults(item,{sales:{price:0,quantity:0},refunds:{price:0,quantity:0}});

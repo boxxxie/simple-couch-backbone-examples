@@ -1,60 +1,18 @@
-function getTopLevelId(reportData){
-    if(ReportData.company && ReportData.company._id){return ReportData.company._id;}
-    else if(ReportData.group && ReportData.group.group_id){return ReportData.group.group_id;}
-    else if(ReportData.store && ReportData.store.store_id){return ReportData.store.store_id;}
-    else {return undefined;}
-};
-function getParentsInfo(reportData){
-    //makes an object that looks like {company:,group:}
-    var company = {
-	id:_.either(reportData.company._id,reportData.company_id), 
-	label:_either(reportData.company.companyName,reportData.companyName), 
-	type:"company"
-    };
-
-    var group = {
-	id:_.either(reportData.group.group_id,reportData.group_id), 
-	label:_.either(reportData.group.groupName, reportData.groupName),
-	type:"group"
-    };
-/*
-    var store = {
-	id:reportData.store.store_id, 
-	label:reportData.store.number+":"+reportData.store.storeName,
-	number:reportData.store.storeName,
-	type:"store"
-    };
-*/
-    return _.filter$({company:company,group:group},_.has_F('id'));
-};
 var menuInventoryaddScanItemRouter = 
     new (Backbone.Router.extend(
 	     {routes: {
-		  "menuInventory/companyReportaddScanItem":"menuInventoryCompanyaddScanItem",
-		  "menuInventory/groupReportaddScanItem":"menuInventoryGroupaddScanItem",
-		  "menuInventory/storeReportaddScanItem":"menuInventoryStoreaddScanItem"
+		  "menuInventory/addScanItem":"_setup"
 	      },
-	      _setup:function(startPage){
-		  $("#main").html(ich.inventoryManagementHome_TMP(_.extend({startPage:startPage},autoBreadCrumb())));
+	      _setup:function(){
+		  console.log("add scan item page");
+		  $("#main").html(ich.inventoryManagementHome_TMP(_.extend({startPage:ReportData.startPage},autoBreadCrumb())));
 		  var invItem = new InventoryDoc();
-		  var id = getTopLevelId(ReportData);
+		  var id = topLevelEntity(ReportData).id;
 		  invItem.cid = id;
 		  this.views = [ 
 		      new upc_code_input_view({model:invItem}).setElement("#upc"),
 		      new inv_display_view({model:invItem}).setElement("#item_display")
 		  ];
-	      },
-	      menuInventoryCompanyaddScanItem:function() {
-		  console.log("menuInventoryCompanyaddScanItem");
-		  this._setup("companyReport");
-	      },
-	      menuInventoryGroupaddScanItem:function() {
-		  console.log("menuInventoryGroupaddiItem");
-		  this._setup("groupReport");
-	      },
-	      menuInventoryStoreaddScanItem:function() {
-		  console.log("menuInventoryStoreaddScanItem");
-		  this._setup("storeReport");
 	      }
 	     }));
 
@@ -73,10 +31,8 @@ var upc_code_input_view =
 		    .set({_id:model.cid+"-"+upc},{silent:true})
 		    .fetch(
 			{
-			    success:function(){
-				var item  = _.first(response.rows).value;
-				model.set(_.removeKeys(item,"_id","_rev"),{silent:true});
-				model.trigger("item_already_in_company",model);
+			    success:function(resp_model){
+				model.trigger("item_already_in_company",resp_model);
 			    },
 			    error:function(){
 				(new InventoryRT7Doc({_id:upc}))
@@ -98,8 +54,8 @@ var inv_display_view =
     Backbone.View.extend(
 	{
 	    initialize:function(){
-		this.model.on('add_item_to_company',this.addItem,this);
-		this.model.on('loaded_from_rt7',this.addItem,this);
+		this.model.on('add_item_to_company',this.addItemTo_company_and_reviewDB,this);
+		this.model.on('loaded_from_rt7',this.addItemTo_company,this);
 		this.model.on("item_already_in_company",this.displayItem,this);
 	    },
 	    _renderItem:function(model,msg){
@@ -110,23 +66,63 @@ var inv_display_view =
 	    _disableSubmitButton:function(){
 		this.$el.find("input,button").attr("disabled", true); 
 	    },
-	    //todo, need to be able to add to the review DB if the item isn't in rt7 DB
-	    addItem:function(model){
-		this._renderItem(model,"you can add this item to your inventory");
-		$("#addItemToCompany").button().click(
+	    _saveItemsAndLog:function(callback){
+		return _.once(
 		    function(){
+			//extract model values from form/textbox
 			var formObj = varFormGrabber($("#inv_form"));
-			var inv = _.extend(formObj,{upccode:$("#upc").val()});
+			var upc = $("#upc").val();
+			var invObj = _.extend(formObj,{upccode:upc,
+						       date:new Date()});
+
 			var allStores = extractStores(ReportData);
+			var allGroups = extractGroups(ReportData);
 			var parents = _.values(getParentsInfo(ReportData));
-			var modelsToSave = inv_helpers.modelsFromIds(inv,allStores.concat(parents));
-			//inv_helpers.saveNewInvItems([inv], _.values(getParentsInfo(ReportData)))
-			//(function(){alert("finished saving item to company/stores");});
-			
+			var locationsToSaveTo = allStores.concat(parents,allGroups);
+			//create all of the models for the inv objects (all stores and groups and the company)
+
+			inv_helpers.saveOneInvItem(invObj,locationsToSaveTo)
+			(callback);
 		    });
 	    },
+	    _submitButtonClick:function(fn){
+		$("#addItemToCompany")
+		    .button()
+		    .click(
+			function(){
+			    $(this).attr('disabled',true);
+			    fn();
+			});
+	    },
+	    addItemTo_company:function(model){
+	    	this._renderItem(model,"you can add this item to your inventory, it has a suggested description");
+		this._submitButtonClick(
+		    this._saveItemsAndLog
+		    (function(err,savedInv){
+			 alert(savedInv.description + " has been added");
+		     })
+		);
+	    },
+	    addItemTo_company_and_reviewDB:function(model){
+	    	this._renderItem(model,"you can add this item to your inventory");
+		this._submitButtonClick(
+		    this._saveItemsAndLog
+		    (function(err,savedInv){
+			 var invItemForReview = 
+			     new InventoryReviewDoc(
+				 _.chain(savedInv)
+				     .selectKeys('date','upccode','description')
+				     .renameKeys('upccode','_id')
+				     .value());
+			 invItemForReview.save({},
+					       {success:function(){
+						    alert(savedInv.description + " has been added");
+						}});
+		     })
+		);
+	    },
 	    displayItem:function(model){
-		this._renderItem(model,"you can not add this item to your inventory, it already exists in it");
+		this._renderItem(model, model.get("description") + " is already in your inventory. It can not be added again.");
 		this._disableSubmitButton();
 	    }
 	}

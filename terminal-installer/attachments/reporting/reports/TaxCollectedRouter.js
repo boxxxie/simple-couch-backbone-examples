@@ -311,24 +311,24 @@ function renderTaxCollectedTable() {
 			     data_TMP = _.applyToValues(data_TMP,toFixed(2),true);
 			     
 
-			     	 _.applyToValues(data_TMP, function(obj){
-						     var strObj = obj+"";
-						     if(strObj.indexOf(".")>=0) {
-					     		 obj = currency_format(Number(obj));
-						     }
-						     return obj;
-						 }, true);
-				 _.applyToValues(totalrow, function(obj){
-						     var strObj = obj+"";
-						     if(strObj.indexOf(".")>=0) {
-					     		 obj = currency_format(Number(obj));
-						     }
-						     return obj;
-						 }, true);
-				
-				data_TMP = appendGroupStoreInfoFromTerminalID(data_TMP);
-				
-				 var html = ich.taxCollectedtable_TMP({items:data_TMP, totalrow:totalrow});
+			     _.applyToValues(data_TMP, function(obj){
+						 var strObj = obj+"";
+						 if(strObj.indexOf(".")>=0) {
+					     	     obj = currency_format(Number(obj));
+						 }
+						 return obj;
+					     }, true);
+			     _.applyToValues(totalrow, function(obj){
+						 var strObj = obj+"";
+						 if(strObj.indexOf(".")>=0) {
+					     	     obj = currency_format(Number(obj));
+						 }
+						 return obj;
+					     }, true);
+			     
+			     data_TMP = appendGroupStoreInfoFromTerminalID(data_TMP);
+			     
+			     var html = ich.taxCollectedtable_TMP({items:data_TMP, totalrow:totalrow});
 			     
 
 			     $("#taxcollectedtable").html(html);
@@ -352,55 +352,24 @@ function renderTaxCollectedTable() {
     }
 };
 
-/*
-function getDialogTitle(ReportData, name, startDate, endDate) {
-    var companyName, groupName, storeName, terminalName;
-    if(!_.isEmpty(ReportData.company)){
-	companyName = ReportData.company.companyName;
-    } else if(!_.isEmpty(ReportData.group)){
-	companyName = ReportData.companyName;
-	groupName = ReportData.group.groupName;
-    } else if(!_.isEmpty(ReportData.store)){
-	companyName = ReportData.companyName;
-	groupName = ReportData.groupName;
-	storeName = ReportData.store.storeName; 		
-    }
-    terminalName = name;
-    
-    var title = "".concat("Company : ").concat(companyName);
-    if(groupName) title = title.concat(" , Group : ").concat(groupName);
-    if(storeName) title = title.concat(" , Store : ").concat(storeName);
-    title = title.concat(" , Terminal : ")
-	.concat(terminalName);
-    if(startDate) {
-	title= title.concat(" , Date : ")
-	    .concat(startDate.toString("yyyy/MM/dd"))
-	    .concat(" ~ ")
-	    .concat(endDate.toString("yyyy/MM/dd"));
-    }
-    
-    return title;
-};
-*/
-
 function appendGroupStoreInfoFromTerminalID(list) {
-	
-	function getStoreIdFromTerminalId(obj, terminal_id){
-		var storeid;
-		_.walk_pre(obj,function(o){
-		    if(o.terminals){
-				if(_.find(o.terminals, function(terminal){ return terminal.terminal_id == terminal_id})) {
-					storeid = o.store_id;
-				}
-		    }
-		    return o;
-		});
-		return storeid;		
+    
+    function getStoreIdFromTerminalId(obj, terminal_id){
+	var storeid;
+	_.walk_pre(obj,function(o){
+		       if(o.terminals){
+			   if(_.find(o.terminals, function(terminal){ return terminal.terminal_id == terminal_id;})) {
+			       storeid = o.store_id;
+			   }
+		       }
+		       return o;
+		   });
+	return storeid;		
     };
-	
+    
     list = _.map(list, function(item){
-		return _.extend({},item,{store_id:getStoreIdFromTerminalId(ReportData,item.id)});
-	});
-	
-	return appendGroupStoreInfoFromStoreID(list);
+		     return _.extend({},item,{store_id:getStoreIdFromTerminalId(ReportData,item.id)});
+		 });
+    
+    return appendGroupStoreInfoFromStoreID(list);
 };

@@ -6,9 +6,9 @@ var date = {
 
 var date_array = {
         inc_day :  function (dateArray){
-	var newDate = _.clone(dateArray);
-	newDate[2] = newDate[2]+1;
-	return newDate;
+	    var dateToInc = new Date(dateArray.join("-"));
+	    dateToInc.addDays(1);
+	    return date.toArray.until.day(dateToInc);
     }  
 };
 function identity(o){

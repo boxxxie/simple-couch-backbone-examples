@@ -28,11 +28,11 @@ function login() {
     var $form = $("#ids_form");
     var formEntries = varFormGrabber($form);
     _.log("form entries")(formEntries);
-    var location_key = _.selectKeysIf(formEntries,['company','group','store'],_.isNotEmpty);
+    var location_key = _.chain(formEntries).selectKeys('company','group','store').removeEmptyKeys().value();
     var user_pass_key = _.selectKeys(formEntries,['user','password']);
-    var login_key = _.extend(location_key,user_pass_key);
+    var login_key_form_raw = _.extend(location_key,user_pass_key);
     _.log('location_key')(location_key);
-    _.log("login_key")(login_key);
+    _.log("login_key_form_raw")(login_key_form_raw);
     _.log("user_pass_key")(user_pass_key);
     
     var db_install = cdb.db("api");
@@ -41,24 +41,31 @@ function login() {
     var branch_show = appShow("branch");
 
     //FIXME : key non-sensitive, perhaps walk or other things will be better
-    if(!_.isEmpty(login_key.company)) {
-	login_key.company = login_key.company.toLowerCase();
+    function toLowerCase(str){
+	if(_.isString(str)){
+	    return str.toLowerCase();
+	}
+	return str;
     }
-    if(!_.isEmpty(login_key.group)) {
-	login_key.group = login_key.group.toLowerCase();
+    function applyToKey(fn){
+	return function(val,key){
+	    return [fn(key),val];
+	};
     }
-    if(!_.isEmpty(login_key.store)) {
-	login_key.store = login_key.store.toLowerCase();
+    function applyToVal(fn){
+	return function(val,key){
+	    return [key,fn(val)];
+	};
     }
-    if(!_.isEmpty(login_key.user)) {
-	login_key.user = login_key.user.toLowerCase();
-    }
-    /*
-     function loginToLowerCaseWalk(o){
-     if(o.password)
-     }
-     _.walk_pre(login_key,function())
-     */
+    //transform the form data (removing empty fields and normalizing the user data (cept the password)
+    var login_key = _.chain(login_key_form_raw)
+	.removeKeys('password')
+	.filter$(_.isNotEmpty)
+	.map$(applyToVal(toLowerCase))
+	.extend({password:login_key_form_raw.password})
+	.value();
+
+    _.log("login key")(login_key);
     
     keyQuery(user_passwordView, db_users, login_key)
     (function (resp){
@@ -72,14 +79,19 @@ function login() {
 			      success:function(data){
 				  if(_.isNotEmpty(account.loginTo.store)) {
 				      ReportData = {store:data, companyName:account.loginTo.companyName, company_id:account.loginTo.company, groupName:account.loginTo.groupName, group_id:account.loginTo.group};
+				      _.extend(ReportData,{startPage:"storeReport"});
 				      window.location.href = "#storeReport/";
+				      //loginRouter.navigate(ReportData.startPage);
 				  }
 				  else if(_.isNotEmpty(account.loginTo.group)) {
 				      ReportData = {group:data, companyName:account.loginTo.companyName, company_id:account.loginTo.company};
+				      _.extend(ReportData,{startPage:"groupReport"});
 				      window.location.href = "#groupReport/";
 				  } 
 				  else if(_.isNotEmpty(account.loginTo.company)) {
 				      ReportData = {company:data};
+				      _.extend(ReportData,{startPage:"companyReport"});
+				      //loginRouter.navigate(ReportData.startPage+"/");
 				      window.location.href = "#companyReport/";
 				  }}});}
 	 else {
