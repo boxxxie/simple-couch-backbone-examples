@@ -264,8 +264,8 @@ function save_button_into_db() {
 				       callback();
 				   }, 
 				   error:function(model,response){
-				       model.set_empty_menu().set_buttons(sparseStoreMenu);
-				       model.save();
+				       currentStoreMenu.set_empty_menu().set_buttons(sparseStoreMenu);
+				       currentStoreMenu.save();
 				       callback();
 				   }});
 			  });},
