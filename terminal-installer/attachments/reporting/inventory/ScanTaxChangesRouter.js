@@ -87,6 +87,7 @@ var menuInventoryscanTaxChangeView =
 					  var invItem = _.find(filteredInv,function(val,key){return upc==val.upccode;});
 					  var invItemReturn = _.selectKeys(invItem,"apply_taxes","date","description","locid","upccode");
 					  invItemReturn.apply_taxes = item.apply_taxes;
+					  invItemReturn.date = currentDate;
 					  return invItemReturn;
 				      })
 				 .filter(function(item){
@@ -102,7 +103,7 @@ var menuInventoryscanTaxChangeView =
 				 var locations_to_save_to = _.values(getParentsInfo(ReportData));
 				 async.forEach(newInvList,
 					       function(invItemObj,callback){
-						   invItemObj.date = currentDate;
+						   //invItemObj.date = currentDate;
 						   inv_helpers.saveOneInvItem(invItemObj,locations_to_save_to)
 						   (callback);
 					       },
