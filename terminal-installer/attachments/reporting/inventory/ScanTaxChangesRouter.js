@@ -5,18 +5,20 @@ var menuInventoryscanTaxChangeRouter =
 		  "menuInventory/groupReportscanTaxChange":"menuInventoryScanTaxChange",
 		  "menuInventory/storeReportscanTaxChange":"menuInventoryScanTaxChange"
 	      },
+	      getTopView:_.once(function(){return new menuInventoryscanTaxChangeView();}),
 	      menuInventoryScanTaxChange:function() {
 		  console.log("menuInventory scanTaxChange");
-		  this.view = new menuInventoryscanTaxChangeView();
-		  this.view.setElement("#main");
-		  this.view.renderScanTaxChange();
+		  var router = this;
+		  router.view = this.getTopView();
+		  router.view.setElement("#main");
+		  router.view.render();
 	      }
 	     }));
 
 var menuInventoryscanTaxChangeView = 
     Backbone.View.extend(
 	{	    
-	    renderScanTaxChange : function(searchQueryString) {
+	    render : function(searchQueryString) {
 		console.log("renderScanPriceChange");
 		var view = this;
 		
@@ -44,9 +46,8 @@ var menuInventoryscanTaxChangeView =
 			 filteredInv,
 			 function(item){
 			     if(item.selling_price){
-				 return _.extend({},
-						 item,
-						 {selling_price:currency_format(Number(item.selling_price))});
+				 return _.combine(item,
+						  {selling_price:currency_format(Number(item.selling_price))});
 			     }
 			     return item;
 			 });
@@ -75,7 +76,7 @@ var menuInventoryscanTaxChangeView =
 			 function(e){
 			     var code = (e.keyCode ? e.keyCode : e.which), enterCode = 13;
 			     if (code == enterCode){
-				 view.renderScanTaxChange($(this).val());}
+				 view.render($(this).val());}
 			 });
 		     $("#submitTaxChanges").button().click(
 			 function(){
@@ -94,42 +95,14 @@ var menuInventoryscanTaxChangeView =
 					     return $("#"+item.upccode).html() == "Disable";
 					 })
 				 .value();
-			     if(_.isEmpty(newInvList)){alert("there were no changes made");return;}
-			     
-
-			     //TODO: refactor this as it's the same in the price change view
-			     //the store level doesn't need to have a dialog because there is only one place to save to.
-			     if(userLevel.type == 'store'){
-				 var locations_to_save_to = _.values(getParentsInfo(ReportData));
-				 async.forEach(newInvList,
-					       function(invItemObj,callback){
-						   //invItemObj.date = currentDate;
-						   inv_helpers.saveOneInvItem(invItemObj,locations_to_save_to)
-						   (callback);
-					       },
-					       function(err){
-						   alert("The selected items have been updated");
-						   view.renderScanPriceChange(searchQuery);
-					       });
+			     if(_.isEmpty(newInvList)){
+				 alert("there were no changes made");
+				 return;
 			     }
-			     else{
-				 var stores = extractStores(ReportData);
-				 var groups = extractGroups(ReportData);
-				 var parents = _.values(getParentsInfo(ReportData));
-				 var html = ich.menuInventoryApplyStoresQuickViewDialog_TMP({items:stores});
-				 menuInventoryApplyStoresViewDialog(
-				     html,
-				     {title:"Apply changes to stores", 
-				      stores:stores,
-				      groups:groups,
-				      parents:parents,
-				      makeButtons:inv_helpers.saveNewInvItems(newInvList,parents,stores,groups)
-				      (function(){
-					   view.renderScanTaxChange(searchQuery);
-				       })});
-				 
-			     }
+			     inv_helpers.saveInvChangesAndSelectStores(newInvList, userLevel.type,ReportData)
+			     (function(err){view.render(searchQuery);});
 			 });
+		     
 		 });
 	    }
 	});
