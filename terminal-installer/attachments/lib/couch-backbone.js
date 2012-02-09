@@ -56,12 +56,13 @@ var couchDoc = Backbone.Model.extend(
  */
 var couchCollection = function(couch,options){
     couch || (couch = {});
-    couch.db || (couch.db = 'db');
+    //couch.db || (couch.db = 'db');
     options || (options = {});
     var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port;// + "/";
     return Backbone.Collection.extend(
 	_.extend(options,
-		 {url:urlBase + "/_rewrite/api/",// + couch.db, //FIXME: this has got to change
+		 {
+		  url: (couch.db)? urlBase+ "/_rewrite/"+couch.db+"/" : urlBase + "/_rewrite/api/",// + couch.db, //FIXME: this has got to change
 		  parse: function(response) {
 		      return _(response.rows)
 			  .chain()

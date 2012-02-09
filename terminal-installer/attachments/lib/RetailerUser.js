@@ -1,13 +1,13 @@
-var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
-var RetailerUserDoc = couchDoc.extend({urlRoot:urlBase + "layered_login_users"});
-var RetailerUserCollection = Backbone.Collection.extend({
-    model : RetailerUserDoc,
-    //if(collection.findUser("Admin")===undefined) {console.log("Not Found");} else {console.log("Found")}
-    findUser : function(userName) {
-        var list = this.toJSON();
-        return _.find(list,function(item){return (item.user).toLowerCase() == userName.toLowerCase();});
-    }
-});
+var RetailerUserDoc = couchDoc.extend({db:"layered_login_users"});
+
+var RetailerUserCollection = couchCollection(
+            {db:'layered_login_users'},
+            {model:RetailerUserDoc,
+             findUser : function(userName) {
+                 var list = this.toJSON();
+                 return this.find(function(model){return (model.get("user")).toLowerCase() == userName.toLowerCase();});
+             }
+    });
 
 function fetchRetailerUserCollection(id) {
     return function(callback){

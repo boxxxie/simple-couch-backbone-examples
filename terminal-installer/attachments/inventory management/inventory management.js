@@ -1,9 +1,11 @@
 function doc_setup() {
-
-    var urlBase = window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/";
-    var db = 'inventory_rt7';
-    var InventoryItem = couchDoc.extend({urlRoot:urlBase+db});
-
+    var ts = $("#timespace");
+    $(document).everyTime("1s", function() {
+        var date = new Date();
+        ts.empty();
+        ts.append(date.toDateString() + " / " + date.toLocaleTimeString());
+    }, 0);
+    
     function addItem(viewItem){
 	return {success: function(resp){
 		    _.extend(resp,{creationdate:new Date()});
@@ -15,42 +17,75 @@ function doc_setup() {
 
     var AppRouter = new 
     (Backbone.Router.extend(
-	 {
-	     routes: {
-		 "":"inventoryManagementHome",
-		 "upc/":"inventoryManagementHome",
-		 "upc/:upc": "addmodifyInventory"  
-	     },
-	     inventoryManagementHome:function(){
-		 console.log("inventoryManagementHome");
-		 var html = ich.inventoryManagementHome_TMP({});
-		 $("body").html(html);
-		 $("#upc").focus();
-		 $("#upc")
-		     .change(function(){
-				 var upc = $(this).val();
-				 window.location.href ='#upc/'+_.escape(upc);
-				 $(this).focus();
-				 $(this).val('');
-			     });
-	     },
-	     addmodifyInventory:function(upc){
-		 console.log("addmodifyInventory: " + upc);
-	     }
-	 }));
-
-    var InventoryView = Backbone.View.extend(
+     {
+         routes: {
+         "":"inventoryManagementHome",
+         "review/":"reviewInventoryHome",
+         "add_view/": "addviewInventoryHome",
+         "add_view/upc/":"addviewInventoryHome",
+         "add_view/upc/:upc": "addmodifyInventory"  
+         },
+         inventoryManagementHome:function(){
+         console.log("inventoryManagementHome");
+         var html = ich.inventoryManagementHome_TMP({});
+         $("#maininbody").html(html);
+         },
+         reviewInventoryHome:function(){
+            var html = ich.reviewInventoryPage_TMP({});
+            $("#maininbody").html(html);
+            
+            var invCollection = new (couchCollection(
+                {db:'inventory_review_rt7'},
+                {model:InventoryReviewDoc}));
+            
+            invCollection.fetch({
+                success:function(collection){
+                    console.log(collection);
+                    var list = _(collection.toJSON()).chain()
+                                .sortBy(function(item){return new Date(item.date);})
+                                .map(function(item){
+                                    _.extend(item,{date:dateFormatter(new Date(item.date))});
+                                    return item;            
+                                })
+                                .value()
+                                .reverse();
+                    
+                    var html = ich.reviewInventoryTable_TMP({list:list});
+                    $("#main").html(html);
+                },
+                error:function(a,b,c) {
+                    console.log([a,b,c]);
+                }
+            });
+         },
+         addviewInventoryHome:function(){
+             var html = ich.addInventoryPage_TMP({});
+             $("#maininbody").html(html);
+             $("#upc").focus();
+            $("#upc")
+             .change(function(){
+                 var upc = $(this).val();
+                 window.location.href ='#add_view/upc/'+_.escape(upc);
+                 $(this).focus();
+                 $(this).val('');
+                 });
+         }
+     }));
+    
+    
+    var AddViewInventoryView = Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
 	     _.bindAll(view, 'renderManagementPage','renderModifyPage');
-	     AppRouter.bind('route:inventoryManagementHome', function(){
-				console.log('inventoryView:route:inventoryManagementHome');
-				view.el= _.first($("main"));
+	     AppRouter.bind('route:addviewInventoryHome', function(){
+				console.log('inventoryView:route:addviewInventoryHome');
+                view.el= _.first($("#main"));				
 				view.renderManagementPage();});
 	     AppRouter.bind('route:addmodifyInventory', function(upc){
 				upc = _.unEscape(upc);
 				//fetch model based on upc code
-				view.model = new InventoryItem({_id:upc});
+				view.el= _.first($("#main"));
+				view.model = new InventoryRT7Doc({_id:upc});
 				view.model.bind('change',function(){view.renderModifyPage(upc);});
 				view.model.bind('not_found',function(){view.renderAddPage(upc);});
 				view.model.fetch({error:function(a,b,c){
@@ -92,7 +127,7 @@ function doc_setup() {
 	 }
 	});
 
-    var InvItemDisplay = new InventoryView();
+    var InvItemDisplay = new AddViewInventoryView();
     Backbone.history.start();
 
 }
