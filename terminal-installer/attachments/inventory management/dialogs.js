@@ -137,8 +137,11 @@ function InventoryItemInputDialog (attachTo,options) {
 	    }
 	});
 
-
-    $("#"+attachTo).button().click(function() {
+    if(_.isNotEmpty(attachTo)) {
+        $("#"+attachTo).button().click(function() {
 				       d.dialog("open");
 				   });
+	} else {
+	    d.dialog("open");
+	}
 };

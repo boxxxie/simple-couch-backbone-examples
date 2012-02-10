@@ -15,6 +15,21 @@ function doc_setup() {
 	return {success: function(resp){
 		    viewItem.save(resp);}};};
 
+
+    function editReviewItem(collection) {
+      return {success: function(resp) {
+          var invModel = collection.get(resp._id);
+          var resp_date = {};
+          _.extend(resp_date,resp,{date:new Date()}); 
+          invModel.save(resp_date,{
+              success:function() {
+                  collection.trigger("change",collection.toJSON()); 
+              }
+          });
+      }   
+      };  
+    };
+    
     var AppRouter = new 
     (Backbone.Router.extend(
      {
@@ -33,7 +48,7 @@ function doc_setup() {
          reviewInventoryHome:function(){
             var html = ich.reviewInventoryPage_TMP({});
             $("#maininbody").html(html);
-            
+            var view = this.view;
             var invCollection = new (couchCollection(
                 {db:'inventory_review_rt7'},
                 {model:InventoryReviewDoc}));
@@ -41,17 +56,7 @@ function doc_setup() {
             invCollection.fetch({
                 success:function(collection){
                     console.log(collection);
-                    var list = _(collection.toJSON()).chain()
-                                .sortBy(function(item){return new Date(item.date);})
-                                .map(function(item){
-                                    _.extend(item,{date:dateFormatter(new Date(item.date))});
-                                    return item;            
-                                })
-                                .value()
-                                .reverse();
-                    
-                    var html = ich.reviewInventoryTable_TMP({list:list});
-                    $("#main").html(html);
+                    view = new ReviewInventoryView({collection:collection});                    
                 },
                 error:function(a,b,c) {
                     console.log([a,b,c]);
@@ -71,7 +76,77 @@ function doc_setup() {
                  });
          }
      }));
-    
+
+
+    var ReviewInventoryView = Backbone.View.extend({
+        initialize:function() {
+            var view = this;
+            var collectionInv = view.collection;
+            (collectionInv).on("change",view._renderTable,view);
+            view._initUPCbox();
+            view._renderTable(collectionInv.toJSON());
+        },
+        _initUPCbox:function() {
+            var view = this;
+            $("#upc").keypress(
+             function(e){
+                 var code = (e.keyCode ? e.keyCode : e.which), enterCode = 13;
+                 if (code == enterCode){
+                 view._searchInv($(this).val());}
+             });
+        },
+        _searchInv:function(searchString) {
+            var view = this;
+            var collectionInv = view.collection;
+            
+            if(_.isEmpty(searchString)){
+                var searchQuery = undefined;
+            }
+            else{
+                var searchQuery = searchString;
+            }
+            
+            if(!searchQuery) {
+                view._renderTable(collectionInv.toJSON());
+            } else {
+                console.log("look for upc code : " + searchQuery);
+                var itemModel = collectionInv.get(searchQuery);
+                if(itemModel) {
+                    view._renderTable([itemModel.toJSON()]);
+                } else {
+                    alert("add?!");
+                }
+            }            
+        },
+        _renderTable:function(listInv) {
+            var view = this;
+            var collectionInv = view.collection;
+            
+            var list = _(listInv).chain()
+                        .sortBy(function(item){return new Date(item.date);})
+                        .map(function(item){
+                            return _.extend({},item,{date:dateFormatter(new Date(item.date))});            
+                        })
+                        .value()
+                        .reverse();
+            
+            var html = ich.reviewInventoryTable_TMP({list:list});
+            $("#main").html(html);
+            
+            _.each(list,function(item){
+                $("#edit-"+item._id).button().click(function(){
+                    $("#dialog-hook").html(ich.inventoryInputDialog_TMP(_.extend({title:"Edit "+item._id+" Information"},item)));
+                    InventoryItemModifyDialog("", editReviewItem(collectionInv));
+                });
+                
+                $("#del-"+item._id).button().click(function(){
+                    var invModel = collectionInv.get(item._id);
+                    invModel.destroy();
+                    collectionInv.trigger("change",collectionInv.toJSON());     
+                });                
+            });
+        }   
+    });    
     
     var AddViewInventoryView = Backbone.View.extend(
 	{initialize:function(){

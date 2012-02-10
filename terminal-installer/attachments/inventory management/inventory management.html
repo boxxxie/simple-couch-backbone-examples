@@ -82,6 +82,14 @@
 	Edit
       </button>
     </script>
+    
+    <script id="quickEditViewButton_P" class="partial" type="text/html">
+      <center><button id='edit-{{_id}}'>Edit</button></center>
+    </script>
+    
+    <script id="quickDeleteViewButton_P" class="partial" type="text/html">
+      <center><button id='del-{{_id}}'>Delete</button></center>
+    </script>
 
     <!------------------------------------------------- INVENTORY --------------------------------------------------------->
     <script id="inventoryForm_P" class="partial" type="text/html">
@@ -141,7 +149,7 @@
     </script>
 
     <script id="upcInput_P" class="partial" type="text/html">
-      <label>UPC-code: (enter a upc code to inspect or add an inventory item)</label>
+      <label>UPC-code: (enter a upc code)</label>
       <input id="upc" type="text" value="{{_id}}" />
     </script>
 
@@ -181,6 +189,7 @@
         <th>UPC code</th>
         <th>Description</th>
         <th>Edit</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -189,13 +198,14 @@
         <td>{{date}}</td>
         <td>{{_id}}</td>
         <td>{{description}}</td>
-        <td>Button</td>
+        <td>{{>quickEditViewButton_P}}</td>
+        <td>{{>quickDeleteViewButton_P}}</td>
       </tr>
       {{/list}}
       {{^list}}
       <tr>
-        <td align='center' colspan='4'>
-          There are no transactions
+        <td align='center' colspan='5'>
+          There is no inventory
         </td>
       </tr>
       {{/list}}
