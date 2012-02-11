@@ -95,10 +95,14 @@
     <script id="inventoryForm_P" class="partial" type="text/html">
       <form>
 	<input type="hidden" var="_id" value="{{_id}}" class="{{>commonClasses_P}}" />
+	{{#date}}
+	<input type="hidden" var="date" value="{{date}}" class="{{>commonClasses_P}}" />
+	{{/date}}
 	<label>Description</label>
 	<input type="text" var="description" value="{{description}}" class="{{>commonClasses_P}}" />
       </form>
     </script>
+    
     <script id="inventoryForm_user_P" class="partial" type="text/html">
       <form>
 	<input type="hidden" var="_id" value="{{_id}}" class="{{>commonClasses_P}}" />

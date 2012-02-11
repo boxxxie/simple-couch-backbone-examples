@@ -54,7 +54,6 @@
     <script language="javascript" type="text/javascript" src="../reporting/groupReportRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/storeReportRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/menuRouter.js"></script>
-    <script language="javascript" type="text/javascript" src="../reporting/administration/adminRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/report.js"></script>
 
     <script language="javascript" type="text/javascript" src="../reporting/couchdb/transactionsReport.js"></script>
@@ -63,6 +62,9 @@
     <script language="javascript" type="text/javascript" src="../reporting/couchdb/inventoryReports.js"></script>
 
     <script language="javascript" type="text/javascript" src="../reporting/reports/Router.js"></script>
+    
+    <script language="javascript" type="text/javascript" src="../reporting/admins/adminRouter.js"></script>
+    
     <script language="javascript" type="text/javascript" src="../reporting/reports/HowAreWeDoingTodayRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/reports/SalesSummaryRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/reports/SalesDetailRouter.js"></script>
@@ -139,7 +141,7 @@
     </script>
     
     <script id="adminButton_P" class="partial" type="text/html">
-      <a href="#menuAdministration/{{startPage}}">Administration</a>
+      <a href='#menuAdministration/{{startPage}}'>Administration</a>
     </script>
     
     <script id="inventoryButton_P" class="partial" type="text/html">
@@ -155,7 +157,6 @@
     </script>
     
     <script id="main_navigation_buttons_P" class="partial" type="text/html">
-      
       <div id="nav-menu">
 	<ul>
 	  <li>{{>homeButton_P}}</li>
@@ -168,15 +169,6 @@
       </div>
     </script>
     
-    <script id="AIR_Buttons_P" class="partial" type="text/html">
-      <h3>Menus</h3>
-      <ol>
-	<li>{{>adminButton_P}}</li>
-	<li>{{>inventoryButton_P}}</li>
-	<li>{{>reportsButton_P}}</li>
-      </ol>
-    </script>
-
     <script id="backButton_P" class="partial" type="text/html">
       <div style="margin-top:20px;margin-bottom:20px;border-top: 4px dotted #ccc;"></div>
       <button id="btnBackHistory" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="javascript:history.go(-1);">

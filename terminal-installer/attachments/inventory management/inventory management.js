@@ -19,11 +19,11 @@ function doc_setup() {
     function editReviewItem(collection) {
       return {success: function(resp) {
           var invModel = collection.get(resp._id);
-          var resp_date = {};
-          _.extend(resp_date,resp,{date:new Date()}); 
-          invModel.save(resp_date,{
+           
+          invModel.save(resp,{
               success:function() {
-                  collection.trigger("change",collection.toJSON()); 
+                  collection.trigger("change",collection.toJSON());
+                  $("#upc").val(""); 
               }
           });
       }   
@@ -114,7 +114,7 @@ function doc_setup() {
                 if(itemModel) {
                     view._renderTable([itemModel.toJSON()]);
                 } else {
-                    alert("add?!");
+                    view._renderTable({});
                 }
             }            
         },
@@ -123,7 +123,8 @@ function doc_setup() {
             var collectionInv = view.collection;
             
             var list = _(listInv).chain()
-                        .sortBy(function(item){return new Date(item.date);})
+                        //.sortBy(function(item){return new Date(item.date);})
+                        .sortBy(function(item){return Number(item._id);})
                         .map(function(item){
                             return _.extend({},item,{date:dateFormatter(new Date(item.date))});            
                         })
@@ -141,8 +142,9 @@ function doc_setup() {
                 
                 $("#del-"+item._id).button().click(function(){
                     var invModel = collectionInv.get(item._id);
-                    invModel.destroy();
-                    collectionInv.trigger("change",collectionInv.toJSON());     
+                    invModel.destroy({success:function(){
+                        collectionInv.trigger("change",collectionInv.toJSON());                        
+                    }});
                 });                
             });
         }   
