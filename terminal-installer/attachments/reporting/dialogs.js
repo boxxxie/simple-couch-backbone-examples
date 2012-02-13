@@ -128,7 +128,7 @@ function quickInputUserInfoDialog(html,options) {
              if(_.isEmpty(user_pass.user) || _.isEmpty(user_pass.password)) {
                  alert("Please, fill user/password");
              } else {
-                 if(!(userCollection.findUser(user_pass.user.trim().toLowerCase())===undefined)) {
+                 if(!(userCollection.findUser(_.str.trim(user_pass.user).toLowerCase())===undefined)) {
                      alert("User already exists");
                  } else {
                      var userData = _.extend({},defaultData,user_pass);
