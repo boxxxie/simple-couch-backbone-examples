@@ -125,12 +125,8 @@ var inv_helpers =
 		 //resp.responseText 
 		 //"{"error":"case_clause","reason":"inventory items must contain prices that are numeric values"}
 		 return function(resp){
-		    // var resp = eval(respStr)
-		     var error = JSON.parse(resp.responseText);
-		   /*  var args = _.chain([])
-			 .concat(error)
-			 .concat(arguments)
-			 .value();*/
+		     //fixme: maybe this needs to be in the save function
+		     var error = JSON.parse(resp.responseText); 
 		     callback.apply(null,[error]);
 		 };
 	     }
@@ -146,11 +142,6 @@ var inv_helpers =
 						   error:modelSaveError(cb)});
 				   },
 				   function(err){
-				     /*  var args = _.chain(arguments)
-					   .concat(err)
-					   .concat(attrs)
-					   .concat(arguments)
-					   .value();*/
 				       callback.apply(null,[err,attrs]);
 				   }
 				  );

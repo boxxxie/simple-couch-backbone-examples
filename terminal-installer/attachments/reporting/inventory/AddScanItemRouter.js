@@ -10,7 +10,7 @@ var menuInventoryaddScanItemRouter =
 		  var id = topLevelEntity(ReportData).id;
 		  invItem.cid = id;
 		  this.views = [ 
-		      new upc_code_input_view({model:invItem}).setElement("#upc"),
+		      new upc_code_input_view({model:invItem}).setElement("#upc_search",true),
 		      new inv_display_view({model:invItem}).setElement("#item_display")
 		  ];
 	      }
@@ -21,7 +21,8 @@ var upc_code_input_view =
     Backbone.View.extend(
 	{
 	    events:{
-		"change":"userChangedUpc"
+		"change input":"userChangedUpc",
+		"click button":"userChangedUpc"
 	    },
 	    userChangedUpc:function(){
 		var upc = _.str.trim($(this.el).val());

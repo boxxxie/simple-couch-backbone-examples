@@ -2838,7 +2838,7 @@
     <script id="inventoryForm_P" class="partial" type="text/html">
       <form id="inv_form">
 	<label>Description</label>
-	<input type="text" var="description" value="{{description}}" class="{{>commonClasses_P}}" />
+	  <input type="text" var="description" value="{{description}}" class="{{>commonClasses_P}}" />
 	<dl>
 	  <dt>Apply Taxes</dt>
 	  <dd>
@@ -2872,8 +2872,10 @@
 
     <script id="upcInput_P" class="partial" type="text/html">
       <label>UPC-code: (enter a upc code to inspect or add an inventory item)</label>
-      <input id="upc" type="text" value="{{_id}}" />
-      <button id="search">search</button>
+      <span id="upc_search">
+	<input type="text" value="{{_id}}" />
+	<button>search</button>
+      </span>
     </script>
 
     <script id="inventoryManagementHome_TMP" type="text/html">
