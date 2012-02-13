@@ -125,7 +125,7 @@ var inv_display_view =
 			 var invItemForReview = new InventoryReviewDoc({ids:ids, inventory:inv});
 			 invItemForReview.save({},
 					       {success:function(){
-						    alert(savedInv.inventory.description + " has been added");
+						    alert(savedInv.description + " has been added");
 						}});
 		     })
 		);
