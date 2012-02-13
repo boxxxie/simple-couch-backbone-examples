@@ -111,8 +111,8 @@ var inv_display_view =
 			 var invItemForReview = 
 			     new InventoryReviewDoc(
 				 _.chain(savedInv)
-				     .selectKeys('date','upccode','description')
-				     .renameKeys('upccode','_id')
+				     .selectKeys('date','upccode','description','price')
+				     //.renameKeys('upccode','_id')
 				     .value());
 			 invItemForReview.save({},
 					       {success:function(){
