@@ -108,15 +108,24 @@ var inv_display_view =
 		this._submitButtonClick(
 		    this._saveItemsAndLog
 		    (function(err,savedInv){
-			 var invItemForReview = 
-			     new InventoryReviewDoc(
-				 _.chain(savedInv)
-				     .selectKeys('date','upccode','description','price')
-				     //.renameKeys('upccode','_id')
-				     .value());
+		     var parents = getParentsInfo(ReportData);
+		     var pInfo = [parents.company, parents.group, parents.store];
+		     var ids = _(pInfo).chain()
+                          .compact()
+                          .mapRenameKeys("id","location_id")
+                          .map(function(item){
+                            return _(item).selectKeys('location_id','label','type');
+                          })
+                          .value();
+
+            var inv = _.chain(savedInv)
+                     .selectKeys('date','upccode','description','price')
+                     .value();
+		     
+			 var invItemForReview = new InventoryReviewDoc({ids:ids, inventory:inv});
 			 invItemForReview.save({},
 					       {success:function(){
-						    alert(savedInv.description + " has been added");
+						    alert(savedInv.inventory.description + " has been added");
 						}});
 		     })
 		);
