@@ -41,7 +41,7 @@ var menuInventoryscanTaxChangeView =
 		currentInventoryFor(userLevel.id)
 		(function(err,inventory){
 		     //todo: maybe i can make filterSearch return on undefined input
-		     var filteredInv = (searchQuery)?_.filterSearch_SubStr(inventory,searchQuery):inventory;
+		     var filteredInv = (searchQuery)?_.filterSearch_SubStr_SelectedKeys(inventory,searchQuery,"upccode","description","price"):inventory;
 		     var formattedInv = _.walk_pre(
 			 filteredInv,
 			 function(item){

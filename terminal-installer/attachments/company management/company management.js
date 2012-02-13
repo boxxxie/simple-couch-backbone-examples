@@ -470,7 +470,7 @@ function doc_setup() {
 	}
 	}));
 	Companies.fetch();
-
+	
 	var AppRouter = new (Backbone.Router.extend(
 	{
 	routes: {
