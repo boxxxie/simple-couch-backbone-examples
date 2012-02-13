@@ -121,6 +121,19 @@ var inv_helpers =
 	     locationsToReport = locationsToSaveTo;
 	 }
 	 return function(callback){
+	     function modelSaveError(callback){
+		 //resp.responseText 
+		 //"{"error":"case_clause","reason":"inventory items must contain prices that are numeric values"}
+		 return function(resp){
+		    // var resp = eval(respStr)
+		     var error = JSON.parse(resp.responseText);
+		   /*  var args = _.chain([])
+			 .concat(error)
+			 .concat(arguments)
+			 .value();*/
+		     callback.apply(null,[error]);
+		 };
+	     }
 	     async.parallel(
 		 [inv_helpers.modelsFromIds(attrs,locationsToSaveTo), //fetch needed models
 		  inv_helpers.changesLogFromModels(attrs,locationsToReport)], //create change log
@@ -128,18 +141,17 @@ var inv_helpers =
 		 function(err,modelsToSave){
 		     async.forEach(_.flatten(modelsToSave),
 				   function(model,cb){
-				       model.save({},{
-						      success:function(){
-							  cb();
-						      },
-						      error:function(){
-							  console.log("there was an error saving this model");
-							  console.log(arguments);
-							  cb();}
-						  });
+				       model.save({},
+						  {success:function(){cb();},
+						   error:modelSaveError(cb)});
 				   },
 				   function(err){
-				       callback(err,attrs);
+				     /*  var args = _.chain(arguments)
+					   .concat(err)
+					   .concat(attrs)
+					   .concat(arguments)
+					   .value();*/
+				       callback.apply(null,[err,attrs]);
 				   }
 				  );
 		 });
@@ -153,5 +165,34 @@ var inv_helpers =
 			    },
 			    callback);
 	 };
-    }
+    },
+     saveInvChangesAndSelectStores : function(newInvList,userLevel,reportData){
+	 return function(runAfter){
+	     var parents = _.values(getParentsInfo(reportData));
+	     //the store level doesn't need to have a dialog because there is only one place to save to.
+	     if(userLevel == 'store'){
+		 async.forEach(newInvList,
+			       function(invItemObj,callback){
+				   inv_helpers.saveOneInvItem(invItemObj,parents)
+				   (callback);
+			       },
+			       runAfter
+			      );
+	     }
+	     else{
+		 var stores = extractStores(reportData);
+		 var groups = extractGroups(reportData);
+		 //template for the dialog
+		 var html = ich.menuInventoryApplyStoresQuickViewDialog_TMP({items:stores});
+		 menuInventoryApplyStoresViewDialog(
+		     html,
+		     {title:"Apply changes to stores", 
+		      stores:stores,
+		      groups:groups,
+		      parents:parents,
+		      makeButtons:inv_helpers.saveNewInvItems(newInvList,parents,stores,groups)
+		      (runAfter)});
+	     }
+	 };
+     }
 };

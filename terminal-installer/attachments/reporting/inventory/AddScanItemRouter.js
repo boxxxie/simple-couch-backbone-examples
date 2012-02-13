@@ -67,30 +67,40 @@ var inv_display_view =
 		this.$el.find("input,button").attr("disabled", true); 
 	    },
 	    _saveItemsAndLog:function(callback){
-		return _.once(
-		    function(){
-			//extract model values from form/textbox
-			var formObj = varFormGrabber($("#inv_form"));
-			var upc = $("#upc").val();
-			var invObj = _.extend(formObj,{upccode:upc,
-						       date:new Date()});
+		var view = this;
+		return function(){
+		    //extract model values from form/textbox
+		    var formObj = varFormGrabber($("#inv_form"));
+		    var upc = $("#upc").val();
+		    var invObj = _.extend(formObj,{upccode:upc,
+						   date:new Date()});
 
-			var allStores = extractStores(ReportData);
-			var allGroups = extractGroups(ReportData);
-			var parents = _.values(getParentsInfo(ReportData));
-			var locationsToSaveTo = allStores.concat(parents,allGroups);
-			//create all of the models for the inv objects (all stores and groups and the company)
+		    var allStores = extractStores(ReportData);
+		    var allGroups = extractGroups(ReportData);
+		    var parents = _.values(getParentsInfo(ReportData));
+		    var locationsToSaveTo = allStores.concat(parents,allGroups);
+		    //create all of the models for the inv objects (all stores and groups and the company)
 
-			inv_helpers.saveOneInvItem(invObj,locationsToSaveTo)
-			(callback);
-		    });
+		    inv_helpers.saveOneInvItem(invObj,locationsToSaveTo)
+		    (function(err,invItem){
+			 if(err){
+			     alert("There was an error saving the item: " + err.reason);
+			 }
+			 else{
+			     view._submitButtonClick(
+				 function(){
+				     alert("you can not add the item again");
+				 });
+			 }
+			 callback.apply(null,_(arguments).toArray());
+		     });
+		};
 	    },
 	    _submitButtonClick:function(fn){
 		$("#addItemToCompany")
 		    .button()
 		    .click(
 			function(){
-			    $(this).attr('disabled',true);
 			    fn();
 			});
 	    },
@@ -99,11 +109,14 @@ var inv_display_view =
 		this._submitButtonClick(
 		    this._saveItemsAndLog
 		    (function(err,savedInv){
-			 alert(savedInv.description + " has been added");
+			 if(err === undefined){
+			     alert(savedInv.description + " has been added");
+			 }
 		     })
 		);
 	    },
 	    addItemTo_company_and_reviewDB:function(model){
+		var view = this;
 	    	this._renderItem(model,"you can add this item to your inventory");
 		this._submitButtonClick(
 		    this._saveItemsAndLog
@@ -127,11 +140,24 @@ var inv_display_view =
 					       {success:function(){
 						    alert(savedInv.description + " has been added");
 						}});
+			 if(err === undefined){
+			     alert(savedInv.description + " has been added");
+			 }
+			 //save the review doc anyway, even if there are errors saving the original document
+			 var invItemForReview = 
+			     new InventoryReviewDoc(
+				 _.chain(savedInv)
+				     .selectKeys('date','upccode','description')
+				     .renameKeys('upccode','_id')
+				     .value());
+			 invItemForReview.save(); //this will conflict sometimes, it's ok
 		     })
 		);
 	    },
 	    displayItem:function(model){
-		this._renderItem(model, model.get("description") + " is already in your inventory. It can not be added again.");
+		this._renderItem(model, 
+				 model.get("description") + 
+				 " is already in your inventory. It can not be added again.");
 		this._disableSubmitButton();
 	    }
 	}

@@ -16,6 +16,7 @@ ddoc.rewrites = [
     {from: "inventory_rt7/*", to: "../../../inventory_rt7/*"},
     {from: "inventory/*", to: "../../../inventory/*"},
     {from: "inventory_review_rt7/*", to: "../../../inventory_review_rt7/*"},
+    {from: "inventory_review_rt7_all_docs", to: "../../../inventory_review_rt7/_all_docs"},
     {from: "inventory_changes/*", to: "../../../inventory_changes/*"},
     {from: "menus_corp/*", to: "../../../menus_corp/*"},
     {from: "menu_buttons/*", to: "../../../menu_buttons/*"},
