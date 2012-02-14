@@ -124,9 +124,25 @@ function doc_setup() {
             
             var list = _(listInv).chain()
                         //.sortBy(function(item){return new Date(item.date);})
-                        .sortBy(function(item){return Number(item._id);})
+                        .sortBy(function(item){return Number(item.inventory.upccode);})
                         .map(function(item){
-                            return _.extend({},item,{date:dateFormatter(new Date(item.date))});            
+                            var returnData = {};
+                            var companyInfo = _.find(item.ids, function(id){
+                                return id.type=="company";
+                            });
+                            var groupInfo = _.find(item.ids, function(id){
+                                return id.type=="group";
+                            });
+                            var storeInfo = _.find(item.ids, function(id){
+                                return id.type=="store";
+                            });
+                            
+                            _.extend(returnData,item,{companyName:companyInfo.label,
+                                                      groupName:_.isEmpty(groupInfo)?undefined:groupInfo.label,
+                                                      storeName:_.isEmpty(storeInfo)?undefined:storeInfo.label});
+                                                      
+                            returnData.inventory.date = dateFormatter(new Date(returnData.inventory.date));
+                            return returnData;            
                         })
                         .value()
                         .reverse();
@@ -136,7 +152,7 @@ function doc_setup() {
             
             _.each(list,function(item){
                 $("#edit-"+item._id).button().click(function(){
-                    $("#dialog-hook").html(ich.inventoryInputDialog_TMP(_.extend({title:"Edit "+item._id+" Information"},item)));
+                    $("#dialog-hook").html(ich.inventoryInputDialog_TMP(_.extend({title:"Edit "+item.inventory.upccode+" Information"},item)));
                     InventoryItemModifyDialog("", editReviewItem(collectionInv));
                 });
                 
@@ -196,7 +212,7 @@ function doc_setup() {
 	     var view = this;
 	     var html = ich.inventoryAddPage_TMP({createButtonLabel:"add (" + upc + ") to the Inventory",upc:upc });
 	     $(this.el).html(html);
-	     $("#dialog-hook").html(ich.inventoryInputDialog_TMP({title:"Add "+upc+" to the Inventory",_id:upc,location:{},apply_taxes:{},price:{}}));
+	     $("#dialog-hook").html(ich.inventoryInputDialog_TMP({title:"Add "+upc+" to the Inventory",_id:upc,location:{},apply_taxes:{},price:{selling_price:"0.00"}}));
 	     InventoryItemCreateDialog("create-thing",addItem(view.model));
 	     $("#upc").focus();
 	     console.log("InventoryView renderAddPage " + upc);

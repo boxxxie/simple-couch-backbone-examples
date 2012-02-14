@@ -98,8 +98,12 @@
 	{{#date}}
 	<input type="hidden" var="date" value="{{date}}" class="{{>commonClasses_P}}" />
 	{{/date}}
+	<label>UPC code</label>
+    <input type="text" var="upccode" disabled="true" value="{{_id}}" class="{{>commonClasses_P}}" />
 	<label>Description</label>
 	<input type="text" var="description" value="{{description}}" class="{{>commonClasses_P}}" />
+	<label>Price</label>
+    <input type="text" var="price.selling_price" value="{{price.selling_price}}" class="{{>commonClasses_P}}" />
       </form>
     </script>
     
@@ -173,7 +177,7 @@
 
     <script id="reviewInventoryPage_TMP" type="text/html">
       <div id="header">
-	<h1>Review Inventory Items</h1>
+	<h1>Exemption Inventory Items</h1>
 	{{>backToInvMngButton_P}}
     {{>menuButton_P}}
 	<hr/>
@@ -189,6 +193,9 @@
         <table class="reportstable">
     <thead>
       <tr>
+        <th>Company</th>
+        <!--<th>Group</th>-->
+        <th>Store(Name:#)</th>
         <th>Date</th>
         <th>UPC code</th>
         <th>Description</th>
@@ -199,9 +206,25 @@
     <tbody>
       {{#list}}
       <tr>
-        <td>{{date}}</td>
-        <td>{{_id}}</td>
-        <td>{{description}}</td>
+        <td>{{companyName}}</td>
+        
+        <!--{{#groupName}}
+        <td>{{groupName}}</td>
+        {{/groupName}}
+        {{^groupName}}
+        <td>NONE</td>
+        {{/groupName}}-->
+        
+        {{#storeName}}
+        <td>{{storeName}}</td>
+        {{/storeName}}
+        {{^storeName}}
+        <td>NONE</td>
+        {{/storeName}} 
+        
+        <td>{{inventory.date}}</td>
+        <td>{{inventory.upccode}}</td>
+        <td>{{inventory.description}}</td>
         <td>{{>quickEditViewButton_P}}</td>
         <td>{{>quickDeleteViewButton_P}}</td>
       </tr>
@@ -223,7 +246,7 @@
 	{{>menuButton_P}}
 	<hr/>
 	  <div id="subbody" style="width:1000px;margin-bottom:10px auto;padding:0px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
-      <div class="report-menu"><a href="#review/" id="review"><img src="../images/admin/inventory.png" class="report-menu-icon" border="0"/>Review Inventory Items</a></div>
+      <div class="report-menu"><a href="#review/" id="review"><img src="../images/admin/inventory.png" class="report-menu-icon" border="0"/>Exemption Inventory Items</a></div>
       <div class="report-menu"><a href="#add_view/"><img src="../images/admin/inventory.png" class="report-menu-icon" border="0"/>Add/View Inventory Items</a></div>
       <div style="clear:both"></div>
     </div>
@@ -252,6 +275,7 @@
 	{{>inventoryForm_P}}
       </div>	
     </script>
+    
 
     <!-------------------------------------------------------------------------------------------------------------------------->
 

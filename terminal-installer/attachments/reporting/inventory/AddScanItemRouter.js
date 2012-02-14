@@ -135,22 +135,12 @@ var inv_display_view =
                      .selectKeys('date','upccode','description','price')
                      .value();
 		     
-			 var invItemForReview = new InventoryReviewDoc({ids:ids, inventory:inv});
-			 invItemForReview.save({},
-					       {success:function(){
-						    alert(savedInv.description + " has been added");
-						}});
 			 if(err === undefined){
 			     alert(savedInv.description + " has been added");
 			 }
 			 //save the review doc anyway, even if there are errors saving the original document
-			 var invItemForReview = 
-			     new InventoryReviewDoc(
-				 _.chain(savedInv)
-				     .selectKeys('date','upccode','description')
-				     .renameKeys('upccode','_id')
-				     .value());
-			 invItemForReview.save(); //this will conflict sometimes, it's ok
+			 var invItemForReview = new InventoryReviewDoc({ids:ids, inventory:inv});
+             invItemForReview.save(); //this will conflict sometimes, it's ok
 		     })
 		);
 	    },
