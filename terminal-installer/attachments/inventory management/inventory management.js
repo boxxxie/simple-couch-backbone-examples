@@ -142,6 +142,7 @@ function doc_setup() {
                                                       storeName:_.isEmpty(storeInfo)?undefined:storeInfo.label});
                                                       
                             returnData.inventory.date = dateFormatter(new Date(returnData.inventory.date));
+                            returnData.inventory.price.selling_price = curr 
                             return returnData;            
                         })
                         .value()
