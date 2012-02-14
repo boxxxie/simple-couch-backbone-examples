@@ -20,6 +20,8 @@
     <script language="javascript" type="text/javascript" src="../lib/backbone-events-logger.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/ICanHaz-no-mustache.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/mustache.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/forms.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/format.20110630-1100.min.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/date.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/date.format.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/dateFormatter.js"></script>
@@ -32,16 +34,16 @@
     <script language="javascript" type="text/javascript" src="../inventory management/docRdy.js"></script>
 
     <style>
-    label, input { display:block; }
-    input.text { margin-bottom:12px; width:95%; padding: .4em; }
-    fieldset { padding:0; border:0; margin-top:25px; }
-    i {color: gray;}
-    div#users-contain { width: 350px; margin: 20px 0; }
-    div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
-    div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
-    .ui-dialog .ui-state-error { padding: .3em; }
-    .validateTips { border: 1px solid transparent; padding: 0.3em; }
-      </style>
+      label, input { display:block; }
+      input.text { margin-bottom:12px; width:95%; padding: .4em; }
+      fieldset { padding:0; border:0; margin-top:25px; }
+      i {color: gray;}
+      div#users-contain { width: 350px; margin: 20px 0; }
+      div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+      div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+      .ui-dialog .ui-state-error { padding: .3em; }
+      .validateTips { border: 1px solid transparent; padding: 0.3em; }
+    </style>
 
     <!------------------------------------------------- GENERAL --------------------------------------------------------->
 
@@ -54,22 +56,19 @@
     </script>
 
     <script id="backButton_P" class="partial" type="text/html">
-      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
-	      onClick="javascript:history.go(-1);">
+      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="javascript:history.go(-1);">
 	<span class="ui-button-text">Back</span>
       </button>
     </script>
     
     <script id="backToInvMngButton_P" class="partial" type="text/html">
-      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
-          onClick="javascript:window.location.href ='inventory management.html';">
-    <span class="ui-button-text">Back</span>
+      <button class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" onClick="javascript:window.location.href ='inventory management.html';">
+	<span class="ui-button-text">Back</span>
       </button>
     </script>
     
     <script id="menuButton_P" class="partial" type="text/html">
-      <button  class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false" 
-	       onClick="javascript:window.location.href ='../mainMenus.html';">
+      <button  class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false"  onClick="javascript:window.location.href ='../mainMenus.html';">
 	<span class="ui-button-text">Main Menu</span>
       </button>
     </script>
@@ -79,9 +78,7 @@
     </script>
     
     <script id="editButton_P" class="partial" type="text/html">
-      <button id="edit-thing">
-	Edit
-      </button>
+      <button id="edit-thing">Edit</button>
     </script>
     
     <script id="quickEditViewButton_P" class="partial" type="text/html">
@@ -91,20 +88,51 @@
     <script id="quickDeleteViewButton_P" class="partial" type="text/html">
       <center><button id='del-{{_id}}'>Delete</button></center>
     </script>
-
+    
+    <script id="quickSaveViewButton_P" class="partial" type="text/html">
+      <center><button id='save-{{_id}}'>Save</button></center>
+    </script>
+    
+    <script id="quickReplaceViewButton_P" class="partial" type="text/html">
+      <center><button id='replace-{{_id}}'>Replace</button></center>
+    </script>
+    
     <!------------------------------------------------- INVENTORY --------------------------------------------------------->
+    <script id="inventoryRT7info_P" class="partial" type="text/html">
+      <input type="hidden" var="_id" value="{{_id}}" class="{{>commonClasses_P}}" />
+      {{#date}}
+      <input type="hidden" var="date" value="{{date}}" class="{{>commonClasses_P}}" />
+      {{/date}}
+      <label>UPC code</label>
+      <input type="text" disabled="true" value="{{_id}}" class="{{>commonClasses_P}}" />
+      <label>Description</label>
+      <input type="text" id="des_rt7" var="description" value="{{description}}" class="{{>commonClasses_P}}" />
+      <label>Price</label>
+      <input type="text" id="price_rt7" align="right" var="price.selling_price" value="{{price.selling_price}}" class="{{>commonClasses_P}}" />
+    </script>
+
     <script id="inventoryForm_P" class="partial" type="text/html">
       <form>
-	<input type="hidden" var="_id" value="{{_id}}" class="{{>commonClasses_P}}" />
-	{{#date}}
-	<input type="hidden" var="date" value="{{date}}" class="{{>commonClasses_P}}" />
-	{{/date}}
-	<label>UPC code</label>
-    <input type="text" var="upccode" disabled="true" value="{{_id}}" class="{{>commonClasses_P}}" />
-	<label>Description</label>
-	<input type="text" var="description" value="{{description}}" class="{{>commonClasses_P}}" />
-	<label>Price</label>
-    <input type="text" var="price.selling_price" value="{{price.selling_price}}" class="{{>commonClasses_P}}" />
+	{{>inventoryRT7info_P}}
+      </form>
+    </script>
+    
+    <script id="inventoryReviewinfo_P" class="partial" type="text/html">
+      <input type="hidden" var="_id" value="{{_id}}" class="{{>commonClasses_P}}" />
+      {{#inventory.date}}
+      <input type="hidden" var="inventory.date" value="{{inventory.date}}" class="{{>commonClasses_P}}" />
+      {{/inventory.date}}
+      <label>UPC code</label>
+      <input type="text" var="inventory.upccode" disabled="true" value="{{inventory.upccode}}" class="{{>commonClasses_P}}" />
+      <label>Description</label>
+      <input type="text" id="des_review" var="inventory.description" value="{{inventory.description}}" class="{{>commonClasses_P}}" />
+      <label>Price</label>
+      <input type="text" id="price_review" align="right" var="inventory.price.selling_price" value="{{inventory.price.selling_price}}" class="{{>commonClasses_P}}" />
+    </script>
+    
+    <script id="inventoryReviewForm_P" class="partial" type="text/html">
+      <form>
+        {{>inventoryReviewinfo_P}}
       </form>
     </script>
     
@@ -166,7 +194,7 @@
       <div id="header">
 	<h1>Add/View Inventory Items</h1>
 	{{>backToInvMngButton_P}}
-    {{>menuButton_P}}
+	{{>menuButton_P}}
 	<hr/>
 	{{>upcInput_P}}
       </div>
@@ -180,7 +208,7 @@
       <div id="header">
 	<h1>Exemption Inventory Items</h1>
 	{{>backToInvMngButton_P}}
-    {{>menuButton_P}}
+	{{>menuButton_P}}
 	<hr/>
 	{{>upcInput_P}}
       </div>
@@ -191,55 +219,55 @@
     </script>
     
     <script id="reviewInventoryTable_TMP" type="text/html">
-        <table class="reportstable">
-    <thead>
-      <tr>
-        <th>Company</th>
-        <!--<th>Group</th>-->
-        <th>Store(Name:#)</th>
-        <th>Date</th>
-        <th>UPC code</th>
-        <th>Description</th>
-        <th>Price</th>
-        <th>Edit</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#list}}
-      <tr>
-        <td>{{companyName}}</td>
-        
-        <!--{{#groupName}}
-        <td>{{groupName}}</td>
-        {{/groupName}}
-        {{^groupName}}
-        <td>NONE</td>
-        {{/groupName}}-->
-        
-        {{#storeName}}
-        <td>{{storeName}}</td>
-        {{/storeName}}
-        {{^storeName}}
-        <td>NONE</td>
-        {{/storeName}} 
-        
-        <td>{{inventory.date}}</td>
-        <td>{{inventory.upccode}}</td>
-        <td>{{inventory.description}}</td>
-        <td>{{inventory.price.selling_price}}</td>
-        <td>{{>quickEditViewButton_P}}</td>
-        <td>{{>quickDeleteViewButton_P}}</td>
-      </tr>
-      {{/list}}
-      {{^list}}
-      <tr>
-        <td align='center' colspan='5'>
-          There is no inventory
-        </td>
-      </tr>
-      {{/list}}
-    </tbody>
+      <table class="reportstable">
+	<thead>
+	  <tr>
+            <th>Company</th>
+            <!--<th>Group</th>-->
+            <th>Store(Name:#)</th>
+            <th>Date</th>
+            <th>UPC code</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Edit</th>
+            <th>Delete</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  {{#list}}
+	  <tr>
+            <td>{{companyName}}</td>
+            
+            <!--{{#groupName}}
+		<td>{{groupName}}</td>
+		{{/groupName}}
+		{{^groupName}}
+            <td>NONE</td>
+            {{/groupName}}-->
+            
+            {{#storeName}}
+            <td>{{storeName}}</td>
+            {{/storeName}}
+            {{^storeName}}
+            <td>NONE</td>
+            {{/storeName}} 
+            
+            <td>{{inventory.date}}</td>
+            <td>{{inventory.upccode}}</td>
+            <td>{{inventory.description}}</td>
+            <td align="right">{{inventory.price.selling_price}}</td>
+            <td>{{>quickEditViewButton_P}}</td>
+            <td>{{>quickDeleteViewButton_P}}</td>
+	  </tr>
+	  {{/list}}
+	  {{^list}}
+	  <tr>
+            <td align='center' colspan='5'>
+              There is no inventory
+            </td>
+	  </tr>
+	  {{/list}}
+	</tbody>
       </table>
     </script>
 
@@ -248,14 +276,13 @@
 	<h1>Inventory Management</h1>
 	{{>menuButton_P}}
 	<hr/>
-	  <div id="subbody" style="width:1000px;margin-bottom:10px auto;padding:0px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
-      <div class="report-menu"><a href="#review/" id="review"><img src="../images/admin/inventory.png" class="report-menu-icon" border="0"/>Exemption Inventory Items</a></div>
-      <div class="report-menu"><a href="#add_view/"><img src="../images/admin/inventory.png" class="report-menu-icon" border="0"/>Add/View Inventory Items</a></div>
-      <div style="clear:both"></div>
-    </div>
+	<div id="subbody" style="width:1000px;margin-bottom:10px auto;padding:0px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	  <div class="report-menu"><a href="#review/" id="review"><img src="../images/admin/inventory.png" class="report-menu-icon" border="0"/>Exemption Inventory Items</a></div>
+	  <div class="report-menu"><a href="#add_view/"><img src="../images/admin/inventory.png" class="report-menu-icon" border="0"/>Add/View Inventory Items</a></div>
+	  <div style="clear:both"></div>
+	</div>
       </div>
       <div id="footer">
-	
 	<div id="dialog-hook"></div>
       </div>
     </script>
@@ -279,25 +306,63 @@
       </div>	
     </script>
     
-
-    <!-------------------------------------------------------------------------------------------------------------------------->
-
+    
+    <script id="inventoryReviewModifyDialog_TMP" type="text/html">
+      <div id="dialog-form" title="{{title}}">
+	<p class="validateTips"></p>
+	{{#inventory_review}}
+	<div id="inv_review_form">
+	<form>
+	  Exemption Inventory :
+	  {{>inventoryReviewinfo_P}}
+	</form>
+	{{>quickSaveViewButton_P}}
+	  {{/inventory_review}}
+	 </div>
+	  <hr/>
+      {{#inventory_rt7}}
+      <div id="inv_rt7_form">
+	<form>
+	  RT7 Inventory :
+	  {{>inventoryRT7info_P}}
+	</form>
+	{{>quickReplaceViewButton_P}}
+	{{>quickSaveViewButton_P}}
+	</div>
+      {{/inventory_rt7}}
+      </div>    
+    </script>
+    
+    <script id="inventoryReviewImportDialog_TMP" type="text/html">
+      <div id="dialog-form" title="{{title}}">
+    <p class="validateTips"></p>
+    <div id="inv_review_form">
+    <form>
+      Exemption Inventory :
+      {{>inventoryReviewinfo_P}}
+      </form>
+      </div>
+      </div>    
+    </script>
+    
   </head>
+  <!-------------------------------------------------------------------------------------------------------------------------->
+
   <body>
-      <div style="width:1000px;margin:20px auto;padding:0px;background-color:transparent;font-size:13px;font-weight:bold;text-align:center;">
-    <img src="../images/logo.png"/>
-      </div>
-      <div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
-    <div id="maininbody"></div>
-      </div>
-      <div id="timespace" style="width:1000px;margin:0 auto; color:#666;text-align:center;">
-        <script>document.write((new Date()).toDateString() + " / " + (new Date()).toLocaleTimeString())</script>
-      </div>
-      <div class="footer">
-    <div class="footerin">
-      &copy; 2012 RT7 Incorporated.
-      <img src="../images/rt7.png" style="float:right;"/>
+    <div style="width:1000px;margin:20px auto;padding:0px;background-color:transparent;font-size:13px;font-weight:bold;text-align:center;">
+      <img src="../images/logo.png"/>
     </div>
+    <div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+      <div id="maininbody"></div>
+    </div>
+    <div id="timespace" style="width:1000px;margin:0 auto; color:#666;text-align:center;">
+      <script>document.write((new Date()).toDateString() + " / " + (new Date()).toLocaleTimeString())</script>
+    </div>
+    <div class="footer">
+      <div class="footerin">
+	&copy; 2012 RT7 Incorporated.
+	<img src="../images/rt7.png" style="float:right;"/>
       </div>
+    </div>
   </body>
 </html>
