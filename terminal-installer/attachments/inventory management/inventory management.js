@@ -51,7 +51,11 @@ function doc_setup() {
 		 var view = this.view;
 		 var invCollection = new (couchCollection(
 					      {db:'inventory_review_rt7'},
-					      {model:InventoryReviewDoc}));
+					      {model:InventoryReviewDoc,
+					      getJSONbyUPC:function(upccode){
+					          var colJSON = this.toJSON();
+					          return _.filter(colJSON,function(inv){return inv.inventory.upccode==upccode;});
+					      }}));
 		 
 		 invCollection.fetch({
 					 success:function(collection){
@@ -67,13 +71,17 @@ function doc_setup() {
 		 var html = ich.addInventoryPage_TMP({});
 		 $("#maininbody").html(html);
 		 $("#upc").focus();
-		 $("#upc")
-		     .change(function(){
-				 var upc = $(this).val();
-				 window.location.href ='#add_view/upc/'+_.escape(upc);
-				 $(this).focus();
-				 $(this).val('');
-			     });
+		 
+		 $("#upc").keypress(
+                     function(e){
+                         var code = (e.keyCode ? e.keyCode : e.which), enterCode = 13;
+                         if (code == enterCode){
+                         var upc = $(this).val();
+                         window.location.href ='#add_view/upc/'+_.escape(upc);
+                         $(this).focus();
+                         $(this).val('');
+                         }
+                     });
              }
 	 }));
 
@@ -111,9 +119,9 @@ function doc_setup() {
 					 view._renderTable(collectionInv.toJSON());
 				     } else {
 					 console.log("look for upc code : " + searchQuery);
-					 var itemModel = collectionInv.get(searchQuery);
-					 if(itemModel) {
-					     view._renderTable([itemModel.toJSON()]);
+					 var listJSON = collectionInv.getJSONbyUPC(searchQuery);
+					 if(_.size(listJSON)>0) {
+					     view._renderTable(listJSON);
 					 } else {
 					     view._renderTable({});
 					 }
@@ -124,8 +132,7 @@ function doc_setup() {
 				     var collectionInv = view.collection;
 				     
 				     var list = _(listInv).chain()
-				     //.sortBy(function(item){return new Date(item.date);})
-					 .sortBy(function(item){return Number(item.inventory.upccode);})
+					 .sortBy(function(item){return new Date(item.inventory.date);})
 					 .map(function(item){
 						  var cloneItem = _.clone(item);
 						  var companyInfo = _.find(cloneItem.ids, function(id){
@@ -142,7 +149,7 @@ function doc_setup() {
 											groupName:_.isEmpty(groupInfo)?undefined:groupInfo.label,
 											storeName:_.isEmpty(storeInfo)?undefined:storeInfo.label});
 						  
-						  returnData.inventory.date = dateFormatter(new Date(returnData.inventory.date));
+						  returnData.inventory.date = jodaDateFormatter(returnData.inventory.date); 
 						  returnData.inventory.price.selling_price = currency_format(Number(returnData.inventory.price.selling_price)); 
 						  return returnData;            
 					      })
@@ -154,7 +161,6 @@ function doc_setup() {
 				     
 				     _.each(list,function(item){
 						$("#edit-"+item._id).button().click(function(){
-											//$("#dialog-hook").html(ich.inventoryInputDialog_TMP(_.extend({title:"Edit "+item.inventory.upccode+" Information"},item)));
 											var invRT7 = new InventoryRT7Doc({_id:item.inventory.upccode});
 											invRT7.fetch({
 													 success:function(model) {
