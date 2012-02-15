@@ -42,6 +42,8 @@
 
     <script language="javascript" type="text/javascript" src="lib/jquery.timers-1.0.0.js.txt"></script>
 
+    <script language="javascript" type="text/javascript" src="../lib/numberFormatter.js"></script>
+    
     <script language="javascript" type="text/javascript" src="../reporting/misc_helpers.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/menu_helpers.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/dialogs.js"></script>
@@ -90,6 +92,12 @@
     <script language="javascript" type="text/javascript" src="../reporting/docRdy.js"></script>
     
     <!-- =============================================== GENERAL ================================================= -->
+    <!--[if IE 8]>
+    <style type="text/css">
+    .iefix {padding-top:40px;}/* css for IE 8 */
+    </style>
+    <![endif]-->
+
     <script id="mainheader" class="partial" type="text/html">
       <div style="width:1000px;margin:20px auto;padding:0px;background-color:transparent;font-size:13px;font-weight:bold;text-align:center;" id="logo">
 	<img src="../images/logo.png"/>
@@ -791,7 +799,6 @@
     <h2>{{>breadcrumb_P}}</h2>
     <div id='usersInfoTable'></div>
     {{>quickReportViewHook_P}}   
-    {{>backButton_P}}
       </div>
     </script>
     
@@ -901,7 +908,6 @@
 	    <img src="../images/reports/discounts.png" border="0" class="report-menu-icon"/>Discounts
 	  </a>
 	</div>
-	
 	<div style="clear: both;"></div>
       </div>
     </script>
@@ -2024,7 +2030,7 @@
 	{{>main_navigation_buttons_P}}
 	<h1>Inventory</h1>
 	<h2>{{>breadcrumb_P}}</h2>
-	<div style="height:200px;">
+	<!--<div style="height:200px;">-->
 	  <div class="report-menu"><a href='#menuReports/{{startPage}}Inventory'><img src="../images/reports/inventorysold.png" border="0" class="report-menu-icon"/>Inventory Sold Report</a></div>
 	  <div class="report-menu"><a href='#menuInventory/{{startPage}}scanPriceChange'><img src="../images/reports/scanprice.png" border="0" class="report-menu-icon"/>SCAN Item Price Changes</a></div>
 	  <div class="report-menu"><a href='#menuInventory/{{startPage}}scanTaxChange'><img src="../images/reports/scantax.png" border="0" class="report-menu-icon"/>SCAN Sales Tax Changes</a></div>
@@ -2034,9 +2040,8 @@
 	  {{#showMenuPriceChange}}
 	  <div class="report-menu"><a href='#menuInventory/{{startPage}}menuPriceChange'><img src="../images/reports/menupricechange.png" border="0" class="report-menu-icon"/>Menu Price Change</a></div>
 	  {{/showMenuPriceChange}}
-	</div>
+	<!--</div>-->
 	<div style="clear: both;"></div>
-	{{>backButton_P}}
       </div>
     </script>
     
@@ -2625,6 +2630,7 @@
 	</div>
 	
 	<div class="loginbox2">
+	       <div class="iefix">
 	  <form id="ids_form" style="margin-top: 90px;">
 	    <center>
 	      <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -2655,6 +2661,7 @@
 	      </table>
 	    </center>
 	  </form>
+	  </div>
 	  {{>loginButton_P}}
 	</div>
       </div>

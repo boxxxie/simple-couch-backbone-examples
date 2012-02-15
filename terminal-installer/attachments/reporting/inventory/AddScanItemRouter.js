@@ -122,17 +122,26 @@ var inv_display_view =
 		this._submitButtonClick(
 		    this._saveItemsAndLog
 		    (function(err,savedInv){
+		     var parents = getParentsInfo(ReportData);
+		     var pInfo = [parents.company, parents.group, parents.store];
+		     var ids = _(pInfo).chain()
+                          .compact()
+                          .mapRenameKeys("id","location_id")
+                          .map(function(item){
+                            return _(item).selectKeys('location_id','label','type');
+                          })
+                          .value();
+
+            var inv = _.chain(savedInv)
+                     .selectKeys('date','upccode','description','price')
+                     .value();
+		     
 			 if(err === undefined){
 			     alert(savedInv.description + " has been added");
 			 }
 			 //save the review doc anyway, even if there are errors saving the original document
-			 var invItemForReview = 
-			     new InventoryReviewDoc(
-				 _.chain(savedInv)
-				     .selectKeys('date','upccode','description')
-				     .renameKeys('upccode','_id')
-				     .value());
-			 invItemForReview.save(); //this will conflict sometimes, it's ok
+			 var invItemForReview = new InventoryReviewDoc({ids:ids, inventory:inv});
+             invItemForReview.save(); //this will conflict sometimes, it's ok
 		     })
 		);
 	    },

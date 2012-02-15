@@ -69,7 +69,7 @@ var getParentsInfo = _.memoize(
 	    var group = {
 		id:reportData.group.group_id, 
 		label:reportData.group.groupName,
-		type : group
+		type : "group"
 	    };
 	}
 	else if(reportData.group_id){
