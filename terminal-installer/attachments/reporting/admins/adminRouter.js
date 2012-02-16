@@ -34,7 +34,17 @@ var menuAdminUsersView = Backbone.View.extend({
 						      this._renderTable(this.collection);
 						  },
 						  _renderTable:function(collection) {
-						      $("#usersInfoTable").html(ich.adminUsersInfotable_TMP({list:(collection).toJSON()}));
+						      var list = collection.toJSON();
+						      $("#usersInfoTable").html(ich.adminUsersInfotable_TMP({list:list}));
+						      _.each(list,function(item){
+						          $("#edit-"+item._id).button().click(function(){
+						              alert("edit");
+						          });
+						      
+						      $("#del-"+item._id).button().click(function(){
+                                      alert("del");
+                                  });
+						      });
 						      $("#addusers").button().click(function(){
 											function getDefaultData(ReportData) {
 											    if(ReportData.company) {

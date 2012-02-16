@@ -533,6 +533,16 @@ function generalCashoutReportFetcher(view,db,id,runAfter){
 		
 		function modifiedCashouts(input) {
 		    var data = _.clone(input);
+		    
+		    //TODO: avg Trans for payment/refund has to be done by server side ?!
+		    if(data.noofsale!=0) {
+		        data.avgpayment = data.netsalestotal / data.noofsale; 
+		    }
+		    
+		    if(data.noofrefund!=0) {
+                data.avgrefund = data.netrefundtotal / data.noofrefund; 
+            }
+		    
 		    return _(data).chain()
 			.applyToValues(toFixed(2))
 			.extend(_.selectKeys(data, ['noofpayment','noofrefund']))

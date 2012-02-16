@@ -168,7 +168,6 @@ function doc_setup() {
 																						 ,{inventory_review:item
 																						   ,inventory_rt7:model.toJSON()})));
 													     
-													     //TODO : it'll be changed
 													     InventoryReviewItemModifyDialog("", {collection:collectionInv
 																		  ,invRT7Model:model
 																		  ,reviewInvID:item._id});
