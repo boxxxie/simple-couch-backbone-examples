@@ -81,6 +81,7 @@
     <script language="javascript" type="text/javascript" src="../reporting/reports/InventoryRouter.js"></script>
 
     <script language="javascript" type="text/javascript" src="../reporting/inventory/helpers.js"></script>
+    <script language="javascript" type="text/javascript" src="../reporting/inventory/IdleInventoryReportRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/inventory/menuPriceChangeRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/inventory/ScanPriceChangesRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/inventory/ScanTaxChangesRouter.js"></script>
@@ -803,7 +804,8 @@
         <tr>
           <th>USER</th>
           <th>PASSWORD</th>
-          <th>EDIT PW</th>
+          <th>STATUS</th>
+          <th>EDIT</th>
           <th>DELETE</th>
         </tr>
       </thead>
@@ -812,6 +814,7 @@
         <tr>
           <td align="center">{{user}}</td>
           <td align="center">{{password}}</td>
+          <td align="center">{{status}}</td>
           <td>{{>quickEditViewButton_P}}</td>
           <td>{{>quickDeleteViewButton_P}}</td>
         </tr>
@@ -833,11 +836,25 @@
       </thead>
       <tbody>
         <tr>
-          <td><input type="text" var="user"  id="txtinputuser" /></td>
-          <td><input type="text" var="password"  id="txtinputpassword" /></td>
+          <td><input type="text" var="user"  value="{{user}}" id="txtinputuser" /></td>
+          <td><input type="text" var="password"  value="{{password}}" id="txtinputpassword" /></td>
         </tr>
       </tbody>
     </table>
+    <ul>
+        <li>PRIVILEGE :
+          <select var="role" id="privilegedown" class="{{>commonClasses_P}}">
+            <option value = "MASTERADMIN" {{#ismaster}}selected{{/ismaster}} >MASTER</option>
+            <option value = "ADMIN" {{^ismaster}}selected{{/ismaster}} >USER</option>
+          </select>
+        </li>
+        <li>STATUS :
+          <select var="status" id="statusdown" class="{{>commonClasses_P}}">
+            <option value = "ACTIVE" {{#isactive}}selected{{/isactive}} >ACTIVE</option>
+            <option value = "SUSPENDED" {{^isactive}}selected{{/isactive}} >SUSPENDED</option>
+          </select>
+        </li>
+    </ul>
     </form>
     </script>
     
@@ -2017,6 +2034,39 @@
       </div>
     </script>
     
+    <!------------------------------------------ MENU INVENTORY - IDLE INVENTORY ----------------------------->
+    <script id="txt_P" class="partial" type="text/html">
+      <ul id="ulGroupDropDown">
+    <li style="display: inline;">GROUP : 
+      <select id="groupsdown" onchange="updateStoreDropdown();" class="{{>commonClasses_P}}">
+        <option value = "ALL" selected>ALL</option>
+      </select>
+    </li>
+    <li style="display: inline;">
+      STORE : 
+      <select id="storesdown" class="{{>commonClasses_P}}">
+        <option value = "ALL" selected>ALL</option>
+      </select> 
+    </li>
+      </ul>
+    </script>
+    
+    
+    <script id="idleInventoryReports_TMP" type="text/html">
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+    {{>main_navigation_buttons_P}}
+    <h1>Idle Inventory Report</h1>
+    <h2>{{>breadcrumb_P}}</h2>
+    {{>groupDropdownbox_P}}
+    <ul>
+        <li style="display: inline;">Look for items that hasn't been sold : last > </li>
+        <li style="display: inline;"><input type="text" id="txtInputday" /> days</li>
+    </ul>
+    {{>generalGoButton_P}}
+    <div id='transactionssummarytable'></div>
+    {{>backButton_P}}
+      </div>
+    </script>
     
     <!------------------------------------------------ MENU INVENTORY ----------------------------------------->
     <script id="menuInventory_TMP" type="text/html">
@@ -2026,6 +2076,7 @@
 	<h2>{{>breadcrumb_P}}</h2>
 	<!--<div style="height:200px;">-->
 	  <div class="report-menu"><a href='#menuReports/{{startPage}}Inventory'><img src="../images/reports/inventorysold.png" border="0" class="report-menu-icon"/>Inventory Sold Report</a></div>
+	  <div class="report-menu"><a href='#menuInventory/IdleInventory'><img src="../images/inventory-idle.png" border="0" class="report-menu-icon"/>Idle Inventory Report</a></div>
 	  <div class="report-menu"><a href='#menuInventory/{{startPage}}scanPriceChange'><img src="../images/reports/scanprice.png" border="0" class="report-menu-icon"/>SCAN Item Price Changes</a></div>
 	  <div class="report-menu"><a href='#menuInventory/{{startPage}}scanTaxChange'><img src="../images/reports/scantax.png" border="0" class="report-menu-icon"/>SCAN Sales Tax Changes</a></div>
 	  <div class="report-menu"><a href='#menuInventory/addScanItem'><img src="../images/reports/scanaddnew.png" border="0" class="report-menu-icon"/>Add New Inventory SCAN Items</a></div>

@@ -1,3 +1,39 @@
+function addUser(originData, userCollection) {
+     return { 
+         success : function(userInfo) {
+             var userData = {creationdate:new Date()};
+             _.extend(userData,originData,userInfo);
+             var userDoc = new RetailerUserDoc();
+             userDoc.save(userData,{success:function(resp){
+                                        userCollection.add(resp);
+                                        userCollection.trigger("change",userCollection);
+                                        alert("user added successfully");
+                                    }, 
+                                    error:function(){
+                                        alert("Error; please, try again");
+                                    }});
+         }
+     }; 
+}
+
+function editUser(userModel, userCollection) {
+     return { 
+         success : function(userInfo) {
+            userModel.save(userInfo, {
+                success: function() {
+                    userCollection.trigger("change",userCollection);
+                    alert("user edited successfully");
+                },
+                error: function() {
+                    alert("Error; please, try again");
+                },
+                silent:true
+            });
+         }
+     }; 
+}
+
+
 var adminRouter = 
     new (Backbone.Router.extend(
 	     {routes: {
@@ -18,7 +54,7 @@ var adminRouter =
 		  console.log("menuAdministrationStore");
 	      },
 	      _setup:function(startPage, id){
-		  fetchRetailerUserCollection(id)(function(err,collection){
+		  fetchRetailerUserCollection_Report(id, ReportData.currentUser._id)(function(err,collection){
 						      var view = this.view;
 						      var html = ich.adminManagement_TMP(_.extend({startPage:startPage},autoBreadCrumb()));
 						      $("#main").html(html);
@@ -35,15 +71,45 @@ var menuAdminUsersView =
 				 this._renderTable(this.collection);
 			     },
 			     _renderTable:function(collection) {
-				 var list = collection.toJSON();
+                 var view = this;
+                 var colJSON = collection.toJSON();
+                 
+				 var list = _.sortBy(colJSON, function(item){ return (_.isNaN((new Date(item.creationdate)).getTime()))?getDateObjFromStr(item.creationdate):new Date(item.creationdate);})
+				                .reverse();
+				 
 				 $("#usersInfoTable").html(ich.adminUsersInfotable_TMP({list:list}));
 				 _.each(list,function(item){
 					    $("#edit-"+item._id).button().click(function(){
-										    alert("edit");
+										    //alert("edit");
+										    var userModel = collection.get(item._id);
+										    var userJSON = userModel.toJSON();
+										    var data_TMP = {ismaster:(userJSON.role=="MASTERADMIN"?true:false)
+										                   ,isactive:(userJSON.status=="ACTIVE"?true:false)};
+                                            _.extend(data_TMP,userJSON);
+										    
+										    quickModifyUserInfoDialog(ich.inputUserInfo_TMP(data_TMP)
+                                                                       ,_.extend(editUser(userModel,collection)
+                                                                               ,{collection:collection
+                                                                                 ,currentUser:ReportData.currentUser
+                                                                                 ,userJSON:userJSON}));
 										});
 					    
 					    $("#del-"+item._id).button().click(function(){
-										   alert("del");
+										   //alert("del");
+										   var adminModel = collection.get(item._id);
+										   if(_.isNotEmpty(adminModel) && (adminModel.toJSON())._id!=ReportData.currentUser._id) {
+										       adminModel.destroy({
+										           success:function() {
+										               view._renderTable(collection);
+										               alert("user deleted");
+										           },
+										           error:function() {
+										               alert("Error; please, try again");
+										           }
+										       });
+										   } else {
+										       alert("Can't delete Current User");
+										   }
 									       });
 					});
 				 $("#addusers")
@@ -70,11 +136,15 @@ var menuAdminUsersView =
 							return undefined;
 						    }
 						};
-						quickInputUserInfoDialog(ich.inputUserInfo_TMP({})
-								         ,{title:"Add New User"
-									   ,collection:collection
-									   ,defaultData:getDefaultData(ReportData)});
-					    });
+						
+						if(ReportData.currentUser.role=="MASTERADMIN") {
+    						quickCreateUserInfoDialog(ich.inputUserInfo_TMP({})
+    									   ,_.extend(addUser(getDefaultData(ReportData),collection)
+    									           ,{collection:collection}));
+                        } else {
+                            alert("You can't add USER");    
+                        }
+    					    });
 			     }
 			     
 			 });

@@ -129,7 +129,10 @@ function addCompany(collection) {
                                                    companyName:model.get("companyName"),
                                                    company_id:model.id,
                                                    user:model.get("user"),
-                                                   password:model.get("password")});
+                                                   password:model.get("password"),
+                                                   creationdate:new Date(),
+                                                   role:"MASTERADMIN",
+                                                   status:"ACTIVE"});
                 newUser.save();
                 model.collection.trigger("sync",model.collection);			    
 			}});
@@ -198,7 +201,10 @@ function addGroup(companyID) {
                                                groupName:newGroup.groupName,
                                                group_id:newGroup.group_id,
                                                user:newGroup.user,
-                                               password:newGroup.password});
+                                               password:newGroup.password,
+                                               creationdate:new Date(),
+                                               role:"MASTERADMIN",
+                                               status:"ACTIVE"});
             newUser.save();
 		},
 		validator : function(resp) {
@@ -270,7 +276,10 @@ function addStore(companyID, groupID) {
                                                storeName:newStore.storeName,
                                                storeNumber:newStore.number,
                                                user:newStore.user,
-                                               password:newStore.password});
+                                               password:newStore.password,
+                                               creationdate:new Date(),
+                                               role:"MASTERADMIN",
+                                               status:"ACTIVE"});
             newUser.save();
 		},
 		validator : function(resp) {

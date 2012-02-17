@@ -73,28 +73,38 @@ function login() {
 	 var accountMatches = resp.rows;
 	 if(_.isNotEmpty(accountMatches)) {
 	     var account = {company_id:_.first(resp.rows).value.company,loginTo:_.first(resp.rows).value};
-	     db_install.show(branch_show,
-			     account.company_id,
-			     {data : account.loginTo,
-			      success:function(data){
-				  if(_.isNotEmpty(account.loginTo.store)) {
-				      ReportData = {store:data, companyName:account.loginTo.companyName, company_id:account.loginTo.company, groupName:account.loginTo.groupName, group_id:account.loginTo.group};
-				      _.extend(ReportData,{startPage:"storeReport"});
-				      window.location.href = "#storeReport/";
-				      //loginRouter.navigate(ReportData.startPage);
-				  }
-				  else if(_.isNotEmpty(account.loginTo.group)) {
-				      ReportData = {group:data, companyName:account.loginTo.companyName, company_id:account.loginTo.company};
-				      _.extend(ReportData,{startPage:"groupReport"});
-				      window.location.href = "#groupReport/";
-				  } 
-				  else if(_.isNotEmpty(account.loginTo.company)) {
-				      ReportData = {company:data};
-				      _.extend(ReportData,{startPage:"companyReport"});
-				      //loginRouter.navigate(ReportData.startPage+"/");
-				      window.location.href = "#companyReport/";
-				  }}});}
-	 else {
+	     var userDocID = _.first(resp.rows).id;
+	     var currentUser = new RetailerUserDoc({_id:userDocID});
+	     currentUser.fetch({
+	         success:function(model) {
+                 var userJSON = model.toJSON();
+	             
+	             db_install.show(branch_show,
+                 account.company_id,
+                 {data : account.loginTo,
+                  success:function(data){
+                  if(_.isNotEmpty(account.loginTo.store)) {
+                      ReportData = {store:data, companyName:account.loginTo.companyName, company_id:account.loginTo.company, groupName:account.loginTo.groupName, group_id:account.loginTo.group};
+                      _.extend(ReportData,{startPage:"storeReport", currentUser:userJSON});
+                      window.location.href = "#storeReport/";
+                      //loginRouter.navigate(ReportData.startPage);
+                  }
+                  else if(_.isNotEmpty(account.loginTo.group)) {
+                      ReportData = {group:data, companyName:account.loginTo.companyName, company_id:account.loginTo.company};
+                      _.extend(ReportData,{startPage:"groupReport", currentUser:userJSON});
+                      window.location.href = "#groupReport/";
+                  } 
+                  else if(_.isNotEmpty(account.loginTo.company)) {
+                      ReportData = {company:data};
+                      _.extend(ReportData,{startPage:"companyReport", currentUser:userJSON});
+                      //loginRouter.navigate(ReportData.startPage+"/");
+                      window.location.href = "#companyReport/";
+                  }}});
+                  
+	         }
+	     });
+	     
+     } else {
 	     alert("wrong login info.");
 	 }
      });

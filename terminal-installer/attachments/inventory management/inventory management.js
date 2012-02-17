@@ -131,8 +131,10 @@ function doc_setup() {
 				     var view = this;
 				     var collectionInv = view.collection;
 				     
+				     _.each(listInv, function(item){console.log(new Date(item.inventory.date));});
+				     
 				     var list = _(listInv).chain()
-					 .sortBy(function(item){return new Date(item.inventory.date);})
+					 .sortBy(function(item){return (_.isNaN((new Date(item.inventory.date)).getTime()))?getDateObjFromStr(item.inventory.date):new Date(item.inventory.date);})
 					 .map(function(item){
 						  var cloneItem = _.clone(item);
 						  var companyInfo = _.find(cloneItem.ids, function(id){
