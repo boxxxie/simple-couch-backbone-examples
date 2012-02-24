@@ -84,7 +84,7 @@ var getParentsInfo = _.memoize(
 	    var store = {
 		id:reportData.store.store_id, 
 		label:reportData.store.number+":"+reportData.store.storeName,
-		number:reportData.store.storeName,
+		number:reportData.store.number,
 		type:"store"
 	    };
 	}

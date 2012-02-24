@@ -186,7 +186,7 @@ var menuReportsTransactionsDetailView =
 	     $('option', dropdownGroup).remove();
 	     $('option', dropdownStore).remove();
 	     
-	     dropdownGroup.append('<option value=="">'+ReportData.groupName+ '</option>');
+	     dropdownGroup.append('<option value='+ReportData.group_id+'>'+ReportData.groupName+ '</option>');
 	     dropdownGroup.attr('disabled','disabled');
 	     dropdownStore.append('<option value='+ReportData.store.store_id+'>'+ReportData.store.storeName
      				  + "(" + ReportData.store.number + ")" + '</option>');

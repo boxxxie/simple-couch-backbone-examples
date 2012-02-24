@@ -49,13 +49,13 @@ function getDateObjFromStr(dateString) {
     var list = dateString.replace(/[-T:Z.]/g," ").split(" ");
     var date = new Date();
     date.setYear(Number(list[0]));
-    date.setMonth(Number(list[1]));
+    date.setMonth(Number(list[1])-1);
     date.setDate(Number(list[2]));
     date.setHours(Number(list[3]));
     date.setMinutes(Number(list[4]));
     date.setSeconds(Number(list[5]));
     if(_.isNotEmpty(list[6])) {date.setMilliseconds(Number(list[6]));}
-    date.setTimezone("EST");
+    date.setTimezone("GMT");
     
     return date;
 }

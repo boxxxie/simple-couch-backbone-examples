@@ -131,7 +131,7 @@ function doc_setup() {
 				     var view = this;
 				     var collectionInv = view.collection;
 				     
-				     _.each(listInv, function(item){console.log(new Date(item.inventory.date));});
+				     //_.each(listInv, function(item){console.log(new Date(item.inventory.date));});
 				     
 				     var list = _(listInv).chain()
 					 .sortBy(function(item){return (_.isNaN((new Date(item.inventory.date)).getTime()))?getDateObjFromStr(item.inventory.date):new Date(item.inventory.date);})

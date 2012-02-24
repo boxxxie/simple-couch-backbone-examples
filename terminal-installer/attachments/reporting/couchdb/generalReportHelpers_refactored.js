@@ -25,6 +25,11 @@ function applyReceiptInfo(templateData){
 		 });
 }
 var _async = {
+    generalQuery:function(view,db){
+        return function(options){
+            return function(callback){queryF(view,db)(options)(returnQuery(callback));};
+        };
+    },
     generalKeyQuery:function(view,db){
 	    return function(key){
 		var options = {

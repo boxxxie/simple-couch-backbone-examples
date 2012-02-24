@@ -11,7 +11,7 @@ function inventoryChangeLog(id){
     return function(callback){
 	query(function(err,response){
 		  var inventoryChangeLog = _.chain(response.rows)
-		      .pluck('doc')
+  		      .pluck('doc')
 		      .map(function(item){
 			       return _.extend({},
 					       item.inventory, //todo, make a helper function that is the inverse of nest
@@ -273,3 +273,176 @@ function inventoryTotalsRangeFetcher_F(id){
 	};
     };
 }
+
+
+/*********************************** IDLE INVENTORY REPORT ******************************************/
+function stockInventoryFetcher_F(id, originids) {
+    var upcview = cdb.view("tmp","locid_upc");
+    var stockview = cdb.view("tmp","stock_locid_upc");
+    var db_inventory = cdb.db("inventory");
+    var inventory_sold_view = cdb.view("reporting","inventory_sold");
+    var db_transactions = cdb.db("transactions");
+    
+    var invQuery = _async.generalKeyQuery(upcview,db_inventory);
+    var stockQuery = _async.generalKeyQuery(stockview,db_inventory);
+    var transQuery = _async.generalQuery(inventory_sold_view,db_transactions);
+
+    var optionsForQty = {
+        descending : true,
+        group: true,
+        group_level:1,
+        endkey: ([]).concat(id),
+        startkdy:([]).concat(id).concat({})
+    };
+    
+    return function(callback){
+        async.parallel({
+			   invlist : invQuery(id),
+			   stocklist : stockQuery(id),
+			   soldlist : transQuery(optionsForQty)
+		       },
+		       function(err,resp) {
+			   function extractSoldList(value) {
+			       // values -> {"1234" :{qty:12}, "45613" : {qty:1}}
+			       // return value -> [Object { upc="1234", info={qty,date}}, Object { upc="45613", info={...}}]
+			       return _.map(value,function(v,k){ return {upc:k, info:v};});
+			   };
+			   
+			   var invlist = _.pluck(resp.invlist.rows, "value");
+			   var stocklist = _.pluck(resp.stocklist.rows, "value");
+			   var stockDoclist = _.pluck(resp.stocklist.rows, "doc");
+			   var invDoclist = _.pluck(resp.invlist.rows, "doc");
+			   var soldlist = extractSoldList(_.pluck(resp.soldlist.rows, "value"));
+			   
+			   var stockDocListOverInvDoc =
+			       _.chain(stocklist)
+			       .matchTo(invDoclist,"upccode")
+			       .map(function(item){
+					var foundStock = _.find(stockDoclist,function(doc){ return doc.inventory.upccode==item.upccode;});
+					//var returnValue = _.clone(foundStock);
+					var returnValue = _.combine({},foundStock);
+					returnValue.inventory.price = item.price;
+					returnValue.inventory.description = item.description;
+					return returnValue;                         
+				    })
+			       .value();
+			   
+			   var stocklistCompleted = 
+			       _.chain(invlist)
+			       .difference(stocklist)
+			       .matchTo(invDoclist,"upccode")
+			       .map(function(item){
+					return {inventory:_(item).removeKeys('_id','_rev'),
+						count:"0", //FIXME : BigInteger or BigDecimal
+						type:"stock",
+						ids:originids};
+				    })
+			       .concat(stockDocListOverInvDoc)
+			       .value();
+			   
+			   callback(err,{docList:stocklistCompleted,soldList:soldlist});
+		       });
+    };
+};
+
+function idleInventoryFetcher_F(id, days) {
+    var upcview = cdb.view("tmp","locid_upc");
+    var stockview = cdb.view("tmp","stock_locid_upc");
+    var db_inventory = cdb.db("inventory");
+    var inventory_sold_view = cdb.view("reporting","inventory_sold");
+    var db_transactions = cdb.db("transactions");
+    
+    var invQuery = _async.generalKeyQuery(upcview,db_inventory);
+    var stockQuery = _async.generalKeyQuery(stockview,db_inventory);
+    var transQuery = _async.generalQuery(inventory_sold_view,db_transactions);
+    
+    var currentDateForQuery = (new Date()).addDays(1).toArray().slice(0,3);
+    var pastDate = (new Date()).addDays(-Number(days)).toArray().slice(0,3);
+
+    var optionsForAllSoldList = {
+        descending : true,
+        group: true,
+        group_level:1,
+        endkey: ([]).concat(id),
+        startkdy:([]).concat(id).concat({})
+    };
+    
+    var optionsForPartialSoldList = {
+        descending : true,
+        group: true,
+        group_level:1,
+        endkey: ([]).concat(id).concat(pastDate),
+        startkdy:([]).concat(id).concat(currentDateForQuery)
+    };
+    
+    return function(callback){
+        async.parallel({
+			   invlist : invQuery(id),
+			   stocklist : stockQuery(id),
+			   all_soldlist : transQuery(optionsForAllSoldList),
+			   period_soldlist : transQuery(optionsForPartialSoldList)
+		       },
+		       function(err,resp) {
+			   function extractSoldList(value) {
+			       // values -> {"1234" :{qty:12}, "45613" : {qty:1}}
+			       // return value -> [Object { upc="1234", info={qty,date}}, Object { upc="45613", info={...}}]
+			       return _.map(value,function(v,k){ return {upc:k, Info:v};});
+			   };
+			   function getElapsedDays(from, to) {
+			       var date1 = new Date(from);
+			       var date2 = new Date(to);
+			       date1.setHours(0); date1.setMinutes(0); date1.setSeconds(0); date1.setMilliseconds(0);
+			       date2.setHours(0); date2.setMinutes(0); date2.setSeconds(0); date2.setMilliseconds(0);
+			       
+			       return (date2.getTime()-date1.getTime())/(1000*60*60*24);                 
+			   };
+			   
+			   var stocklist = _.pluck(resp.stocklist.rows, "value");
+			   var stockDoclist = _.pluck(resp.stocklist.rows, "doc");
+			   var invDoclist = _.pluck(resp.invlist.rows, "doc");
+			   var all_soldlist = extractSoldList(_.pluck(resp.all_soldlist.rows, "value"));
+			   var period_soldlist = extractSoldList(_.pluck(resp.period_soldlist.rows, "value"));
+			   var diff_soldlist = _.difference(all_soldlist,period_soldlist);
+			   
+			   var result =
+			       _.chain(stockDoclist)
+			       .reject(function(item){
+					   return !_.isEmpty(_.find(period_soldlist,function(itm){
+									return itm.upc == item.inventory.upccode;
+								    }));
+				       })
+			       .map(function(item){
+					var soldItem = _.find(diff_soldlist,function(itm){
+								  return itm.upc == item.inventory.upccode;
+							      });
+					
+					var foundInv = _.find(invDoclist, function(inv){ return inv.upccode == item.inventory.upccode;});
+					var invItem = _.combine({},item);
+					invItem.inventory.price = foundInv.price;
+					invItem.inventory.description = foundInv.description;
+					
+					if(_.isEmpty(soldItem)) {
+					    return _.combine({date_last_sold:"never been sold",
+							      days:"0",
+							      qty:item.count},
+							     invItem);
+					    
+					} else {
+					    var last_sold = getDateObjFromStr(soldItem.Info.date);
+					    return _.combine({date_last_sold:datePartFormatter(last_sold),
+							      days:getElapsedDays(last_sold,new Date())+"",
+							      qty:(Number(item.count)-Number(soldItem.qty)).toString()},
+							     invItem);
+					}
+				    })
+			       .value();
+			   
+			   callback(err,result);
+		       });
+    };  
+};
+
+
+
+// http://localhost:5984/transactions/_design/reporting/_view/inventory_sold?limit=11&descending=true&group=true&group_level=4&endkey=[%226542320d1d681daf126107d5c624307c%22]&startkey=[%226542320d1d681daf126107d5c624307c%22,2012,1,5]
+// http://localhost:5984/transactions/_design/reporting/_view/inventory_sold?limit=11&descending=true&group=true&group_level=1&endkey=[%226542320d1d681daf126107d5c624307c%22]&startkey=[%226542320d1d681daf126107d5c624307c%22,2012,1,6]
