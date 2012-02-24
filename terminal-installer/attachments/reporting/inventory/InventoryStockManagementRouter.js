@@ -131,6 +131,10 @@ var inventoryStockMngView =
 						      var newCount = _.isNaN(Number(stockCnt))?Number(invModel.get('count')):(Number(invModel.get('count'))+Number(stockCnt));
 						      //var invItemReturn = _.combine(invItem,{count:newCount.toString()});
 						      //return invItemReturn;
+						      if(_.isEmpty(invModel.get('_id'))) {
+						          var invJSON = invModel.toJSON();
+						          invModel.set({_id:invJSON.inventory.locid+"-"+invJSON.inventory.upccode+"-stock"},{silent:true});   
+						      }
 						      invModel.set({count:newCount.toString()},{silent:true});
 						      return invModel;
 						  })
@@ -192,7 +196,7 @@ var inventoryStockMngView =
 						  return _.combine({qty:qty},item);
 					      }
 					  })
-				     .sortBy(function(item){ return Number(item.inventory.upccode);})
+				     .sortBy(function(item){ return item.inventory.upccode;})
 				     .value();
 				 
 				 var html = ich.inventoryStockstable_TMP({items:for_TMP});

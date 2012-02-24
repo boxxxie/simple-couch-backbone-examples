@@ -87,6 +87,7 @@ ddoc.views.receipt_id = {
     }
 };
 
+
 ddoc.shows = {
     branch:function(doc,req){
 	var args = req.query;

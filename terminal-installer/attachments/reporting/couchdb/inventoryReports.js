@@ -277,8 +277,8 @@ function inventoryTotalsRangeFetcher_F(id){
 
 /*********************************** IDLE INVENTORY REPORT ******************************************/
 function stockInventoryFetcher_F(id, originids) {
-    var upcview = cdb.view("tmp","locid_upc");
-    var stockview = cdb.view("tmp","stock_locid_upc");
+    var upcview = cdb.view("app","locid_upc");
+    var stockview = cdb.view("app","stock_locid_upc");
     var db_inventory = cdb.db("inventory");
     var inventory_sold_view = cdb.view("reporting","inventory_sold");
     var db_transactions = cdb.db("transactions");
@@ -346,8 +346,8 @@ function stockInventoryFetcher_F(id, originids) {
 };
 
 function idleInventoryFetcher_F(id, days) {
-    var upcview = cdb.view("tmp","locid_upc");
-    var stockview = cdb.view("tmp","stock_locid_upc");
+    var upcview = cdb.view("app","locid_upc");
+    var stockview = cdb.view("app","stock_locid_upc");
     var db_inventory = cdb.db("inventory");
     var inventory_sold_view = cdb.view("reporting","inventory_sold");
     var db_transactions = cdb.db("transactions");

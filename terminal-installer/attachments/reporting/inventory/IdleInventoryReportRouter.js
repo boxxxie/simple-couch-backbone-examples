@@ -126,7 +126,7 @@ var idleInventoryView =
 					      item.inventory.price.selling_price = currency_format(Number(item.inventory.price.selling_price));
 					      return item;
 					  })
-				     .sortBy(function(item){ return Number(item.inventory.upccode);})
+				     .sortBy(function(item){ return item.inventory.upccode;})
 				     .value();
 				 
 				 var html = ich.idleInventorytable_TMP({items:for_TMP});
