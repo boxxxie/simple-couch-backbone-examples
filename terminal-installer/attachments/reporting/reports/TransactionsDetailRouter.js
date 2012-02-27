@@ -91,6 +91,11 @@ var menuReportsTransactionsDetailView =
 	 				     + "(" + store.number + ")" + '</option>');
 	 	    });
 	     
+	     $("#groupsdown")
+           .change(function(){
+               updateStoreDropdown(true); // don't show "ALL"
+           });
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){

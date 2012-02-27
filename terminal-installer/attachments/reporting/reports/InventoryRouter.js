@@ -88,6 +88,11 @@ var menuReportsInventoryView =
 	 		dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
 	 	    });
 	     
+	     $("#groupsdown")
+           .change(function(){
+               updateStoreDropdown();
+           });
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){

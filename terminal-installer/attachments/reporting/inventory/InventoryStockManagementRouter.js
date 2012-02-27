@@ -53,6 +53,11 @@ var inventoryStockManagementRouter =
 					    break;
 					}
 					
+					$("#groupsdown")
+                       .change(function(){
+                           updateStoreDropdown(true); // don't show "ALL"
+                       });
+					
 					// TODO : view
 					_.once(function(){
 						   var view = this.view;

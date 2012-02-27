@@ -81,6 +81,15 @@ var menuReportsHourlyActivityView =
 	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	     }
 	     
+	     $("#groupsdown")
+	       .change(function(){
+	           updateStoreDropdown();updateTerminalDropdown();
+	       });
+	     $("#storesdown")
+           .change(function(){
+               updateTerminalDropdown();
+           });
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -119,6 +128,11 @@ var menuReportsHourlyActivityView =
 	 	 $('option', dropdownTerminal).remove();
 	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	     }
+	     
+	     $("#storesdown")
+           .change(function(){
+               updateTerminalDropdown();
+           });
 	     
 	     var btn = $('#generalgobtn')
 		 .button()

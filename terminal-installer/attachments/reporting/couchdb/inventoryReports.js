@@ -154,9 +154,10 @@ function inventoryTotalsRangeFetcher_F(id){
 			}
 			sales = sales.rows;
 			refunds = _.applyToValues(refunds.rows,negate,true);
-			var totals_labeled = _.mapNest(inventory_transform(sales.concat(refunds)),['price','quantity'],'totals');
-			var sales_labeled = _.mapNest(inventory_transform(sales),['price','quantity'],'sales');
-			var refunds_labeled = _.mapNest(inventory_transform(refunds),['price','quantity'],'refunds');
+			var totals_labeled = _.map(inventory_transform(sales.concat(refunds)),function(item){ return _.nest(item,['price','quantity'],'totals');}); //_.mapNest(inventory_transform(sales.concat(refunds)),['price','quantity'],'totals');
+			var sales_labeled = _.map(inventory_transform(sales),function(item){ return _.nest(item,['price','quantity'],'sales');}); //_.mapNest(inventory_transform(sales),['price','quantity'],'sales');
+			var refunds_labeled = _.map(inventory_transform(refunds),function(item){ return _.nest(item,['price','quantity'],'refunds');}); //_.mapNest(inventory_transform(refunds),['price','quantity'],'refunds');
+			
 			return _([])
 			    .chain()
 			    .concat(totals_labeled, sales_labeled, refunds_labeled)
@@ -178,7 +179,27 @@ function inventoryTotalsRangeFetcher_F(id){
 			var refundsVal =_.applyToValues(defaultValue(refunds),negate);
 			return _([salesVal,refundsVal]).reduce(_.addPropertiesTogether,{});
 		    }
-
+            
+            function fillEmptyValue(total) {
+                var returnVal = _.combine({},total);
+                if(_.isEmpty(returnVal.sales)) {
+                    returnVal.sales = {price:0.00,quantity:0};
+                }
+                if(_.isEmpty(returnVal.refunds)) {
+                    returnVal.refunds = {price:0.00,quantity:0};
+                }
+                if(_.isEmpty(returnVal.totals)) {
+                    returnVal.totals = {price:0.00,quantity:0};
+                }
+                if(!_.isNumber(returnVal.totalSalesPercentage)) {
+                    returnVal.totalSalesPercentage = 0;
+                }                      
+                if(!_.isNumber(returnVal.typedSalesPercentage)) {
+                    returnVal.typedSalesPercentage = 0;
+                }
+                return returnVal;
+            }
+            
 		    var resp = raw_resp;
 		    
 		    var ecr_sales = _.reduce([totals(resp.total_department_sale,resp.total_department_refund),
@@ -193,7 +214,7 @@ function inventoryTotalsRangeFetcher_F(id){
 		    var totalSales = _.reduce([menu_sales,scan_sales,ecr_sales],_.addPropertiesTogether,{}).price;
 
 		    var menu_sales_list = totals_list(resp.all_menu_sales,resp.all_menu_refunds,menu_sales.price,totalSales);
-		    var menu_sales_totals = _.reduce(menu_sales_list,_.addPropertiesTogether,{});
+		    var menu_sales_totals = fillEmptyValue(_.reduce(menu_sales_list,_.addPropertiesTogether,{}));
 		    
 
 		    var scan_sales_list =_(totals_list(resp.all_scan_sales,resp.all_scan_refunds,scan_sales.price,totalSales))
@@ -204,7 +225,7 @@ function inventoryTotalsRangeFetcher_F(id){
 				 return _.extend({},scan,{upc: upc, label:description});
 			     });
 
-		    var scan_sales_totals = _.reduce(scan_sales_list,_.addPropertiesTogether,{});
+		    var scan_sales_totals = fillEmptyValue(_.reduce(scan_sales_list,_.addPropertiesTogether,{}));
 		    
 		    var ecr_sales_list =totals_list(resp.all_ecr_sales,
 						    resp.all_ecr_refunds,
@@ -216,8 +237,8 @@ function inventoryTotalsRangeFetcher_F(id){
 						     resp.all_scale_refunds,
 						     ecr_sales.price,totalSales);
 
-		    var ecr_sales_totals = _.reduce(ecr_sales_list.concat(department_sales_list).concat(scale_sales_list),
-						    _.addPropertiesTogether,{});
+		    var ecr_sales_totals = fillEmptyValue(_.reduce(ecr_sales_list.concat(department_sales_list).concat(scale_sales_list),
+						    _.addPropertiesTogether,{}));
 		    
 		    var scale_sales_list_formatted = _.walk_pre(scale_sales_list,
 								function(obj){

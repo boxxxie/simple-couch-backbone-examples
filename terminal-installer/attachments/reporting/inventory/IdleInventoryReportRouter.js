@@ -53,6 +53,11 @@ var idleInventoryRouter =
 					    break;
 					}
 					
+					$("#groupsdown")
+                       .change(function(){
+                           updateStoreDropdown(true); // don't show "ALL"
+                       });
+					
 					// TODO : view
 					var view = this.view;
 					view = new idleInventoryView();  

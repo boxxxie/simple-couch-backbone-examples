@@ -89,6 +89,11 @@ var menuReportsSalesSummaryView =
 	 																	 + "(" + store.number + ")" + '</option>');
 	 	    });
 	     
+	     $("#groupsdown")
+	       .change(function() {
+	           updateStoreDropdown();
+	       });
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
