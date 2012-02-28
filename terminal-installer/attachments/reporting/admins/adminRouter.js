@@ -17,11 +17,37 @@ function addUser(originData, userCollection) {
 }
 
 function editUser(userModel, userCollection) {
+    function editUserInInstallDB(userModel,reportData){
+        var newUser = userModel.get('user');
+        var newPassword = userModel.get('password');
+        var currentUser = reportData.currentUser;
+        var company = new CompanyForUser({_id:currentUser.company_id});
+        company.fetch({
+            success:function(companyModel) {
+                if(_.isNotEmpty(currentUser.store_id)) {
+                    var foundStore = companyModel.getStore(currentUser.group_id,currentUser.store_id);
+                    _.extend(foundStore,{user:newUser,password:newPassword});
+                    companyModel.editStore(currentUser.group_id,currentUser.store_id,foundStore);
+                } else if(_.isNotEmpty(currentUser.group_id)) {
+                    var foundGroup = companyModel.getGroup(currentUser.group_id);
+                    _.extend(foundGroup,{user:newUser,password:newPassword});
+                    companyModel.editGroup(currentUser.group_id,foundGroup);
+                } else {
+                    companyModel.save({user:newUser,password:newPassword});
+                }
+            },
+            error: function() {
+                alert("error: Please, try again");
+            }
+        });
+        
+    };
      return { 
          success : function(userInfo) {
             userModel.save(userInfo, {
-                success: function() {
+                success: function(model) {
                     userCollection.trigger("change",userCollection);
+                    editUserInInstallDB(model,ReportData);
                     alert("user edited successfully");
                 },
                 error: function() {

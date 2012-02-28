@@ -78,25 +78,29 @@ function login() {
 	     currentUser.fetch({
 	         success:function(model) {
                  var userJSON = model.toJSON();
+                 var userWithOutPassWord = _.removeKeys(userJSON,'password');
 	             
 	             db_install.show(branch_show,
                  account.company_id,
                  {data : account.loginTo,
                   success:function(data){
                   if(_.isNotEmpty(account.loginTo.store)) {
-                      ReportData = {store:data, companyName:account.loginTo.companyName, company_id:account.loginTo.company, groupName:account.loginTo.groupName, group_id:account.loginTo.group};
-                      _.extend(ReportData,{startPage:"storeReport", currentUser:userJSON});
+                      var storeData = _.removeKeys(data,'user','password');
+                      ReportData = {store:storeData, companyName:account.loginTo.companyName, company_id:account.loginTo.company, groupName:account.loginTo.groupName, group_id:account.loginTo.group};
+                      _.extend(ReportData,{startPage:"storeReport", currentUser:userWithOutPassWord});
                       window.location.href = "#storeReport/";
                       //loginRouter.navigate(ReportData.startPage);
                   }
                   else if(_.isNotEmpty(account.loginTo.group)) {
-                      ReportData = {group:data, companyName:account.loginTo.companyName, company_id:account.loginTo.company};
-                      _.extend(ReportData,{startPage:"groupReport", currentUser:userJSON});
+                      var groupData = _.removeKeys(data,'user','password');
+                      ReportData = {group:groupData, companyName:account.loginTo.companyName, company_id:account.loginTo.company};
+                      _.extend(ReportData,{startPage:"groupReport", currentUser:userWithOutPassWord});
                       window.location.href = "#groupReport/";
                   } 
                   else if(_.isNotEmpty(account.loginTo.company)) {
-                      ReportData = {company:data};
-                      _.extend(ReportData,{startPage:"companyReport", currentUser:userJSON});
+                      var companyData = _.removeKeys(data,'user','password');
+                      ReportData = {company:companyData};
+                      _.extend(ReportData,{startPage:"companyReport", currentUser:userWithOutPassWord});
                       //loginRouter.navigate(ReportData.startPage+"/");
                       window.location.href = "#companyReport/";
                   }}});
