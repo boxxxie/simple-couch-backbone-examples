@@ -131,8 +131,8 @@ function doc_setup() {
 				     var view = this;
 				     var collectionInv = view.collection;
 				     
-				     var list = _(listInv).chain()
-					 .sortBy(function(item){return new Date(item.inventory.date);})
+					     var list = _(listInv).chain()
+					 .sortBy(function(item){return (_.isNaN((new Date(item.inventory.date)).getTime()))?getDateObjFromStr(item.inventory.date):new Date(item.inventory.date);})
 					 .map(function(item){
 						  var cloneItem = _.clone(item);
 						  var companyInfo = _.find(cloneItem.ids, function(id){
@@ -168,7 +168,6 @@ function doc_setup() {
 																						 ,{inventory_review:item
 																						   ,inventory_rt7:model.toJSON()})));
 													     
-													     //TODO : it'll be changed
 													     InventoryReviewItemModifyDialog("", {collection:collectionInv
 																		  ,invRT7Model:model
 																		  ,reviewInvID:item._id});

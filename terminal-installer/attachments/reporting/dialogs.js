@@ -109,12 +109,32 @@ function quickReportView(id, title){
 
 
 /********************************* menu Administration *****************************************/
+function quickCreateUserInfoDialog(html,options) {
+    _.extend(options,{title:"Add New User", isCreate:true});
+    quickInputUserInfoDialog(html,options);
+}
+
+function quickModifyUserInfoDialog(html,options) {
+    _.extend(options,{title:"Edit User"});
+    quickInputUserInfoDialog(html,options);
+}
+
 function quickInputUserInfoDialog(html,options) {
     var userCollection = options.collection;
-    var defaultData = options.defaultData;
     
     var d = $("#dialog-quickView");
     d.html(html);
+    
+    if(!options.isCreate) {
+        var currentUser = options.currentUser;
+        // TODO : disable user
+        $("#txtinputuser").attr("disabled",true);
+        
+        if(currentUser.role=="ADMIN") {
+            d.find("#privilegedown").attr("disabled",true);
+            d.find("#statusdown").attr("disabled",true);
+        }     
+    } 
     
     var dialogOptions = _.extend(
     {autoOpen: false,
@@ -123,24 +143,17 @@ function quickInputUserInfoDialog(html,options) {
      modal: true,
      buttons: {
          "Submit": function() {
-             var f = $("#form");
-             var user_pass = varFormGrabber(f);
-             if(_.isEmpty(user_pass.user) || _.isEmpty(user_pass.password)) {
+             var f = d.find("#form");
+             var userInfo = varFormGrabber(f);
+             if(_.isEmpty(userInfo.user) || _.isEmpty(userInfo.password)) {
                  alert("Please, fill user/password");
              } else {
-                 if(!(userCollection.findUser(_.str.trim(user_pass.user).toLowerCase())===undefined)) {
+
+                 if(options.isCreate && 
+                     !(userCollection.findUser((_.str.trim(userInfo.user)).toLowerCase())===undefined)) {
                      alert("User already exists");
                  } else {
-                     var userData = _.extend({},defaultData,user_pass);
-                     var userDoc = new RetailerUserDoc();
-                     userDoc.save(userData,{success:function(resp){
-                                                console.log("success");
-                                                userCollection.add(resp);
-                                                userCollection.trigger("change",userCollection);
-                                            }, 
-                                            error:function(){
-                                                console.log("fail");
-                                            }});
+                     options.success(userInfo);
                      d.dialog('close');
                  }
              }

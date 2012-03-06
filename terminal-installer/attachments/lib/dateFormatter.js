@@ -42,3 +42,20 @@ function jodaDatePartFormatter(dateString){
 function jodaTimePartFormatter(dateString){
     return timePartFormatter(jodaDateParser(dateString));
 }
+
+function getDateObjFromStr(dateString) {
+    // this is for IE7 usually using for sort
+    //dateString ; 2012-02-16T21:56:50.956Z
+    var list = dateString.replace(/[-T:Z.]/g," ").split(" ");
+    var date = new Date();
+    date.setYear(Number(list[0]));
+    date.setMonth(Number(list[1])-1);
+    date.setDate(Number(list[2]));
+    date.setHours(Number(list[3]));
+    date.setMinutes(Number(list[4]));
+    date.setSeconds(Number(list[5]));
+    if(_.isNotEmpty(list[6])) {date.setMilliseconds(Number(list[6]));}
+    date.setTimezone("GMT");
+    
+    return date;
+}

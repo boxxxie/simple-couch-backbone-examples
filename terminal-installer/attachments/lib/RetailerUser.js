@@ -1,38 +1,108 @@
 var RetailerUserDoc = couchDoc.extend({db:"layered_login_users"});
+var CompanyForUser = couchDoc.extend({db:"install",
+                                      getGroups:function(){
+                                          return this.get('hierarchy').groups;
+                                      },
+                                      getGroup:function(groupID){
+                                          return _.find(this.getGroups(),function(group){ return group.group_id == groupID;});
+                                      },
+                                      getStores:function(groupID){
+                                          var foundGroup = this.getGroup(groupID); //_.filter(groups,function(group){ return group.group_id == groupID;});
+                                          return foundGroup.stores;
+                                      },
+                                      getStore:function(groupID,storeID){
+                                          var stores = this.getStores(groupID);
+                                          return _.find(stores,function(store){return store.store_id == storeID;});
+                                      },
+                                      editGroup:function(groupID,group){
+                                          var groupToMod = this.getGroup(groupID);
+                                          _.extend(groupToMod,group);
+                                          this.save();
+                                          return groupToMod;
+                                      },
+                                      editStore:function(groupID,storeID,store){
+                                          var groupToAddTo = this.getGroup(groupID);
+                                          var storeToMod = this.getStore(groupID,storeID);
+                                          _.extend(storeToMod,store);
+                                          groupToAddTo.stores = sortStoresByNum(groupToAddTo.stores);
+                                          this.save();
+                                          return storeToMod;
+                                      }
+                                     });
+
+function sortStoresByNum(stores){
+    return _.sortBy(stores, function(store){
+                        var storeNumberMatch = store.number.match(/\d+/);
+                        if(storeNumberMatch){
+                            return Number(_.first(storeNumberMatch));
+                        }
+                        return 0;
+                    });
+};
 
 var RetailerUserCollection = couchCollection(
-            {db:'layered_login_users'},
-            {model:RetailerUserDoc,
-             findUser : function(userName) {
-                 var list = this.toJSON();
-                 return this.find(function(model){return (model.get("user")).toLowerCase() == userName.toLowerCase();});
-             }
+    {db:'layered_login_users'},
+    {model:RetailerUserDoc,
+     findUser : function(userName) {
+         var list = this.toJSON();
+         return this.find(function(model){return (model.get("user")).toLowerCase() == userName.toLowerCase();});
+     }
     });
 
 function fetchRetailerUserCollection(id) {
     return function(callback){
-            queryF(cdb.view("app","lowestlevel_id_doc"), cdb.db("layered_login_users"))
-            ({key:id})
-            (function(response){
-                 var user_collection = new RetailerUserCollection();
-                 _.reduce(response.rows, function(collection,item){
-                     return collection.add(item.value, {silent:true});
-                 },user_collection);
-                 callback(null,user_collection);
-             });
+        queryF(cdb.view("app","lowestlevel_id_doc"), cdb.db("layered_login_users"))
+        ({key:id})
+        (function(response){
+             var user_collection = new RetailerUserCollection();
+             _.reduce(response.rows, function(collection,item){
+			  return collection.add(item.value, {silent:true});
+                      },user_collection);
+             callback(null,user_collection);
+         });
     };
 };
 
 function fetchRetailerUserCollection_All(id) {
     return function(callback){
-            queryF(cdb.view("app","id_doc"), cdb.db("layered_login_users"))
-            ({key:id})
-            (function(response){
-                 var user_collection = new RetailerUserCollection();
-                 _.reduce(response.rows, function(collection,item){
-                     return collection.add(item.value, {silent:true});
-                 },user_collection);
-                 callback(null,user_collection);
-             });
+        queryF(cdb.view("app","id_doc"), cdb.db("layered_login_users"))
+        ({key:id})
+        (function(response){
+             var user_collection = new RetailerUserCollection();
+             _.reduce(response.rows, function(collection,item){
+			  return collection.add(item.value, {silent:true});
+                      },user_collection);
+             callback(null,user_collection);
+         });
+    };
+};
+
+
+function fetchRetailerUserCollection_Report(id, userDocID) {
+    return function(callback){
+        var userModel = new RetailerUserDoc({_id:userDocID});
+        userModel.fetch({
+			    success:function(model) {
+				var userJSON = model.toJSON();
+				if(userJSON.role=="MASTERADMIN") {
+				    queryF(cdb.view("app","lowestlevel_id_doc"), cdb.db("layered_login_users"))
+				    ({key:id})
+				    (function(response){
+					 var user_collection = new RetailerUserCollection();
+					 _.reduce(response.rows, function(collection,item){
+						      return collection.add(item.value, {silent:true});
+						  },user_collection);
+					 callback(null,user_collection);
+				     });
+				} else {
+				    var user_collection = new RetailerUserCollection();
+				    user_collection.add(userJSON, {silent:true});
+				    callback(null,user_collection);
+				}
+			    },
+			    error:function() {
+				
+			    }
+			});
     };
 };
