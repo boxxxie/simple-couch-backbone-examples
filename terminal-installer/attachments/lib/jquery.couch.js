@@ -121,7 +121,7 @@
 			  }
 		      }
 		      if (value === null) {
-			  req.type = "DELETE";        
+			  req.type = "DELETE";
 		      } else if (value !== undefined) {
 			  req.type = "PUT";
 			  req.data = toJSON(value);
@@ -133,7 +133,7 @@
 			   "An error occurred retrieving/updating the server configuration"
 			  );
 		  },
-		  
+
 		  /**
 		   * Returns the session information for the currently logged in user.
 		   * @param {ajaxSettings} options
@@ -183,8 +183,8 @@
 		   * <a href="http://api.jquery.com/jQuery.ajax/#jQuery-ajax-settings">
 		   * jQuery ajax settings</a>
 		   */
-		  signup: function(user_doc, password, options) {  
-		      options || (options = {});    
+		  signup: function(user_doc, password, options) {
+		      options || (options = {});
 		      // prepare user doc based on name and password
 		      user_doc = this.prepareUserDoc(user_doc, password);
 		      $.couch.userDb(function(db) {
@@ -496,9 +496,9 @@
 			      // actually make the changes request
 			      function getChangesSince() {
 				  var opts = $.extend({heartbeat : 10 * 1000}, options, {
-							  feed : "longpoll",
-							  since : since
-						      });
+							feed : "longpoll",
+							since : since
+						    });
 				  ajax(
 				      {url: db.uri + "_changes"+encodeOptions(opts)},
 				      options,
@@ -575,7 +575,7 @@
 				  this.allDesignDocs(
 				      {success: function(resp) {
 					   $.each(resp.rows, function() {
-						      self.openDoc(this.id, 
+						      self.openDoc(this.id,
 								   {success: function(ddoc) {
 									var index, appPath, appName = ddoc._id.split('/');
 									appName.shift();
@@ -597,7 +597,7 @@
 				  alert("Please provide an eachApp function for allApps()");
 			      }
 			  },
-			  
+
 			  /**
 			   * Returns the specified doc from the specified db.
 			   * @see <a href="http://techzone.couchbase.com/sites/default/files/
@@ -928,8 +928,8 @@
 				       type: type,
 				       data: data,
 				       url: this.uri + "_design/" + name[0] +
-					   "/_show/" + name[1] 
-					   + "/" +  id 
+					   "/_show/" + name[1]
+					   + "/" +  id
 				   },
 				   options, "An error occurred accessing the view"
 				  );
@@ -968,7 +968,7 @@
 			  setDbProperty: function(propName, propValue, options, ajaxOptions) {
 			      options || (options = {});
 			      ajax({
-				       type: "PUT", 
+				       type: "PUT",
 				       url: this.uri + propName + encodeOptions(options),
 				       data : JSON.stringify(propValue)
 				   },
@@ -980,7 +980,7 @@
 		      };
 		  },
 
-		  encodeDocId: encodeDocId, 
+		  encodeDocId: encodeDocId,
 
 		  /**
 		   * Accessing the root of a CouchDB instance returns meta information about

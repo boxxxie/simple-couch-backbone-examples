@@ -138,7 +138,3 @@ var idleInventoryView =
 				 $("#inventorystocktable").html(html);
 			     }
 			 });
-
-
-// http://localhost:5984/transactions/_design/reporting/_view/inventory_sold?limit=11&descending=true&group=true&group_level=4&endkey=[%226542320d1d681daf126107d5c624307c%22]&startkey=[%226542320d1d681daf126107d5c624307c%22,2012,1,5]
-// http://localhost:5984/transactions/_design/reporting/_view/inventory_sold?limit=11&descending=true&group=true&group_level=1&endkey=[%226542320d1d681daf126107d5c624307c%22]&startkey=[%226542320d1d681daf126107d5c624307c%22,2012,1,6]

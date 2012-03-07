@@ -1,19 +1,20 @@
-var loginRouter = 
+var loginRouter =
     new (Backbone.Router.extend(
-	     {routes: {			 
+	     {routes: {
 		  "":"reportLogin"
 	      },
 	      reportLogin:function(){
 		  console.log("reportLogin");
 		  var html = ich.layerLogin_TMP({});
 		  $("#main").html(html);
-	      }}));    
+	      }}));
 
 var reportLoginView = Backbone.View.extend(
     {initialize:function(){
 	 var view = this;
 	 _.bindAll(view, 'renderLoginPage');
-	 loginRouter.bind('route:reportLogin', function(){
+	 loginRouter.bind('route:reportLogin',
+			  function(){
 			      console.log('reportLoginView:route:reportLogin');
 			      view.el= _.first($("ids_form"));
 			      view.renderLoginPage();});
@@ -34,11 +35,6 @@ function login() {
     _.log('location_key')(location_key);
     _.log("login_key_form_raw")(login_key_form_raw);
     _.log("user_pass_key")(user_pass_key);
-    
-    var db_install = cdb.db("api");
-    var db_users = cdb.db("layered_login_users");
-    var user_passwordView = appView("user_pass");
-    var branch_show = appShow("branch");
 
     //FIXME : key non-sensitive, perhaps walk or other things will be better
     function toLowerCase(str){
@@ -66,55 +62,46 @@ function login() {
 	.value();
 
     _.log("login key")(login_key);
-    
-    keyQuery(user_passwordView, db_users, login_key)
+
+    var companiesDB = cdb.db('companies');
+    var name_to_id_view = appView("names_to_id");
+    var branch_show = appShow("branch");
+
+    keyQuery(name_to_id_view, companiesDB, _.selectKeys(login_key,'company','group','store'))
     (function (resp){
 	 console.log(resp);
 	 var accountMatches = resp.rows;
-	 if(_.isNotEmpty(accountMatches)) {
-	     var account = {company_id:_.first(resp.rows).value.company,loginTo:_.first(resp.rows).value};
-	     var userDocID = _.first(resp.rows).id;
-	     var currentUser = new RetailerUserDoc({_id:userDocID});
-	     currentUser.fetch({
-	         success:function(model) {
-                 var userJSON = model.toJSON();
-                 var userWithOutPassWord = _.removeKeys(userJSON,'password');
-	             
-	             db_install.show(branch_show,
-                 account.company_id,
-                 {data : account.loginTo,
-                  success:function(data){
-                  if(_.isNotEmpty(account.loginTo.store)) {
-                      var storeData = _.removeKeys(data,'user','password');
-                      ReportData = {store:storeData, companyName:account.loginTo.companyName, company_id:account.loginTo.company, groupName:account.loginTo.groupName, group_id:account.loginTo.group};
-                      _.extend(ReportData,{startPage:"storeReport", currentUser:userWithOutPassWord});
-                      window.location.href = "#storeReport/";
-                      //loginRouter.navigate(ReportData.startPage);
-                  }
-                  else if(_.isNotEmpty(account.loginTo.group)) {
-                      var groupData = _.removeKeys(data,'user','password');
-                      ReportData = {group:groupData, companyName:account.loginTo.companyName, company_id:account.loginTo.company};
-                      _.extend(ReportData,{startPage:"groupReport", currentUser:userWithOutPassWord});
-                      window.location.href = "#groupReport/";
-                  } 
-                  else if(_.isNotEmpty(account.loginTo.company)) {
-                      var companyData = _.removeKeys(data,'user','password');
-                      ReportData = {company:companyData};
-                      _.extend(ReportData,{startPage:"companyReport", currentUser:userWithOutPassWord});
-                      //loginRouter.navigate(ReportData.startPage+"/");
-                      window.location.href = "#companyReport/";
-                  }}});
-                  
-	         }
-	     });
-	     
-     } else {
-	     alert("wrong login info.");
+	 var id_for_user = _.first(resp.rows).value;
+	 if(_.isDefined(id_for_user)){
+	     var user = new UserDoc({name:id_for_user+login_key.user,password:login_key.password});
+	     user.login({
+			    //$.couch.login({name: id_for_user+login_key.user,password:login_key.password,
+			    success:function(user){
+				companiesDB.show(branch_show,
+						 user.get("company_id"),
+						 {data : user.toJSON(),
+						 success:function(data){
+						     if(_.isNotEmpty(user.get('store_id'))) {
+							 ReportData = _.extend(user.toJSON(),{store:data,startPage:"storeReport"});
+							 window.location.href = "#storeReport/";
+						     }
+						     else if(_.isNotEmpty(user.get('group_id'))) {
+							 ReportData = _.extend(user.toJSON(),{group:data, startPage:"groupReport"});
+							 window.location.href = "#groupReport/";
+						     }
+						     else if(_.isNotEmpty(user.get('company_id'))) {
+							 ReportData = _.extend(user.toJSON(),{company:data,startPage:"companyReport"});
+							 window.location.href = "#companyReport/";
+						     }}});
+			    },
+			    error:function(){
+				alert("wrong login info.");
+			    }});
 	 }
      });
-};
-
+}
 function logout() {
     ReportData=null;
+    $.couch.logout();
     window.location.href ='login';
 };

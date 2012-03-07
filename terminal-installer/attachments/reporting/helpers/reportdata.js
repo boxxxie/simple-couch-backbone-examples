@@ -252,7 +252,7 @@ function updateTerminalDropdown(isNotShowAll) {
                       return store.terminals?store.terminals:[]; 
                       }).flatten().value();
     
-    if(terminals.length>0) {
+    if(_.size(terminals)) {
     _.each(terminals, function(terminal) {
            dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
            });  

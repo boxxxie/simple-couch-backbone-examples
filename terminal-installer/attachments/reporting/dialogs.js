@@ -148,6 +148,7 @@ function quickInputUserInfoDialog(html,options) {
              if(_.isEmpty(userInfo.user) || _.isEmpty(userInfo.password)) {
                  alert("Please, fill user/password");
              } else {
+
                  if(options.isCreate && 
                      !(userCollection.findUser((_.str.trim(userInfo.user)).toLowerCase())===undefined)) {
                      alert("User already exists");

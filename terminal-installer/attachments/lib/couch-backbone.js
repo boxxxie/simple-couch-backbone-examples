@@ -1,3 +1,5 @@
+//todo make a user couchdoc that makes editing/changing passwords easy
+
 var couchDoc = Backbone.Model.extend(
     {
         idAttribute: "_id",
@@ -34,14 +36,14 @@ var couchDoc = Backbone.Model.extend(
 	    options.success = function(resp, status, xhr){
 		if (success){success(resp, status, xhr);}
 	    };
-	    var error = options.error;   
+	    var error = options.error;
 	    options.error = function(model, status, xhr){
 		if(status.responseText == '{"error":"not_found","reason":"no_db_file"}'){
 		}
 		if (error){error(model, status, xhr);}
 	    };
 	    Backbone.Model.prototype.save.call(this, attrs, options);
-	},	
+	},
 	destroy:function(options){
 	    options || (options = {});
 	    var model = this;
@@ -77,3 +79,88 @@ var couchCollection = function(couch,options){
 		  }
 		 }));
 };
+
+
+var UserDoc = couchDoc.extend(
+    {
+	db:"_users/",
+	initialize:function(atts){
+	    console.log("user init");
+	    console.log(atts);
+	    var user_prefix = "org.couchdb.user:";
+	    var id_with_prefix = ":" + atts.name;
+	    this.set({"_id":id_with_prefix});
+	},
+	login:function(options){
+	    var user = this;
+	    var name_password = {name: user.get('name'), password: user.get('password')};
+	    $.couch.login(
+		_.extend(name_password,
+			 {success:function(user_login_info){
+			      // fetch the user doc if sign-in is successful
+			      user.fetch({success:function(user_model){
+					      if(options.success){options.success(user_model);}
+					  }});
+			  },
+			  error:function(){
+			      if(options.error){options.error();}
+			  }}));
+	},
+	signup:function(options){
+	    var user = this;
+	    $.couch.signup(_.extend(options,{name: user.id,
+					     password: user.get('password')}));
+	},
+	url:function(){
+	    return this.urlRoot() + "org.couchdb.user" + this.id;
+	}
+    });
+/*
+   $.couch.login({name: id_for_user+login_key.user,password:login_key.password,
+			    success:function(user){
+
+				ReportData = user;
+			    },
+			    error:function(){
+				alert("wrong login info.");
+			    }});
+	 }
+({_id:"org.couchdb.user:"+user.name}))
+	.fetch(
+	    //if we find a user, then this is actually an error and we need to overwrite the user data or alert the actual user as to what to do
+	    {success:function(userModel){
+		 //overwrite the user (but we can't overwrite the password)
+		 if(options.overwrite){
+		     userModel.save(user,options);
+		 }
+		 else{
+		     options.error(1000,"user already exists","there was already a user in this entity(company/group/store) and we are not allowed to overwrite their details");
+		 }
+	     },
+	     //if we don't find a user, then we make a new one (indented action)
+	     error:function(){
+		 $.couch.signup(user,password,options);
+	     }
+	    });
+
+function saveNewUser(user,password,options){
+    (new (couchDoc.extend({db:"_users"}))
+     ({_id:"org.couchdb.user:"+user.name}))
+	.fetch(
+	    //if we find a user, then this is actually an error and we need to overwrite the user data or alert the actual user as to what to do
+	    {success:function(userModel){
+		 //overwrite the user (but we can't overwrite the password)
+		 if(options.overwrite){
+		     userModel.save(user,options);
+		 }
+		 else{
+		     options.error(1000,"user already exists","there was already a user in this entity(company/group/store) and we are not allowed to overwrite their details");
+		 }
+	     },
+	     //if we don't find a user, then we make a new one (indented action)
+	     error:function(){
+		 $.couch.signup(user,password,options);
+	     }
+	    });
+}
+*/
