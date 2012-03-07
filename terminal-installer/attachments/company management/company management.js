@@ -264,7 +264,7 @@ function addStore(companyID, groupID) {
                 storeName:newStore.storeName,
                 storeNumber:newStore.number,
 		roles:["store_admin","store","pos_sales","pos_admin"],
-                name:newStore.user,
+                name:newStore.store_id+newStore.user,
 userName:newStore.user,
 status:"ACTIVE"};
 _.extend(userData,newStore.contact,{address:newStore.address});
