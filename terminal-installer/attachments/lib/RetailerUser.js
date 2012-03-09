@@ -1,5 +1,5 @@
-var RetailerUserDoc = couchDoc.extend({db:"layered_login_users"});
-var CompanyForUser = couchDoc.extend({db:"install",
+var RetailerUserDoc = couchDoc.extend({db:"_users"});
+var CompanyForUser = couchDoc.extend({db:"companies",
                                       getGroups:function(){
                                           return this.get('hierarchy').groups;
                                       },
@@ -41,17 +41,16 @@ function sortStoresByNum(stores){
 };
 
 var RetailerUserCollection = couchCollection(
-    {db:'layered_login_users'},
+    {db:'_users'},
     {model:RetailerUserDoc,
      findUser : function(userName) {
-         var list = this.toJSON();
-         return this.find(function(model){return (model.get("user")).toLowerCase() == userName.toLowerCase();});
+         return this.find(function(model){return (model.get("userName")).toLowerCase() == userName.toLowerCase();});
      }
     });
 
 function fetchRetailerUserCollection(id) {
     return function(callback){
-        queryF(cdb.view("app","lowestlevel_id_doc"), cdb.db("layered_login_users"))
+        queryF(cdb.view("app","lowestlevel_id_doc"), cdb.db("_users"))
         ({key:id})
         (function(response){
              var user_collection = new RetailerUserCollection();
@@ -65,7 +64,7 @@ function fetchRetailerUserCollection(id) {
 
 function fetchRetailerUserCollection_All(id) {
     return function(callback){
-        queryF(cdb.view("app","id_doc"), cdb.db("layered_login_users"))
+        queryF(cdb.view("app","id_doc"), cdb.db("_users"))
         ({key:id})
         (function(response){
              var user_collection = new RetailerUserCollection();
@@ -77,10 +76,33 @@ function fetchRetailerUserCollection_All(id) {
     };
 };
 
-
-function fetchRetailerUserCollection_Report(id, userDocID) {
+function fetchRetailerUserCollection_Report(id, reportData) {
     return function(callback){
-        var userModel = new RetailerUserDoc({_id:userDocID});
+        if(_.isNotEmpty(reportData.company)) {
+            if(_.contains(reportData.currentUser.roles,"company_admin")) {
+                queryF(cdb.view("app","lowestlevel_id_doc"), cdb.db("_users"))
+                    ({key:id})
+                    (function(response){
+                     var user_collection = new RetailerUserCollection();
+                     _.reduce(response.rows, function(collection,item){
+                              return collection.add(item.value, {silent:true});
+                          },user_collection);
+                     callback(null,user_collection);
+                     });
+            } else {
+                var user_collection = new RetailerUserCollection();
+                    user_collection.add(reportData.currentUser, {silent:true});
+                    callback(null,user_collection);
+            }
+        } else if(_.isNotEmpty(reportData.group)) {
+            
+        } else if(_.isNotEmpty(reportData.store)) {
+            
+        } else {
+            
+        }
+        /*
+        var userModel = new RetailerUserDoc({_id:"org.couchdb.user:" + userName});
         userModel.fetch({
 			    success:function(model) {
 				var userJSON = model.toJSON();
@@ -104,5 +126,22 @@ function fetchRetailerUserCollection_Report(id, userDocID) {
 				
 			    }
 			});
+		*/
     };
 };
+
+function isBackOfficeAdminUser(user) {
+    var list_name = _.compact([user.companyName, user.groupName, user.storeName]);
+    switch(_.size(list_name)) {
+        case 1: // company level backoffice user
+            return _.contains(user.roles,"company_admin");
+            break;
+        case 2: // group level backoffice user
+            return _.contains(user.roles,"group_admin");
+            break;
+        case 3: // store level backoffice user
+            return _.contains(user.roles,"store_admin");
+            break;
+    }
+    return false;
+}

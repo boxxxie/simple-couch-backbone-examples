@@ -157,9 +157,9 @@ function addCompany(collection) {
 			    company_id:companyModel.id,
 			    roles:["company_admin","company","store","group","pos_sales","pos_admin"],
 			    name:companyModel.id + companyModel.get("user"),
-userName:companyModel.get("user"),
+                userName:companyModel.get("user"),
 				status:"ACTIVE"};
-_.extend(user,companyModel.get('contact'),{address:companyModel.get('address')});
+            _.extend(user,companyModel.get('contact'),{address:companyModel.get('address'), creationdate:new Date()});
 			var password = companyModel.get("password");
 			saveNewUser(user,password,
 				    {success:
@@ -222,7 +222,7 @@ function addGroup(companyID) {
                 name:newGroup.group_id + newGroup.user,
 userName:newGroup.user,
 status:"ACTIVE"};
-_.extend(userData,newGroup.contact,{address:newGroup.address});
+_.extend(userData,newGroup.contact,{address:newGroup.address, creationdate:new Date()});
             var password = newGroup.password;
 	    saveNewUser(userData,password);
 	},
@@ -267,7 +267,7 @@ function addStore(companyID, groupID) {
                 name:newStore.store_id+newStore.user,
 userName:newStore.user,
 status:"ACTIVE"};
-_.extend(userData,newStore.contact,{address:newStore.address});
+_.extend(userData,newStore.contact,{address:newStore.address, creationdate:new Date()});
 	    var password = newStore.password;
 	    saveNewUser(userData,password);
 

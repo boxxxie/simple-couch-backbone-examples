@@ -234,8 +234,16 @@
       <center><button id='edit-{{_id}}'>Edit</button></center>
     </script>
     
+    <script id="quickEditViewButtonByName_P" class="partial" type="text/html">
+      <center><button id='edit-{{name}}'>Edit</button></center>
+    </script>
+    
     <script id="quickDeleteViewButton_P" class="partial" type="text/html">
       <center><button id='del-{{_id}}'>Delete</button></center>
+    </script>
+    
+    <script id="quickDeleteViewButtonByName_P" class="partial" type="text/html">
+      <center><button id='del-{{name}}'>Delete</button></center>
     </script>
     
     <script id="generalGoButton_P" class="partial" type="text/html">
@@ -810,7 +818,7 @@
       <thead>
         <tr>
           <th>USER</th>
-          <th>PASSWORD</th>
+          <th>NAME</th>
           <th>STATUS</th>
           <th>EDIT</th>
           <th>DELETE</th>
@@ -819,11 +827,11 @@
       <tbody>
         {{#list}}
         <tr>
-          <td align="center">{{user}}</td>
-          <td align="center">{{password}}</td>
+          <td align="center">{{userName}}</td>
+          <td align="center">{{firstname}} {{lastname}}</td>
           <td align="center">{{status}}</td>
-          <td>{{>quickEditViewButton_P}}</td>
-          <td>{{>quickDeleteViewButton_P}}</td>
+          <td>{{>quickEditViewButtonByName_P}}</td>
+          <td>{{>quickDeleteViewButtonByName_P}}</td>
         </tr>
         {{/list}}
       </tbody>
@@ -2872,7 +2880,10 @@
 	    {{#list}}
 	    <tr>
 	      <td>{{companyName}}</td>
-	      <td><a href="#{{startPage}}/group/{{group_id}}/stores">{{groupName}}</a></td>
+	      <td>
+	          <a href="#{{startPage}}/group/{{group_id}}/stores">{{groupName}}</a>
+	          <a href="#{{startPage}}/group/{{group_id}}/admins">(Users)</a>
+	      </td>
 	      <td>{{numberOfStores}}</td>
 	      <td>{{numberOfTerminals}}</td>
 	      <td align="right">{{yesterdaysales}}</td>
@@ -2913,7 +2924,10 @@
 	    <tr>
 	      <td>{{companyName}}</td>
 	      <td>{{groupName}}</td>
-	      <td><a href="#{{startPage}}/store/{{store_id}}/terminals">{{storeName}}</a></td>
+	      <td>
+	          <a href="#{{startPage}}/store/{{store_id}}/terminals">{{storeName}}</a>
+	          <a href="#{{startPage}}/store/{{store_id}}/admins">(Users)</a>
+          </td>
 	      <td>{{storeNumber}}</td>
 	      <td>{{numberOfTerminals}}</td>
 	      <td align="right">{{yesterdaysales}}</td>

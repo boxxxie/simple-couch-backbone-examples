@@ -82,15 +82,15 @@ function login() {
 						 {data : user.toJSON(),
 						 success:function(data){
 						     if(_.isNotEmpty(user.get('store_id'))) {
-							 ReportData = _.extend(user.toJSON(),{store:data,startPage:"storeReport"});
+							 ReportData = _.extend({currentUser:_.removeKeys(user.toJSON(),'password')},{store:data,startPage:"storeReport"});
 							 window.location.href = "#storeReport/";
 						     }
 						     else if(_.isNotEmpty(user.get('group_id'))) {
-							 ReportData = _.extend(user.toJSON(),{group:data, startPage:"groupReport"});
+							 ReportData = _.extend({currentUser:_.removeKeys(user.toJSON(),'password')},{group:data, startPage:"groupReport"});
 							 window.location.href = "#groupReport/";
 						     }
 						     else if(_.isNotEmpty(user.get('company_id'))) {
-							 ReportData = _.extend(user.toJSON(),{company:data,startPage:"companyReport"});
+							 ReportData = _.extend({currentUser:_.removeKeys(user.toJSON(),'password')},{company:data,startPage:"companyReport"});
 							 window.location.href = "#companyReport/";
 						     }}});
 			    },
