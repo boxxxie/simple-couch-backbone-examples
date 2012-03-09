@@ -1,4 +1,4 @@
-var RetailerUserDoc = couchDoc.extend({db:"_users"});
+var RetailerUserDoc = UserDoc; //couchDoc.extend({db:"_users"});
 var CompanyForUser = couchDoc.extend({db:"companies",
                                       getGroups:function(){
                                           return this.get('hierarchy').groups;
@@ -76,59 +76,6 @@ function fetchRetailerUserCollection_All(id) {
     };
 };
 
-function fetchRetailerUserCollection_Report(id, reportData) {
-    return function(callback){
-        if(_.isNotEmpty(reportData.company)) {
-            if(_.contains(reportData.currentUser.roles,"company_admin")) {
-                queryF(cdb.view("app","lowestlevel_id_doc"), cdb.db("_users"))
-                    ({key:id})
-                    (function(response){
-                     var user_collection = new RetailerUserCollection();
-                     _.reduce(response.rows, function(collection,item){
-                              return collection.add(item.value, {silent:true});
-                          },user_collection);
-                     callback(null,user_collection);
-                     });
-            } else {
-                var user_collection = new RetailerUserCollection();
-                    user_collection.add(reportData.currentUser, {silent:true});
-                    callback(null,user_collection);
-            }
-        } else if(_.isNotEmpty(reportData.group)) {
-            
-        } else if(_.isNotEmpty(reportData.store)) {
-            
-        } else {
-            
-        }
-        /*
-        var userModel = new RetailerUserDoc({_id:"org.couchdb.user:" + userName});
-        userModel.fetch({
-			    success:function(model) {
-				var userJSON = model.toJSON();
-				if(userJSON.role=="MASTERADMIN") {
-				    queryF(cdb.view("app","lowestlevel_id_doc"), cdb.db("layered_login_users"))
-				    ({key:id})
-				    (function(response){
-					 var user_collection = new RetailerUserCollection();
-					 _.reduce(response.rows, function(collection,item){
-						      return collection.add(item.value, {silent:true});
-						  },user_collection);
-					 callback(null,user_collection);
-				     });
-				} else {
-				    var user_collection = new RetailerUserCollection();
-				    user_collection.add(userJSON, {silent:true});
-				    callback(null,user_collection);
-				}
-			    },
-			    error:function() {
-				
-			    }
-			});
-		*/
-    };
-};
 
 function isBackOfficeAdminUser(user) {
     var list_name = _.compact([user.companyName, user.groupName, user.storeName]);
