@@ -111,8 +111,8 @@ var UserDoc = couchDoc.extend(
 	    $.couch.signup(_.extend(options,{name: user.id,
 					     password: user.get('password')}));
 	},
-	url:function(){
-	    return this.urlRoot() + "org.couchdb.user" + this.id;
+	url:function(){ //i don't think this is used (looking at how the init method workds)
+	    return this.urlRoot() + "org.couchdb.user:" + this.id;
 	}
     });
 /*
