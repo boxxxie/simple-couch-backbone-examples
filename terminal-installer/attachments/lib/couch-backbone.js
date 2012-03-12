@@ -88,8 +88,8 @@ var UserDoc = couchDoc.extend(
 	    console.log("user init");
 	    console.log(atts);
 	    var user_prefix = "org.couchdb.user:";
-	    var id_with_prefix = ":" + atts.name;
-	    this.set({"_id":id_with_prefix});
+	    var id_with_prefix =":" + atts.name;
+        this.set({"_id":id_with_prefix});
 	},
 	login:function(options){
 	    var user = this;
