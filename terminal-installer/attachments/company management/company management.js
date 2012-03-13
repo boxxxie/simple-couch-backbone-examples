@@ -218,7 +218,7 @@ function addGroup(companyID) {
                 company_id:company.get("_id"),
                 groupName:newGroup.groupName,
                 group_id:newGroup.group_id,
-		roles:["group_admin","store","group","pos_sales,pos_admin"],
+		roles:["group_admin","store","group","pos_sales","pos_admin"],
                 name:newGroup.group_id + newGroup.user,
 userName:newGroup.user,
 status:"ACTIVE"};
