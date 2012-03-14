@@ -157,9 +157,9 @@ function addCompany(collection) {
 			    company_id:companyModel.id,
 			    roles:["company_admin","company","store","group","pos_sales","pos_admin"],
 			    name:companyModel.id + companyModel.get("user"),
-                userName:companyModel.get("user"),
-				status:"ACTIVE"};
-            _.extend(user,companyModel.get('contact'),{address:companyModel.get('address'), creationdate:new Date()});
+			    userName:companyModel.get("user"),
+			    status:"ACTIVE"};
+			_.extend(user,companyModel.get('contact'),companyModel.get('address'), {creationdate:new Date()});
 			var password = companyModel.get("password");
 			saveNewUser(user,password,
 				    {success:
@@ -220,9 +220,9 @@ function addGroup(companyID) {
                 group_id:newGroup.group_id,
 		roles:["group_admin","store","group","pos_sales","pos_admin"],
                 name:newGroup.group_id + newGroup.user,
-userName:newGroup.user,
-status:"ACTIVE"};
-_.extend(userData,newGroup.contact,{address:newGroup.address, creationdate:new Date()});
+		userName:newGroup.user,
+		status:"ACTIVE"};
+	    _.extend(userData,newGroup.contact,newGroup.address, {creationdate:new Date()});
             var password = newGroup.password;
 	    saveNewUser(userData,password);
 	},
@@ -265,9 +265,9 @@ function addStore(companyID, groupID) {
                 storeNumber:newStore.number,
 		roles:["store_admin","store","pos_sales","pos_admin"],
                 name:newStore.store_id+newStore.user,
-userName:newStore.user,
-status:"ACTIVE"};
-_.extend(userData,newStore.contact,{address:newStore.address, creationdate:new Date()});
+		userName:newStore.user,
+		status:"ACTIVE"};
+	    _.extend(userData,newStore.contact,newStore.address, {creationdate:new Date()});
 	    var password = newStore.password;
 	    saveNewUser(userData,password);
 
@@ -444,96 +444,96 @@ function doc_setup() {
     Companies.fetch({error:function(response){alert(response.responseText);}});
 
     var AppRouter = new (Backbone.Router.extend(
-			     {
-				 routes: {
-				     "":"companyManagementHome",
-				     "company/:_id": "modifyCompany",
-				     "company/:_id/groups": "groupsManager" ,
-				     "company/:_id/groups/:group_id": "modifyGroup",
-				     "company/:_id/groups/:group_id/stores": "storesManager" ,
-				     "company/:_id/groups/:group_id/stores/:storeName": "modifyStore",
-				     "company/:_id/groups/:group_id/stores/:storeName/terminals": "terminalsManager",
-				     "company/:_id/groups/:group_id/stores/:storeName/terminals/:terminalID": "modifyTerminal"
-				 },
-				 companyManagementHome:function(){
-				     console.log("companyManagementHome");
-				     var html = ich.company_management_page_TMP({createButtonLabel:"New Company"});
-				     //TODO this should be refactored out to a render function
-				     $('#main').html(html);
-				     $("#create-dialog")
-					 .html(ich.companyInputDialog_TMP(
-						   {title:"Make a new Company",
-						    company:{address:{},contact:{}}}));
-				     CompanyCreateDialog("create-thing",addCompany(Companies));
-				 },
-				 modifyCompany:function(id){
-				     console.log("modifyCompanies: " + id);
-				 },
-				 groupsManager:function(companyID){
-				     console.log("groupsManager: " + companyID);
-				     var company = Companies.getModelById(companyID);
-				     company.unbind('change');
-				     var companyJSON = company.toJSON();
-				     var html = ich.group_management_page_TMP(_.extend({createButtonLabel:"New Group",
-											company:companyJSON},
-										       breadCrumb(companyID)));
-				     $("#main").html(html);
-				     $("#create-dialog")
-					 .html(ich.groupInputDialog_TMP(
-						   {title:"Make a new Group",
-						    group:{address:companyJSON.address,contact:companyJSON.contact}}));
-				     GroupCreateDialog("create-thing",addGroup(companyID));
-				 },
-				 modifyGroup:function(companyID, groupID){
-				     console.log("modifyGroup: " + companyID + " " + groupID);
-				 },
-				 storesManager:function(companyID, groupID){
-				     console.log("storesManager: " + companyID + " , " + groupID);
-				     var company = Companies.getModelById(companyID);
-				     company.unbind('change');
-				     var companyJSON = company.toJSON();
-				     var stores = company.getStores(groupID);
-				     var stores_w_ids = _.map(stores,function(store){return _.extend(store,{company_id:companyJSON._id});});
-				     var html = ich.store_management_page_TMP(_.extend({createButtonLabel:"New Store",
-											company:companyJSON.operationalname,
-											company_id:company.get('_id'),
-											groupName:company.getGroup(groupID).groupName},
-										       breadCrumb(companyID,groupID)));
-				     $("#main").html(html);
-				     $("#create-dialog")
-					 .html(ich.storeInputDialog_TMP(
-						   {title:"Make a new Store",
-						    store:{address:{}, contact:{}}}));
-				     StoreCreateDialog("create-thing", _.extend(addStore(companyID,groupID),{company:company, groupID:groupID} ));
-				 },
-				 modifyStore:function(companyID, groupID, storeID){
-				     console.log("modifyStore: " + companyID + " " + groupID + " " + storeID);
+			   {
+			       routes: {
+				   "":"companyManagementHome",
+				   "company/:_id": "modifyCompany",
+				   "company/:_id/groups": "groupsManager" ,
+				   "company/:_id/groups/:group_id": "modifyGroup",
+				   "company/:_id/groups/:group_id/stores": "storesManager" ,
+				   "company/:_id/groups/:group_id/stores/:storeName": "modifyStore",
+				   "company/:_id/groups/:group_id/stores/:storeName/terminals": "terminalsManager",
+				   "company/:_id/groups/:group_id/stores/:storeName/terminals/:terminalID": "modifyTerminal"
+			       },
+			       companyManagementHome:function(){
+				   console.log("companyManagementHome");
+				   var html = ich.company_management_page_TMP({createButtonLabel:"New Company"});
+				   //TODO this should be refactored out to a render function
+				   $('#main').html(html);
+				   $("#create-dialog")
+				       .html(ich.companyInputDialog_TMP(
+						 {title:"Make a new Company",
+						  company:{address:{},contact:{}}}));
+				   CompanyCreateDialog("create-thing",addCompany(Companies));
+			       },
+			       modifyCompany:function(id){
+				   console.log("modifyCompanies: " + id);
+			       },
+			       groupsManager:function(companyID){
+				   console.log("groupsManager: " + companyID);
+				   var company = Companies.getModelById(companyID);
+				   company.unbind('change');
+				   var companyJSON = company.toJSON();
+				   var html = ich.group_management_page_TMP(_.extend({createButtonLabel:"New Group",
+										    company:companyJSON},
+										   breadCrumb(companyID)));
+				   $("#main").html(html);
+				   $("#create-dialog")
+				       .html(ich.groupInputDialog_TMP(
+						 {title:"Make a new Group",
+						  group:{address:companyJSON.address,contact:companyJSON.contact}}));
+				   GroupCreateDialog("create-thing",addGroup(companyID));
+			       },
+			       modifyGroup:function(companyID, groupID){
+				   console.log("modifyGroup: " + companyID + " " + groupID);
+			       },
+			       storesManager:function(companyID, groupID){
+				   console.log("storesManager: " + companyID + " , " + groupID);
+				   var company = Companies.getModelById(companyID);
+				   company.unbind('change');
+				   var companyJSON = company.toJSON();
+				   var stores = company.getStores(groupID);
+				   var stores_w_ids = _.map(stores,function(store){return _.extend(store,{company_id:companyJSON._id});});
+				   var html = ich.store_management_page_TMP(_.extend({createButtonLabel:"New Store",
+										    company:companyJSON.operationalname,
+										    company_id:company.get('_id'),
+										    groupName:company.getGroup(groupID).groupName},
+										   breadCrumb(companyID,groupID)));
+				   $("#main").html(html);
+				   $("#create-dialog")
+				       .html(ich.storeInputDialog_TMP(
+						 {title:"Make a new Store",
+						  store:{address:{}, contact:{}}}));
+				   StoreCreateDialog("create-thing", _.extend(addStore(companyID,groupID),{company:company, groupID:groupID} ));
+			       },
+			       modifyStore:function(companyID, groupID, storeID){
+				   console.log("modifyStore: " + companyID + " " + groupID + " " + storeID);
 
-				 },
-				 terminalsManager:function(companyID, groupID, storeID){
-				     console.log("terminalsManager: " + companyID + " " + groupID + " " + storeID);
-				     var company = Companies.getModelById(companyID);
-				     company.unbind('change');
-				     var companyJSON = company.toJSON();
-				     var store = company.getStore(groupID,storeID);
-				     var terminals = store.terminals;
-				     var html = ich.terminal_management_page_TMP(
-					 _.extend({createButtonLabel:"New Terminal",
-						   operationalname:company.get('operationalname'),
-						   company_id:company.get('_id'),
-						   groupName:company.getGroup(groupID).groupName,
-						   storeName:store.storeName},
-						  breadCrumb(companyID,groupID,storeID)));
-				     $("#main").html(html);
-				     $("#create-dialog")
-					 .html(ich.terminalInputDialog_TMP(
-						   {title:"Make a new Terminal",terminal:{}}));
-				     TerminalCreateDialog("create-thing",addTerminal(companyID,groupID,storeID));
-				 },
-				 modifyTerminal:function(companyID, groupID, storeID,terminalID){
-				     console.log("modifyterminal: " + companyID + " " + groupID + " " + storeID + " " + terminalID);
-				 }
-			     }));
+			       },
+			       terminalsManager:function(companyID, groupID, storeID){
+				   console.log("terminalsManager: " + companyID + " " + groupID + " " + storeID);
+				   var company = Companies.getModelById(companyID);
+				   company.unbind('change');
+				   var companyJSON = company.toJSON();
+				   var store = company.getStore(groupID,storeID);
+				   var terminals = store.terminals;
+				   var html = ich.terminal_management_page_TMP(
+				       _.extend({createButtonLabel:"New Terminal",
+						 operationalname:company.get('operationalname'),
+						 company_id:company.get('_id'),
+						 groupName:company.getGroup(groupID).groupName,
+						 storeName:store.storeName},
+						breadCrumb(companyID,groupID,storeID)));
+				   $("#main").html(html);
+				   $("#create-dialog")
+				       .html(ich.terminalInputDialog_TMP(
+						 {title:"Make a new Terminal",terminal:{}}));
+				   TerminalCreateDialog("create-thing",addTerminal(companyID,groupID,storeID));
+			       },
+			       modifyTerminal:function(companyID, groupID, storeID,terminalID){
+				   console.log("modifyterminal: " + companyID + " " + groupID + " " + storeID + " " + terminalID);
+			       }
+			   }));
     companiesView =
 	Backbone.View.extend(
 	    {
@@ -583,8 +583,8 @@ function doc_setup() {
 		    var company = Companies.getModelById(id);
 		    var companyJSON = company.toJSON();
 		    var html = ich.modify_company_page_TMP(_.extend({company : companyJSON,
-								     company_id : id},
-								    breadCrumb(id)));
+								   company_id : id},
+								  breadCrumb(id)));
 		    $("#main").html(html);
 		    $('#form').find('input').attr("disabled", true);
 		    $("#dialog-hook").html(ich.companyInputDialog_TMP({title : "Edit the Company",
@@ -786,14 +786,14 @@ function doc_setup() {
 		    var group = company.getGroup(groupID);
 		    var storeToEdit = company.getStore(groupID, storeID);
 		    var html = ich.modify_store_page_TMP(_.extend({
-								      operationalname : company.get('operationalname'),
-								      company_id : company.get("_id"),
-								      group_id : group.group_id,
-								      groupName : group.groupName,
-								      storeName : storeToEdit.storeName,
-								      store_id : storeToEdit.store_id,
-								      store : storeToEdit
-								  }, breadCrumb(companyID, groupID, storeID)));
+								    operationalname : company.get('operationalname'),
+								    company_id : company.get("_id"),
+								    group_id : group.group_id,
+								    groupName : group.groupName,
+								    storeName : storeToEdit.storeName,
+								    store_id : storeToEdit.store_id,
+								    store : storeToEdit
+								}, breadCrumb(companyID, groupID, storeID)));
 		    $("#main").html(html);
 		    $('#form').find('input').attr("disabled", true);
 		    $("#dialog-hook").html(ich.storeInputDialog_TMP({
@@ -863,13 +863,13 @@ function doc_setup() {
 		    var company = Companies.getModelById(companyID);
 		    var terminalToEdit = company.getTerminal(groupID, storeID, terminalID);
 		    var html = ich.modify_terminal_page_TMP(_.extend({
-									 terminal : terminalToEdit
-								     }, breadCrumb(companyID, groupID, storeID, terminalID), {
-									 terminal_id : terminalID,
-									 store_id : storeID,
-									 group_id : groupID,
-									 company_id : companyID
-								     }));
+								       terminal : terminalToEdit
+								   }, breadCrumb(companyID, groupID, storeID, terminalID), {
+								       terminal_id : terminalID,
+								       store_id : storeID,
+								       group_id : groupID,
+								       company_id : companyID
+								   }));
 		    $("#main").html(html);
 		    $('#form').find('input').attr("disabled", true);
 		    $("#dialog-hook").html(ich.terminalInputDialog_TMP({
