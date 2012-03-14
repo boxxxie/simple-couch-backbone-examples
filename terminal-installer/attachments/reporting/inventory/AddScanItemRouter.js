@@ -1,4 +1,4 @@
-var menuInventoryaddScanItemRouter = 
+var menuInventoryaddScanItemRouter =
     new (Backbone.Router.extend(
 	     {routes: {
 		  "menuInventory/addScanItem":"_setup"
@@ -9,7 +9,7 @@ var menuInventoryaddScanItemRouter =
 		  var invItem = new InventoryDoc();
 		  var id = topLevelEntity(ReportData).id;
 		  invItem.cid = id;
-		  this.views = [ 
+		  this.views = [
 		      new upc_code_input_view({model:invItem}).setElement("#upc_search",true),
 		      new inv_display_view({model:invItem}).setElement("#item_display")
 		  ];
@@ -17,7 +17,7 @@ var menuInventoryaddScanItemRouter =
 	     }));
 
 
-var upc_code_input_view = 
+var upc_code_input_view =
     Backbone.View.extend(
 	{
 	    events:{
@@ -51,7 +51,7 @@ var upc_code_input_view =
 	}
     );
 
-var inv_display_view = 
+var inv_display_view =
     Backbone.View.extend(
 	{
 	    initialize:function(){
@@ -65,7 +65,7 @@ var inv_display_view =
 		this.$el.html(ich.inventoryForm_TMP(tmpData));
 	    },
 	    _disableSubmitButton:function(){
-		this.$el.find("input,button").attr("disabled", true); 
+		this.$el.find("input,button").attr("disabled", true);
 	    },
 	    _saveItemsAndLog:function(callback){
 		var view = this;
@@ -74,7 +74,7 @@ var inv_display_view =
 		    var formObj = varFormGrabber($("#inv_form"));
 		    var upc = $("#upc").val();
 		    var invObj = _.extend(formObj,{upccode:upc,
-						   date:new Date()});
+						 date:new Date()});
 
 		    var allStores = extractStores(ReportData);
 		    var allGroups = extractGroups(ReportData);
@@ -122,32 +122,32 @@ var inv_display_view =
 		this._submitButtonClick(
 		    this._saveItemsAndLog
 		    (function(err,savedInv){
-		     var parents = getParentsInfo(ReportData);
-		     var pInfo = [parents.company, parents.group, parents.store];
-		     var ids = _(pInfo).chain()
-                          .compact()
-                          .mapRenameKeys("id","location_id")
-                          .map(function(item){
-                            return _(item).selectKeys('location_id','label','type');
-                          })
-                          .value();
+			 var parents = getParentsInfo(ReportData);
+			 var pInfo = [parents.company, parents.group, parents.store];
+			 var ids = _(pInfo).chain()
+                             .compact()
+                             .mapRenameKeys("id","location_id")
+                             .map(function(item){
+				      return _(item).selectKeys('location_id','label','type');
+				  })
+                             .value();
 
-            var inv = _.chain(savedInv)
-                     .selectKeys('date','upccode','description','price')
-                     .value();
-		     
+			 var inv = _.chain(savedInv)
+			     .selectKeys('date','upccode','description','price')
+			     .value();
+
 			 if(err === undefined){
 			     alert(savedInv.description + " has been added");
 			 }
 			 //save the review doc anyway, even if there are errors saving the original document
 			 var invItemForReview = new InventoryReviewDoc({ids:ids, inventory:inv});
-             invItemForReview.save(); //this will conflict sometimes, it's ok
+			 invItemForReview.save(); //this will conflict sometimes, it's ok
 		     })
 		);
 	    },
 	    displayItem:function(model){
-		this._renderItem(model, 
-				 model.get("description") + 
+		this._renderItem(model,
+				 model.get("description") +
 				 " is already in your inventory. It can not be added again.");
 		this._disableSubmitButton();
 	    }

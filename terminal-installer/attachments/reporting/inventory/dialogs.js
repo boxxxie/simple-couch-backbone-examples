@@ -1,7 +1,7 @@
 function menuInventoryApplyStoresViewDialog (dialog_html,options) {
 
     var form = $(dialog_html).find("#formInventoryApplystores");
-    var d = $("#dialog-quickView");    	
+    var d = $("#dialog-quickView");
     d.html(dialog_html);
     d.find("#applyToAll").change(
 	function(){
@@ -12,7 +12,7 @@ function menuInventoryApplyStoresViewDialog (dialog_html,options) {
 		$(form).find("input").removeAttr('disabled');
 	    }
 	});
-    
+
     var dialogOptions = _.extend(
 	{autoOpen: false,
 	 height: 450,
@@ -29,15 +29,18 @@ function menuInventoryApplyStoresViewDialog (dialog_html,options) {
 		     //user clicked apply button and there was nothing selected... do nothing
 		     console.log("The price change will not be applied to any stores in this company");
 		 }
-		 else if (applyToAllStores || 
+		 else if (applyToAllStores ||
 			  _.size(checkedStores) == _.size(stores)){
 		     //this needs to be used in the below function as well
-     
+
 		     console.log("The price change will be applied to all stores in this company");
-		     //options.makeButtons(stores.concat(parents));
+		     function safe_parents(parents){
+			 if(parents){return parents}
+			 return [];
+		     }
 		     options.makeButtons(_.chain(stores)
 					 .concat(groupsFromStoreSets(stores,groups,ReportData))
-					 .concat(parents)
+					 .concat(safe_parents(parents))
 					 .unique(false,function(item){return item.id;})
 					 .value());
 		 }
@@ -62,7 +65,7 @@ function menuInventoryApplyStoresViewDialog (dialog_html,options) {
 	 },
 	 title:options.title
 	},_.clone(options));
-    
+
     d.dialog(dialogOptions);
     d.dialog("open");
 };
