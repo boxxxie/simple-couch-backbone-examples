@@ -24,7 +24,7 @@ ddoc.rewrites = [
     {from: "layered_login_users/*", to: "../../../layered_login_users/*"},
     {from: "companies/*", to: "../../../companies/*"},
     {from: "_users/*", to: "../../../_users/*"},
-    {from: "/", to:'index.html'},
+    {from: "/", to:'reporting/report.html'},
     {from: "/api", to:'../../'},
     {from: "/api/*", to:'../../*'},
     {from: "/*", to:'*'}
