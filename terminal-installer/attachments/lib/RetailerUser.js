@@ -48,16 +48,12 @@ var RetailerUserCollection = couchCollection(
      }
     });
 
-function fetchRetailerUserCollection(id) {
+function fetch_users_by_location_id(id) {
     return function(callback){
-        queryF(cdb.view("app","lowestlevel_id_doc"), cdb.db("_users"))
-        ({key:id})
+        queryF(cdb.view("app","lowestlevel_id"), cdb.db("_users"))
+        ({key:id,include_docs:true})
         (function(response){
-             var user_collection = new RetailerUserCollection();
-             _.reduce(response.rows, function(collection,item){
-			  return collection.add(item.value, {silent:true});
-                      },user_collection);
-             callback(null,user_collection);
+             callback(null,_.pluck(response.rows,'doc'));
          });
     };
 };

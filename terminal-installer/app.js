@@ -21,7 +21,6 @@ ddoc.rewrites = [
     {from: "menus_corp/*", to: "../../../menus_corp/*"},
     {from: "menu_buttons/*", to: "../../../menu_buttons/*"},
     {from: "rewards_rt7/*", to: "../../../rewards_rt7/*"},
-    {from: "layered_login_users/*", to: "../../../layered_login_users/*"},
     {from: "companies/*", to: "../../../companies/*"},
     {from: "_users/*", to: "../../../_users/*"},
     {from: "/", to:'reporting/report.html'},

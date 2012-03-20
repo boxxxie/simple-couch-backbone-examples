@@ -71,7 +71,9 @@ function login() {
     (function (resp){
 	 console.log(resp);
 	 var accountMatches = resp.rows;
-	 var id_for_user = _.first(resp.rows).value;
+	 if(_.isNotEmpty(resp.rows)){
+	     var id_for_user = _.first(resp.rows).value;
+	 }
 	 if(_.isDefined(id_for_user)){
 	     var user = new UserDoc({name:id_for_user+login_key.user,password:login_key.password});
 	     user.login({
@@ -97,6 +99,9 @@ function login() {
 			    error:function(){
 				alert("wrong login info.");
 			    }});
+	 }
+	 else{
+	     alert("There was a problem logging in, check your user name/password");
 	 }
      });
 }
