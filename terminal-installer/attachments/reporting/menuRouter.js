@@ -138,7 +138,7 @@ var menuSetMenusView =
 	 	 var menuscreentitle;
 	 	 
 	 	 if(model==0 || model==5) {
-	 	     menuscreentitle = "MODIFIERS";
+	 	     menuscreentitle = "MODIFIERS".concat(model==5?"2":"");
 	 	 } else {
 	 	     var header = menuModel.get_header(model);
 	 	     menuscreentitle = "".concat(header.description1)
@@ -166,7 +166,7 @@ var menuSetMenusView =
 		 
 		 var menuscreentitle;
 		 if(item.display.screen==0 || item.display.screen==5) {
-	 	     menuscreentitle = "MODIFIERS";
+	 	     menuscreentitle = "MODIFIERS".concat(item.display.screen==5?"2":"");
 	 	 } else {
 	 	     var header = menuModel.get_header(item.display.screen);
 	 	     menuscreentitle = "".concat(header.description1)
