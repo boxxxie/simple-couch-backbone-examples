@@ -61,6 +61,11 @@ var menuSetMenusView =
 				 view.renderMenuScreenPartial(0);
 				 $("#menusetmenusright").html({});
 			     });
+	      $("#menumodifiersbutton2").button()
+              .click(function(){
+                 view.renderMenuScreenPartial(5);
+                 $("#menusetmenusright").html({});
+                 });
 		  $("#menueditheader1").button()
 		      .click(function(){
 				 renderEditHeader(1);
@@ -132,7 +137,7 @@ var menuSetMenusView =
 	 	 console.log("screen num : " + model);
 	 	 var menuscreentitle;
 	 	 
-	 	 if(model==0) {
+	 	 if(model==0 || model==5) {
 	 	     menuscreentitle = "MODIFIERS";
 	 	 } else {
 	 	     var header = menuModel.get_header(model);
@@ -160,7 +165,7 @@ var menuSetMenusView =
 		 console.log("screen num : " + item.display.screen);
 		 
 		 var menuscreentitle;
-		 if(item.display.screen==0) {
+		 if(item.display.screen==0 || item.display.screen==5) {
 	 	     menuscreentitle = "MODIFIERS";
 	 	 } else {
 	 	     var header = menuModel.get_header(item.display.screen);
