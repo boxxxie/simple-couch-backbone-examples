@@ -24,7 +24,7 @@ function jodaDatePartFormatter(dateString){
     return datePartFormatter(jodaDateParser(dateString));
 }
 
-function doc_setup() {che
+function doc_setup() {
     var ts = $("#timespace");
     $(document)
     .everyTime("1s",
