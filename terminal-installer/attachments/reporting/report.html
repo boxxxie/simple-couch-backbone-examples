@@ -305,61 +305,7 @@
       </div>
     </script>
     
-    <script id="addressFields_P" class="partial" type="text/html">
-      <h2>Address</h2>
-      <ul>
-	<li>
-	  Address 1
-	  <input type="text" id="address.street0" var="street0" value="{{street0}}" class="text ui-widget-content ui-corner-all" />
-	</li>
-	<li>
-	  Address 2
-	  <input type="text" id="address.street1" var="street1" value="{{street1}}" class="text ui-widget-content ui-corner-all" />
-	</li>
-	<li>
-	  City
-	  <input type="text" id="address.city" var="city" value="{{city}}" class="text ui-widget-content ui-corner-all" />
-	</li>
-	<li>
-	  State/Province
-	  <input type="text" id="address.province" var="province" value="{{province}}" class="text ui-widget-content ui-corner-all" />
-	</li>
-	<li>
-	  Postal Code
-	  <input type="text" id="address.postalcode" var="postalcode" value="{{postalcode}}" class="text ui-widget-content ui-corner-all" />
-	</li>
-	<li>
-	  Country
-	  <input type="text" id="address.country" var="country" value="{{country}}" class="text ui-widget-content ui-corner-all" />
-	</li>
-      </ul>
-    </script>
-      
-    <script id="contactFields_P" class="partial" type="text/html">
-      <h2>Contact</h2>
-      <ul>
-	<li>
-	  First Name
-	  <input type="text" id="contact.firstname" var="firstname" value="{{firstname}}" class="text ui-widget-content ui-corner-all" />
-	</li>
-	<li>
-	  Last Name
-	  <input type="text" id="contact.lastname" var="lastname" value="{{lastname}}" class="text ui-widget-content ui-corner-all" />
-	</li>
-	<li>
-	  Website
-	  <input type="text" id="contact.website" var="website" value="{{website}}" class="text ui-widget-content ui-corner-all" />
-	</li>
-	<li>
-	  E-mail
-	  <input type="text" id="contact.email" var="email" value="{{email}}" class="text ui-widget-content ui-corner-all" />
-	</li>
-	<li>
-	  Phone
-	  <input type="text" id="contact.phone" var="phone" value="{{phone}}" class="text ui-widget-content ui-corner-all" />
-	</li>
-      </ul>
-    </script>
+  
     
 
     <!--------------------------- DIALOG QUICKVIEW(yesterday/mtd/ytd) ---------------------------------------->
@@ -861,6 +807,7 @@
     </script>
     
     <!----------------------------------------- MENU ADMINISTRATION ------------------------------------------>
+   
     <script id="hierarchy_list_TMP" type="text/html">
       <ul>
 	{{#company}}<li id="{{_id}}">{{companyName}}</li>{{/company}}
@@ -898,6 +845,7 @@
 	{{>main_navigation_buttons_P}}
 	<h1>Administration</h1>
 	<h2>{{>breadcrumb_P}}</h2>
+	<button style="float:right;" id="addusers">Add User</button>
 	<div id='usersInfoTable'></div>
 	<button style="float:right;" id="addusers">Add User</button>
 	{{>quickReportViewHook_P}}
@@ -932,32 +880,65 @@
 	</table>
       </div>
     </script>
+    
+    <script id='generic_checkbox_P' class='partial' type='text/html'>
+      <input type="checkbox" var="{{var}}" {{^enabled}}disabled="disabled"{{/enabled}} {{#value}}checked{{/value}}/>
+    </script>
+    <script id='generic_textbox_P' class='partial' type='text/html'>
+      <input type="text" class="text ui-widget-content ui-corner-all" var="{{var}}"  value="{{value}}"{{^enabled}}disabled="disabled"{{/enabled}}/>
+    </script>
+    <script id='generic_passwordbox_P' class='partial' type='text/html'>
+      <input type={{^hidden}}"password"{{/hidden}}{{#hidden}}"hidden"{{/hidden}} class="text ui-widget-content ui-corner-all"  var="{{var}}"  value="{{value}}"{{^enabled}}disabled="disabled"{{/enabled}}/>
+    </script>
         
     <script id="inputUserInfo_TMP" class="partial" type="text/html">
       <form id="form">
 	<h2>User Info</h2>
 	<ul>
-          <li><label for="user-name">User name</label></li>
-	  <li><input type="text" var="userName"  value="{{userName}}" id="txtinputuser" /></li>
-	  <li><label for="user-pass">Password</label></li>
-	  <li><input type="text" var="password" id="txtinputpassword" /></li>
+	  {{#user_name}}
+          <li>{{label}}</li>
+	  <li>{{>generic_textbox_P}}</li>
+	  {{/user_name}}
+	  {{#password}}
+	  <li>{{label}}</li>
+	  <li>{{>generic_passwordbox_P}}</li>
+	  {{/password}}
+	  {{#is_enabled}}
+	  <li>
+	    {{label}}{{>generic_checkbox_P}}
+	  </li>
+	  {{/is_enabled}}
 	  <span>Roles</span>
 	  <ul>
 	    {{#roles}}
 	    <li>
-	      <input type="checkbox" var="roles.{{.}}" value="{{.}}"/> {{.}}
+	       {{>generic_checkbox_P}}{{label}}
 	    </li>
             {{/roles}}
 	  </ul>
-	  <li>
-	    Enabled? : <input type="checkbox" var="enabled" name="enabled" value="{{enabled}}" checked/>
-	  </li>
+
 	</ul>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tbody>
             <tr>
-              <td valign="top">{{>addressFields_P}}</td>
-              <td valign="top">{{>contactFields_P}}</td>
+              <td valign="top">
+		<h2>Address</h2>
+		<ul>
+		  {{#address}}
+		  <li>{{label}}</li>
+		  <li>{{>generic_textbox_P}}</li>
+		  {{/address}}
+		</ul>
+	      </td>
+	      <td valign="top">
+		<h2>Contact</h2>
+		<ul>
+		  {{#contact}}
+		  <li>{{label}}</li>
+		  <li>{{>generic_textbox_P}}</li>
+		  {{/contact}}
+		</ul>
+	      </td>
             </tr>
           </tbody>
 	</table>

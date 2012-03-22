@@ -16,37 +16,42 @@ var customer_admin_add_user_view =
 
 			},
 			view.options.default_data),
-		    defaults:
+		    display:
 		    {
-			userName:"",
-			password:"",
+			user_name:{var:'userName',label:"User Name",enabled:true,value:""},
+			password:{var:'password',label:"Password",enabled:true,value:""},
 			"roles": [
-			    "company",
-			    "store",
-			    "store_admin",
-			    "group_admin",
-			    "group",
-			    "pos_sales",
-			    "pos_admin"
+			    {var:'roles.company_admin',label:"Company Admin",enabled:false,value:false},
+			    {var:'roles.company',label:"Company User",enabled:true,value:false},
+			    {var:'roles.store',label:"Store User",enabled:true,value:false},
+			    {var:'roles.store_admin',label:"Store Admin",enabled:true,value:false},
+			    {var:'roles.group_admin',label:"Group Admin",enabled:true,value:false},
+			    {var:'roles.group',label:"Group User",enabled:true,value:false},
+			    {var:'roles.pos_sales',label:"POS User",enabled:true,value:false},
+			    {var:'roles.pos_admin',label:"POS Admin",enabled:true,value:false}
 			],
-			"enabled": true,
-			"firstname": "",
-			"lastname": "",
-			"website": "",
-			"email": "",
-			"phone": "",
-			"street0": "",
-			"street1": "",
-			"city": "",
-			"country": "",
-			"province": "",
-			"postalcode": ""
+			is_enabled:{var:"enabled",label:"Enabled",enabled:true,value:true},
+			contact:[
+			    {var:"firstname",label:"First Name", enabled:true,value:""},
+			    {var:"lastname",label:"Last Name", enabled:true,value:""},
+			    {var:"website",label:"WebSite", enabled:true,value:""},
+			    {var:"email", label:"Email",enabled:true,value:""},
+			    {var:"phone", label:"Phone Number",enabled:true,value:""}
+			],
+			address:[
+			    {var:"street0",label:"Street", enabled:true,value:""},
+			    {var:"street1", label:"Street",enabled:true,value:""},
+			    {var:"city", label:"City",enabled:true,value:""},
+			    {var:"country", label:"Country",enabled:true,value:""},
+			    {var:"province", label:"Province",enabled:true,value:""},
+			    {var:"postalcode", label:"Postal Code",enabled:true,value:""}
+			]
 		    }
 		};
 		quickInputUserInfoDialog(
 		    {
 			title:"Add New User",
-			html:ich.inputUserInfo_TMP(user_creation_rules.defaults), //here we have to merge the rules with the default_data to come up with the blueprint for the dialog
+			html:ich.inputUserInfo_TMP(user_creation_rules.display), //here we have to merge the rules with the default_data to come up with the blueprint for the dialog
 			on_submit:function(form_data){
 			    console.log(form_data);
 			    function format_roles(user){
@@ -139,6 +144,138 @@ var adminRouter =
 		 },
 		 edit_user:function(user_id){
 		     var user = this.user_collection.find(function(user_model){return user_model.get('_id') === user_id})
+
+		     var hidden_fields = _.chain([
+						   'creationdate',
+						   'type',
+						   'password',
+						   {
+						       roles:['company_admin']
+						   }
+					       ])
+			 .concat(_.keys(topLevelEntityInfo(ReportData)))
+			 .value();
+		     var const_fields = _.clone(hidden_fields);
+		     var disabled_fields=[
+			 'user_name'
+		     ];
+		     var fields = {'userName':"",'password':"",roles:['company_admin'],'enabled':true};
+		     var t_fields = _.walk.pre(fields,function(val,key){
+						 if(_.isDefined(key)){
+						     return {key:val};
+						 }
+						 else{
+						     return val;
+						 }
+					     });
+		     var user_editing_rules ={
+			 user_name:{var:'userName',label:"User Name",enabled:true,value:""},
+			 password:{var:'password',label:"Password",enabled:true,value:""},
+			 roles: [
+			     {company_admin:{var:'roles.company_admin',label:"Company Admin",enabled:false,value:false}},
+			     {company:{var:'roles.company',label:"Company User",enabled:true,value:false}},
+			     {store:{var:'roles.store',label:"Store User",enabled:true,value:false}},
+			     {store_admin:{var:'roles.store_admin',label:"Store Admin",enabled:true,value:false}},
+			     {group_admin:{var:'roles.group_admin',label:"Group Admin",enabled:true,value:false}},
+			     {group:{var:'roles.group',label:"Group User",enabled:true,value:false}},
+			     {pos_sales:{var:'roles.pos_sales',label:"POS User",enabled:true,value:false}},
+			     {pos_admin:{var:'roles.pos_admin',label:"POS Admin",enabled:true,value:false}}
+			 ],
+			 is_enabled:{var:"enabled",label:"Enabled",enabled:true,value:true},
+			 firstname:{var:"firstname",label:"First Name", enabled:true,value:""},
+			 lastname:{var:"lastname",label:"Last Name", enabled:true,value:""},
+			 website:{var:"website",label:"WebSite", enabled:true,value:""},
+			 email:{var:"email", label:"Email",enabled:true,value:""},
+			 phone:{var:"phone", label:"Phone Number",enabled:true,value:""},
+			 street0:{var:"street0",label:"Street", enabled:true,value:""},
+			 street1:{var:"street1", label:"Street",enabled:true,value:""},
+			 city:{var:"city", label:"City",enabled:true,value:""},
+			 country:{var:"country", label:"Country",enabled:true,value:""},
+			 province:{var:"province", label:"Province",enabled:true,value:""},
+			 postalcode:{var:"postalcode", label:"Postal Code",enabled:true,value:""}
+		     };
+
+		     function apply_rule(rule_fn, rule_fields, rule_to_apply_true, rule_to_apply_false){
+			 return function(rules,field){
+			     if(_.isArray(field)){
+				 //return apply_rule(rule_fn, rule_fields, rule_to_apply_true, rule_to_apply_false)(rules,field)
+				 var fields = field;
+				 return _.chain(fields)
+				    // .map(fields,function(rule,){
+				//	      return _.last(rule_fn(undefined,rule,)
+				//	  })
+				     .compact()
+				     .value();
+			     }
+			     else{
+				 if(_.contains(rule_fields,field)){
+				     return rule_fn(field,rules,rule_to_apply_true);
+				 }
+				 else if(rule_to_apply_false){
+				     return rule_fn(field,rules,rule_to_apply_false);
+				 }
+				 return [field,rules];
+			     }
+			 }
+		     };
+
+		     function apply_removal(){
+			 function remove_rule(field,rules,rule_to_apply){
+			     return undefined;
+			 }
+			 return apply_rule.apply(null,_([remove_rule]).concat(_.toArray(arguments)));
+		     }
+
+		     function apply_simple_rule(){
+			 function add_rule(field,rules,rule_to_apply){
+			     return [field,_.combine(rules,rule_to_apply)];
+			 }
+			 return apply_rule.apply(null,_([add_rule]).concat(_.toArray(arguments)));
+		     };
+
+		     var apply_remove_rules = apply_removal(const_fields);
+		    // var apply_hidden_rules = apply_simple_rule(hidden_fields,{hidden:true});
+		     var apply_disabled_rules = apply_simple_rule(disabled_fields,{enabled:false});
+		     var user_edit_display =
+			 _.chain(user_editing_rules)
+			 .map$(apply_remove_rules)
+			 //.map$(apply_disabled_rules)
+			 .value();
+
+		     quickInputUserInfoDialog(
+		    {
+			title:"Add New User",
+			html:ich.inputUserInfo_TMP(user_edit_display), //here we have to merge the rules with the default_data to come up with the blueprint for the dialog
+			on_submit:function(form_data){
+			    console.log(form_data);
+			    function format_roles(user){
+				return _.combine(user,{roles:_.chain(user.roles).filter$(_.identity).keys().value()});
+			    }
+			    function user_name(user){
+				return _.combine(user, {name:_.either(user.store_id,user.group_id,user.company_id)+user.userName})
+			    }
+			    function apply_constants(consts){
+				return function(user){
+				    return _.combine(user,consts);
+				}
+			    }
+			    var user_data =
+				_.compose(user_name,
+					  apply_constants(user_creation_rules.consts),
+					  format_roles)(form_data);
+			    var user = new UserDoc(user_data);
+			    /*user.signup(
+				{
+				    success:function(resp){
+				//	alert("created new user: " + user_data.userName);
+					view.trigger('user-added', user);
+				    },
+				    error:function(err_code,err,err_message){
+					alert(err_message);
+				    }});*/
+			}
+		    });
+
 		 },
 		 delete_user:function(user_id){
 
