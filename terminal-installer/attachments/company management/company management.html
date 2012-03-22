@@ -26,7 +26,10 @@
       <script language="javascript" type="text/javascript" src="../site.js"></script>
       
       <script language="javascript" type="text/javascript" src="../lib/couch-backbone.js"></script>
-
+    
+      <script language="javascript" type="text/javascript" src="../lib/TerritoryUser.js"></script>
+      <script language="javascript" type="text/javascript" src="../company management/territory_user_management.js"></script>
+    
       <script language="javascript" type="text/javascript" src="../company management/sample_terminal.js"></script>
       <script language="javascript" type="text/javascript" src="../lib/Company.js"></script>
       <script language="javascript" type="text/javascript" src="../lib/Rewards.js"></script>
@@ -35,7 +38,7 @@
       <script language="javascript" type="text/javascript" src="../company management/company management.js"></script>
       <script language="javascript" type="text/javascript" src="../company management/installTerminal.js"></script>
       <script language="javascript" type="text/javascript" src="../lib/Menu.js"></script>
-      <script language="javascript" type="text/javascript" src="../company management/docRdy.js"></script> <!-- needs to go last -->
+      <script language="javascript" type="text/javascript" src="../company management/docRdy.js"></script> 
       
       <style>
 	label, input { display:block; }
@@ -63,38 +66,46 @@
 	<label for="password">Master Password</label>
 	<input type="text"  id="password" value="{{password}}" class="text ui-widget-content ui-corner-all" />
       </script>
+    
+    <script id="addressOnlyFields_P" class="partial" type="text/html">
+        <h2>Address</h2>
+    <label for="address.street0">Address 1</label>
+    <input type="text" id="address.street0" value="{{street0}}" class="text ui-widget-content ui-corner-all" />
+    <label for="address.street1">Address 2</label>
+    <input type="text" id="address.street1" value="{{street1}}" class="text ui-widget-content ui-corner-all" />
+    <label for="address.city">City</label>
+    <input type="text" id="address.city" value="{{city}}" class="text ui-widget-content ui-corner-all" />
+    <label for="address.province">State/Province</label>
+    <input type="text" id="address.province" value="{{province}}" class="text ui-widget-content ui-corner-all" />
+    <label for="address.postalcode">Postal Code</label>
+    <input type="text" id="address.postalcode" value="{{postalcode}}" class="text ui-widget-content ui-corner-all" />
+    <label for="address.country">Country</label>
+    <input type="text" id="address.country" value="{{country}}" class="text ui-widget-content ui-corner-all" />    
+    </script>
       
       <script id="addressFields_P" class="partial" type="text/html">
 	{{#address}}
-	<h2>Address</h2>
-	<label for="address.street0">Address 1</label>
-	<input type="text" id="address.street0" value="{{street0}}" class="text ui-widget-content ui-corner-all" />
-	<label for="address.street1">Address 2</label>
-	<input type="text" id="address.street1" value="{{street1}}" class="text ui-widget-content ui-corner-all" />
-	<label for="address.city">City</label>
-	<input type="text" id="address.city" value="{{city}}" class="text ui-widget-content ui-corner-all" />
-	<label for="address.province">State/Province</label>
-	<input type="text" id="address.province" value="{{province}}" class="text ui-widget-content ui-corner-all" />
-	<label for="address.postalcode">Postal Code</label>
-	<input type="text" id="address.postalcode" value="{{postalcode}}" class="text ui-widget-content ui-corner-all" />
-	<label for="address.country">Country</label>
-	<input type="text" id="address.country" value="{{country}}" class="text ui-widget-content ui-corner-all" />
+	   {{>addressOnlyFields_P}}
 	{{/address}}
       </script>
+    
+    <script id="contactOnlyFields_P" class="partial" type="text/html">
+        <h2>Contact</h2>
+    <label for="contact.firstname">First Name</label>
+    <input type="text" id="contact.firstname" value="{{firstname}}" class="text ui-widget-content ui-corner-all" />
+    <label for="contact.lastname">Last Name</label>
+    <input type="text" id="contact.lastname" value="{{lastname}}" class="text ui-widget-content ui-corner-all" />
+    <label for="contact.website">Website</label>
+    <input type="text" id="contact.website" value="{{website}}" class="text ui-widget-content ui-corner-all" />
+    <label for="contact.email">E-mail</label>
+    <input type="text" id="contact.email" value="{{email}}" class="text ui-widget-content ui-corner-all" />
+    <label for="contact.phone">Phone</label>
+    <input type="text" id="contact.phone" value="{{phone}}" class="text ui-widget-content ui-corner-all" />
+    </script>
       
       <script id="contactFields_P" class="partial" type="text/html">
 	{{#contact}}
-	<h2>Contact</h2>
-	<label for="contact.firstname">First Name</label>
-	<input type="text" id="contact.firstname" value="{{firstname}}" class="text ui-widget-content ui-corner-all" />
-	<label for="contact.lastname">Last Name</label>
-	<input type="text" id="contact.lastname" value="{{lastname}}" class="text ui-widget-content ui-corner-all" />
-	<label for="contact.website">Website</label>
-	<input type="text" id="contact.website" value="{{website}}" class="text ui-widget-content ui-corner-all" />
-	<label for="contact.email">E-mail</label>
-	<input type="text" id="contact.email" value="{{email}}" class="text ui-widget-content ui-corner-all" />
-	<label for="contact.phone">Phone</label>
-	<input type="text" id="contact.phone" value="{{phone}}" class="text ui-widget-content ui-corner-all" />
+	{{>contactOnlyFields_P}}
 	{{/contact}}
       </script>
       
@@ -178,6 +189,7 @@
 	  {{/tips}}
 	</ol>
       </script>
+      
       
       <!--------------------------------------------------------COMPANY--------------------------------------------------->
       

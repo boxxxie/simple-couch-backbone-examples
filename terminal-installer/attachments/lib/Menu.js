@@ -135,8 +135,8 @@ var Menu = couchDoc.extend(
 		    }
 		];
 	    }
-	    var num_of_menu_screens = 5;
-	    var num_of_menu_buttons = 180;
+	    var num_of_menu_screens = 6;
+	    var num_of_menu_buttons = 216;
 	    var num_of_menu_buttons_per_screen = 36;
 	    var menu = {};
 	    menu.menuButtons = 
@@ -152,7 +152,7 @@ var Menu = couchDoc.extend(
 		     })
 		.flatten().
 		map(function(button){
-			if(button.display.screen == 0){
+			if(button.display.screen == 0 || button.display.screen == 5){
 			    button.display.color = dark_green;
 			}
 			return button;

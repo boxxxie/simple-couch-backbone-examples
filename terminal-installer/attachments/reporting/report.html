@@ -15,6 +15,7 @@
 
     <script language="javascript" type="text/javascript" src="../lib/jquery-ui-1.8.16.custom.min.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/jquery.couch.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/table2CSV.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/couchDBhelpers.js"></script>
 
     <script language="javascript" type="text/javascript" src="../lib/colorpicker.js"></script>
@@ -41,7 +42,7 @@
     <script language="javascript" type="text/javascript" src="../lib/Inventory.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/RetailerUser.js"></script>
 
-    <script language="javascript" type="text/javascript" src="lib/jquery.timers-1.0.0.js.txt"></script>
+    <script language="javascript" type="text/javascript" src="../lib/jquery.timers-1.0.0.js.txt"></script>
 
     <script language="javascript" type="text/javascript" src="../lib/numberFormatter.js"></script>
     
@@ -246,6 +247,12 @@
     
     <script id="quickDeleteViewButtonByName_P" class="partial" type="text/html">
       <center><button id='del-{{name}}'>Delete</button></center>
+    </script>
+    
+    <script id="exportButton_P" class="partial" type="text/html">
+       <div style="margin-top:10px;margin-bottom:20px;padding-bottom:20px;border-bottom: 4px dotted #ccc;">
+      <button id='btnExport'>Export</button>
+      </div>
     </script>
     
     <script id="generalGoButton_P" class="partial" type="text/html">
@@ -1982,7 +1989,7 @@
       <th>Refunds</th>
       <th>Qty Total</th>
       <th>Total</th>
-      <th>% of Set Sales</th>
+      <th id="percent_part">% of Set Sales</th>
       <th>% of Total Sales</th>
     </script>
 
@@ -2113,6 +2120,7 @@
 	  {{>dateRangePicker_P}}
 	  {{>generalGoButton_P}}
 	  {{>inventoryDropdownbox_P}}
+	  {{>exportButton_P}}
 	</div>
 	<div id='inventorymenutable' style="margin-bottom:30px;"></div>
 	<div id='inventoryscantable' style="margin-bottom:30px;"></div>
@@ -2624,6 +2632,9 @@
       <h2>Modifiers</h2>
       <button id="menumodifiersbutton" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
 	<span class="ui-button-text">Edit Modifiers</span>
+      </button>
+      <button id="menumodifiersbutton2" class="{{>commonButtonClasses_P}}" role="button" aria-disabled="false">
+    <span class="ui-button-text">Edit Modifiers2</span>
       </button>	
     </script>
     
