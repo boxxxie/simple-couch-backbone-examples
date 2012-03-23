@@ -73,7 +73,7 @@ var inv_display_view =
 		    //extract model values from form/textbox
 		    var formObj = varFormGrabber($("#inv_form"));
 		    var upc = $("#upc").val();
-		    var invObj = _.extend(formObj,{upccode:upc,
+		    var invObj = _.combine(formObj,{upccode:upc,
 						 date:new Date()});
 
 		    var allStores = extractStores(ReportData);

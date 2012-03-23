@@ -43,13 +43,10 @@ function login() {
 	}
 	return str;
     }
-    function applyToKey(fn){
-	return function(val,key){
-	    return [fn(key),val];
-	};
-    }
     function applyToVal(fn){
-	return function(val,key){
+	return function(pair){
+		var key = _.first(pair);
+		var val = _.second(pair);
 	    return [key,fn(val)];
 	};
     }

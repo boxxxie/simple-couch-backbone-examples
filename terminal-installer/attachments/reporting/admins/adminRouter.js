@@ -145,29 +145,130 @@ var adminRouter =
 		 edit_user:function(user_id){
 		     var user = this.user_collection.find(function(user_model){return user_model.get('_id') === user_id})
 
-		     var hidden_fields = _.chain([
-						   'creationdate',
-						   'type',
-						   'password',
-						   {
-						       roles:['company_admin']
-						   }
-					       ])
+		     var all_fields = [
+			 {var:'userName'},
+			 {var:'password'},
+			 {var:'roles',value:[
+			      {value:'company_admin'},
+			      {value:'company'},
+			      {value:'store'},
+			      {value:'store_admin'},
+			      {value:'group_admin'},
+			      {value:'group'},
+			      {value:'pos_sales'},
+			      {value:'pos_admin'}
+			  ]},
+			 {var:"enabled",type:'bool'},
+			 {var:"firstname"},
+			 {var:"lastname"},
+			 {var:"website"},
+			 {var:"email",type:'email'},
+			 {var:"phone",type:'phone'},
+			 {var:"street0"},
+			 {var:"street1"},
+			 {var:"city"},
+			 {var:"country"},
+			 {var:"province"},
+			 {var:"postalcode"}
+		     ];
+
+		     //make things with no type or value be of type string
+		     function fill_in_missing_types(thing){
+			 return _.prewalk(function(o){
+					 if(_.isObj(o) &&
+					    !_.has(o,'type') &&
+					    _.isUndefined(o.value)){
+					     return _.combine(o,{type:'string'})
+					 }
+					 return o
+				     },thing)
+		     }
+
+		     //make things of certain types be set to arbitrary detault values
+		     function apply_default_values(thing){
+			 return _.prewalk(function(o){
+					 if(_.isObj(o) &&
+					    _.has(o,'type') &&
+					    _.isUndefined(o.value)){
+					     switch(o.type){
+					     case 'string':
+						 return _.combine(o,{value:''});break;
+					     case 'bool':
+						 return _.combine(o,{value:true});break;
+					     }
+					 }
+					 return o
+				     },thing)
+		     }
+		     var test = fill_in_missing_types(all_fields);
+		     var all_fields_with_defaults = _.compose(apply_default_values,fill_in_missing_types)(all_fields)
+/*
+		     user_name:{var:'userName',label:"User Name",enabled:true,value:""},
+			 password:{var:'password',label:"Password",enabled:true,value:""},
+			 roles: [
+			     {company_admin:{var:'roles.company_admin',label:"Company Admin",enabled:false,value:false}},
+			     {company:{var:'roles.company',label:"Company User",enabled:true,value:false}},
+			     {store:{var:'roles.store',label:"Store User",enabled:true,value:false}},
+			     {store_admin:{var:'roles.store_admin',label:"Store Admin",enabled:true,value:false}},
+			     {group_admin:{var:'roles.group_admin',label:"Group Admin",enabled:true,value:false}},
+			     {group:{var:'roles.group',label:"Group User",enabled:true,value:false}},
+			     {pos_sales:{var:'roles.pos_sales',label:"POS User",enabled:true,value:false}},
+			     {pos_admin:{var:'roles.pos_admin',label:"POS Admin",enabled:true,value:false}}
+			 ],
+			 is_enabled:{var:"enabled",label:"Enabled",enabled:true,value:true},
+			 firstname:{var:"firstname",label:"First Name", enabled:true,value:""},
+			 lastname:{var:"lastname",label:"Last Name", enabled:true,value:""},
+			 website:{var:"website",label:"WebSite", enabled:true,value:""},
+			 email:{var:"email", label:"Email",enabled:true,value:""},
+			 phone:{var:"phone", label:"Phone Number",enabled:true,value:""},
+			 street0:{var:"street0",label:"Street", enabled:true,value:""},
+			 street1:{var:"street1", label:"Street",enabled:true,value:""},
+			 city:{var:"city", label:"City",enabled:true,value:""},
+			 country:{var:"country", label:"Country",enabled:true,value:""},
+			 province:{var:"province", label:"Province",enabled:true,value:""},
+			 postalcode:{var:"postalcode", label:"Postal Code",enabled:true,value:""}
+*/
+/*
+		     var const_fields = _.chain([
+						  {var:'creationdate'},
+						  {var:'type'},
+						  {var:'password'},
+						  {roles:[{var:'company_admin'}]}
+					      ])
 			 .concat(_.keys(topLevelEntityInfo(ReportData)))
 			 .value();
-		     var const_fields = _.clone(hidden_fields);
-		     var disabled_fields=[
-			 'user_name'
-		     ];
-		     var fields = {'userName':"",'password':"",roles:['company_admin'],'enabled':true};
-		     var t_fields = _.walk.pre(fields,function(val,key){
-						 if(_.isDefined(key)){
+
+		     var disabled_fields = _.prewalk(function(o){
+						       if(_.has(o,'var')){
+							   return _.combine(o,{const:true})
+						       }
+						       return o
+						   },
+						   const_fields)
+
+		     var fields = {
+			 'userName':"",
+			 'password':"",
+			 roles:['company_admin'],
+			 'enabled':true
+		     };
+
+		     _.prewalk_demo(fields);
+		     /*
+		     var t_fields = _.prewalk(function(o){
+						 console.log([key,val]);
+						 if(){
 						     return {key:val};
 						 }
 						 else{
 						     return val;
 						 }
-					     });
+					     },fields);
+		     /* var t_fields_2 = _.prewalk(function(val,key){
+						   return {
+						       key
+						   }
+					       },fields);*/
 		     var user_editing_rules ={
 			 user_name:{var:'userName',label:"User Name",enabled:true,value:""},
 			 password:{var:'password',label:"Password",enabled:true,value:""},
@@ -193,44 +294,6 @@ var adminRouter =
 			 country:{var:"country", label:"Country",enabled:true,value:""},
 			 province:{var:"province", label:"Province",enabled:true,value:""},
 			 postalcode:{var:"postalcode", label:"Postal Code",enabled:true,value:""}
-		     };
-
-		     function apply_rule(rule_fn, rule_fields, rule_to_apply_true, rule_to_apply_false){
-			 return function(rules,field){
-			     if(_.isArray(field)){
-				 //return apply_rule(rule_fn, rule_fields, rule_to_apply_true, rule_to_apply_false)(rules,field)
-				 var fields = field;
-				 return _.chain(fields)
-				    // .map(fields,function(rule,){
-				//	      return _.last(rule_fn(undefined,rule,)
-				//	  })
-				     .compact()
-				     .value();
-			     }
-			     else{
-				 if(_.contains(rule_fields,field)){
-				     return rule_fn(field,rules,rule_to_apply_true);
-				 }
-				 else if(rule_to_apply_false){
-				     return rule_fn(field,rules,rule_to_apply_false);
-				 }
-				 return [field,rules];
-			     }
-			 }
-		     };
-
-		     function apply_removal(){
-			 function remove_rule(field,rules,rule_to_apply){
-			     return undefined;
-			 }
-			 return apply_rule.apply(null,_([remove_rule]).concat(_.toArray(arguments)));
-		     }
-
-		     function apply_simple_rule(){
-			 function add_rule(field,rules,rule_to_apply){
-			     return [field,_.combine(rules,rule_to_apply)];
-			 }
-			 return apply_rule.apply(null,_([add_rule]).concat(_.toArray(arguments)));
 		     };
 
 		     var apply_remove_rules = apply_removal(const_fields);

@@ -240,13 +240,13 @@ function inventoryTotalsRangeFetcher_F(id){
 		    var ecr_sales_totals = fillEmptyValue(_.reduce(ecr_sales_list.concat(department_sales_list).concat(scale_sales_list),
 						    _.addPropertiesTogether,{}));
 
-		    var scale_sales_list_formatted = _.walk_pre(scale_sales_list,
-								function(obj){
-								    if(obj.quantity){
-									return _.extend(obj,{quantity:obj.quantity.toFixed(3)});
-								    }
-								    return obj;
-								});
+		    var scale_sales_list_formatted = _.prewalk(function(obj){
+								 if(obj.quantity){
+								     return _.extend(obj,{quantity:obj.quantity.toFixed(3)});
+								 }
+								 return obj;
+							     },
+							     scale_sales_list);
 		    function applyDefaultSalesFields(list){
 			function applyDefault_sales_refunds(item){
 			    return _.defaults(item,{sales:{price:0,quantity:0},refunds:{price:0,quantity:0}});

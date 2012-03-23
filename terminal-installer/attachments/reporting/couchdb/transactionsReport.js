@@ -32,7 +32,7 @@ function transactionsReportFetcher(start,end){
 			      .groupBy('type')
 			      .filter$(function(transactions,type){return (type == "SALE" || type == "REFUND");})
 			      .map(function(transactions,type){
-				       if(type == "REFUND"){return _.walk_pre(transactions, negate);}
+				       if(type == "REFUND"){return _.prewalk(negate,transactions);}
 				       return transactions;
 				   })
 			      .flatten()
@@ -47,7 +47,7 @@ function transactionsReportFetcher(start,end){
 		      var transactions = _.chain(response.rows).pluck('doc').sortBy(startTime).reverse().value();
 		      
 		     var totalOverAllDates = calculateTotalsOverTransactions(transactions);
-		      var result = {transactions:transactions,total:_.walk_pre(totalOverAllDates,currency_format)};
+		      var result = {transactions:transactions,total:_.prewalk(currency_format,totalOverAllDates)};
 		      callback(err,result);
 		  });
 	};

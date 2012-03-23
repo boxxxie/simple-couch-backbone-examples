@@ -42,15 +42,14 @@ var menuInventoryscanPriceChangeView =
 		(function(err,inventory){
 		     //todo: maybe i can make filterSearch return on undefined input
 		     var filteredInv = (searchQuery)?_.filterSearch_SubStr_SelectedKeys(inventory,searchQuery,"upccode","description","price"):inventory;
-		     var formattedInv = _.walk_pre(
-			 filteredInv,
+		     var formattedInv = _.prewalk(
 			 function(item){
 			     if(_.isDefined(item.selling_price)){
 				 return _.combine(item,
 						  {selling_price:currency_format(Number(item.selling_price))});
 			     }
 			     return item;
-			 });
+			 },filteredInv);
 
 		     var html =  ich.menuInventoryScanPricetable_TMP({filter:searchQuery,list:formattedInv});
 		     $(view.el).find("#priceChangeTable").html(html);

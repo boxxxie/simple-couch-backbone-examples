@@ -28,12 +28,12 @@ var extractGroups = _.memoize(
 
 function extractItems(obj,field){
     var items = [];
-    _.walk_pre(obj,function(o){
-		   if(o[field]){
-		       items.push(o[field]);
-		   }
-		   return o;
-	       });
+    _.prewalk(function(o){
+		  if(_.has(o,field)){
+		      items.push(o[field])
+		  }
+		  return o
+	      },obj)
 
     if(_.isEmpty(items) && obj[field]) {
 	items = [obj[field]];

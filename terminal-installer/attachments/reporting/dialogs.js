@@ -69,10 +69,12 @@ function quickReportView(id, title){
 
     		       var yesterdayPropsToChange = _.selectKeys(for_TMP.yesterday,['netsalestotal', 'netrefundtotal', 'netsaleactivity', 'avgpayment', 'avgrefund' , 'cashtotal' , 'allDiscount', 'cancelledtotal','avgcancelled','menusalesamount', 'scansalesamount','ecrsalesamount']);
 		       yesterdayPropsToChange =_(yesterdayPropsToChange)
-			   .map$(function(val,key){
+			   .map$(function(pair){
+					var key = _.first(pair);
+					var val = _.second(pair);
 				    if(val.indexOf('-')>=0) { val = val.replace('-',''); val = "-$ " +val;}
 				    else {val = "$ " +val;}
-				    return [key,val];
+				    return pair;
 				});
 		       var yesterdayCashoutForm = _.extend({},for_TMP.yesterday,yesterdayPropsToChange);
 
