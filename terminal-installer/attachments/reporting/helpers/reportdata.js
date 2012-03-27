@@ -1,3 +1,7 @@
+function we_are_fixing_this_page(message){
+    alert(message);
+    window.history.go(-1);
+}
 //obj is supposed to be from ReportData global
 var extractStores =  _.memoize(
     function extractStores(obj){

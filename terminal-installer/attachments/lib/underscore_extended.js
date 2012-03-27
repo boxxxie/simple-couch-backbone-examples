@@ -9,29 +9,21 @@ _.mixin({
 	     */
 	    mapVargFn:function(transformation){
 		return function(list){
-		    /*this is an optimization (prob the most common case)
-		     * basically, this covers transformations that have 1 argument
-		     * example : _.combine(ojb1,obj2)
-		     * obj1 is given by the map fn, obj2 is given by the user.
-		     * this optimization avoids fn.apply & _.rest
-		     */
-		    if(_.size(arguments) === 1){
-			var user_argument = _.first(arguments);
-			return _.map(list, function(item){
-				    return transformation(item,user_argument);
-				});
-		    }
-		    else{
-			var user_arguments = _.rest(_.toArray(arguments));
-			return _.map(list, function(item){
-				    return transformation.apply(null,_.flatten([item,user_arguments]));
-				});
-		    }
+		    var user_arguments = _.rest(arguments);
+		   // console.log('arguments');
+		   // console.log(arguments);
+		   // console.log('user_arguments');
+		   // console.log(user_arguments);
+		    return _.map(list, function(item){
+			//	console.log(_([item]).concat(user_arguments))
+				return transformation.apply(null,_([item]).concat(user_arguments));
+			    });
 		};
 	    }
 	});
 
 _.mixin({
+	    //isObject will mix up objects and arrays, this will not.
 	    isObj:function (obj) {
 		return _.isObject(obj) && !_.isArray(obj);
 	    },
@@ -417,7 +409,9 @@ _.mixin({
 _.mixin({
 	    either:function(){
 		return _.chain(arguments)
-		    .find(function(val){return val!=null;})
+		    .toArray()
+		    .compact()
+		    .first()
 		    .value();
 	    }
 	});

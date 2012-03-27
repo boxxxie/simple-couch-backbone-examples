@@ -347,6 +347,8 @@ var adminRouter =
 		     this.load_users_for_id(topLevelEntity(ReportData).id)
 		 },
 		 load_users_for_id:function(id){
+		     we_are_fixing_this_page("this page is being fixed right now");
+		     return;
 		     var router = this;
 		     router.user_collection.reset();
 		     console.log("menuAdministration: " + id);

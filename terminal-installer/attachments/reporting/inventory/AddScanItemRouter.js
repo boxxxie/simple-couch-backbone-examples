@@ -1,19 +1,25 @@
 var menuInventoryaddScanItemRouter =
     new (Backbone.Router.extend(
 	     {routes: {
-		  "menuInventory/addScanItem":"_setup"
+		  "menuInventory/addScanItem":"main"
 	      },
-	      _setup:function(){
+	      main:function(){
 		  console.log("add scan item page");
 		  $("#main").html(ich.inventoryManagementHome_TMP(_.extend({startPage:ReportData.startPage},autoBreadCrumb())));
-		  var invItem = new InventoryDoc();
-		  var id = topLevelEntity(ReportData).id;
-		  invItem.cid = id;
-		  this.views = [
-		      new upc_code_input_view({model:invItem}).setElement("#upc_search",true),
-		      new inv_display_view({model:invItem}).setElement("#item_display")
-		  ];
-	      }
+		  var router = this;
+		  router._setup(router);
+		  router.views.input.setElement("#upc_search",true);
+		  router.views.display.setElement("#item_display");
+	      },
+	      _setup:_.once(function(router){
+				router.views = {
+				    input: new upc_code_input_view({id:topLevelEntity(ReportData).id}),
+				    display:new inv_display_view({id:topLevelEntity(ReportData).id})
+				};
+				router.views.input.on('add_item_to_company',router.addItemTo_company_and_reviewDB,router);
+				router.views.input.on('loaded_from_rt7',router.addItemTo_company,router);
+				router.views.input.on("item_already_in_company",router.displayItem,router);
+			    })
 	     }));
 
 
@@ -25,11 +31,11 @@ var upc_code_input_view =
 		"click button":"userChangedUpc"
 	    },
 	    userChangedUpc:function(){
-		var upc = _.str.trim($(this.el).val());
+		var upc = _.str.trim(this.$el.find('input').val());
 		var view = this;
-		var model = view.model;
+		var entiry_id = view.options.id;
+		var model = new InventoryDoc({_id:entity_id+"-"+upc});
 		model
-		    .set({_id:model.cid+"-"+upc},{silent:true})
 		    .fetch(
 			{
 			    success:function(resp_model){
@@ -40,11 +46,11 @@ var upc_code_input_view =
 				    .fetch({success:function(resp_model){
 				     		model.clear({silent:true});
 						model.set(_(resp_model.toJSON()).selectKeys('description'),{silent:true});
-						model.trigger("loaded_from_rt7",model);
+						view.trigger("loaded_from_rt7",model);
 					    },
 					    error:function(){
 						model.clear({silent:true});
-						model.trigger("add_item_to_company",model);
+						view.trigger("add_item_to_company",model);
 					    }});
 			    }});
 	    }
@@ -54,11 +60,6 @@ var upc_code_input_view =
 var inv_display_view =
     Backbone.View.extend(
 	{
-	    initialize:function(){
-		this.model.on('add_item_to_company',this.addItemTo_company_and_reviewDB,this);
-		this.model.on('loaded_from_rt7',this.addItemTo_company,this);
-		this.model.on("item_already_in_company",this.displayItem,this);
-	    },
 	    _renderItem:function(model,msg){
 		if(msg){var tmpData = _.extend(model.toJSON(),{userMessage:msg});}
 		else{var tmpData = model.toJSON();}
@@ -74,7 +75,7 @@ var inv_display_view =
 		    var formObj = varFormGrabber($("#inv_form"));
 		    var upc = $("#upc").val();
 		    var invObj = _.combine(formObj,{upccode:upc,
-						 date:new Date()});
+						  date:(new Date()).toJSON()});
 
 		    var allStores = extractStores(ReportData);
 		    var allGroups = extractGroups(ReportData);
