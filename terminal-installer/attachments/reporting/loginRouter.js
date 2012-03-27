@@ -64,6 +64,10 @@ function login() {
     var name_to_id_view = appView("names_to_id");
     var branch_show = appShow("branch");
 
+    function user_complex_roles(user){
+	return _.chain(user.toJSON().roles).filter(_.isObj).first().value()
+    }
+
     keyQuery(name_to_id_view, companiesDB, _.selectKeys(login_key,'company','group','store'))
     (function (resp){
 	 console.log(resp);
@@ -77,19 +81,25 @@ function login() {
 			    //$.couch.login({name: id_for_user+login_key.user,password:login_key.password,
 			    success:function(user){
 				companiesDB.show(branch_show,
-						 user.get("company_id"),
+						 user_complex_roles(user).company_id,
+						// user.get('roles').find("company_id"),
 						 {data : user.toJSON(),
 						  success:function(company_branch_data){
-						      var user_no_password = {currentUser:_.removeKeys(user.toJSON(),'password','salt')}
-						      var user_company_info = _.selectKeys(user.toJSON(),'company_id','companyName','group_id','groupName')
-						      var general_report_data = _.combine(user_no_password,user_company_info)
-						      if(_.isNotEmpty(user.get('store_id'))) {
+						      var user_no_password = {currentUser:_.removeKeys(user.toJSON(),'password','password_sha','salt')}
+						     /* var user_company_info =
+							  _.chain(user.toJSON().roles)
+							  .filter(_.isObj)
+							  .merge()
+							  .selectKeys('company_id','companyName','group_id','groupName')
+							  .value()*/
+						      var general_report_data = _.combine(user_no_password)
+						      if(user_complex_roles(user).store_id) {
 							  ReportData = _.combine(general_report_data,{store:company_branch_data,startPage:"storeReport"});
 						      }
-						      else if(_.isNotEmpty(user.get('group_id'))) {
+						      else if(user_complex_roles(user).group_id) {
 							  ReportData = _.combine(general_report_data,{group:company_branch_data, startPage:"groupReport"});
 						      }
-						      else if(_.isNotEmpty(user.get('company_id'))) {
+						      else if(user_complex_roles(user).company_id) {
 							  ReportData = _.combine(general_report_data,{company:company_branch_data,startPage:"companyReport"});
 						      }
 						      window.location.href = "#"+ReportData.startPage+"/";

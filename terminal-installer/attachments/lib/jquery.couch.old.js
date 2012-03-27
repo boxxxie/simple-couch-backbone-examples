@@ -285,7 +285,7 @@
 		   */
 
 		  //FIXME: db_opts is only use in openDoc... really wondering about it's usefulness
-		  db: function(name, db_opts,dont_encode) {
+		  db: function(name, db_opts, dont_encode) {
 		      db_opts = db_opts || {};
 		      var rawDocs = {};
 		      function maybeApplyVersion(doc) {
@@ -572,27 +572,27 @@
 			      options || (options = {});
 			      var self = this;
 			      if (options.eachApp) {
-				  this.allDesignDocs(
-				      {success: function(resp) {
-					   $.each(resp.rows, function() {
-						      self.openDoc(this.id,
-								   {success: function(ddoc) {
-									var index, appPath, appName = ddoc._id.split('/');
-									appName.shift();
-									appName = appName.join('/');
-									index = ddoc.couchapp && ddoc.couchapp.index;
-									if (index) {
-									    appPath = ['', name, ddoc._id, index].join('/');
-									} else if (ddoc._attachments &&
-										   ddoc._attachments["index.html"]) {
-									    appPath = ['', name, ddoc._id, "index.html"].join('/');
-									}
-									if (appPath) options.eachApp(appName, appPath, ddoc);
-								    }
-								   });
-						  });
-				       }
-				      });
+				  this.allDesignDocs({
+							 success: function(resp) {
+							     $.each(resp.rows, function() {
+									self.openDoc(this.id, {
+											 success: function(ddoc) {
+											     var index, appPath, appName = ddoc._id.split('/');
+											     appName.shift();
+											     appName = appName.join('/');
+											     index = ddoc.couchapp && ddoc.couchapp.index;
+											     if (index) {
+												 appPath = ['', name, ddoc._id, index].join('/');
+											     } else if (ddoc._attachments &&
+													ddoc._attachments["index.html"]) {
+												 appPath = ['', name, ddoc._id, "index.html"].join('/');
+											     }
+											     if (appPath) options.eachApp(appName, appPath, ddoc);
+											 }
+										     });
+								    });
+							 }
+						     });
 			      } else {
 				  alert("Please provide an eachApp function for allApps()");
 			      }
