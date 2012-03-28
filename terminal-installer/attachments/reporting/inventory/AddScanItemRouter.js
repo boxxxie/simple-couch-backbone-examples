@@ -16,9 +16,9 @@ var menuInventoryaddScanItemRouter =
 				    input: new upc_code_input_view({id:topLevelEntity(ReportData).id}),
 				    display:new inv_display_view({id:topLevelEntity(ReportData).id})
 				};
-				router.views.input.on('add_item_to_company',router.views.display.addItemTo_company_and_reviewDB,router);
-				router.views.input.on('loaded_from_rt7',router.views.display.addItemTo_company,router);
-				router.views.input.on("item_already_in_company",router.views.display.displayItem,router);
+				router.views.input.on('add_item_to_company',router.views.display.addItemTo_company_and_reviewDB,router.views.display);
+				router.views.input.on('loaded_from_rt7',router.views.display.addItemTo_company,router.views.display);
+				router.views.input.on("item_already_in_company",router.views.display.displayItem,router.views.display);
 			    })
 	     }));
 
@@ -39,8 +39,7 @@ var upc_code_input_view =
 		    .fetch(
 			{
 			    success:function(resp_model){
-				    //model.trigger("item_already_in_company",resp_model);
-				    view.trigger("item_already_in_company",resp_model);
+				view.trigger("item_already_in_company",resp_model);
 			    },
 			    error:function(){
 				(new InventoryRT7Doc({_id:upc}))
@@ -74,7 +73,7 @@ var inv_display_view =
 		return function(){
 		    //extract model values from form/textbox
 		    var formObj = varFormGrabber($("#inv_form"));
-		    var upc = $("#upc_search").find(":text").val(); //$("#upc").val();
+		    var upc = $("#upc_search").find(":text").val(); //query's the input field
 		    var invObj = _.combine(formObj,{upccode:upc,
 						  date:(new Date()).toJSON()});
 
@@ -108,7 +107,7 @@ var inv_display_view =
 			});
 	    },
 	    addItemTo_company:function(model){
-	        var view = this.views.display;
+	        var view = this;
 	    	view._renderItem(model,"you can add this item to your inventory, it has a suggested description");
 		view._submitButtonClick(
 		    view._saveItemsAndLog
@@ -120,7 +119,7 @@ var inv_display_view =
 		);
 	    },
 	    addItemTo_company_and_reviewDB:function(model){
-		var view = this.views.display;
+		var view = this;
 	    	view._renderItem(model,"you can add this item to your inventory");
 		view._submitButtonClick(
 		    view._saveItemsAndLog
@@ -149,7 +148,7 @@ var inv_display_view =
 		);
 	    },
 	    displayItem:function(model){
-        var view = this.views.display;  
+		var view = this;
 		view._renderItem(model,
 				 model.get("description") +
 				 " is already in your inventory. It can not be added again.");

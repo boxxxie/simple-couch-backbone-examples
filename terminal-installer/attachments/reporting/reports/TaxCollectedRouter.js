@@ -371,7 +371,7 @@ function appendGroupStoreInfoFromTerminalID(list) {
     function getStoreIdFromTerminalId(obj, terminal_id){
 	var storeid;
 	_.prewalk(function(o){
-		       if(o.terminals){
+		       if(o && o.terminals){
 			   if(_.find(o.terminals, function(terminal){ return terminal.terminal_id == terminal_id;})) {
 			       storeid = o.store_id;
 			   }

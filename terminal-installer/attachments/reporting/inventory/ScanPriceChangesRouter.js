@@ -44,7 +44,7 @@ var menuInventoryscanPriceChangeView =
 		     var filteredInv = (searchQuery)?_.filterSearch_SubStr_SelectedKeys(inventory,searchQuery,"upccode","description","price"):inventory;
 		     var formattedInv = _.prewalk(
 			 function(item){
-			     if(_.isDefined(item.selling_price)){
+			     if(item && _.isDefined(item.selling_price)){
 				 return _.combine(item,
 						  {selling_price:currency_format(Number(item.selling_price))});
 			     }
@@ -73,7 +73,7 @@ var menuInventoryscanPriceChangeView =
 					  var invItem = _.find(filteredInv,function(item){return upc==item.upccode;});
 					  var invItemReturn = _.selectKeys(invItem,"price","date","description","locid","upccode");
 					  invItemReturn.price.selling_price = price;
-					  invItemReturn.date = currentDate;
+					  invItemReturn.date = currentDate.toJSON();
 					  return invItemReturn;
 				      })
 				 .value();

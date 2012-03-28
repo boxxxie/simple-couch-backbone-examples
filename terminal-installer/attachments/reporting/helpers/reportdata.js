@@ -33,7 +33,7 @@ var extractGroups = _.memoize(
 function extractItems(obj,field){
     var items = [];
     _.prewalk(function(o){
-		  if(_.has(o,field)){
+		  if(o && _.has(o,field)){
 		      items.push(o[field]);
 		  }
 		  return o;
@@ -144,27 +144,21 @@ var reportDataToArray = _.memoize(
 		return o;
 	    };
 	}
-
 	return _(reportData).chain()
-	    //.walk_pre(function(o){
-        .prewalk2(function(o){
-			  if (o.hierarchy){
-			      var groups = o.hierarchy.groups;
-			      var o_without_field = _.removeKeys(o,'hierarchy');
-			      var expandedCombinedFields = _.mapCombine(groups,o_without_field);
-			      return _.combine(o_without_field,{groups : expandedCombinedFields});
-			  }
-			  return o;
-		      })
-	    //.walk_pre(combineWithSubpart('terminals'))
-	    //.walk_pre(combineWithSubpart('stores'))
-	    //.walk_pre(combineWithSubpart('groups'))
-	    //.walk_pre(combineWithSubpart('company'))
-	    .prewalk2(combineWithSubpart('terminals'))
-        .prewalk2(combineWithSubpart('stores'))
-        .prewalk2(combineWithSubpart('groups'))
-        .prewalk2(combineWithSubpart('company'))
-	    .value();
+	    .prewalk_r(function(o){
+                          if (o && o.hierarchy){
+                              var groups = o.hierarchy.groups;
+                              var o_without_field = _.removeKeys(o,'hierarchy');
+                              var expandedCombinedFields = _.mapCombine(groups,o_without_field);
+                              return _.combine(o_without_field,{groups : expandedCombinedFields});
+                          }
+                          return o;
+                      })
+            .prewalk_r(combineWithSubpart('terminals'))
+	    .prewalk_r(combineWithSubpart('stores'))
+	    .prewalk_r(combineWithSubpart('groups'))
+	    .prewalk_r(combineWithSubpart('company'))
+            .value();
 
     },
     reportDataHash
@@ -289,7 +283,7 @@ function updateTerminalDropdown(isNotShowAll) {
 	.chain()
 	.map(function(id){
 		 return _.filter(allStores, function(store){ return store.store_id==id;}); //this looks like a groupBy...
-         })
+             })
 	.flatten()
 	.value();
     var terminals =
