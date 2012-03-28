@@ -14,7 +14,7 @@
     <script language="javascript" type="text/javascript" src="../lib/jquery-1.7.1.js"></script>
 
     <script language="javascript" type="text/javascript" src="../lib/jquery-ui-1.8.16.custom.min.js"></script>
-    <script language="javascript" type="text/javascript" src="../lib/jquery.couch.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/jquery.couch.0.11.0.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/table2CSV.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/couchDBhelpers.js"></script>
 
@@ -69,6 +69,7 @@
 
     <script language="javascript" type="text/javascript" src="../reporting/reports/Router.js"></script>
     
+    <script language="javascript" type="text/javascript" src="../reporting/admins/dialogs.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/admins/adminRouter.js"></script>
     
     <script language="javascript" type="text/javascript" src="../reporting/reports/HowAreWeDoingTodayRouter.js"></script>
@@ -161,7 +162,7 @@
     </script>
     
     <script id="adminButton_P" class="partial" type="text/html">
-      <a href='#menuAdministration/{{startPage}}'>Administration</a>
+      <a href='#menuAdministration/'>Administration</a>
     </script>
     
     <script id="inventoryButton_P" class="partial" type="text/html">
@@ -313,37 +314,7 @@
       </div>
     </script>
     
-    <script id="addressFields_P" class="partial" type="text/html">
-    {{#address}}
-    <h2>Address</h2>
-    <label for="address.street0">Address 1</label>
-    <input type="text" id="address.street0" var="address.street0" value="{{street0}}" class="text ui-widget-content ui-corner-all" />
-    <label for="address.street1">Address 2</label>
-    <input type="text" id="address.street1" var="address.street1" value="{{street1}}" class="text ui-widget-content ui-corner-all" />
-    <label for="address.city">City</label>
-    <input type="text" id="address.city" var="address.city" value="{{city}}" class="text ui-widget-content ui-corner-all" />
-    <label for="address.province">State/Province</label>
-    <input type="text" id="address.province" var="address.province" value="{{province}}" class="text ui-widget-content ui-corner-all" />
-    <label for="address.postalcode">Postal Code</label>
-    <input type="text" id="address.postalcode" var="address.postalcode" value="{{postalcode}}" class="text ui-widget-content ui-corner-all" />
-    <label for="address.country">Country</label>
-    <input type="text" id="address.country" var="address.country" value="{{country}}" class="text ui-widget-content ui-corner-all" />
-    {{/address}}
-      </script>
-      
-      <script id="contactFields_P" class="partial" type="text/html">
-    <h2>Contact</h2>
-    <label for="contact.firstname">First Name</label>
-    <input type="text" id="contact.firstname" var="firstname" value="{{firstname}}" class="text ui-widget-content ui-corner-all" />
-    <label for="contact.lastname">Last Name</label>
-    <input type="text" id="contact.lastname" var="lastname" value="{{lastname}}" class="text ui-widget-content ui-corner-all" />
-    <label for="contact.website">Website</label>
-    <input type="text" id="contact.website" var="website" value="{{website}}" class="text ui-widget-content ui-corner-all" />
-    <label for="contact.email">E-mail</label>
-    <input type="text" id="contact.email" var="website" value="{{email}}" class="text ui-widget-content ui-corner-all" />
-    <label for="contact.phone">Phone</label>
-    <input type="text" id="contact.phone" var="website" value="{{phone}}" class="text ui-widget-content ui-corner-all" />
-      </script>
+  
     
 
     <!--------------------------- DIALOG QUICKVIEW(yesterday/mtd/ytd) ---------------------------------------->
@@ -845,120 +816,143 @@
     </script>
     
     <!----------------------------------------- MENU ADMINISTRATION ------------------------------------------>
+   
+    <script id="hierarchy_list_TMP" type="text/html">
+      <ul>
+	{{#company}}<li id="{{_id}}">{{companyName}}</li>{{/company}}
+	{{#company}}
+	<ul>
+	  {{#hierarchy}}
+	  {{#groups}}
+	  <li id="{{group_id}}">{{groupName}}</li>
+	  <ul>
+	    {{#stores}}
+	    <li id="{{store_id}}">{{storeName}}</li>
+	    {{/stores}}
+	  </ul>
+	  {{/groups}}
+	  {{/hierarchy}}
+	</ul>
+	{{/company}}
+	{{#groups}}
+	<li id="{{group_id}}">{{groupName}}</li>
+	<ul>
+	  {{#stores}}
+	  <li id="{{store_id}}">{{storeName}}</li>
+	  {{/stores}}
+	</ul>
+	{{/groups}}
+	{{#stores}}
+	<li id="{{store_id}}">{{storeName}}</li>
+	{{/stores}}
+      </ul>
+    </script>
+
     <script id="adminManagement_TMP" type="text/html">
-      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
-    {{>main_navigation_buttons_P}}
-    <h1>Administration</h1>
-    <h2>{{>breadcrumb_P}}</h2>
-    <div id='usersInfoTable'></div>
-    {{>quickReportViewHook_P}}
-    <br/>
-    {{>backButton_P}}   
+      {{>mainheader}}
+      <div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+	{{>main_navigation_buttons_P}}
+	<h1>Administration</h1>
+	<h2>{{>breadcrumb_P}}</h2>
+	<button style="float:right;" id="addusers">Add User</button>
+	<div id='usersInfoTable'></div>
+	<button style="float:right;" id="addusers">Add User</button>
+	{{>quickReportViewHook_P}}
+	<br/>
+	{{>backButton_P}}   
       </div>
     </script>
     
     <script id="adminUsersInfotable_TMP" type="text/html">
       <div style="margin-bottom:40px">
-    <table style="margin-bottom:20px;" class="reportstable">
-      <thead>
-        <tr>
-          <th>USER</th>
-          <th>NAME</th>
-          <th>STATUS</th>
-          <th>EDIT</th>
-          <th>DELETE</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#list}}
-        <tr>
-          <td align="center">{{userName}}</td>
-          <td align="center">{{firstname}} {{lastname}}</td>
-          <td align="center">{{status}}</td>
-          <td>{{>quickEditViewButtonByName_P}}</td>
-          <td>{{>quickDeleteViewButtonByName_P}}</td>
-        </tr>
-        {{/list}}
-      </tbody>
-    </table>
-    <button style="float:right;" id="addusers">Add User</button>
+	<table style="margin-bottom:20px;" class="reportstable">
+	  <thead>
+            <tr>
+              <th>USER</th>
+              <th>NAME</th>
+              <th>ENABLED</th>
+              <th>EDIT</th>
+              <th>DELETE</th>
+            </tr>
+	  </thead>
+	  <tbody>
+            {{#list}}
+            <tr>
+              <td align="center">{{userName}}</td>
+              <td align="center">{{firstname}} {{lastname}}</td>
+              <td align="center">{{#enabled}}enabled{{/enabled}}{{^enabled}}disabled{{/enabled}}</td>
+              <td align="center"><button id="{{_id}}" class="edit_user">edit</button></td>
+              <td align="center"><button id="{{_id}}" class="delete_user">delete</button></td>
+            </tr>
+            {{/list}}
+	  </tbody>
+	</table>
       </div>
     </script>
     
-    <script id="inputUserInfo_TMP" type="text/html">
-        <form id="form">
-        <table style="margin-bottom:20px;" class="reportstable">
-      <thead>
-        <tr>
-          <th>USER</th>
-          <th>PASSWORD</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><input type="text" var="user"  value="{{user}}" id="txtinputuser" /></td>
-          <td><input type="text" var="password"  value="{{password}}" id="txtinputpassword" /></td>
-        </tr>
-      </tbody>
-    </table>
-    <ul>
-        <li>PRIVILEGE :
-          <select var="role" id="privilegedown" class="{{>commonClasses_P}}">
-            <option value = "MASTERADMIN" {{#ismaster}}selected{{/ismaster}} >MASTER</option>
-            <option value = "ADMIN" {{^ismaster}}selected{{/ismaster}} >USER</option>
-          </select>
-        </li>
-        <li>STATUS :
-          <select var="status" id="statusdown" class="{{>commonClasses_P}}">
-            <option value = "ACTIVE" >ACTIVE</option>
-            <option value = "SUSPENDED">SUSPENDED</option>
-          </select>
-        </li>
-    </ul>
-    </form>
+    <script id='generic_checkbox_P' class='partial' type='text/html'>
+      <input type="checkbox" var="{{var}}" {{^enabled}}disabled="disabled"{{/enabled}} {{#value}}checked{{/value}}/>
     </script>
-    
-    <script id="inputUserInfo2_TMP" class="partial" type="text/html">
-    <form id="form">
-      <h2>User Info</h2>
-      <ul>
-          <li><label for="user-name">User name</label></li>
-      <li><input type="text" var="userName"  value="{{userName}}" id="txtinputuser" /></li>
-      <li><label for="user-pass">Password</label></li>
-      <li><input type="text" var="password" id="txtinputpassword" /></li>
-      
-      
-          <li>Back Office :
-          <select var="roleBO" id="roleBOdown" class="{{>commonClasses_P}}">
-              <option value = "empty"> </option>
-            <option value = "admin">ADMIN</option>
-            <option value = "user">USER</option>
-          </select>
-    </li>
-    <li>POS :
-          <select var="rolePOS" id="rolePOSdown" class="{{>commonClasses_P}}">
-              <option value = "empty"> </option>
-            <option value = "admin">ADMIN</option>
-            <option value = "user" >USER</option>
-          </select>
-    </li>
-      <li>Status :
-          <select var="status" id="statusdown" class="{{>commonClasses_P}}">
-            <option value = "ACTIVE" {{#isactive}}selected{{/isactive}} >ACTIVE</option>
-            <option value = "SUSPENDED" {{^isactive}}selected{{/isactive}} >SUSPENDED</option>
-          </select>
-    </li>
-    </ul>
-      <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tbody>
-          <tr>
-        <td valign="top">{{>addressFields_P}}</td>
-        <td valign="top">{{>contactFields_P}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </form>
-      </script>
+    <script id='generic_textbox_P' class='partial' type='text/html'>
+      <input type="text" class="text ui-widget-content ui-corner-all" var="{{var}}"  value="{{value}}"{{^enabled}}disabled="disabled"{{/enabled}}/>
+    </script>
+    <script id='generic_passwordbox_P' class='partial' type='text/html'>
+      <input type={{^hidden}}"password"{{/hidden}}{{#hidden}}"hidden"{{/hidden}} class="text ui-widget-content ui-corner-all"  var="{{var}}"  value="{{value}}"{{^enabled}}disabled="disabled"{{/enabled}}/>
+    </script>
+        
+    <script id="inputUserInfo_TMP" class="partial" type="text/html">
+      <form id="form">
+	<h2>User Info</h2>
+	<ul>
+	  {{#user_name}}
+          <li>{{label}}</li>
+	  <li>{{>generic_textbox_P}}</li>
+	  {{/user_name}}
+	  {{#password}}
+	  <li>{{label}}</li>
+	  <li>{{>generic_passwordbox_P}}</li>
+	  {{/password}}
+	  {{#is_enabled}}
+	  <li>
+	    {{label}}{{>generic_checkbox_P}}
+	  </li>
+	  {{/is_enabled}}
+	  <span>Roles</span>
+	  <ul>
+	    {{#roles}}
+	    <li>
+	       {{>generic_checkbox_P}}{{label}}
+	    </li>
+            {{/roles}}
+	  </ul>
+
+	</ul>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tbody>
+            <tr>
+              <td valign="top">
+		<h2>Address</h2>
+		<ul>
+		  {{#address}}
+		  <li>{{label}}</li>
+		  <li>{{>generic_textbox_P}}</li>
+		  {{/address}}
+		</ul>
+	      </td>
+	      <td valign="top">
+		<h2>Contact</h2>
+		<ul>
+		  {{#contact}}
+		  <li>{{label}}</li>
+		  <li>{{>generic_textbox_P}}</li>
+		  {{/contact}}
+		</ul>
+	      </td>
+            </tr>
+          </tbody>
+	</table>
+      </form>
+    </script>
     
     <!-------------------------------------------- MENU REPORTS ------------------------------------------------>
     <script id="menuReports_TMP" type="text/html">
@@ -2838,25 +2832,19 @@
     </script>
     
     
-    <!------------------------------------------------------- LAYER LOGIN------------------------------------------>
+    <!------------------------------------------------------- customer LOGIN------------------------------------------>
     <script id="layerLogin_TMP" type="text/html">
       <div class="loginwrapper2">
-	<div style="z-index:101;position: absolute;left: 22px;top: 240px; width:181px; height:88px; font-size:12px; font-weight:bold;">
-	  <img src="../images/ssm.png"/>
-	</div>
-	
-	<div style="z-index:101;position: absolute;left: 612px;top: 260px; width:181px; height:88px; font-size:12px; font-weight:bold;">
-	  <img src="../images/mrp.png"/>
-	</div>
 
-	<div style="z-index:101;position: absolute;left: 80px;top: 410px; width:181px; height:112px; font-size:12px; font-weight:bold;">
-	  <img src="../images/emv.png"/>
-	</div>
-
-	<div style="z-index:101;position: absolute;left: 516px;top: 430px; width:181px; height:88px; font-size:12px; font-weight:bold;">
+	<div style="z-index:101;position: absolute;left: 536px;top: 60px; width:181px; height:88px; font-size:12px; font-weight:bold;">
 	  <img src="../images/pos.png"/>
 	</div>
 	
+	<div style="z-index:101;position: absolute;left: 326px;top: 460px; width:167px; height:39px; font-size:12px; font-weight:bold;">
+	  <img src="../images/more-info.png"/>
+	</div>
+
+
 	<div class="loginbox2">
 	       <div class="iefix">
 	  <form id="ids_form" style="margin-top: 90px;">

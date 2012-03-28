@@ -85,11 +85,7 @@ var UserDoc = couchDoc.extend(
     {
 	db:"_users/",
 	initialize:function(atts){
-	    console.log("user init");
-	    console.log(atts);
-	    var user_prefix = "org.couchdb.user:";
-	    var id_with_prefix =user_prefix + atts.name;
-        this.set({"_id":atts.name});
+            this.set({"_id":atts.name});
 	},
 	login:function(options){
 	    var user = this;
@@ -108,9 +104,17 @@ var UserDoc = couchDoc.extend(
 			  });
 	},
 	signup:function(options){
-	    var user = this;
-	    $.couch.signup(_.extend(options,{name: user.id,
-					     password: user.get('password')}));
+	    /* should be in the form of:
+	     * $.couch.signup({name:"user name", roles:["pos_sales"]},
+	     "password",
+	     {success:function(){
+	     console.log(arguments);}})*/
+	    var user = this.toJSON();
+	    var password = user.password;
+	    $.couch.signup(_.removeKeys(user,'_id','password'),
+			   password,
+			   options
+			  );
 	},
 	url:function(){ //i don't think this is used (looking at how the init method workds)
 	    return this.urlRoot() + "org.couchdb.user:" + this.id;

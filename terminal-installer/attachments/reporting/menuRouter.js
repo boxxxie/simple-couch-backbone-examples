@@ -1,6 +1,6 @@
 var menuModel;
 
-var menuSetMenusRouter = 
+var menuSetMenusRouter =
     new (Backbone.Router.extend(
 	     {routes: {
 	     	  "menuSetMenus/companyReport":"menuSetMenusCompany",
@@ -22,20 +22,20 @@ var menuSetMenusRouter =
 	      }
 	     }));
 
-var menuSetMenusView = 
+var menuSetMenusView =
     Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
 	     view.el = $("#main");
-	     
-	     _.bindAll(view, 
+
+	     _.bindAll(view,
 		       'renderMenuSetMenusCompany',
 		       //'renderMenuSetMenusGroup',
 		       //'renderMenuSetMenusStore',
 		       'renderMenuHeaderPartial',
 		       'renderMenuScreenPartial');
 	     menuSetMenusRouter
-		 .bind('route:menuSetMenusCompany', 
+		 .bind('route:menuSetMenusCompany',
 		       function(){
 			   console.log("menuReportsView, route:menuSetMenusCompany");
 			   view.renderMenuSetMenusCompany();
@@ -47,15 +47,15 @@ var menuSetMenusView =
 	     (function(err,menu){
     	  console.log(menu);
     	  menuModel = menu;
-    	  
-    	  var html = ich.menuSetMenus_TMP({startPage:"companyReport", 
+
+    	  var html = ich.menuSetMenus_TMP({startPage:"companyReport",
      					   breadCrumb:breadCrumb(ReportData.company.companyName)});
 		  $(view.el).html(html);
-		  
-		  
+
+
 		  var htmlleft = ich.menuSetMenus_Left_TMP({});
 		  $("#menusetmenusleft").html(htmlleft);
-		  
+
 		  $("#menumodifiersbutton").button()
 		      .click(function(){
 				 view.renderMenuScreenPartial(0);
@@ -81,37 +81,37 @@ var menuSetMenusView =
 		  $("#menueditheader4").button()
 		      .click(function(){
 				 renderEditHeader(4);
-			     });						   						   
-		  
-		  
+			     });
+
+
 		  view.renderMenuScreenPartial(1);
 		  view.renderMenuHeaderPartial();
-		  
+
 		  menuModel.bind("change:menuButtonHeaders",view.renderMenuHeaderPartial);
 		  menuModel.bind("change:menuButtons", view.renderMenuScreenPartial);
-		  
+
 		  console.log("rendered set menus");
-		 
-	      }); 
-	     
+
+	      });
+
 	 },
 	 renderMenuHeaderPartial: function() {
 	     var view = this;
 	     var menuModelHeaders = menuModel.get('menuButtonHeaders');
-	     
+
 	     menuModelHeaders = _.map(menuModelHeaders, function(item) {
-					  if(_.isEmpty(item.description1) 
+					  if(_.isEmpty(item.description1)
 			  		     && _.isEmpty(item.description2)
 			  		     && _.isEmpty(item.description3)) {
 				  	      item.description1="MENU" + item.menu_id;
 					  }
 					  return item;
 				      });
-	     
-	     
+
+
 	     var htmlbottom = ich.menuSetMenus_Bottom_TMP({menuButtonHeaders:menuModelHeaders});
 	     $("#menusetmenusbottom").html(htmlbottom);
-	     
+
 	     _.each(menuModelHeaders, function(item){
 		  	$("#menubuttonheader"+item.menu_id).button()
 		  	//.css({background:"rgb("+item.color+")"})
@@ -120,7 +120,7 @@ var menuSetMenusView =
 				       $("#menusetmenusright").html({});
 				   });
 		    });
-	     
+
 	     /*
 	      _.each(menuModelHeaders, function(item){
 	      $("#menubuttonheader"+item.menu_id)
@@ -130,13 +130,13 @@ var menuSetMenusView =
 	      });;
 	      });
 	      */
-	     
+
 	 },
 	 renderMenuScreenPartial: function(model,menus,item) {
 	     if(_.isNumber(model)){
 	 	 console.log("screen num : " + model);
 	 	 var menuscreentitle;
-	 	 
+
 	 	 if(model==0 || model==5) {
 	 	     menuscreentitle = "MODIFIERS".concat(model==5?"2":"");
 	 	 } else {
@@ -145,25 +145,25 @@ var menuSetMenusView =
 	 	    	 .concat(header.description2)
 	 	    	 .concat(header.description3);
 	 	 }
-	 	 
+
 	 	 var menuScreen = menuModel.menu_screen(model);
 		 var htmlcenter = ich.menuSetMenus_Center_TMP(_.extend({menuscreentitle:menuscreentitle},menuScreen));
 		 $("#menusetmenuscenter").html(htmlcenter);
-		 
+
 		 _.each(menuScreen.menu_screen, function(item){
 		 	_.each(item.row, function(rowitem) {
 		 		var btn = $('#'+rowitem.display.screen+"\\:"+rowitem.display.position)
 		 					.click(function(){
 			    				//onsole.log("click event! : "+ this.id);
 			    				renderEditMenuItem(rowitem.display.screen, rowitem.display.position);
-				   			});	
-		 	});	
+				   			});
+		 	});
 		  });
-		 
+
 		 console.log("menuscreen rendered");
 	     } else if(!_.isEmpty(item)) {
 		 console.log("screen num : " + item.display.screen);
-		 
+
 		 var menuscreentitle;
 		 if(item.display.screen==0 || item.display.screen==5) {
 	 	     menuscreentitle = "MODIFIERS".concat(item.display.screen==5?"2":"");
@@ -173,21 +173,21 @@ var menuSetMenusView =
 	 	    	 .concat(header.description2)
 	 	    	 .concat(header.description3);
 	 	 }
-	 	 
+
 	 	 var menuScreen = menuModel.menu_screen(item.display.screen);
 		 var htmlcenter = ich.menuSetMenus_Center_TMP(_.extend({menuscreentitle:menuscreentitle},menuScreen));
 		 $("#menusetmenuscenter").html(htmlcenter);
-		 
+
 		 _.each(menuScreen.menu_screen, function(item){
 		 	_.each(item.row, function(rowitem) {
 		 		var btn = $('#'+rowitem.display.screen+"\\:"+rowitem.display.position)
 		 					.click(function(){
 			    				//console.log("click event! : "+ this.id);
 			    				renderEditMenuItem(rowitem.display.screen, rowitem.display.position);
-				   			});	
-		 	});	
-		  });	
-		 
+				   			});
+		 	});
+		  });
+
 		 console.log("menuscreen rendered");
 	     }
 	 }
@@ -199,7 +199,7 @@ function renderEditPage(num,position) {
     if(_.isNumber(position)) {
 	//renderEditMenuItem
 	var button = menuModel.get_button(num,position);
-	
+
 	var htmlright = ich.menuSetMenus_Right_TMP(button);
 	$("#menusetmenusright").html(htmlright);
 	var btn = $("#btnMenuSave")
@@ -209,7 +209,7 @@ function renderEditPage(num,position) {
 				});
 
 	// if modifier menu, disable modifier/read scale button
-	// otherwise(menu), disable duplicate button	
+	// otherwise(menu), disable duplicate button
 	if(num==0) {
 	    var btnHasModifier = $("#has_modifier");
 	    var btnUseScale = $("#use_scale");
@@ -231,15 +231,15 @@ function renderEditPage(num,position) {
 	    .bind('keyup', function(){
 		      $(this).ColorPickerSetColor(this.value);
 		  });
-	
+
     } else {
 	//renderEditHeader
 	var menu_id=num;
 	var header  = menuModel.get_header(menu_id);
-	
+
 	var htmlright = ich.menuSetMenuHeader_TMP(header);
 	$("#menusetmenusright").html(htmlright);
-	
+
 	$("#displayColor").ColorPicker({
 					   onSubmit: function(hsb, hex, rgb, el) {
 					       $(el).val(rgb.r + "," + rgb.g + "," + rgb.b);
@@ -252,7 +252,7 @@ function renderEditPage(num,position) {
 	    .bind('keyup', function(){
 		      $(this).ColorPickerSetColor(this.value);
 		  });
-	
+
     }
 };
 
@@ -265,7 +265,7 @@ function renderEditMenuItem(numScreen,position) {
 };
 
 function clearEditMenu() {
-    
+
 };
 
 function closeEditMenu() {
@@ -277,16 +277,29 @@ function saveEditMenu() {
 
     var newButtonItemData = varFormGrabber(editDialog);
 
-    
-    menuModel.set_button(newButtonItemData);    
-    menuModel.save();
-    
+
+    menuModel.set_button(newButtonItemData);
+    menuModel.save({},{
+		       success:function(){
+			   console.log('menu saved successfully')
+		       },
+		       error:function(error){
+			   console.log(arguments)
+			   if (JSON.parse(error.responseText).error === "conflict"){
+			       alert('there was an error saving the menu, please refresh the menu screen')
+			   }
+			   else{
+			       alert('there was an error saving the menu')
+			   }
+		       }
+		   });
+
     console.log("menuModel, saved");
     closeEditMenu();
 };
 
 function clearEditHeader() {
-    
+
 }
 
 function closeEditHeader() {
@@ -300,8 +313,8 @@ function saveEditHeader() {
 
     console.log("newHeaderItemData");
     console.log(newHeaderItemData);
-    
-    menuModel.set_header(newHeaderItemData);    
+
+    menuModel.set_header(newHeaderItemData);
     menuModel.save();
     closeEditMenu();
 }

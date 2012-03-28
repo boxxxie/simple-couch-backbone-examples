@@ -28,7 +28,7 @@ function inventoryChangeLogCompressedBy(id,field,compressFn){
     return function(callback){
 	inventoryChangeLog(id)
 	(function(err,inventoryChangeLogResp){
-	     var compressedInventoryChangeLog = 
+	     var compressedInventoryChangeLog =
 		 _.chain(inventoryChangeLogResp)
 		 .groupBy('upccode')
 		 .map(function(invItems){
@@ -48,16 +48,16 @@ function inventoryChangeLogCompressedBy(id,field,compressFn){
 }
 function inventoryTaxChangeLog_fetch(id){
     function sameTaxes(item1,item2){
-        return (_.isDefined(item1.apply_taxes) 
-		&& _.isDefined(item2.apply_taxes) 
+        return (_.isDefined(item1.apply_taxes)
+		&& _.isDefined(item2.apply_taxes)
 		&& _.isEqual(item1.apply_taxes, item2.apply_taxes));
     }
     return inventoryChangeLogCompressedBy(id,"apply_taxes",sameTaxes);
 }
 function inventoryPriceChangeLog_fetch(id){
     function samePrice(item1,item2){
-        return (_.isDefined(item1.price) 
-		&& _.isDefined(item2.pric) 
+        return (_.isDefined(item1.price)
+		&& _.isDefined(item2.pric)
 		&& item1.price.selling_price == item2.price.selling_price);
     }
     return inventoryChangeLogCompressedBy(id,"price",samePrice);
@@ -120,7 +120,7 @@ function inventoryTotalsRangeFetcher_F(id){
 				value();
 			    return _.extend({label:key},reducedVal);
 			}
-			
+
 			var out = _(items).chain()
 			    .map(function(item){
 				     return _.extend({label : _(item.key).last()},item.value);
@@ -154,10 +154,10 @@ function inventoryTotalsRangeFetcher_F(id){
 			}
 			sales = sales.rows;
 			refunds = _.applyToValues(refunds.rows,negate,true);
-			var totals_labeled = _.map(inventory_transform(sales.concat(refunds)),function(item){ return _.nest(item,['price','quantity'],'totals');}); //_.mapNest(inventory_transform(sales.concat(refunds)),['price','quantity'],'totals');
-			var sales_labeled = _.map(inventory_transform(sales),function(item){ return _.nest(item,['price','quantity'],'sales');}); //_.mapNest(inventory_transform(sales),['price','quantity'],'sales');
-			var refunds_labeled = _.map(inventory_transform(refunds),function(item){ return _.nest(item,['price','quantity'],'refunds');}); //_.mapNest(inventory_transform(refunds),['price','quantity'],'refunds');
-			
+			var totals_labeled = _.map(inventory_transform(sales.concat(refunds)),function(item){ return _.nest(item,['price','quantity'],'totals');});
+			var sales_labeled = _.map(inventory_transform(sales),function(item){ return _.nest(item,['price','quantity'],'sales');});
+			var refunds_labeled = _.map(inventory_transform(refunds),function(item){ return _.nest(item,['price','quantity'],'refunds');});
+
 			return _([])
 			    .chain()
 			    .concat(totals_labeled, sales_labeled, refunds_labeled)
@@ -179,7 +179,7 @@ function inventoryTotalsRangeFetcher_F(id){
 			var refundsVal =_.applyToValues(defaultValue(refunds),negate);
 			return _([salesVal,refundsVal]).reduce(_.addPropertiesTogether,{});
 		    }
-            
+
             function fillEmptyValue(total) {
                 var returnVal = _.combine({},total);
                 if(_.isEmpty(returnVal.sales)) {
@@ -193,15 +193,15 @@ function inventoryTotalsRangeFetcher_F(id){
                 }
                 if(!_.isNumber(returnVal.totalSalesPercentage)) {
                     returnVal.totalSalesPercentage = 0;
-                }                      
+                }
                 if(!_.isNumber(returnVal.typedSalesPercentage)) {
                     returnVal.typedSalesPercentage = 0;
                 }
                 return returnVal;
             }
-            
+
 		    var resp = raw_resp;
-		    
+
 		    var ecr_sales = _.reduce([totals(resp.total_department_sale,resp.total_department_refund),
 					      totals(resp.total_scale_sale,resp.total_scale_refund),
 					      totals(resp.total_ecr_sale,resp.total_ecr_refund)],
@@ -215,7 +215,7 @@ function inventoryTotalsRangeFetcher_F(id){
 
 		    var menu_sales_list = totals_list(resp.all_menu_sales,resp.all_menu_refunds,menu_sales.price,totalSales);
 		    var menu_sales_totals = fillEmptyValue(_.reduce(menu_sales_list,_.addPropertiesTogether,{}));
-		    
+
 
 		    var scan_sales_list =_(totals_list(resp.all_scan_sales,resp.all_scan_refunds,scan_sales.price,totalSales))
 			.map(function(scan){
@@ -226,7 +226,7 @@ function inventoryTotalsRangeFetcher_F(id){
 			     });
 
 		    var scan_sales_totals = fillEmptyValue(_.reduce(scan_sales_list,_.addPropertiesTogether,{}));
-		    
+
 		    var ecr_sales_list =totals_list(resp.all_ecr_sales,
 						    resp.all_ecr_refunds,
 						    ecr_sales.price,totalSales);
@@ -239,22 +239,22 @@ function inventoryTotalsRangeFetcher_F(id){
 
 		    var ecr_sales_totals = fillEmptyValue(_.reduce(ecr_sales_list.concat(department_sales_list).concat(scale_sales_list),
 						    _.addPropertiesTogether,{}));
-		    
-		    var scale_sales_list_formatted = _.walk_pre(scale_sales_list,
-								function(obj){
-								    if(obj.quantity){
-									return _.extend(obj,{quantity:obj.quantity.toFixed(3)});
-								    }	 
-								    return obj;
-								});
+
+		    var scale_sales_list_formatted = _.prewalk(function(obj){
+								 if(obj.quantity){
+								     return _.extend(obj,{quantity:obj.quantity.toFixed(3)});
+								 }
+								 return obj;
+							     },
+							     scale_sales_list);
 		    function applyDefaultSalesFields(list){
 			function applyDefault_sales_refunds(item){
 			    return _.defaults(item,{sales:{price:0,quantity:0},refunds:{price:0,quantity:0}});
 			}
 			return _.map(list,applyDefault_sales_refunds);
 		    }
-		    
-		    var forTMP = { 
+
+		    var forTMP = {
 			menu_sales_list: applyDefaultSalesFields(menu_sales_list),
 			menu_list_totals:menu_sales_totals,
 			menu_sales:menu_sales,
@@ -262,9 +262,9 @@ function inventoryTotalsRangeFetcher_F(id){
 			scan_sales_list:applyDefaultSalesFields(scan_sales_list),
 			scan_list_totals:scan_sales_totals,
 			scan_sales:scan_sales,
-			
+
 			department_sales_list:applyDefaultSalesFields(department_sales_list),
-			
+
 			scale_sales_list:applyDefaultSalesFields(scale_sales_list_formatted),
 
 			ecr_sales_list:applyDefaultSalesFields(ecr_sales_list),
@@ -288,8 +288,8 @@ function inventoryTotalsRangeFetcher_F(id){
 				       },true)
 			.applyToValues(toFixed(2),true)
 			.value();
-		    
-		    callback(err,priceFormatedTMP);	  
+
+		    callback(err,priceFormatedTMP);
 		});
 	};
     };
@@ -303,7 +303,7 @@ function stockInventoryFetcher_F(id, originids) {
     var db_inventory = cdb.db("inventory");
     var inventory_sold_view = cdb.view("reporting","inventory_sold");
     var db_transactions = cdb.db("transactions");
-    
+
     var invQuery = _async.generalKeyQuery(upcview,db_inventory);
     var stockQuery = _async.generalKeyQuery(stockview,db_inventory);
     var transQuery = _async.generalQuery(inventory_sold_view,db_transactions);
@@ -315,7 +315,7 @@ function stockInventoryFetcher_F(id, originids) {
         endkey: ([]).concat(id),
         startkdy:([]).concat(id).concat({})
     };
-    
+
     return function(callback){
         async.parallel({
 			   invlist : invQuery(id),
@@ -328,13 +328,13 @@ function stockInventoryFetcher_F(id, originids) {
 			       // return value -> [Object { upc="1234", info={qty,date}}, Object { upc="45613", info={...}}]
 			       return _.map(value,function(v,k){ return {upc:k, info:v};});
 			   };
-			   
+
 			   var invlist = _.pluck(resp.invlist.rows, "value");
 			   var stocklist = _.pluck(resp.stocklist.rows, "value");
 			   var stockDoclist = _.pluck(resp.stocklist.rows, "doc");
 			   var invDoclist = _.pluck(resp.invlist.rows, "doc");
 			   var soldlist = extractSoldList(_.pluck(resp.soldlist.rows, "value"));
-			   
+
 			   var stockDocListOverInvDoc =
 			       _.chain(stocklist)
 			       .matchTo(invDoclist,"upccode")
@@ -344,11 +344,11 @@ function stockInventoryFetcher_F(id, originids) {
 					var returnValue = _.combine({},foundStock);
 					returnValue.inventory.price = item.price;
 					returnValue.inventory.description = item.description;
-					return returnValue;                         
+					return returnValue;
 				    })
 			       .value();
-			   
-			   var stocklistCompleted = 
+
+			   var stocklistCompleted =
 			       _.chain(invlist)
 			       .difference(stocklist)
 			       .matchTo(invDoclist,"upccode")
@@ -360,7 +360,7 @@ function stockInventoryFetcher_F(id, originids) {
 				    })
 			       .concat(stockDocListOverInvDoc)
 			       .value();
-			   
+
 			   callback(err,{docList:stocklistCompleted,soldList:soldlist});
 		       });
     };
@@ -372,11 +372,11 @@ function idleInventoryFetcher_F(id, days) {
     var db_inventory = cdb.db("inventory");
     var inventory_sold_view = cdb.view("reporting","inventory_sold");
     var db_transactions = cdb.db("transactions");
-    
+
     var invQuery = _async.generalKeyQuery(upcview,db_inventory);
     var stockQuery = _async.generalKeyQuery(stockview,db_inventory);
     var transQuery = _async.generalQuery(inventory_sold_view,db_transactions);
-    
+
     var currentDateForQuery = (new Date()).addDays(1).toArray().slice(0,3);
     var pastDate = (new Date()).addDays(-Number(days)).toArray().slice(0,3);
 
@@ -387,7 +387,7 @@ function idleInventoryFetcher_F(id, days) {
         endkey: ([]).concat(id),
         startkdy:([]).concat(id).concat({})
     };
-    
+
     var optionsForPartialSoldList = {
         descending : true,
         group: true,
@@ -395,7 +395,7 @@ function idleInventoryFetcher_F(id, days) {
         endkey: ([]).concat(id).concat(pastDate),
         startkdy:([]).concat(id).concat(currentDateForQuery)
     };
-    
+
     return function(callback){
         async.parallel({
 			   invlist : invQuery(id),
@@ -414,17 +414,17 @@ function idleInventoryFetcher_F(id, days) {
 			       var date2 = new Date(to);
 			       date1.setHours(0); date1.setMinutes(0); date1.setSeconds(0); date1.setMilliseconds(0);
 			       date2.setHours(0); date2.setMinutes(0); date2.setSeconds(0); date2.setMilliseconds(0);
-			       
-			       return (date2.getTime()-date1.getTime())/(1000*60*60*24);                 
+
+			       return (date2.getTime()-date1.getTime())/(1000*60*60*24);
 			   };
-			   
+
 			   var stocklist = _.pluck(resp.stocklist.rows, "value");
 			   var stockDoclist = _.pluck(resp.stocklist.rows, "doc");
 			   var invDoclist = _.pluck(resp.invlist.rows, "doc");
 			   var all_soldlist = extractSoldList(_.pluck(resp.all_soldlist.rows, "value"));
 			   var period_soldlist = extractSoldList(_.pluck(resp.period_soldlist.rows, "value"));
 			   var diff_soldlist = _.difference(all_soldlist,period_soldlist);
-			   
+
 			   var result =
 			       _.chain(stockDoclist)
 			       .reject(function(item){
@@ -436,18 +436,18 @@ function idleInventoryFetcher_F(id, days) {
 					var soldItem = _.find(diff_soldlist,function(itm){
 								  return itm.upc == item.inventory.upccode;
 							      });
-					
+
 					var foundInv = _.find(invDoclist, function(inv){ return inv.upccode == item.inventory.upccode;});
 					var invItem = _.combine({},item);
 					invItem.inventory.price = foundInv.price;
 					invItem.inventory.description = foundInv.description;
-					
+
 					if(_.isEmpty(soldItem)) {
 					    return _.combine({date_last_sold:"never been sold",
 							      days:"0",
 							      qty:item.count},
 							     invItem);
-					    
+
 					} else {
 					    var last_sold = getDateObjFromStr(soldItem.Info.date);
 					    return _.combine({date_last_sold:datePartFormatter(last_sold),
@@ -457,8 +457,8 @@ function idleInventoryFetcher_F(id, days) {
 					}
 				    })
 			       .value();
-			   
+
 			   callback(err,result);
 		       });
-    };  
+    };
 };

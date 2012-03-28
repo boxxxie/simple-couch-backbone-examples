@@ -370,14 +370,14 @@ function appendGroupStoreInfoFromTerminalID(list) {
     
     function getStoreIdFromTerminalId(obj, terminal_id){
 	var storeid;
-	_.walk_pre(obj,function(o){
+	_.prewalk(function(o){
 		       if(o.terminals){
 			   if(_.find(o.terminals, function(terminal){ return terminal.terminal_id == terminal_id;})) {
 			       storeid = o.store_id;
 			   }
 		       }
 		       return o;
-		   });
+		   },obj);
 	return storeid;		
     };
     

@@ -211,13 +211,13 @@ var menuReportsTransactionsDetailView =
 function renderTransactionsDetailTable() {
     function getTerminalLabel(terminal_id) {
     	var terminal_label = "";
-    	_.walk_pre(ReportData, 
+    	_.prewalk(
 			  function(obj) {
 			      if(obj.terminal_id == terminal_id) {
 				  	terminal_label = obj.terminal_label;
 			      }
 			      return obj;
-			  });
+			  },ReportData);
 		return terminal_label;	
     };
     function renderTransactionDetail(startDate, endDateForQuery, option) {
@@ -386,7 +386,7 @@ function renderTransactionsDetailTable() {
 	transactionsReportDaySummaryFetcher(startDate,endDateForQuery)
 	([_.first(ids).id])
 	(function(err,resp){
-	    var formattedTemplateData = _.walk_pre(resp,transactionFormattingWalk);
+	    var formattedTemplateData = _.prewalk(transactionFormattingWalk,resp);
 	    $("#transactionssummarytable").html(ich.transactionsSummaryTable_TMP({list:formattedTemplateData.transactions,total:formattedTemplateData.total}));
 	    
 	    _.each(resp.transactions,function(item){

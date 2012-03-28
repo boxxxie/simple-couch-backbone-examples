@@ -321,7 +321,9 @@ function originTodaysHourlySalesFetcher(view,db,id,runAfter){
 		    map(function(val,key){return [key,template()];}).
 		    toObject().
 		    extend(stuff).
-		    map$(function(val,time){
+		    map$(function(pair){
+				var time = _.first(pair);
+				var val = _.second(pair);
 			    return [formatTime(time),val];
 			 }).
 		    value();
@@ -398,8 +400,9 @@ function todaysHourlySalesFetcher(view,db,id,runAfter){
 			   report.sales.rows).
 		    map(function(item){return {type:type(item),time:time(item),value:salesAmount(item),count:numSales(item)};}).
 		    groupBy(function(item){return item.time;}).
-		    map$(function(val,time){
-			    var sale_refund = val;
+		    map$(function(pair){
+				var time = _.first(pair);
+			    var sale_refund = _.second(pair);
 			    var sales = _(sale_refund).chain().filter(isSale).first().value();
 			    var refunds = _(sale_refund).chain().filter(isRefund).first().value();
 			    var summary = transactionSummary(sales,refunds);
@@ -415,7 +418,9 @@ function todaysHourlySalesFetcher(view,db,id,runAfter){
 		    map(function(val,key){return [key,template()];}).
 		    toObject().
 		    extend(stuff).
-		    map$(function(val,time){
+		    map$(function(pair){
+			var time = _.first(pair);
+			var val = _.second(pair);
 			    return [formatTime(time),val];
 			 }).
 		    value();
