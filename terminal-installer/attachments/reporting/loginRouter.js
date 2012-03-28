@@ -65,7 +65,7 @@ function login() {
     var branch_show = appShow("branch");
 
     function user_complex_roles(user){
-	return _.chain(user.toJSON().roles).filter(_.isObj).first().value()
+	return _.chain(user.toJSON().roles).filter(_.isObj).first().value();
     }
 
     keyQuery(name_to_id_view, companiesDB, _.selectKeys(login_key,'company','group','store'))
@@ -85,14 +85,16 @@ function login() {
 						// user.get('roles').find("company_id"),
 						 {data : user.toJSON(),
 						  success:function(company_branch_data){
-						      var user_no_password = {currentUser:_.removeKeys(user.toJSON(),'password','password_sha','salt')}
+						      var user_no_password = {currentUser:_.removeKeys(user.toJSON(),'password','password_sha','salt')};
 						     /* var user_company_info =
 							  _.chain(user.toJSON().roles)
 							  .filter(_.isObj)
 							  .merge()
 							  .selectKeys('company_id','companyName','group_id','groupName')
 							  .value()*/
-						      var general_report_data = _.combine(user_no_password)
+							  var user_no_password = {currentUser:_.removeKeys(user.toJSON(),'password','salt')};
+                              var user_company_info = _.selectKeys(user.toJSON(),'company_id','companyName','group_id','groupName');
+                              var general_report_data = _.combine(user_no_password,user_company_info);
 						      if(user_complex_roles(user).store_id) {
 							  ReportData = _.combine(general_report_data,{store:company_branch_data,startPage:"storeReport"});
 						      }

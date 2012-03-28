@@ -27,13 +27,13 @@ _.mixin({
 	    //refer to tests
 	    newwalk:function(inner,outer,form){
 		if(_.isArray(form)){
-		    return outer(_.map(form,inner))
+		    return outer(_.map(form,inner));
 		}
 		else if(_.isObject(form)){
-		    return outer(_.map$(form,inner))
+		    return outer(_.map$(form,inner));
 		}
 		else{
-		    return outer(form)
+		    return outer(form);
 		}
 	    },
 	    /*
@@ -51,6 +51,14 @@ _.mixin({
 		    transformation(form)
 		);
 	    },
+	    
+	    prewalk2:function(form,transformation){
+        return _.newwalk(
+            _.curry(_.prewalk,transformation),
+            _.identity,
+            transformation(form)
+        );
+        },
 	    /*
 	     * (defn prewalk-demo
 	     "Demonstrates the behavior of prewalk by printing each form as it is
@@ -67,7 +75,7 @@ _.mixin({
 		_.prewalk(
 		    function(x){
 			console.log("Walked: " + JSON.stringify(x,1));
-			return x
+			return x;
 		    },
 		    form);
 	    }

@@ -34,10 +34,10 @@ function extractItems(obj,field){
     var items = [];
     _.prewalk(function(o){
 		  if(_.has(o,field)){
-		      items.push(o[field])
+		      items.push(o[field]);
 		  }
-		  return o
-	      },obj)
+		  return o;
+	      },obj);
 
     if(_.isEmpty(items) && obj[field]) {
 	items = [obj[field]];
@@ -146,7 +146,8 @@ var reportDataToArray = _.memoize(
 	}
 
 	return _(reportData).chain()
-	    .walk_pre(function(o){
+	    //.walk_pre(function(o){
+        .prewalk2(function(o){
 			  if (o.hierarchy){
 			      var groups = o.hierarchy.groups;
 			      var o_without_field = _.removeKeys(o,'hierarchy');
@@ -155,10 +156,14 @@ var reportDataToArray = _.memoize(
 			  }
 			  return o;
 		      })
-	    .walk_pre(combineWithSubpart('terminals'))
-	    .walk_pre(combineWithSubpart('stores'))
-	    .walk_pre(combineWithSubpart('groups'))
-	    .walk_pre(combineWithSubpart('company'))
+	    //.walk_pre(combineWithSubpart('terminals'))
+	    //.walk_pre(combineWithSubpart('stores'))
+	    //.walk_pre(combineWithSubpart('groups'))
+	    //.walk_pre(combineWithSubpart('company'))
+	    .prewalk2(combineWithSubpart('terminals'))
+        .prewalk2(combineWithSubpart('stores'))
+        .prewalk2(combineWithSubpart('groups'))
+        .prewalk2(combineWithSubpart('company'))
 	    .value();
 
     },
@@ -258,7 +263,7 @@ function updateTerminalDropdown(isNotShowAll) {
 	    _($('option', dropdownStore))
 	    .chain()
             .pluck('value')//map(function(option){return option.value})
-            .reject(function(item){return item=="ALL"})
+            .reject(function(item){return item=="ALL";})
             .value();
     } else {
 	var ids = [dropdownStore.val()];
@@ -283,8 +288,8 @@ function updateTerminalDropdown(isNotShowAll) {
 	_(ids)
 	.chain()
 	.map(function(id){
-		 return _.filter(allStores, function(store){ return store.store_id==id}) //this looks like a groupBy...
-             })
+		 return _.filter(allStores, function(store){ return store.store_id==id;}); //this looks like a groupBy...
+         })
 	.flatten()
 	.value();
     var terminals =

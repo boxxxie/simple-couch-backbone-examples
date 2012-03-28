@@ -16,9 +16,9 @@ var menuInventoryaddScanItemRouter =
 				    input: new upc_code_input_view({id:topLevelEntity(ReportData).id}),
 				    display:new inv_display_view({id:topLevelEntity(ReportData).id})
 				};
-				router.views.input.on('add_item_to_company',router.addItemTo_company_and_reviewDB,router);
-				router.views.input.on('loaded_from_rt7',router.addItemTo_company,router);
-				router.views.input.on("item_already_in_company",router.displayItem,router);
+				router.views.input.on('add_item_to_company',router.views.display.addItemTo_company_and_reviewDB,router);
+				router.views.input.on('loaded_from_rt7',router.views.display.addItemTo_company,router);
+				router.views.input.on("item_already_in_company",router.views.display.displayItem,router);
 			    })
 	     }));
 
@@ -33,13 +33,14 @@ var upc_code_input_view =
 	    userChangedUpc:function(){
 		var upc = _.str.trim(this.$el.find('input').val());
 		var view = this;
-		var entiry_id = view.options.id;
+		var entity_id = view.options.id;
 		var model = new InventoryDoc({_id:entity_id+"-"+upc});
 		model
 		    .fetch(
 			{
 			    success:function(resp_model){
-				model.trigger("item_already_in_company",resp_model);
+				    //model.trigger("item_already_in_company",resp_model);
+				    view.trigger("item_already_in_company",resp_model);
 			    },
 			    error:function(){
 				(new InventoryRT7Doc({_id:upc}))
@@ -73,7 +74,7 @@ var inv_display_view =
 		return function(){
 		    //extract model values from form/textbox
 		    var formObj = varFormGrabber($("#inv_form"));
-		    var upc = $("#upc").val();
+		    var upc = $("#upc_search").find(":text").val(); //$("#upc").val();
 		    var invObj = _.combine(formObj,{upccode:upc,
 						  date:(new Date()).toJSON()});
 
@@ -107,9 +108,10 @@ var inv_display_view =
 			});
 	    },
 	    addItemTo_company:function(model){
-	    	this._renderItem(model,"you can add this item to your inventory, it has a suggested description");
-		this._submitButtonClick(
-		    this._saveItemsAndLog
+	        var view = this.views.display;
+	    	view._renderItem(model,"you can add this item to your inventory, it has a suggested description");
+		view._submitButtonClick(
+		    view._saveItemsAndLog
 		    (function(err,savedInv){
 			 if(err === undefined){
 			     alert(savedInv.description + " has been added");
@@ -118,10 +120,10 @@ var inv_display_view =
 		);
 	    },
 	    addItemTo_company_and_reviewDB:function(model){
-		var view = this;
-	    	this._renderItem(model,"you can add this item to your inventory");
-		this._submitButtonClick(
-		    this._saveItemsAndLog
+		var view = this.views.display;
+	    	view._renderItem(model,"you can add this item to your inventory");
+		view._submitButtonClick(
+		    view._saveItemsAndLog
 		    (function(err,savedInv){
 			 var parents = getParentsInfo(ReportData);
 			 var pInfo = [parents.company, parents.group, parents.store];
@@ -147,10 +149,11 @@ var inv_display_view =
 		);
 	    },
 	    displayItem:function(model){
-		this._renderItem(model,
+        var view = this.views.display;  
+		view._renderItem(model,
 				 model.get("description") +
 				 " is already in your inventory. It can not be added again.");
-		this._disableSubmitButton();
+		view._disableSubmitButton();
 	    }
 	}
     );
