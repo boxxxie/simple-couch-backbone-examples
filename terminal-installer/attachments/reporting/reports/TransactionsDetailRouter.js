@@ -213,7 +213,7 @@ function renderTransactionsDetailTable() {
     	var terminal_label = "";
     	_.prewalk(
 			  function(obj) {
-			      if(obj.terminal_id == terminal_id) {
+			      if(obj && obj.terminal_id == terminal_id) {
 				  	terminal_label = obj.terminal_label;
 			      }
 			      return obj;

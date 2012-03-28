@@ -33,7 +33,7 @@ var extractGroups = _.memoize(
 function extractItems(obj,field){
     var items = [];
     _.prewalk(function(o){
-		  if(_.has(o,field)){
+		  if(o && _.has(o,field)){
 		      items.push(o[field]);
 		  }
 		  return o;
@@ -144,7 +144,6 @@ var reportDataToArray = _.memoize(
 		return o;
 	    };
 	}
-
 	return _(reportData).chain()
         .prewalk2(function(o){
 			  if (o.hierarchy){
@@ -284,7 +283,7 @@ function updateTerminalDropdown(isNotShowAll) {
 	.chain()
 	.map(function(id){
 		 return _.filter(allStores, function(store){ return store.store_id==id;}); //this looks like a groupBy...
-         })
+             })
 	.flatten()
 	.value();
     var terminals =

@@ -1,4 +1,4 @@
-var inv_helpers = 
+var inv_helpers =
     {renderChangesLog : function(view,mainTMP,tableTMP,fetcher){
 	 var html = ich[mainTMP](_.extend({startPage:ReportData.startPage},autoBreadCrumb()));
 	 $(view.el).html(html);
@@ -14,7 +14,7 @@ var inv_helpers =
 				   item.locations = _.filter(item.locations,_.has_F('label'));
 		  		   return item;
 		  	       });
-	      
+
 	      var html =  ich[tableTMP]({list:resp});
 	      $(view.el).find("#changeLogTable").html(html);
 	      //set the buttons to open a dialog list of the stores that apply to each price change
@@ -56,7 +56,7 @@ var inv_helpers =
 			     })
 		     .unique()
 		     .value();
-		 
+
 		 var locationsToReportTo = _.chain([origins,locationsToSaveTo])
 		     .flatten()
 		     .pluck('id')
@@ -66,7 +66,7 @@ var inv_helpers =
 		     .value();
 
 		 inv_helpers.saveManyInvItems(newItemList,locationsToSaveTo,locationsToReportTo)(runAfter);
-		 
+
 	     };
 	 };
      },
@@ -75,10 +75,8 @@ var inv_helpers =
 	 //idsToSaveTo is a list of group/company/store with .id where the item is going to be changed
 	 //attrs are the changes made to the inv doc
 	 return function(callback){
-	     
 	     var upc = attrs.upccode;
 	     var generalInvItemData =  attrs;
-
 	     var models = async.map(idsToSaveTo,
 				    function(item,fetched){
 					var inv = new InventoryDoc({_id: item.id+"-"+upc});
@@ -86,13 +84,13 @@ var inv_helpers =
 					    {
 						success:function(model){
 						    fetched(null,
-							    model.set(_.extend({},
+							    model.set(_.combine(
 									       generalInvItemData,
 									       {locid:item.id}),
 								      {silent:true}));
 						},
 						error:function(){
-						    fetched(null,inv.set(_.extend({},
+						    fetched(null,inv.set(_.combine(
 										  generalInvItemData,
 										  {locid:item.id}),
 									 {silent:true}));
@@ -122,11 +120,11 @@ var inv_helpers =
 	 }
 	 return function(callback){
 	     function modelSaveError(callback){
-		 //resp.responseText 
+		 //resp.responseText
 		 //"{"error":"case_clause","reason":"inventory items must contain prices that are numeric values"}
 		 return function(resp){
 		     //fixme: maybe this needs to be in the save function
-		     var error = JSON.parse(resp.responseText); 
+		     var error = JSON.parse(resp.responseText);
 		     callback.apply(null,[error]);
 		 };
 	     }
@@ -177,7 +175,7 @@ var inv_helpers =
 		 var html = ich.menuInventoryApplyStoresQuickViewDialog_TMP({items:stores});
 		 menuInventoryApplyStoresViewDialog(
 		     html,
-		     {title:"Apply changes to stores", 
+		     {title:"Apply changes to stores",
 		      stores:stores,
 		      groups:groups,
 		      parents:parents,

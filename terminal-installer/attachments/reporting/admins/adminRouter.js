@@ -175,7 +175,7 @@ var adminRouter =
 		     //make things with no type or value be of type string
 		     function fill_in_missing_types(thing){
 			 return _.prewalk(function(o){
-					 if(_.isObj(o) &&
+					 if(o && _.isObj(o) &&
 					    !_.has(o,'type') &&
 					    _.isUndefined(o.value)){
 					     return _.combine(o,{type:'string'})
@@ -187,7 +187,7 @@ var adminRouter =
 		     //make things of certain types be set to arbitrary detault values
 		     function apply_default_values(thing){
 			 return _.prewalk(function(o){
-					 if(_.isObj(o) &&
+					 if(o && _.isObj(o) &&
 					    _.has(o,'type') &&
 					    _.isUndefined(o.value)){
 					     switch(o.type){
@@ -239,7 +239,7 @@ var adminRouter =
 			 .value();
 
 		     var disabled_fields = _.prewalk(function(o){
-						       if(_.has(o,'var')){
+						       if(o && _.has(o,'var')){
 							   return _.combine(o,{const:true})
 						       }
 						       return o

@@ -241,7 +241,7 @@ function inventoryTotalsRangeFetcher_F(id){
 						    _.addPropertiesTogether,{}));
 
 		    var scale_sales_list_formatted = _.prewalk(function(obj){
-								 if(obj.quantity){
+								 if(obj && obj.quantity){
 								     return _.extend(obj,{quantity:obj.quantity.toFixed(3)});
 								 }
 								 return obj;
