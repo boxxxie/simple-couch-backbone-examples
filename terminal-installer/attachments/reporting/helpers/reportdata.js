@@ -146,7 +146,6 @@ var reportDataToArray = _.memoize(
 	}
 
 	return _(reportData).chain()
-	    //.walk_pre(function(o){
         .prewalk2(function(o){
 			  if (o.hierarchy){
 			      var groups = o.hierarchy.groups;
@@ -156,10 +155,6 @@ var reportDataToArray = _.memoize(
 			  }
 			  return o;
 		      })
-	    //.walk_pre(combineWithSubpart('terminals'))
-	    //.walk_pre(combineWithSubpart('stores'))
-	    //.walk_pre(combineWithSubpart('groups'))
-	    //.walk_pre(combineWithSubpart('company'))
 	    .prewalk2(combineWithSubpart('terminals'))
         .prewalk2(combineWithSubpart('stores'))
         .prewalk2(combineWithSubpart('groups'))

@@ -330,7 +330,7 @@ _.mixin({
 			.pairs()
 			.map(iterator)
 			.toObject()
-			.value()
+			.value();
 		   // return _(_.map(obj,iterator)).toObject();
 		}
 		else{
@@ -515,7 +515,7 @@ _.mixin({
 		return function() {
 		    return fn.apply(this, args.concat(
 				   Array.prototype.slice.call(arguments)));
-		}
+		};
 	    },
 	    partial : function(fn){
 		var args = _.chain(arguments).toArray().rest().value();
