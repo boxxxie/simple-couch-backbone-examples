@@ -306,7 +306,9 @@ function renderInventoryReportTable() {
                         resultTxt = resultTxt.concat("\n\n");
                     }
                     //TODO: send csv text to server
-                    alert(resultTxt);
+                    console.log(resultTxt);
+                    var exportDoc = new ExportRequestDoc({content:resultTxt});
+                    exportDoc.save();
                 });
 	 });
 	
