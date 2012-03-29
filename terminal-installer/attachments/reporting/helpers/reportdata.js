@@ -2,6 +2,9 @@ function we_are_fixing_this_page(message){
     alert(message);
     window.history.go(-1);
 }
+function we_are_fixing_this_feature(message){
+    alert(message);
+}
 //obj is supposed to be from ReportData global
 var extractStores =  _.memoize(
     function extractStores(obj){
@@ -303,3 +306,8 @@ function updateTerminalDropdown(isNotShowAll) {
         dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
     }
 };
+
+function simple_user_format(user){
+    var user_roles_obj = _.chain(user.roles).filter(_.isObj).merge().value()
+    return _.chain(user).removeKeys('roles').combine(user_roles_obj).value()
+}

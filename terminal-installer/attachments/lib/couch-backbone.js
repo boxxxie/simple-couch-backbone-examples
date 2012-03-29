@@ -83,9 +83,11 @@ var couchCollection = function(couch,options){
 
 var UserDoc = couchDoc.extend(
     {
-	db:"_users/",
+	db:"_users/",//TODO: use $.couch.authdbsomething to set this
 	initialize:function(atts){
-            this.set({"_id":atts.name});
+	    if(atts && atts.name){
+		this.set({"_id":atts.name});
+	    }
 	},
 	login:function(options){
 	    var user = this;

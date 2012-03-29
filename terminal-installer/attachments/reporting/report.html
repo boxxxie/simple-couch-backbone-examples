@@ -848,15 +848,34 @@
       </ul>
     </script>
 
+    <script id="logged_in_user_info_TMP" type="text/html">
+      <table id="current_user" class="reportstable">
+	<thead>
+          <tr>
+            <th>Logged in as</th>
+            <th>Password</th>
+            <th></th>
+          </tr>
+	</thead>
+	<tbody>
+	  <tr>
+	    <td align="center">{{userName}}</td>
+	    <td align="center">{{exposed_password}}</td>
+	    <td align="center"><button id="change_password">change password</button></td>
+	  </tr>
+	</tbody>
+      </table>
+    </script>
+
     <script id="adminManagement_TMP" type="text/html">
       {{>mainheader}}
       <div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
 	{{>main_navigation_buttons_P}}
 	<h1>Administration</h1>
 	<h2>{{>breadcrumb_P}}</h2>
+	<div id="current_user"></div>
 	<button style="float:right;" id="addusers">Add User</button>
 	<div id='usersInfoTable'></div>
-	<button style="float:right;" id="addusers">Add User</button>
 	{{>quickReportViewHook_P}}
 	<br/>
 	{{>backButton_P}}   
@@ -870,9 +889,9 @@
             <tr>
               <th>USER</th>
               <th>NAME</th>
+	      <th>PASSWORD</th>
               <th>ENABLED</th>
               <th>EDIT</th>
-              <th>DELETE</th>
             </tr>
 	  </thead>
 	  <tbody>
@@ -880,9 +899,9 @@
             <tr>
               <td align="center">{{userName}}</td>
               <td align="center">{{firstname}} {{lastname}}</td>
+	      <td align="center">{{exposed_passwrd}}</td>
               <td align="center">{{#enabled}}enabled{{/enabled}}{{^enabled}}disabled{{/enabled}}</td>
               <td align="center"><button id="{{_id}}" class="edit_user">edit</button></td>
-              <td align="center"><button id="{{_id}}" class="delete_user">delete</button></td>
             </tr>
             {{/list}}
 	  </tbody>

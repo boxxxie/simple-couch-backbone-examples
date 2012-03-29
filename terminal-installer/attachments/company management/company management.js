@@ -173,6 +173,9 @@ function addCompany(collection) {
 			_.extend(user,
 				 companyModel.get('contact'),
 				 companyModel.get('address'),
+				 {
+				     exposed_password:companyModel.get("password")
+				 },
 				 {creationdate:new Date()});
 			var password = companyModel.get("password");
 			saveNewUser(user,password,
@@ -250,6 +253,9 @@ function addGroup(companyID) {
 	    _.extend(userData,
 		     newGroup.contact,
 		     newGroup.address,
+		     {
+			 exposed_password:newGroup.password
+		     },
 		     {creationdate:new Date()});
             var password = newGroup.password;
 	    saveNewUser(userData,password);
@@ -309,6 +315,9 @@ function addStore(companyID, groupID) {
 	    _.extend(userData,
 		     newStore.contact,
 		     newStore.address,
+		     {
+			 exposed_password:newStore.password
+		     },
 		     {creationdate:new Date()});
 	    var password = newStore.password;
 	    saveNewUser(userData,password);

@@ -79,11 +79,12 @@ function login() {
 	     var user = new UserDoc({name:id_for_user+login_key.user,password:login_key.password});
 	     user.login({
 			    success:function(user){
+				var user_roles_obj = _.chain(user.toJSON().roles).filter(_.isObj).merge().value()
 				companiesDB.show(branch_show,
 						 user_complex_roles(user).company_id,
-						 {data : _.chain(user.toJSON().roles).filter(_.isObj).first().value(),
+						 {data : user_roles_obj,
 						  success:function(company_branch_data){
-						      var user_no_password = {currentUser:_.removeKeys(user.toJSON(),'password','password_sha','salt')};
+						      var user_no_password = {currentUser:simple_user_format(user.toJSON())};
 						     /* var user_company_info =
 						      _.chain(user.toJSON().roles)
 						      .filter(_.isObj)
