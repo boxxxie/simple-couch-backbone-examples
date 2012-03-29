@@ -197,7 +197,7 @@ var inventoryStockMngView =
 					      if(_.isEmpty(found)) {
 						  return _.combine({qty:item.count},item);
 					      } else {
-						  var qty = Number(item.count) - Number(found.qty);
+						  var qty = Number(item.count) - Number(found.info.qty);
 						  return _.combine({qty:qty},item);
 					      }
 					  })
