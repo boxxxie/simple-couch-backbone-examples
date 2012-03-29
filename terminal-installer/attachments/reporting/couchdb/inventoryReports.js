@@ -309,11 +309,11 @@ function stockInventoryFetcher_F(id, originids) {
     var transQuery = _async.generalQuery(inventory_sold_view,db_transactions);
 
     var optionsForQty = {
-        descending : true,
         group: true,
         group_level:1,
-        endkey: ([]).concat(id),
-        startkdy:([]).concat(id).concat({})
+        startKey: ([]).concat(id),
+        endKey:([]).concat(id).concat({}),
+        limit:1
     };
 
     return function(callback){
