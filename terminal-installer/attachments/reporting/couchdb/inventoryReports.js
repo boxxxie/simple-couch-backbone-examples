@@ -383,8 +383,8 @@ function idleInventoryFetcher_F(id, days) {
     var optionsForAllSoldList = {
         group: true,
         group_level:1,
-        startkey: ([]).concat(id),
-        endkdy:([]).concat(id).concat({}),
+        startKey: ([]).concat(id),
+        endKey:([]).concat(id).concat({}),
         limit:1
     };
 
@@ -392,8 +392,8 @@ function idleInventoryFetcher_F(id, days) {
         descending : true,
         group: true,
         group_level:1,
-        endkey: ([]).concat(id).concat(pastDate),
-        startkdy:([]).concat(id).concat(currentDateForQuery)
+        startKey:([]).concat(id).concat(currentDateForQuery),
+        endKey: ([]).concat(id).concat(pastDate)
     };
 
     return function(callback){

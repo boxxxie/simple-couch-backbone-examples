@@ -5,7 +5,7 @@ ddoc = { _id:'_design/app'};
 
 ddoc.rewrites = [
     {from: "downloads", to: "posdownload/downloads.html"},
-    {from: "admin", to: "admin/login.html"},
+    {from: "admin", to: "rt7_adminPage/rt7_backoffice.html"},
     {from: "login", to: "reporting/report.html"},
     {from: "new/*", to: "../../../*", method : "PUT"},
     {from: "terminals_rt7/*", to: "../../../terminals_rt7/*"},
