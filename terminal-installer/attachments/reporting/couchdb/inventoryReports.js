@@ -309,11 +309,11 @@ function stockInventoryFetcher_F(id, originids) {
     var transQuery = _async.generalQuery(inventory_sold_view,db_transactions);
 
     var optionsForQty = {
-        descending : true,
         group: true,
         group_level:1,
-        endkey: ([]).concat(id),
-        startkdy:([]).concat(id).concat({})
+        startKey: ([]).concat(id),
+        endKey:([]).concat(id).concat({}),
+        limit:1
     };
 
     return function(callback){
@@ -326,7 +326,7 @@ function stockInventoryFetcher_F(id, originids) {
 			   function extractSoldList(value) {
 			       // values -> {"1234" :{qty:12}, "45613" : {qty:1}}
 			       // return value -> [Object { upc="1234", info={qty,date}}, Object { upc="45613", info={...}}]
-			       return _.map(value,function(v,k){ return {upc:k, info:v};});
+			       return _.map(_.first(value),function(v,k){ return {upc:k, info:v};});
 			   };
 
 			   var invlist = _.pluck(resp.invlist.rows, "value");
@@ -381,19 +381,19 @@ function idleInventoryFetcher_F(id, days) {
     var pastDate = (new Date()).addDays(-Number(days)).toArray().slice(0,3);
 
     var optionsForAllSoldList = {
-        descending : true,
         group: true,
         group_level:1,
-        endkey: ([]).concat(id),
-        startkdy:([]).concat(id).concat({})
+        startKey: ([]).concat(id),
+        endKey:([]).concat(id).concat({}),
+        limit:1
     };
 
     var optionsForPartialSoldList = {
         descending : true,
         group: true,
         group_level:1,
-        endkey: ([]).concat(id).concat(pastDate),
-        startkdy:([]).concat(id).concat(currentDateForQuery)
+        startKey:([]).concat(id).concat(currentDateForQuery),
+        endKey: ([]).concat(id).concat(pastDate)
     };
 
     return function(callback){
@@ -407,7 +407,7 @@ function idleInventoryFetcher_F(id, days) {
 			   function extractSoldList(value) {
 			       // values -> {"1234" :{qty:12}, "45613" : {qty:1}}
 			       // return value -> [Object { upc="1234", info={qty,date}}, Object { upc="45613", info={...}}]
-			       return _.map(value,function(v,k){ return {upc:k, Info:v};});
+			       return _.map(_.first(value),function(v,k){ return {upc:k, info:v};});
 			   };
 			   function getElapsedDays(from, to) {
 			       var date1 = new Date(from);
@@ -449,10 +449,10 @@ function idleInventoryFetcher_F(id, days) {
 							     invItem);
 
 					} else {
-					    var last_sold = getDateObjFromStr(soldItem.Info.date);
+					    var last_sold = getDateObjFromStr(soldItem.info.date);
 					    return _.combine({date_last_sold:datePartFormatter(last_sold),
 							      days:getElapsedDays(last_sold,new Date())+"",
-							      qty:(Number(item.count)-Number(soldItem.qty)).toString()},
+							      qty:(Number(item.count)-Number(soldItem.info.qty)).toString()},
 							     invItem);
 					}
 				    })

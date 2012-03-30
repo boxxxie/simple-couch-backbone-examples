@@ -148,20 +148,20 @@ var reportDataToArray = _.memoize(
 	    };
 	}
 	return _(reportData).chain()
-	    .prewalk_r(function(o){
-                          if (o && o.hierarchy){
-                              var groups = o.hierarchy.groups;
-                              var o_without_field = _.removeKeys(o,'hierarchy');
-                              var expandedCombinedFields = _.mapCombine(groups,o_without_field);
-                              return _.combine(o_without_field,{groups : expandedCombinedFields});
-                          }
-                          return o;
-                      })
-            .prewalk_r(combineWithSubpart('terminals'))
-	    .prewalk_r(combineWithSubpart('stores'))
-	    .prewalk_r(combineWithSubpart('groups'))
-	    .prewalk_r(combineWithSubpart('company'))
-            .value();
+        .prewalk2(function(o){
+			  if (o.hierarchy){
+			      var groups = o.hierarchy.groups;
+			      var o_without_field = _.removeKeys(o,'hierarchy');
+			      var expandedCombinedFields = _.mapCombine(groups,o_without_field);
+			      return _.combine(o_without_field,{groups : expandedCombinedFields});
+			  }
+			  return o;
+		      })
+	    .prewalk2(combineWithSubpart('terminals'))
+        .prewalk2(combineWithSubpart('stores'))
+        .prewalk2(combineWithSubpart('groups'))
+        .prewalk2(combineWithSubpart('company'))
+	    .value();
 
     },
     reportDataHash

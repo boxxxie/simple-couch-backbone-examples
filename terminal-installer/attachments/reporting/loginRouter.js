@@ -117,5 +117,5 @@ function login() {
 function logout() {
     ReportData=null;
     $.couch.logout();
-    window.location.href ='login';
+    window.location.href ='';
 };
