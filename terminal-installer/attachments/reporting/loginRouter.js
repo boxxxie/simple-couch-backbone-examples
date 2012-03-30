@@ -84,15 +84,15 @@ function login() {
 						 user_complex_roles(user).company_id,
 						 {data : user_roles_obj,
 						  success:function(company_branch_data){
-						      var user_no_password = {currentUser:simple_user_format(user.toJSON())};
+						      var current_user = simple_user_format(user.toJSON());
 						     /* var user_company_info =
 						      _.chain(user.toJSON().roles)
 						      .filter(_.isObj)
 						      .merge()
 						      .selectKeys('company_id','companyName','group_id','groupName')
 						      .value()*/
-						      var user_company_info = _.selectKeys(user.toJSON(),'company_id','companyName','group_id','groupName');
-						      var general_report_data = _.combine(user_no_password,user_company_info);
+						      var user_company_info = _.selectKeys(current_user,'company_id','companyName','group_id','groupName','storeName','storeNumber','store_id');
+						      var general_report_data = _.combine({currentUser:current_user},user_company_info);
 						      if(user_complex_roles(user).store_id) {
 							  ReportData = _.combine(general_report_data,{store:company_branch_data,startPage:"storeReport"});
 						      }

@@ -899,11 +899,14 @@
             <tr>
               <td align="center">{{userName}}</td>
               <td align="center">{{firstname}} {{lastname}}</td>
-	      <td align="center">{{exposed_passwrd}}</td>
+	      <td align="center">{{exposed_password}}</td>
               <td align="center">{{#enabled}}enabled{{/enabled}}{{^enabled}}disabled{{/enabled}}</td>
               <td align="center"><button id="{{_id}}" class="edit_user">edit</button></td>
             </tr>
             {{/list}}
+	    {{^list}}
+	    <tr><td align="center" colspan="5">There are no users for this location</td></tr>
+	    {{/list}}
 	  </tbody>
 	</table>
       </div>

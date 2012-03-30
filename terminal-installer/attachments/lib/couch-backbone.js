@@ -122,6 +122,8 @@ var UserDoc = couchDoc.extend(
 	    return this.urlRoot() + "org.couchdb.user:" + this.id;
 	}
     });
+
+//var RT7UserDoc = UserDoc.extend(
 /*
    $.couch.login({name: id_for_user+login_key.user,password:login_key.password,
 			    success:function(user){

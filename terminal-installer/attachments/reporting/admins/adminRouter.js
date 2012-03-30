@@ -87,7 +87,7 @@ var adminRouter =
 		     router.views.user_table.on('delete-user',router.delete_user,router);
 		     router.current_user.on('change',router.views.current_user.render,router.views.current_user);
 		     router.views.current_user.on("change-current-user-password",router.edit_logged_in_users_password,router);
-		     router.views.add_button.on("add-user",router.add_user);
+		     router.views.add_button.on("add-user",router.add_user, router);
 		 },
 		 load_users:function(){
 		     this.load_users_for_id(topLevelEntity(ReportData).id)
@@ -99,25 +99,29 @@ var adminRouter =
 		     var breadCrumb = autoBreadCrumb();
 		     fetch_users_by_location_id(id)
 		     (function(err,users){
-			  if(_.isNotEmpty(users)) {
-    			      var view = this.view;
-    			      var html = ich.adminManagement_TMP(_.extend({startPage:ReportData.startPage},breadCrumb));
-    			      $("#main").html(html);
-			      router.views.current_user.setElement("#current_user")
-			      router.current_user.clear().set(ReportData.currentUser);
-			      router
-				  .views
-				  .add_button
-				  .setElement("#addusers")
-				  .options.default_data = topLevelEntityInfo(ReportData);
-			      router.views.user_table.setElement("#usersInfoTable");
-			      router.views.add_button.$el.button()
-
-			      router.user_collection.reset(users);
-			  } else {
+			  if(_.isEmpty(users)) {
 			      alert("There are no users for this entity");
-			      window.history.go(-1);
 			  }
+    			  var html = ich.adminManagement_TMP(_.extend({startPage:ReportData.startPage},breadCrumb));
+    			  $("#main").html(html);
+			  router.views.current_user.setElement("#current_user")
+			  router.current_user.set(ReportData.currentUser);
+			  router.views.current_user.render(router.current_user);
+			  router
+			      .views
+			      .add_button
+			      .setElement("#addusers")
+			      .options.default_data = topLevelEntityInfo(ReportData);
+			  router.views.user_table.setElement("#usersInfoTable");
+			  router.views.add_button.$el.button()
+
+
+			  function exclude_logged_in_user(reportData,users_list){
+			      return _.reject(users_list,function(user){return reportData.currentUser._id === user._id})
+			  }
+
+			  router.user_collection.reset(exclude_logged_in_user(ReportData,users));
+
 		      });
 		 },
 		 edit_logged_in_users_password:function(){
@@ -169,9 +173,9 @@ var adminRouter =
 		     var user = this.user_collection.find(function(user_model){return user_model.get('_id') === user_id})
 
 		     var all_fields = [
-			 {var:'userName'},
-			 {var:'password'},
-			 {var:'roles',value:[
+			 {"var":'userName'},
+			 {"var":'password'},
+			 {"var":'roles',value:[
 			      {value:'company_admin'},
 			      {value:'company'},
 			      {value:'store'},
@@ -181,18 +185,18 @@ var adminRouter =
 			      {value:'pos_sales'},
 			      {value:'pos_admin'}
 			  ]},
-			 {var:"enabled",type:'bool'},
-			 {var:"firstname"},
-			 {var:"lastname"},
-			 {var:"website"},
-			 {var:"email",type:'email'},
-			 {var:"phone",type:'phone'},
-			 {var:"street0"},
-			 {var:"street1"},
-			 {var:"city"},
-			 {var:"country"},
-			 {var:"province"},
-			 {var:"postalcode"}
+			 {"var":"enabled",type:'bool'},
+			 {"var":"firstname"},
+			 {"var":"lastname"},
+			 {"var":"website"},
+			 {"var":"email",type:'email'},
+			 {"var":"phone",type:'phone'},
+			 {"var":"street0"},
+			 {"var":"street1"},
+			 {"var":"city"},
+			 {"var":"country"},
+			 {"var":"province"},
+			 {"var":"postalcode"}
 		     ];
 
 		     //make things with no type or value be of type string
@@ -292,7 +296,7 @@ var adminRouter =
 		      key
 		      }
 		      },fields);*/
-		     var user_editing_rules ={
+	/*	     var user_editing_rules ={
 			 user_name:{var:'userName',label:"User Name",enabled:true,value:""},
 			 password:{var:'password',label:"Password",enabled:true,value:""},
 			 roles: [
@@ -327,6 +331,7 @@ var adminRouter =
 			 .map$(apply_remove_rules)
 		     //.map$(apply_disabled_rules)
 			 .value();
+	 */
 
 		     quickInputUserInfoDialog(
 			 {
@@ -363,61 +368,60 @@ var adminRouter =
 			 });
 
 		 },
-
 		 add_user:function(){
 		     console.log("add user button pressed");
-		     we_are_fixing_this_feature("adding users is being fixed right now");return;
 		     var router = this;
 		     //assume that this is a company_admin level user making a company level user
-		     var user_creation_rules = {
-			 consts : _.defaults(
-			     {
-				 "creationdate": (new Date()).toJSON(),
-				 "type": "user"
+		     function generate_add_user_dialog_blueprint(reportData){
+			 if(topLevelEntity(ReportData).type === 'store'){
+			     return {
+				 consts : _.defaults(
+				     {
+					 "creationdate": (new Date()).toJSON(),
+					 "type": "user"
 
-			     },
-			     view.options.default_data),
-			 display:
-			 {
-			     user_name:{var:'userName',label:"User Name",enabled:true,value:""},
-			     password:{var:'password',label:"Password",enabled:true,value:""},
-			     "roles": [
-				 {var:'roles.company_admin',label:"Company Admin",enabled:false,value:false},
-				 {var:'roles.company',label:"Company User",enabled:true,value:false},
-				 {var:'roles.store',label:"Store User",enabled:true,value:false},
-				 {var:'roles.store_admin',label:"Store Admin",enabled:true,value:false},
-				 {var:'roles.group_admin',label:"Group Admin",enabled:true,value:false},
-				 {var:'roles.group',label:"Group User",enabled:true,value:false},
-				 {var:'roles.pos_sales',label:"POS User",enabled:true,value:false},
-				 {var:'roles.pos_admin',label:"POS Admin",enabled:true,value:false}
-			     ],
-			     is_enabled:{var:"enabled",label:"Enabled",enabled:true,value:true},
-			     contact:[
-				 {var:"firstname",label:"First Name", enabled:true,value:""},
-				 {var:"lastname",label:"Last Name", enabled:true,value:""},
-				 {var:"website",label:"WebSite", enabled:true,value:""},
-				 {var:"email", label:"Email",enabled:true,value:""},
-				 {var:"phone", label:"Phone Number",enabled:true,value:""}
-			     ],
-			     address:[
-				 {var:"street0",label:"Street", enabled:true,value:""},
-				 {var:"street1", label:"Street",enabled:true,value:""},
-				 {var:"city", label:"City",enabled:true,value:""},
-				 {var:"country", label:"Country",enabled:true,value:""},
-				 {var:"province", label:"Province",enabled:true,value:""},
-				 {var:"postalcode", label:"Postal Code",enabled:true,value:""}
-			     ]
+				     },
+				     topLevelEntityInfo(ReportData)),
+				 display:
+				 {
+				     user_name:{"var":'userName',label:"User Name",enabled:true,value:""},
+				     password:{"var":'password',label:"Password",enabled:true,value:""},
+				     "roles": [
+					 {"var":'pos_sales',label:"POS User",enabled:true,value:false},
+					 {"var":'pos_admin',label:"POS Admin",enabled:true,value:false}
+				     ],
+				     is_enabled:{"var":"enabled",label:"Enabled",enabled:true,value:true},
+				     contact:[
+					 {"var":"firstname",label:"First Name", enabled:true,value:""},
+					 {"var":"lastname",label:"Last Name", enabled:true,value:""},
+					 {"var":"website",label:"WebSite", enabled:true,value:""},
+					 {"var":"email", label:"Email",enabled:true,value:""},
+					 {"var":"phone", label:"Phone Number",enabled:true,value:""}
+				     ],
+				     address:[
+					 {"var":"street0",label:"Street", enabled:true,value:""},
+					 {"var":"street1", label:"Street",enabled:true,value:""},
+					 {"var":"city", label:"City",enabled:true,value:""},
+					 {"var":"country", label:"Country",enabled:true,value:""},
+					 {"var":"province", label:"Province",enabled:true,value:""},
+					 {"var":"postalcode", label:"Postal Code",enabled:true,value:""}
+				     ]
+				 }
+			     }
 			 }
-		     };
+			 return undefined;
+		     }
+		     var user_creation_rules =  generate_add_user_dialog_blueprint(ReportData);
+		     if(_.isUndefined(user_creation_rules)){
+			 we_are_fixing_this_feature("support for creating users at other levels is being worked on");
+			 return;
+		     }
 		     quickInputUserInfoDialog(
 			 {
 			     title:"Add New User",
 			     html:ich.inputUserInfo_TMP(user_creation_rules.display), //here we have to merge the rules with the default_data to come up with the blueprint for the dialog
-			     on_submit:function(form_data){
-				 console.log(form_data);
-				 function format_roles(user){
-				     return _.combine(user,{roles:_.chain(user.roles).filter$(_.identity).keys().value()});
-				 }
+			     on_submit:function(simple_user_data){
+				 console.log(simple_user_data);
 				 function user_name(user){
 				     return _.combine(user, {name:_.either(user.store_id,user.group_id,user.company_id)+user.userName})
 				 }
@@ -426,20 +430,28 @@ var adminRouter =
 					 return _.combine(user,consts);
 				     }
 				 }
-				 var user_data =
-				     _.compose(user_name,
-					       apply_constants(user_creation_rules.consts),
-					       format_roles)(form_data);
-				 var user = new UserDoc(user_data);
-				 user.signup(
-				     {
-					 success:function(resp){
-					     //	alert("created new user: " + user_data.userName);
-					     router.collection.add(user);
-					 },
-					 error:function(err_code,err,err_message){
-					     alert(err_message);
-					 }});
+				 function complex_user_format(user_data){
+				     var extract_strings = ['company','company_admin','group','group_admin','store','store_admin','pos_sales','pos_admin'];
+				     var extract_obj = ['companyName','company_id','groupName','group_id','storeName','store_id','storeNumber','userName','enabled'].concat(extract_strings);
+				     var roles_strings = _.chain(user_data).selectKeys(extract_strings).filter$(_.identity).keys().value()
+				     var roles_complex = _.selectKeys(user_data,extract_obj);
+				     var roles = roles_strings.concat(roles_complex);
+				     return _.chain(user_data).removeKeys(extract_obj).combine({roles:roles}).value();
+				 }
+				 var user_data = _.compose(complex_user_format,
+							 user_name)(_.combine(user_creation_rules.consts,
+									      simple_user_data,
+									      {exposed_password:simple_user_data.password}));
+				 (new UserDoc(user_data))
+				     .signup(
+					 {
+					     success:function(resp){
+						 //	alert("created new user: " + user_data.userName);
+						 router.user_collection.add(simple_user_format(user_data));
+					     },
+					     error:function(err_code,err,err_message){
+						 alert(err_message);
+					     }});
 			     }
 			 });
 		 }

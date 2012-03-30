@@ -53,7 +53,7 @@ function fetch_users_by_location_id(id) {
         queryF(cdb.view("app","lowestlevel_id"), cdb.db("_users"))
         ({key:id,include_docs:true})
         (function(response){
-             callback(null,_.pluck(response.rows,'doc'));
+             callback(null,_.chain(response.rows).pluck('doc').map(simple_user_format).value());
          });
     };
 };
