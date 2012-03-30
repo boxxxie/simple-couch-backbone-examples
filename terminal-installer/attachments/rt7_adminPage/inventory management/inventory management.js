@@ -1,15 +1,15 @@
-    
-    function addItem(viewItem){
+
+function addItem(viewItem){
 	return {success: function(resp){
 		    _.extend(resp,{creationdate:new Date()});
 		    viewItem.save(resp);}};};
 
-    function editItem(viewItem){
+function editItem(viewItem){
 	return {success: function(resp){
 		    viewItem.save(resp);}};};
 
 
-    function editReviewItem(collection) {
+function editReviewItem(collection) {
 	return {success: function(resp) {
 		    var invModel = collection.get(resp._id);
 		    
@@ -23,7 +23,7 @@
 	       };  
     };
     
-    var InventoryManagementRouter = new 
+var InventoryManagementRouter = new 
     (Backbone.Router.extend(
 	 {
              routes: {
@@ -239,5 +239,5 @@
 	     }
 	    });
 
-    var InvItemDisplay = new AddViewInventoryView();
+
 

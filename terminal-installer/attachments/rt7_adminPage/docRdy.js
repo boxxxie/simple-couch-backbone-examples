@@ -11,6 +11,15 @@ $(document)
 function doc_setup() {
     updateDate();
 
+    // company management view
+    companiesViewTest = new companiesView({collection : Companies});
+    groupsViewTest = new groupsView();
+    storesViewTest = new storesView();
+    terminalsViewTest = new terminalsView();
+    
+    // inventory management view
+    var InvItemDisplay = new AddViewInventoryView();
+    
     Backbone.history.start();
 };
 

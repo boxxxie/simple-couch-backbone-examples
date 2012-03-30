@@ -913,8 +913,5 @@ terminalsView =
 		return view;
 	    }
 	});
-companiesViewTest = new companiesView({collection : Companies});
-groupsViewTest = new groupsView();
-storesViewTest = new storesView();
-terminalsViewTest = new terminalsView();
+
 
