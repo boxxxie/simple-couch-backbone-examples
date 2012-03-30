@@ -11,6 +11,7 @@ var current_user_info_view =
 		console.log("render current user info");
 		if(this.options.template && this.$el && current_user){
 		    this.$el.html(ich[this.options.template](current_user.toJSON()))
+		    this.$el.find('button').button();
 		}
 	    }
 	});
