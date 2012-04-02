@@ -156,7 +156,7 @@ function addCompany(collection) {
 			var user = {
 			    companyName:companyModel.get("companyName"),
 			    roles:[
-				"company_admin",
+				"company_admin", "pos_sales", "pos_admin",
 				{
 				    "company_admin":true,
 				    "company":true,
@@ -235,7 +235,7 @@ function addGroup(companyID) {
                 companyName:company.get("companyName"),
                 groupName:newGroup.groupName,
 		roles:[
-		    "group_admin",
+		    "group_admin", "pos_sales", "pos_admin",
 		    {
 			"store":true,
 			"group":true,
@@ -295,7 +295,7 @@ function addStore(companyID, groupID) {
                 groupName:group.groupName,
                 storeName:newStore.storeName,
 		roles:[
-		    "store_admin",
+		    "store_admin", "pos_sales", "pos_admin",
 		    {
 			store_admin:true,
 			"store":true,

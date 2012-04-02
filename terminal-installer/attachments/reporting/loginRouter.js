@@ -45,8 +45,8 @@ function login() {
     }
     function applyToVal(fn){
 	return function(pair){
-		var key = _.first(pair);
-		var val = _.second(pair);
+	    var key = _.first(pair);
+	    var val = _.second(pair);
 	    return [key,fn(val)];
 	};
     }
@@ -60,62 +60,117 @@ function login() {
 
     _.log("login key")(login_key);
 
-    var companiesDB = cdb.db('companies');
-    var name_to_id_view = appView("names_to_id");
-    var branch_show = appShow("branch");
-
-    function user_complex_roles(user){
-	return _.chain(user.toJSON().roles).filter(_.isObj).first().value();
+    function is_user_login_info_valid(login_key){
+	return function(callback){
+	    if(_.isEmpty(login_key.password) || _.isEmpty(login_key.user)){
+		callback({
+			     code:0,
+			     type:"invalid_user_pass",
+			     message:"User name or Password was left blank"
+			 })
+	    }
+	    else{
+		callback(null,login_key);
+	    }
+	}
     }
 
-    keyQuery(name_to_id_view, companiesDB, _.selectKeys(login_key,'company','group','store'))
-    (function (resp){
-	 console.log(resp);
-	 var accountMatches = resp.rows;
-	 if(_.isNotEmpty(resp.rows)){
-	     var id_for_user = _.first(resp.rows).value;
-	 }
-	 if(_.isDefined(id_for_user)){
-	     var user = new UserDoc({name:id_for_user+login_key.user,password:login_key.password});
-	     user.login({
-			    success:function(user){
-				var user_roles_obj = _.chain(user.toJSON().roles).filter(_.isObj).merge().value()
-				companiesDB.show(branch_show,
-						 user_complex_roles(user).company_id,
-						 {data : user_roles_obj,
-						  success:function(company_branch_data){
-						      var current_user = simple_user_format(user.toJSON());
-						     /* var user_company_info =
-						      _.chain(user.toJSON().roles)
-						      .filter(_.isObj)
-						      .merge()
-						      .selectKeys('company_id','companyName','group_id','groupName')
-						      .value()*/
-						      var user_company_info = _.selectKeys(current_user,'company_id','companyName','group_id','groupName','storeName','storeNumber','store_id');
-						      var general_report_data = _.combine({currentUser:current_user},user_company_info);
-						      if(user_complex_roles(user).store_id) {
-							  ReportData = _.combine(general_report_data,{store:company_branch_data,startPage:"storeReport"});
-						      }
-						      else if(user_complex_roles(user).group_id) {
-							  ReportData = _.combine(general_report_data,{group:company_branch_data, startPage:"groupReport"});
-						      }
-						      else if(user_complex_roles(user).company_id) {
-							  ReportData = _.combine(general_report_data,{company:company_branch_data,startPage:"companyReport"});
-						      }
-						      window.location.href = "#"+ReportData.startPage+"/";
-						  }});
-			    },
-			    error:function(){
-				alert("wrong login info.");
-			    }});
-	 }
-	 else{
-	     alert("There was a problem logging in, check your user name/password");
-	 }
-     });
+    function fetch_user_login_info(login_key,callback){
+	var companiesDB = cdb.db('companies');
+	var name_to_id_view = appView("names_to_id");
+	keyQuery(name_to_id_view, companiesDB, _.selectKeys(login_key,'company','group','store'))
+	(function (resp){
+	     console.log(resp);
+	     var accountMatches = resp.rows;
+	     if(_.isNotEmpty(accountMatches) && _.isDefined(_.first(accountMatches).value)){
+		 var location_id_for_user = _.first(accountMatches).value
+		 callback(null,{name:location_id_for_user+login_key.user,password:login_key.password});
+	     }
+	     else{
+		 var error = {code:401,type:"unauthorized",message:"User name or password is wrong for this company"};
+		 callback(error);
+	     }
+	 })
+    }
+
+    function user_login(login_info,callback){
+	    var user = new UserDoc(login_info);
+	    user.login(callback)
+    }
+
+    function fetch_company_info_for_user(user, session, callback){
+	var companiesDB = cdb.db('companies');
+	var name_to_id_view = appView("names_to_id");
+	var branch_show = appShow("branch");
+
+	function user_roles_obj(user){
+	    return _.chain(user.toJSON().roles).filter(_.isObj).merge().value();
+	}
+	var user_roles = user_roles_obj(user);
+	var company_id = user_roles.company_id;
+
+	companiesDB
+	    .show(branch_show,
+		  company_id,
+		  {data : user_roles,
+		   success:function(company_branch_data){
+		       var current_user = simple_user_format(user.toJSON());
+		       var user_company_info = _.selectKeys(current_user,'company_id','companyName','group_id','groupName','storeName','storeNumber','store_id');
+		       var amalgamated_logged_in_user_data = _.combine({currentUser:current_user,session:session},user_company_info);
+		       callback(null, amalgamated_logged_in_user_data, company_branch_data)
+		   },
+		   error:function(){
+		       callback({code:1,type:"company information",message:"unable to retrieve company information for this user"})
+		   }
+		  })
+    }
+
+    function populate_report_data(login_data, branch, callback){
+	if(login_data.store_id) {
+	    var type = 'store'
+	}
+	else if(login_data.group_id) {
+	    var type = 'group'
+	}
+	else if(login_data.company_id) {
+	    var type = 'company'
+	}
+
+	if(type){
+	    callback(null,_.combine(login_data,
+				    _.obj(type,branch),
+				    _.obj('startPage',type+"Report")))
+	}
+	else{
+	    callback({code:3,type:'company information',message:'there is an error with the user login data'})
+	}
+    }
+
+
+    async.waterfall([
+			is_user_login_info_valid(login_key),
+			fetch_user_login_info,
+			user_login,
+			fetch_company_info_for_user,
+			populate_report_data
+		    ],
+		    function(err, reportData){
+			if(err){
+			    alert(err.message)
+			}
+			else{
+			    ReportData = reportData;
+			    window.location.href = "#"+ReportData.startPage+"/";
+			}
+		    })
 }
+
 function logout() {
-    ReportData=null;
-    $.couch.logout();
-    window.location.href ='';
+    $.couch
+	.logout(
+	    {success:function(){
+		 ReportData=undefined;
+		 window.location.href ='';
+	     }
+	    })
 };
