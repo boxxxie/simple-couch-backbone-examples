@@ -647,6 +647,7 @@
     </script>
     
     <!-------------------------------------- general transaction quickview dialog tmp -------------------->
+    <!-------------------------------------- RECIEPT ----------------------------------------------------->
     <script id="generalTransactionQuickViewDialog_TMP" type="text/html">
       <div id="transactiondialog">
 	<table>
@@ -807,6 +808,38 @@
   	  </tr>
   	  {{/errmsg}}
   	  {{/paymentdetail}}
+  	  
+  	  {{^paymentdetail}}
+        {{#response}}
+            <tr>
+        <td colspan="4">===================================</td>
+      </tr>
+      <tr>
+        <td>Voucher : $ </td>
+        <td colspan="3">{{redeemed}}</td>
+      </tr>
+      <tr>
+        <td>Voucher ID: </td>
+        <td colspan="3">{{voucher_id}}</td>
+      </tr>
+      {{#voucher_name}}
+      <tr>
+        <td>Voucher Name: </td>
+        <td colspan="3">{{voucher_name}}</td>
+      </tr>
+      {{/voucher_name}}
+      {{#voucher_type}}
+      <tr>
+        <td>Voucher Type: </td>
+        <td colspan="3">{{voucher_type}}</td>
+      </tr>
+      {{/voucher_type}}
+      <tr>
+        <td>Voucher Balance: $ </td>
+        <td colspan="3">{{voucher_balance}}</td>
+      </tr>
+        {{/response}}
+      {{/paymentdetail}}
   	  <tr>
   	    <td colspan="4">===================================</td>
   	  </tr>

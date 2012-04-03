@@ -332,6 +332,10 @@ function renderElectronicPaymentsTable() {
 	     data_TMP = _.map(data_TMP, function(item){
 				  if(item.payments) {
 				      item.payments = _.map(item.payments, function(payment){
+				                // apply card payment data
+                                if(_.isEmpty(payment.paymentdetail)) {
+                                    payment = _.removeKeys(payment,"paymentdetail"); 
+                                }
 								if(payment.paymentdetail) {
 								    payment.paymentdetail.crt = payment.type;
 								}

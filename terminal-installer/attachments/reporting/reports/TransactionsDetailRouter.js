@@ -314,12 +314,19 @@ function renderTransactionsDetailTable() {
             respForBtn.transactions = _.map(respForBtn.transactions, function(item){
                                       if(item.payments) {
                                           item.payments = _.map(item.payments, function(payment){
+                                                    // apply card payment data
+                                                    if(_.isEmpty(payment.paymentdetail)) {
+                                                        payment = _.removeKeys(payment,"paymentdetail"); 
+                                                    }
+                                                    
                                                     if(payment.paymentdetail) {
                                                         payment.paymentdetail.crt = payment.type;
                                                     }
+                                                    
                                                     if(payment.paymentdetail && payment.paymentdetail.errmsg) {
                                                         payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace("<br>"," ");
                                                     }
+                                                    
                                                     return payment;
                                                     });
                                       }
