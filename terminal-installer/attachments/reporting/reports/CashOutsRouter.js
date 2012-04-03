@@ -307,7 +307,14 @@ function rendermenuReportsCashOutsTable() {
 							   return obj;
 						       }, true);
 						
-						 var propsToChange = _.selectKeys(data,['netsalestotal', 'netrefundtotal', 'netsaleactivity', 'avgpayment', 'avgrefund' , 'cashtotal' , 'allDiscount', 'cancelledtotal','avgcancelled','menusalesamount', 'scansalesamount','ecrsalesamount']);
+						 var actual_cash_count = Number(data.cashpayment) - Number(data.cashrefund);
+						 var actual_tender = Number(data.actual_tender);
+						 var over_short = actual_cash_count - actual_tender;
+						 
+						 var cashoutData = _.extend({actual_cash_count:currency_format(actual_cash_count),
+						                             over_short:currency_format(over_short)}, data);
+						 
+						 var propsToChange = _.selectKeys(cashoutData,['netsalestotal', 'netrefundtotal', 'netsaleactivity', 'avgpayment', 'avgrefund' , 'cashtotal' , 'allDiscount', 'cancelledtotal','avgcancelled','menusalesamount', 'scansalesamount','ecrsalesamount','actual_cash_count','actual_tender','over_short']);
 						 propsToChange =_(propsToChange).chain()
 								      .map(function(val,key){
 									       if(val.indexOf('-')>=0) { val = val.replace('-',''); val = "-$ " +val;}
@@ -316,7 +323,7 @@ function rendermenuReportsCashOutsTable() {
 									   })
 								      .toObject()
 								      .value();
-					   var cashoutData = _.extend({},data,propsToChange); 
+					   cashoutData = _.extend({},data,propsToChange); 
 						
 				       var html = ich.menuReportsCashoutQuickViewDialog_TMP(cashoutData);
 				       quickmenuReportsCashoutViewDialog(html, {title:item.dialogtitle});

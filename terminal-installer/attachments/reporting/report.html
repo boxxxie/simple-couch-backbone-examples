@@ -386,6 +386,24 @@
       </tr>
     </script>
     
+    <script id="cashBalance_P" class="partial" type="text/html">
+      <tr>
+    <td colspan="3">CASH BALANCE</td>
+      </tr>
+      <tr>
+    <td align="left">ACTUAL CASH COUNT</td>
+    <td colspan="2" align="right">{{actual_cash_count}}</td>
+      </tr>
+      <tr>
+    <td align="left">ACTUAL TENDER</td>
+    <td colspan="2" align="right">{{actual_tender}}</td>
+      </tr>
+      <tr>
+    <td align="left">OVER / SHORT</td>
+    <td colspan="2" align="right">{{over_short}}</td>
+      </tr>
+    </script>
+    
     <script id="paymentDetails_P" class="partial" type="text/html">
       <tr>
 	<td colspan="3">PAYMENT/TENDER DETAILS</td>
@@ -536,6 +554,8 @@
       <tr><td colspan="3">===========================</td></tr>
       {{>netSaleActivity_P}}
       <tr><td colspan="3">===========================</td></tr>
+      {{>cashBalance_P}}
+      <tr><td colspan="3">===========================</td></tr>
       {{>paymentDetails_P}}
       <tr><td colspan="3">===========================</td></tr>
       {{>refundDetails_P}}
@@ -631,6 +651,8 @@
 	  <tr><td colspan="3">===================================</td></tr>
 	  {{>netSaleActivity_P}}
 	  <tr><td colspan="3">===================================</td></tr>
+	  {{>cashBalance_P}}
+      <tr><td colspan="3">===================================</td></tr>
 	  {{>paymentDetails_P}}
 	  <tr><td colspan="3">===================================</td></tr>
 	  {{>refundDetails_P}}
@@ -815,8 +837,8 @@
         <td colspan="4">===================================</td>
       </tr>
       <tr>
-        <td>Voucher : $ </td>
-        <td colspan="3">{{redeemed}}</td>
+        <td>Voucher : </td>
+        <td colspan="3">$ {{redeemed}}</td>
       </tr>
       <tr>
         <td>Voucher ID: </td>
@@ -835,8 +857,8 @@
       </tr>
       {{/voucher_type}}
       <tr>
-        <td>Voucher Balance: $ </td>
-        <td colspan="3">{{voucher_balance}}</td>
+        <td>Voucher Balance: </td>
+        <td colspan="3">$ {{voucher_balance}}</td>
       </tr>
         {{/response}}
       {{/paymentdetail}}

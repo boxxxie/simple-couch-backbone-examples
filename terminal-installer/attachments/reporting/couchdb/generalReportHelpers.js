@@ -35,7 +35,8 @@ var ZEROED_FIELDS = {allDiscount: 0,
 		     ecrsalesno: 0, 
 		     ecrsalesamount: 0,
 		     firstindex:0,
-		     lastindex:0};
+		     lastindex:0,
+		     actual_tender:0};
 
 function isValidDate(d){
     if ( Object.prototype.toString.call(d) !== "[object Date]" )
