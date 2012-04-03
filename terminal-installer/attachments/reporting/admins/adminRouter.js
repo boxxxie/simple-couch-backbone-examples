@@ -10,7 +10,7 @@ var current_user_info_view =
 	    render:function(current_user){
 		console.log("render current user info");
 		if(this.options.template && this.$el && current_user){
-		    this.$el.html(ich[this.options.template](current_user.toJSON()))
+		    this.$el.html(ich[this.options.template](current_user.toJSON()));
 		    this.$el.find('button').button();
 		}
 	    }
@@ -35,7 +35,7 @@ var menuAdminUsersView =
 	    },
 	    edit_user:function(event){
 		var user_id = event.currentTarget.id;
-		this.trigger('edit-user',user_id)
+		this.trigger('edit-user',user_id);
 	    },
 	    delete_user:function(event){
 		var user_id = event.currentTarget.id;

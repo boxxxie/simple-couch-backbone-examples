@@ -79,7 +79,7 @@ function login() {
 	     var user = new UserDoc({name:id_for_user+login_key.user,password:login_key.password});
 	     user.login({
 			    success:function(user){
-				var user_roles_obj = _.chain(user.toJSON().roles).filter(_.isObj).merge().value()
+				var user_roles_obj = _.chain(user.toJSON().roles).filter(_.isObj).merge().value();
 				companiesDB.show(branch_show,
 						 user_complex_roles(user).company_id,
 						 {data : user_roles_obj,
