@@ -85,13 +85,6 @@ function quickReportView(id, title){
                 })
                .toObject()
                .value();
-//			   .map$(function(pair){
-//					var key = _.first(pair);
-//					var val = _.second(pair);
-//				    if(val.indexOf('-')>=0) { val = val.replace('-',''); val = "-$ " +val;}
-//				    else {val = "$ " +val;}
-//				    return pair;
-//				});
 		       var yesterdayCashoutForm = _.extend({},for_TMP.yesterday,yesterdayPropsToChange);
 
 		       var mtdPropsToChange = _.selectKeys(for_TMP.mtd,['netsalestotal', 'netrefundtotal', 'netsaleactivity', 'avgpayment', 'avgrefund' , 'cashtotal' , 'allDiscount', 'cancelledtotal','avgcancelled','menusalesamount', 'scansalesamount','ecrsalesamount','actual_tender','actual_cash_count','over_short']);
