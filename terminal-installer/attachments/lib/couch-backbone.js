@@ -80,6 +80,29 @@ var couchCollection = function(couch,options){
 		 }));
 };
 
+function async_method(model,method,callback){
+    var options = {
+	success : function(resp, status, xhr){
+	    callback(null,resp)
+	},
+	error : function(){
+	    callback(arguments)
+	}
+    }
+    model[method](options)
+}
+
+function async_session(callback){
+    $.couch.session(
+	{
+	    success:function(resp){
+		callback(null,resp)
+	    },
+	    error:function(code,type,message){
+		callback({code:code,type:type,message:message})
+	    }
+	})
+}
 
 var UserDoc = couchDoc.extend(
     {
@@ -89,21 +112,25 @@ var UserDoc = couchDoc.extend(
 		this.set({"_id":atts.name});
 	    }
 	},
-	login:function(options){
+	login:function(callback){
 	    var user = this;
-	    $.couch.login({
-			      name:user.get('name'),
-			      password:user.get('password'),
-			      success:function(user_login_info){
-				  // fetch the user doc if sign-in is successful
-				  user.fetch({success:function(user_model){
-						  if(options.success){options.success(user_model);}
-					      }});
-			      },
-			      error:function(){
-				  if(options.error){options.error();}
-			      }
-			  });
+	    $.couch.login(
+		{
+		    name:user.get('name'),
+		    password:user.get('password'),
+		    success:function(user_login_info){
+			async.parallel({
+					   user_doc:async.apply(async_method,user,'fetch'),
+					   session_info:async.apply(async_session)
+				       },
+				       function(err,response){
+					   callback(err,response.user_doc,response.session_info);
+				       });
+		    },
+		    error:function(code,type,message){
+			callback({code:code,type:type,message:message})
+		    }
+		});
 	},
 	signup:function(options){
 	    /* should be in the form of:
