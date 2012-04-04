@@ -20,6 +20,22 @@ var current_user_info_view =
 		}
 	    }
 	});
+var company_tree_navigation_view =
+    Backbone.View.extend(
+	{
+	    events:{
+		"click li":"view_entity"
+	    },
+	    view_entity:function(event){
+		var entity_id = event.currentTarget.id
+		this.trigger('view-entity',entity_id);
+	    },
+	    render:function(tree) {
+		console.log("render company navigation tree");
+		var el = this.$el
+		el.html(ich[this.options.template](tree))
+	    }
+	});
 var customer_admin_add_user_view =
     Backbone.View.extend(
 	{
@@ -40,7 +56,7 @@ var menuAdminUsersView =
 		"click .edit_user_password":"change_password"
 	    },
 	    user_id:function(event){
-		return event.currentTarget.id;
+		return event.currentTarget.id
 	    },
 	    edit_user:function(event){
 		this.trigger('edit-user',this.user_id(event))
@@ -70,36 +86,61 @@ var adminRouter =
     new (Backbone.Router.extend(
 	     {
 		 routes: {
-		     "menuAdministration/":"load_users",
-		     "menuAdministration/:id":"load_users_for_id"
+		     "menuAdministration/":"setup"//,
+		     //"menuAdministration/:id":"load_users_for_id"
 		 },
 		 initialize:function(){
 		     var router = this;
-		     var UserCollection = Backbone.Collection.extend({model:UserDoc});
+		     router.template = 'adminManagement_TMP'
+		     var UserCollection = Backbone.Collection.extend({model:UserDoc})
 		     router.user_collection = new UserCollection()
 		     router.current_user = new UserDoc();
 		     router.views = {
 			 user_table : new menuAdminUsersView(),
 			 add_button : new customer_admin_add_user_view(),
-			 current_user : new current_user_info_view({template:"logged_in_user_info_TMP"})
+			 current_user : new current_user_info_view({template:"logged_in_user_info_TMP"}),
+			 navigation : new company_tree_navigation_view({template:"hierarchy_list_TMP"})
 		     };
 
 		     router
 			 .user_collection
 			 .on('all',
-			     function(){router.views.user_table.render(this.toJSON());});
+			     function(){router.views.user_table.render(this.toJSON());})
 
 		     router
 			 .views
 			 .add_button
-			 .on('user-added', router.add_user);
+			 .on('user-added', router.add_user)
 
-		     router.views.user_table.on('edit-user',router.edit_user,router);
-		     router.views.user_table.on('delete-user',router.delete_user,router);
-		     router.views.user_table.on('change-user-password',router.change_user_password,router);
-		     router.current_user.on('change',router.views.current_user.render,router.views.current_user);
-		     router.views.current_user.on("change-current-user-password",router.change_user_password,router);
-		     router.views.add_button.on("add-user",router.add_user, router);
+		     router.views.user_table.on('edit-user',router.edit_user,router)
+		     router.views.user_table.on('delete-user',router.delete_user,router)
+		     router.views.user_table.on('change-user-password',router.change_user_password,router)
+		     router.current_user.on('change',router.views.current_user.render,router.views.current_user)
+		     router.views.current_user.on("change-current-user-password",router.change_user_password,router)
+		     router.views.add_button.on("add-user",router.add_user, router)
+
+		     router.views.navigation.on('view-entity',router.load_users_for_id,router) //this could be a problem if setup isn't called
+		 },
+		 switch_company:function(){
+		     console.log(arguments)
+		 },
+		 setup:function(){
+		     var router = this;
+		     var html = ich[router.template](_.extend({startPage:ReportData.startPage},breadCrumb))
+    		     $("#main").html(html)
+		     router.views.current_user.setElement("#current_user")
+		     router.current_user.set(ReportData.currentUser)
+		     router.views.current_user.render(router.current_user)
+		     router
+			 .views
+			 .add_button
+			 .setElement("#addusers")
+			 .options.default_data = topLevelEntityInfo(ReportData)
+		     router.views.user_table.setElement("#usersInfoTable")
+		     router.views.add_button.$el.button()
+
+		     router.views.navigation.setElement("#company-tree").render(ReportData)
+		     router.load_users()
 		 },
 		 load_users:function(){
 		     this.load_users_for_id(topLevelEntity(ReportData).id)
@@ -112,28 +153,12 @@ var adminRouter =
 		     fetch_users_by_location_id(id)
 		     (function(err,users){
 			  if(_.isEmpty(users)) {
-			      alert("There are no users for this entity");
+			      alert("There are no users for this entity")
 			  }
-    			  var html = ich.adminManagement_TMP(_.extend({startPage:ReportData.startPage},breadCrumb));
-    			  $("#main").html(html);
-			  router.views.current_user.setElement("#current_user")
-			  router.current_user.set(ReportData.currentUser);
-			  router.views.current_user.render(router.current_user);
-			  router
-			      .views
-			      .add_button
-			      .setElement("#addusers")
-			      .options.default_data = topLevelEntityInfo(ReportData);
-			  router.views.user_table.setElement("#usersInfoTable");
-			  router.views.add_button.$el.button()
-
-
-			  function exclude_logged_in_user(reportData,users_list){
+ 			  function exclude_logged_in_user(reportData,users_list){
 			      return _.reject(users_list,function(user){return reportData.currentUser._id === user._id})
 			  }
-
-			  router.user_collection.reset(exclude_logged_in_user(ReportData,users));
-
+			  router.user_collection.reset(exclude_logged_in_user(ReportData,users))
 		      });
 		 },
 		 change_user_password:function(user_id){

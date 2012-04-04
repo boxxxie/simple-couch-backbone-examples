@@ -851,14 +851,14 @@
     <!----------------------------------------- MENU ADMINISTRATION ------------------------------------------>
    
     <script id="hierarchy_list_TMP" type="text/html">
-      <ul>
+      <ul style="cursor: pointer; cursor: hand; margin-left: 1em; list-style-type: none; padding: 0;">
 	{{#company}}<li id="{{_id}}">{{companyName}}</li>{{/company}}
 	{{#company}}
-	<ul>
+	<ul style="cursor: pointer; cursor: hand; margin-left: 1em; list-style-type: none; padding: 0;">
 	  {{#hierarchy}}
 	  {{#groups}}
 	  <li id="{{group_id}}">{{groupName}}</li>
-	  <ul>
+	  <ul style="cursor: pointer; cursor: hand; margin-left: 1em; list-style-type: none; padding: 0;">
 	    {{#stores}}
 	    <li id="{{store_id}}">{{storeName}}</li>
 	    {{/stores}}
@@ -907,7 +907,10 @@
 	<h1>Administration</h1>
 	<h2>{{>breadcrumb_P}}</h2>
 	<div id="current_user"></div>
-	<div><button style="float:right;" id="addusers">Add User</button></div>
+	<div>
+	  <button style="float:right;" id="addusers">Add User</button>
+	</div>
+	<div id='company-tree'></div>
 	<div id='usersInfoTable'></div>
 	{{>quickReportViewHook_P}}
 	<br/>
@@ -940,7 +943,7 @@
             </tr>
             {{/list}}
 	    {{^list}}
-	    <tr><td align="center" colspan="5">There are no users for this location</td></tr>
+	    <tr><td align="center" colspan="6">There are no users for this location</td></tr>
 	    {{/list}}
 	  </tbody>
 	</table>
