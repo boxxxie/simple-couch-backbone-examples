@@ -64,8 +64,8 @@ function login() {
 	return function(callback){
 	    if(_.isEmpty(login_key.password) || _.isEmpty(login_key.user)){
 		callback({
-			     code:0,
-			     type:"invalid_user_pass",
+			     code:2342,
+			     type:"invalid user information",
 			     message:"User name or Password was left blank"
 			 })
 	    }
@@ -94,8 +94,8 @@ function login() {
     }
 
     function user_login(login_info,callback){
-	    var user = new UserDoc(login_info);
-	    user.login(callback)
+	var user = new UserDoc(login_info);
+	user.login(callback)
     }
 
     function fetch_company_info_for_user(user, session, callback){
@@ -120,7 +120,10 @@ function login() {
 		       callback(null, amalgamated_logged_in_user_data, company_branch_data)
 		   },
 		   error:function(){
-		       callback({code:1,type:"company information",message:"unable to retrieve company information for this user"})
+		       callback({
+				    code:1,
+				    type:"company information",
+				    message:"unable to retrieve company information for this user"})
 		   }
 		  })
     }
@@ -142,7 +145,9 @@ function login() {
 				    _.obj('startPage',type+"Report")))
 	}
 	else{
-	    callback({code:3,type:'company information',message:'there is an error with the user login data'})
+	    callback({code:3,
+		      type:'company information',
+		      message:'there is an error with the user login data'})
 	}
     }
 
@@ -166,11 +171,16 @@ function login() {
 }
 
 function logout() {
-    $.couch
-	.logout(
-	    {success:function(){
-		 ReportData=undefined;
-		 window.location.href ='';
-	     }
-	    })
+    function reset(){
+	ReportData=undefined;
+	window.location.href ='';
+    }
+    var SE_handler = {
+	success:reset,
+	error: function (code,type,message) {
+	    alert(message);
+	    reset();
+	}
+    }
+    $.couch.logout(SE_handler);
 };

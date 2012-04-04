@@ -2,16 +2,21 @@ var current_user_info_view =
     Backbone.View.extend(
 	{
 	    events:{
-		"click":"change_password"
+		"click .change_logged_in_user_password":"change_password"
 	    },
-	    change_password:function(){
-		this.trigger("change-current-user-password");
+	    user_id:function(event){
+		return event.currentTarget.id;
+	    },
+	    change_password:function(event){
+		this.trigger("change-current-user-password",this.user_id(event));
 	    },
 	    render:function(current_user){
 		console.log("render current user info");
-		if(this.options.template && this.$el && current_user){
-		    this.$el.html(ich[this.options.template](current_user.toJSON()))
-		    this.$el.find('button').button();
+		var el = this.$el;
+		var template = this.options.template;
+		if(template && el && current_user){
+		    el.html(ich[template](current_user.toJSON()))
+		    el.find('button').button();
 		}
 	    }
 	});
@@ -31,26 +36,31 @@ var menuAdminUsersView =
 	{
 	    events:{
 		"click .edit_user":"edit_user",
-		"click .delete_user":"delete_user"
+		"click .delete_user":"delete_user",
+		"click .edit_user_password":"change_password"
+	    },
+	    user_id:function(event){
+		return event.currentTarget.id;
 	    },
 	    edit_user:function(event){
-		var user_id = event.currentTarget.id;
-		this.trigger('edit-user',user_id)
+		this.trigger('edit-user',this.user_id(event))
 	    },
 	    delete_user:function(event){
-		var user_id = event.currentTarget.id;
-		this.trigger('delete-user',user_id)
+		this.trigger('delete-user',this.user_id(event))
+	    },
+	    change_password:function(event){
+		this.trigger('change-user-password',this.user_id(event))
 	    },
 	    render:function(users) {
 		console.log("render users");
 		var view = this;
-		var list =
+		var user_list =
 		    _.chain(users)
-		    .sortBy(function(item){ return (_.isNaN((new Date(item.creationdate)).getTime()))?getDateObjFromStr(item.creationdate):new Date(item.creationdate);})
+		    .sortBy(function(item){return new Date(item.creationdate);})
 		    .reverse()
 		    .value();
 
-		$(view.$el).html(ich.adminUsersInfotable_TMP({list:list}));
+		$(view.$el).html(ich.adminUsersInfotable_TMP({list:user_list}));
 		$('button').button();
 
 	    }
@@ -65,7 +75,8 @@ var adminRouter =
 		 },
 		 initialize:function(){
 		     var router = this;
-		     router.user_collection = new Backbone.Collection();
+		     var UserCollection = Backbone.Collection.extend({model:UserDoc});
+		     router.user_collection = new UserCollection()
 		     router.current_user = new UserDoc();
 		     router.views = {
 			 user_table : new menuAdminUsersView(),
@@ -75,7 +86,7 @@ var adminRouter =
 
 		     router
 			 .user_collection
-			 .on('remove add reset',
+			 .on('all',
 			     function(){router.views.user_table.render(this.toJSON());});
 
 		     router
@@ -85,8 +96,9 @@ var adminRouter =
 
 		     router.views.user_table.on('edit-user',router.edit_user,router);
 		     router.views.user_table.on('delete-user',router.delete_user,router);
+		     router.views.user_table.on('change-user-password',router.change_user_password,router);
 		     router.current_user.on('change',router.views.current_user.render,router.views.current_user);
-		     router.views.current_user.on("change-current-user-password",router.edit_logged_in_users_password,router);
+		     router.views.current_user.on("change-current-user-password",router.change_user_password,router);
 		     router.views.add_button.on("add-user",router.add_user, router);
 		 },
 		 load_users:function(){
@@ -124,48 +136,175 @@ var adminRouter =
 
 		      });
 		 },
-		 edit_logged_in_users_password:function(){
+		 change_user_password:function(user_id){
 		     var router = this;
-		     //we_are_fixing_this_feature("we are currently working on this feature"); return ;
+		     console.log("change_user_password")
+		     console.log(arguments);
+		     function verify_user(user){
+			 if(user && user.id){
+			     return false;
+			 }
+			 return {
+			     code:5462,
+			     type:"invalid user",
+			     message:"There is a problem with your login sesssion, you may need to login again"
+			 }
+		     }
+		     function verify_session(session){
+			 if(session && session.info && session.info.authentication_db){
+			     return false;
+			 }
+			 return {
+			     code:4232,
+			     type:"invalid session",
+			     message:"There is a problem with your login session, you may need to login again"
+			 }
 
-		     var updatePassword = function(user,password) {
-			 // regular users get their _users doc updated
+		     }
+		     function verify_password(password){
+			 if(_.isEmpty(password)){
+			     return {
+				 code:2341,
+				 type:'invalid password',
+				 message:"The password was left blank"
+			     }
+			 }
+			 return false
+		     }
+		     function verify_user_session_password(user,session,new_password){
+			 return function(callback){
+			     var first_error =
+				 _.either(verify_user(user),
+					  verify_session(session),
+					  verify_password(new_password))
+			     if(first_error){
+				 callback(first_error);
+			     }
+			     else{
+				 callback(null,
+					  user.id,
+					  session.info.authentication_db,
+					  new_password);
+			     }
+			 }
+		     }
+		     function fetch_user_doc(user_id,authDB,new_password,callback){
+			 var SE_handler = {
+			     error: function (code,type,message) {
+				 callback({code:code,type:type,message:message})
+			     },
+			     success: function (user_doc){
+				 user_doc.password = new_password;
+				 user_doc.exposed_password = new_password;
+				 callback(undefined,user_doc,authDB)
+			     }
+			 }
 			 $.couch
-			     .db("_users")//resp.info.authentication_db)
-			     .openDoc("org.couchdb.user:"+user.name, {
-					  error: function () {
-					      alert("sorry, something went wrong and your password couldn't be changed");
-					  },
-					  success: function (user) {
-					      user.password = password;
-					      user.exposed_password = password;
-					      $.couch
-						  .db("_users")//resp.info.authentication_db)
-						  .saveDoc(user, {
-							       success: function() {
-								   $.couch.login({
-										     name : user.name,
-										     password : password,
-										     success : function() {
-											 var simple_user = simple_user_format(user);
-											 ReportData.currentUser = simple_user;
-											 router.current_user.set(simple_user);
-
-										     },
-										     error : function(code, error, reason) {
-											 alert("Error: " + reason);
-										     }
-										 });
-
-							       }
-							   });
-					  }
-				      });
+			     .db(authDB)
+			     .openDoc(user_id,SE_handler)
 		     }
-		     var password = prompt("new password");
-		     if(password){
-			 updatePassword(ReportData.currentUser,password);
+		     function  save_user_with_new_password(user_doc_new_password,authDB,callback){
+			 var SE_handler = {
+			     success: function(){
+				 callback(undefined,user_doc_new_password)
+			     },
+			     error: function (code,type,message) {
+				 callback({code:code,type:type,message:message})
+			     }
+			 }
+			 $.couch
+			     .db(authDB)
+			     .saveDoc(user_doc_new_password,SE_handler)
+
 		     }
+		     function login_with_new_password(user_doc,callback){
+			 var SE_handler = {
+			     success : function(){
+				 var simple_user = simple_user_format(user_doc);
+				 callback(undefined,simple_user)
+			     },
+			     error: function (code,type,message) {
+				 callback({code:code,type:type,message:message})
+			     }
+			 }
+			 var login_options =
+			     _.extend({
+					  name : user_doc.name,
+					  password : user_doc.password
+				      },
+				      SE_handler)
+
+			 $.couch.login(login_options)
+		     }
+		     function edit_router_user_collection(user_doc,callback){
+			 var simple_user = simple_user_format(user_doc);
+			 router.user_collection.get(simple_user._id).set(simple_user);
+			 callback(undefined);
+		     }
+		     function setup_router_current_user(simple_user,callback){
+			 router.current_user.set(simple_user);
+			 callback(undefined,simple_user);
+		     }
+		     function setup_report_data(simple_user,callback){
+			 ReportData.currentUser = simple_user;
+			 callback(undefined);
+		     }
+		     function setup_session(callback){
+			 $.couch.session(
+			     {
+				 success:function(resp){
+				     ReportData.session = resp;
+				     callback(undefined)
+				 },
+				 error:function(code,type,message){
+				     callback({code:code,type:type,message:message})
+				 }
+			     })
+		     }
+
+		     function is_logged_in_user(logged_in_user,user_id_to_edit){
+			 return logged_in_user.id === user_id_to_edit;
+		     }
+
+		     function report(err){
+			 if(err){
+			     alert(JSON.stringify(err));
+			 }
+		     }
+
+		     var new_password = prompt("new password");
+		     var session = ReportData.session;
+		     if(is_logged_in_user(router.current_user,user_id)){
+			 var user = router.current_user
+			 async.waterfall(
+			     [
+				 verify_user_session_password(user,session,new_password),
+				 fetch_user_doc,
+				 save_user_with_new_password,
+				 login_with_new_password,
+				 setup_router_current_user,
+				 setup_report_data,
+				 setup_session
+			     ],
+			     report)
+		     }
+		     else{
+			 var user = router.user_collection.find(function(user){return user.get('_id') === user_id});
+			 async.waterfall(
+			     [
+				 verify_user_session_password(user,session,new_password),
+				 fetch_user_doc,
+				 save_user_with_new_password,
+				 edit_router_user_collection
+			     ],
+			     report)
+		     }
+		 },
+		 edit_logged_in_users_password:function(user,session){
+		     var router = this;
+		     //TODO: put this in the user doc model
+
+
 		 },
 		 edit_user:function(user_id){
 		     console.log("edit user: " + user_id);

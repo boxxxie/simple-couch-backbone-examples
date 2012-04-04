@@ -109,28 +109,32 @@ var UserDoc = couchDoc.extend(
 	db:"_users/",//TODO: use $.couch.authdbsomething to set this
 	initialize:function(atts){
 	    if(atts && atts.name){
-		this.set({"_id":atts.name});
+		this.set({"_id":"org.couchdb.user:"+atts.name});
 	    }
 	},
 	login:function(callback){
 	    var user = this;
+	    var SE_handler ={
+		success:function(user_login_info){
+		    async.parallel({
+				       user_doc:async.apply(async_method,user,'fetch'),
+				       session_info:async.apply(async_session)
+				   },
+				   function(err,response){
+				       callback(err,response.user_doc,response.session_info);
+				   });
+		},
+		error:function(code,type,message){
+		    callback({code:code,type:type,message:message})
+		}
+	    }
 	    $.couch.login(
-		{
-		    name:user.get('name'),
-		    password:user.get('password'),
-		    success:function(user_login_info){
-			async.parallel({
-					   user_doc:async.apply(async_method,user,'fetch'),
-					   session_info:async.apply(async_session)
-				       },
-				       function(err,response){
-					   callback(err,response.user_doc,response.session_info);
-				       });
+		_.extend(
+		    {
+			name:user.get('name'),
+			password:user.get('password')
 		    },
-		    error:function(code,type,message){
-			callback({code:code,type:type,message:message})
-		    }
-		});
+		    SE_handler));
 	},
 	signup:function(options){
 	    /* should be in the form of:
@@ -145,58 +149,7 @@ var UserDoc = couchDoc.extend(
 			   options
 			  );
 	},
-	url:function(){ //i don't think this is used (looking at how the init method workds)
-	    return this.urlRoot() + "org.couchdb.user:" + this.id;
+	url:function(){
+	    return this.urlRoot() + this.id;
 	}
     });
-
-//var RT7UserDoc = UserDoc.extend(
-/*
-   $.couch.login({name: id_for_user+login_key.user,password:login_key.password,
-			    success:function(user){
-
-				ReportData = user;
-			    },
-			    error:function(){
-				alert("wrong login info.");
-			    }});
-	 }
-({_id:"org.couchdb.user:"+user.name}))
-	.fetch(
-	    //if we find a user, then this is actually an error and we need to overwrite the user data or alert the actual user as to what to do
-	    {success:function(userModel){
-		 //overwrite the user (but we can't overwrite the password)
-		 if(options.overwrite){
-		     userModel.save(user,options);
-		 }
-		 else{
-		     options.error(1000,"user already exists","there was already a user in this entity(company/group/store) and we are not allowed to overwrite their details");
-		 }
-	     },
-	     //if we don't find a user, then we make a new one (indented action)
-	     error:function(){
-		 $.couch.signup(user,password,options);
-	     }
-	    });
-
-function saveNewUser(user,password,options){
-    (new (couchDoc.extend({db:"_users"}))
-     ({_id:"org.couchdb.user:"+user.name}))
-	.fetch(
-	    //if we find a user, then this is actually an error and we need to overwrite the user data or alert the actual user as to what to do
-	    {success:function(userModel){
-		 //overwrite the user (but we can't overwrite the password)
-		 if(options.overwrite){
-		     userModel.save(user,options);
-		 }
-		 else{
-		     options.error(1000,"user already exists","there was already a user in this entity(company/group/store) and we are not allowed to overwrite their details");
-		 }
-	     },
-	     //if we don't find a user, then we make a new one (indented action)
-	     error:function(){
-		 $.couch.signup(user,password,options);
-	     }
-	    });
-}
-*/

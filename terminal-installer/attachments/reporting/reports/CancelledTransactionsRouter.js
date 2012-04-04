@@ -1,4 +1,4 @@
-var menuReportsCancelledTransactionsRouter = 
+var menuReportsCancelledTransactionsRouter =
     new (Backbone.Router.extend(
 	     {routes: {
 	     	  "menuReports/companyReportCancelled":"menuReportsCompanyCancelled",
@@ -16,41 +16,41 @@ var menuReportsCancelledTransactionsRouter =
 	      }
 	     }));
 
-var menuReportsCancelledTransactionsView = 
+var menuReportsCancelledTransactionsView =
     Backbone.View.extend(
 	{initialize:function(){
 	     var view = this;
 	     view.el = $("#main");
-	     
-	     _.bindAll(view, 
+
+	     _.bindAll(view,
 		       'renderMenuReportsCompanyCancelled',
 		       'renderMenuReportsGroupCancelled',
 		       'renderMenuReportsStoreCancelled');
 	     menuReportsCancelledTransactionsRouter
-		 .bind('route:menuReportsCompanyCancelled', 
+		 .bind('route:menuReportsCompanyCancelled',
 		       function(){
 			   console.log("menuReportsView, route:menuReportsCompanyCancelled");
 			   view.renderMenuReportsCompanyCancelled();
 		       });
 	     menuReportsCancelledTransactionsRouter
-		 .bind('route:menuReportsGroupCancelled', 
+		 .bind('route:menuReportsGroupCancelled',
 		       function(){
 			   console.log("menuReportsView, route:menuReportsGroupCancelled");
 			   view.renderMenuReportsGroupCancelled();
 		       });
 	     menuReportsCancelledTransactionsRouter
-		 .bind('route:menuReportsStoreCancelled', 
+		 .bind('route:menuReportsStoreCancelled',
 		       function(){
 			   console.log("menuReportsView, route:menuReportsStoreCancelled");
 			   view.renderMenuReportsStoreCancelled();
 		       });
 	 },
 	 renderMenuReportsCompanyCancelled: function() {
-	     
-	     var html = ich.menuReportsCancelledReports_TMP({startPage:"companyReport", 
-	     						     breadCrumb:breadCrumb(ReportData.company.companyName)});
+
+	     var html = ich.menuReportsCancelledReports_TMP({startPage:"companyReport",
+	     						   breadCrumb:breadCrumb(ReportData.company.companyName)});
 	     $(this.el).html(html);
-	     
+
 	     var selectedDates = $( "#dateFrom, #dateTo" )
 		 .datepicker({
 				 defaultDate: "+1w",
@@ -68,62 +68,62 @@ var menuReportsCancelledTransactionsView =
 				     selectedDates.not( this ).datepicker( "option", option, date );
 				 }
 			     });
-	     
+
 	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
 	     $("#dateTo").datepicker("setDate", new Date());
-	     
+
 	     var dropdownGroup = $("#groupsdown");
 	     var dropdownStore = $("#storesdown");
 	     var dropdownTerminal = $("#terminalsdown");
-	     
+
 	     _.each(ReportData.company.hierarchy.groups, function(group) {
 			dropdownGroup.append('<option value=' + group.group_id + '>' + group.groupName + '</option>');
 		    });
-	     
+
 	     var stores = _(ReportData.company.hierarchy.groups).chain().map(function(group) {
-										 return group.stores; 
-									     }).flatten().value();
-	     
+									       return group.stores;
+									   }).flatten().value();
+
 	     _.each(stores, function(store) {
 	 		dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
-	 																	 + "(" + store.number + ")" + '</option>');
+	 				     + "(" + store.number + ")" + '</option>');
 	 	    });
-	     
+
 	     var terminals = _(stores).chain().map(function(store) {
-						       return store.terminals?store.terminals:[]; 
-						   }).flatten().value();
+						     return store.terminals?store.terminals:[];
+						 }).flatten().value();
 	     if(terminals.length>0) {
 		 _.each(terminals, function(terminal) {
 		 	    dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	});	
+		 	});
 	     } else {
 	 	 $('option', dropdownTerminal).remove();
 	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	     }
-	     
+
 	     $("#groupsdown")
-           .change(function(){
-               updateStoreDropdown();updateTerminalDropdown();
-           });
-         $("#storesdown")
-           .change(function(){
-               updateTerminalDropdown();
-           });
-	     
+		 .change(function(){
+			     updateStoreDropdown();updateTerminalDropdown();
+			 });
+             $("#storesdown")
+		 .change(function(){
+			     updateTerminalDropdown();
+			 });
+
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
 			    renderCancelledTransactionsTable();
 			});
-	     
+
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsGroupCancelled: function() {
-	     
-	     var html = ich.menuReportsCancelledReports_TMP({startPage:"groupReport", 
-	     						     breadCrumb:breadCrumb(ReportData.companyName, ReportData.group.groupName)});
+
+	     var html = ich.menuReportsCancelledReports_TMP({startPage:"groupReport",
+	     						   breadCrumb:breadCrumb(ReportData.companyName, ReportData.group.groupName)});
 	     $(this.el).html(html);
-	     
+
 	     var selectedDates = $( "#dateFrom, #dateTo" )
 		 .datepicker({
 				 defaultDate: "+1w",
@@ -141,54 +141,54 @@ var menuReportsCancelledTransactionsView =
 				     selectedDates.not( this ).datepicker( "option", option, date );
 				 }
 			     });
-	     
+
 	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
 	     $("#dateTo").datepicker("setDate", new Date());
-	     
+
 	     var dropdownGroup = $("#groupsdown");
 	     var dropdownStore = $("#storesdown");
 	     var dropdownTerminal = $("#terminalsdown");
-	     
+
 	     $('option', dropdownGroup).remove();
 	     dropdownGroup.append('<option value ='+ReportData.group.group_id+'>'+ReportData.group.groupName+ '</option>');
 	     dropdownGroup.attr('disabled','disabled');
-	     
+
 	     _.each(ReportData.group.stores, function(store) {
- 			dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName 
- 																		 + "(" + store.number + ")" + '</option>');
+ 			dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
+ 					     + "(" + store.number + ")" + '</option>');
 	 	    });
-	     
+
 	     var terminals = _(ReportData.group.stores).chain().map(function(store) {
-									return store.terminals?store.terminals:[]; 
-								    }).flatten().value();
+								      return store.terminals?store.terminals:[];
+								  }).flatten().value();
 	     if(terminals.length>0) {
 		 _.each(terminals, function(terminal) {
 		 	    dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	});	
+		 	});
 	     } else {
 	 	 $('option', dropdownTerminal).remove();
 	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	     }
-	     
-         $("#storesdown")
-           .change(function(){
-               updateTerminalDropdown();
-           });
-	     
+
+             $("#storesdown")
+		 .change(function(){
+			     updateTerminalDropdown();
+			 });
+
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
 			    renderCancelledTransactionsTable();
 			});
-	     
+
 	     console.log("rendered general report");
 	 },
 	 renderMenuReportsStoreCancelled: function() {
-	     
-	     var html = ich.menuReportsCancelledReports_TMP({startPage:"storeReport", 
-	     						     breadCrumb:breadCrumb(ReportData.companyName, ReportData.groupName, ReportData.store.storeName, ReportData.store.number)});
+
+	     var html = ich.menuReportsCancelledReports_TMP({startPage:"storeReport",
+	     						   breadCrumb:breadCrumb(ReportData.companyName, ReportData.groupName, ReportData.store.storeName, ReportData.store.number)});
 	     $(this.el).html(html);
-	     
+
 	     var selectedDates = $( "#dateFrom, #dateTo" )
 		 .datepicker({
 				 defaultDate: "+1w",
@@ -206,40 +206,40 @@ var menuReportsCancelledTransactionsView =
 				     selectedDates.not( this ).datepicker( "option", option, date );
 				 }
 			     });
-	     
+
 	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
 	     $("#dateTo").datepicker("setDate", new Date());
-	     
+
 	     var dropdownGroup = $("#groupsdown");
 	     var dropdownStore = $("#storesdown");
 	     var dropdownTerminal = $("#terminalsdown");
-	     
+
 	     $('option', dropdownGroup).remove();
 	     $('option', dropdownStore).remove();
-	     
+
 	     dropdownGroup.append('<option value=="">'+ReportData.groupName+ '</option>');
 	     dropdownGroup.attr('disabled','disabled');
 	     dropdownStore.append('<option value='+ReportData.store.store_id+'>'+ReportData.store.storeName
-     																		+ "(" + ReportData.store.number + ")" + '</option>');
+     				  + "(" + ReportData.store.number + ")" + '</option>');
 	     dropdownStore.attr('disabled','disabled');
-	     
+
 	     var terminals = ReportData.store.terminals?ReportData.store.terminals:[];
-	     
+
 	     if(terminals.length>0) {
 		 _.each(terminals, function(terminal) {
 		 	    dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	});	
+		 	});
 	     } else {
 	 	 $('option', dropdownTerminal).remove();
 	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
 	     }
-	     
+
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
 			    renderCancelledTransactionsTable();
 			});
-	     
+
 	     console.log("rendered general report");
 	 }
 	});
@@ -251,13 +251,13 @@ function renderCancelledTransactionsTable() {
     var dropdownGroup = $("#groupsdown");
     var dropdownStore = $("#storesdown");
     var dropdownTerminal = $("#terminalsdown");
-    
+
     if(!_.isEmpty($("#dateFrom").val()) && !_.isEmpty($("#dateTo").val())) {
 	var startDate = new Date($("#dateFrom").val());
 	var endDate = new Date($("#dateTo").val());
 	var endDateForQuery = new Date($("#dateTo").val());
 	endDateForQuery.addDays(1);
-	
+
 	//TODO
 	if(dropdownTerminal.val()=="ALL") {
 	    ids = _($('option', dropdownTerminal)).chain()
@@ -271,11 +271,11 @@ function renderCancelledTransactionsTable() {
 	    ids =[{id:sd.val(), name:sd.text()}];
 	}
 	console.log(ids);
-	
+
 	canceledTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)
 	(function(err,data_TMP){
-		data_TMP = appendGroupStoreInfoFromStoreID(data_TMP);
-		
+	     data_TMP = appendGroupStoreInfoFromStoreID(data_TMP);
+
 	     var totalrow = {};
 	     totalrow.numofcancelled = data_TMP.length + "";
 	     totalrow.subTotal = currency_format(_.reduce(data_TMP, function(init, item){
@@ -290,10 +290,10 @@ function renderCancelledTransactionsTable() {
 	     totalrow.total = currency_format(_.reduce(data_TMP, function(init, item){
 							   return init + Number(item.total);
 						       }, 0));
-	     
+
 	     data_TMP = applyReceiptInfo(data_TMP);
-	     
-	     data_TMP = 
+
+	     data_TMP =
 		 _.applyToValues(data_TMP, function(obj){
 				     if(obj && obj.discount==0){
 					 obj.discount=null;
@@ -307,52 +307,53 @@ function renderCancelledTransactionsTable() {
 				     }
 				     return toFixed(2)(obj);
 				 }, true);
-	     
+
 	     data_TMP = _.map(data_TMP, function(item){
 				  if(item.payments) {
-				      item.payments = _.map(item.payments, function(payment){
-				                // apply card payment data
-                                if(_.isEmpty(payment.paymentdetail)) {
-                                    payment = _.removeKeys(payment,"paymentdetail"); 
-                                }
-                                                    
-								if(payment.paymentdetail) {
-								    payment.paymentdetail.crt = payment.type;
-								}
-								if(payment.paymentdetail && payment.paymentdetail.errmsg) {
-								    payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace(/<br>/g," ");
-								}
-								return payment;
-							    }); 
+				      item.payments =
+					  _.map(item.payments, function(payment){
+						    // apply card payment data
+						    if(_.isEmpty(payment.paymentdetail)) {
+							payment = _.removeKeys(payment,"paymentdetail");
+						    }
+
+						    if(payment.paymentdetail) {
+							payment.paymentdetail.crt = payment.type;
+						    }
+						    if(payment.paymentdetail && payment.paymentdetail.errmsg) {
+							payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace(/<br>/g," ");
+						    }
+						    return payment;
+						});
 				  }
 				  return item;
 			      });
 	     
-	     
-	     	data_TMP = 
-		     _.applyToValues(data_TMP, function(obj){
-					 var strObj = obj+"";
-					 if(strObj.indexOf(".")>=0 && strObj.indexOf("$")<0) {
-					     obj = currency_format(Number(obj));
-					 }
-					 return obj;
-				     }, true);
-		 var html = ich.menuReportsCancelledtable_TMP({items:data_TMP, totalrow:totalrow});
-	     
+
+	     data_TMP =
+		 _.applyToValues(data_TMP, function(obj){
+				     var strObj = obj+"";
+				     if(strObj.indexOf(".")>=0 && strObj.indexOf("$")<0) {
+					 obj = currency_format(Number(obj));
+				     }
+				     return obj;
+				 }, true);
+	     var html = ich.menuReportsCancelledtable_TMP({items:data_TMP, totalrow:totalrow});
+
 
 	     $("#cancelledtable").html(html);
-	     
+
 	     _.each(data_TMP, function(item){
 			var item = _.clone(item);
-			
+
 			var dialogtitle=getDialogTitle(ReportData,item);
-			
+
 			var btn = $('#'+item._id)
 			    .button()
 			    .click(function(){
 				       var btnData = item;
 				       btnData.discount=null;
-	
+
 				       _.applyToValues(ReportData,
 						       function(o){
 							   if(o.store_id==btnData.store_id){
@@ -361,15 +362,15 @@ function renderCancelledTransactionsTable() {
 							   return o;
 						       }
 						       ,true);
-				       
-	
-				       
+
+
+
 				       var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
 				       quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
 				   });
-		    });	
+		    });
 	 });
-	
+
     } else {
    	alert("Input Date");
     }
