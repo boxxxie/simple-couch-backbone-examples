@@ -148,7 +148,7 @@ var reportDataToArray = _.memoize(
 	    };
 	}
 	return _(reportData).chain()
-        .prewalk2(function(o){
+            .prewalk_r(function(o){
 			  if (o.hierarchy){
 			      var groups = o.hierarchy.groups;
 			      var o_without_field = _.removeKeys(o,'hierarchy');
@@ -157,15 +157,56 @@ var reportDataToArray = _.memoize(
 			  }
 			  return o;
 		      })
-	    .prewalk2(combineWithSubpart('terminals'))
-        .prewalk2(combineWithSubpart('stores'))
-        .prewalk2(combineWithSubpart('groups'))
-        .prewalk2(combineWithSubpart('company'))
+	    .prewalk_r(combineWithSubpart('terminals'))
+            .prewalk_r(combineWithSubpart('stores'))
+            .prewalk_r(combineWithSubpart('groups'))
+            .prewalk_r(combineWithSubpart('company'))
 	    .value();
 
     },
     reportDataHash
 );
+
+function entity_type_from_id(id){
+    return _.chain(reportDataToArray(ReportData))
+	.find(function(entity){
+		  return _.find(entity,function(val){return val === id})
+	      })
+	.filter$(function(val){
+		     return val === id
+		 })
+	.renameKeys('_id','company',
+		    'company_id','company',
+		    'store_id','store',
+		    'group_id','group')
+	.keys()
+	.first()
+	.value()
+}
+
+function entity_from_id(id){
+    var bloated_entity = _.chain(reportDataToArray(ReportData))
+	.find(function(entity){
+		  return _.find(entity,function(val){return val === id})
+	      })
+	.value()
+    var entity_type = entity_type_from_id(id)
+    if (entity_type === 'company'){
+
+    }
+    else if(entity_type === 'group'){
+
+    }
+    else if(entity_type === 'store'){
+	return _.selectKeys(bloated_entity, 'company_id',
+		       'companyName',
+		       'group_id',
+		       'groupName',
+		       'store_id',
+		       'storeName',
+		       'storeNumber')
+    }
+}
 
 function reportDataHash(reportData){
     return topLevelEntity(reportData).id;
@@ -308,6 +349,13 @@ function updateTerminalDropdown(isNotShowAll) {
 };
 
 function simple_user_format(user){
-    var user_roles_obj = _.chain(user.roles).filter(_.isObj).merge().value()
-    return _.chain(user).removeKeys('roles').combine(user_roles_obj).value()
+    var user_roles_obj = _.chain(user.roles)
+	.filter(_.isObj)
+	.merge()
+	.value()
+
+    return _.chain(user)
+	.removeKeys('roles')
+	.combine(user_roles_obj)
+	.value()
 }
