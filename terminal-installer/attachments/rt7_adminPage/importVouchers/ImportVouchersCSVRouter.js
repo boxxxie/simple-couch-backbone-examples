@@ -20,7 +20,7 @@ var importVoucherRouter =
           $("#formFileChooser input:file")
           .change(function(event){
             csvData="";
-            if(_.isNotEmpty(this.files) && FileReader){ // firefox, chrome
+            if(_.isNotEmpty(this.files) && FileReader){ // firefox, chrome, 
                 var file = this.files[0];
                 
                 var reader = new FileReader();
