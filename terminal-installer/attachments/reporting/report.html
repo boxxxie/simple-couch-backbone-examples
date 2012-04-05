@@ -315,6 +315,17 @@
       </div>
     </script>
     
+    <script id="voucherOptionDropdown_P" class="partial" type="text/html">
+      <ul id="ulVoucherDropDown">
+    <li style="display: inline;">OPTION : 
+      <select id="vouchersdown" class="{{>commonClasses_P}}">
+        <option value = "ALL" selected>ALL</option>
+        <option value = "NOTZEROBALANCE" >Balance > 0</option>
+        <option value = "ZEROBALANCE" >Balance = 0</option>
+      </select>
+    </li>
+      </ul>
+    </script>
   
     
 
@@ -1095,7 +1106,7 @@
 	</div>
 	<div class="report-menu">
       <a href='#menuReports/{{startPage}}VouchersHistory'>
-        <img src="../images/reports/discounts.png" border="0" class="report-menu-icon"/>Voucher History
+        <img src="../images/reports/discounts.png" border="0" class="report-menu-icon"/>Vouchers History
       </a>
     </div>
 	<div style="clear: both;"></div>
@@ -2047,6 +2058,7 @@
     <h2>{{>breadcrumb_P}}</h2>
     {{>groupDropdownbox_P}}
     {{>dateRangePicker_P}}
+    {{>voucherOptionDropdown_P}}
     {{>generalGoButton_P}}          
     <div id='voucherstable'></div>       
     {{>backButton_P}}
