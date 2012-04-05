@@ -20,6 +20,7 @@
     <script language="javascript" type="text/javascript" src="../lib/jquery-ui-1.8.16.custom.min.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/jquery.couch.0.11.0.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/couchDBhelpers.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/table2CSV.js"></script>
     
     
     <script language="javascript" type="text/javascript" src="../lib/underscore.js"></script>
@@ -30,6 +31,7 @@
     <script language="javascript" type="text/javascript" src="../lib/ICanHaz-no-mustache.js"></script>
     
     <script language="javascript" type="text/javascript" src="../lib/couch-backbone.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/async.js"></script>
     
     <script language="javascript" type="text/javascript" src="../lib/TerritoryUser.js"></script>
     <script language="javascript" type="text/javascript" src="../rt7_adminPage/company management/heroburger_terminal.js"></script>
@@ -48,6 +50,8 @@
     <script language="javascript" type="text/javascript" src="../rt7_adminPage/mainMenuRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../rt7_adminPage/company management/company management.js"></script>
     <script language="javascript" type="text/javascript" src="../rt7_adminPage/inventory management/inventory management.js"></script>
+    <script language="javascript" type="text/javascript" src="../rt7_adminPage/importVouchers/vouchers_helper.js"></script>
+    <script language="javascript" type="text/javascript" src="../rt7_adminPage/importVouchers/ImportVouchersCSVRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../rt7_adminPage/docRdy.js"></script>
     
     <style>
@@ -218,6 +222,10 @@
       <center><button id='replace-{{_id}}'>Replace</button></center>
     </script>
     
+    <script id="importButton_P" class="partial" type="text/html">
+      <button id="importButton">Import</button>
+    </script>
+    
     <!--------------------------------------------------------DIALOG--------------------------------------------------->
     
     <script id="tips_TMP" type="text/html">
@@ -265,11 +273,12 @@
       <div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
         <h1>RT7 Backoffice Main Menu</h1>
 	<div class="report-menu"><a href="#companymanagement"><img src="../images/admin/company.png" class="report-menu-icon" border="0"/>Company Management</a></div>
-	<div class="report-menu"><a href="territory representatives/territory users management.html"><img src="../images/admin/company.png" class="report-menu-icon" border="0"/>T.R. Users Management</a></div>
+	<!--<div class="report-menu"><a style="cursor: pointer;" onclick="showMsg();"><img src="../images/admin/company.png" class="report-menu-icon" border="0"/>T.R. Users Management</a></div>-->
 	<div class="report-menu"><a href="#inventorymanagement"><img src="../images/admin/inventory.png" class="report-menu-icon" border="0"/>Inventory Management</a></div>
-	<div class="report-menu"><a style="cursor: pointer;" onclick="showMsg();"><img src="../images/admin/user.png" class="report-menu-icon" border="0"/>Backoffice Admin User Info</a></div>
-	<div class="report-menu"><a style="cursor: pointer;" onclick="showMsg();"><img src="../images/admin/reports.png" class="report-menu-icon" border="0"/>Reports</a></div>
-	<div class="report-menu"><a style="cursor: pointer;" onclick="showMsg();"><img src="../images/admin/terminal.png" class="report-menu-icon" border="0"/>Install/Deactivate a Terminal</a></div>
+	<div class="report-menu"><a href="#importvouchers"><img src="../images/admin/importvoucher.png" class="report-menu-icon" border="0"/>Import Vouchers CSV</a></div>
+	<!--<div class="report-menu"><a style="cursor: pointer;" onclick="showMsg();"><img src="../images/admin/user.png" class="report-menu-icon" border="0"/>Backoffice Admin User Info</a></div>-->
+	<!--<div class="report-menu"><a style="cursor: pointer;" onclick="showMsg();"><img src="../images/admin/reports.png" class="report-menu-icon" border="0"/>Reports</a></div>-->
+	<!--<div class="report-menu"><a style="cursor: pointer;" onclick="showMsg();"><img src="../images/admin/terminal.png" class="report-menu-icon" border="0"/>Install/Deactivate a Terminal</a></div>-->
 	<div class="report-menu"><a href="admin" onClick="logout()"><img src="../images/admin/logout.png" class="report-menu-icon" border="0"/>Logout</a></div>
 	<div style="clear:both"></div>
       </div>
@@ -937,6 +946,37 @@
 	</div>
       </div>    
     </script>
+    <!----------------------------------------------------------------------------------------------------->
+    
+    <!----------------------------------- IMPORT VOUCHERS CSV --------------------------------------------->
+    <script id="companyDropdownbox_P" class="partial" type="text/html">
+      <ul id="ulCompanyDropDown">
+    <li style="display: inline;">COMPANY : 
+      <select id="companiesdown" class="{{>commonClasses_P}}">
+      </select>
+    </li>
+      </ul>
+    </script>
+    
+    <script id="importVouchers_TMP" type="text/html">
+      {{>mainheader}}
+      <div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+    <div id="mainintmp">
+      <h1>Import Vouchers CSV</h1>
+      {{>menuButton_P}}
+      <hr />
+      {{>companyDropdownbox_P}}
+      <hr/>
+      <form id="formFileChooser">
+      <input type="file" id="selectedFile" />
+      </form>
+      <textarea style="resize:none" id="csvtextarea" rows="20" cols="90"></textarea>
+      <hr />
+      {{>importButton_P}}
+    </div>
+      </div>
+    </script>
+    
     <!----------------------------------------------------------------------------------------------------->
     
   </head>

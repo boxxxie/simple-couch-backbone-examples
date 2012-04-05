@@ -1,4 +1,6 @@
-var RetailerUserDoc = UserDoc; //couchDoc.extend({db:"_users"});
+
+var RetailerUserDoc = UserDoc;
+
 var CompanyForUser = couchDoc.extend({db:"companies",
                                       getGroups:function(){
                                           return this.get('hierarchy').groups;
@@ -65,7 +67,7 @@ function fetchRetailerUserCollection_All(id) {
         (function(response){
              var user_collection = new RetailerUserCollection();
              _.reduce(response.rows, function(collection,item){
-			  return collection.add(item.value, {silent:true});
+              return collection.add(item.value, {silent:true});
                       },user_collection);
              callback(null,user_collection);
          });

@@ -31,3 +31,7 @@ function updateDate() {
       ts.append(date.toDateString() + " / " + date.toLocaleTimeString());
       }, 0);
 };
+
+function showMsg() {
+    alert("Sorry, We are working on this menu.");
+}

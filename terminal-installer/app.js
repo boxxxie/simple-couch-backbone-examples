@@ -21,6 +21,7 @@ ddoc.rewrites = [
     {from: "menus_corp/*", to: "../../../menus_corp/*"},
     {from: "menu_buttons/*", to: "../../../menu_buttons/*"},
     {from: "rewards_rt7/*", to: "../../../rewards_rt7/*"},
+    {from: "vouchers_rt7/*", to: "../../../vouchers_rt7/*"},
     {from: "install_files_rt7/*", to: "../../../install_files_rt7/*"},
     {from: "companies/*", to: "../../../companies/*"},
     {from: "_users/*", to: "../../../_users/*"},

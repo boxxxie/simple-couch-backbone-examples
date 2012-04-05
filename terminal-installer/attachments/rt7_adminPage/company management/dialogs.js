@@ -116,46 +116,52 @@ function CompanyInputDialog (attachTo,options) {
 	    },
 	    buttons: {			 
 		"Submit" : function() {
-		    
-		    var newCompanyData = 
-			{user:user.val(),
-			 password:password.val(),
-			 contact:{firstname : firstname.val(),
-				  lastname : lastname.val(),
-				  website : website.val(),
-				  email : email.val(),
-				  phone : phone.val()},
-			 address:{street0:street0.val(),
-				  street1:street1.val(),
-				  street2:street2.val(),
-				  city:city.val(),
-				  country:country.val(),
-				  province:province.val(),
-				  postalcode:postalcode.val()},
-			 operationalname:operationalname.val(),
-			 companyName:companyName.val()};
+		    $.couch.session({
+		        success:function(sessionData) {
+		            var newCompanyData = 
+            {user:user.val(),
+             password:password.val(),
+             contact:{firstname : firstname.val(),
+                  lastname : lastname.val(),
+                  website : website.val(),
+                  email : email.val(),
+                  phone : phone.val()},
+             address:{street0:street0.val(),
+                  street1:street1.val(),
+                  street2:street2.val(),
+                  city:city.val(),
+                  country:country.val(),
+                  province:province.val(),
+                  postalcode:postalcode.val()},
+             operationalname:operationalname.val(),
+             companyName:companyName.val()};
 
-		    var newCompanyData_w_options = _.clone(newCompanyData);
+            var newCompanyData_w_options = _.clone(newCompanyData);
 
-		    if(options.isCreate) {
-			_.extend(newCompanyData, {creationdate:new Date()});
-			_.extend(newCompanyData_w_options, {isCreate:options.isCreate});
-		    }
+            if(options.isCreate) {
+            _.extend(newCompanyData, {creationdate:new Date(),creation_user:sessionData.userCtx.name});
+            _.extend(newCompanyData_w_options, {isCreate:options.isCreate});
+            }
 
-		    var validationResults = options.validator(newCompanyData_w_options);
+            var validationResults = options.validator(newCompanyData_w_options);
 
-		    var passedValidation;
-		    (_.isEmpty(validationResults))?passedValidation=true:passedValidation=false;
-		    allFields.removeClass(genericErrorClass);
+            var passedValidation;
+            (_.isEmpty(validationResults))?passedValidation=true:passedValidation=false;
+            allFields.removeClass(genericErrorClass);
 
-		    if (passedValidation) {
-			options.success(newCompanyData);
-			allFields.val("");
-			d.dialog("close");
-		    }
-		    else{
-			PostValidator(d,tips,validationResults);
-		    } 
+            if (passedValidation) {
+            options.success(newCompanyData);
+            allFields.val("");
+            d.dialog("close");
+            }
+            else{
+            PostValidator(d,tips,validationResults);
+            } 
+		        },
+		        error:function() {
+		            alert("Error occured while creating Company!");
+		        }
+		    });		    
 		},	
 		Cancel: function() {
 		    d.dialog("close");
