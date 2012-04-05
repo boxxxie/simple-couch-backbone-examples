@@ -17,7 +17,7 @@ var voucherHistoryRouter =
                     $("#main").html(html);
                     
                     resetDatePicker();
-                    resetDropdownBox(ReportData, false, true);
+                    resetDropdownBox(ReportData, true, true);
                     
                     // TODO : view
                     _.once(function(){
@@ -36,8 +36,9 @@ var voucherHistoryView =
                  var btn = $("#generalgobtn");
                  btn.button()
                      .click(function() {
-                        var groupdown = $("#groupsdown :selected");
-                        var storedown = $("#storesdown :selected");
+                        var dropdownGroup = $("#groupsdown");
+                        var dropdownStore = $("#storesdown");
+                        var dropdownTerminal = $("#terminalsdown");
                         var voucherdown =$("#vouchersdown :selected");
                         
                         if(!_.isEmpty($("#dateFrom").val()) && !_.isEmpty($("#dateTo").val())) {
@@ -46,16 +47,16 @@ var voucherHistoryView =
                             var endDateForQuery = new Date($("#dateTo").val());
                             endDateForQuery.addDays(1);
                             
-                            var ids = [];
-                            
-                            if(storedown.val()=="ALL") {
-                                if(groupdown.val()=="ALL") {
-                                    ids = ids.concat(ReportData.company._id);
-                                } else {
-                                    ids = ids.concat(groupdown.val());
-                                }
+                            if(dropdownTerminal.val()=="ALL") {
+                                ids = _($('option', dropdownTerminal)).chain()
+                                    .filter(function(item){ return item.value!=="ALL";})
+                                    .map(function(item){
+                                         return {id:item.value, name:item.text};
+                                         })
+                                    .value();
                             } else {
-                                ids = ids.concat(storedown.val());
+                                var sd = $("#terminalsdown option:selected");
+                                ids =[{id:sd.val(), name:sd.text()}];
                             }
                             
                             var opts =[];
@@ -65,7 +66,7 @@ var voucherHistoryView =
                                 opts = opts.concat(voucherdown.val());
                             }
                             
-                            console.log(_.first(ids));
+                            console.log(ids);
                             console.log(opts);
                             
                             //TODO : fetch transactions
