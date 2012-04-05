@@ -18,6 +18,7 @@ var voucherHistoryRouter =
                     
                     resetDatePicker();
                     resetDropdownBox(ReportData, true, true);
+                    $("#ulhierarchy").hide();
                     
                     // TODO : view
                     _.once(function(){
