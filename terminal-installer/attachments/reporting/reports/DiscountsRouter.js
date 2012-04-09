@@ -55,7 +55,6 @@ var menuReportsDiscountsView =
 	     
 	     resetDatePicker();
 	     
-	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
              resetDropdownBox(ReportData, true, true);
 	     
 	     var btn = $('#generalgobtn')
@@ -74,7 +73,6 @@ var menuReportsDiscountsView =
 	     
 	     resetDatePicker();
 	     
-	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
              resetDropdownBox(ReportData, true, true);
 	     
 	     var btn = $('#generalgobtn')
@@ -93,7 +91,6 @@ var menuReportsDiscountsView =
 	     
 	     resetDatePicker();
 	     
-	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
              resetDropdownBox(ReportData, true, true);
 	     
 	     var btn = $('#generalgobtn')
@@ -136,8 +133,6 @@ function renderDiscountsTable() {
 	
 	discountTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)
 	(function(err,data_TMP){
-	     //data_TMP = _.reject(data_TMP, function(item){return item.discount<=0});
-	     //data_TMP = appendGroupStoreInfoFromStoreID(data_TMP);
 	     
 	     var totalrow = {};
 	     totalrow.numofdiscount = data_TMP.length + "";

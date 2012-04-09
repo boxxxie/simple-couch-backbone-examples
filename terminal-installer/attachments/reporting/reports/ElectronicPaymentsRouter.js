@@ -55,7 +55,6 @@ var menuReportsElectronicPaymentsView =
 	     
 	     resetDatePicker();
 	     
-	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
              resetDropdownBox(ReportData, true, true);
 	     
 	     var btn = $('#generalgobtn')
@@ -75,7 +74,6 @@ var menuReportsElectronicPaymentsView =
 	     
 	     resetDatePicker();
 	     
-	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
              resetDropdownBox(ReportData, true, true);
 	     
 	     var btn = $('#generalgobtn')
@@ -97,7 +95,6 @@ var menuReportsElectronicPaymentsView =
 	     
 	     resetDatePicker();
 	     
-	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
              resetDropdownBox(ReportData, true, true);
 	     
 	     var btn = $('#generalgobtn')
@@ -143,7 +140,6 @@ function renderElectronicPaymentsTable() {
 	(function(err,response){
 
 	     var data_TMP = response.paymentList;
-	     //data_TMP = appendGroupStoreInfoFromStoreID(data_TMP);
 	     var totals = _.applyToValues(response.totals, toFixed(2));
 	     
 	     data_TMP = processTransactionsTMP(data_TMP);

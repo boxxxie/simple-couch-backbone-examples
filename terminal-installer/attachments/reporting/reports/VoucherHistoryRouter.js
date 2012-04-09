@@ -71,7 +71,6 @@ var voucherHistoryView =
 						    //TODO : fetch transactions
 						    otherTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery,voucherdown.val())
 						    (function(err,resp){
-							 //var data_TMP = appendGroupStoreInfoFromStoreID(resp);
 							 
 							 var totalrow = {};
 							 totalrow.redeemed = currency_format(_.reduce(resp, function(init, item){
@@ -92,31 +91,32 @@ var voucherHistoryView =
 								    
 								    $("[id]")
 									.filter(function(){return $(this).attr('id') == item._id;})
-									.each(function(){$(this).button()
-											 .click(function(){
-												    var trHtml = $(this).parent().parent().parent().html();
-												    if(trHtml.indexOf(item.voucherID)>=0) {
-													var btnData = item;
-													btnData.discount=null;
-													//TODO:
-													//btnData.storename = ReportData.store.storeName;
-													//FIXME: use walk,
-													_.applyToValues(ReportData,
-															function(o){
-															    if(o.store_id==btnData.store_id){
-																btnData.storename = o.storeName;
-															    }
-															    return o;
-															}
-															,true);
-													
-													_.applyToValues(btnData,currency_format,true);
-													
-													var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
-													quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
-												    }
-												});
-											}); 
+									.each(function(){
+										  $(this).button()
+										      .click(function(){
+												 var trHtml = $(this).parent().parent().parent().html();
+												 if(trHtml.indexOf(item.voucherID)>=0) {
+    												     var btnData = item;
+    												     btnData.discount=null;
+    												     //TODO:
+    												     //btnData.storename = ReportData.store.storeName;
+    												     //FIXME: use walk,
+    												     _.applyToValues(ReportData,
+    														     function(o){
+    															 if(o.store_id==btnData.store_id){
+    															     btnData.storename = o.storeName;
+    															 }
+    															 return o;
+    														     }
+    														     ,true);
+    												     
+    												     _.applyToValues(btnData,currency_format,true);
+    												     
+    												     var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
+    												     quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
+												 }
+											     });
+									      }); 
 								});
 						     });
 						} else {

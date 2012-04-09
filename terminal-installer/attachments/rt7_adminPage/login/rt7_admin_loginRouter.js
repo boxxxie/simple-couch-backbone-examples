@@ -83,3 +83,13 @@ var adminLoginView = Backbone.View.extend(
          $("#userID").focus();
      }
     });
+    
+function logout() {
+    $.couch
+    .logout(
+        {success:function(){
+         console.log("here i am, logout");
+         window.location.href ='admin';
+         }
+    });
+};
