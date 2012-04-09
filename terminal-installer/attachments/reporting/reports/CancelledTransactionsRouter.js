@@ -54,7 +54,7 @@ var menuReportsCancelledTransactionsView =
 	     resetDatePicker();
 	     
 	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
-	     resetDropdownBox(ReportData, true, false);
+	     resetDropdownBox(ReportData, true, true);
 	    
 	     var btn = $('#generalgobtn')
 		 .button()
@@ -73,7 +73,7 @@ var menuReportsCancelledTransactionsView =
 	     resetDatePicker();
 	    	    
 	    //resetGroupStoreTerminalDropdownbox(ReportData, false);
-         resetDropdownBox(ReportData, true, false);
+         resetDropdownBox(ReportData, true, true);
 	    
 	     var btn = $('#generalgobtn')
 		 .button()
@@ -92,7 +92,7 @@ var menuReportsCancelledTransactionsView =
 	     resetDatePicker();
 	     
 	    //resetGroupStoreTerminalDropdownbox(ReportData, false);
-         resetDropdownBox(ReportData, true, false);
+         resetDropdownBox(ReportData, true, true);
 	    
 	     var btn = $('#generalgobtn')
 		 .button()

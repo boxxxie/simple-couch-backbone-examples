@@ -78,3 +78,4 @@ function transactionsReportDaySummaryFetcher(start,end){
 	};
     };
 }
+
