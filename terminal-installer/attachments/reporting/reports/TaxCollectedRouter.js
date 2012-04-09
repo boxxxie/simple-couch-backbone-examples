@@ -55,9 +55,9 @@ var menuReportsTaxCollectedView =
 	     
 	     resetDatePicker();
 
-	    //resetGroupStoreTerminalDropdownbox(ReportData, false);
-         resetDropdownBox(ReportData, true, true);
-	    
+	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
+             resetDropdownBox(ReportData, true, true);
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -74,10 +74,10 @@ var menuReportsTaxCollectedView =
 	     $(this.el).html(html);
 	     
 	     resetDatePicker();
-	     	    
-	    //resetGroupStoreTerminalDropdownbox(ReportData, false);
-         resetDropdownBox(ReportData, true, true);
-	    
+	     
+	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
+             resetDropdownBox(ReportData, true, true);
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -96,10 +96,10 @@ var menuReportsTaxCollectedView =
 	     $(this.el).html(html);
 	     
 	     resetDatePicker();
-	    
-	    //resetGroupStoreTerminalDropdownbox(ReportData, false);
-         resetDropdownBox(ReportData, true, true);
-	    
+	     
+	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
+             resetDropdownBox(ReportData, true, true);
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -210,13 +210,13 @@ function appendGroupStoreInfoFromTerminalID(list) {
     function getStoreIdFromTerminalId(obj, terminal_id){
 	var storeid;
 	_.prewalk(function(o){
-		       if(o && o.terminals){
-			   if(_.find(o.terminals, function(terminal){ return terminal.terminal_id == terminal_id;})) {
-			       storeid = o.store_id;
-			   }
-		       }
-		       return o;
-		   },obj);
+		      if(o && o.terminals){
+			  if(_.find(o.terminals, function(terminal){ return terminal.terminal_id == terminal_id;})) {
+			      storeid = o.store_id;
+			  }
+		      }
+		      return o;
+		  },obj);
 	return storeid;		
     };
     

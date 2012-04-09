@@ -52,10 +52,10 @@ var menuReportsHourlyActivityView =
 	     					       breadCrumb:breadCrumb(ReportData.company.companyName)});
 	     $(this.el).html(html);
 	     
-	    
-	    //resetGroupStoreTerminalDropdownbox(ReportData, false);
-         resetDropdownBox(ReportData, true, true);
-	    
+	     
+	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
+             resetDropdownBox(ReportData, true, true);
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -70,9 +70,9 @@ var menuReportsHourlyActivityView =
 	 					       breadCrumb:breadCrumb(ReportData.companyName,ReportData.group.groupName)});
 	     $(this.el).html(html);
 	     
-	    //resetGroupStoreTerminalDropdownbox(ReportData, false);
-         resetDropdownBox(ReportData, true, true);
-	    
+	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
+             resetDropdownBox(ReportData, true, true);
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -91,8 +91,8 @@ var menuReportsHourlyActivityView =
 	     $(this.el).html(html);
 	     
 	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
-         resetDropdownBox(ReportData, true, true);
-	    
+             resetDropdownBox(ReportData, true, true);
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -172,16 +172,16 @@ function renderHourlyActivityTable() {
 						   return item;	    		
 	    				       });
     			    
-			    	//totalrow.avgsale = currency_format(totalrow.avgsale);
+			    //totalrow.avgsale = currency_format(totalrow.avgsale);
     			    //totalrow.ecr = currency_format(totalrow.ecr);
     			    //totalrow.inventory = currency_format(totalrow.inventory);
     			    //totalrow.menu = currency_format(totalrow.menu);
     			    //totalrow.total = currency_format(totalrow.total);
     			    totalrow.avgsale = Number(totalrow.avgsale)>=0?currency_format(Number(totalrow.avgsale)):"-"+currency_format(Number(totalrow.avgsale)*-1);
-				    totalrow.ecr = Number(totalrow.ecr)>=0?currency_format(Number(totalrow.ecr)):"-"+currency_format(Number(totalrow.ecr)*-1);
-				    totalrow.inventory = Number(totalrow.inventory)>=0?currency_format(Number(totalrow.inventory)):"-"+currency_format(Number(totalrow.inventory)*-1);
-				    totalrow.menu = Number(totalrow.menu)>=0?currency_format(Number(totalrow.menu)):"-"+currency_format(Number(totalrow.menu)*-1);
-				    totalrow.total = Number(totalrow.total)>=0?currency_format(Number(totalrow.total)):"-"+currency_format(Number(totalrow.total)*-1);
+			    totalrow.ecr = Number(totalrow.ecr)>=0?currency_format(Number(totalrow.ecr)):"-"+currency_format(Number(totalrow.ecr)*-1);
+			    totalrow.inventory = Number(totalrow.inventory)>=0?currency_format(Number(totalrow.inventory)):"-"+currency_format(Number(totalrow.inventory)*-1);
+			    totalrow.menu = Number(totalrow.menu)>=0?currency_format(Number(totalrow.menu)):"-"+currency_format(Number(totalrow.menu)*-1);
+			    totalrow.total = Number(totalrow.total)>=0?currency_format(Number(totalrow.total)):"-"+currency_format(Number(totalrow.total)*-1);
     			    
     			    var data = {items:data_param, totalrow:totalrow};
 			    var html = ich.hourlyActivitytable_TMP(data);

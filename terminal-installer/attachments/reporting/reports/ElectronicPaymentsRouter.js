@@ -55,9 +55,9 @@ var menuReportsElectronicPaymentsView =
 	     
 	     resetDatePicker();
 	     
-	    //resetGroupStoreTerminalDropdownbox(ReportData, false);
-         resetDropdownBox(ReportData, true, true);
-	    
+	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
+             resetDropdownBox(ReportData, true, true);
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -75,9 +75,9 @@ var menuReportsElectronicPaymentsView =
 	     
 	     resetDatePicker();
 	     
-	    //resetGroupStoreTerminalDropdownbox(ReportData, false);
-         resetDropdownBox(ReportData, true, true);
-	    
+	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
+             resetDropdownBox(ReportData, true, true);
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -97,9 +97,9 @@ var menuReportsElectronicPaymentsView =
 	     
 	     resetDatePicker();
 	     
-	    //resetGroupStoreTerminalDropdownbox(ReportData, false);
-         resetDropdownBox(ReportData, true, true);
-	    
+	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
+             resetDropdownBox(ReportData, true, true);
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -145,9 +145,9 @@ function renderElectronicPaymentsTable() {
 	     var data_TMP = response.paymentList;
 	     //data_TMP = appendGroupStoreInfoFromStoreID(data_TMP);
 	     var totals = _.applyToValues(response.totals, toFixed(2));
-		 	    
-	    data_TMP = processTransactionsTMP(data_TMP);
-	    
+	     
+	     data_TMP = processTransactionsTMP(data_TMP);
+	     
 	     totals =
 		 _.applyToValues(totals,function(obj){
 		     		     var strObj = obj+"";
@@ -233,19 +233,19 @@ function renderElectronicPaymentsTable() {
 function getDialogTitle(ReportData, item, startDate, endDate) {
     var companyName, groupName, storeName, terminalName;
     /*
+     if(!_.isEmpty(ReportData.company)){
+     companyName = ReportData.company.companyName;
+     } else if(!_.isEmpty(ReportData.group)){
+     companyName = ReportData.companyName;
+     groupName = ReportData.group.groupName;
+     } else if(!_.isEmpty(ReportData.store)){
+     companyName = ReportData.companyName;
+     groupName = ReportData.groupName;
+     storeName = ReportData.store.storeName; 		
+     }
+     */
     if(!_.isEmpty(ReportData.company)){
 	companyName = ReportData.company.companyName;
-    } else if(!_.isEmpty(ReportData.group)){
-	companyName = ReportData.companyName;
-	groupName = ReportData.group.groupName;
-    } else if(!_.isEmpty(ReportData.store)){
-	companyName = ReportData.companyName;
-	groupName = ReportData.groupName;
-	storeName = ReportData.store.storeName; 		
-    }
-    */
-    if(!_.isEmpty(ReportData.company)){
-		companyName = ReportData.company.companyName;
     } else {
     	companyName = ReportData.companyName;
     }
@@ -302,34 +302,34 @@ function appendGroupStoreInfoFromStoreID(list) {
     if(!_.isEmpty(ReportData.company)) {
 	var groups = ReportData.company.hierarchy.groups;
 	result = _.map(list, function(item){
-				var namenum = getStoreNameNum(groups,item.store_id);
-				return _.extend({},item,{groupName:getGroupName(groups,item.store_id),
-								storeName:namenum.name,
-								storeNumber:namenum.num
-						       });
-			    });
+			   var namenum = getStoreNameNum(groups,item.store_id);
+			   return _.extend({},item,{groupName:getGroupName(groups,item.store_id),
+						    storeName:namenum.name,
+						    storeNumber:namenum.num
+						   });
+		       });
 	
 	return result;
 	
     } else if(!_.isEmpty(ReportData.group)) {
 	var groups = [ReportData.group];
 	result = _.map(list, function(item){
-				var namenum = getStoreNameNum(groups,item.store_id);
-				return _.extend({},item,{groupName:getGroupName(groups,item.store_id),
-								storeName:namenum.name,
-								storeNumber:namenum.num
-						       });
-			    });
+			   var namenum = getStoreNameNum(groups,item.store_id);
+			   return _.extend({},item,{groupName:getGroupName(groups,item.store_id),
+						    storeName:namenum.name,
+						    storeNumber:namenum.num
+						   });
+		       });
 	
 	return result;
 	
     } else if(!_.isEmpty(ReportData.store)) {
 	result = _.map(list, function(item){
-				return _.extend({},item,{groupName:ReportData.groupName,
-								storeName:ReportData.store.storeName,
-								storeNumber:ReportData.store.number
-						       });
-			    });
+			   return _.extend({},item,{groupName:ReportData.groupName,
+						    storeName:ReportData.store.storeName,
+						    storeNumber:ReportData.store.number
+						   });
+		       });
 
 	return result;
     }

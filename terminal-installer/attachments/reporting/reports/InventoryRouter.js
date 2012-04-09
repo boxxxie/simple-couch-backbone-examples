@@ -54,7 +54,7 @@ var menuReportsInventoryView =
 
 	     resetDatePicker();
 
-         resetDropdownBox(ReportData, false, true);
+             resetDropdownBox(ReportData, false, true);
 
 	     var btn = $('#generalgobtn')
 		 .button()
@@ -62,10 +62,10 @@ var menuReportsInventoryView =
 			    renderInventoryReportTable();
 			});
 
-			
+	     
 	     $('#btnExport')
-                .button()
-                .click(function(){ });
+                 .button()
+                 .click(function(){ });
 	     
 	     console.log("rendered general report");
 	 },
@@ -87,8 +87,8 @@ var menuReportsInventoryView =
 			});
 
 	     $('#btnExport')
-                .button()
-                .click(function(){ });
+                 .button()
+                 .click(function(){ });
 	     
 	     console.log("rendered general report");
 	 },
@@ -113,8 +113,8 @@ var menuReportsInventoryView =
 
 	     
 	     $('#btnExport')
-                .button()
-                .click(function(){ });
+                 .button()
+                 .click(function(){ });
 
 	     console.log("rendered general report");
 	 }
@@ -205,31 +205,31 @@ function renderInventoryReportTable() {
 			 $("#inventoryecrtable").show();
 		     }
 		 });
-		 
-		 var btnExport = $('#btnExport')
-                .button()
-                .click(function(){
-                    resultTxt = "";
-                    if($("#inventorymenutable").is(":visible")) {
-                        resultTxt = resultTxt.concat("MENU INVENTORY SOLD\n");
-                        resultTxt = resultTxt.concat($("#inventorymenutable").table2CSV({delivery:"value"}));
-                        resultTxt = resultTxt.concat("\n\n");
-                    }
-                    if($("#inventoryscantable").is(":visible")) {
-                        resultTxt = resultTxt.concat("SCAN INVENTORY SOLD\n");
-                        resultTxt = resultTxt.concat($("#inventoryscantable").table2CSV({delivery:"value"}));
-                        resultTxt = resultTxt.concat("\n\n");
-                    }
-                    if($("#inventoryecrtable").is(":visible")) {
-                        resultTxt = resultTxt.concat("ECR INVENTORY SOLD\n");
-                        resultTxt = resultTxt.concat($("#inventoryecrtable").table2CSV({delivery:"value"}));
-                        resultTxt = resultTxt.concat("\n\n");
-                    }
-                    //TODO: send csv text to server
-                    console.log(resultTxt);
-                    var exportDoc = new ExportRequestDoc({content:resultTxt});
-                    exportDoc.save();
-                });
+	     
+	     var btnExport = $('#btnExport')
+                 .button()
+                 .click(function(){
+			    resultTxt = "";
+			    if($("#inventorymenutable").is(":visible")) {
+				resultTxt = resultTxt.concat("MENU INVENTORY SOLD\n");
+				resultTxt = resultTxt.concat($("#inventorymenutable").table2CSV({delivery:"value"}));
+				resultTxt = resultTxt.concat("\n\n");
+			    }
+			    if($("#inventoryscantable").is(":visible")) {
+				resultTxt = resultTxt.concat("SCAN INVENTORY SOLD\n");
+				resultTxt = resultTxt.concat($("#inventoryscantable").table2CSV({delivery:"value"}));
+				resultTxt = resultTxt.concat("\n\n");
+			    }
+			    if($("#inventoryecrtable").is(":visible")) {
+				resultTxt = resultTxt.concat("ECR INVENTORY SOLD\n");
+				resultTxt = resultTxt.concat($("#inventoryecrtable").table2CSV({delivery:"value"}));
+				resultTxt = resultTxt.concat("\n\n");
+			    }
+			    //TODO: send csv text to server
+			    console.log(resultTxt);
+			    var exportDoc = new ExportRequestDoc({content:resultTxt});
+			    exportDoc.save();
+			});
 	 });
 
     } else {

@@ -50,12 +50,12 @@ var menuReportsCancelledTransactionsView =
 	     var html = ich.menuReportsCancelledReports_TMP({startPage:"companyReport", 
 	     						     breadCrumb:breadCrumb(ReportData.company.companyName)});
 	     $(this.el).html(html);
-	     	    
+	     
 	     resetDatePicker();
 	     
 	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
 	     resetDropdownBox(ReportData, true, true);
-	    
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -69,12 +69,12 @@ var menuReportsCancelledTransactionsView =
 	     var html = ich.menuReportsCancelledReports_TMP({startPage:"groupReport", 
 	     						     breadCrumb:breadCrumb(ReportData.companyName, ReportData.group.groupName)});
 	     $(this.el).html(html);
-	     	    
+	     
 	     resetDatePicker();
-	    	    
-	    //resetGroupStoreTerminalDropdownbox(ReportData, false);
-         resetDropdownBox(ReportData, true, true);
-	    
+	     
+	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
+             resetDropdownBox(ReportData, true, true);
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -91,9 +91,9 @@ var menuReportsCancelledTransactionsView =
 	     
 	     resetDatePicker();
 	     
-	    //resetGroupStoreTerminalDropdownbox(ReportData, false);
-         resetDropdownBox(ReportData, true, true);
-	    
+	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
+             resetDropdownBox(ReportData, true, true);
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -134,8 +134,8 @@ function renderCancelledTransactionsTable() {
 	
 	canceledTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)
 	(function(err,data_TMP){
-		//data_TMP = appendGroupStoreInfoFromStoreID(data_TMP);
-		
+	     //data_TMP = appendGroupStoreInfoFromStoreID(data_TMP);
+	     
 	     var totalrow = {};
 	     totalrow.numofcancelled = data_TMP.length + "";
 	     totalrow.subTotal = currency_format(_.reduce(data_TMP, function(init, item){
@@ -151,9 +151,9 @@ function renderCancelledTransactionsTable() {
 							   return init + Number(item.total);
 						       }, 0));
 	     
-	     	       
-	       data_TMP = processTransactionsTMP(data_TMP);
-		 var html = ich.menuReportsCancelledtable_TMP({items:data_TMP, totalrow:totalrow});
+	     
+	     data_TMP = processTransactionsTMP(data_TMP);
+	     var html = ich.menuReportsCancelledtable_TMP({items:data_TMP, totalrow:totalrow});
 	     
 
 	     $("#cancelledtable").html(html);
@@ -168,7 +168,7 @@ function renderCancelledTransactionsTable() {
 			    .click(function(){
 				       var btnData = item;
 				       btnData.discount=null;
-	
+				       
 				       _.applyToValues(ReportData,
 						       function(o){
 							   if(o.store_id==btnData.store_id){
@@ -178,7 +178,7 @@ function renderCancelledTransactionsTable() {
 						       }
 						       ,true);
 				       
-	
+				       
 				       
 				       var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
 				       quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});

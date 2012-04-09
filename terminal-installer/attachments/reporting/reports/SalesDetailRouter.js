@@ -53,9 +53,9 @@ var menuReportsSalesDetailView =
 	     $(this.el).html(html);
 	     
 	     resetDatePicker();
-	    
-	    //resetGroupStoreDropdownbox(ReportData, true);
-         resetDropdownBox(ReportData, false, true);
+	     
+	     //resetGroupStoreDropdownbox(ReportData, true);
+             resetDropdownBox(ReportData, false, true);
 	     
 	     var btn = $('#generalgobtn')
 		 .button()
@@ -74,9 +74,9 @@ var menuReportsSalesDetailView =
 	     
 	     resetDatePicker();
 	     
-	    //resetGroupStoreDropdownbox(ReportData, true);
-         resetDropdownBox(ReportData, false, true);
-	    
+	     //resetGroupStoreDropdownbox(ReportData, true);
+             resetDropdownBox(ReportData, false, true);
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -96,9 +96,9 @@ var menuReportsSalesDetailView =
 	     
 	     resetDatePicker();
 	     
-	    //resetGroupStoreDropdownbox(ReportData, true);
-         resetDropdownBox(ReportData, false, true);
-	    
+	     //resetGroupStoreDropdownbox(ReportData, true);
+             resetDropdownBox(ReportData, false, true);
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -337,7 +337,7 @@ function extractSalesDetailTableInfo(list) {
 						    }
 						    return obj;
 						}, true);
-						
+				
 				return item;
 			    });
 	

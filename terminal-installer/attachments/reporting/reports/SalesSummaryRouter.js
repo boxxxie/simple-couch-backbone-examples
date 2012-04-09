@@ -55,7 +55,7 @@ var menuReportsSalesSummaryView =
 	     resetDatePicker();
 
 	     //resetGroupStoreDropdownbox(ReportData, true);
-         resetDropdownBox(ReportData, false, true);
+             resetDropdownBox(ReportData, false, true);
 	     
 	     var btn = $('#generalgobtn')
 		 .button()
@@ -75,8 +75,8 @@ var menuReportsSalesSummaryView =
 	     resetDatePicker();
 	     
 	     //resetGroupStoreDropdownbox(ReportData, true);
-         resetDropdownBox(ReportData, false, true);
-	    
+             resetDropdownBox(ReportData, false, true);
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -97,7 +97,7 @@ var menuReportsSalesSummaryView =
 	     resetDatePicker();
 	     
 	     //resetGroupStoreDropdownbox(ReportData, true);
-         resetDropdownBox(ReportData, false, true);
+             resetDropdownBox(ReportData, false, true);
 	     
 	     var btn = $('#generalgobtn')
 		 .button()

@@ -55,9 +55,9 @@ var menuReportsRefundsView =
 	     
 	     resetDatePicker();
 	     
-	    //resetGroupStoreTerminalDropdownbox(ReportData, false);
-         resetDropdownBox(ReportData, true, true);
-	    
+	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
+             resetDropdownBox(ReportData, true, true);
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -74,9 +74,9 @@ var menuReportsRefundsView =
 	     
 	     resetDatePicker();	     
 	     
-	    //resetGroupStoreTerminalDropdownbox(ReportData, false);
-         resetDropdownBox(ReportData, true, true);
-	    
+	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
+             resetDropdownBox(ReportData, true, true);
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -89,16 +89,16 @@ var menuReportsRefundsView =
 	     
 	     var html = ich.menuReportsRefundsReports_TMP({startPage:"storeReport", 
 	     						   breadCrumb:breadCrumb(ReportData.companyName,
-	     						   						 ReportData.groupName, 
-	     						   						 ReportData.store.storeName,
-	     						   						 ReportData.store.number)});
+	     						   			 ReportData.groupName, 
+	     						   			 ReportData.store.storeName,
+	     						   			 ReportData.store.number)});
 	     $(this.el).html(html);
 	     
 	     resetDatePicker();
 	     
-	    //resetGroupStoreTerminalDropdownbox(ReportData, false);
-         resetDropdownBox(ReportData, true, true);
-	    
+	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
+             resetDropdownBox(ReportData, true, true);
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -139,8 +139,8 @@ function renderRefundsTable() {
 	
 	refundTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)
 	(function(err,data_TMP){
-		//data_TMP = appendGroupStoreInfoFromStoreID(data_TMP);
-		
+	     //data_TMP = appendGroupStoreInfoFromStoreID(data_TMP);
+	     
 	     var totalrow = {};
 	     totalrow.numofrefund = data_TMP.length + "";
 	     totalrow.subTotal = currency_format(_.reduce(data_TMP, function(init, item){
@@ -156,10 +156,10 @@ function renderRefundsTable() {
 							   return init + Number(item.total);
 						       }, 0));
 
-	     			
-			data_TMP = processTransactionsTMP(data_TMP);
-				     
-		 var html = ich.menuReportsRefundstable_TMP({items:data_TMP, totalrow:totalrow});
+	     
+	     data_TMP = processTransactionsTMP(data_TMP);
+	     
+	     var html = ich.menuReportsRefundstable_TMP({items:data_TMP, totalrow:totalrow});
 	     
 
 	     $("#refundstable").html(html);

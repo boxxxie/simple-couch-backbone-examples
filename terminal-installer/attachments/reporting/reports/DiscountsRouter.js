@@ -55,9 +55,9 @@ var menuReportsDiscountsView =
 	     
 	     resetDatePicker();
 	     
-	    //resetGroupStoreTerminalDropdownbox(ReportData, false);
-         resetDropdownBox(ReportData, true, true);
-	    
+	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
+             resetDropdownBox(ReportData, true, true);
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -74,9 +74,9 @@ var menuReportsDiscountsView =
 	     
 	     resetDatePicker();
 	     
-	    //resetGroupStoreTerminalDropdownbox(ReportData, false);
-         resetDropdownBox(ReportData, true, true);
-	    
+	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
+             resetDropdownBox(ReportData, true, true);
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -93,9 +93,9 @@ var menuReportsDiscountsView =
 	     
 	     resetDatePicker();
 	     
-	    //resetGroupStoreTerminalDropdownbox(ReportData, false);
-         resetDropdownBox(ReportData, true, true);
-	    
+	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
+             resetDropdownBox(ReportData, true, true);
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -156,16 +156,16 @@ function renderDiscountsTable() {
 	     totalrow.total = (_.reduce(data_TMP, function(init, item){
 					    return init + Number(item.total);
 					}, 0)).toFixed(2);
-							
+	     
 	     totalrow.percentdiscount = (Number(totalrow.sales)>0)?(Number(totalrow.discount)/Number(totalrow.sales)*100).toFixed(2):(Number(0)).toFixed(2);
 	     
 	     _.applyToValues(totalrow, function(obj){
-                     var strObj = obj+"";
-                     if(strObj.indexOf(".")>=0) {
-                     obj = currency_format(Number(obj));
-                     }
-                     return obj;
-                 }, true);
+				 var strObj = obj+"";
+				 if(strObj.indexOf(".")>=0) {
+				     obj = currency_format(Number(obj));
+				 }
+				 return obj;
+			     }, true);
 	     
 	     data_TMP = _.map(data_TMP, function(item){
 	     			  item.totaldiscount = item.discount;
@@ -174,11 +174,11 @@ function renderDiscountsTable() {
 	     			  }
 	     			  return item; 
 			      });
-			      
-			data_TMP = processTransactionsTMP(data_TMP);
-				     
-	     	 
-		 var html = ich.menuReportsDiscountstable_TMP({items:data_TMP, totalrow:totalrow});
+	     
+	     data_TMP = processTransactionsTMP(data_TMP);
+	     
+	     
+	     var html = ich.menuReportsDiscountstable_TMP({items:data_TMP, totalrow:totalrow});
 	     
 	     $("#discountstable").html(html);
 	     

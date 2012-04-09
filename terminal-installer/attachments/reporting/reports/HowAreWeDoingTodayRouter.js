@@ -304,7 +304,7 @@ function renderHowAreWeTerminalsTable(view, startPage, store_id) {
 	    breadcrumb = breadCrumb(ReportData.company.companyName,group.groupName,store.storeName,store.number); 
 	} else if(!_.isEmpty(ReportData.group)) {
 	    var stores = ReportData.group.stores;
-	    var store = _.find(stores, function(store){return store.store_id==store_id});
+	    var store = _.find(stores, function(store){return store.store_id==store_id;});
 	    parent_id = {id:store.store_id, name:store.storeName};
 	    terminals = store.terminals;
 	    breadcrumb = breadCrumb(ReportData.companyName,ReportData.group.groupName,store.storeName,store.number); 

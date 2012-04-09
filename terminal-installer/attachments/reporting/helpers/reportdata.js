@@ -10,12 +10,12 @@ var extractStores =  _.memoize(
     function extractStores(obj){
 	var stores = extractItems(obj,"stores");
 	return _.map(stores,function(store){
-		    return {type:'store',
-		       id:store.store_id,
-		       name:store.storeName,
-		       number:store.number,
-		       label : store.number + " : " + store.storeName};
-		});
+			 return {type:'store',
+				 id:store.store_id,
+				 name:store.storeName,
+				 number:store.number,
+				 label : store.number + " : " + store.storeName};
+		     });
     },
     reportDataHash
 );
@@ -24,11 +24,11 @@ var extractGroups = _.memoize(
     function extractGroups(obj){
 	var groups = extractItems(obj,"groups");
 	return _.map(groups,function(group){
-		    return {type:'group',
-		       id:group.group_id,
-		       name:group.groupName,
-		       label:group.groupName};
-		});
+			 return {type:'group',
+				 id:group.group_id,
+				 name:group.groupName,
+				 label:group.groupName};
+		     });
     },
     reportDataHash
 );
@@ -78,6 +78,8 @@ function topLevelEntityInfo(reportData){
 	    storeName:reportData.store.storeName,
 	    storeNumber:reportData.store.number
 	};
+    } else {
+        return undefined;
     }
 };
 
@@ -148,7 +150,7 @@ var reportDataToArray = _.memoize(
 	    };
 	}
 	return _(reportData).chain()
-        .prewalk2(function(o){
+            .prewalk2(function(o){
 			  if (o.hierarchy){
 			      var groups = o.hierarchy.groups;
 			      var o_without_field = _.removeKeys(o,'hierarchy');
@@ -158,9 +160,9 @@ var reportDataToArray = _.memoize(
 			  return o;
 		      })
 	    .prewalk2(combineWithSubpart('terminals'))
-        .prewalk2(combineWithSubpart('stores'))
-        .prewalk2(combineWithSubpart('groups'))
-        .prewalk2(combineWithSubpart('company'))
+            .prewalk2(combineWithSubpart('stores'))
+            .prewalk2(combineWithSubpart('groups'))
+            .prewalk2(combineWithSubpart('company'))
 	    .value();
 
     },
@@ -228,8 +230,8 @@ function updateStoreDropdown(isNotShowAll) {
 
     if(dropdownGroup.val()=="ALL") {
 	var stores = _(groups).chain().map(function(group) {
-					     return group.stores;
-					 }).flatten().value();
+					       return group.stores;
+					   }).flatten().value();
 
 	_.each(stores, function(store) {
 		   dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
@@ -315,291 +317,291 @@ function simple_user_format(user){
 // report page datepicker reset helper function
 function resetDatePicker() {
     var selectedDates = $( "#dateFrom, #dateTo" )
-         .datepicker({
-                 defaultDate: "+1w",
-                 changeMonth: true,
-                 numberOfMonths: 2,
-                 minDate:"-1y",
-                 maxDate:new Date(),
-                 onSelect: function( selectedDate ) {
-                     var option = this.id == "dateFrom" ? "minDate" : "maxDate",
-                     instance = $( this ).data( "datepicker" ),
-                     date = $.datepicker.parseDate(
-                     instance.settings.dateFormat ||
-                         $.datepicker._defaults.dateFormat,
-                     selectedDate, instance.settings );
-                     selectedDates.not( this ).datepicker( "option", option, date );
-                 }
-                 });
-         
-         $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
-         $("#dateTo").datepicker("setDate", new Date());
+        .datepicker({
+			defaultDate: "+1w",
+			changeMonth: true,
+			numberOfMonths: 2,
+			minDate:"-1y",
+			maxDate:new Date(),
+			onSelect: function( selectedDate ) {
+			    var option = this.id == "dateFrom" ? "minDate" : "maxDate",
+			    instance = $( this ).data( "datepicker" ),
+			    date = $.datepicker.parseDate(
+				instance.settings.dateFormat ||
+				    $.datepicker._defaults.dateFormat,
+				selectedDate, instance.settings );
+			    selectedDates.not( this ).datepicker( "option", option, date );
+			}
+                    });
+    
+    $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
+    $("#dateTo").datepicker("setDate", new Date());
 }
 
 // reset Sasles Summary resetGroup/store drop down box
 // isDisplayAll true : SalesSummary / SalesDetails
 // isDisplayAll false : Transactions Details
 /*
-function resetGroupStoreDropdownbox(reportData, isDisplayAll) {
-    var dropdownGroup = $("#groupsdown");
-    var dropdownStore = $("#storesdown");
-    
-    if(reportData.company) {
-         if(!isDisplayAll) {
-             $('option', dropdownGroup).remove();
-             $('option', dropdownStore).remove();
-         }
-         _.each(ReportData.company.hierarchy.groups, function(group) {
-            dropdownGroup.append('<option value=' + group.group_id + '>' + group.groupName + '</option>');
-            });
-         
-         var stores = _(reportData.company.hierarchy.groups).chain().map(function(group) {
-                                         return group.stores; 
-                                         }).flatten().value();
-         
-         _.each(stores, function(store) {
-            dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
-                                                                         + "(" + store.number + ")" + '</option>');
-            });
-         
-         $("#groupsdown")
-           .change(function() {
-               updateStoreDropdown(!isDisplayAll);
-           });
-    } else if(reportData.group) {
-        var dropdownGroup = $("#groupsdown");
-         var dropdownStore = $("#storesdown");
-         
-         if(!isDisplayAll) {
-             $('option', dropdownStore).remove();
-         }
-         
-         $('option', dropdownGroup).remove();
-         dropdownGroup.append('<option value=' + reportData.group.group_id +'>'+reportData.group.groupName+ '</option>');
-         dropdownGroup.attr('disabled','disabled');
-         
-         _.each(reportData.group.stores, function(store) {
-            dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
-                                                                         + "(" + store.number + ")" + '</option>');
-            });
-    } else if(reportData.store) {
-        var dropdownGroup = $("#groupsdown");
-         var dropdownStore = $("#storesdown");
-         
-         $('option', dropdownGroup).remove();
-         $('option', dropdownStore).remove();
-         
-         dropdownGroup.append('<option value=' + reportData.group_id +'>'+ReportData.groupName+ '</option>');
-         dropdownGroup.attr('disabled','disabled');
-         dropdownStore.append('<option value=' + reportData.store_id +'>'+reportData.store.storeName
-                                                 + "(" + reportData.store.number + ")" + '</option>');
-         dropdownStore.attr('disabled','disabled');
-    } else {
-        alert("You are not authorized to access this page.");
-    }
-}
-*/
+ function resetGroupStoreDropdownbox(reportData, isDisplayAll) {
+ var dropdownGroup = $("#groupsdown");
+ var dropdownStore = $("#storesdown");
+ 
+ if(reportData.company) {
+ if(!isDisplayAll) {
+ $('option', dropdownGroup).remove();
+ $('option', dropdownStore).remove();
+ }
+ _.each(ReportData.company.hierarchy.groups, function(group) {
+ dropdownGroup.append('<option value=' + group.group_id + '>' + group.groupName + '</option>');
+ });
+ 
+ var stores = _(reportData.company.hierarchy.groups).chain().map(function(group) {
+ return group.stores; 
+ }).flatten().value();
+ 
+ _.each(stores, function(store) {
+ dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
+ + "(" + store.number + ")" + '</option>');
+ });
+ 
+ $("#groupsdown")
+ .change(function() {
+ updateStoreDropdown(!isDisplayAll);
+ });
+ } else if(reportData.group) {
+ var dropdownGroup = $("#groupsdown");
+ var dropdownStore = $("#storesdown");
+ 
+ if(!isDisplayAll) {
+ $('option', dropdownStore).remove();
+ }
+ 
+ $('option', dropdownGroup).remove();
+ dropdownGroup.append('<option value=' + reportData.group.group_id +'>'+reportData.group.groupName+ '</option>');
+ dropdownGroup.attr('disabled','disabled');
+ 
+ _.each(reportData.group.stores, function(store) {
+ dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
+ + "(" + store.number + ")" + '</option>');
+ });
+ } else if(reportData.store) {
+ var dropdownGroup = $("#groupsdown");
+ var dropdownStore = $("#storesdown");
+ 
+ $('option', dropdownGroup).remove();
+ $('option', dropdownStore).remove();
+ 
+ dropdownGroup.append('<option value=' + reportData.group_id +'>'+ReportData.groupName+ '</option>');
+ dropdownGroup.attr('disabled','disabled');
+ dropdownStore.append('<option value=' + reportData.store_id +'>'+reportData.store.storeName
+ + "(" + reportData.store.number + ")" + '</option>');
+ dropdownStore.attr('disabled','disabled');
+ } else {
+ alert("You are not authorized to access this page.");
+ }
+ }
+ */
 
 // reset  resetGroup/store/terminal drop down box
 // Hourly Activity / Elec / Tax Col / Cash Outs / Cancelled Tr / Refunds / Discounts
 /*
-function resetGroupStoreTerminalDropdownbox(reportData, isDisplayAll) {
-    var dropdownGroup = $("#groupsdown");
-         var dropdownStore = $("#storesdown");
-         var dropdownTerminal = $("#terminalsdown");
-         
-         if(reportData.company) {
-             _.each(reportData.company.hierarchy.groups, function(group) {
-                dropdownGroup.append('<option value=' + group.group_id + '>' + group.groupName + '</option>');
-                });
-             
-             var stores = _(reportData.company.hierarchy.groups).chain().map(function(group) {
-                                             return group.stores; 
-                                             }).flatten().value();
-             
-             _.each(stores, function(store) {
-                dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
-                                                                             + "(" + store.number + ")" + '</option>');
-                });
-             
-             var terminals = _(stores).chain().map(function(store) {
-                                   return store.terminals?store.terminals:[]; 
-                               }).flatten().value();
-             if(terminals.length>0) {
-                 _.each(terminals, function(terminal) {
-                    dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-                }); 
-             } else {
-             $('option', dropdownTerminal).remove();
-                 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-             }
-             
-             $("#groupsdown")
-               .change(function(){
-                   updateStoreDropdown();updateTerminalDropdown();
-               });
-             $("#storesdown")
-               .change(function(){
-                   updateTerminalDropdown();
-               });
-         } else if(reportData.group) {
-             $('option', dropdownGroup).remove();
-             dropdownGroup.append('<option value ='+reportData.group.group_id+'>'+reportData.group.groupName+ '</option>');
-             dropdownGroup.attr('disabled','disabled');
-             
-             _.each(reportData.group.stores, function(store) {
-                dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
-                                                                             + "(" + store.number + ")" + '</option>');
-                });
-             
-             var terminals = _(reportData.group.stores).chain().map(function(store) {
-                                        return store.terminals?store.terminals:[]; 
-                                        }).flatten().value();
-             if(terminals.length>0) {
-             _.each(terminals, function(terminal) {
-                    dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-                }); 
-             } else {
-             $('option', dropdownTerminal).remove();
-                 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-             }
-             
-             $("#storesdown")
-               .change(function(){
-                   updateTerminalDropdown();
-               });
-         } else if(reportData.store) {
-             $('option', dropdownGroup).remove();
-             $('option', dropdownStore).remove();
-             
-             dropdownGroup.append('<option value=="">'+reportData.groupName+ '</option>');
-             dropdownGroup.attr('disabled','disabled');
-             dropdownStore.append('<option value='+reportData.store.store_id+'>'+reportData.store.storeName
-                                                                                + "(" + reportData.store.number + ")" + '</option>');
-             dropdownStore.attr('disabled','disabled');
-             
-             var terminals =  reportData.store.terminals?reportData.store.terminals:[];
-             
-             if(terminals.length>0) {
-             _.each(terminals, function(terminal) {
-                    dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-                }); 
-             } else {
-             $('option', dropdownTerminal).remove();
-                 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-             }
-         } else {
-              alert("You are not authorized to access this page.");
-         }
-}
-*/
+ function resetGroupStoreTerminalDropdownbox(reportData, isDisplayAll) {
+ var dropdownGroup = $("#groupsdown");
+ var dropdownStore = $("#storesdown");
+ var dropdownTerminal = $("#terminalsdown");
+ 
+ if(reportData.company) {
+ _.each(reportData.company.hierarchy.groups, function(group) {
+ dropdownGroup.append('<option value=' + group.group_id + '>' + group.groupName + '</option>');
+ });
+ 
+ var stores = _(reportData.company.hierarchy.groups).chain().map(function(group) {
+ return group.stores; 
+ }).flatten().value();
+ 
+ _.each(stores, function(store) {
+ dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
+ + "(" + store.number + ")" + '</option>');
+ });
+ 
+ var terminals = _(stores).chain().map(function(store) {
+ return store.terminals?store.terminals:[]; 
+ }).flatten().value();
+ if(terminals.length>0) {
+ _.each(terminals, function(terminal) {
+ dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+ }); 
+ } else {
+ $('option', dropdownTerminal).remove();
+ dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+ }
+ 
+ $("#groupsdown")
+ .change(function(){
+ updateStoreDropdown();updateTerminalDropdown();
+ });
+ $("#storesdown")
+ .change(function(){
+ updateTerminalDropdown();
+ });
+ } else if(reportData.group) {
+ $('option', dropdownGroup).remove();
+ dropdownGroup.append('<option value ='+reportData.group.group_id+'>'+reportData.group.groupName+ '</option>');
+ dropdownGroup.attr('disabled','disabled');
+ 
+ _.each(reportData.group.stores, function(store) {
+ dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
+ + "(" + store.number + ")" + '</option>');
+ });
+ 
+ var terminals = _(reportData.group.stores).chain().map(function(store) {
+ return store.terminals?store.terminals:[]; 
+ }).flatten().value();
+ if(terminals.length>0) {
+ _.each(terminals, function(terminal) {
+ dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+ }); 
+ } else {
+ $('option', dropdownTerminal).remove();
+ dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+ }
+ 
+ $("#storesdown")
+ .change(function(){
+ updateTerminalDropdown();
+ });
+ } else if(reportData.store) {
+ $('option', dropdownGroup).remove();
+ $('option', dropdownStore).remove();
+ 
+ dropdownGroup.append('<option value=="">'+reportData.groupName+ '</option>');
+ dropdownGroup.attr('disabled','disabled');
+ dropdownStore.append('<option value='+reportData.store.store_id+'>'+reportData.store.storeName
+ + "(" + reportData.store.number + ")" + '</option>');
+ dropdownStore.attr('disabled','disabled');
+ 
+ var terminals =  reportData.store.terminals?reportData.store.terminals:[];
+ 
+ if(terminals.length>0) {
+ _.each(terminals, function(terminal) {
+ dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+ }); 
+ } else {
+ $('option', dropdownTerminal).remove();
+ dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+ }
+ } else {
+ alert("You are not authorized to access this page.");
+ }
+ }
+ */
 
 //reset group / store / terminal dropdown box
 function resetDropdownBox(reportData, isDisplayTerminal, isDisplayAll) {
     var dropdownGroup = $("#groupsdown");
-         var dropdownStore = $("#storesdown");
-         var dropdownTerminal = $("#terminalsdown");
-         
-         if(reportData.company) {
-             if(!isDisplayAll) {
-                 $('option', dropdownGroup).remove();
-                 $('option', dropdownStore).remove();
-             }
-             _.each(reportData.company.hierarchy.groups, function(group) {
-                dropdownGroup.append('<option value=' + group.group_id + '>' + group.groupName + '</option>');
-                });
-             
-             var stores = _(reportData.company.hierarchy.groups).chain().map(function(group) {
-                                             return group.stores; 
-                                             }).flatten().value();
-             
-             _.each(stores, function(store) {
-                dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
-                                                                             + "(" + store.number + ")" + '</option>');
-                });
-             if(isDisplayTerminal) {
-                 var terminals = _(stores).chain().map(function(store) {
-                                       return store.terminals?store.terminals:[]; 
-                                   }).flatten().value();
-                 if(terminals.length>0) {
-                     _.each(terminals, function(terminal) {
-                        dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-                    }); 
-                 } else {
-                 $('option', dropdownTerminal).remove();
-                     dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-                 }
-             }
-             
-             $("#groupsdown")
-               .change(function(){
-                   updateStoreDropdown(!isDisplayAll);
-                   if(isDisplayTerminal) {
-                       updateTerminalDropdown(!isDisplayAll);
-                   }
+    var dropdownStore = $("#storesdown");
+    var dropdownTerminal = $("#terminalsdown");
+    
+    if(reportData.company) {
+        if(!isDisplayAll) {
+            $('option', dropdownGroup).remove();
+            $('option', dropdownStore).remove();
+        }
+        _.each(reportData.company.hierarchy.groups, function(group) {
+                   dropdownGroup.append('<option value=' + group.group_id + '>' + group.groupName + '</option>');
                });
-             if(isDisplayTerminal) {
-                 $("#storesdown")
-                   .change(function(){
-                       updateTerminalDropdown(!isDisplayAll);
-                   });
-             }
-         } else if(reportData.group) {
-             if(!isDisplayAll) {
-                 $('option', dropdownStore).remove();
-             }
-             $('option', dropdownGroup).remove();
-             dropdownGroup.append('<option value ='+reportData.group.group_id+'>'+reportData.group.groupName+ '</option>');
-             dropdownGroup.attr('disabled','disabled');
-             
-             _.each(reportData.group.stores, function(store) {
-                dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
-                                                                             + "(" + store.number + ")" + '</option>');
-                });
-             
-             if(isDisplayTerminal) {
-                 var terminals = _(reportData.group.stores).chain().map(function(store) {
-                                            return store.terminals?store.terminals:[]; 
-                                            }).flatten().value();
-                 if(terminals.length>0) {
-                 _.each(terminals, function(terminal) {
-                        dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-                    }); 
-                 } else {
-                 $('option', dropdownTerminal).remove();
-                     dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-                 }
-                          
-             $("#storesdown")
-               .change(function(){
-                   updateTerminalDropdown(!isDisplayAll);
+        
+        var stores = _(reportData.company.hierarchy.groups).chain().map(function(group) {
+									    return group.stores; 
+									}).flatten().value();
+        
+        _.each(stores, function(store) {
+                   dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
+                                        + "(" + store.number + ")" + '</option>');
                });
+        if(isDisplayTerminal) {
+            var terminals = _(stores).chain().map(function(store) {
+						      return store.terminals?store.terminals:[]; 
+						  }).flatten().value();
+            if(terminals.length>0) {
+                _.each(terminals, function(terminal) {
+                           dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+                       }); 
+            } else {
+                $('option', dropdownTerminal).remove();
+                dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
             }
-         } else if(reportData.store) {
-             $('option', dropdownGroup).remove();
-             $('option', dropdownStore).remove();
-             
-             dropdownGroup.append('<option value=="">'+reportData.groupName+ '</option>');
-             dropdownGroup.attr('disabled','disabled');
-             dropdownStore.append('<option value='+reportData.store.store_id+'>'+reportData.store.storeName
-                                                                                + "(" + reportData.store.number + ")" + '</option>');
-             dropdownStore.attr('disabled','disabled');
-             
-             if(isDisplayTerminal) {
-                 var terminals =  reportData.store.terminals?reportData.store.terminals:[];
-                 
-                 if(terminals.length>0) {
-                 _.each(terminals, function(terminal) {
-                        dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-                    }); 
-                 } else {
-                 $('option', dropdownTerminal).remove();
-                     dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-                 }
-             }
-         } else {
-              alert("You are not authorized to access this page.");
-         }
+        }
+        
+        $("#groupsdown")
+            .change(function(){
+			updateStoreDropdown(!isDisplayAll);
+			if(isDisplayTerminal) {
+			    updateTerminalDropdown(!isDisplayAll);
+			}
+		    });
+        if(isDisplayTerminal) {
+            $("#storesdown")
+                .change(function(){
+			    updateTerminalDropdown(!isDisplayAll);
+			});
+        }
+    } else if(reportData.group) {
+        if(!isDisplayAll) {
+            $('option', dropdownStore).remove();
+        }
+        $('option', dropdownGroup).remove();
+        dropdownGroup.append('<option value ='+reportData.group.group_id+'>'+reportData.group.groupName+ '</option>');
+        dropdownGroup.attr('disabled','disabled');
+        
+        _.each(reportData.group.stores, function(store) {
+                   dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
+                                        + "(" + store.number + ")" + '</option>');
+               });
+        
+        if(isDisplayTerminal) {
+            var terminals = _(reportData.group.stores).chain().map(function(store) {
+								       return store.terminals?store.terminals:[]; 
+								   }).flatten().value();
+            if(terminals.length>0) {
+                _.each(terminals, function(terminal) {
+                           dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+                       }); 
+            } else {
+                $('option', dropdownTerminal).remove();
+                dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+            }
+            
+            $("#storesdown")
+		.change(function(){
+			    updateTerminalDropdown(!isDisplayAll);
+			});
+        }
+    } else if(reportData.store) {
+        $('option', dropdownGroup).remove();
+        $('option', dropdownStore).remove();
+        
+        dropdownGroup.append('<option value=="">'+reportData.groupName+ '</option>');
+        dropdownGroup.attr('disabled','disabled');
+        dropdownStore.append('<option value='+reportData.store.store_id+'>'+reportData.store.storeName
+                             + "(" + reportData.store.number + ")" + '</option>');
+        dropdownStore.attr('disabled','disabled');
+        
+        if(isDisplayTerminal) {
+            var terminals =  reportData.store.terminals?reportData.store.terminals:[];
+            
+            if(terminals.length>0) {
+                _.each(terminals, function(terminal) {
+                           dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
+                       }); 
+            } else {
+                $('option', dropdownTerminal).remove();
+                dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
+            }
+        }
+    } else {
+        alert("You are not authorized to access this page.");
+    }
 }
 
 // process for transaction receipt TMP
@@ -607,51 +609,51 @@ function processTransactionsTMP(listTrans) {
     var data_TMP = _.extend({},listTrans);
     data_TMP = appendGroupStoreInfoFromStoreID(data_TMP);
     data_TMP = applyReceiptInfo(data_TMP);
-     
-     data_TMP = 
-     _.applyToValues(data_TMP, function(obj){
-                 if(obj && obj.discount==0){
-                 obj.discount=null;
-                 }
-                 if(obj && obj.quantity){
-                 obj.orderamount = toFixed(2)(obj.price * obj.quantity);
-                 obj.quantity+="";
-                 if(obj.discount) {
-                     obj.discountamount = toFixed(2)(obj.discount * obj.quantity);
-                 }
-                 }
-                 return toFixed(2)(obj);
-             }, true);
-     
-     data_TMP = _.map(data_TMP, function(item){
-              if(item.payments) {
-                  item.payments = _.map(item.payments, function(payment){
-                            // apply card payment data
-                            if(_.isEmpty(payment.paymentdetail)) {
-                                payment = _.removeKeys(payment,"paymentdetail"); 
-                            }
-                                                
-                            if(payment.paymentdetail) {
-                                payment.paymentdetail.crt = payment.type;
-                            }
-                            if(payment.paymentdetail && payment.paymentdetail.errmsg) {
-                                payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace(/<br>/g," ");
-                            }
-                            return payment;
-                            }); 
-              }
-              return item;
-              });
-     
-     
-        data_TMP = 
-         _.applyToValues(data_TMP, function(obj){
-                 var strObj = obj+"";
-                 if(strObj.indexOf(".")>=0 && strObj.indexOf("$")<0 && strObj.indexOf(":")<0) {
-                     obj = currency_format(Number(obj));
-                 }
-                 return obj;
-                 }, true);
-       
-       return data_TMP;
+    
+    data_TMP = 
+	_.applyToValues(data_TMP, function(obj){
+			    if(obj && obj.discount==0){
+				obj.discount=null;
+			    }
+			    if(obj && obj.quantity){
+				obj.orderamount = toFixed(2)(obj.price * obj.quantity);
+				obj.quantity+="";
+				if(obj.discount) {
+				    obj.discountamount = toFixed(2)(obj.discount * obj.quantity);
+				}
+			    }
+			    return toFixed(2)(obj);
+			}, true);
+    
+    data_TMP = _.map(data_TMP, function(item){
+			 if(item.payments) {
+			     item.payments = _.map(item.payments, function(payment){
+						       // apply card payment data
+						       if(_.isEmpty(payment.paymentdetail)) {
+							   payment = _.removeKeys(payment,"paymentdetail"); 
+						       }
+                                                       
+						       if(payment.paymentdetail) {
+							   payment.paymentdetail.crt = payment.type;
+						       }
+						       if(payment.paymentdetail && payment.paymentdetail.errmsg) {
+							   payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace(/<br>/g," ");
+						       }
+						       return payment;
+						   }); 
+			 }
+			 return item;
+		     });
+    
+    
+    data_TMP = 
+        _.applyToValues(data_TMP, function(obj){
+			    var strObj = obj+"";
+			    if(strObj.indexOf(".")>=0 && strObj.indexOf("$")<0 && strObj.indexOf(":")<0) {
+				obj = currency_format(Number(obj));
+			    }
+			    return obj;
+			}, true);
+    
+    return data_TMP;
 }

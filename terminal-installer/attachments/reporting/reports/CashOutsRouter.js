@@ -50,12 +50,12 @@ var menuReportsCashOutsView =
 	     var html = ich.menuReportsCashOutsReports_TMP({startPage:"companyReport", 
 	     						    breadCrumb:breadCrumb(ReportData.company.companyName)});
 	     $(this.el).html(html);
-	 
-         resetDatePicker();
+	     
+             resetDatePicker();
 	     
 	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
-         resetDropdownBox(ReportData, true, true);
-	    
+             resetDropdownBox(ReportData, true, true);
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -70,11 +70,11 @@ var menuReportsCashOutsView =
 	     						    breadCrumb:breadCrumb(ReportData.companyName, ReportData.group.groupName)});
 	     $(this.el).html(html);
 	     
-	    resetDatePicker();
+	     resetDatePicker();
 	     
-	    //resetGroupStoreTerminalDropdownbox(ReportData, false);
-         resetDropdownBox(ReportData, true, true);
-	    
+	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
+             resetDropdownBox(ReportData, true, true);
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -88,12 +88,12 @@ var menuReportsCashOutsView =
 	     var html = ich.menuReportsCashOutsReports_TMP({startPage:"storeReport", 
 	     						    breadCrumb:breadCrumb(ReportData.companyName, ReportData.groupName, ReportData.store.storeName, ReportData.store.number)});
 	     $(this.el).html(html);
-	             
-         resetDatePicker();
 	     
-	    //resetGroupStoreTerminalDropdownbox(ReportData, false);
-         resetDropdownBox(ReportData, true, true);
-	    
+             resetDatePicker();
+	     
+	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
+             resetDropdownBox(ReportData, true, true);
+	     
 	     var btn = $('#generalgobtn')
 		 .button()
 		 .click(function(){
@@ -138,11 +138,11 @@ function rendermenuReportsCashOutsTable() {
 	
 	cashoutReportFetcher(ids,startDate,endDateForQuery)
 	(function(data_TMP){
-		data_TMP = _.map(data_TMP, function(item){
-			return _.extend({},item,{store_id:item.cashout.store_id});
-		});
-		data_TMP = appendGroupStoreInfoFromStoreID(data_TMP);
-		
+	     data_TMP = _.map(data_TMP, function(item){
+				  return _.extend({},item,{store_id:item.cashout.store_id});
+			      });
+	     data_TMP = appendGroupStoreInfoFromStoreID(data_TMP);
+	     
 	     var numofcashout = data_TMP.length+"";
 	     data_TMP = _.map(data_TMP, function(item){
 				  var dialogtitle=getDialogTitle(ReportData,item);
@@ -166,25 +166,25 @@ function rendermenuReportsCashOutsTable() {
 							   }
 							   return obj;
 						       }, true);
-						
-						 var actual_cash_count = Number(data.cashpayment) - Number(data.cashrefund);
-						 var actual_tender = Number(data.actual_tender);
-						 var over_short = actual_cash_count - actual_tender;
-						 
-						 var cashoutData = _.extend({actual_cash_count:currency_format(actual_cash_count),
-						                             over_short:currency_format(over_short)}, data);
-						 
-						 var propsToChange = _.selectKeys(cashoutData,['netsalestotal', 'netrefundtotal', 'netsaleactivity', 'avgpayment', 'avgrefund' , 'cashtotal' , 'allDiscount', 'cancelledtotal','avgcancelled','menusalesamount', 'scansalesamount','ecrsalesamount','actual_cash_count','actual_tender','over_short']);
-						 propsToChange =_(propsToChange).chain()
-								      .map(function(val,key){
-									       if(val.indexOf('-')>=0) { val = val.replace('-',''); val = "-$ " +val;}
-									       else {val = "$ " +val;}
-									       return [key,val];
-									   })
-								      .toObject()
-								      .value();
-					   cashoutData = _.extend({},data,propsToChange); 
-						
+				       
+				       var actual_cash_count = Number(data.cashpayment) - Number(data.cashrefund);
+				       var actual_tender = Number(data.actual_tender);
+				       var over_short = actual_cash_count - actual_tender;
+				       
+				       var cashoutData = _.extend({actual_cash_count:currency_format(actual_cash_count),
+						                   over_short:currency_format(over_short)}, data);
+				       
+				       var propsToChange = _.selectKeys(cashoutData,['netsalestotal', 'netrefundtotal', 'netsaleactivity', 'avgpayment', 'avgrefund' , 'cashtotal' , 'allDiscount', 'cancelledtotal','avgcancelled','menusalesamount', 'scansalesamount','ecrsalesamount','actual_cash_count','actual_tender','over_short']);
+				       propsToChange =_(propsToChange).chain()
+					   .map(function(val,key){
+						    if(val.indexOf('-')>=0) { val = val.replace('-',''); val = "-$ " +val;}
+						    else {val = "$ " +val;}
+						    return [key,val];
+						})
+					   .toObject()
+					   .value();
+				       cashoutData = _.extend({},data,propsToChange); 
+				       
 				       var html = ich.menuReportsCashoutQuickViewDialog_TMP(cashoutData);
 				       quickmenuReportsCashoutViewDialog(html, {title:item.dialogtitle});
 				   });
