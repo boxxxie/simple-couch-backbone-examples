@@ -55,7 +55,7 @@ var menuReportsElectronicPaymentsView =
 	     
 	     resetDatePicker();
 	     
-             resetDropdownBox(ReportData, true, true);
+         resetDropdownBox(ReportData, true, true);
 	     
 	     var btn = $('#generalgobtn')
 		 .button()
@@ -74,7 +74,7 @@ var menuReportsElectronicPaymentsView =
 	     
 	     resetDatePicker();
 	     
-             resetDropdownBox(ReportData, true, true);
+         resetDropdownBox(ReportData, true, true);
 	     
 	     var btn = $('#generalgobtn')
 		 .button()
@@ -95,7 +95,7 @@ var menuReportsElectronicPaymentsView =
 	     
 	     resetDatePicker();
 	     
-             resetDropdownBox(ReportData, true, true);
+         resetDropdownBox(ReportData, true, true);
 	     
 	     var btn = $('#generalgobtn')
 		 .button()

@@ -12,12 +12,12 @@ var menuSetMenusRouter =
 	      },
 	      menuSetMenusGroup:function() {
 		  console.log("menuSetMenusGroup  ");
-		  alert("Company can't access this menu.");
+		  alert("Sorry, you can't use this feature!");
 		  window.history.go(-1);
 	      },
 	      menuSetMenusStore:function() {
 		  console.log("menuSetMenusStore  ");
-		  alert("Company can't access this menu.");
+		  alert("Sorry, you can't use this feature!");
 		  window.history.go(-1);
 	      }
 	     }));

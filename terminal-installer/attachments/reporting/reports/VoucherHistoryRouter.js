@@ -94,6 +94,9 @@ var voucherHistoryView =
 									.each(function(){
 										  $(this).button()
 										      .click(function(){
+										         // if there're more than 2 vouchers in one transaction,
+										         // when detail button is clicked, it renders 2 transaction dialog
+										         // thHtml ; html of the button's row
 												 var trHtml = $(this).parent().parent().parent().html();
 												 if(trHtml.indexOf(item.voucherID)>=0) {
     												     var btnData = item;
