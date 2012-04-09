@@ -199,54 +199,8 @@ function renderTransactionsDetailTable() {
                                                                     ,{date:item.time.start});
                                         });
             
-            respForBtn.transactions = applyReceiptInfo(respForBtn.transactions);
-                
-            respForBtn.transactions = _.applyToValues(respForBtn.transactions, function(obj){
-                                        if(obj && obj.discount==0){
-                                        obj.discount=null;
-                                        }
-                                        if(obj && obj.quantity){
-                                        obj.orderamount = toFixed(2)(obj.price * obj.quantity);
-                                        obj.quantity+="";
-                                        if(obj.discount) {
-                                            obj.discountamount = toFixed(2)(obj.discount * obj.quantity);
-                                        }
-                                        }
-                                        return toFixed(2)(obj);
-                                    }, true);
-            
-            respForBtn.transactions = _.map(respForBtn.transactions, function(item){
-                                      if(item.payments) {
-                                          item.payments = _.map(item.payments, function(payment){
-                                                    // apply card payment data
-                                                    if(_.isEmpty(payment.paymentdetail)) {
-                                                        payment = _.removeKeys(payment,"paymentdetail"); 
-                                                    }
-                                                    
-                                                    if(payment.paymentdetail) {
-                                                        payment.paymentdetail.crt = payment.type;
-                                                    }
-                                                    
-                                                    if(payment.paymentdetail && payment.paymentdetail.errmsg) {
-                                                        payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace("<br>"," ");
-                                                    }
-                                                    
-                                                    return payment;
-                                                    });
-                                      }
-                                      return item;
-                                      });
-            
-            
-             respForBtn.transactions = 
-                 _.applyToValues(respForBtn.transactions, function(obj){
-                         var strObj = obj+"";
-                         if(strObj.indexOf(".")>=0 && strObj.indexOf("$")<0) {
-                             obj = currency_format(Number(obj));
-                         }
-                         return obj;
-                         }, true);
-            
+           respForBtn.transactions = processTransactionsTMP(respForBtn.transactions);
+           
             _.each(respForBtn.transactions, function(item) {
                     var item = _.clone(item);
                 

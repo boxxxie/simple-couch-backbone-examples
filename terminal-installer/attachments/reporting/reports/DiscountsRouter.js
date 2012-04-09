@@ -137,7 +137,7 @@ function renderDiscountsTable() {
 	discountTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)
 	(function(err,data_TMP){
 	     //data_TMP = _.reject(data_TMP, function(item){return item.discount<=0});
-	     data_TMP = appendGroupStoreInfoFromStoreID(data_TMP);
+	     //data_TMP = appendGroupStoreInfoFromStoreID(data_TMP);
 	     
 	     var totalrow = {};
 	     totalrow.numofdiscount = data_TMP.length + "";
@@ -159,7 +159,13 @@ function renderDiscountsTable() {
 							
 	     totalrow.percentdiscount = (Number(totalrow.sales)>0)?(Number(totalrow.discount)/Number(totalrow.sales)*100).toFixed(2):(Number(0)).toFixed(2);
 	     
-	     data_TMP= applyReceiptInfo(data_TMP);
+	     _.applyToValues(totalrow, function(obj){
+                     var strObj = obj+"";
+                     if(strObj.indexOf(".")>=0) {
+                     obj = currency_format(Number(obj));
+                     }
+                     return obj;
+                 }, true);
 	     
 	     data_TMP = _.map(data_TMP, function(item){
 	     			  item.totaldiscount = item.discount;
@@ -168,57 +174,10 @@ function renderDiscountsTable() {
 	     			  }
 	     			  return item; 
 			      });
-	     
-	     data_TMP = _.applyToValues(data_TMP, function(obj){
-					    if(obj && obj.discount==0){
-						obj.discount=null;
-					    }
-					    if(obj && obj.quantity){
-						obj.orderamount = toFixed(2)(obj.price * obj.quantity);
-						obj.quantity+="";
-						if(obj.discount) {
-						    obj.discountamount = toFixed(2)(obj.discount * obj.quantity);
-						}
-					    }
-					    return toFixed(2)(obj);
-					}, true);
-	     
-	     data_TMP = _.map(data_TMP, function(item){
-				  if(item.payments) {
-				      item.payments = _.map(item.payments, function(payment){
-				                // apply card payment data
-                                if(_.isEmpty(payment.paymentdetail)) {
-                                    payment = _.removeKeys(payment,"paymentdetail"); 
-                                }
-								if(payment.paymentdetail) {
-								    payment.paymentdetail.crt = payment.type;
-								}
-								if(payment.paymentdetail && payment.paymentdetail.errmsg) {
-								    payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace(/<br>/g," ");
-								}
-								return payment;
-							    }); 
-				  }
-				  return item;
-			      });
-	     
-	     
-	     	data_TMP = 
-		     _.applyToValues(data_TMP, function(obj){
-					 var strObj = obj+"";
-					 if(strObj.indexOf(".")>=0 && strObj.indexOf("$")<0) {
-					     obj = currency_format(Number(obj));
-					 }
-					 return obj;
-				     }, true);
+			      
+			data_TMP = processTransactionsTMP(data_TMP);
 				     
-	     	 _.applyToValues(totalrow, function(obj){
-				     var strObj = obj+"";
-				     if(strObj.indexOf(".")>=0) {
-					 obj = currency_format(Number(obj));
-				     }
-				     return obj;
-				 }, true);
+	     	 
 		 var html = ich.menuReportsDiscountstable_TMP({items:data_TMP, totalrow:totalrow});
 	     
 	     $("#discountstable").html(html);
@@ -227,8 +186,6 @@ function renderDiscountsTable() {
 			var item = _.clone(item);
 			
 			var dialogtitle=getDialogTitle(ReportData,item);
-
-
 			
 			var btn = $('#'+item._id)
 			    .button()
@@ -249,14 +206,6 @@ function renderDiscountsTable() {
 				       				 }
 				       				 return orderitem;
 							     });
-				       
-				       //_.applyToValues(btnData, function(obj){
-					//		   var strObj = obj+"";
-					//		   if(strObj.indexOf(".")>=0) {
-					//	     	       obj = currency_format(obj);
-					//		   }
-					//		   return obj;
-					//	       }, true);
 				       
 				       var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
 				       quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});

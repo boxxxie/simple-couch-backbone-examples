@@ -601,3 +601,57 @@ function resetDropdownBox(reportData, isDisplayTerminal, isDisplayAll) {
               alert("You are not authorized to access this page.");
          }
 }
+
+// process for transaction receipt TMP
+function processTransactionsTMP(listTrans) {
+    var data_TMP = _.extend({},listTrans);
+    data_TMP = appendGroupStoreInfoFromStoreID(data_TMP);
+    data_TMP = applyReceiptInfo(data_TMP);
+     
+     data_TMP = 
+     _.applyToValues(data_TMP, function(obj){
+                 if(obj && obj.discount==0){
+                 obj.discount=null;
+                 }
+                 if(obj && obj.quantity){
+                 obj.orderamount = toFixed(2)(obj.price * obj.quantity);
+                 obj.quantity+="";
+                 if(obj.discount) {
+                     obj.discountamount = toFixed(2)(obj.discount * obj.quantity);
+                 }
+                 }
+                 return toFixed(2)(obj);
+             }, true);
+     
+     data_TMP = _.map(data_TMP, function(item){
+              if(item.payments) {
+                  item.payments = _.map(item.payments, function(payment){
+                            // apply card payment data
+                            if(_.isEmpty(payment.paymentdetail)) {
+                                payment = _.removeKeys(payment,"paymentdetail"); 
+                            }
+                                                
+                            if(payment.paymentdetail) {
+                                payment.paymentdetail.crt = payment.type;
+                            }
+                            if(payment.paymentdetail && payment.paymentdetail.errmsg) {
+                                payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace(/<br>/g," ");
+                            }
+                            return payment;
+                            }); 
+              }
+              return item;
+              });
+     
+     
+        data_TMP = 
+         _.applyToValues(data_TMP, function(obj){
+                 var strObj = obj+"";
+                 if(strObj.indexOf(".")>=0 && strObj.indexOf("$")<0 && strObj.indexOf(":")<0) {
+                     obj = currency_format(Number(obj));
+                 }
+                 return obj;
+                 }, true);
+       
+       return data_TMP;
+}
