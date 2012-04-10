@@ -281,15 +281,15 @@ function saveEditMenu() {
     menuModel.set_button(newButtonItemData);
     menuModel.save({},{
 		       success:function(){
-			   console.log('menu saved successfully')
+			   console.log('menu saved successfully');
 		       },
 		       error:function(error){
-			   console.log(arguments)
+			   console.log(arguments);
 			   if (JSON.parse(error.responseText).error === "conflict"){
-			       alert('there was an error saving the menu, please refresh the menu screen')
+			       alert('there was an error saving the menu, please refresh the menu screen');
 			   }
 			   else{
-			       alert('there was an error saving the menu')
+			       alert('there was an error saving the menu');
 			   }
 		       }
 		   });

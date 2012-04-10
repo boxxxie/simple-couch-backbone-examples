@@ -311,8 +311,8 @@ function stockInventoryFetcher_F(id, originids) {
     var optionsForQty = {
         group: true,
         group_level:1,
-        startKey: ([]).concat(id),
-        endKey:([]).concat(id).concat({}),
+        startkey: ([]).concat(id),
+        endkey: ([]).concat(id).concat({}),
         limit:1
     };
 
@@ -383,8 +383,8 @@ function idleInventoryFetcher_F(id, days) {
     var optionsForAllSoldList = {
         group: true,
         group_level:1,
-        startKey: ([]).concat(id),
-        endKey:([]).concat(id).concat({}),
+        startkey: ([]).concat(id),
+        endkey:([]).concat(id).concat({}),
         limit:1
     };
 
@@ -392,8 +392,8 @@ function idleInventoryFetcher_F(id, days) {
         descending : true,
         group: true,
         group_level:1,
-        startKey:([]).concat(id).concat(currentDateForQuery),
-        endKey: ([]).concat(id).concat(pastDate)
+        startkey:([]).concat(id).concat(currentDateForQuery),
+        endkey: ([]).concat(id).concat(pastDate)
     };
 
     return function(callback){

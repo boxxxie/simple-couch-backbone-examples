@@ -6,12 +6,12 @@ var sample_terminal ={
    "uuid": "f851d6c6-2507-4c26-ab70-d7d9e7c6733d",
    "suspended": false,
    "ipaddress": "208.124.150.146",
-   "paymentGateway": "psigate",
+   "paymentGateway": "chase",
    "dateOfLastCashOut": "2011-09-02T16:14:01.405Z",
    "terminalId": 35,
    "storeId": "RT7",
    "merchantPassword": "",
-   "merchantId": "psigate",
+   "merchantId": "402",
    "printers": [
        {
            "connection_name": "COUNTER",
