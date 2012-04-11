@@ -167,7 +167,7 @@ var reportDataToArray = _.memoize(
     reportDataHash
 );
 
-function entity_type_from_id(id){
+function entity_type_from_id(reportData,id){
     return _.chain(reportDataToArray(ReportData))
 	.find(function(entity){
 		  return _.find(entity,function(val){return val === id})
@@ -184,13 +184,13 @@ function entity_type_from_id(id){
 	.value()
 }
 
-function entity_from_id(id){
-    var bloated_entity = _.chain(reportDataToArray(ReportData))
+function entity_from_id(reportData,id){
+    var bloated_entity = _.chain(reportDataToArray(reportData))
 	.find(function(entity){
 		  return _.find(entity,function(val){return val === id})
 	      })
 	.value()
-    var entity_type = entity_type_from_id(id)
+    var entity_type = entity_type_from_id(reportData,id)
     if (entity_type === 'company'){
 
     }
