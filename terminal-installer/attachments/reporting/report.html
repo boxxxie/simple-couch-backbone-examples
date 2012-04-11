@@ -906,17 +906,17 @@
 	  {{/hierarchy}}
 	</ul>
 	{{/company}}
-	{{#groups}}
+	{{#group}}
 	<li id="{{group_id}}">{{groupName}}</li>
-	<ul>
+	<ul style="cursor: pointer; cursor: hand; margin-left: 1em; list-style-type: none; padding: 0;">
 	  {{#stores}}
 	  <li id="{{store_id}}">{{storeName}}({{number}})</li>
 	  {{/stores}}
 	</ul>
-	{{/groups}}
-	{{#stores}}
+	{{/group}}
+	{{#store}}
 	<li id="{{store_id}}">{{storeName}}({{number}})</li>
-	{{/stores}}
+	{{/store}}
       </ul>
     </script>
 

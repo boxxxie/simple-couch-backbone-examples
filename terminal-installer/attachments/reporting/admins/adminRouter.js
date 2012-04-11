@@ -77,8 +77,7 @@ var menuAdminUsersView =
 		    .reverse()
 		    .value();
 		
-		//TODO : there will be a better way for this,
-		//       maybe pass extra argument when navigation click event being genertated
+		
 		/*var strNav = "";
 		if(_.isNotEmpty(user_list)) {
 		    if(_.isNotEmpty((_.first(user_list)).companyName)) { 
@@ -174,7 +173,7 @@ var adminRouter =
 		     router.current_entity_id = id;
 		     router.user_collection.reset();
 		     console.log("menuAdministration: " + id);
-		     var breadCrumb = autoBreadCrumb();
+		     var breadCrumb = autoBreadCrumb(); //?
 		     fetch_users_by_location_id(id)
 		     (function(err,users){
 			  if(_.isEmpty(users)) {
@@ -323,32 +322,37 @@ var adminRouter =
 		     }
 
 		     var new_password = prompt("new password");
-		     var session = ReportData.session;
-		     if(is_logged_in_user(router.current_user,user_id)){
-			 var user = router.current_user;
-			 async.waterfall(
-			     [
-				 verify_user_session_password(user,session,new_password),
-				 fetch_user_doc,
-				 save_user_with_new_password,
-				 login_with_new_password,
-				 setup_router_current_user,
-				 setup_report_data,
-				 setup_session
-			     ],
-			     report);
+		     // new_password == null ; click cancel
+		     // new_password == "" ; input empty and click ok
+		     if(new_password!=null) {
+		         var session = ReportData.session;
+                 if(is_logged_in_user(router.current_user,user_id)){
+                 var user = router.current_user;
+                 async.waterfall(
+                     [
+                     verify_user_session_password(user,session,new_password),
+                     fetch_user_doc,
+                     save_user_with_new_password,
+                     login_with_new_password,
+                     setup_router_current_user,
+                     setup_report_data,
+                     setup_session
+                     ],
+                     report);
+                 }
+                 else{
+                 var user = router.user_collection.find(function(user){return user.get('_id') === user_id;});
+                 async.waterfall(
+                     [
+                     verify_user_session_password(user,session,new_password),
+                     fetch_user_doc,
+                     save_user_with_new_password,
+                     edit_router_user_collection
+                     ],
+                     report);
+                 }
 		     }
-		     else{
-			 var user = router.user_collection.find(function(user){return user.get('_id') === user_id;});
-			 async.waterfall(
-			     [
-				 verify_user_session_password(user,session,new_password),
-				 fetch_user_doc,
-				 save_user_with_new_password,
-				 edit_router_user_collection
-			     ],
-			     report);
-		     }
+		     
 		 },
 		 edit_user:function(user_id){
 		     console.log("edit user: " + user_id);
