@@ -28,7 +28,8 @@ var company_tree_navigation_view =
 	    },
 	    view_entity:function(event){
 		var entity_id = event.currentTarget.id;
-		this.trigger('view-entity',entity_id);
+		var entity_str = $("#"+entity_id).html();
+		this.trigger('view-entity',entity_id,entity_str);
 	    },
 	    render:function(tree){
 		console.log("render company navigation tree");
@@ -67,7 +68,7 @@ var menuAdminUsersView =
 	    change_password:function(event){
 		this.trigger('change-user-password',this.user_id(event));
 	    },
-	    render:function(users) {
+	    render:function(users, entity_str) {
 		console.log("render users");
 		var view = this;
 		var user_list =
@@ -78,7 +79,7 @@ var menuAdminUsersView =
 		
 		//TODO : there will be a better way for this,
 		//       maybe pass extra argument when navigation click event being genertated
-		var strNav = "";
+		/*var strNav = "";
 		if(_.isNotEmpty(user_list)) {
 		    if(_.isNotEmpty((_.first(user_list)).companyName)) { 
 		        strNav = strNav.concat((_.first(user_list)).companyName); 
@@ -94,9 +95,9 @@ var menuAdminUsersView =
                                 .concat((_.first(user_list)).storeNumber)
                                 .concat(")"); 
             }
-		}
+		}*/
 		
-		$(view.$el).html(ich.adminUsersInfotable_TMP({list:user_list, naviString:strNav}));
+		$(view.$el).html(ich.adminUsersInfotable_TMP({list:user_list, naviString:entity_str.entity_str}));
 		$('button').button();
 
 	    }
@@ -125,7 +126,7 @@ var adminRouter =
 		     router
 			 .user_collection
 			 .on('all',
-			     function(){router.views.user_table.render(this.toJSON());});
+			     function(evenStr,collection,entity_str){router.views.user_table.render(this.toJSON(),entity_str);});
 
 		     router
 			 .views
@@ -165,9 +166,10 @@ var adminRouter =
 		     router.load_users();
 		 },
 		 load_users:function(){
-		     this.load_users_for_id(topLevelEntity(ReportData).id);
+		     var entity_str = $("#"+topLevelEntity(ReportData).id).html();
+		     this.load_users_for_id(topLevelEntity(ReportData).id, entity_str);
 		 },
-		 load_users_for_id:function(id){
+		 load_users_for_id:function(id,entity_str){
 		     var router = this;
 		     router.current_entity_id = id;
 		     router.user_collection.reset();
@@ -181,7 +183,7 @@ var adminRouter =
  			  function exclude_logged_in_user(reportData,users_list){
 			      return _.reject(users_list,function(user){return reportData.currentUser._id === user._id;});
 			  }
-			  router.user_collection.reset(exclude_logged_in_user(ReportData,users));
+			  router.user_collection.reset(exclude_logged_in_user(ReportData,users),{entity_str:entity_str});
 		      });
 		 },
 		 change_user_password:function(user_id){

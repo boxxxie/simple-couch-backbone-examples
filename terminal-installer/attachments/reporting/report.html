@@ -899,7 +899,7 @@
 	  <li id="{{group_id}}">{{groupName}}</li>
 	  <ul style="cursor: pointer; cursor: hand; margin-left: 1em; list-style-type: none; padding: 0;">
 	    {{#stores}}
-	    <li id="{{store_id}}">{{storeName}}</li>
+	    <li id="{{store_id}}">{{storeName}}({{number}})</li>
 	    {{/stores}}
 	  </ul>
 	  {{/groups}}
@@ -910,12 +910,12 @@
 	<li id="{{group_id}}">{{groupName}}</li>
 	<ul>
 	  {{#stores}}
-	  <li id="{{store_id}}">{{storeName}}</li>
+	  <li id="{{store_id}}">{{storeName}}({{number}})</li>
 	  {{/stores}}
 	</ul>
 	{{/groups}}
 	{{#stores}}
-	<li id="{{store_id}}">{{storeName}}</li>
+	<li id="{{store_id}}">{{storeName}}({{number}})</li>
 	{{/stores}}
       </ul>
     </script>
