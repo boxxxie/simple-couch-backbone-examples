@@ -11,7 +11,7 @@ var sample_terminal ={
    "terminalId": 35,
    "storeId": "RT7",
    "merchantPassword": "",
-   "merchantId": "402",
+   "merchantId": "700000200103",
    "printers": [
        {
            "connection_name": "COUNTER",

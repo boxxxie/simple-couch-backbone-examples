@@ -99,6 +99,40 @@ var inventoryStockMngView =
 						  })
 					     .value();
 					 
+					 //TODO : Inventory Stock History Report //var db_inventory_changes = cdb.db("inventory_changes");
+					 var invStockHistoryDocList = 
+                         _.chain(varFormGrabber($("#inventorystocktable")))
+                         .removeEmptyKeys()   
+                         .map(function(stockCnt,strUPC){
+                              var upc = strUPC.replace("upc-","");//need to do this due to a limitation in forms.js
+                              var invModel = _.first(invCollection.getModelbyUPC(upc));
+                              var invJSON = invModel.toJSON(); 
+                              var addStockAmount = _.isNaN(Number(stockCnt))?Number(0):Number(stockCnt);
+                              
+                              var invHistoryDoc = _.extend({add_stock_amount:addStockAmount,
+                                                            date:(new Date()).toJSON()},_.selectKeys(invJSON,"ids","inventory","type"));
+                              return invHistoryDoc;
+                          })
+                         .value();
+                         
+                     console.log("stock history doc is...");
+                     console.log(invStockHistoryDocList);
+                     
+					 var db_inventory_changes = cdb.db("inventory_changes");
+					 db_inventory_changes.bulkSave(
+                               {
+                                   docs : invStockHistoryDocList                     
+                               },
+                               {
+                                   success:function() {
+                                       console.log("success saving inventory stock history docs");
+                                   },
+                                   error:function() {
+                                       console.log("error occured while saving inventory stock history docs");
+                                   }
+                               }
+                           );
+					 
 					 async.forEach(
 					     newInvModelList,
 					     function(model, callback) {
