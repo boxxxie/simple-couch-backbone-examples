@@ -69,7 +69,7 @@ function installTerminal(companyID,groupID,storeID,terminalID){
 			alert("please log in to install terminals");
 		    }
 		});
-	}
+	};
     }
 
 

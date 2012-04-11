@@ -67,12 +67,12 @@ function login() {
 			     code:2342,
 			     type:"invalid user information",
 			     message:"User name or Password was left blank"
-			 })
+			 });
 	    }
 	    else{
 		callback(null,login_key);
 	    }
-	}
+	};
     }
 
     function fetch_user_login_info(login_key,callback){
@@ -83,19 +83,19 @@ function login() {
 	     console.log(resp);
 	     var accountMatches = resp.rows;
 	     if(_.isNotEmpty(accountMatches) && _.isDefined(_.first(accountMatches).value)){
-		 var location_id_for_user = _.first(accountMatches).value
+		 var location_id_for_user = _.first(accountMatches).value;
 		 callback(null,{name:location_id_for_user+login_key.user,password:login_key.password});
 	     }
 	     else{
 		 var error = {code:401,type:"unauthorized",message:"User name or password is wrong for this company"};
 		 callback(error);
 	     }
-	 })
+	 });
     }
 
     function user_login(login_info,callback){
-	var user = new UserDoc(login_info);
-	user.login(callback)
+	    var user = new UserDoc(login_info);
+	    user.login(callback);
     }
 
     function fetch_company_info_for_user(user, session, callback){
@@ -117,7 +117,7 @@ function login() {
 		       var current_user = simple_user_format(user.toJSON());
 		       var user_company_info = _.selectKeys(current_user,'company_id','companyName','group_id','groupName','storeName','storeNumber','store_id');
 		       var amalgamated_logged_in_user_data = _.combine({currentUser:current_user,session:session},user_company_info);
-		       callback(null, amalgamated_logged_in_user_data, company_branch_data)
+		       callback(null, amalgamated_logged_in_user_data, company_branch_data);
 		   },
 		   error:function(){
 		       callback({
@@ -125,24 +125,24 @@ function login() {
 				    type:"company information",
 				    message:"unable to retrieve company information for this user"})
 		   }
-		  })
+		  });
     }
 
     function populate_report_data(login_data, branch, callback){
 	if(login_data.store_id) {
-	    var type = 'store'
+	    var type = 'store';
 	}
 	else if(login_data.group_id) {
-	    var type = 'group'
+	    var type = 'group';
 	}
 	else if(login_data.company_id) {
-	    var type = 'company'
+	    var type = 'company';
 	}
 
 	if(type){
 	    callback(null,_.combine(login_data,
 				    _.obj(type,branch),
-				    _.obj('startPage',type+"Report")))
+				    _.obj('startPage',type+"Report")));
 	}
 	else{
 	    callback({code:3,
@@ -161,13 +161,13 @@ function login() {
 		    ],
 		    function(err, reportData){
 			if(err){
-			    alert(err.message)
+			    alert(err.message);
 			}
 			else{
 			    ReportData = reportData;
 			    window.location.href = "#"+ReportData.startPage+"/";
 			}
-		    })
+		    });
 }
 
 function logout() {

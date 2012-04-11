@@ -12,12 +12,12 @@ var menuSetMenusRouter =
 	      },
 	      menuSetMenusGroup:function() {
 		  console.log("menuSetMenusGroup  ");
-		  alert("Company can't access this menu.");
+		  alert("Sorry, you can't use this feature!");
 		  window.history.go(-1);
 	      },
 	      menuSetMenusStore:function() {
 		  console.log("menuSetMenusStore  ");
-		  alert("Company can't access this menu.");
+		  alert("Sorry, you can't use this feature!");
 		  window.history.go(-1);
 	      }
 	     }));
@@ -281,15 +281,15 @@ function saveEditMenu() {
     menuModel.set_button(newButtonItemData);
     menuModel.save({},{
 		       success:function(){
-			   console.log('menu saved successfully')
+			   console.log('menu saved successfully');
 		       },
 		       error:function(error){
-			   console.log(arguments)
+			   console.log(arguments);
 			   if (JSON.parse(error.responseText).error === "conflict"){
-			       alert('there was an error saving the menu, please refresh the menu screen')
+			       alert('there was an error saving the menu, please refresh the menu screen');
 			   }
 			   else{
-			       alert('there was an error saving the menu')
+			       alert('there was an error saving the menu');
 			   }
 		       }
 		   });

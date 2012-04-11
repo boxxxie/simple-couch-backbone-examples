@@ -52,43 +52,8 @@ var menuReportsHourlyActivityView =
 	     					       breadCrumb:breadCrumb(ReportData.company.companyName)});
 	     $(this.el).html(html);
 	     
-	     var dropdownGroup = $("#groupsdown");
-	     var dropdownStore = $("#storesdown");
-	     var dropdownTerminal = $("#terminalsdown");
 	     
-	     _.each(ReportData.company.hierarchy.groups, function(group) {
-			dropdownGroup.append('<option value=' + group.group_id + '>' + group.groupName + '</option>');
-		    });
-	     
-	     var stores = _(ReportData.company.hierarchy.groups).chain().map(function(group) {
-										 return group.stores; 
-									     }).flatten().value();
-	     
-	     _.each(stores, function(store) {
-	 		dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
-	 																	 + "(" + store.number + ")" + '</option>');
-	 	    });
-	     
-	     var terminals = _(stores).chain().map(function(store) {
-						       return store.terminals?store.terminals:[]; 
-						   }).flatten().value();
-	     if(terminals.length>0) {
-	    	 _.each(terminals, function(terminal) {
-		 	    dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	});	
-	     } else {
-	 	 $('option', dropdownTerminal).remove();
-	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-	     }
-	     
-	     $("#groupsdown")
-	       .change(function(){
-	           updateStoreDropdown();updateTerminalDropdown();
-	       });
-	     $("#storesdown")
-           .change(function(){
-               updateTerminalDropdown();
-           });
+             resetDropdownBox(ReportData, true, true);
 	     
 	     var btn = $('#generalgobtn')
 		 .button()
@@ -104,35 +69,7 @@ var menuReportsHourlyActivityView =
 	 					       breadCrumb:breadCrumb(ReportData.companyName,ReportData.group.groupName)});
 	     $(this.el).html(html);
 	     
-	     var dropdownGroup = $("#groupsdown");
-	     var dropdownStore = $("#storesdown");
-	     var dropdownTerminal = $("#terminalsdown");
-	     
-	     $('option', dropdownGroup).remove();
-	     dropdownGroup.append('<option value ='+ReportData.group.group_id+'>'+ReportData.group.groupName+ '</option>');
-	     dropdownGroup.attr('disabled','disabled');
-	     
-	     _.each(ReportData.group.stores, function(store) {
- 			dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
- 																		 + "(" + store.number + ")" + '</option>');
-	 	    });
-	     
-	     var terminals = _(ReportData.group.stores).chain().map(function(store) {
-									return store.terminals?store.terminals:[]; 
-								    }).flatten().value();
-	     if(terminals.length>0) {
-		 _.each(terminals, function(terminal) {
-		 	    dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	});	
-	     } else {
-	 	 $('option', dropdownTerminal).remove();
-	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-	     }
-	     
-	     $("#storesdown")
-           .change(function(){
-               updateTerminalDropdown();
-           });
+             resetDropdownBox(ReportData, true, true);
 	     
 	     var btn = $('#generalgobtn')
 		 .button()
@@ -151,29 +88,7 @@ var menuReportsHourlyActivityView =
 	 					     			     ReportData.store.number)});
 	     $(this.el).html(html);
 	     
-	     var dropdownGroup = $("#groupsdown");
-	     var dropdownStore = $("#storesdown");
-	     var dropdownTerminal = $("#terminalsdown");
-	     
-	     $('option', dropdownGroup).remove();
-	     $('option', dropdownStore).remove();
-	     
-	     dropdownGroup.append('<option value=="">'+ReportData.groupName+ '</option>');
-	     dropdownGroup.attr('disabled','disabled');
-	     dropdownStore.append('<option value='+ReportData.store.store_id+'>'+ReportData.store.storeName
-	     																	+ "(" + ReportData.store.number + ")" + '</option>');
-	     dropdownStore.attr('disabled','disabled');
-	     
-	     var terminals =  ReportData.store.terminals?ReportData.store.terminals:[];
-	     
-	     if(terminals.length>0) {
-		 _.each(terminals, function(terminal) {
-		 	    dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	});	
-	     } else {
-	 	 $('option', dropdownTerminal).remove();
-	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-	     }
+             resetDropdownBox(ReportData, true, true);
 	     
 	     var btn = $('#generalgobtn')
 		 .button()
@@ -254,16 +169,16 @@ function renderHourlyActivityTable() {
 						   return item;	    		
 	    				       });
     			    
-			    	//totalrow.avgsale = currency_format(totalrow.avgsale);
+			    //totalrow.avgsale = currency_format(totalrow.avgsale);
     			    //totalrow.ecr = currency_format(totalrow.ecr);
     			    //totalrow.inventory = currency_format(totalrow.inventory);
     			    //totalrow.menu = currency_format(totalrow.menu);
     			    //totalrow.total = currency_format(totalrow.total);
     			    totalrow.avgsale = Number(totalrow.avgsale)>=0?currency_format(Number(totalrow.avgsale)):"-"+currency_format(Number(totalrow.avgsale)*-1);
-				    totalrow.ecr = Number(totalrow.ecr)>=0?currency_format(Number(totalrow.ecr)):"-"+currency_format(Number(totalrow.ecr)*-1);
-				    totalrow.inventory = Number(totalrow.inventory)>=0?currency_format(Number(totalrow.inventory)):"-"+currency_format(Number(totalrow.inventory)*-1);
-				    totalrow.menu = Number(totalrow.menu)>=0?currency_format(Number(totalrow.menu)):"-"+currency_format(Number(totalrow.menu)*-1);
-				    totalrow.total = Number(totalrow.total)>=0?currency_format(Number(totalrow.total)):"-"+currency_format(Number(totalrow.total)*-1);
+			    totalrow.ecr = Number(totalrow.ecr)>=0?currency_format(Number(totalrow.ecr)):"-"+currency_format(Number(totalrow.ecr)*-1);
+			    totalrow.inventory = Number(totalrow.inventory)>=0?currency_format(Number(totalrow.inventory)):"-"+currency_format(Number(totalrow.inventory)*-1);
+			    totalrow.menu = Number(totalrow.menu)>=0?currency_format(Number(totalrow.menu)):"-"+currency_format(Number(totalrow.menu)*-1);
+			    totalrow.total = Number(totalrow.total)>=0?currency_format(Number(totalrow.total)):"-"+currency_format(Number(totalrow.total)*-1);
     			    
     			    var data = {items:data_param, totalrow:totalrow};
 			    var html = ich.hourlyActivitytable_TMP(data);

@@ -52,47 +52,9 @@ var menuReportsSalesDetailView =
 	     					    breadCrumb:breadCrumb(ReportData.company.companyName)});
 	     $(this.el).html(html);
 	     
-	     var selectedDates = $( "#dateFrom, #dateTo" )
-		 .datepicker({
-				 defaultDate: "+1w",
-				 changeMonth: true,
-				 numberOfMonths: 2,
-				 minDate:"-1y",
-				 maxDate:new Date(),
-				 onSelect: function( selectedDate ) {
-				     var option = this.id == "dateFrom" ? "minDate" : "maxDate",
-				     instance = $( this ).data( "datepicker" ),
-				     date = $.datepicker.parseDate(
-					 instance.settings.dateFormat ||
-					     $.datepicker._defaults.dateFormat,
-					 selectedDate, instance.settings );
-				     selectedDates.not( this ).datepicker( "option", option, date );
-				 }
-			     });
+	     resetDatePicker();
 	     
-	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
-	     $("#dateTo").datepicker("setDate", new Date());
-	     
-	     var dropdownGroup = $("#groupsdown");
-	     var dropdownStore = $("#storesdown");
-	     
-	     _.each(ReportData.company.hierarchy.groups, function(group) {
-			dropdownGroup.append('<option value=' + group.group_id + '>' + group.groupName + '</option>');
-		    });
-	     
-	     var stores = _(ReportData.company.hierarchy.groups).chain().map(function(group) {
-										 return group.stores; 
-									     }).flatten().value();
-	     
-	     _.each(stores, function(store) {
-	 		dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
-	 																	 + "(" + store.number + ")" + '</option>');
-	 	    });
-	     
-	     $("#groupsdown")
-           .change(function() {
-               updateStoreDropdown();
-           });
+             resetDropdownBox(ReportData, false, true);
 	     
 	     var btn = $('#generalgobtn')
 		 .button()
@@ -109,38 +71,9 @@ var menuReportsSalesDetailView =
 	 					     			  ReportData.group.groupName)});
 	     $(this.el).html(html);
 	     
-	     var selectedDates = $( "#dateFrom, #dateTo" )
-		 .datepicker({
-				 defaultDate: "+1w",
-				 changeMonth: true,
-				 numberOfMonths: 2,
-				 minDate:"-1y",
-				 maxDate:new Date(),
-				 onSelect: function( selectedDate ) {
-				     var option = this.id == "dateFrom" ? "minDate" : "maxDate",
-				     instance = $( this ).data( "datepicker" ),
-				     date = $.datepicker.parseDate(
-					 instance.settings.dateFormat ||
-					     $.datepicker._defaults.dateFormat,
-					 selectedDate, instance.settings );
-				     selectedDates.not( this ).datepicker( "option", option, date );
-				 }
-			     });
+	     resetDatePicker();
 	     
-	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
-	     $("#dateTo").datepicker("setDate", new Date());
-	     
-	     var dropdownGroup = $("#groupsdown");
-	     var dropdownStore = $("#storesdown");
-	     
-	     $('option', dropdownGroup).remove();
-	     dropdownGroup.append('<option>'+ReportData.group.groupName+ '</option>');
-	     dropdownGroup.attr('disabled','disabled');
-	     
-	     _.each(ReportData.group.stores, function(store) {
- 			dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
- 																		 + "(" + store.number + ")" + '</option>');
-	 	    });
+             resetDropdownBox(ReportData, false, true);
 	     
 	     var btn = $('#generalgobtn')
 		 .button()
@@ -159,38 +92,9 @@ var menuReportsSalesDetailView =
 	 					     			  ReportData.store.number)});
 	     $(this.el).html(html);
 	     
-	     var selectedDates = $( "#dateFrom, #dateTo" )
-		 .datepicker({
-				 defaultDate: "+1w",
-				 changeMonth: true,
-				 numberOfMonths: 2,
-				 minDate:"-1y",
-				 maxDate:new Date(),
-				 onSelect: function( selectedDate ) {
-				     var option = this.id == "dateFrom" ? "minDate" : "maxDate",
-				     instance = $( this ).data( "datepicker" ),
-				     date = $.datepicker.parseDate(
-					 instance.settings.dateFormat ||
-					     $.datepicker._defaults.dateFormat,
-					 selectedDate, instance.settings );
-				     selectedDates.not( this ).datepicker( "option", option, date );
-				 }
-			     });
+	     resetDatePicker();
 	     
-	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
-	     $("#dateTo").datepicker("setDate", new Date());
-	     
-	     var dropdownGroup = $("#groupsdown");
-	     var dropdownStore = $("#storesdown");
-	     
-	     $('option', dropdownGroup).remove();
-	     $('option', dropdownStore).remove();
-	     
-	     dropdownGroup.append('<option>'+ReportData.groupName+ '</option>');
-	     dropdownGroup.attr('disabled','disabled');
-	     dropdownStore.append('<option value="">'+ReportData.store.storeName
-	     										 + "(" + ReportData.store.number + ")" + '</option>');
-	     dropdownStore.attr('disabled','disabled');
+             resetDropdownBox(ReportData, false, true);
 	     
 	     var btn = $('#generalgobtn')
 		 .button()
@@ -203,30 +107,6 @@ var menuReportsSalesDetailView =
 	});
 
 /********************************************* helper functions ***************************************/
-/*function updateStoreDropdown() {
- var groups = ReportData.company.hierarchy.groups;
- var dropdownGroup = $("#groupsdown");
- var dropdownStore = $("#storesdown");
- $('option', dropdownStore).remove();
- dropdownStore.append('<option value="ALL">ALL</option>');
- 
- if(dropdownGroup.val()=="ALL") {
- var stores = _(groups).chain().map(function(group) {
- return group.stores; 
- }).flatten().value();
- 
- _.each(stores, function(store) {
- dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
- });		
- } else {
- var group = _.filter(groups, function(group){ return group.group_id==dropdownGroup.val();});
- var stores = group[0].stores;
- _.each(stores, function(store) {
- dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
- }); 
- }
- };
- */
 
 function renderSalesDetailReportTable() {
     console.log("renderSalesDetailReportTable");
@@ -454,7 +334,7 @@ function extractSalesDetailTableInfo(list) {
 						    }
 						    return obj;
 						}, true);
-						
+				
 				return item;
 			    });
 	

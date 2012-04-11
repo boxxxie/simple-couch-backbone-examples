@@ -86,3 +86,42 @@ jQuery.fn.table2CSV = function(options) {
         return true;
     }
 };
+
+
+function toCSVarray(input, delimiter)
+{
+    delimiter = delimiter || ',';
+
+    var objPattern = new RegExp(
+    (
+        '(\\' + delimiter + '|\\r?\\n|\\r|^)' +
+        '(?:"([^"]*(?:""[^"]*)*)"|' +
+        '([^"\\' + delimiter + '\\r\\n]*))'
+    ), 'gi');
+
+    var data = [[]];
+    var matches = null;
+    
+    while (matches = objPattern.exec(input))
+    {
+        var matchedDelimiter = matches[1];
+
+        if (matchedDelimiter.length && (matchedDelimiter != delimiter))
+        {
+            data.push([]);
+        }
+
+        if (matches[2])
+        {
+            var matchedValue = matches[2].replace(new RegExp('""', 'g'), '"');
+        }
+        else
+        {
+            var matchedValue = matches[3];
+        }
+
+        data[data.length - 1].push(matchedValue);
+    }
+
+    return data;
+};

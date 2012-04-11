@@ -63,7 +63,12 @@ var adminLoginView = Backbone.View.extend(
 			    success:function(response){
 				console.log("successful user login");
 				console.log(response);
-				window.location.href = "#mainMenus";
+				if(_.contains(response.roles,"rt7")) {
+				    window.location.href = "#mainMenus";    
+				} else if(_.contains(response.roles,"territory")) {
+				    alert("you are territory guy");
+				}
+				
 			    },
 			    error:function(response){
 				console.log("error logging in");
@@ -78,3 +83,13 @@ var adminLoginView = Backbone.View.extend(
          $("#userID").focus();
      }
     });
+    
+function logout() {
+    $.couch
+    .logout(
+        {success:function(){
+         console.log("here i am, logout");
+         window.location.href ='admin';
+         }
+    });
+};

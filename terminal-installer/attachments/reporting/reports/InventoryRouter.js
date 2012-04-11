@@ -52,46 +52,9 @@ var menuReportsInventoryView =
 	     					  breadCrumb:breadCrumb(ReportData.company.companyName)});
 	     $(this.el).html(html);
 
-	     var selectedDates = $( "#dateFrom, #dateTo" )
-		 .datepicker({
-				 defaultDate: "+1w",
-				 changeMonth: true,
-				 numberOfMonths: 2,
-				 minDate:"-1y",
-				 maxDate:new Date(),
-				 onSelect: function( selectedDate ) {
-				     var option = this.id == "dateFrom" ? "minDate" : "maxDate",
-				     instance = $( this ).data( "datepicker" ),
-				     date = $.datepicker.parseDate(
-					 instance.settings.dateFormat ||
-					     $.datepicker._defaults.dateFormat,
-					 selectedDate, instance.settings );
-				     selectedDates.not( this ).datepicker( "option", option, date );
-				 }
-			     });
+	     resetDatePicker();
 
-	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
-	     $("#dateTo").datepicker("setDate", new Date());
-
-	     var dropdownGroup = $("#groupsdown");
-	     var dropdownStore = $("#storesdown");
-
-	     _.each(ReportData.company.hierarchy.groups, function(group) {
-			dropdownGroup.append('<option value=' + group.group_id + '>' + group.groupName + '</option>');
-		    });
-
-	     var stores = _(ReportData.company.hierarchy.groups).chain().map(function(group) {
-										 return group.stores;
-									     }).flatten().value();
-
-	     _.each(stores, function(store) {
-	 		dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
-	 	    });
-
-	     $("#groupsdown")
-           .change(function(){
-               updateStoreDropdown();
-           });
+             resetDropdownBox(ReportData, false, true);
 
 	     var btn = $('#generalgobtn')
 		 .button()
@@ -99,10 +62,10 @@ var menuReportsInventoryView =
 			    renderInventoryReportTable();
 			});
 
-			
+	     
 	     $('#btnExport')
-                .button()
-                .click(function(){ });
+                 .button()
+                 .click(function(){ });
 	     
 	     console.log("rendered general report");
 	 },
@@ -113,37 +76,9 @@ var menuReportsInventoryView =
 	 					     			ReportData.group.groupName)});
 	     $(this.el).html(html);
 
-	     var selectedDates = $( "#dateFrom, #dateTo" )
-		 .datepicker({
-				 defaultDate: "+1w",
-				 changeMonth: true,
-				 numberOfMonths: 2,
-				 minDate:"-1y",
-				 maxDate:new Date(),
-				 onSelect: function( selectedDate ) {
-				     var option = this.id == "dateFrom" ? "minDate" : "maxDate",
-				     instance = $( this ).data( "datepicker" ),
-				     date = $.datepicker.parseDate(
-					 instance.settings.dateFormat ||
-					     $.datepicker._defaults.dateFormat,
-					 selectedDate, instance.settings );
-				     selectedDates.not( this ).datepicker( "option", option, date );
-				 }
-			     });
+	     resetDatePicker();
 
-	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
-	     $("#dateTo").datepicker("setDate", new Date());
-
-	     var dropdownGroup = $("#groupsdown");
-	     var dropdownStore = $("#storesdown");
-
-	     $('option', dropdownGroup).remove();
-	     dropdownGroup.append('<option value=' +ReportData.group.group_id +'>'+ReportData.group.groupName+ '</option>');
-	     dropdownGroup.attr('disabled','disabled');
-
-	     _.each(ReportData.group.stores, function(store) {
- 			dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName + '</option>');
-	 	    });
+	     resetDropdownBox(ReportData, false, true);
 
 	     var btn = $('#generalgobtn')
 		 .button()
@@ -152,8 +87,8 @@ var menuReportsInventoryView =
 			});
 
 	     $('#btnExport')
-                .button()
-                .click(function(){ });
+                 .button()
+                 .click(function(){ });
 	     
 	     console.log("rendered general report");
 	 },
@@ -166,37 +101,9 @@ var menuReportsInventoryView =
 	 					     			ReportData.store.number)});
 	     $(this.el).html(html);
 
-	     var selectedDates = $( "#dateFrom, #dateTo" )
-		 .datepicker({
-				 defaultDate: "+1w",
-				 changeMonth: true,
-				 numberOfMonths: 2,
-				 minDate:"-1y",
-				 maxDate:new Date(),
-				 onSelect: function( selectedDate ) {
-				     var option = this.id == "dateFrom" ? "minDate" : "maxDate",
-				     instance = $( this ).data( "datepicker" ),
-				     date = $.datepicker.parseDate(
-					 instance.settings.dateFormat ||
-					     $.datepicker._defaults.dateFormat,
-					 selectedDate, instance.settings );
-				     selectedDates.not( this ).datepicker( "option", option, date );
-				 }
-			     });
+	     resetDatePicker();
 
-	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
-	     $("#dateTo").datepicker("setDate", new Date());
-
-	     var dropdownGroup = $("#groupsdown");
-	     var dropdownStore = $("#storesdown");
-
-	     $('option', dropdownGroup).remove();
-	     $('option', dropdownStore).remove();
-
-	     dropdownGroup.append('<option>'+ReportData.groupName+ '</option>');
-	     dropdownGroup.attr('disabled','disabled');
-	     dropdownStore.append('<option value=' +ReportData.store.store_id + '>'+ReportData.store.storeName+ '</option>');
-	     dropdownStore.attr('disabled','disabled');
+	     resetDropdownBox(ReportData, false, true);
 
 	     var btn = $('#generalgobtn')
 		 .button()
@@ -206,8 +113,8 @@ var menuReportsInventoryView =
 
 	     
 	     $('#btnExport')
-                .button()
-                .click(function(){ });
+                 .button()
+                 .click(function(){ });
 
 	     console.log("rendered general report");
 	 }
@@ -298,31 +205,31 @@ function renderInventoryReportTable() {
 			 $("#inventoryecrtable").show();
 		     }
 		 });
-		 
-		 var btnExport = $('#btnExport')
-                .button()
-                .click(function(){
-                    resultTxt = "";
-                    if($("#inventorymenutable").is(":visible")) {
-                        resultTxt = resultTxt.concat("MENU INVENTORY SOLD\n");
-                        resultTxt = resultTxt.concat($("#inventorymenutable").table2CSV({delivery:"value"}));
-                        resultTxt = resultTxt.concat("\n\n");
-                    }
-                    if($("#inventoryscantable").is(":visible")) {
-                        resultTxt = resultTxt.concat("SCAN INVENTORY SOLD\n");
-                        resultTxt = resultTxt.concat($("#inventoryscantable").table2CSV({delivery:"value"}));
-                        resultTxt = resultTxt.concat("\n\n");
-                    }
-                    if($("#inventoryecrtable").is(":visible")) {
-                        resultTxt = resultTxt.concat("ECR INVENTORY SOLD\n");
-                        resultTxt = resultTxt.concat($("#inventoryecrtable").table2CSV({delivery:"value"}));
-                        resultTxt = resultTxt.concat("\n\n");
-                    }
-                    //TODO: send csv text to server
-                    console.log(resultTxt);
-                    var exportDoc = new ExportRequestDoc({content:resultTxt});
-                    exportDoc.save();
-                });
+	     
+	     var btnExport = $('#btnExport')
+                 .button()
+                 .click(function(){
+			    resultTxt = "";
+			    if($("#inventorymenutable").is(":visible")) {
+				resultTxt = resultTxt.concat("MENU INVENTORY SOLD\n");
+				resultTxt = resultTxt.concat($("#inventorymenutable").table2CSV({delivery:"value"}));
+				resultTxt = resultTxt.concat("\n\n");
+			    }
+			    if($("#inventoryscantable").is(":visible")) {
+				resultTxt = resultTxt.concat("SCAN INVENTORY SOLD\n");
+				resultTxt = resultTxt.concat($("#inventoryscantable").table2CSV({delivery:"value"}));
+				resultTxt = resultTxt.concat("\n\n");
+			    }
+			    if($("#inventoryecrtable").is(":visible")) {
+				resultTxt = resultTxt.concat("ECR INVENTORY SOLD\n");
+				resultTxt = resultTxt.concat($("#inventoryecrtable").table2CSV({delivery:"value"}));
+				resultTxt = resultTxt.concat("\n\n");
+			    }
+			    //TODO: send csv text to server
+			    console.log(resultTxt);
+			    var exportDoc = new ExportRequestDoc({content:resultTxt});
+			    exportDoc.save();
+			});
 	 });
 
     } else {

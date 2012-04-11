@@ -10,53 +10,7 @@ var idleInventoryRouter =
 					var html = ich.idleInventoryReports_TMP(_.extend({startPage:ReportData.startPage},autoBreadCrumb()));
 					$("#main").html(html);
 					
-					var dropdownGroup = $("#groupsdown");
-					var dropdownStore = $("#storesdown");
-					
-					switch(_.indexOf(["companyReport","groupReport","storeReport"],ReportData.startPage)) {
-					case 0: //: company
-					    $('option', dropdownGroup).remove();
-					    _.each(ReportData.company.hierarchy.groups, function(group) {
-						       dropdownGroup.append('<option value=' + group.group_id + '>' + group.groupName + '</option>');
-						   });
-					    
-					    var stores = _(ReportData.company.hierarchy.groups).chain().map(function(group) {
-														return group.stores; 
-													    }).flatten().value();
-					    
-					    $('option', dropdownStore).remove();
-					    _.each(stores, function(store) {
-						       dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
-									    + "(" + store.number + ")" + '</option>');
-						   });
-					    break;
-					case 1: //: group
-					    $('option', dropdownGroup).remove();
-					    dropdownGroup.append('<option value ='+ReportData.group.group_id+'>'+ReportData.group.groupName+ '</option>');
-					    dropdownGroup.attr('disabled','disabled');
-					    
-					    $('option', dropdownStore).remove();
-					    _.each(ReportData.group.stores, function(store) {
-						       dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName 
-									    + "(" + store.number + ")" + '</option>');
-						   });
-					    break;
-					case 2: //: store
-					    $('option', dropdownGroup).remove();
-					    $('option', dropdownStore).remove();
-					    
-					    dropdownGroup.append('<option value='+ReportData.group_id+'>'+ReportData.groupName+ '</option>');
-					    dropdownGroup.attr('disabled','disabled');
-					    dropdownStore.append('<option value='+ReportData.store.store_id+'>'+ReportData.store.storeName
-								 + "(" + ReportData.store.number + ")" + '</option>');
-					    dropdownStore.attr('disabled','disabled');
-					    break;
-					}
-					
-					$("#groupsdown")
-                       .change(function(){
-                           updateStoreDropdown(true); // don't show "ALL"
-                       });
+					resetDropdownBox(ReportData, false, false);
 					
 					// TODO : view
 					var view = this.view;

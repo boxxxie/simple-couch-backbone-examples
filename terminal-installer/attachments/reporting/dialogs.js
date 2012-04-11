@@ -25,6 +25,13 @@ function quickReportViewDialog (html,options) {
 function quickReportView(id, title){
     cashoutFetcher(id,
     		   function(for_TMP){
+    		       function appendCashBalance(cashout) { 
+    		           // assume that, all values are number
+                       var actual_cash_count = cashout.cashpayment - cashout.cashrefund;
+                       var over_short = actual_cash_count - cashout.actual_tender;
+                       return _.combine({actual_cash_count:actual_cash_count, over_short:over_short},cashout);
+                   };
+    		       
     		       var datamtd = _(for_TMP.mtd).chain()
 			   .map(function(val,key){
 				    val = Number(val);
@@ -47,9 +54,9 @@ function quickReportView(id, title){
 			   .toObject()
 			   .value();
 
-    		       for_TMP.mtd = datamtd;
-    		       for_TMP.ytd = dataytd;
-    		       for_TMP.yesterday = datayesterday;
+    		       for_TMP.mtd = appendCashBalance(datamtd);
+    		       for_TMP.ytd = appendCashBalance(dataytd);
+    		       for_TMP.yesterday = appendCashBalance(datayesterday);
 
     		       var yesterday_noofsale = Number(for_TMP.yesterday.noofsale)+"";
     		       var yesterday_noofrefund = Number(for_TMP.yesterday.noofrefund)+"";
@@ -57,7 +64,7 @@ function quickReportView(id, title){
     		       var mtd_noofrefund = Number(for_TMP.mtd.noofrefund)+"";
     		       var ytd_noofsale = Number(for_TMP.ytd.noofsale)+"";
     		       var ytd_noofrefund = Number(for_TMP.ytd.noofrefund)+"";
-
+    		       
     		       for_TMP = _.applyToValues(for_TMP,currency_format,true);
 
     		       for_TMP.yesterday.noofsale=yesterday_noofsale;
@@ -67,18 +74,20 @@ function quickReportView(id, title){
     		       for_TMP.ytd.noofsale=ytd_noofsale;
     		       for_TMP.ytd.noofrefund=ytd_noofrefund;
 
-    		       var yesterdayPropsToChange = _.selectKeys(for_TMP.yesterday,['netsalestotal', 'netrefundtotal', 'netsaleactivity', 'avgpayment', 'avgrefund' , 'cashtotal' , 'allDiscount', 'cancelledtotal','avgcancelled','menusalesamount', 'scansalesamount','ecrsalesamount']);
-		       yesterdayPropsToChange =_(yesterdayPropsToChange)
-			   .map$(function(pair){
+    		   var yesterdayPropsToChange = _.selectKeys(for_TMP.yesterday,['netsalestotal', 'netrefundtotal', 'netsaleactivity', 'avgpayment', 'avgrefund' , 'cashtotal' , 'allDiscount', 'cancelledtotal','avgcancelled','menusalesamount', 'scansalesamount','ecrsalesamount','actual_tender','actual_cash_count','over_short']);
+		       yesterdayPropsToChange =
+				_.chain(yesterdayPropsToChange)
+               .map$(function(pair){
 					var key = _.first(pair);
 					var val = _.second(pair);
-				    if(val.indexOf('-')>=0) { val = val.replace('-',''); val = "-$ " +val;}
-				    else {val = "$ " +val;}
-				    return pair;
-				});
+                    if(val.indexOf('-')>=0) { var newVal = val.replace('-',''); val = "-$ " +val;}
+                    else {var newVal = "$ " +val;}
+                    return [key,newVal];
+                })
+               .value();
 		       var yesterdayCashoutForm = _.extend({},for_TMP.yesterday,yesterdayPropsToChange);
 
-		       var mtdPropsToChange = _.selectKeys(for_TMP.mtd,['netsalestotal', 'netrefundtotal', 'netsaleactivity', 'avgpayment', 'avgrefund' , 'cashtotal' , 'allDiscount', 'cancelledtotal','avgcancelled','menusalesamount', 'scansalesamount','ecrsalesamount']);
+		       var mtdPropsToChange = _.selectKeys(for_TMP.mtd,['netsalestotal', 'netrefundtotal', 'netsaleactivity', 'avgpayment', 'avgrefund' , 'cashtotal' , 'allDiscount', 'cancelledtotal','avgcancelled','menusalesamount', 'scansalesamount','ecrsalesamount','actual_tender','actual_cash_count','over_short']);
 		       mtdPropsToChange =_(mtdPropsToChange).chain()
 			   .map(function(val,key){
 				    if(val.indexOf('-')>=0) { val = val.replace('-',''); val = "-$ " +val;}
@@ -89,7 +98,7 @@ function quickReportView(id, title){
 			   .value();
 		       var mtdCashoutForm = _.extend({},for_TMP.mtd,mtdPropsToChange);
 
-		       var ytdPropsToChange = _.selectKeys(for_TMP.ytd,['netsalestotal', 'netrefundtotal', 'netsaleactivity', 'avgpayment', 'avgrefund' , 'cashtotal' , 'allDiscount', 'cancelledtotal','avgcancelled','menusalesamount', 'scansalesamount','ecrsalesamount']);
+		       var ytdPropsToChange = _.selectKeys(for_TMP.ytd,['netsalestotal', 'netrefundtotal', 'netsaleactivity', 'avgpayment', 'avgrefund' , 'cashtotal' , 'allDiscount', 'cancelledtotal','avgcancelled','menusalesamount', 'scansalesamount','ecrsalesamount','actual_tender','actual_cash_count','over_short']);
 		       ytdPropsToChange =_(ytdPropsToChange).chain()
 			   .map(function(val,key){
 				    if(val.indexOf('-')>=0) { val = val.replace('-',''); val = "-$ " +val;}
@@ -185,12 +194,12 @@ function quickmenuReportsTransactionViewDialog (html,options) {
 	         var w = window.open();
 	         w.document.write($("#dialog-quickView").html());
 	         w.document.close();
-             w.focus();
+		     w.focus();
 	         w.print();
 	         w.close();
 	     },
 	     "Close": function() {
-		     d.dialog('close');
+		 	d.dialog('close');
 	     }
 	 },
 	 title:options.title

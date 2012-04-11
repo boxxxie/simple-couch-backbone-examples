@@ -10,53 +10,7 @@ var inventoryStockManagementRouter =
 					var html = ich.inventoryStockMngReports_TMP(_.extend({startPage:ReportData.startPage},autoBreadCrumb()));
 					$("#main").html(html);
 					
-					var dropdownGroup = $("#groupsdown");
-					var dropdownStore = $("#storesdown");
-					
-					switch(_.indexOf(["companyReport","groupReport","storeReport"],ReportData.startPage)) {
-					case 0: //: company
-					    $('option', dropdownGroup).remove();
-					    _.each(ReportData.company.hierarchy.groups, function(group) {
-						       dropdownGroup.append('<option value=' + group.group_id + '>' + group.groupName + '</option>');
-						   });
-					    
-					    var stores = _(ReportData.company.hierarchy.groups).chain().map(function(group) {
-														return group.stores; 
-													    }).flatten().value();
-					    
-					    $('option', dropdownStore).remove();
-					    _.each(stores, function(store) {
-						       dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
-									    + "(" + store.number + ")" + '</option>');
-						   });
-					    break;
-					case 1: //: group
-					    $('option', dropdownGroup).remove();
-					    dropdownGroup.append('<option value ='+ReportData.group.group_id+'>'+ReportData.group.groupName+ '</option>');
-					    dropdownGroup.attr('disabled','disabled');
-					    
-					    $('option', dropdownStore).remove();
-					    _.each(ReportData.group.stores, function(store) {
-						       dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName 
-									    + "(" + store.number + ")" + '</option>');
-						   });
-					    break;
-					case 2: //: store
-					    $('option', dropdownGroup).remove();
-					    $('option', dropdownStore).remove();
-					    
-					    dropdownGroup.append('<option value='+ReportData.group_id+'>'+ReportData.groupName+ '</option>');
-					    dropdownGroup.attr('disabled','disabled');
-					    dropdownStore.append('<option value='+ReportData.store.store_id+'>'+ReportData.store.storeName
-								 + "(" + ReportData.store.number + ")" + '</option>');
-					    dropdownStore.attr('disabled','disabled');
-					    break;
-					}
-					
-					$("#groupsdown")
-                       .change(function(){
-                           updateStoreDropdown(true); // don't show "ALL"
-                       });
+					resetDropdownBox(ReportData, false, false);
 					
 					// TODO : view
 					_.once(function(){
@@ -144,6 +98,40 @@ var inventoryStockMngView =
 						      return invModel;
 						  })
 					     .value();
+					 
+					 //TODO : Inventory Stock History Report //var db_inventory_changes = cdb.db("inventory_changes");
+					 var invStockHistoryDocList = 
+                         _.chain(varFormGrabber($("#inventorystocktable")))
+                         .removeEmptyKeys()   
+                         .map(function(stockCnt,strUPC){
+                              var upc = strUPC.replace("upc-","");//need to do this due to a limitation in forms.js
+                              var invModel = _.first(invCollection.getModelbyUPC(upc));
+                              var invJSON = invModel.toJSON(); 
+                              var addStockAmount = _.isNaN(Number(stockCnt))?Number(0):Number(stockCnt);
+                              
+                              var invHistoryDoc = _.extend({add_stock_amount:addStockAmount,
+                                                            date:(new Date()).toJSON()},_.selectKeys(invJSON,"ids","inventory","type"));
+                              return invHistoryDoc;
+                          })
+                         .value();
+                         
+                     console.log("stock history doc is...");
+                     console.log(invStockHistoryDocList);
+                     
+					 var db_inventory_changes = cdb.db("inventory_changes");
+					 db_inventory_changes.bulkSave(
+                               {
+                                   docs : invStockHistoryDocList                     
+                               },
+                               {
+                                   success:function() {
+                                       console.log("success saving inventory stock history docs");
+                                   },
+                                   error:function() {
+                                       console.log("error occured while saving inventory stock history docs");
+                                   }
+                               }
+                           );
 					 
 					 async.forEach(
 					     newInvModelList,

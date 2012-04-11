@@ -86,6 +86,7 @@
     <script language="javascript" type="text/javascript" src="../reporting/reports/DiscountsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/reports/ElectronicPaymentsRouter.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/reports/InventoryRouter.js"></script>
+    <script language="javascript" type="text/javascript" src="../reporting/reports/VoucherHistoryRouter.js"></script>
 
     <script language="javascript" type="text/javascript" src="../reporting/inventory/helpers.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/inventory/IdleInventoryReportRouter.js"></script>
@@ -187,7 +188,7 @@
 	  <li>{{>inventoryButton_P}}</li>
 	  <li>{{>reportsButton_P}}</li>
 	  <li>{{>setMenusButton_P}}</li>
-	  <li><a href="" onClick="logout()">Logout</a></li>
+	  <li><a style="cursor: pointer;" onClick="logout()">Logout</a></li>
 	</ul>
       </div>
     </script>
@@ -316,6 +317,20 @@
       </div>
     </script>
     
+    <script id="voucherOptionDropdown_P" class="partial" type="text/html">
+      <ul id="ulVoucherDropDown">
+    <li style="display: inline;">OPTION : 
+      <select id="vouchersdown" class="{{>commonClasses_P}}">
+        <!--<option value = "ALL" selected>ALL</option>
+        <option value = "NOTZEROBALANCE" >Balance > 0</option>
+        <option value = "ZEROBALANCE" >Balance = 0</option>-->
+        <option value = "0" selected>ALL</option>
+        <option value = "1" >Balance > 0</option>
+        <option value = "2" >Balance = 0</option>
+      </select>
+    </li>
+      </ul>
+    </script>
   
     
 
@@ -385,6 +400,24 @@
       <tr>
 	<td align="left">Net SALE ACTIVITY</td>
 	<td colspan="2" align="right">{{netsaleactivity}}</td>
+      </tr>
+    </script>
+    
+    <script id="cashBalance_P" class="partial" type="text/html">
+      <tr>
+    <td colspan="3">CASH BALANCE</td>
+      </tr>
+      <tr>
+    <td align="left">ACTUAL CASH COUNT</td>
+    <td colspan="2" align="right">{{actual_cash_count}}</td>
+      </tr>
+      <tr>
+    <td align="left">ACTUAL TENDER</td>
+    <td colspan="2" align="right">{{actual_tender}}</td>
+      </tr>
+      <tr>
+    <td align="left">OVER / SHORT</td>
+    <td colspan="2" align="right">{{over_short}}</td>
       </tr>
     </script>
     
@@ -538,6 +571,8 @@
       <tr><td colspan="3">===========================</td></tr>
       {{>netSaleActivity_P}}
       <tr><td colspan="3">===========================</td></tr>
+      {{>cashBalance_P}}
+      <tr><td colspan="3">===========================</td></tr>
       {{>paymentDetails_P}}
       <tr><td colspan="3">===========================</td></tr>
       {{>refundDetails_P}}
@@ -633,6 +668,8 @@
 	  <tr><td colspan="3">===================================</td></tr>
 	  {{>netSaleActivity_P}}
 	  <tr><td colspan="3">===================================</td></tr>
+	  {{>cashBalance_P}}
+      <tr><td colspan="3">===================================</td></tr>
 	  {{>paymentDetails_P}}
 	  <tr><td colspan="3">===================================</td></tr>
 	  {{>refundDetails_P}}
@@ -817,8 +854,8 @@
         <td colspan="4">===================================</td>
       </tr>
       <tr>
-        <td>Voucher : $ </td>
-        <td colspan="3">{{redeemed}}</td>
+        <td>Voucher : </td>
+        <td colspan="3">$ {{redeemed}}</td>
       </tr>
       <tr>
         <td>Voucher ID: </td>
@@ -837,8 +874,8 @@
       </tr>
       {{/voucher_type}}
       <tr>
-        <td>Voucher Balance: $ </td>
-        <td colspan="3">{{voucher_balance}}</td>
+        <td>Voucher Balance: </td>
+        <td colspan="3">$ {{voucher_balance}}</td>
       </tr>
         {{/response}}
       {{/paymentdetail}}
@@ -1077,6 +1114,11 @@
 	    <img src="../images/reports/discounts.png" border="0" class="report-menu-icon"/>Discounts
 	  </a>
 	</div>
+	<div class="report-menu">
+      <a href='#menuReports/{{startPage}}VouchersHistory'>
+        <img src="../images/reports/voucherhistory.png" border="0" class="report-menu-icon"/>Vouchers History
+      </a>
+    </div>
 	<div style="clear: both;"></div>
       </div>
     </script>
@@ -1390,7 +1432,7 @@
     <!----------------------------------------------- HOURLY ACTIVITY REPORTS -------------------------------------------->
 
     <script id="dropdownHourlyActiviy_P" class="partial" type="text/html">
-      <ul>
+      <ul id="ulhierarchy">
 	<li style="display: inline;">
 	  GROUP : 
 	  <select id="groupsdown" class="{{>commonClasses_P}}">
@@ -2018,6 +2060,76 @@
       </div>
     </script>
     
+    <!-------------------------------- VOUCHER HISTORY REPORTS ----------------------------------------->
+     <script id="menuReportsVouchertable_TMP" type="text/html">
+      <table class="reportstable">
+    <thead>
+      <tr>
+        <th>Date</th>
+       <!-- <th>Group</th> -->
+        <th>Store</th>
+        <th>Store #</th>
+        <th>Terminal</th>
+        <th>Tran #</th>
+        <th>Sales Amount</th>
+        <th>Voucher ID</th>
+        <th>Voucher Name</th>
+        <th>Voucher Type</th>
+        <th>Redeemed</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tfoot>
+      {{#totalrow}}
+      <tr>
+        <th colspan="9">Total</th>
+        <th align="right">{{redeemed}}</th>
+        <th></th>
+      </tr>
+      {{/totalrow}}
+    </tfoot>
+    <tbody>
+      {{#items}}
+      <tr>
+        <td align="center">{{date}}</td>
+        <!--<td align="center">{{groupName}}</td>-->
+        <td align="center">{{storeName}}</td>
+        <td align="center">{{storeNumber}}</td>
+        <td align="center">{{name}}</td>
+        <td align="right">{{transactionNumber}}</td>
+        <td align="right">{{total}}</td>
+        <td align="center">{{voucherID}}</td>
+        <td align="center">{{voucherName}}</td>
+        <td align="center">{{voucherType}}</td>
+        <td aling="right">{{voucherRedeemed}}</td>
+        <td align="right">{{>quickDetailsViewButton_P}}</td>
+      </tr>
+      {{/items}}
+      {{^items}}
+      <tr>
+        <td align='center' colspan='11'>
+          There are no Other Transactions.
+        </td>
+      </tr>
+      {{/items}}
+    </tbody>
+      </table>
+      {{>quickReportViewHook_P}}
+    </script>
+    
+    <script id="voucherHistoryReports_TMP" type="text/html">
+      {{>mainheader}}<div style="width:1000px;margin:20px auto;padding:20px;background-color:#fff;font-size:13px;font-weight:bold;border-radius:20px;">
+    {{>main_navigation_buttons_P}}
+    <h1>Vouchers History Report</h1>
+    <h2>{{>breadcrumb_P}}</h2>
+    {{>dropdownHourlyActiviy_P}}
+    {{>dateRangePicker_P}}
+    {{>voucherOptionDropdown_P}}
+    {{>generalGoButton_P}}          
+    <div id='voucherstable'></div>       
+    {{>backButton_P}}
+      </div>
+    </script>
     
     <!---------------------------------- INVENTORY REPORTS ------------------------------------------------>
     <script id="menuReportsInventory_GenericFooter_properties_P" type="text/html" class="partial">

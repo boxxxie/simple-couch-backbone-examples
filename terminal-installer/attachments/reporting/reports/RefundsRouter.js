@@ -53,63 +53,9 @@ var menuReportsRefundsView =
 	     						   breadCrumb:breadCrumb(ReportData.company.companyName)});
 	     $(this.el).html(html);
 	     
-	     var selectedDates = $( "#dateFrom, #dateTo" )
-		 .datepicker({
-				 defaultDate: "+1w",
-				 changeMonth: true,
-				 numberOfMonths: 2,
-				 minDate:"-1y",
-				 maxDate:new Date(),
-				 onSelect: function( selectedDate ) {
-				     var option = this.id == "dateFrom" ? "minDate" : "maxDate",
-				     instance = $( this ).data( "datepicker" ),
-				     date = $.datepicker.parseDate(
-					 instance.settings.dateFormat ||
-					     $.datepicker._defaults.dateFormat,
-					 selectedDate, instance.settings );
-				     selectedDates.not( this ).datepicker( "option", option, date );
-				 }
-			     });
-	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
-	     $("#dateTo").datepicker("setDate", new Date());
+	     resetDatePicker();
 	     
-	     var dropdownGroup = $("#groupsdown");
-	     var dropdownStore = $("#storesdown");
-	     var dropdownTerminal = $("#terminalsdown");
-	     
-	     _.each(ReportData.company.hierarchy.groups, function(group) {
-			dropdownGroup.append('<option value=' + group.group_id + '>' + group.groupName + '</option>');
-		    });
-	     
-	     var stores = _(ReportData.company.hierarchy.groups).chain().map(function(group) {
-										 return group.stores; 
-									     }).flatten().value();
-	     
-	     _.each(stores, function(store) {
-	 		dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName 
-	 																	 + "(" + store.number + ")" + '</option>');
-	 	    });
-	     
-	     var terminals = _(stores).chain().map(function(store) {
-						       return store.terminals?store.terminals:[]; 
-						   }).flatten().value();
-	     if(terminals.length>0) {
-		 _.each(terminals, function(terminal) {
-		 	    dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	});	
-	     } else {
-	 	 $('option', dropdownTerminal).remove();
-	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-	     }
-	     
-	     $("#groupsdown")
-           .change(function(){
-               updateStoreDropdown();updateTerminalDropdown();
-           });
-         $("#storesdown")
-           .change(function(){
-               updateTerminalDropdown();
-           });
+             resetDropdownBox(ReportData, true, true);
 	     
 	     var btn = $('#generalgobtn')
 		 .button()
@@ -125,56 +71,9 @@ var menuReportsRefundsView =
 	     						   breadCrumb:breadCrumb(ReportData.companyName, ReportData.group.groupName)});
 	     $(this.el).html(html);
 	     
-	     var selectedDates = $( "#dateFrom, #dateTo" )
-		 .datepicker({
-				 defaultDate: "+1w",
-				 changeMonth: true,
-				 numberOfMonths: 2,
-				 minDate:"-1y",
-				 maxDate:new Date(),
-				 onSelect: function( selectedDate ) {
-				     var option = this.id == "dateFrom" ? "minDate" : "maxDate",
-				     instance = $( this ).data( "datepicker" ),
-				     date = $.datepicker.parseDate(
-					 instance.settings.dateFormat ||
-					     $.datepicker._defaults.dateFormat,
-					 selectedDate, instance.settings );
-				     selectedDates.not( this ).datepicker( "option", option, date );
-				 }
-			     });
-	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
-	     $("#dateTo").datepicker("setDate", new Date());
+	     resetDatePicker();	     
 	     
-	     
-	     var dropdownGroup = $("#groupsdown");
-	     var dropdownStore = $("#storesdown");
-	     var dropdownTerminal = $("#terminalsdown");
-	     
-	     $('option', dropdownGroup).remove();
-	     dropdownGroup.append('<option value ='+ReportData.group.group_id+'>'+ReportData.group.groupName+ '</option>');
-	     dropdownGroup.attr('disabled','disabled');
-	     
-	     _.each(ReportData.group.stores, function(store) {
- 			dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
- 																		 + "(" + store.number + ")" + '</option>');
-	 	    });
-	     
-	     var terminals = _(ReportData.group.stores).chain().map(function(store) {
-									return store.terminals?store.terminals:[]; 
-								    }).flatten().value();
-	     if(terminals.length>0) {
-		 _.each(terminals, function(terminal) {
-		 	    dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	});	
-	     } else {
-	 	 $('option', dropdownTerminal).remove();
-	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-	     }
-	     
-         $("#storesdown")
-           .change(function(){
-               updateTerminalDropdown();
-           });
+             resetDropdownBox(ReportData, true, true);
 	     
 	     var btn = $('#generalgobtn')
 		 .button()
@@ -188,54 +87,14 @@ var menuReportsRefundsView =
 	     
 	     var html = ich.menuReportsRefundsReports_TMP({startPage:"storeReport", 
 	     						   breadCrumb:breadCrumb(ReportData.companyName,
-	     						   						 ReportData.groupName, 
-	     						   						 ReportData.store.storeName,
-	     						   						 ReportData.store.number)});
+	     						   			 ReportData.groupName, 
+	     						   			 ReportData.store.storeName,
+	     						   			 ReportData.store.number)});
 	     $(this.el).html(html);
 	     
-	     var selectedDates = $( "#dateFrom, #dateTo" )
-		 .datepicker({
-				 defaultDate: "+1w",
-				 changeMonth: true,
-				 numberOfMonths: 2,
-				 minDate:"-1y",
-				 maxDate:new Date(),
-				 onSelect: function( selectedDate ) {
-				     var option = this.id == "dateFrom" ? "minDate" : "maxDate",
-				     instance = $( this ).data( "datepicker" ),
-				     date = $.datepicker.parseDate(
-					 instance.settings.dateFormat ||
-					     $.datepicker._defaults.dateFormat,
-					 selectedDate, instance.settings );
-				     selectedDates.not( this ).datepicker( "option", option, date );
-				 }
-			     });
-	     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
-	     $("#dateTo").datepicker("setDate", new Date());
+	     resetDatePicker();
 	     
-	     var dropdownGroup = $("#groupsdown");
-	     var dropdownStore = $("#storesdown");
-	     var dropdownTerminal = $("#terminalsdown");
-	     
-	     $('option', dropdownGroup).remove();
-	     $('option', dropdownStore).remove();
-	     
-	     dropdownGroup.append('<option value=="">'+ReportData.groupName+ '</option>');
-	     dropdownGroup.attr('disabled','disabled');
-	     dropdownStore.append('<option value='+ReportData.store.store_id+'>'+ReportData.store.storeName
-	     																	+ "(" + ReportData.store.number + ")" + '</option>');
-	     dropdownStore.attr('disabled','disabled');
-	     
-	     var terminals = ReportData.store.terminals?ReportData.store.terminals:[];
-	     
-	     if(terminals.length>0) {
-		 _.each(terminals, function(terminal) {
-		 	    dropdownTerminal.append('<option value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
-		 	});	
-	     } else {
-	 	 $('option', dropdownTerminal).remove();
-	    	 dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
-	     }
+             resetDropdownBox(ReportData, true, true);
 	     
 	     var btn = $('#generalgobtn')
 		 .button()
@@ -277,8 +136,7 @@ function renderRefundsTable() {
 	
 	refundTransactionsFromCashoutsFetcher(ids,startDate,endDateForQuery)
 	(function(err,data_TMP){
-		data_TMP = appendGroupStoreInfoFromStoreID(data_TMP);
-		
+	     
 	     var totalrow = {};
 	     totalrow.numofrefund = data_TMP.length + "";
 	     totalrow.subTotal = currency_format(_.reduce(data_TMP, function(init, item){
@@ -294,51 +152,10 @@ function renderRefundsTable() {
 							   return init + Number(item.total);
 						       }, 0));
 
-	     data_TMP = applyReceiptInfo(data_TMP);
 	     
-	     data_TMP = _.applyToValues(data_TMP, function(obj){
-					    if(obj && obj.discount==0){
-						obj.discount=null;
-					    }
-					    if(obj && obj.quantity){
-						obj.orderamount = toFixed(2)(obj.price * obj.quantity);
-						obj.quantity+="";
-						if(obj.discount) {
-						    obj.discountamount = toFixed(2)(obj.discount * obj.quantity);
-						}
-					    }
-					    return toFixed(2)(obj);
-					}, true);
+	     data_TMP = processTransactionsTMP(data_TMP);
 	     
-	     data_TMP = _.map(data_TMP, function(item){
-				  if(item.payments) {
-				      item.payments = _.map(item.payments, function(payment){
-				                // apply card payment data
-                                if(_.isEmpty(payment.paymentdetail)) {
-                                    payment = _.removeKeys(payment,"paymentdetail"); 
-                                }
-								if(payment.paymentdetail) {
-								    payment.paymentdetail.crt = payment.type;
-								}
-								if(payment.paymentdetail && payment.paymentdetail.errmsg) {
-								    payment.paymentdetail.errmsg = (payment.paymentdetail.errmsg).replace("<br>"," ");
-								}
-								return payment;
-							    });
-				  }
-				  return item;
-			      });
-	     
-
-	     	data_TMP = 
-		     _.applyToValues(data_TMP, function(obj){
-					 var strObj = obj+"";
-					 if(strObj.indexOf(".")>=0 && strObj.indexOf("$")<0) {
-					     obj = currency_format(Number(obj));
-					 }
-					 return obj;
-				     }, true);
-		 var html = ich.menuReportsRefundstable_TMP({items:data_TMP, totalrow:totalrow});
+	     var html = ich.menuReportsRefundstable_TMP({items:data_TMP, totalrow:totalrow});
 	     
 
 	     $("#refundstable").html(html);
@@ -363,14 +180,6 @@ function renderRefundsTable() {
 									 return o;
 								     }
 								     ,true);
-						     
-						     //_.applyToValues(btnData, function(obj){
-							//		 var strObj = obj+"";
-							//		 if(strObj.indexOf(".")>=0) {
-							 //    		     obj = currency_format(obj);
-							//		 }
-							//		 return obj;
-							//	     }, true);
 						     
 						     var html = ich.generalTransactionQuickViewDialog_TMP(btnData);
 						     quickmenuReportsTransactionViewDialog(html, {title:dialogtitle});
