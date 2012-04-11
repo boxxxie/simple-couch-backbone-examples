@@ -344,7 +344,6 @@ var adminRouter =
 					    {
 						"creationdate": (new Date()).toJSON(),
 						"type": "user"
-
 					    },
 					    entity_from_id(reportData,entity_id)),
 					display:
@@ -381,7 +380,6 @@ var adminRouter =
 					    {
 						"creationdate": (new Date()).toJSON(),
 						"type": "user"
-
 					    },
 					    entity_from_id(reportData,entity_id)),
 					display:
@@ -419,7 +417,6 @@ var adminRouter =
 					    {
 						"creationdate": (new Date()).toJSON(),
 						"type": "user"
-
 					    },
 					    entity_from_id(reportData,entity_id)),
 					display:
@@ -453,47 +450,7 @@ var adminRouter =
 				    }
 				})
 			 .default(undefined)
-		     /*
-		     function generate_add_user_dialog_blueprint(reportData,entity_id){
-			 if(entity_type_from_id(reportData,entity_id) === 'store'){
-			     return {
-				 consts : _.defaults(
-				     {
-					 "creationdate": (new Date()).toJSON(),
-					 "type": "user"
 
-				     },
-				     entity_from_id(reportData,entity_id)),
-				 display:
-				 {
-				     user_name:{"var":'userName',label:"User Name",enabled:true,value:""},
-				     password:{"var":'password',label:"Password",enabled:true,value:""},
-				     "roles": [
-					 {"var":'pos_sales',label:"POS User",enabled:true,value:false},
-					 {"var":'pos_admin',label:"POS Admin",enabled:true,value:false}
-				     ],
-				     is_enabled:{"var":"enabled",label:"Enabled",enabled:true,value:true},
-				     contact:[
-					 {"var":"firstname",label:"First Name", enabled:true,value:""},
-					 {"var":"lastname",label:"Last Name", enabled:true,value:""},
-					 {"var":"website",label:"WebSite", enabled:true,value:""},
-					 {"var":"email", label:"Email",enabled:true,value:""},
-					 {"var":"phone", label:"Phone Number",enabled:true,value:""}
-				     ],
-				     address:[
-					 {"var":"street0",label:"Street", enabled:true,value:""},
-					 {"var":"street1", label:"Street",enabled:true,value:""},
-					 {"var":"city", label:"City",enabled:true,value:""},
-					 {"var":"country", label:"Country",enabled:true,value:""},
-					 {"var":"province", label:"Province",enabled:true,value:""},
-					 {"var":"postalcode", label:"Postal Code",enabled:true,value:""}
-				     ]
-				 }
-			     }
-			 }
-			 return undefined;
-		     }
-		      */
 		     var user_creation_rules =  generate_add_user_dialog_blueprint(ReportData,router.current_entity_id);
 		     if(_.isUndefined(user_creation_rules)){
 			 we_are_fixing_this_feature("support for creating users at other levels is being worked on");
