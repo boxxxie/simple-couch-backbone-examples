@@ -15,7 +15,7 @@ var current_user_info_view =
 		var el = this.$el;
 		var template = this.options.template;
 		if(template && el && current_user){
-		    el.html(ich[template](current_user.toJSON()))
+		    el.html(ich[template](current_user.toJSON()));
 		    el.find('button').button();
 		}
 	    }
@@ -27,13 +27,13 @@ var company_tree_navigation_view =
 		"click li":"view_entity"
 	    },
 	    view_entity:function(event){
-		var entity_id = event.currentTarget.id
+		var entity_id = event.currentTarget.id;
 		this.trigger('view-entity',entity_id);
 	    },
 	    render:function(tree){
 		console.log("render company navigation tree");
-		var el = this.$el
-		el.html(ich[this.options.template](tree))
+		var el = this.$el;
+		el.html(ich[this.options.template](tree));
 	    }
 	});
 var customer_admin_add_user_view =
@@ -56,16 +56,16 @@ var menuAdminUsersView =
 		"click .edit_user_password":"change_password"
 	    },
 	    user_id:function(event){
-		return event.currentTarget.id
+		return event.currentTarget.id;
 	    },
 	    edit_user:function(event){
-		this.trigger('edit-user',this.user_id(event))
+		this.trigger('edit-user',this.user_id(event));
 	    },
 	    delete_user:function(event){
-		this.trigger('delete-user',this.user_id(event))
+		this.trigger('delete-user',this.user_id(event));
 	    },
 	    change_password:function(event){
-		this.trigger('change-user-password',this.user_id(event))
+		this.trigger('change-user-password',this.user_id(event));
 	    },
 	    render:function(users) {
 		console.log("render users");
@@ -75,8 +75,28 @@ var menuAdminUsersView =
 		    .sortBy(function(item){return new Date(item.creationdate);})
 		    .reverse()
 		    .value();
-
-		$(view.$el).html(ich.adminUsersInfotable_TMP({list:user_list}));
+		
+		//TODO : there will be a better way for this,
+		//       maybe pass extra argument when navigation click event being genertated
+		var strNav = "";
+		if(_.isNotEmpty(user_list)) {
+		    if(_.isNotEmpty((_.first(user_list)).companyName)) { 
+		        strNav = strNav.concat((_.first(user_list)).companyName); 
+		    }
+		    if(_.isNotEmpty((_.first(user_list)).groupName)) { 
+                strNav = strNav.concat(" - ")
+                                .concat((_.first(user_list)).groupName); 
+            }
+            if(_.isNotEmpty((_.first(user_list)).storeName)) { 
+                strNav = strNav.concat(" - ")
+                                .concat((_.first(user_list)).storeName)
+                                .concat("(")
+                                .concat((_.first(user_list)).storeNumber)
+                                .concat(")"); 
+            }
+		}
+		
+		$(view.$el).html(ich.adminUsersInfotable_TMP({list:user_list, naviString:strNav}));
 		$('button').button();
 
 	    }
@@ -91,9 +111,9 @@ var adminRouter =
 		 },
 		 initialize:function(){
 		     var router = this;
-		     router.template = 'adminManagement_TMP'
-		     var UserCollection = Backbone.Collection.extend({model:UserDoc})
-		     router.user_collection = new UserCollection()
+		     router.template = 'adminManagement_TMP';
+		     var UserCollection = Backbone.Collection.extend({model:UserDoc});
+		     router.user_collection = new UserCollection();
 		     router.current_user = new UserDoc();
 		     router.views = {
 			 user_table : new menuAdminUsersView(),
@@ -105,67 +125,68 @@ var adminRouter =
 		     router
 			 .user_collection
 			 .on('all',
-			     function(){router.views.user_table.render(this.toJSON());})
+			     function(){router.views.user_table.render(this.toJSON());});
 
 		     router
 			 .views
 			 .add_button
-			 .on('user-added', router.add_user)
+			 .on('user-added', router.add_user);
 
-		     router.views.user_table.on('edit-user',router.edit_user,router)
-		     router.views.user_table.on('delete-user',router.delete_user,router)
-		     router.views.user_table.on('change-user-password',router.change_user_password,router)
-		     router.current_user.on('change',router.views.current_user.render,router.views.current_user)
-		     router.views.current_user.on("change-current-user-password",router.change_user_password,router)
-		     router.views.add_button.on("add-user",router.add_user, router)
+		     router.views.user_table.on('edit-user',router.edit_user,router);
+		     router.views.user_table.on('delete-user',router.delete_user,router);
+		     router.views.user_table.on('change-user-password',router.change_user_password,router);
+		     router.current_user.on('change',router.views.current_user.render,router.views.current_user);
+		     router.views.current_user.on("change-current-user-password",router.change_user_password,router);
+		     router.views.add_button.on("add-user",router.add_user, router);
 
-		     router.views.navigation.on('view-entity',router.load_users_for_id,router) //this could be a problem if setup isn't called
+		     router.views.navigation.on('view-entity',router.load_users_for_id,router); //this could be a problem if setup isn't called
 		 },
 		 switch_company:function(){
-		     console.log(arguments)
+		     console.log(arguments);
 		 },
 		 setup:function(){
 		     var router = this;
-		     var html = ich[router.template](_.extend({startPage:ReportData.startPage},breadCrumb))
-    		     $("#main").html(html)
-		     router.views.current_user.setElement("#current_user")
-		     router.current_user.set(ReportData.currentUser)
-		     router.views.current_user.render(router.current_user)
+		     var breadCrumb = autoBreadCrumb();
+		     var html = ich[router.template](_.extend({startPage:ReportData.startPage},breadCrumb));
+    		     $("#main").html(html);
+		     router.views.current_user.setElement("#current_user");
+		     router.current_user.set(ReportData.currentUser);
+		     router.views.current_user.render(router.current_user);
 		     router
 			 .views
 			 .add_button
 			 .setElement("#addusers")
-			 .options.default_data = topLevelEntityInfo(ReportData)
-		     router.views.user_table.setElement("#usersInfoTable")
-		     router.views.add_button.$el.button()
+			 .options.default_data = topLevelEntityInfo(ReportData);
+		     router.views.user_table.setElement("#usersInfoTable");
+		     router.views.add_button.$el.button();
 
-		     router.views.navigation.setElement("#company-tree").render(ReportData)
+		     router.views.navigation.setElement("#company-tree").render(ReportData);
 
-		     router.load_users()
+		     router.load_users();
 		 },
 		 load_users:function(){
-		     this.load_users_for_id(topLevelEntity(ReportData).id)
+		     this.load_users_for_id(topLevelEntity(ReportData).id);
 		 },
 		 load_users_for_id:function(id){
 		     var router = this;
-		     router.current_entity_id = id
+		     router.current_entity_id = id;
 		     router.user_collection.reset();
 		     console.log("menuAdministration: " + id);
 		     var breadCrumb = autoBreadCrumb();
 		     fetch_users_by_location_id(id)
 		     (function(err,users){
 			  if(_.isEmpty(users)) {
-			      alert("There are no users for this entity")
+			      alert("There are no users for this entity");
 			  }
  			  function exclude_logged_in_user(reportData,users_list){
-			      return _.reject(users_list,function(user){return reportData.currentUser._id === user._id})
+			      return _.reject(users_list,function(user){return reportData.currentUser._id === user._id;});
 			  }
-			  router.user_collection.reset(exclude_logged_in_user(ReportData,users))
+			  router.user_collection.reset(exclude_logged_in_user(ReportData,users));
 		      });
 		 },
 		 change_user_password:function(user_id){
 		     var router = this;
-		     console.log("change_user_password")
+		     console.log("change_user_password");
 		     console.log(arguments);
 		     function verify_user(user){
 			 if(user && user.id){
@@ -175,7 +196,7 @@ var adminRouter =
 			     code:5462,
 			     type:"invalid user",
 			     message:"There is a problem with your login sesssion, you may need to login again"
-			 }
+			 };
 		     }
 		     function verify_session(session){
 			 if(session && session.info && session.info.authentication_db){
@@ -185,7 +206,7 @@ var adminRouter =
 			     code:4232,
 			     type:"invalid session",
 			     message:"There is a problem with your login session, you may need to login again"
-			 }
+			 };
 
 		     }
 		     function verify_password(password){
@@ -194,16 +215,16 @@ var adminRouter =
 				 code:2341,
 				 type:'invalid password',
 				 message:"The password was left blank"
-			     }
+			     };
 			 }
-			 return false
+			 return false;
 		     }
 		     function verify_user_session_password(user,session,new_password){
 			 return function(callback){
 			     var first_error =
 				 _.either(verify_user(user),
 					  verify_session(session),
-					  verify_password(new_password))
+					  verify_password(new_password));
 			     if(first_error){
 				 callback(first_error);
 			     }
@@ -213,55 +234,55 @@ var adminRouter =
 					  session.info.authentication_db,
 					  new_password);
 			     }
-			 }
+			 };
 		     }
 		     function fetch_user_doc(user_id,authDB,new_password,callback){
 			 var SE_handler = {
 			     error: function (code,type,message) {
-				 callback({code:code,type:type,message:message})
+				 callback({code:code,type:type,message:message});
 			     },
 			     success: function (user_doc){
 				 user_doc.password = new_password;
 				 user_doc.exposed_password = new_password;
-				 callback(undefined,user_doc,authDB)
+				 callback(undefined,user_doc,authDB);
 			     }
-			 }
+			 };
 			 $.couch
 			     .db(authDB)
-			     .openDoc(user_id,SE_handler)
+			     .openDoc(user_id,SE_handler);
 		     }
 		     function  save_user_with_new_password(user_doc_new_password,authDB,callback){
 			 var SE_handler = {
 			     success: function(){
-				 callback(undefined,user_doc_new_password)
+				 callback(undefined,user_doc_new_password);
 			     },
 			     error: function (code,type,message) {
-				 callback({code:code,type:type,message:message})
+				 callback({code:code,type:type,message:message});
 			     }
-			 }
+			 };
 			 $.couch
 			     .db(authDB)
-			     .saveDoc(user_doc_new_password,SE_handler)
+			     .saveDoc(user_doc_new_password,SE_handler);
 
 		     }
 		     function login_with_new_password(user_doc,callback){
 			 var SE_handler = {
 			     success : function(){
 				 var simple_user = simple_user_format(user_doc);
-				 callback(undefined,simple_user)
+				 callback(undefined,simple_user);
 			     },
 			     error: function (code,type,message) {
-				 callback({code:code,type:type,message:message})
+				 callback({code:code,type:type,message:message});
 			     }
-			 }
+			 };
 			 var login_options =
 			     _.extend({
 					  name : user_doc.name,
 					  password : user_doc.password
 				      },
-				      SE_handler)
+				      SE_handler);
 
-			 $.couch.login(login_options)
+			 $.couch.login(login_options);
 		     }
 		     function edit_router_user_collection(user_doc,callback){
 			 var simple_user = simple_user_format(user_doc);
@@ -281,12 +302,12 @@ var adminRouter =
 			     {
 				 success:function(resp){
 				     ReportData.session = resp;
-				     callback(undefined)
+				     callback(undefined);
 				 },
 				 error:function(code,type,message){
-				     callback({code:code,type:type,message:message})
+				     callback({code:code,type:type,message:message});
 				 }
-			     })
+			     });
 		     }
 
 		     function is_logged_in_user(logged_in_user,user_id_to_edit){
@@ -302,7 +323,7 @@ var adminRouter =
 		     var new_password = prompt("new password");
 		     var session = ReportData.session;
 		     if(is_logged_in_user(router.current_user,user_id)){
-			 var user = router.current_user
+			 var user = router.current_user;
 			 async.waterfall(
 			     [
 				 verify_user_session_password(user,session,new_password),
@@ -313,10 +334,10 @@ var adminRouter =
 				 setup_report_data,
 				 setup_session
 			     ],
-			     report)
+			     report);
 		     }
 		     else{
-			 var user = router.user_collection.find(function(user){return user.get('_id') === user_id});
+			 var user = router.user_collection.find(function(user){return user.get('_id') === user_id;});
 			 async.waterfall(
 			     [
 				 verify_user_session_password(user,session,new_password),
@@ -324,11 +345,11 @@ var adminRouter =
 				 save_user_with_new_password,
 				 edit_router_user_collection
 			     ],
-			     report)
+			     report);
 		     }
 		 },
 		 edit_user:function(user_id){
-		     console.log("edit user: " + user_id)
+		     console.log("edit user: " + user_id);
 		     we_are_fixing_this_feature("editing users is being fixed right now");return;
 		 },
 		 add_user:function(){
@@ -337,7 +358,7 @@ var adminRouter =
 		     //assume that this is a company_admin level user making a company level user
 
 		     var generate_add_user_dialog_blueprint = multimethod()
-			 .dispatch(function(reportData,entity_id){ return entity_type_from_id(reportData,entity_id) })
+			 .dispatch(function(reportData,entity_id){ return entity_type_from_id(reportData,entity_id); })
 			 .when( "store" , function(reportData,entity_id){
 				    return{
 					consts : _.defaults(
@@ -372,7 +393,7 @@ var adminRouter =
 						{"var":"postalcode", label:"Postal Code",enabled:true,value:""}
 					    ]
 					}
-				    }
+				    };
 				})
 			 .when( "group" , function(reportData,entity_id){
 				    return {
@@ -409,7 +430,7 @@ var adminRouter =
 						{"var":"postalcode", label:"Postal Code",enabled:true,value:""}
 					    ]
 					}
-				    }
+				    };
 				})
 			 .when( "company" , function(reportData,entity_id){
 				    return {
@@ -447,9 +468,9 @@ var adminRouter =
 						{"var":"postalcode", label:"Postal Code",enabled:true,value:""}
 					    ]
 					}
-				    }
+				    };
 				})
-			 .default(undefined)
+			 .default(undefined);
 
 		     var user_creation_rules =  generate_add_user_dialog_blueprint(ReportData,router.current_entity_id);
 		     if(_.isUndefined(user_creation_rules)){
@@ -463,17 +484,17 @@ var adminRouter =
 			     on_submit:function(simple_user_data){
 				 console.log(simple_user_data);
 				 function user_name(user){
-				     return _.combine(user, {name:_.either(user.store_id,user.group_id,user.company_id)+user.userName})
+				     return _.combine(user, {name:_.either(user.store_id,user.group_id,user.company_id)+user.userName});
 				 }
 				 function apply_constants(consts){
 				     return function(user){
 					 return _.combine(user,consts);
-				     }
+				     };
 				 }
 				 function complex_user_format(user_data){
 				     var extract_strings = ['company','company_admin','group','group_admin','store','store_admin','pos_sales','pos_admin'];
 				     var extract_obj = ['companyName','company_id','groupName','group_id','storeName','store_id','storeNumber','userName','enabled'].concat(extract_strings);
-				     var roles_strings = _.chain(user_data).selectKeys(extract_strings).filter$(_.identity).keys().value()
+				     var roles_strings = _.chain(user_data).selectKeys(extract_strings).filter$(_.identity).keys().value();
 				     var roles_complex = _.selectKeys(user_data,extract_obj);
 				     var roles = roles_strings.concat(roles_complex);
 				     return _.chain(user_data).removeKeys(extract_obj).combine({roles:roles}).value();
@@ -481,7 +502,7 @@ var adminRouter =
 				 var user_data = _.compose(complex_user_format,
 							 user_name)(_.combine(user_creation_rules.consts,
 									      simple_user_data,
-									      {exposed_password:simple_user_data.password}))
+									      {exposed_password:simple_user_data.password}));
 
 				 console.log("submitted user");
 				 console.log(user_data);

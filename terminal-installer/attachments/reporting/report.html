@@ -945,12 +945,37 @@
 	{{>main_navigation_buttons_P}}
 	<h1>Administration</h1>
 	<h2>{{>breadcrumb_P}}</h2>
+	<table class="reportstable">
+	    <tr>
+	        <td valign="top" rowspan="2">
+	            <h3>Hierarchy</h3>
+	            <div id='company-tree'></div>
+	        </td>
+	        <td>
+	            <h3>LoggedIn User</h3>
+	            <div id="current_user"></div>
+                <div>
+                  <button style="float:right;" id="addusers">Add User</button>
+                </div>
+	        </td>
+	    </tr>
+	    <tr>
+	        <td>
+	            <h3>Other Users</h3>
+	            <div id='usersInfoTable'></div>
+	        </td>
+	    </tr>
+	</table>
+	
+	<!--
 	<div id="current_user"></div>
 	<div>
 	  <button style="float:right;" id="addusers">Add User</button>
 	</div>
 	<div id='company-tree'></div>
 	<div id='usersInfoTable'></div>
+	-->
+	
 	{{>quickReportViewHook_P}}
 	<br/>
 	{{>backButton_P}}   
@@ -959,6 +984,7 @@
     
     <script id="adminUsersInfotable_TMP" type="text/html">
       <div style="margin-bottom:40px">
+          <h4>{{naviString}}</h4>
 	<table style="margin-bottom:20px;" class="reportstable">
 	  <thead>
             <tr>
