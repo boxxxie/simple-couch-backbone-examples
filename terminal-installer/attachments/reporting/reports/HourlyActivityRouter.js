@@ -53,7 +53,6 @@ var menuReportsHourlyActivityView =
 	     $(this.el).html(html);
 	     
 	     
-	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
              resetDropdownBox(ReportData, true, true);
 	     
 	     var btn = $('#generalgobtn')
@@ -70,7 +69,6 @@ var menuReportsHourlyActivityView =
 	 					       breadCrumb:breadCrumb(ReportData.companyName,ReportData.group.groupName)});
 	     $(this.el).html(html);
 	     
-	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
              resetDropdownBox(ReportData, true, true);
 	     
 	     var btn = $('#generalgobtn')
@@ -90,7 +88,6 @@ var menuReportsHourlyActivityView =
 	 					     			     ReportData.store.number)});
 	     $(this.el).html(html);
 	     
-	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
              resetDropdownBox(ReportData, true, true);
 	     
 	     var btn = $('#generalgobtn')

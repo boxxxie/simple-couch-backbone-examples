@@ -67,7 +67,7 @@ function fetchRetailerUserCollection_All(id) {
         (function(response){
              var user_collection = new RetailerUserCollection();
              _.reduce(response.rows, function(collection,item){
-              return collection.add(item.value, {silent:true});
+              return collection.add(item.value, {silent:true}); //FIXME: can do collection.reset
                       },user_collection);
              callback(null,user_collection);
          });

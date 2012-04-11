@@ -94,13 +94,8 @@ function login() {
     }
 
     function user_login(login_info,callback){
-<<<<<<< HEAD
 	    var user = new UserDoc(login_info);
 	    user.login(callback);
-=======
-	var user = new UserDoc(login_info);
-	user.login(callback)
->>>>>>> upstream/master
     }
 
     function fetch_company_info_for_user(user, session, callback){
@@ -125,14 +120,10 @@ function login() {
 		       callback(null, amalgamated_logged_in_user_data, company_branch_data);
 		   },
 		   error:function(){
-<<<<<<< HEAD
-		       callback({code:1,type:"company information",message:"unable to retrieve company information for this user"});
-=======
 		       callback({
 				    code:1,
 				    type:"company information",
 				    message:"unable to retrieve company information for this user"})
->>>>>>> upstream/master
 		   }
 		  });
     }
@@ -154,13 +145,9 @@ function login() {
 				    _.obj('startPage',type+"Report")));
 	}
 	else{
-<<<<<<< HEAD
-	    callback({code:3,type:'company information',message:'there is an error with the user login data'});
-=======
 	    callback({code:3,
 		      type:'company information',
 		      message:'there is an error with the user login data'})
->>>>>>> upstream/master
 	}
     }
 
@@ -184,7 +171,6 @@ function login() {
 }
 
 function logout() {
-<<<<<<< HEAD
     $.couch
 	.logout(
 	    {success:function(){
@@ -192,7 +178,6 @@ function logout() {
 		 window.location.href ='';
 	     }
 	});
-=======
     function reset(){
 	ReportData=undefined;
 	window.location.href ='';
@@ -205,5 +190,4 @@ function logout() {
 	}
     }
     $.couch.logout(SE_handler);
->>>>>>> upstream/master
 };

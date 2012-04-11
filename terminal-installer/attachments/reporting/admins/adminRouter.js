@@ -335,46 +335,123 @@ var adminRouter =
 		     console.log("add user button pressed");
 		     var router = this;
 		     //assume that this is a company_admin level user making a company level user
-		     function generate_add_user_dialog_blueprint(reportData){
-			 if(entity_type_from_id(router.current_entity_id) === 'store'){
-			     return {
-				 consts : _.defaults(
-				     {
-					 "creationdate": (new Date()).toJSON(),
-					 "type": "user"
 
-				     },
-				     entity_from_id(router.current_entity_id)),
-				 display:
-				 {
-				     user_name:{"var":'userName',label:"User Name",enabled:true,value:""},
-				     password:{"var":'password',label:"Password",enabled:true,value:""},
-				     "roles": [
-					 {"var":'pos_sales',label:"POS User",enabled:true,value:false},
-					 {"var":'pos_admin',label:"POS Admin",enabled:true,value:false}
-				     ],
-				     is_enabled:{"var":"enabled",label:"Enabled",enabled:true,value:true},
-				     contact:[
-					 {"var":"firstname",label:"First Name", enabled:true,value:""},
-					 {"var":"lastname",label:"Last Name", enabled:true,value:""},
-					 {"var":"website",label:"WebSite", enabled:true,value:""},
-					 {"var":"email", label:"Email",enabled:true,value:""},
-					 {"var":"phone", label:"Phone Number",enabled:true,value:""}
-				     ],
-				     address:[
-					 {"var":"street0",label:"Street", enabled:true,value:""},
-					 {"var":"street1", label:"Street",enabled:true,value:""},
-					 {"var":"city", label:"City",enabled:true,value:""},
-					 {"var":"country", label:"Country",enabled:true,value:""},
-					 {"var":"province", label:"Province",enabled:true,value:""},
-					 {"var":"postalcode", label:"Postal Code",enabled:true,value:""}
-				     ]
-				 }
-			     }
-			 }
-			 return undefined;
-		     }
-		     var user_creation_rules =  generate_add_user_dialog_blueprint(ReportData);
+		     var generate_add_user_dialog_blueprint = multimethod()
+			 .dispatch(function(reportData,entity_id){ return entity_type_from_id(reportData,entity_id) })
+			 .when( "store" , function(reportData,entity_id){
+				    return{
+					consts : _.defaults(
+					    {
+						"creationdate": (new Date()).toJSON(),
+						"type": "user"
+					    },
+					    entity_from_id(reportData,entity_id)),
+					display:
+					{
+					    user_name:{"var":'userName',label:"User Name",enabled:true,value:""},
+					    password:{"var":'password',label:"Password",enabled:true,value:""},
+					    "roles": [
+						{"var":'store',label:"Store Manager",enabled:true,value:false},
+						{"var":'pos_admin',label:"POS Admin",enabled:true,value:false},
+						{"var":'pos_sales',label:"POS User",enabled:true,value:false}
+					    ],
+					    is_enabled:{"var":"enabled",label:"Enabled",enabled:true,value:true},
+					    contact:[
+						{"var":"firstname",label:"First Name", enabled:true,value:""},
+						{"var":"lastname",label:"Last Name", enabled:true,value:""},
+						{"var":"website",label:"WebSite", enabled:true,value:""},
+						{"var":"email", label:"Email",enabled:true,value:""},
+						{"var":"phone", label:"Phone Number",enabled:true,value:""}
+					    ],
+					    address:[
+						{"var":"street0",label:"Street", enabled:true,value:""},
+						{"var":"street1", label:"Street",enabled:true,value:""},
+						{"var":"city", label:"City",enabled:true,value:""},
+						{"var":"country", label:"Country",enabled:true,value:""},
+						{"var":"province", label:"Province",enabled:true,value:""},
+						{"var":"postalcode", label:"Postal Code",enabled:true,value:""}
+					    ]
+					}
+				    }
+				})
+			 .when( "group" , function(reportData,entity_id){
+				    return {
+					consts : _.defaults(
+					    {
+						"creationdate": (new Date()).toJSON(),
+						"type": "user"
+					    },
+					    entity_from_id(reportData,entity_id)),
+					display:
+					{
+					    user_name:{"var":'userName',label:"User Name",enabled:true,value:""},
+					    password:{"var":'password',label:"Password",enabled:true,value:""},
+					    "roles": [
+						{"var":'group',label:"Group Manager",enabled:true,value:false},
+						{"var":'store',label:"Store Manager",enabled:true,value:false},
+						{"var":'pos_admin',label:"POS Admin",enabled:true,value:false},
+						{"var":'pos_sales',label:"POS User",enabled:true,value:false}
+					    ],
+					    is_enabled:{"var":"enabled",label:"Enabled",enabled:true,value:true},
+					    contact:[
+						{"var":"firstname",label:"First Name", enabled:true,value:""},
+						{"var":"lastname",label:"Last Name", enabled:true,value:""},
+						{"var":"website",label:"WebSite", enabled:true,value:""},
+						{"var":"email", label:"Email",enabled:true,value:""},
+						{"var":"phone", label:"Phone Number",enabled:true,value:""}
+					    ],
+					    address:[
+						{"var":"street0",label:"Street", enabled:true,value:""},
+						{"var":"street1", label:"Street",enabled:true,value:""},
+						{"var":"city", label:"City",enabled:true,value:""},
+						{"var":"country", label:"Country",enabled:true,value:""},
+						{"var":"province", label:"Province",enabled:true,value:""},
+						{"var":"postalcode", label:"Postal Code",enabled:true,value:""}
+					    ]
+					}
+				    }
+				})
+			 .when( "company" , function(reportData,entity_id){
+				    return {
+					consts : _.defaults(
+					    {
+						"creationdate": (new Date()).toJSON(),
+						"type": "user"
+					    },
+					    entity_from_id(reportData,entity_id)),
+					display:
+					{
+					    user_name:{"var":'userName',label:"User Name",enabled:true,value:""},
+					    password:{"var":'password',label:"Password",enabled:true,value:""},
+					    "roles": [
+						{"var":'company',label:"Company Manager",enabled:true,value:false},
+						{"var":'group',label:"Group Manager",enabled:true,value:false},
+						{"var":'store',label:"Store Manager",enabled:true,value:false},
+						{"var":'pos_admin',label:"POS Admin",enabled:true,value:false},
+						{"var":'pos_sales',label:"POS User",enabled:true,value:false}
+					    ],
+					    is_enabled:{"var":"enabled",label:"Enabled",enabled:true,value:true},
+					    contact:[
+						{"var":"firstname",label:"First Name", enabled:true,value:""},
+						{"var":"lastname",label:"Last Name", enabled:true,value:""},
+						{"var":"website",label:"WebSite", enabled:true,value:""},
+						{"var":"email", label:"Email",enabled:true,value:""},
+						{"var":"phone", label:"Phone Number",enabled:true,value:""}
+					    ],
+					    address:[
+						{"var":"street0",label:"Street", enabled:true,value:""},
+						{"var":"street1", label:"Street",enabled:true,value:""},
+						{"var":"city", label:"City",enabled:true,value:""},
+						{"var":"country", label:"Country",enabled:true,value:""},
+						{"var":"province", label:"Province",enabled:true,value:""},
+						{"var":"postalcode", label:"Postal Code",enabled:true,value:""}
+					    ]
+					}
+				    }
+				})
+			 .default(undefined)
+
+		     var user_creation_rules =  generate_add_user_dialog_blueprint(ReportData,router.current_entity_id);
 		     if(_.isUndefined(user_creation_rules)){
 			 we_are_fixing_this_feature("support for creating users at other levels is being worked on");
 			 return;

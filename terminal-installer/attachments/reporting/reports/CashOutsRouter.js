@@ -53,7 +53,6 @@ var menuReportsCashOutsView =
 	     
              resetDatePicker();
 	     
-	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
              resetDropdownBox(ReportData, true, true);
 	     
 	     var btn = $('#generalgobtn')
@@ -72,7 +71,6 @@ var menuReportsCashOutsView =
 	     
 	     resetDatePicker();
 	     
-	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
              resetDropdownBox(ReportData, true, true);
 	     
 	     var btn = $('#generalgobtn')
@@ -91,7 +89,6 @@ var menuReportsCashOutsView =
 	     
              resetDatePicker();
 	     
-	     //resetGroupStoreTerminalDropdownbox(ReportData, false);
              resetDropdownBox(ReportData, true, true);
 	     
 	     var btn = $('#generalgobtn')

@@ -150,11 +150,7 @@ var reportDataToArray = _.memoize(
 	    };
 	}
 	return _(reportData).chain()
-<<<<<<< HEAD
-            .prewalk2(function(o){
-=======
             .prewalk_r(function(o){
->>>>>>> upstream/master
 			  if (o.hierarchy){
 			      var groups = o.hierarchy.groups;
 			      var o_without_field = _.removeKeys(o,'hierarchy');
@@ -163,24 +159,17 @@ var reportDataToArray = _.memoize(
 			  }
 			  return o;
 		      })
-<<<<<<< HEAD
-	    .prewalk2(combineWithSubpart('terminals'))
-            .prewalk2(combineWithSubpart('stores'))
-            .prewalk2(combineWithSubpart('groups'))
-            .prewalk2(combineWithSubpart('company'))
-=======
 	    .prewalk_r(combineWithSubpart('terminals'))
             .prewalk_r(combineWithSubpart('stores'))
             .prewalk_r(combineWithSubpart('groups'))
             .prewalk_r(combineWithSubpart('company'))
->>>>>>> upstream/master
 	    .value();
 
     },
     reportDataHash
 );
 
-function entity_type_from_id(id){
+function entity_type_from_id(reportData,id){
     return _.chain(reportDataToArray(ReportData))
 	.find(function(entity){
 		  return _.find(entity,function(val){return val === id})
@@ -197,13 +186,13 @@ function entity_type_from_id(id){
 	.value()
 }
 
-function entity_from_id(id){
-    var bloated_entity = _.chain(reportDataToArray(ReportData))
+function entity_from_id(reportData,id){
+    var bloated_entity = _.chain(reportDataToArray(reportData))
 	.find(function(entity){
 		  return _.find(entity,function(val){return val === id})
 	      })
 	.value()
-    var entity_type = entity_type_from_id(id)
+    var entity_type = entity_type_from_id(reportData,id)
     if (entity_type === 'company'){
 
     }
@@ -362,9 +351,15 @@ function updateTerminalDropdown(isNotShowAll) {
 };
 
 function simple_user_format(user){
-<<<<<<< HEAD
-    var user_roles_obj = _.chain(user.roles).filter(_.isObj).merge().value();
-    return _.chain(user).removeKeys('roles').combine(user_roles_obj).value();
+    var user_roles_obj = _.chain(user.roles)
+	.filter(_.isObj)
+	.merge()
+	.value()
+
+    return _.chain(user)
+	.removeKeys('roles')
+	.combine(user_roles_obj)
+	.value()
 }
 
 // report page datepicker reset helper function
@@ -389,176 +384,7 @@ function resetDatePicker() {
     
     $("#dateFrom").datepicker("setDate", new Date().addDays(-1));
     $("#dateTo").datepicker("setDate", new Date());
-=======
-    var user_roles_obj = _.chain(user.roles)
-	.filter(_.isObj)
-	.merge()
-	.value()
-
-    return _.chain(user)
-	.removeKeys('roles')
-	.combine(user_roles_obj)
-	.value()
->>>>>>> upstream/master
 }
-
-// reset Sasles Summary resetGroup/store drop down box
-// isDisplayAll true : SalesSummary / SalesDetails
-// isDisplayAll false : Transactions Details
-/*
- function resetGroupStoreDropdownbox(reportData, isDisplayAll) {
- var dropdownGroup = $("#groupsdown");
- var dropdownStore = $("#storesdown");
- 
- if(reportData.company) {
- if(!isDisplayAll) {
- $('option', dropdownGroup).remove();
- $('option', dropdownStore).remove();
- }
- _.each(ReportData.company.hierarchy.groups, function(group) {
- dropdownGroup.append('<option value=' + group.group_id + '>' + group.groupName + '</option>');
- });
- 
- var stores = _(reportData.company.hierarchy.groups).chain().map(function(group) {
- return group.stores; 
- }).flatten().value();
- 
- _.each(stores, function(store) {
- dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
- + "(" + store.number + ")" + '</option>');
- });
- 
- $("#groupsdown")
- .change(function() {
- updateStoreDropdown(!isDisplayAll);
- });
- } else if(reportData.group) {
- var dropdownGroup = $("#groupsdown");
- var dropdownStore = $("#storesdown");
- 
- if(!isDisplayAll) {
- $('option', dropdownStore).remove();
- }
- 
- $('option', dropdownGroup).remove();
- dropdownGroup.append('<option value=' + reportData.group.group_id +'>'+reportData.group.groupName+ '</option>');
- dropdownGroup.attr('disabled','disabled');
- 
- _.each(reportData.group.stores, function(store) {
- dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
- + "(" + store.number + ")" + '</option>');
- });
- } else if(reportData.store) {
- var dropdownGroup = $("#groupsdown");
- var dropdownStore = $("#storesdown");
- 
- $('option', dropdownGroup).remove();
- $('option', dropdownStore).remove();
- 
- dropdownGroup.append('<option value=' + reportData.group_id +'>'+ReportData.groupName+ '</option>');
- dropdownGroup.attr('disabled','disabled');
- dropdownStore.append('<option value=' + reportData.store_id +'>'+reportData.store.storeName
- + "(" + reportData.store.number + ")" + '</option>');
- dropdownStore.attr('disabled','disabled');
- } else {
- alert("You are not authorized to access this page.");
- }
- }
- */
-
-// reset  resetGroup/store/terminal drop down box
-// Hourly Activity / Elec / Tax Col / Cash Outs / Cancelled Tr / Refunds / Discounts
-/*
- function resetGroupStoreTerminalDropdownbox(reportData, isDisplayAll) {
- var dropdownGroup = $("#groupsdown");
- var dropdownStore = $("#storesdown");
- var dropdownTerminal = $("#terminalsdown");
- 
- if(reportData.company) {
- _.each(reportData.company.hierarchy.groups, function(group) {
- dropdownGroup.append('<option value=' + group.group_id + '>' + group.groupName + '</option>');
- });
- 
- var stores = _(reportData.company.hierarchy.groups).chain().map(function(group) {
- return group.stores; 
- }).flatten().value();
- 
- _.each(stores, function(store) {
- dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
- + "(" + store.number + ")" + '</option>');
- });
- 
- var terminals = _(stores).chain().map(function(store) {
- return store.terminals?store.terminals:[]; 
- }).flatten().value();
- if(terminals.length>0) {
- _.each(terminals, function(terminal) {
- dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
- }); 
- } else {
- $('option', dropdownTerminal).remove();
- dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
- }
- 
- $("#groupsdown")
- .change(function(){
- updateStoreDropdown();updateTerminalDropdown();
- });
- $("#storesdown")
- .change(function(){
- updateTerminalDropdown();
- });
- } else if(reportData.group) {
- $('option', dropdownGroup).remove();
- dropdownGroup.append('<option value ='+reportData.group.group_id+'>'+reportData.group.groupName+ '</option>');
- dropdownGroup.attr('disabled','disabled');
- 
- _.each(reportData.group.stores, function(store) {
- dropdownStore.append('<option value=' + store.store_id + '>' + store.storeName
- + "(" + store.number + ")" + '</option>');
- });
- 
- var terminals = _(reportData.group.stores).chain().map(function(store) {
- return store.terminals?store.terminals:[]; 
- }).flatten().value();
- if(terminals.length>0) {
- _.each(terminals, function(terminal) {
- dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
- }); 
- } else {
- $('option', dropdownTerminal).remove();
- dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
- }
- 
- $("#storesdown")
- .change(function(){
- updateTerminalDropdown();
- });
- } else if(reportData.store) {
- $('option', dropdownGroup).remove();
- $('option', dropdownStore).remove();
- 
- dropdownGroup.append('<option value=="">'+reportData.groupName+ '</option>');
- dropdownGroup.attr('disabled','disabled');
- dropdownStore.append('<option value='+reportData.store.store_id+'>'+reportData.store.storeName
- + "(" + reportData.store.number + ")" + '</option>');
- dropdownStore.attr('disabled','disabled');
- 
- var terminals =  reportData.store.terminals?reportData.store.terminals:[];
- 
- if(terminals.length>0) {
- _.each(terminals, function(terminal) {
- dropdownTerminal.append('<option name='+terminal.terminal_label+' value=' + terminal.terminal_id + '>' + terminal.terminal_label + '</option>');
- }); 
- } else {
- $('option', dropdownTerminal).remove();
- dropdownTerminal.append('<option value="NOTHING">NO TERMINALS</option>');
- }
- } else {
- alert("You are not authorized to access this page.");
- }
- }
- */
 
 //reset group / store / terminal dropdown box
 function resetDropdownBox(reportData, isDisplayTerminal, isDisplayAll) {

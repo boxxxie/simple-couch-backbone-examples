@@ -228,18 +228,6 @@ function renderElectronicPaymentsTable() {
 
 function getDialogTitle(ReportData, item, startDate, endDate) {
     var companyName, groupName, storeName, terminalName;
-    /*
-     if(!_.isEmpty(ReportData.company)){
-     companyName = ReportData.company.companyName;
-     } else if(!_.isEmpty(ReportData.group)){
-     companyName = ReportData.companyName;
-     groupName = ReportData.group.groupName;
-     } else if(!_.isEmpty(ReportData.store)){
-     companyName = ReportData.companyName;
-     groupName = ReportData.groupName;
-     storeName = ReportData.store.storeName; 		
-     }
-     */
     if(!_.isEmpty(ReportData.company)){
 	companyName = ReportData.company.companyName;
     } else {

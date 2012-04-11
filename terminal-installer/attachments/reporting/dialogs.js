@@ -29,7 +29,7 @@ function quickReportView(id, title){
     		           // assume that, all values are number
                        var actual_cash_count = cashout.cashpayment - cashout.cashrefund;
                        var over_short = actual_cash_count - cashout.actual_tender;
-                       return _.extend({actual_cash_count:actual_cash_count, over_short:over_short},cashout);
+                       return _.combine({actual_cash_count:actual_cash_count, over_short:over_short},cashout);
                    };
     		       
     		       var datamtd = _(for_TMP.mtd).chain()
@@ -73,17 +73,17 @@ function quickReportView(id, title){
     		       for_TMP.mtd.noofrefund=mtd_noofrefund;
     		       for_TMP.ytd.noofsale=ytd_noofsale;
     		       for_TMP.ytd.noofrefund=ytd_noofrefund;
-    		       
-    		       
 
     		   var yesterdayPropsToChange = _.selectKeys(for_TMP.yesterday,['netsalestotal', 'netrefundtotal', 'netsaleactivity', 'avgpayment', 'avgrefund' , 'cashtotal' , 'allDiscount', 'cancelledtotal','avgcancelled','menusalesamount', 'scansalesamount','ecrsalesamount','actual_tender','actual_cash_count','over_short']);
-		       yesterdayPropsToChange =_(yesterdayPropsToChange).chain()
-               .map(function(val,key){
-                    if(val.indexOf('-')>=0) { val = val.replace('-',''); val = "-$ " +val;}
-                    else {val = "$ " +val;}
-                    return [key,val];
+		       yesterdayPropsToChange =
+				_.chain(yesterdayPropsToChange)
+               .map$(function(pair){
+					var key = _.first(pair);
+					var val = _.second(pair);
+                    if(val.indexOf('-')>=0) { var newVal = val.replace('-',''); val = "-$ " +val;}
+                    else {var newVal = "$ " +val;}
+                    return [key,newVal];
                 })
-               .toObject()
                .value();
 		       var yesterdayCashoutForm = _.extend({},for_TMP.yesterday,yesterdayPropsToChange);
 
@@ -194,12 +194,12 @@ function quickmenuReportsTransactionViewDialog (html,options) {
 	         var w = window.open();
 	         w.document.write($("#dialog-quickView").html());
 	         w.document.close();
-		 w.focus();
+		     w.focus();
 	         w.print();
 	         w.close();
 	     },
 	     "Close": function() {
-		 d.dialog('close');
+		 	d.dialog('close');
 	     }
 	 },
 	 title:options.title

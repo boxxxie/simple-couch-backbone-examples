@@ -59,5 +59,3 @@ function getDateObjFromStr(dateString) {
     
     return date;
 }
-
-
