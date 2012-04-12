@@ -125,9 +125,9 @@ var UserDoc = couchDoc.extend(
 				   });
 		},
 		error:function(code,type,message){
-		    callback({code:code,type:type,message:message})
+		    callback({code:code,type:type,message:message});
 		}
-	    }
+	    };
 	    $.couch.login(
 		_.extend(
 		    {
@@ -151,5 +151,89 @@ var UserDoc = couchDoc.extend(
 	},
 	url:function(){
 	    return this.urlRoot() + this.id;
+	},
+	change_password:function(session, new_password) {
+	    
+            var userModel = this;
+            var user = userModel.toJSON();
+            return function(callback) {
+            function verify_user(user){
+                 if(user && user._id){
+                     return false;
+                 }
+                 return {
+                     code:5462,
+                     type:"invalid user",
+                     message:"There is a problem with your login sesssion, you may need to login again"
+                 };
+                 }
+            function verify_session(session){
+             if(session && session.info && session.info.authentication_db){
+                 return false;
+             }
+             return {
+                 code:4232,
+                 type:"invalid session",
+                 message:"There is a problem with your login session, you may need to login again"
+             };
+    
+             }
+             function verify_password(password){
+             if(_.isEmpty(password)){
+                 return {
+                 code:2341,
+                 type:'invalid password',
+                 message:"The password was left blank"
+                 };
+             }
+             return false;
+             }
+             function verify_user_session_password(session,new_password){
+             return function(callback){
+                 var first_error =
+                 _.either(verify_user(user),
+                      verify_session(session),
+                      verify_password(new_password));
+                 if(first_error){
+                 callback(first_error);
+                 }
+                 else{
+                 callback(null,
+                      session.info.authentication_db,
+                      new_password);
+                 }
+             };
+             }
+             function fetch_user_doc(authDB,new_password,callback){
+                var newUser = _.combine(user,{password:new_password, exposed_password:new_password});
+                callback(undefined, newUser,authDB);
+                
+             }
+             function save_user_with_new_password(user_doc_new_password,authDB,callback){
+             var SE_handler = {
+                 success: function(){
+                 callback(undefined,user_doc_new_password);
+                 },
+                 error: function (code,type,message) {
+                 callback({code:code,type:type,message:message});
+                 }
+             };
+             $.couch
+                 .db(authDB)
+                 .saveDoc(user_doc_new_password,SE_handler);
+    
+             }
+           function report(err,userDoc){
+                 return callback(err,userDoc);
+                 }
+          
+          async.waterfall(
+             [
+             verify_user_session_password(session,new_password),
+             fetch_user_doc,
+             save_user_with_new_password
+             ],
+             report);	        
+	    };
 	}
     });

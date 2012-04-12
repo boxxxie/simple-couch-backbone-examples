@@ -25,6 +25,7 @@ ddoc.rewrites = [
     {from: "install_files_rt7/*", to: "../../../install_files_rt7/*"},
     {from: "companies/*", to: "../../../companies/*"},
     {from: "_users/*", to: "../../../_users/*"},
+    {from: "users/*", to: "../../../users/*"},
     {from: "/", to:'reporting/report.html'},
     {from: "/api", to:'../../'},
     {from: "/api/*", to:'../../*'},
