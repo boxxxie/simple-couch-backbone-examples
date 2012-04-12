@@ -703,8 +703,8 @@ companiesView =
                                                     alert(JSON.stringify(err));
                                                     return;
                                                 }
-                                                var updatedCompany = _.combine(updatedCompanyJSON,{password:newPassword});
-                                                (editCompany(company)).success(updatedCompany);
+                                                var newPassword_Company = _.combine(updatedCompanyJSON,{password:newPassword});
+                                                (editCompany(company)).success(newPassword_Company);
                                                 console.log("change success"); 
                                             });
                                         },
@@ -831,8 +831,8 @@ groupsView =
                                                     alert(JSON.stringify(err));
                                                     return;
                                                 }
-                                                var updatedGroup = _.combine(updatedSelectedgroup,{password:newPassword});
-                                                (editGroup(companyID,groupID)).success(updatedGroup);
+                                                var newPassword_group = _.combine(updatedSelectedgroup,{password:newPassword});
+                                                (editGroup(companyID,groupID)).success(newPassword_group);
                                                 console.log("change success"); 
                                             });
                                         },
@@ -966,8 +966,8 @@ storesView =
                                                     alert(JSON.stringify(err));
                                                     return;
                                                 }
-                                                var updatedStore = _.combine(updatedSelectedstore,{password:newPassword});
-                                                (editStore(companyID,groupID,storeID)).success(updatedStore);
+                                                var newPassword_store = _.combine(updatedSelectedstore,{password:newPassword});
+                                                (editStore(companyID,groupID,storeID)).success(newPassword_store);
                                                 console.log("change success"); 
                                             });
                                         },
