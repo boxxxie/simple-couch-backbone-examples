@@ -52,7 +52,7 @@ var menuAdminUsersView =
 	    change_password:function(event){
 		this.trigger('change-user-password',this.user_id(event));
 	    },
-	    render:function(users, entity_str) {
+	    render:function(users) {
 		console.log("render users");
 		var view = this;
 		var user_list =
@@ -61,26 +61,7 @@ var menuAdminUsersView =
 		    .reverse()
 		    .value();
 
-
-		/*var strNav = "";
-		if(_.isNotEmpty(user_list)) {
-		    if(_.isNotEmpty((_.first(user_list)).companyName)) {
-		        strNav = strNav.concat((_.first(user_list)).companyName);
-		    }
-		    if(_.isNotEmpty((_.first(user_list)).groupName)) {
-                strNav = strNav.concat(" - ")
-                                .concat((_.first(user_list)).groupName);
-            }
-            if(_.isNotEmpty((_.first(user_list)).storeName)) {
-                strNav = strNav.concat(" - ")
-                                .concat((_.first(user_list)).storeName)
-                                .concat("(")
-                                .concat((_.first(user_list)).storeNumber)
-                                .concat(")");
-            }
-		}*/
-
-		$(view.$el).html(ich.adminUsersInfotable_TMP({list:user_list, naviString:entity_str.entity_str}));
+		view.$el.html(ich.adminUsersInfotable_TMP({list:user_list, naviString:entity_str.entity_str}));
 		$('button').button();
 
 	    }
@@ -109,7 +90,7 @@ var adminRouter =
 		     router
 			 .user_collection
 			 .on('all',
-			     function(evenStr,collection,entity_str){router.views.user_table.render(this.toJSON(),entity_str);});
+			     function(evenStr,collection){router.views.user_table.render(this.toJSON());});
 
 		     router
 			 .views
@@ -149,9 +130,10 @@ var adminRouter =
 		 },
 		 load_users:function(){
 		     var entity_str = $("#"+topLevelEntity(ReportData).id).html();
-		     this.load_users_for_id(topLevelEntity(ReportData).id, entity_str);
+             $("#naviStringInOtherUser").html(entity_str);
+		     this.load_users_for_id(topLevelEntity(ReportData).id);
 		 },
-		 load_users_for_id:function(id,entity_str){
+		 load_users_for_id:function(id){
 		     var router = this;
 		     router.current_entity_id = id;
 		     router.user_collection.reset();
@@ -165,7 +147,7 @@ var adminRouter =
  			  function exclude_logged_in_user(reportData,users_list){
 			      return _.reject(users_list,function(user){return reportData.currentUser._id === user._id;});
 			  }
-			  router.user_collection.reset(exclude_logged_in_user(ReportData,users),{entity_str:entity_str});
+			  router.user_collection.reset(exclude_logged_in_user(ReportData,users));
 		      });
 		 },
 		 change_user_password:function(user_id){
@@ -235,7 +217,7 @@ var adminRouter =
 			     .db(authDB)
 			     .openDoc(user_id,SE_handler);
 		     }
-		     function  save_user_with_new_password(user_doc_new_password,authDB,callback){
+		     function save_user_with_new_password(user_doc_new_password,authDB,callback){
 			 var SE_handler = {
 			     success: function(){
 				 callback(undefined,user_doc_new_password);

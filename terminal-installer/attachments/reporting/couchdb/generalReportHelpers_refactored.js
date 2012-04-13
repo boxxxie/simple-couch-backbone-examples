@@ -329,8 +329,6 @@ function otherTransactionsIndexRangeFetcher_F(optionNum){
     return function(id) {
         return function(startIndex,endIndex){
             switch(Number(optionNum)) {
-//TODO: maybe it's better if we filter this on the client instead of the DB
-                // 0 : ALL, 1 : NOTZEROBALANCE, 2 : ZEROBALANCE
                 case 0:
                     var notZeroVouchers = _async.transactionRangeQuery(startIndex,endIndex)(view,db,[id,"NOTZEROBALANCE"]);
                     var zeroVouchers = _async.transactionRangeQuery(startIndex,endIndex)(view,db,[id,"ZEROBALANCE"]);

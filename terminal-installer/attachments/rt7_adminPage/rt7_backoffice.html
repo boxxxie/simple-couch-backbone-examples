@@ -172,6 +172,12 @@
       </button>
     </script>
     
+    <script id="changePWButton_P" class="partial" type="text/html">
+      <button id="changepassword-thing">
+    Change Password
+      </button>
+    </script>
+    
     <script id="quickViewButton_P" class="partial" type="text/html">
       <button onclick=quickView("{{template}}","{{company_id}}","{{group_id}}","{{store_id}}","{{terminal_id}}") class="ui-state-default ui-corner-all">
 	<span class="ui-button-text">
@@ -375,6 +381,7 @@
             <span class="ui-button-text">Group Manager</span>
 	  </button>
 	  {{>editButton_P}}
+	  {{>changePWButton_P}}
 	  <button id="btnModifyRewards" class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
             <span class="ui-button-text">Modify Rewards</span>
 	  </button>
@@ -501,6 +508,7 @@
             <span class="ui-button-text">Store Manager</span>
 	  </button>
 	  {{>editButton_P}}
+	  {{>changePWButton_P}}
 	  {{>backButton_P}}
 	  {{>menuButton_P}}
 	</table>
@@ -596,6 +604,7 @@
             <span class="ui-button-text">Terminal Manager</span>
 	  </button>
 	  {{>editButton_P}}
+	  {{>changePWButton_P}}
 	  {{>backButton_P}}
 	  {{>menuButton_P}}
 	</table>

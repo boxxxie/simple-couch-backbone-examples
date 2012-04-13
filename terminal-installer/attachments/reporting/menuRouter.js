@@ -103,7 +103,7 @@ var menuSetMenusView =
 					  if(_.isEmpty(item.description1)
 			  		     && _.isEmpty(item.description2)
 			  		     && _.isEmpty(item.description3)) {
-				  	      item.description1="MENU" + item.menu_id;
+				  	      item.description2="MENU" + item.menu_id;
 					  }
 					  return item;
 				      });
@@ -120,17 +120,6 @@ var menuSetMenusView =
 				       $("#menusetmenusright").html({});
 				   });
 		    });
-
-	     /*
-	      _.each(menuModelHeaders, function(item){
-	      $("#menubuttonheader"+item.menu_id)
-	      .click(function(){
-	      view.renderMenuScreenPartial(item.menu_id);
-	      $("#menusetmenusright").html({});
-	      });;
-	      });
-	      */
-
 	 },
 	 renderMenuScreenPartial: function(model,menus,item) {
 	     if(_.isNumber(model)){
@@ -142,7 +131,9 @@ var menuSetMenusView =
 	 	 } else {
 	 	     var header = menuModel.get_header(model);
 	 	     menuscreentitle = "".concat(header.description1)
+	 	         .concat(" ")
 	 	    	 .concat(header.description2)
+	 	    	 .concat(" ")
 	 	    	 .concat(header.description3);
 	 	 }
 
@@ -154,7 +145,6 @@ var menuSetMenusView =
 		 	_.each(item.row, function(rowitem) {
 		 		var btn = $('#'+rowitem.display.screen+"\\:"+rowitem.display.position)
 		 					.click(function(){
-			    				//onsole.log("click event! : "+ this.id);
 			    				renderEditMenuItem(rowitem.display.screen, rowitem.display.position);
 				   			});
 		 	});
@@ -170,7 +160,9 @@ var menuSetMenusView =
 	 	 } else {
 	 	     var header = menuModel.get_header(item.display.screen);
 	 	     menuscreentitle = "".concat(header.description1)
+	 	         .concat(" ")
 	 	    	 .concat(header.description2)
+	 	    	 .concat(" ")
 	 	    	 .concat(header.description3);
 	 	 }
 
@@ -210,7 +202,7 @@ function renderEditPage(num,position) {
 
 	// if modifier menu, disable modifier/read scale button
 	// otherwise(menu), disable duplicate button
-	if(num==0) {
+	if(num==0 || num==5) {
 	    var btnHasModifier = $("#has_modifier");
 	    var btnUseScale = $("#use_scale");
 	    btnHasModifier.attr('disabled',true);

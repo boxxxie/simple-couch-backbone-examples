@@ -125,7 +125,7 @@ var menuInventoryView =
 					  if(_.isEmpty(item.description1) 
 			  		     && _.isEmpty(item.description2)
 			  		     && _.isEmpty(item.description3)) {
-				  	      item.description1="MENU" + item.menu_id;
+				  	      item.description2="MENU" + item.menu_id;
 					  }
 					  return item;
 				      });
@@ -152,7 +152,9 @@ var menuInventoryView =
 	 	 } else {
 	 	     var header = menuModelforInventory.get_header(model);
 	 	     menuscreentitle = "".concat(header.description1)
+.concat(" ")
 	 	    	 .concat(header.description2)
+.concat(" ")
 	 	    	 .concat(header.description3);
 	 	 }
 	 	 var menuScreen = menuModelforInventory.menu_screen(model);
@@ -178,7 +180,9 @@ var menuInventoryView =
 	 	 } else {
 	 	     var header = menuModelforInventory.get_header(item.display.screen);
 	 	     menuscreentitle = "".concat(header.description1)
+.concat(" ")
 	 	    	 .concat(header.description2)
+.concat(" ")
 	 	    	 .concat(header.description3);
 	 	 }
 
