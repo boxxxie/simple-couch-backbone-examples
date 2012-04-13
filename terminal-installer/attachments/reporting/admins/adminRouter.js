@@ -61,9 +61,8 @@ var menuAdminUsersView =
 		    .reverse()
 		    .value();
 
-		view.$el.html(ich.adminUsersInfotable_TMP({list:user_list, naviString:entity_str.entity_str}));
+		view.$el.html(ich.adminUsersInfotable_TMP({list:user_list}));
 		$('button').button();
-
 	    }
 	});
 
