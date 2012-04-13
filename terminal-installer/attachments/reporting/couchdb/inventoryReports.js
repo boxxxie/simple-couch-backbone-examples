@@ -14,9 +14,9 @@ function inventoryChangeLog(id){
   		      .pluck('doc')
 		      .map(function(item){
 			       return _.extend({},
-					       item.inventory, //todo, make a helper function that is the inverse of nest
-					       {locations:item.ids},
-					       {_id:item._id});})
+					  item.inventory, //todo, make a helper function that is the inverse of nest
+					  {locations:item.ids},
+					  {_id:item._id});})
 		      .value();
 		  callback(err,inventoryChangeLog);
 	      });
@@ -49,16 +49,16 @@ function inventoryChangeLogCompressedBy(id,field,compressFn){
 function inventoryTaxChangeLog_fetch(id){
     function sameTaxes(item1,item2){
         return (_.isDefined(item1.apply_taxes)
-		&& _.isDefined(item2.apply_taxes)
-		&& _.isEqual(item1.apply_taxes, item2.apply_taxes));
+	   && _.isDefined(item2.apply_taxes)
+	   && _.isEqual(item1.apply_taxes, item2.apply_taxes));
     }
     return inventoryChangeLogCompressedBy(id,"apply_taxes",sameTaxes);
 }
 function inventoryPriceChangeLog_fetch(id){
     function samePrice(item1,item2){
         return (_.isDefined(item1.price)
-		&& _.isDefined(item2.pric)
-		&& item1.price.selling_price == item2.price.selling_price);
+	   && _.isDefined(item2.pric)
+	   && item1.price.selling_price == item2.price.selling_price);
     }
     return inventoryChangeLogCompressedBy(id,"price",samePrice);
 }
@@ -180,33 +180,33 @@ function inventoryTotalsRangeFetcher_F(id){
 			return _([salesVal,refundsVal]).reduce(_.addPropertiesTogether,{});
 		    }
 
-            function fillEmptyValue(total) {
-                var returnVal = _.combine({},total);
-                if(_.isEmpty(returnVal.sales)) {
-                    returnVal.sales = {price:0.00,quantity:0};
-                }
-                if(_.isEmpty(returnVal.refunds)) {
-                    returnVal.refunds = {price:0.00,quantity:0};
-                }
-                if(_.isEmpty(returnVal.totals)) {
-                    returnVal.totals = {price:0.00,quantity:0};
-                }
-                if(!_.isNumber(returnVal.totalSalesPercentage)) {
-                    returnVal.totalSalesPercentage = 0;
-                }
-                if(!_.isNumber(returnVal.typedSalesPercentage)) {
-                    returnVal.typedSalesPercentage = 0;
-                }
-                return returnVal;
-            }
+		    function fillEmptyValue(total) {
+			var returnVal = _.combine({},total);
+			if(_.isEmpty(returnVal.sales)) {
+			    returnVal.sales = {price:0.00,quantity:0};
+			}
+			if(_.isEmpty(returnVal.refunds)) {
+			    returnVal.refunds = {price:0.00,quantity:0};
+			}
+			if(_.isEmpty(returnVal.totals)) {
+			    returnVal.totals = {price:0.00,quantity:0};
+			}
+			if(!_.isNumber(returnVal.totalSalesPercentage)) {
+			    returnVal.totalSalesPercentage = 0;
+			}
+			if(!_.isNumber(returnVal.typedSalesPercentage)) {
+			    returnVal.typedSalesPercentage = 0;
+			}
+			return returnVal;
+		    }
 
 		    var resp = raw_resp;
 
 		    var ecr_sales = _.reduce([totals(resp.total_department_sale,resp.total_department_refund),
-					      totals(resp.total_scale_sale,resp.total_scale_refund),
-					      totals(resp.total_ecr_sale,resp.total_ecr_refund)],
-					     _.addPropertiesTogether,
-					     {});
+					    totals(resp.total_scale_sale,resp.total_scale_refund),
+					    totals(resp.total_ecr_sale,resp.total_ecr_refund)],
+					   _.addPropertiesTogether,
+					   {});
 
 		    var menu_sales=totals(resp.total_menu_sale,resp.total_menu_refund);
 		    var scan_sales=totals(resp.total_scan_sale,resp.total_scan_refund);
@@ -228,17 +228,17 @@ function inventoryTotalsRangeFetcher_F(id){
 		    var scan_sales_totals = fillEmptyValue(_.reduce(scan_sales_list,_.addPropertiesTogether,{}));
 
 		    var ecr_sales_list =totals_list(resp.all_ecr_sales,
-						    resp.all_ecr_refunds,
-						    ecr_sales.price,totalSales);
+						  resp.all_ecr_refunds,
+						  ecr_sales.price,totalSales);
 		    var department_sales_list=totals_list(resp.all_department_sales,
-							  resp.all_department_refunds,
-							  ecr_sales.price,totalSales);
+							resp.all_department_refunds,
+							ecr_sales.price,totalSales);
 		    var scale_sales_list=totals_list(resp.all_scale_sales,
-						     resp.all_scale_refunds,
-						     ecr_sales.price,totalSales);
+						   resp.all_scale_refunds,
+						   ecr_sales.price,totalSales);
 
 		    var ecr_sales_totals = fillEmptyValue(_.reduce(ecr_sales_list.concat(department_sales_list).concat(scale_sales_list),
-						    _.addPropertiesTogether,{}));
+								 _.addPropertiesTogether,{}));
 
 		    var scale_sales_list_formatted = _.prewalk(function(obj){
 								 if(obj && obj.quantity){
@@ -354,9 +354,9 @@ function stockInventoryFetcher_F(id, originids) {
 			       .matchTo(invDoclist,"upccode")
 			       .map(function(item){
 					return {inventory:_(item).removeKeys('_id','_rev'),
-						count:"0", //FIXME : BigInteger or BigDecimal
-						type:"stock",
-						ids:originids};
+					   count:"0", //FIXME : BigInteger or BigDecimal
+					   type:"stock",
+					   ids:originids};
 				    })
 			       .concat(stockDocListOverInvDoc)
 			       .value();
@@ -429,13 +429,13 @@ function idleInventoryFetcher_F(id, days) {
 			       _.chain(stockDoclist)
 			       .reject(function(item){
 					   return !_.isEmpty(_.find(period_soldlist,function(itm){
-									return itm.upc == item.inventory.upccode;
-								    }));
+								   return itm.upc == item.inventory.upccode;
+							       }));
 				       })
 			       .map(function(item){
 					var soldItem = _.find(diff_soldlist,function(itm){
-								  return itm.upc == item.inventory.upccode;
-							      });
+								return itm.upc == item.inventory.upccode;
+							    });
 
 					var foundInv = _.find(invDoclist, function(inv){ return inv.upccode == item.inventory.upccode;});
 					var invItem = _.combine({},item);
@@ -444,16 +444,16 @@ function idleInventoryFetcher_F(id, days) {
 
 					if(_.isEmpty(soldItem)) {
 					    return _.combine({date_last_sold:"never been sold",
-							      days:"0",
-							      qty:item.count},
-							     invItem);
+							 days:"0",
+							 qty:item.count},
+							invItem);
 
 					} else {
 					    var last_sold = getDateObjFromStr(soldItem.info.date);
 					    return _.combine({date_last_sold:datePartFormatter(last_sold),
-							      days:getElapsedDays(last_sold,new Date())+"",
-							      qty:(Number(item.count)-Number(soldItem.info.qty)).toString()},
-							     invItem);
+							 days:getElapsedDays(last_sold,new Date())+"",
+							 qty:(Number(item.count)-Number(soldItem.info.qty)).toString()},
+							invItem);
 					}
 				    })
 			       .value();

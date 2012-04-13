@@ -4,11 +4,10 @@ var couchDoc = Backbone.Model.extend(
     {
         idAttribute: "_id",
         urlRoot:function(){
-	    if(_.isEmpty(this.db)){
+	    if(_.isUndefined(this.db)){
                 return window.location.href+"api/";  //this almost may not work with a router
 	    }
 	    else{
-		//return window.location.href+"api/"+this.db+"/"; //this doesn't work with a router
 		return window.location.protocol + "//" + window.location.hostname + ":" +window.location.port + "/" + this.db;
 	    }
 	},

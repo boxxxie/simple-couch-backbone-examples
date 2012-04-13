@@ -1,1 +1,1 @@
-var ExportRequestDoc = couchDoc.extend({db:"export_requests"});
+var ExportRequestDoc = couchDoc.extend();

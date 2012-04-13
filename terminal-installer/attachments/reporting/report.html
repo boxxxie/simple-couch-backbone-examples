@@ -38,6 +38,7 @@
     <script language="javascript" type="text/javascript" src="../lib/date.format.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/dateFormatter.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/async.js"></script>
+
     
     <script language="javascript" type="text/javascript" src="../lib/MenuButton.js"></script>
     <script language="javascript" type="text/javascript" src="../lib/Menu.js"></script>
@@ -50,6 +51,7 @@
 
     <script language="javascript" type="text/javascript" src="../lib/numberFormatter.js"></script>
     
+    <script language="javascript" type="text/javascript" src="../reporting/helpers/views.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/misc_helpers.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/menu_helpers.js"></script>
     <script language="javascript" type="text/javascript" src="../reporting/dialogs.js"></script>
@@ -262,7 +264,7 @@
     
     <script id="generalGoButton_P" class="partial" type="text/html">
       <div style="margin-top:20px;margin-bottom:20px;padding-bottom:20px;border-bottom: 4px dotted #ccc;">
-	<button id='generalgobtn'>Generate Report</button></div>
+	<button id='generalgobtn' class='generate_report'>Generate Report</button></div>
     </script>
     
     <script id="quickReportViewHook_P" class="partial" type="text/html">
@@ -307,13 +309,13 @@
     
     <script id="dateRangePicker_P" class="partial" type="text/html">
       <div id="dateRangePicker" style="margin-top: 20px;margin-bottom: 20px;">
-	<form id="dateRange">
+	<div id="dateRange">
 	  Date Range:
 	  <label for="dateFrom">From:</label>
 	  <input type="text" id="dateFrom" name="from" class="datepickerInput"/>
 	  <label for="dateTo">To:</label>
 	  <input type="text" id="dateTo" name="to" class="datepickerInput"/>
-	</form>
+	</div>
       </div>
     </script>
     
@@ -946,36 +948,26 @@
 	<h1>Administration</h1>
 	<h2>{{>breadcrumb_P}}</h2>
 	<table class="reportstable">
-	    <tr>
-	        <td valign="top" rowspan="2">
-	            <h3>Hierarchy</h3>
-	            <div id='company-tree'></div>
-	        </td>
-	        <td>
-	            <h3>LoggedIn User</h3>
-	            <div id="current_user"></div>
-                <div>
-                  <button style="float:right;" id="addusers">Add User</button>
-                </div>
-	        </td>
-	    </tr>
-	    <tr>
-	        <td>
-	            <h3>Other Users</h3>
-	            <div id='usersInfoTable'></div>
-	        </td>
-	    </tr>
+	  <tr>
+	    <td valign="top" rowspan="2">
+	      <h3>Hierarchy</h3>
+	      <div id='company-tree'></div>
+	    </td>
+	    <td>
+	      <h3>LoggedIn User</h3>
+	      <div id="current_user"></div>
+              <div>
+                <button style="float:right;" id="addusers">Add User</button>
+              </div>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td>
+	      <h3>Other Users</h3>
+	      <div id='usersInfoTable'></div>
+	    </td>
+	  </tr>
 	</table>
-	
-	<!--
-	<div id="current_user"></div>
-	<div>
-	  <button style="float:right;" id="addusers">Add User</button>
-	</div>
-	<div id='company-tree'></div>
-	<div id='usersInfoTable'></div>
-	-->
-	
 	{{>quickReportViewHook_P}}
 	<br/>
 	{{>backButton_P}}   
@@ -2317,16 +2309,27 @@
 	{{>main_navigation_buttons_P}}
 	<h1>Inventory Sold Report</h1>
 	<h2>{{>breadcrumb_P}}</h2>
-	<div>
-	  {{>groupDropdownbox_P}}
-	  {{>dateRangePicker_P}}
-	  {{>generalGoButton_P}}
-	  {{>inventoryDropdownbox_P}}
-	  {{>exportButton_P}}
-	</div>
-	<div id='inventorymenutable' style="margin-bottom:30px;"></div>
-	<div id='inventoryscantable' style="margin-bottom:30px;"></div>
-	<div id='inventoryecrtable' style="margin-bottom:30px;"></div>
+	<table class="reportstable">
+	  <tr>
+	    <td valign="top" rowspan="2">
+	      <h3>Hierarchy</h3>
+	      <div id='company-navigation'></div>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td>
+	      <div>
+		{{>dateRangePicker_P}}
+		{{>generalGoButton_P}}
+		{{>inventoryDropdownbox_P}}
+		{{>exportButton_P}}
+	      </div>
+	      <div id='inventorymenutable' style="margin-bottom:30px;"></div>
+	      <div id='inventoryscantable' style="margin-bottom:30px;"></div>
+	      <div id='inventoryecrtable' style="margin-bottom:30px;"></div>
+	    </td>
+	  </tr>
+	</table>
 	{{>backButton_P}}
       </div>
     </script>

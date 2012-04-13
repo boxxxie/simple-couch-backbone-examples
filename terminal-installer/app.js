@@ -32,6 +32,23 @@ ddoc.rewrites = [
 
 ];
 
+ddoc.shows = {
+    csv:function(doc,req){
+	function csvEscapeOnePerLine(arr){
+	    var csv = '';
+	    var arr_last = arr.length - 1;
+	    for(var i = 0; i <= arr_last; i++){
+		var value = arr[i].replace(/"/g, '""');
+		csv += '"' + value + '"';
+		if( i != arr_last ){
+		    csv += "\n";
+		}
+	    }
+	    return csv;
+	}
+    }
+};
+
 
 couchapp.loadAttachments(ddoc, path.join(__dirname, 'attachments'));
 

@@ -1,38 +1,38 @@
-var ZEROED_FIELDS = {allDiscount: 0, 
-		     netsales: 0, 
-		     netsaletax1: 0, 
-		     netsaletax3: 0, 
-		     netsalestotal: 0, 
-		     netrefund: 0, 
+var ZEROED_FIELDS = {allDiscount: 0,
+		     netsales: 0,
+		     netsaletax1: 0,
+		     netsaletax3: 0,
+		     netsalestotal: 0,
+		     netrefund: 0,
 		     netrefundtax1: 0,
 		     netrefundtax3: 0,
 		     netrefundtotal: 0,
-		     netsaleactivity: 0, 
-		     cashpayment: 0, 
-		     creditpayment: 0, 
-		     debitpayment: 0, 
-		     mobilepayment: 0, 
-		     otherpayment: 0, 
+		     netsaleactivity: 0,
+		     cashpayment: 0,
+		     creditpayment: 0,
+		     debitpayment: 0,
+		     mobilepayment: 0,
+		     otherpayment: 0,
 
-		     cashtotal: 0, 
-		     credittotal: 0, 
-		     debittotal: 0, 
-		     mobiletotal: 0, 
-		     othertotal: 0, 
-		     noofsale: 0, 
-		     avgpayment: 0, 
-		     cashrefund: 0, 
-		     creditrefund: 0, 
-		     debitrefund: 0, 
+		     cashtotal: 0,
+		     credittotal: 0,
+		     debittotal: 0,
+		     mobiletotal: 0,
+		     othertotal: 0,
+		     noofsale: 0,
+		     avgpayment: 0,
+		     cashrefund: 0,
+		     creditrefund: 0,
+		     debitrefund: 0,
 		     mobilerefund: 0,
-		     otherrefund: 0, 
-		     noofrefund: 0, 
-		     avgrefund: 0, 
+		     otherrefund: 0,
+		     noofrefund: 0,
+		     avgrefund: 0,
 		     menusalesno: 0,
-		     menusalesamount: 0, 
-		     scansalesno: 0, 
-		     scansalesamount: 0, 
-		     ecrsalesno: 0, 
+		     menusalesamount: 0,
+		     scansalesno: 0,
+		     scansalesamount: 0,
+		     ecrsalesno: 0,
 		     ecrsalesamount: 0,
 		     firstindex:0,
 		     lastindex:0,
@@ -177,7 +177,7 @@ function todaysSalesFetcher(view,db,id,runAfter){
 
 		sales.avgsale = Number(sales.sales_minus_refunds) / Number(sales.transactions);
 		if(_.isNaN(sales.avgsale)){sales.avgsale = 0;}
-		runAfter(sales);	  
+		runAfter(sales);
 	    });
 };
 function originTodaysSalesFetcher(view,db,id,runAfter){
@@ -217,7 +217,7 @@ function originTodaysSalesFetcher(view,db,id,runAfter){
 		refunds.menu = extractTotalSales(report.menuRefunds,report.menuRefunds);
 		refunds.scan = extractTotalSales(report.scanRefunds,report.menuRefunds);
 		refunds.ecr = extractTotalSales(report.ecrRefunds,report.menuRefunds);
-		runAfter({origin_sales:sales,origin_refunds:refunds});	  
+		runAfter({origin_sales:sales,origin_refunds:refunds});
 	    });
 };
 
@@ -266,7 +266,7 @@ function originTodaysHourlySalesFetcher(view,db,id,runAfter){
 		    return item.key[2].toLowerCase();
 		}
 		function isSale(item){
-		    return item.type == 'SALE';    
+		    return item.type == 'SALE';
 		};
 		function isRefund(item){
 		    return item.type == 'REFUND';
@@ -316,7 +316,7 @@ function originTodaysHourlySalesFetcher(view,db,id,runAfter){
 			       return sum;
 			   },{})
 		    .value();
-		
+
 		var mergeTimes = _(24).chain().
 		    range().
 		    map(function(val,key){return [key,template()];}).
@@ -328,7 +328,7 @@ function originTodaysHourlySalesFetcher(view,db,id,runAfter){
 			    return [formatTime(time),val];
 			 }).
 		    value();
-		runAfter(null,mergeTimes);	  
+		runAfter(null,mergeTimes);
 	    });
 };
 function todaysHourlySalesFetcher(view,db,id,runAfter){
@@ -370,7 +370,7 @@ function todaysHourlySalesFetcher(view,db,id,runAfter){
 		    return item.key[1];
 		}
 		function isSale(item){
-		    return item.type == 'SALE';    
+		    return item.type == 'SALE';
 		};
 		function isRefund(item){
 		    return item.type == 'REFUND';
@@ -407,7 +407,7 @@ function todaysHourlySalesFetcher(view,db,id,runAfter){
 			    var sales = _(sale_refund).chain().filter(isSale).first().value();
 			    var refunds = _(sale_refund).chain().filter(isRefund).first().value();
 			    var summary = transactionSummary(sales,refunds);
-			    
+
 			    var timeForKey = {};
 			    timeForKey[time] = summary;
 			    return [time,summary];
@@ -449,7 +449,7 @@ function todaysRefundsFetcher(view,db,id,runAfter){
 	    },
 	    function(err,report){
 		var refunds = extractTotalRefunds(report.refunds);
-		runAfter(refunds);	  
+		runAfter(refunds);
 	    });
 };
 function todaysVoidsFetcher(view,db,id,runAfter){
@@ -476,7 +476,7 @@ function todaysVoidsFetcher(view,db,id,runAfter){
 		var refunds = extractTotal(report.refunds);
 		var voids = extractTotal(report.voids);
 		var total = refunds + voids;
-		runAfter(total);	  
+		runAfter(total);
 	    });
 };
 function generalSalesReportFetcher(view,db,id,runAfter){
@@ -503,7 +503,7 @@ function generalSalesReportFetcher(view,db,id,runAfter){
 		sales.yesterdaysales= toFixed(2)(extractTotalSales(report.yesterdaysSales,report.yesterdaysRefunds));
 		sales.mtdsales = toFixed(2)(extractTotalSales(report.monthsSales,report.monthsRefunds));
 		sales.ytdsales = toFixed(2)(extractTotalSales(report.yearsSales,report.yearsRefunds));
-		runAfter(sales);	  
+		runAfter(sales);
 	    });
 };
 
@@ -536,49 +536,49 @@ function generalCashoutReportFetcher(view,db,id,runAfter){
 		    }
 		    return cashout;
 		};
-		
+
 		function modifiedCashouts(input) {
 		    var data = _.clone(input);
-		    
+
 		    //TODO: avg Trans for payment/refund has to be done by server side ?!
 		    if(data.noofsale!=0) {
-		        data.avgpayment = data.netsalestotal / data.noofsale; 
+		        data.avgpayment = data.netsalestotal / data.noofsale;
 		    }
-		    
+
 		    if(data.noofrefund!=0) {
-                data.avgrefund = data.netrefundtotal / data.noofrefund; 
+                data.avgrefund = data.netrefundtotal / data.noofrefund;
             }
-		    
+
 		    return _(data).chain()
 			.applyToValues(toFixed(2))
 			.extend(_.selectKeys(data, ['noofpayment','noofrefund']))
 			.value();
 		};
-		
+
 		var totalyesterday = cashouts.yesterday['menusalesamount'] + cashouts.yesterday['scansalesamount'] + cashouts.yesterday['ecrsalesamount'];
 		var totalmtd = cashouts.mtd['menusalesamount'] + cashouts.mtd['scansalesamount'] + cashouts.mtd['ecrsalesamount'];
 		var totalytd = cashouts.ytd['menusalesamount'] + cashouts.ytd['scansalesamount'] + cashouts.ytd['ecrsalesamount'];
-		
+
 		cashouts.yesterday = appendCategorySalesPercent(totalyesterday, cashouts.yesterday);
 		cashouts.mtd = appendCategorySalesPercent(totalmtd, cashouts.mtd);
 		cashouts.ytd = appendCategorySalesPercent(totalytd, cashouts.ytd);
 
-		cashouts.yesterday = modifiedCashouts(cashouts.yesterday); 
+		cashouts.yesterday = modifiedCashouts(cashouts.yesterday);
 		cashouts.mtd = modifiedCashouts(cashouts.mtd);
 		cashouts.ytd = modifiedCashouts(cashouts.ytd);
-		
-		
-		runAfter(cashouts);	  
+
+
+		runAfter(cashouts);
 	    });
 };
 function generalCashoutFetcher_Period(view,db,id,startDate,endDate,runAfter){
     var companySalesBaseKey = [id];
     var companySalesRangeQuery = typedTransactionRangeQuery(view,db,companySalesBaseKey);
     //var d = relative_dates();
-    
+
     var dateStart = _.first(startDate.toArray(),3);
     var dateEnd = _.first(endDate.toArray(),3);
-    
+
     async
 	.parallel(
 	    {period:function(callback){companySalesRangeQuery(dateStart,dateEnd)(returnQuery(callback));}},
@@ -599,7 +599,7 @@ function generalCashoutFetcher_Period(view,db,id,startDate,endDate,runAfter){
 		    }
 		    return cashout;
 		};
-		
+
 		function modifiedCashouts(input) {
 		    var data = _.clone(input);
 		    return _(data).chain()
@@ -607,15 +607,15 @@ function generalCashoutFetcher_Period(view,db,id,startDate,endDate,runAfter){
 			.extend(_.selectKeys(data, ['noofpayment','noofrefund','firstindex','lastindex']))
 			.value();
 		};
-		
+
 		var totalperiod = cashouts.period['menusalesamount'] + cashouts.period['scansalesamount'] + cashouts.period['ecrsalesamount'];
-		
+
 		cashouts.period = appendCategorySalesPercent(totalperiod, cashouts.period);
-		cashouts.period = modifiedCashouts(cashouts.period); 
+		cashouts.period = modifiedCashouts(cashouts.period);
 		// add
 		cashouts.id = id;
-		
-		runAfter(cashouts);	  
+
+		runAfter(cashouts);
 	    });
 };
 function generalCashoutListFetcher_Period(view,db,id,startDate,endDate,runAfter){
@@ -625,12 +625,12 @@ function generalCashoutListFetcher_Period(view,db,id,startDate,endDate,runAfter)
 
     var cashoutQuery = transactionRangeQuery(dateStart,dateEnd)(view,db,baseKey)
     (function(response){
-	 runAfter(_.pluck(response.rows,'doc'));	 
+	 runAfter(_.pluck(response.rows,'doc'));
      });
 };
 
 function generalCashoutReportArrayFetcher(view,db,ids,runAfter){
-    async.map(ids, 
+    async.map(ids,
 	      function(id,callback){
 		  generalCashoutReportFetcher(view,db,id,
 					      function(salesData){
@@ -641,7 +641,7 @@ function generalCashoutReportArrayFetcher(view,db,ids,runAfter){
 };
 
 function generalCashoutArrayFetcher_Period(view,db,ids,startDate,endDate,runAfter) {
-    async.map(ids, 
+    async.map(ids,
 	      function(id,callback){
 		  generalCashoutFetcher_Period(view,db,id,startDate,endDate,
 					       function(salesData){
@@ -652,13 +652,13 @@ function generalCashoutArrayFetcher_Period(view,db,ids,startDate,endDate,runAfte
 };
 
 function generalCashoutListArrayFetcher_Period(view,db,ids,startDate,endDate,runAfter) {
-    async.map(ids, 
+    async.map(ids,
 	      function(id,callback){generalCashoutListFetcher_Period(view,db,id,startDate,endDate,returnQuery(callback));},
 	      runAfter);
 };
 
 function generalSalesReportArrayFetcher(view,db,ids,runAfter){
-    async.map(ids, 
+    async.map(ids,
 	      function(id,callback){
 		  generalSalesReportFetcher(view,db,id,
 					    function(salesData){
@@ -668,7 +668,7 @@ function generalSalesReportArrayFetcher(view,db,ids,runAfter){
 	      runAfter);
 };
 function originTodaysSalesArrayFetcher(view,db,ids,runAfter){
-    async.map(ids, 
+    async.map(ids,
 	      function(id,callback){
 		  originTodaysSalesFetcher(view,db,id,
 					   function(salesData){
@@ -678,7 +678,7 @@ function originTodaysSalesArrayFetcher(view,db,ids,runAfter){
 	      runAfter);
 };
 function todaysSalesArrayFetcher(view,db,ids,runAfter){
-    async.map(ids, 
+    async.map(ids,
 	      function(id,callback){
 		  todaysSalesFetcher(view,db,id,
 				     function(salesData){
@@ -724,7 +724,7 @@ function howAreWeDoingTodayReportFetcher(childrenObjs,parentObj,runAfter){
     var transactionsView = cdb.view('reporting','id_type_origin_date');
     var transactionsTotalView = cdb.view('reporting','id_type_date');
     var transaction_db = cdb.db('transactions',{},true);
-    if(!_.isArray(childrenIDs)){childrenIDs = [childrenIDs];} 
+    if(!_.isArray(childrenIDs)){childrenIDs = [childrenIDs];}
     if(!_.isArray(parentID)){parentID = [parentID];}
 
     async
@@ -745,7 +745,7 @@ function howAreWeDoingTodayReportFetcher(childrenObjs,parentObj,runAfter){
 									_.first(report.parentTotalSales)),
 							       toFixed(2))
 					};
-		runAfter(salesActivityList);	  
+		runAfter(salesActivityList);
 	    });
 };
 
@@ -782,7 +782,7 @@ function hourlyReportFetcher(id,runAfter){
 			    return _.extend({},{timerange:time},mergedVals);
 			});
 
-		runAfter(templateData);	  
+		runAfter(templateData);
 	    });
 };
 
@@ -853,9 +853,9 @@ function taxReportTransactionsFetcher(terminal,startIndex,endIndex,callback){
 			       );
 	    }
 	    var transactionsTaxData = _(transactions).map(extractTemplateData);
-	    
+
 	    var defaultTotalsData = {sales : 0, totalsales : 0, tax1 :0, tax3:0};
-	    var totalsTaxData = 
+	    var totalsTaxData =
 		_(transactionsTaxData)
 		.chain()
 		.reduce(_.addPropertiesTogether,{})
@@ -869,6 +869,3 @@ function taxReportTransactionsFetcher(terminal,startIndex,endIndex,callback){
 
     return generalTransactionsIndexRangeFetcher(view,db,terminal,Number(startIndex),Number(endIndex),resultFetcher(terminal,callback));
 };
-
-
-

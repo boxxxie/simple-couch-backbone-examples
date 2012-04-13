@@ -18,6 +18,7 @@ function query(options, view, database){
     };
 };
 
+//FIXME:there is no error handling here, and it bubbles up to every single view fetcher...
 function queryF(view, database){
     return function(options){
 	return function(callback){
