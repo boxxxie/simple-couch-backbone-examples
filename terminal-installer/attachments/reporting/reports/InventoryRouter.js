@@ -125,16 +125,46 @@ var menuReportsInventoryRouter =
 	      export_csv:function(){
 		  var router = this
 		  var handler = {
-		      success:function(){
-			  //go to new page with show fn
+		      success:function(resp){
+			  var href = 'http://dealscc.com/api/_design/app/_show/csv/'+resp.id
+			  window.location.href = href
 		      },
 		      error:function(){
 			  alert('there was an error exporting your data')
 		      }
 		  }
+		  function convert_to_array(data){
+		      return _.chain([])
+			  .concat(data.menu_sales_list)
+			  .concat(data.scan_sales_list)
+			  .concat(data.ecr_sales_list)
+			  .concat(data.scale_sales_list)
+			  .map(function(item){
+				   if(item.upc){
+				       var label = item.label +'-'+ item.upc
+				   }
+				   else{
+				       var label = item.label
+				   }
+				   return ([])
+				       .concat(label)
+				       .concat(item.sales.quantity)
+				       .concat(item.sales.price)
+				       .concat(item.refunds.quantity)
+				       .concat(item.refunds.price)
+				       .concat(item.totals.quantity)
+				       .concat(item.totals.price)
+				       .concat(item.typedSalesPercentage)
+				       .concat(item.totalSalesPercentage)
+			       })
+			  .value()
+		  }
 		  var doc = {
 		      _id:$.couch.newUUID(),
-		      content:router.current_view_data
+		      file_name:'inventory_report',
+		      file_ext:'csv',
+		      date:(new Date()).toJSON(),
+		      content:convert_to_array(router.current_view_data)
 		  }
 		  $.couch.db('api').saveDoc(doc,handler)
 	      },
